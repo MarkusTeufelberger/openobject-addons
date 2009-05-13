@@ -101,7 +101,12 @@ class account_voucher(osv.osv):
             if journal.sequence_id:
                 name = self.pool.get('ir.sequence').get_id(cr, uid, journal.sequence_id.id)
 
-            move = {'name': name, 'journal_id': journal_id}
+            move = {
+                'name': name, 
+                'journal_id': journal_id, 
+                'voucher_type':inv.type,
+                'narration' : inv.narration
+            }
             
             if inv.period_id:
                 move['period_id'] = inv.period_id.id
@@ -196,11 +201,7 @@ class account_voucher(osv.osv):
                 cr.execute('insert into voucher_id (account_id,rel_account_move) values (%d, %d)',(int(ids[0]),int(line.id)))
                 
         return True
-    
-    
 
-    
-    
 account_voucher()
 
 class VoucherLine(osv.osv):
