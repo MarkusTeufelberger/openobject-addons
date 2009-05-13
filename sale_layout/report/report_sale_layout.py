@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -23,74 +23,14 @@ import time
 import pooler
 from report import report_sxw
 
-parents = {
-    'tr':1,
-    'li':1,
-    'story': 0,
-    'section': 0
-    }
-
 class sale_order_1(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
         super(sale_order_1, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'time': time,
             'sale_order_lines': self.sale_order_lines,
-            'repeat_In':self.repeat_In,
         })
         self.context = context
-
-    def repeat_In(self, lst, name, nodes_parent=False,td=False,width=[],value=[],type=[]):
-        self._node.data = ''
-        node = self._find_parent(self._node, nodes_parent or parents)
-        ns = node.nextSibling
-
-        value=['tax_id','product_uom_qty','product_uom','price_unit','discount','price_subtotal']
-        type=['string','string','string','string','string','string']
-        width=[66,46,24,66,55,54]
-        td=6
-
-        tableFlag=0
-
-        if not lst:
-            lst.append(1)
-        for ns in node.childNodes :
-            if tableFlag==1:
-                break
-            if ns and ns.nodeName!='#text' and ns.tagName=='blockTable' and td :
-                tableFlag=1
-
-                width_str = ns._attrs['colWidths'].nodeValue
-                ns.removeAttribute('colWidths')
-                total_td = td * len(value)
-
-                if not width:
-                    for v in value:
-                        width.append(30)
-                for v in range(len(value)):
-                    width_str +=',%d'%width[v]
-
-                ns.setAttribute('colWidths',width_str)
-
-                child_list =  ns.childNodes
-
-                for child in child_list:
-                    if child.nodeName=='tr':
-                        lc = child.childNodes[1]
-#                        for t in range(td):
-                        i=0
-                        for v in value:
-                            t2="[[%s['layout_type']=='text' and removeParentNode('tr')]]"%(name)
-                            t1= "[[ %s['%s'] ]]"%(name,v)
-                            t3="[[ %s['layout_type']=='subtotal' and ( setTag('para','para',{'fontName':'Helvetica-Bold'})) ]]"%name
-                            newnode = lc.cloneNode(1)
-
-                            newnode.childNodes[1].lastChild.data = t1 + t2 +t3
-                            child.appendChild(newnode)
-                            newnode=False
-                            i+=1
-
-        return super(sale_order_1,self).repeatIn(lst, name, nodes_parent=False)
 
     def sale_order_lines(self,sale_order):
         result =[]
@@ -103,7 +43,7 @@ class sale_order_1(report_sxw.rml_parse):
         for id in range(0,len(ids)):
             order = self.pool.get('sale.order.line').browse(self.cr, self.uid,ids[id], self.context.copy())
             order_lines.append(order)
-        
+
         i=1
         j=0
         sum_flag={}
@@ -115,7 +55,7 @@ class sale_order_1(report_sxw.rml_parse):
                 res['tax_id']=', '.join(map(lambda x: x.name, entry.tax_id)) or ''
                 res['name']=entry.name
                 res['product_uom_qty']="%.2f"%(entry.product_uos and entry.product_uos_qty or entry.product_uom_qty  or 0.00)
-                res['product_uom']=entry.product_uos and entry.product_uos.name or entry.product_uom.name 
+                res['product_uom']=entry.product_uos and entry.product_uos.name or entry.product_uom.name
                 res['price_unit']="%.2f"%(entry.price_unit or 0.00)
                 res['discount']="%.2f"%(entry.discount and entry.discount or 0.00)
                 res['price_subtotal']="%.2f"%(entry.price_subtotal)
@@ -124,9 +64,8 @@ class sale_order_1(report_sxw.rml_parse):
                 res['note']=entry.notes
                 res['currency']=sale_order.pricelist_id.currency_id.name
                 res['layout_type']=entry.layout_type
-                
-            else:
 
+            else:
                 res['product_uom_qty']=''
                 res['price_unit']=''
                 res['discount']=''
