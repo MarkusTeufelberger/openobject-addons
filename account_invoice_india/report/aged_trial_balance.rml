@@ -176,7 +176,7 @@
       <tr>
         <td>
           <para style="P2">[[ repeatIn(get_lines(data['form']), 'partner') ]]</para>
-          <para style="P2">[[ partner['name'] ]]</para>
+          <para style="P2">[[ partner['name'] or removeParentNode('blockTable')]]</para>
         </td>
         <td>
           <para style="P7">[[ '%.2f' % (partner['4'] or 0.0) ]]</para>
