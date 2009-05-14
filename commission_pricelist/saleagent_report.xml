@@ -6,7 +6,7 @@
 				string="Basic Info."
 				model="sale.agent"
  				name="saleagent.info"
-				rml="saleagent/report/saleagent_info.rml"
+				rml="commission_pricelist/report/saleagent_info.rml"
 				auto="False"
 				menu="True"/>
 
