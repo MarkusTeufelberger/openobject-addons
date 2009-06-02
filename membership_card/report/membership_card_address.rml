@@ -42,7 +42,7 @@
     <blockTable colWidths="122.0,122.0" style="Taula2">
       <tr>
         <td>
-          <para style="P2">[[ setTag('para','image',{'width':'100.0','height':'33.3'}) and company.logo ]]</para>
+          <para style="P2">[[ company.logo and setTag('para','image',{'width':'100.0','height':'33.3'}) ]][[ company.logo ]]</para>
         </td>
         <td>
           <para style="P4">
@@ -66,7 +66,7 @@
           <para style="P3">[[ o.partner_id.ref and setTag('para','barCode',{'width':'100.0','height':'25.0'}) ]]</para>
         </td>
         <td>
-          <para style="P2">[[ setTag('para','image',{'width':'55.0','height':'55.0'}) and o.photo ]]</para>
+          <para style="P2">[[ o.photo and setTag('para','image',{'width':'55.0','height':'55.0'}) ]][[ o.photo ]]</para>
         </td>
       </tr>
     </blockTable>
