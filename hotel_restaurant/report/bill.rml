@@ -133,7 +133,7 @@
           <para style="P21">Date :</para>
         </td>
         <td>
-          <para style="P2">[[o.o_date]]</para>
+          <para style="P2">[[ formatLang(o.o_date,date=True) ]]</para>
         </td>
         <td>
           <para style="P7">Waiter Name :</para>
@@ -191,10 +191,10 @@
           <para style="P12">[[rec.item_qty]]</para>
         </td>
         <td>
-          <para style="P12">[[rec.item_rate]]</para>
+          <para style="P12">[[ formatLang(rec.item_rate) ]]</para>
         </td>
         <td>
-          <para style="P11">[[rec.price_subtotal]]</para>
+          <para style="P11">[[ formatLang(rec.price_subtotal) ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -209,7 +209,7 @@
           <para style="P7">Sub Total :</para>
         </td>
         <td>
-          <para style="P9">[[o.amount_subtotal]]</para>
+          <para style="P9">[[ formatLang(o.amount_subtotal) ]]</para>
         </td>
       </tr>
       <tr>
@@ -222,7 +222,7 @@
           <para style="P7">Tax :</para>
         </td>
         <td>
-          <para style="P9">[[o.tax]]</para>
+          <para style="P9">[[ formatLang(o.tax) ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -237,7 +237,7 @@
           <para style="P7">Total :</para>
         </td>
         <td>
-          <para style="P11">[[o.amount_total]]</para>
+          <para style="P11">[[ formatLang(o.amount_total) ]]</para>
         </td>
       </tr>
     </blockTable>

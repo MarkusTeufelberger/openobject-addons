@@ -82,15 +82,15 @@
           <para style="P4">[[o.partner_id.name]]</para>
         </td>
         <td>
-          <para style="P4">[[o.checkin_date]]</para>
+          <para style="P4">[[ formatLang(o.checkin_date,date=True) ]]</para>
         </td>
         <td>
-          <para style="P4">[[o.checkout_date]]</para>
+          <para style="P4">[[ formatLang(o.checkout_date,date=True) ]]</para>
         </td>
         <td>
           <para style="P4">[[o.amount_total]]</para>
-          
-          <para style="P4">[[get_total(o.amount_total)]]</para>
+
+          <para style="P4">[[ get_total(o.amount_total) ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -105,7 +105,7 @@
           <para style="P7">Net Total :-</para>
         </td>
         <td>
-          <para style="P4">[[get_Total()]]</para>
+          <para style="P4">[[ get_Total() ]]</para>
         </td>
       </tr>
     </blockTable>

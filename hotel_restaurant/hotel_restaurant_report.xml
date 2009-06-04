@@ -7,19 +7,20 @@
 			name="hotel.kot"
 			rml="hotel_restaurant/report/kot.rml"
 			auto="False"/>
-		
+
 		<report id="hotel_res_order_bill"
 			string="Customer Bill"
 			model="hotel.restaurant.order"
 			name="hotel.bill"
 			rml="hotel_restaurant/report/bill.rml"
 			auto="False"/>
-			
+
 		<report id="hotel_table_res"
 			string="Table Reservation List"
 			model="hotel.restaurant.reservation"
 			name="hotel.table.res"
 			rml="hotel_restaurant/report/res_table.rml"
+			menu="False"
 			auto="False"/>
 	</data>
 </openerp>

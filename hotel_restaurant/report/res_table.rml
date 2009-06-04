@@ -68,16 +68,16 @@
       <tr>
         <td>
           <para style="P4">[[ repeatIn(get_res_data(data['form']['date_start'],data['form']['date_end']) ,'o') ]]</para>
-          <para style="P4">[[o.reservation_id]]</para>
+          <para style="P4">[[ o.reservation_id ]]</para>
         </td>
         <td>
-          <para style="P5">[[o.cname.name]]</para>
+          <para style="P5">[[ o.cname.name ]]</para>
         </td>
         <td>
-          <para style="P5">[[o.start_date]]</para>
+          <para style="P5">[[ formatLang(o.start_date,date=True) ]]</para>
         </td>
         <td>
-          <para style="P5">[[o.end_date]]</para>
+          <para style="P5">[[ formatLang(o.end_date,date=True) ]]</para>
         </td>
       </tr>
     </blockTable>
