@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>	
+<openerp>
 	<!-- Ecommerce Shop 0 -->
 <data>
-		
+
 		<!-- Credit Card Demo Data -->
-		
+
 		<record id="ecommerce_creditcard_mastercard0" model="ecommerce.creditcard">
 			<field name="code">MC</field>
 			<field name="name">Master Card</field>
 		</record>
-	
+
 		<record id="ecommerce_creditcard_visacard0" model="ecommerce.creditcard">
 			<field name="code">Visa</field>
 			<field name="name">Visa Card</field>
@@ -19,7 +19,7 @@
 			<field name="code">Disc</field>
 			<field name="name">Discovery Card</field>
 		</record>
-	
+
 		<record id="ecommerce_creditcard_americanexpresscard0" model="ecommerce.creditcard">
 			<field name="code">AmEx</field>
 			<field name="name">American Express Card</field>
@@ -29,32 +29,32 @@
 			<field name="code">Diners</field>
 			<field name="name">Diners Card</field>
 		</record>
-		
+
 		<!-- Ecommerce Payment Methods -->
-			
+
 		<record id="ecommerce_method" model="ecommerce.payment.method">
 			<field name="name">Cheque</field>
 			<field name="shortcut">cheque</field>
-		</record> 
-		
+		</record>
+
 		<record id="ecommerce_method1" model="ecommerce.payment.method">
 			<field name="name">Paypal</field>
 			<field name="shortcut">paypal</field>
 		</record>
-		 
+
 		<record id="ecommerce_method2" model="ecommerce.payment.method">
 			<field name="name">Creditcard</field>
 			<field name="shortcut">creditcard</field>
 		</record>
-		
+
 		<record id="ecommerce_method3" model="ecommerce.payment.method">
 			<field name="name">Banktransaction</field>
 			<field name="shortcut">banwt</field>
-		</record> 
-		
-		
+		</record>
+
+
 		<!--Payment Methods Data -->
-		
+
 		<record id="ecommerce_payment" model="ecommerce.payment">
 			<field name="city">Bruxelles</field>
 			<field name="chequepay_to">Tinysprl Pvt ltd.</field>
@@ -62,17 +62,16 @@
 			<field name="street2">Rue des Palais 44</field>
 			<field name="country_id" ref="base.us"/>
 			<field name="street">bte 33</field>
-			<field name="state_id" ref="base.us-co"/>
 			<field name="name">cheque</field>
-		</record> 
+		</record>
 
 		<record id="ecommerce_payment1" model="ecommerce.payment">
 			<field name="biz_account">mansur_1219385380_biz@gmail.com</field>
 			<field name="cancel_url">http://192.168.0.102:8080/eshop/cancel_msg</field>
-			<field name="return_url"> http://192.168.0.102:8080/eshop/get_data</field>	
+			<field name="return_url"> http://192.168.0.102:8080/eshop/get_data</field>
 			<field name="name">paypal</field>
 		</record>
-		
+
 		<record id="ecommerce.ecommerce_shop_0" model="ecommerce.shop">
 			<field eval="[(6,0,[])]" name="delivery_ids"/>
 			<field name="name">tinyerp</field>
@@ -618,7 +617,7 @@
 	<!-- Ecommerce Partner 1 -->
 
 		<record id="ecommerce_partner_name1" model="ecommerce.partner">
-			<field name="lang">en_US</field>
+			<field name="lang" ref="base.lang_en"></field>
 			<field name="last_name">Fedric</field>
 			<field name="name">Fedric Johnsans</field>
 			<field eval="[(6,0,[ref('base.res_partner_category_0')])]" name="category_ids"/>
@@ -642,7 +641,7 @@
 	<!-- Ecommerce Partner 2 -->
 
 		<record id="ecommerce_partner_name2" model="ecommerce.partner">
-			<field name="lang">en_US</field>
+			<field name="lang" ref="base.lang_en"></field>
 			<field  name="last_name">Pathric</field>
 			<field  name="name">Laser Vinnie</field>
 			<field eval="[(6,0,[ref('base.res_partner_category_0')])]" name="category_ids"/>
@@ -664,7 +663,7 @@
 			<field name="type">default</field>
 			<field name="email">contact@tecsas.fr</field>
 		</record>
-		
+
 		<record id="ecommerce_partner_address_22" model="ecommerce.partner.address">
 			<field name="username">James Laith</field>
 			<field name="city">Champs sur Marne</field>
@@ -684,7 +683,7 @@
 	<!-- Ecommerce Partner 3 -->
 
 		<record id="ecommerce_partner_name3" model="ecommerce.partner">
-			<field name="lang">en_US</field>
+			<field name="lang" ref="base.lang_en"></field>
 			<field name="last_name">Passot</field>
 			<field name="name">Thomas Passot</field>
 			<field eval="[(6,0,[ref('base.res_partner_category_0')])]" name="category_ids"/>
@@ -706,11 +705,11 @@
 			<field  name="type">default</field>
 			<field name="email">contact@syleam.fr</field>
 		</record>
-		
+
 	<!-- Ecommerce Partner 4 -->
 
 		<record id="ecommerce_partner_name4" model="ecommerce.partner">
-			<field name="lang">en_US</field>
+			<field name="lang" ref="base.lang_en"></field>
 			<field name="last_name">jacot</field>
 			<field name="name">Laurent Oaurent</field>
 			<field eval="[(6,0,[ref('base.res_partner_category_0')])]" name="category_ids"/>
@@ -730,7 +729,7 @@
 			<field name="state_id" ref="fr-re"/>
 			<field name="type">invoice</field>
 		</record>
-	
+
 		<record id="ecommerce_partner_address_12" model="ecommerce.partner.address">
 			<field name="username">Arthur Grosbonnet</field>
 			<field name="city">Paris</field>
@@ -745,7 +744,7 @@
 			<field name="type">delivery</field>
 			<field name="email">info@mediapole.net</field>
 		</record>
-	
+
 		<record id="ecommerce_partner_address_13" model="ecommerce.partner.address">
 			<field name="username">Wong</field>
 			<field name="city">Hong Kong</field>
@@ -818,25 +817,25 @@
 			<field eval="1" name="active"/>
 			<field eval="1" name="accuracy"/>
 		</record>
-		
+
 		<record id="res_currency_rate_0" model="res.currency.rate">
 			<field name="currency_id" ref="res_currency_aud0"/>
 			<field name="rate">35.0</field>
 		</record>
-		
+
 		<!-- Search Parameters -->
-	
+
 		<record id="ecommerce_search_price0" model="ecommerce.search">
 			<field name="code" ref="product.field_product_template_list_price"/>
 			<field name="name">Price</field>
 		</record>
-	
+
 		<record id="ecommerce_search_name0" model="ecommerce.search">
 			<field name="code" ref="product.field_product_template_name"/>
 			<field name="name">Name</field>
 		</record>
-	
-		
+
+
 		<record id="ecommerce.ecommerce_shop_0" model="ecommerce.shop">
 			<field eval="[(6,0,[ref('base.EUR'),ref('res_currency_aud0'),ref('base.EUR'),ref('base.CAD'),ref('base.USD')])]" name="currency_ids"/>
 			<field eval="[(6,0,[ref('ecommerce_payment'),ref('ecommerce_payment1')])]" name="payment_method_ids"/>
