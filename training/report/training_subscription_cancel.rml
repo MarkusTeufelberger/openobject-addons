@@ -163,7 +163,7 @@
           <para style="P3">Date</para>
         </td>
         <td>
-          <para style="P6">[[subscription.session_id.date]]</para>
+          <para style="P6">[[ formatLang(subscription.session_id.date,date=True) ]]</para>
         </td>
       </tr>
       <tr>

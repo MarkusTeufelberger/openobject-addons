@@ -195,13 +195,13 @@
       </tr>
       <tr>
         <td>
-          <para style="terp_default_8">[[course.p_id.name]]</para>
+          <para style="terp_default_8">[[ course.p_id.name ]]</para>
         </td>
         <td>
           <para style="terp_default_8">[[ course.course_type_id.name ]]</para>
         </td>
         <td>
-          <para style="terp_default_8">[[course.total_duration]]</para>
+          <para style="terp_default_8">[[ formatLang(course.total_duration) ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -223,10 +223,11 @@
       </tr>
     </blockTable>
     <section>
+    <para style="terp_default_8">[[repeatIn(course.children,'children') ]]</para>
     <blockTable colWidths="265.0,200.0,64.0" style="Table5">
       <tr>
         <td>
-          <para style="terp_default_8">[[repeatIn(course.children,'children')]]</para>
+          <para style="terp_default_8">[[ children or removeParentNode('blockTable') ]]</para>
           <para style="terp_default_8">[[ children.name ]]</para>
         </td>
         <td>
@@ -257,10 +258,11 @@
       </tr>
     </blockTable>
     <section>
+    <para style="terp_default_8">[[repeatIn(course.preliminary_course_ids,'prelimary') ]]</para>
     <blockTable colWidths="265.0,200.0,64.0" style="Table5">
       <tr>
         <td>
-          <para style="terp_default_8">[[repeatIn(course.preliminary_course_ids,'prelimary')]]</para>
+          <para style="terp_default_8">[[ prelimary or removeParentNode('blockTable') ]]</para>
           <para style="terp_default_8">[[ prelimary.name ]]</para>
         </td>
         <td>
@@ -291,10 +293,11 @@
       </tr>
     </blockTable>
 <section>
+ <para style="terp_default_8">[[ repeatIn(course.complementary_course_ids ,'complementary') ]]</para>
     <blockTable colWidths="265.0,200.0,64.0" style="Table5">
       <tr>
         <td>
-          <para style="terp_default_8">[[repeatIn(course.complementary_course_ids ,'complementary')]]</para>
+          <para style="terp_default_8">[[ complementary or removeParentNode('blockTable') ]]</para>
           <para style="terp_default_8">[[ complementary.name ]]</para>
         </td>
         <td>

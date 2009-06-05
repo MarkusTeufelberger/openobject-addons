@@ -124,7 +124,7 @@
           <para style="terp_default_8">[[ seance.name ]]</para>
         </td>
         <td>
-          <para style="terp_default_8">[[ seance.date ]]</para>
+          <para style="terp_default_8">[[ formatLang(seance.date,date=True) ]]</para>
         </td>
       </tr>
       <tr>
@@ -140,13 +140,13 @@
       </tr>
       <tr>
         <td>
-          <para style="terp_default_8">[[ seance.event_id.location ]]</para>
+          <para style="terp_default_8">[[ seance.location ]]</para>
         </td>
         <td>
           <para style="terp_default_8">[[ seance.room ]]</para>
         </td>
         <td>
-          <para style="terp_default_8">[[ seance.participant_count ]]</para>
+          <para style="terp_default_8">[[ formatLang(seance.participant_count) ]]</para>
         </td>
       </tr>
     </blockTable>
