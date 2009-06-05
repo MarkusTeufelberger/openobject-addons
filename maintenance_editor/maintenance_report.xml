@@ -13,12 +13,12 @@
 
         <report
 			id="report_smb_contract_maintenance"
-			string="SMB Contract"
+			string="SMB Contract" 
 			model="maintenance.maintenance"
 			name="maintenance.smb.contract"
 			rml="maintenance_editor/report/smb_contract.rml"
 			menu="False"
-			/>
+			/> 
 
         <report
 			id="report_corporate_contract_maintenance"

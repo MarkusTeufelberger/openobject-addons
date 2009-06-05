@@ -94,7 +94,6 @@ class hr_performance(osv.osv):
     def fill_employee_list(self, cr, uid, ids, *args):
         res=[]
         search_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id','=', uid)])
-        
         for search_id in search_ids:
             boss = self.pool.get('hr.employee').search(cr, uid,[('parent_id','in',search_ids)])
             for b in boss:
@@ -120,7 +119,7 @@ class hr_performance(osv.osv):
     def change_sate(self, cr, uid, ids, *args):
         self.write(cr, uid, ids, {'state':'done'})
         return True
-        
+      
     def _employee_get(self,cr,uid,context={}):
         ids = self.pool.get('hr.employee').search(cr, uid, [('user_id','=', uid)])
         if ids:

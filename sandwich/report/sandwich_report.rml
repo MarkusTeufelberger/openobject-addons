@@ -30,8 +30,8 @@
     <paraStyle name="P2" fontName="Times-Roman" fontSize="12.0" leading="15"/>
     <paraStyle name="P3" fontName="Times-Roman" fontSize="12.0" leading="15" alignment="LEFT"/>
     <paraStyle name="P4" fontName="Times-Roman" fontSize="12.0" leading="15"/>
-    <paraStyle name="P5" fontName="Times-Roman" alignment="CENTER"/>
-    <paraStyle name="P6" fontName="Times-Roman" fontSize="12.0" leading="15"/>
+    <paraStyle name="P5" fontName="Times-Roman" alignment="LEFT"/>
+    <paraStyle name="P6" fontName="Times-Roman" fontSize="12.0" leading="15" alignment="LEFT"/>
     <paraStyle name="P7" fontName="Times-Roman" fontSize="12.0" leading="15" alignment="RIGHT"/>
     <paraStyle name="P8" fontName="Times-Roman" fontSize="12.0" leading="15" alignment="CENTER"/>
     <paraStyle name="P9" fontName="Times-Roman" alignment="RIGHT"/>
@@ -111,13 +111,13 @@
           [[ a.product_id['name'] ]]</para>
         </td>
         <td>
-          <para style="P8">[[ a['quantity'] ]]</para>
+          <para style="P8">[[ formatLang(a['quantity']) ]]</para>
         </td>
         <td>
           <para style="P8">[[ a.user_id['login'] ]]</para>
         </td>
         <td>
-          <para style="P9">[[ a.product_id['price'] ]]</para>
+          <para style="P9">[[ formatLang(a.product_id['price']) ]]</para>
         </td>
         <td>
           <para style="P9">[[ a.product_id['price'] * a['quantity'] ]]</para>

@@ -84,10 +84,10 @@
         <td>
 
 <para style="P2">
-	<font face="Times-Roman">Invoice N [[ ((o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')) or removeParentNode('para')) and '' ]]</font>
-	<font face="Times-Bold">°</font>
-	<font face="Times-Roman">:</font>
-	<font face="Times-Roman">[[o.number]]</font>
+	<font face="Times-Roman">Invoice N° : [[o.number]] [[ ((o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')) or removeParentNode('para')) and '' ]]</font>
+	<font face="Times-Bold"></font>
+	<font face="Times-Roman"></font>
+	<font face="Times-Roman"></font>
 </para>
 <para style="P2">
 <font face="Times-Roman">PRO-FORMA [[ ((o.type == 'out_invoice' and o.state == 'proforma') or removeParentNode('para')) and '' ]]</font>
@@ -99,10 +99,10 @@
 <font face="Times-Roman">Canceled Invoice [[ ((o.type == 'out_invoice' and o.state == 'cancel') or removeParentNode('para')) and '' ]]</font>
 </para>
 <para style="P2">
-	<font face="Times-Roman">Refund N [[ (o.type=='out_refund' or removeParentNode('para')) and '' ]]</font>
-	<font face="Times-Bold">°</font>
-	<font face="Times-Roman">:</font>
-	<font face="Times-Roman">[[o.number]]</font>
+	<font face="Times-Roman">Refund N°: [[o.number]][[ (o.type=='out_refund' or removeParentNode('para')) and '' ]]</font>
+	<font face="Times-Bold"></font>
+	<font face="Times-Roman"></font>
+	<font face="Times-Roman"></font>
 </para>
 <para style="P2">
 <font face="Times-Roman">Supplier Refund [[ (o.type=='in_refund' or removeParentNode('para')) and '' ]] [[ o.number ]]</font>
@@ -116,10 +116,10 @@
             <font face="Times-Roman">[[o.date_invoice]]</font>
           </para>
           <para style="P3">
-            <font face="Times-Roman">Customer n </font>
-            <font face="Times-Bold">°</font>
-            <font face="Times-Roman">:</font>
-            <font face="Times-Roman"> [[ o.partner_id.number or '/' ]]</font>
+            <font face="Times-Roman">Customer n°: [[ o.partner_id.number or '/' ]]</font>
+            <font face="Times-Bold"></font>
+            <font face="Times-Roman"></font>
+            <font face="Times-Roman"> </font>
           </para>
         </td>
         <td>

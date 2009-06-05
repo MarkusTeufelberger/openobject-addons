@@ -55,10 +55,13 @@
     <paraStyle name="Table Heading" fontName="Times-Roman" alignment="CENTER"/>
   </stylesheet>
   <story>
+  <section>
     <para style="P1">[[ repeatIn(objects, 'o') ]]</para>
-    <para style="P1">[[ repeatIn(o.performance_id, 'line') ]]</para>
     <para style="P4">[[ company.name ]]</para>
     <para style="P2">Performance Review</para>
+    </section>
+    <section>
+     <para style="P1">[[ repeatIn(o.performance_id, 'line') ]]</para>
     <para style="P2">
       <font color="white"> </font>
     </para>
@@ -68,7 +71,7 @@
           <para style="P5">Print on : [[ time.strftime('%d-%m-%Y') ]]</para>
         </td>
         <td>
-          <para style="P6">Date [[ o.date_from ]] to : [[ o.date_to ]]</para>
+          <para style="P6">Date: [[ FormatLang(o.date_from, date=True) ]] to : [[ FormatLang(o.date_to,date=True) ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -142,6 +145,7 @@
       <para style="P1">
         <font color="white"> </font>
       </para>
+    </section>
     </section>
     <para style="P1">
       <font color="white"> </font>

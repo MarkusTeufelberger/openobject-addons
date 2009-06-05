@@ -113,7 +113,7 @@ class hr_holidays_report(wizard.interface):
         },
          'print': {
             'actions': [_riase_error],
-            'result': {'type':'print', 'report':'hr.holiday.req.report','state':'end'}
+            'result': {'type':'print', 'report':'hr_holiday_req_report','state':'end'}
         }
         
     }

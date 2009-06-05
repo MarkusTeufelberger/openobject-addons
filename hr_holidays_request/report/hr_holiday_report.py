@@ -86,6 +86,6 @@ class hr_holiday_report(report_sxw.rml_parse):
                     
                 
         
-report_sxw.report_sxw('report.hr.holiday.req.report', 'hr.holidays', 'addons/hr_holidays_request/report/hrreport.rml' ,parser=hr_holiday_report)
+report_sxw.report_sxw('report.hr_holiday_req_report', 'hr.holidays', 'addons/hr_holidays_request/report/hrreport.rml' ,parser=hr_holiday_report)
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

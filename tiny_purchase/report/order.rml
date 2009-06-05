@@ -61,7 +61,7 @@
       <blockTable colWidths="125.0,125.0,125.0,125.0" style="Table2">
         <tr>
           <td>
-            <para style="Table Contents">[[ repeatIn(o.line_id, 'l') ]]</para>
+            <para style="Table Contents">[[ repeatIn(o.line_ids, 'l') ]]</para>
           </td>
           <td>
             <para style="Table Contents">
@@ -89,4 +89,3 @@
     </para>
   </story>
 </document>
-

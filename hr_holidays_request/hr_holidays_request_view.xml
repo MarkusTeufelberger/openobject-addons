@@ -13,6 +13,7 @@
 			<form string="Vacations requests">
 				<field name="name" select="1"/>
 				<field name="employee_id" select="1"/>
+				 <field name="number_of_days"/>
 				<newline/>
 				<group col="6" colspan="4">
 					<field name="date_from1" on_change="_onchange_from_date(date_from1, date_to1)"/>

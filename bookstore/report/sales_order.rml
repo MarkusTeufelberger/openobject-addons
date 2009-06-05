@@ -88,23 +88,23 @@
       <tr>
         <td>
           <para style="P2">
-            <font face="Times-Roman">ORDER N° :</font>
-            <font face="Times-Roman">[[o.name]]</font>
+            <font face="Times-Roman">ORDER N° : [[o.name]]</font>
+            <font face="Times-Roman"></font>
           </para>
           <para style="P3">
-            <font face="Times-Roman">Date :</font>
-            <font face="Times-Roman" size="10.0">[[ time.strftime('%d/%m/%Y',time.strptime(o.date_order, '%Y-%m-%d')) ]]</font>
+            <font face="Times-Roman">Date : [[ time.strftime('%d/%m/%Y',time.strptime(o.date_order, '%Y-%m-%d')) ]]</font>
+            <font face="Times-Roman" size="10.0"></font>
           </para>
           <para style="P3">
-            <font face="Times-Roman">Customer n</font>
-            <font face="Times-Bold">°</font>
-            <font face="Times-Roman"> :</font>
-            <font face="Times-Roman"> [[ o.partner_id.number or '/' ]]</font>
+            <font face="Times-Roman">Customer n° : [[ o.partner_id.number or '/' ]]</font>
+            <font face="Times-Bold"></font>
+            <font face="Times-Roman"> </font>
+            <font face="Times-Roman"> </font>
           </para>
           <para style="P3">
-            <font face="Times-Roman">Your reference</font>
-            <font face="Times-Roman"> :</font>
-            <font face="Times-Roman"> [[ o.client_order_ref or '/' ]]</font>
+            <font face="Times-Roman">Your reference : [[ o.client_order_ref or '/' ]]</font>
+            <font face="Times-Roman"></font>
+            <font face="Times-Roman"> </font>
           </para>
         </td>
         <td>

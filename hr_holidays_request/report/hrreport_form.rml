@@ -117,7 +117,7 @@
         </td>
         <td>
           <para style="P1">
-            <font face="Times-Roman" size="11.0">[[ o.date_from1 ]]</font>
+            <font face="Times-Roman" size="11.0">[[ formatLang(o.date_from1,date=True) ]]</font>
           </para>
         </td>
         <td>
@@ -127,7 +127,7 @@
         </td>
         <td>
           <para style="P1">
-            <font face="Times-Roman">[[ o.date_to1 ]]</font>
+            <font face="Times-Roman">[[ formatLang(o.date_to1,date=True) ]]</font>
           </para>
         </td>
       </tr>
@@ -182,7 +182,7 @@
           <para style="P10">Total Full Leave</para>
         </td>
         <td>
-          <para style="P10">[[ o.total_full ]]</para>
+          <para style="P10">[[ FormatLang(o.total_full) ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -192,7 +192,7 @@
           <para style="P10">Total Half Leave</para>
         </td>
         <td>
-          <para style="P10">[[ o.total_half ]]</para>
+          <para style="P10">[[ FormatLang(o.total_half) ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -202,7 +202,7 @@
           <para style="P10">Total Hourly Leave</para>
         </td>
         <td>
-          <para style="P10">[[ o.total_hour ]]</para>
+          <para style="P10">[[ FormatLang(o.total_hour) ]]</para>
         </td>
       </tr>
     </blockTable>

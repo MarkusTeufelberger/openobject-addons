@@ -26,7 +26,7 @@
 #
 ##############################################################################
 import health
-import planning
+
 import wizard
 import report
 

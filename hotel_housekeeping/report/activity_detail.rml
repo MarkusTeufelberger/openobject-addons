@@ -82,8 +82,8 @@
       </tr>
       <tr>
         <td>
-          <para style="P2">[[repeatIn(get_activity_detail(data['form']['date_start'],data['form']['date_end'],data['form']['room_no']),'o')]]</para>
-          <para style="P2">[[o['current_date'] ]]</para>
+          <para style="P2">[[repeatIn(get_activity_detail(data['form']['date_start'],data['form']['date_end'],data['form']['room_no']),'o')]] [[o['current_date'] ]]</para>
+          <para style="P2"></para>
         </td>
         <td>
           <para style="P6">[[o['activity'] ]]</para>
