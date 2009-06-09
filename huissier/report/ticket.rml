@@ -22,7 +22,7 @@
     <paraStyle name="P1" fontName="Times-Roman" fontSize="7.0" leading="9" spaceBefore="0.0" spaceAfter="6.0"/>
     <paraStyle name="P2" fontName="Times-Roman" fontSize="7.0" leading="9" alignment="CENTER"/>
     <paraStyle name="P3" fontName="Times-Roman" fontSize="18.0" leading="22" alignment="CENTER"/>
-    <paraStyle name="P4" fontName="Times-Roman" alignment="CENTER"/>
+    <paraStyle name="P4" fontName="Times-Roman" alignment="CENTER"  fontSize="18.0" leading="22" />
     <paraStyle name="P5" fontName="Times-Roman" alignment="CENTER"/>
     <paraStyle name="P6" fontName="Times-Roman" fontSize="54.0" leading="65" alignment="CENTER"/>
     <paraStyle name="P7" fontName="Times-Roman" fontSize="13.0" leading="16" alignment="CENTER"/>
@@ -50,7 +50,7 @@
       <tr>
         <td>
           <para style="P4">
-            <font face="Courier" size="18.0">[[o.dossier_id and o.dossier_id.date_creation or False]]</font>
+            <font face="Courier" size="18.0"> [[o.dossier_id and formatLang(o.dossier_id.date_creation, date=True) or False]]</font>
           </para>
           <para style="P5">
             <font color="white"> </font>
@@ -62,10 +62,14 @@
             <font color="white"> </font>
           </para>
           <para style="P4">
-            <font face="Courier" size="18.0">Nr.</font>
-            <font face="Times-Roman" size="66.0"/>
-            <font face="Times-Roman" size="66.0">[[o.number]]</font>
+            <font face="Courier" size="18.0">Nr. [[formatLang(o.number)]]</font>
+            <font face="Times-Roman" size="18.0"/>
           </para>
+          <para style="P4">
+            <font face="Times-Roman" size="15.0"></font>
+            <font face="Times-Roman" size="18.0"/>
+          </para>
+          
           <para style="P6">
             <font color="white"> </font>
           </para>

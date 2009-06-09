@@ -113,17 +113,17 @@
       <tr>
         <td>
           <para style="P5">[[repeatIn(get_data(data['form']),'o')]]</para>
-          <blockTable colWidths="159.0,291.0" style="Table3">
+          <blockTable colWidths="159.0,293.0" style="Table3">
             <tr>
               <td>
                 <para style="P11">[[ o.employee_id.name ]] </para>
               </td>
               <td>
-                <blockTable colWidths="285.0" style="Table2">
+                <blockTable colWidths="295.0" style="Table2">
                   <tr>
                     <td>
                       <para style="P7">[[ repeatIn(get_skill(o.id),'o1') ]]</para>
-                      <blockTable colWidths="153.0,140.0" style="Table7">
+                      <blockTable colWidths="153.0,142.0" style="Table7">
                         <tr>
                           <td>
                             <para style="P10">

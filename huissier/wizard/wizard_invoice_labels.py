@@ -32,7 +32,6 @@ def _invoice_labels(self,cr,uid,datas,context):
     ids = vign_obj.invoice(cr, uid, datas['ids'],context)
     cr.commit()
     print "Facturation finie"
-    print "ids",ids
     return{}
 
 def facture(self, cr, uid, data, context):

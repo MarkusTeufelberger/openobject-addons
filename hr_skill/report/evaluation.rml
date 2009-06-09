@@ -13,7 +13,7 @@
     <blockTableStyle id="Tableau2">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
-      <lineStyle kind="GRID" colorName="black"/>
+      <lineStyle kind="GRID" colorName="white"/>
       <blockBackground colorName="#c0c0c0" start="0,0" stop="0,0"/>
       <blockBackground colorName="#c0c0c0" start="1,0" stop="1,0"/>
       <blockBackground colorName="#c0c0c0" start="2,0" stop="2,0"/>
@@ -38,7 +38,7 @@
     <paraStyle name="P1" fontName="Helvetica-Bold" fontSize="13.0" leading="16" spaceBefore="12.0" spaceAfter="6.0"/>
     <paraStyle name="P2" fontName="Times-Roman"/>
     <paraStyle name="P3" fontName="Times-Roman" alignment="CENTER"/>
-    <paraStyle name="P4" fontName="Times-Roman" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P4" fontName="Times-Roman" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
     <paraStyle name="P5" fontName="Times-Roman" alignment="CENTER"/>
     <paraStyle name="Standard" fontName="Times-Roman"/>
     <paraStyle name="Text body" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
@@ -48,7 +48,7 @@
     <paraStyle name="Heading 3" fontName="Helvetica-Bold" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
     <paraStyle name="List" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
     <paraStyle name="Table Contents" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
-    <paraStyle name="Table Heading" fontName="Times-Roman" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Table Heading" fontName="Times-Roman" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
     <paraStyle name="Caption" fontName="Times-Roman" fontSize="10.0" leading="13" spaceBefore="6.0" spaceAfter="6.0"/>
     <paraStyle name="Index" fontName="Times-Roman"/>
     <paraStyle name="Horizontal Line" fontName="Times-Roman" fontSize="6.0" leading="8" spaceBefore="0.0" spaceAfter="14.0"/>
@@ -63,7 +63,7 @@
     <para style="Standard">
       <font color="white"> </font>
     </para>
-    <para style="Heading 1">Evaluation Report</para>
+    <para style="Heading 1"></para>
     <para style="P1">Evaluated Peoples :</para>
     <section>
       <para style="Standard">
@@ -189,4 +189,3 @@
     </para>
   </story>
 </document>
-
