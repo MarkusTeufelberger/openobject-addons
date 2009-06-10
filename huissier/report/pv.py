@@ -28,10 +28,10 @@ def toxml(val):
 
 terms_dict = {
     'fr': {
-        'retiré': 'retiré'
+        'retirï¿½': 'retirï¿½'
     },
     'nl': {
-        'retiré': 'NLretiréNL'
+        'retirï¿½': 'NLretirï¿½NL'
     }
 }
 
@@ -104,7 +104,7 @@ class report_custom(report_rml):
             vat21 = (l.vat.amount==0.21) and tax_amount or 0.0
                 
             if l.adj_price==0:
-                price_letters = terms['retiré']
+                price_letters = terms['retirï¿½']
             else:
                 price_letters = amount_to_text(l.adj_price, dossier.lang, 'euro')
             xml += '''  <object>
@@ -148,6 +148,6 @@ class report_custom(report_rml):
 
 report_custom('report.huissier.pv', 'huissier.lots','', 'addons/huissier/report/pv.xsl')
 
-
+ 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <document filename="test.pdf">
-  <template pageSize="(8.5cm,3.5cm)" title="Test" author="Martin Simon" >
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" >
 	<pageTemplate id="first">
-	  <frame id="first" x1="0" y1="0" width="82mm" height="33mm"/>
+	  <frame id="first" x1="57.0" y1="57.0" width="481" height="728"/>
 	</pageTemplate>
   </template>
   <stylesheet>
@@ -39,19 +39,21 @@
   </stylesheet>
   <story>
 	[[ repeatIn(objects,'o') ]]
-	<blockTable colWidths="5cm,3cm" style="Tableau1">
+	<blockTable colWidths= "164.0,80.0" style="Tableau1">
 	  <tr>
 		<td>
+		
 		  <para style="P4">[[ o.name[:24] ]]</para>
 		  <para style="P5">[[ o.address and o.address[0].street[:30] or False]], [[o.address and o.address[0].zip[:5] or False]] [[o.address and o.address[0].city[:15] or False]] [[o.address and o.address[0].country_id and o.address[0].country_id.code or False]]</para>
-		  <para style="P8">Expiration: [[o.date_expiration or False]], [[ o.ref ]]</para>
-		  <barCode code="code128" xdim="0.03" height="0.4" quiet="0">[[o.ref or False]]</barCode>
+		  <para style="P8">Creation: [[formatLang(o.date_creation,date=True) or False]], [[ o.ref ]]</para>
+		  <para style="P8">Expiration: [[formatLang(o.date_expiration,date=True) or False]], [[ o.ref ]]</para>
+		  <!--<barCode code="code128" x="26.9mm" height="68.1mm" quiet="9" fontName="Times-Roman" fontSize="50">[[o.ref or False]]</barCode>-->
+		  <barCode code="code128" xdim="0.03" height="20.1" quiet="5">[[o.ref or False]]</barCode>
 		</td>
 		<td>
-		  <para style="P6">[[ setTag('para','image',{'width':'2.7cm','height':'2.6cm','name':str(o.id)}) ]][[ o.image or setTag('image','para') ]]</para>
+		  <para style="P6">[[  o.image and setTag('para','image',{'width':'2.7cm','height':'2.6cm','name':str(o.id)}) ]][[ o.image ]]</para>
 		</td>
 	  </tr>
 	</blockTable>
   </story>
 </document>
-

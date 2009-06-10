@@ -97,8 +97,20 @@
 		xml="huissier/report/total.xml" 
 		xsl="huissier/report/total.xsl"/>
 	
-	<report string="Facture salle" model="huissier.dossier" name="huissier.invoice.salle" auto="False" menu="False"/>
-		<report string="Facture vignette" model="huissier.vignettes" name="huissier.label.invoices" auto="False" menu="False"/>
+	   <report 
+	   string="Facture salle" 
+	   model="huissier.dossier" 
+	   name="huissier.invoice.salle" 
+	   auto="False" 
+	   menu="False"/>
+	   
+		<report 
+		string="Facture vignette" 
+		model="huissier.vignettes" 
+		name="huissier.label.invoices" 
+		auto="False" 
+		menu="False"/>
+		
 		<report 
 		string="Vignettes" 
 		model="huissier.vignettes"
@@ -107,12 +119,29 @@
 		xsl="huissier/report/labels.xsl"
 		id="id_report_label"
 		/>
-		
+			
 		<!-- xsl attribute is needed for the translation system -->
-		<report string="PV" model="huissier.dossier" name="huissier.pv"  id="vdossier_13"/>
-		<report string="PV" model="huissier.lots" name="report.huissier.pv.from_lot" xml="huissier/report/pv.xml" xsl="huissier/report/pv.xsl" menu="False" id="v_12"/>
+		<report 
+		string="PV" 
+		model="huissier.dossier" 
+		name="huissier.pv"  
+		id="vdossier_13"/>
 		
-		<report string="Listing palais" model="huissier.dossier" name="report.huissier.palais" menu="False"/>
+		<report 
+		string="PV" 
+		model="huissier.lots" 
+		name="report.huissier.pv.from_lot" this is name is not any where in report .py
+		xml="huissier/report/pv.xml" 
+		xsl="huissier/report/pv.xsl" 
+		menu="False" 
+		id="v_12"/>
+		
+		<report 
+		string="Listing palais" 
+		model="huissier.dossier" 
+		name="report.huissier.palais" 
+		menu="False"/>
+		
 </data>
 </openerp>
 
