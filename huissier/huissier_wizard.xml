@@ -8,6 +8,7 @@
 			multi="1"
 			id="wizard_caisse"/>
 		<menuitem name="Huissier/Outils Bar Codes/Gestion Caisse" action="wizard_caisse" type="wizard" id="menu_wizard_caisse"/>
+
 		<wizard 
 			string="Gestion emporte" 
 			model="huissier.dossier" 
@@ -15,7 +16,7 @@
 			multi="1"
 			id="wizard_emporte"/>
 		<menuitem name="Huissier/Outils Bar Codes/Gestion des livraisons" action="wizard_emporte" type="wizard" id="menu_wizard_emporte"/>
-	
+
 		<wizard 
 		string="Listing Palais" 
 		model="huissier.dossier" 
@@ -23,6 +24,7 @@
 		multi="1"
 		id="wizard_listing_palais"/>
 		<menuitem name="Huissier/Listing Palais" action="wizard_listing_palais" type="wizard"/>
+
 		<wizard 
 		string="Réimpression de vignettes"
 		model="huissier.vignettes" 
@@ -38,7 +40,12 @@
 		name="huissier.dossier.close" 
 		menu="False"
 		id="wizard_dossier_close"/>
-		<wizard string="Cloturer le PV" model="huissier.lots" name="huissier.dossier.close.from_lot"/>
+	
+		<wizard 
+		string="Cloturer le PV" 
+		model="huissier.lots" 
+		name="huissier.dossier.close.from_lot"
+		id="wizard_dossier_close_from_lot" />
 		
 		<wizard
 		string="Impression facture"
@@ -57,8 +64,20 @@
 
 	<!--menuitem name="Huissier/Paiement des objets non vendus" action="wizard_payer_objets" type="wizard"/-->
 
-		<wizard id="wizard_labels_invoice" string="Facturer les vignettes" model="huissier.vignettes" name="huissier.labels.invoice" menu="False"/>
-		<wizard id="wizard_labels_pay" string="Payer les vignettes" model="huissier.vignettes" name="huissier.labels.pay" menu="False"/>
+		<wizard 
+		id="wizard_labels_invoice" 
+		string="Facturer les vignettes" 
+		model="huissier.vignettes" 
+		name="huissier.labels.invoice" 
+		menu="False"/>
+		
+		<wizard 
+		id="wizard_labels_pay" 
+		string="Payer les vignettes" 
+		model="huissier.vignettes" 
+		name="huissier.labels.pay" 
+		menu="False"/>
+
 	</data>
 </openerp>
 
