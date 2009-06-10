@@ -130,7 +130,7 @@
 		<report 
 		string="PV" 
 		model="huissier.lots" 
-		name="report.huissier.pv.from_lot" this is name is not any where in report .py
+		name="report.huissier.pv.from_lot"
 		xml="huissier/report/pv.xml" 
 		xsl="huissier/report/pv.xsl" 
 		menu="False" 

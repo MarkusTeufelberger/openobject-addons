@@ -42,7 +42,6 @@
 	<blockTable colWidths= "164.0,80.0" style="Tableau1">
 	  <tr>
 		<td>
-		
 		  <para style="P4">[[ o.name[:24] ]]</para>
 		  <para style="P5">[[ o.address and o.address[0].street[:30] or False]], [[o.address and o.address[0].zip[:5] or False]] [[o.address and o.address[0].city[:15] or False]] [[o.address and o.address[0].country_id and o.address[0].country_id.code or False]]</para>
 		  <para style="P8">Creation: [[formatLang(o.date_creation,date=True) or False]], [[ o.ref ]]</para>
