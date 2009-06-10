@@ -26,10 +26,11 @@ from osv import fields, osv
 class sale_order_line(osv.osv):
     _inherit = "sale.order.line"
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=False, fiscal_position=False,
-            lang=False, update_tax=True):
-        res = super(sale_order_line,self).product_id_change(cr, uid, ids, pricelist, product,
-            qty=qty, uom=uom, qty_uos=qty_uos, uos=uos, name=name, partner_id=partner_id, fiscal_position=fiscal_position, lang=lang, update_tax=update_tax)
+            uom=False, qty_uos=0, uos=False, name='', partner_id=False,
+            lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False):
+        res = super(sale_order_line,self).product_id_change(cr, uid, ids, pricelist, product, qty,
+            uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, packaging, fiscal_position, flag)
+        
         if product:
             p = self.pool.get('product.product').browse(cr, uid, product)
             res['value']['size_x'] = p.size_x
@@ -62,6 +63,7 @@ class prod_lot_lines(osv.osv):
     _columns = {
         'name': fields.float('Quantity'),
         'lot_id': fields.many2one('stock.production.lot', 'Lot'),
+        'line_id':fields.many2one('sale.order.line', 'Order Line'),
     }
 prod_lot_lines()
 

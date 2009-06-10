@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <openerp>
 	<data>
-		<record model="ir.ui.view" id="view_production_lot_tree">
+		<!-- <record model="ir.ui.view" id="view_production_lot_tree">
 			<field name="name">stock.production.lot.foundry.tree</field>
 			<field name="model">stock.production.lot</field>
 			<field name="inherit_id" ref="stock.view_production_lot_tree" />
@@ -16,33 +16,39 @@
 				</field>
 			</field>
 		</record>
-
+ -->
 		<record model="ir.ui.view" id="view_move_form_expiry">
 			<field name="name">stock.production.lot.form</field>
 			<field name="model">stock.production.lot</field>
 			<field name="inherit_id" ref="stock.view_production_lot_form" />
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-				<separator position="before">
-					<field name="status" select="2"/>
-					<field name="product_id" colspan="4"/>
-					<field name="size_x" string="Dimension" select="1"/>
-					<field name="type" select="2"/>
-					<field name="size_y" select="1"/>
-					<field name="size_z" select="1"/>
-					<field name="heatcode_id" colspan="4" select="2"/>
-					<field name="quality_info" colspan="4"/>
-					<field name="available" colspan="4"/>
-					<field name="reservation_ids" colspan="4">
-						<tree string="Reservations">
-							<field name="name"/>
-							<field name="date"/>
-							<field name="size_x"/>
-							<field name="size_y"/>
-							<field name="size_z"/>
-						</tree>
-					</field>
-				</separator>
+				<notebook position="inside">
+					<page string="Other Information">
+						<field name="status" select="2"/>
+						<field name="product_id"/>
+						<field name="size_x" string="Dimension" select="1"/>
+						<field name="type" select="2"/>
+						<field name="size_y" select="1"/>
+						<field name="size_z" select="1"/>
+						<field name="heatcode_id" select="2"/>
+						<field name="reservation_ids" colspan="4" nolabel="1">
+							<tree string="Reservations">
+								<field name="name"/>
+								<field name="date"/>
+								<field name="size_x"/>
+								<field name="size_y"/>
+								<field name="size_z"/>
+							</tree>
+						</field>
+					</page>
+					<page string="Quality Information">
+						<separator string="Quality Information" colspan="4"/>
+						<field name="quality_info" colspan="4" nolabel="1"/>
+						<separator string="Availables" colspan="4"/>
+						<field name="available" colspan="4" nolabel="1"/>
+					</page>
+				</notebook>
 			</field>
 		</record>
 

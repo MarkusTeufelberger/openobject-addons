@@ -29,22 +29,13 @@
 								<notebook>
 									<page string="Order Line">
 										<separator string="Automatic Declaration" colspan="4"/>
-										<field name="product_id" on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, parent.fiscal_position, 'lang' in context and context['lang'], True)" context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom" colspan="4" select="1"/>
-										<field name="product_uom_qty" on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, parent.fiscal_position, 'lang' in context and context['lang'], False)" context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom" select="1"/>
+										<field name="product_id" on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], False, parent.date_order, product_packaging, parent.fiscal_position)" context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom" colspan="4" select="1"/>
+										<field name="product_uom_qty" on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], False, parent.date_order, product_packaging, parent.fiscal_position, True)" context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom" select="1"/>
 										<field name="product_uom" required="1"/>
 										<field name="product_uos_qty" required="1"/>
 										<field name="product_uos"  required="1" />
 										<field name="prodlot_id" context="product=product_id" domain="[('product_id','=',product_id)]" required="1"/>
-										<field name="size_x" on_change="size_change(size_x,size_y,size_z,product_id,product_uom_qty)"/>
-										<field name="size_y" on_change="size_change(size_x,size_y,size_z,product_id,product_uom_qty)"/>
-										<field name="size_z" on_change="size_change(size_x,size_y,size_z,product_id,product_uom_qty)"/>
-										<field name="prodlot_ids" colspan="4">
-											<tree string="Lots Assignations" editable="bottom">
-												<field name="name"/>
-												<field name="lot_id" context="product=parent.product_id" domain="[('product_id','=',parent.product_id)]" required="1"/>
-
-											</tree>
-										</field>
+										
 										<button string="Automatic Reservation" colspan="4" name="assign" type="workflow"/>
 										<separator string="Manual Description" colspan="4"/>
 										<field name="name" colspan="4" select="2"/>
@@ -61,6 +52,15 @@
 									<page string="Extra Info">
 										<field name="product_packaging" />
 										<field name="address_allotment_id" select="2"/>
+										<field name="size_x" on_change="size_change(size_x,size_y,size_z,product_id,product_uom_qty)"/>
+										<field name="size_y" on_change="size_change(size_x,size_y,size_z,product_id,product_uom_qty)"/>
+										<field name="size_z" on_change="size_change(size_x,size_y,size_z,product_id,product_uom_qty)"/>
+										<field name="prodlot_ids" colspan="4" nolabel="1">
+											<tree string="Lots Assignations" editable="bottom">
+												<field name="name"/>
+												<field name="lot_id" context="product=parent.product_id" domain="[('product_id','=',parent.product_id)]" required="1"/>
+											</tree>
+										</field>
 										<separator string="Properties" colspan="4"/>
 										<field name="property_ids" colspan="4" nolabel="1"/>
 									</page>
