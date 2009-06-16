@@ -70,7 +70,6 @@ prod_lot_lines()
 class sale_order(osv.osv):
     _inherit = "sale.order"
     def action_wait(self, cr, uid, ids, *args):
-        print 'Confirm'
         res = super(sale_order,self).action_wait(cr, uid, ids, *args)
         for sale in self.browse(cr, uid, ids):
             for line in sale.order_line:
@@ -83,7 +82,7 @@ class sale_order(osv.osv):
                         'lot_id': line.prodlot_id.id
                     })
                 for move in line.move_ids:
-                    self.pool.get('stock.move').write(cr, uid, {
+                    self.pool.get('stock.move').write(cr, uid, move.id, {
                         'prodlot_id': line.prodlot_id.id or False,
                         'name': '%.2f x %.2f x %.2f' % (line.size_x or 1.0, line.size_y or 1.0, line.size_z or 1.0)
                     })
