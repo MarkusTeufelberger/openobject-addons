@@ -31,7 +31,7 @@
     "version" : "1.0",
     "author" : "Tiny",
     "category" : "Generic Modules/Inventory Control",
-    "depends" : ["base", "process", "product","stock","mrp"],
+    "depends" : ["base", "mrp_operations"],
     "init_xml" : [],
     "demo_xml" : [],
     "description": """

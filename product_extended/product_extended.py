@@ -112,7 +112,7 @@ class product_product(osv.osv):
                     price += self._calc_price(cr, uid, sbom) * sbom.product_qty
             else:
                 bom_obj = pooler.get_pool(cr.dbname).get('mrp.bom')
-                no_child_bom = bom_obj.search(cr, uid, [('product_id', '=', bom.product_id.id), ('bom_id', 'is', None)])
+                no_child_bom = bom_obj.search(cr, uid, [('product_id', '=', bom.product_id.id), ('bom_id', '=', False)])
                 if no_child_bom:
                     other_bom = bom_obj.browse(cr, uid, no_child_bom)[0]
                     price += bom.product_qty * self._calc_price(cr, uid, other_bom)
@@ -126,7 +126,7 @@ class product_product(osv.osv):
                     hour = (wc.time_start + wc.time_stop + cycle * wc.time_cycle) *  (wc.time_efficiency or 1.0)
                     price += wc.costs_cycle * cycle + wc.costs_hour * hour
             if bom.bom_lines:
-                self.write(cr, uid, [bom.product_id.id], {'standard_price' : price})
+                self.write(cr, uid, [bom.product_id.id], {'standard_price' : price/bom.product_qty})
             return price
 product_product()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
