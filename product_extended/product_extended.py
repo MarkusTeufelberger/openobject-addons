@@ -109,24 +109,34 @@ class product_product(osv.osv):
             price = 0
             if bom.bom_lines:
                 for sbom in bom.bom_lines:
-                    price += self._calc_price(cr, uid, sbom) * sbom.product_qty
+                    price += self._calc_price(cr, uid, sbom) * sbom.product_qty                    
             else:
                 bom_obj = pooler.get_pool(cr.dbname).get('mrp.bom')
                 no_child_bom = bom_obj.search(cr, uid, [('product_id', '=', bom.product_id.id), ('bom_id', '=', False)])
-                if no_child_bom:
+                if no_child_bom and bom.id not in no_child_bom:
                     other_bom = bom_obj.browse(cr, uid, no_child_bom)[0]
-                    price += bom.product_qty * self._calc_price(cr, uid, other_bom)
+                    if not other_bom.product_id.calculate_price:
+                        price += self._calc_price(cr, uid, other_bom) * other_bom.product_qty
+                    else:
+                        price += other_bom.product_qty * other_bom.product_id.standard_price
                 else:
                     price += bom.product_qty * bom.product_id.standard_price
-                
+#                if no_child_bom:
+#                    other_bom = bom_obj.browse(cr, uid, no_child_bom)[0]
+#                    price += bom.product_qty * self._calc_price(cr, uid, other_bom)
+#                else:
+#                    price += bom.product_qty * bom.product_id.standard_price
             if bom.routing_id:
                 for wline in bom.routing_id.workcenter_lines:
                     wc = wline.workcenter_id
                     cycle = wline.cycle_nbr
                     hour = (wc.time_start + wc.time_stop + cycle * wc.time_cycle) *  (wc.time_efficiency or 1.0)
                     price += wc.costs_cycle * cycle + wc.costs_hour * hour
+                    price = self.pool.get('product.uom')._compute_price(cr,uid,bom.product_uom.id,price,bom.product_id.uom_id.id)
             if bom.bom_lines:
                 self.write(cr, uid, [bom.product_id.id], {'standard_price' : price/bom.product_qty})
+            if bom.product_uom.id != bom.product_id.uom_id.id:
+                price = self.pool.get('product.uom')._compute_price(cr,uid,bom.product_uom.id,price,bom.product_id.uom_id.id)
             return price
 product_product()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
