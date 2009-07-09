@@ -26,7 +26,7 @@ class sale_order(osv.osv):
                 if order_line.is_supplier_direct_delivery: #forced manually
                     self.pool.get('sale.order.line').write(cr, uid, order_line.id, {'type': 'make_to_order', 'is_supplier_direct_delivery': True})
 
-        super(sale_order, self).action_wait(cr, uid, ids, context)
+        return super(sale_order, self).action_wait(cr, uid, ids, context)
         
         
     #cross linking direct delivery sale orders and purchase orders
@@ -53,10 +53,7 @@ class sale_order(osv.osv):
 
         return True
 
-
 sale_order()
-
-
 
 class sale_order_line(osv.osv):
     _inherit = "sale.order.line"

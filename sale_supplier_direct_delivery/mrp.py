@@ -18,5 +18,6 @@ class mrp_procurement(osv.osv):
         
         for procurement in self.browse(cr, uid, ids):#TODO ensure that works!!! Why only one po_id is returned from super method?
             self.pool.get('mrp.procurement').write(cr, uid, procurement.id, {'related_direct_delivery_purchase_order': po_id})
+        return po_id
 
 mrp_procurement()

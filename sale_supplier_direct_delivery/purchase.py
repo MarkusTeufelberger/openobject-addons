@@ -32,13 +32,14 @@ class purchase_order(osv.osv):
     
     #we re-attach the move to the sale order line        
     def action_picking_create(self, cr, uid, ids, *args):
-        super(purchase_order, self).action_picking_create(cr, uid, ids, args)
+        picking_id = super(purchase_order, self).action_picking_create(cr, uid, ids, args)
         for order in self.browse(cr, uid, ids):
             for order_line in order.order_line:
                 if order_line.is_supplier_direct_delivery:
                     for move in order_line.move_ids:
                         self.pool.get('stock.picking').write(cr, uid, move.picking_id.id, {'is_supplier_direct_delivery': True, 'sale_id':order_line.sale_order_line.order_id.id})
                         self.pool.get('stock.move').write(cr, uid, move.id, {'sale_line_id':  order_line.sale_order_line.id})
+        return picking_id
     
 purchase_order()
 
