@@ -53,7 +53,10 @@ class sale_order_line(osv.osv):
         pricelist_obj=self.pool.get('product.pricelist')
         product_obj = self.pool.get('product.product')
         if product:
-            price=result['price_unit']
+            if result.get('price_unit',False):
+                price=result['price_unit']
+            else:
+                return res
 
             product = product_obj.browse(cr, uid, product, context)
             product_tmpl_id = product.product_tmpl_id.id
