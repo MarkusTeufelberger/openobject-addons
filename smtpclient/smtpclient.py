@@ -38,6 +38,7 @@ from email.Utils import COMMASPACE, formatdate
 import netsvc
 import random
 import sys
+import tools
 #if sys.version[0:3] > '2.4':
 #    from hashlib import md5
 #else:
@@ -121,52 +122,50 @@ class SmtpClient(osv.osv):
         return key
         
     def test_verify_email(self, cr, uid, ids, toemail, test=False, code=False):
-        
-        serverid = ids[0]
-        self.open_connection(cr, uid, ids, serverid)
+        for serverid in ids:
+            self.open_connection(cr, uid, ids, serverid)
 
-        if test and self.server[serverid]['state'] != 'confirm':
-            pooler.get_pool(cr.dbname).get('email.smtpclient.history').create \
-                (cr, uid, {'date_create':time.strftime('%Y-%m-%d %H:%M:%S'),'server_id' : ids[0],'name':_('Please verify Email Server, without verification you can not send Email(s).')})
-            raise osv.except_osv(_('Server Error!'), _('Please verify Email Server, without verification you can not send Email(s).'))
-        key = False
-        if test and self.server[serverid]['state'] == 'confirm':
-            body = str(self.server[serverid]['test_email'])
-        else:
-            body = str(self.server[serverid]['verify_email'])
-            #ignore the code
-            key = self.gen_private_key(cr, uid, ids)
-            #md5(time.strftime('%Y-%m-%d %H:%M:%S') + toemail).hexdigest();
+            if test and self.server[serverid]['state'] != 'confirm':
+                pooler.get_pool(cr.dbname).get('email.smtpclient.history').create \
+                    (cr, uid, {'date_create':time.strftime('%Y-%m-%d %H:%M:%S'),'server_id' : serverid,'name':_('Please verify Email Server, without verification you can not send Email(s).')})
+                raise osv.except_osv(_('Server Error!'), _('Please verify Email Server, without verification you can not send Email(s).'))
+            key = False
+            if test and self.server[serverid]['state'] == 'confirm':
+                body = tools.ustr(self.server[serverid]['test_email'])
+            else:
+                body = tools.ustr(self.server[serverid]['verify_email'])
+                #ignore the code
+                key = self.gen_private_key(cr, uid, serverid)
+                #md5(time.strftime('%Y-%m-%d %H:%M:%S') + toemail).hexdigest();
+                body = body.replace("__code__", key)
+                self.write(cr, uid, [serverid], {'state':'waiting', 'code':key})
                 
-            body = body.replace("__code__", key)
+            user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid])[0]
+            body = body.replace("__user__", user.name)
             
-        user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid])[0]
-        body = body.replace("__user__", user.name)
-        
-        if len(body.strip()) <= 0:
-            raise osv.except_osv(_('Message Error!'), _('Please configure Email Server Messages [Verification / Test]'))
-        
-        msg = MIMEText(body or '', _charset='utf-8')
-        
-        if not test and not self.server[serverid]['state'] == 'confirm':
-            msg['Subject'] = _('OpenERP SMTP server Email Registration Code!')
-        else:
-            msg['Subject'] = _('OpenERP Test Email!')
-        
-        msg['To'] = toemail
-        msg['From'] = str(self.server[serverid]['from_email'])
-        
-        message = msg.as_string()
-        
-        queue = pooler.get_pool(cr.dbname).get('email.smtpclient.queue')
-        queue.create(cr, uid, {
-                'to':toemail,
-                'server_id':serverid,
-                'name':msg['Subject'],
-                'body':body,
-                'serialized_message':message,
-            })
-        self.write(cr, uid, ids, {'state':'waiting', 'code':key})
+            if len(body.strip()) <= 0:
+                raise osv.except_osv(_('Message Error!'), _('Please configure Email Server Messages [Verification / Test]'))
+            
+            msg = MIMEText(body or '', _charset='utf-8')
+            if not test and not self.server[serverid]['state'] == 'confirm':
+                msg['Subject'] = _('OpenERP SMTP server Email Registration Code!')
+            else:
+                msg['Subject'] = _('OpenERP Test Email!')
+                
+            
+            msg['To'] = toemail
+            msg['From'] = str(self.server[serverid]['from_email'])
+            
+            message = msg.as_string()
+            
+            queue = pooler.get_pool(cr.dbname).get('email.smtpclient.queue')
+            queue.create(cr, uid, {
+                    'to':toemail,
+                    'server_id':serverid,
+                    'name':msg['Subject'],
+                    'body':body,
+                    'serialized_message':message,
+                })
         return True
         
     def open_connection(self, cr, uid, ids, serverid=False, permission=True):
@@ -184,7 +183,6 @@ class SmtpClient(osv.osv):
                 self.smtpServer[serverid] = smtplib.SMTP()
                 self.smtpServer[serverid].debuglevel = 5
                 self.smtpServer[serverid].connect(str(self.server[serverid]['server']),str(self.server[serverid]['port']))
-                
                 if self.server[serverid]['ssl']:
                     self.smtpServer[serverid].ehlo()
                     self.smtpServer[serverid].starttls()
