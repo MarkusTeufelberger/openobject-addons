@@ -85,7 +85,7 @@ class product_product(osv.osv):
 
 
     _columns = {
-        'calculate_price': fields.boolean('Compute price'),
+        'calculate_price': fields.boolean('Compute standard price', help="Check this box if the standard price must be computed from the BoM."),
         'orderpoint_ids': fields.one2many('stock.warehouse.orderpoint', 'product_id', 'Orderpoints'),
         'qty_dispo': fields.function(_product_dispo, method=True, type='float', string='Stock available'),
     }
@@ -118,9 +118,11 @@ class product_product(osv.osv):
                     if not other_bom.product_id.calculate_price:
                         price += self._calc_price(cr, uid, other_bom) * other_bom.product_qty
                     else:
-                        price += other_bom.product_qty * other_bom.product_id.standard_price
+#                        price += other_bom.product_qty * other_bom.product_id.standard_price
+                        price += other_bom.product_id.standard_price
                 else:
-                    price += bom.product_qty * bom.product_id.standard_price
+#                    price += bom.product_qty * bom.product_id.standard_price
+                    price += bom.product_id.standard_price
 #                if no_child_bom:
 #                    other_bom = bom_obj.browse(cr, uid, no_child_bom)[0]
 #                    price += bom.product_qty * self._calc_price(cr, uid, other_bom)
@@ -139,5 +141,14 @@ class product_product(osv.osv):
                 price = self.pool.get('product.uom')._compute_price(cr,uid,bom.product_uom.id,price,bom.product_id.uom_id.id)
             return price
 product_product()
+
+class product_bom(osv.osv):
+    _inherit = 'mrp.bom'
+            
+    _columns = {
+        'standard_price': fields.related('product_id','standard_price',type="float",relation="product.product",string="Standard Price",store=False)
+    }
+
+product_bom()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
