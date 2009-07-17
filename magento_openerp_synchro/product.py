@@ -124,6 +124,7 @@ class product_product(osv.osv):
         for set in sets:
             if set['name'] == 'Default':
                 attr_set_id = set['set_id']
+                break
             else :
                 attr_set_id = 1
 
