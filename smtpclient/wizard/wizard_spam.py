@@ -67,8 +67,7 @@ def _mass_mail_send(self, cr, uid, data, context):
                 to = adr.email
                 
                 subject = merge_message(self, cr, uid, data['form']['subject'], adr, partner)
-                message = merge_message(self, cr, uid, data['form']['text'], adr, partner)
-                
+                message = merge_message(self, cr, uid, data['form']['text'], adr, partner).encode('utf8')
                 email_server.send_email(cr, uid, data['form']['smtp_server'], to, subject, message)
                 nbr += 1
         pooler.get_pool(cr.dbname).get('res.partner.event').create(cr, uid,

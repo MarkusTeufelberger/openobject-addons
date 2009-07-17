@@ -38,7 +38,7 @@ fields = {
 class sendcode(wizard.interface):
 
     def send_code(self, cr, uid, data, context):
-        state = pooler.get_pool(cr.dbname).get('email.smtpclient').test_verify_email(cr, uid, [data['id']], data['form']['emailto'])
+        state = pooler.get_pool(cr.dbname).get('email.smtpclient').test_verify_email(cr, uid, data['ids'], data['form']['emailto'])
         if not state:
             raise osv.except_osv(_('Error'), _('Verification Failed. Please check the Server Configuration!'))
 
