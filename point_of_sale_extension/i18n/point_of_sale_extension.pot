@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-07-21 19:40:31+0000\n"
-"PO-Revision-Date: 2009-07-21 19:40:31+0000\n"
+"POT-Creation-Date: 2009-07-24 09:00:36+0000\n"
+"PO-Revision-Date: 2009-07-24 09:00:36+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,9 +33,29 @@ msgid "Add payment:"
 msgstr ""
 
 #. module: point_of_sale_extension
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr ""
+
+#. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
 #, python-format
 msgid "No products have been added."
+msgstr ""
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,ask_pay,payment_name:0
+msgid "Payment name"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: field:pos.order.line,state:0
+msgid "State"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Draft"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -44,13 +64,13 @@ msgid "Piece number"
 msgstr ""
 
 #. module: point_of_sale_extension
-#: wizard_field:pos.payment2,ask_pay,payment_date:0
-msgid "Payment date"
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
 msgstr ""
 
 #. module: point_of_sale_extension
-#: wizard_field:pos.payment2,ask_pay,payment_name:0
-msgid "Payment name"
+#: wizard_field:pos.payment2,ask_pay,payment_date:0
+msgid "Payment date"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -79,6 +99,11 @@ msgid "Product"
 msgstr ""
 
 #. module: point_of_sale_extension
+#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_orders
+msgid "TPV sales"
+msgstr ""
+
+#. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/pos.py:0
 #, python-format
 msgid "Error !"
@@ -87,6 +112,12 @@ msgstr ""
 #. module: point_of_sale_extension
 #: wizard_view:pos.payment2,product_stock_warning:0
 msgid "These products have not enough virtual stock:"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Please provide a partner for the sale."
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -101,8 +132,13 @@ msgid "Cannot delete a point of sale line which is already confirmed !"
 msgstr ""
 
 #. module: point_of_sale_extension
-#: help:res.company,pos_prices_tax_include:0
-msgid "Product prices have tax included."
+#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_order_lines
+msgid "TPV sales lines"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Paid"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -167,6 +203,12 @@ msgid "Amount"
 msgstr ""
 
 #. module: point_of_sale_extension
+#: help:res.company,pos_prices_tax_include:0
+msgid "Product prices have tax included."
+msgstr ""
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
 #: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
 #, python-format
 msgid "Error"
@@ -186,6 +228,11 @@ msgstr ""
 #. module: point_of_sale_extension
 #: wizard_field:pos.payment2,sale_order_warning,sale_order:0
 msgid "Order"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: model:ir.model,name:point_of_sale_extension.model_pos_report_change
+msgid "Change path to rml file to get a better POS receipt"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -225,14 +272,55 @@ msgid "Cannot delete a point of sale which is already confirmed !"
 msgstr ""
 
 #. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Done"
+msgstr ""
+
+#. module: point_of_sale_extension
 #: wizard_field:pos.payment2,ask_pay,invoice_wanted:0
 msgid "Invoice"
 msgstr ""
 
 #. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
 #: wizard_button:pos.payment2,ask_pay,end:0
 #: wizard_button:pos.payment2,product_stock_warning,end:0
 #: wizard_button:pos.payment2,sale_order_warning,end:0
 msgid "Cancel"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: field:pos.order.line,partner_id:0
+msgid "Partner"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Invoiced"
+msgstr ""
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Tax :"
+msgstr ""
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Disc :"
+msgstr ""
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "This coupon is valid until"
+msgstr ""
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Operation Nº :"
+msgstr ""
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Salesman :"
 msgstr ""
 

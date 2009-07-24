@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-07-21 19:40:31+0000\n"
-"PO-Revision-Date: 2009-07-21 21:41+0100\n"
+"POT-Creation-Date: 2009-07-24 09:00:36+0000\n"
+"PO-Revision-Date: 2009-07-24 11:10+0100\n"
 "Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,10 +33,30 @@ msgid "Add payment:"
 msgstr "Afegeix pagament:"
 
 #. module: point_of_sale_extension
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "El nom de l'objecte ha de començar amb x_ i no contenir cap caràcter especial!"
+
+#. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
 #, python-format
 msgid "No products have been added."
 msgstr "No s'han afegit productes a la venda."
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,ask_pay,payment_name:0
+msgid "Payment name"
+msgstr "Descripció pagament"
+
+#. module: point_of_sale_extension
+#: field:pos.order.line,state:0
+msgid "State"
+msgstr "Estat"
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Draft"
+msgstr "Esborrany"
 
 #. module: point_of_sale_extension
 #: wizard_field:pos.payment2,ask_pay,payment_nb:0
@@ -44,14 +64,14 @@ msgid "Piece number"
 msgstr "Número referencia"
 
 #. module: point_of_sale_extension
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nom de model no vàlid en la definició de l'acció."
+
+#. module: point_of_sale_extension
 #: wizard_field:pos.payment2,ask_pay,payment_date:0
 msgid "Payment date"
 msgstr "Data de pagament"
-
-#. module: point_of_sale_extension
-#: wizard_field:pos.payment2,ask_pay,payment_name:0
-msgid "Payment name"
-msgstr "Descripció pagament"
 
 #. module: point_of_sale_extension
 #: model:ir.module.module,description:point_of_sale_extension.module_name_translation
@@ -91,6 +111,11 @@ msgid "Product"
 msgstr "Producte"
 
 #. module: point_of_sale_extension
+#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_orders
+msgid "TPV sales"
+msgstr "Vendes TPV"
+
+#. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/pos.py:0
 #, python-format
 msgid "Error !"
@@ -100,6 +125,12 @@ msgstr "Error!"
 #: wizard_view:pos.payment2,product_stock_warning:0
 msgid "These products have not enough virtual stock:"
 msgstr "Aquests productes no tenen suficient estoc virtual:"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Please provide a partner for the sale."
+msgstr "Heu de seleccionar una empresa a la venda."
 
 #. module: point_of_sale_extension
 #: wizard_field:pos.payment2,ask_pay,journal:0
@@ -113,9 +144,14 @@ msgid "Cannot delete a point of sale line which is already confirmed !"
 msgstr "No es pot eliminar una línia d'una venda que ja està confirmada!"
 
 #. module: point_of_sale_extension
-#: help:res.company,pos_prices_tax_include:0
-msgid "Product prices have tax included."
-msgstr "Els preus dels productes tenen els impostos inclosos."
+#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_order_lines
+msgid "TPV sales lines"
+msgstr "Línies vendes TPV"
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Paid"
+msgstr "Pagat"
 
 #. module: point_of_sale_extension
 #: help:res.company,pos_journals:0
@@ -179,6 +215,12 @@ msgid "Amount"
 msgstr "Import"
 
 #. module: point_of_sale_extension
+#: help:res.company,pos_prices_tax_include:0
+msgid "Product prices have tax included."
+msgstr "Els preus dels productes tenen els impostos inclosos."
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
 #: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
 #, python-format
 msgid "Error"
@@ -199,6 +241,11 @@ msgstr "Terminal punt de venda"
 #: wizard_field:pos.payment2,sale_order_warning,sale_order:0
 msgid "Order"
 msgstr "Comanda"
+
+#. module: point_of_sale_extension
+#: model:ir.model,name:point_of_sale_extension.model_pos_report_change
+msgid "Change path to rml file to get a better POS receipt"
+msgstr "Canvia la ruta del fitxer rml per obtenir un tiquet TPV millor"
 
 #. module: point_of_sale_extension
 #: wizard_button:pos.payment2,ask_pay,add_pay:0
@@ -237,14 +284,54 @@ msgid "Cannot delete a point of sale which is already confirmed !"
 msgstr "No es pot eliminar una venda que ja està confirmada!"
 
 #. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Done"
+msgstr "Realitzat"
+
+#. module: point_of_sale_extension
 #: wizard_field:pos.payment2,ask_pay,invoice_wanted:0
 msgid "Invoice"
 msgstr "Factura"
 
 #. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
 #: wizard_button:pos.payment2,ask_pay,end:0
 #: wizard_button:pos.payment2,product_stock_warning,end:0
 #: wizard_button:pos.payment2,sale_order_warning,end:0
 msgid "Cancel"
 msgstr "Cancel·la"
 
+#. module: point_of_sale_extension
+#: field:pos.order.line,partner_id:0
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Invoiced"
+msgstr "Facturat"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Tax :"
+msgstr "Impostos :"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Disc :"
+msgstr "Descompte :"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "This coupon is valid until"
+msgstr "Aquest val és vàlid fins"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Operation Nº :"
+msgstr "Venda nº :"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Salesman :"
+msgstr "Caixer/a :"

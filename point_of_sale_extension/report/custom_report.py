@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2009 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
@@ -27,8 +26,15 @@
 #
 ##############################################################################
 
-import wizard
-import report
-import company
-import pos
 
+from osv import osv
+
+class custom_report(osv.osv):
+    _name = "pos.report.change"
+    _description = "Change path to rml file to get a better POS receipt"
+    _auto = False
+    _columns = {}
+
+    def init(self, cr):
+        cr.execute("UPDATE ir_act_report_xml SET report_rml='point_of_sale_extension/report/pos_receipt.rml' WHERE report_name='pos.receipt'")
+custom_report()

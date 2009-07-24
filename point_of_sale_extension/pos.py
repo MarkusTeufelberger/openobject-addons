@@ -91,6 +91,60 @@ class pos_order(osv.osv):
     }
 
 
+    def action_invoice(self, cr, uid, ids, context={}):
+        users_obj = self.pool.get('res.users')
+        user = users_obj.browse(cr, uid, uid, context)
+        prices_tax_include = user.company_id.pos_prices_tax_include
+        inv_ref = self.pool.get('account.invoice')
+        inv_line_ref = self.pool.get('account.invoice.line')
+        inv_ids = []
+
+        for order in self.browse(cr, uid, ids, context):
+            if order.invoice_id:
+                inv_ids.append(order.invoice_id.id)
+                continue
+
+            if not order.partner_id:
+                raise osv.except_osv(_('Error'), _('Please provide a partner for the sale.'))
+
+            inv = {
+                'name': 'Invoice from POS: '+order.name,
+                'origin': order.name,
+                'type': 'out_invoice',
+                'reference': order.name,
+                'partner_id': order.partner_id.id,
+                'comment': order.note or '',
+                'price_type': prices_tax_include and 'tax_included' or 'tax_excluded'
+            }
+            inv.update(inv_ref.onchange_partner_id(cr, uid, [], 'out_invoice', order.partner_id.id)['value'])
+            inv_id = inv_ref.create(cr, uid, inv, context)
+
+            self.write(cr, uid, [order.id], {'invoice_id': inv_id, 'state': 'invoiced'})
+            inv_ids.append(inv_id)
+
+            for line in order.lines:
+                inv_line = {
+                    'invoice_id': inv_id,
+                    'product_id': line.product_id.id,
+                    'quantity': line.qty,
+                }
+                inv_line.update(inv_line_ref.product_id_change(cr, uid, [],
+                    line.product_id.id,
+                    line.product_id.uom_id.id,
+                    line.qty, partner_id = order.partner_id.id, fposition_id=order.partner_id.property_account_position.id)['value'])
+                inv_line['price_unit'] = line.price_unit
+                inv_line['discount'] = line.discount
+
+                inv_line['invoice_line_tax_id'] = ('invoice_line_tax_id' in inv_line)\
+                    and [(6, 0, inv_line['invoice_line_tax_id'])] or []
+                inv_line_ref.create(cr, uid, inv_line, context)
+
+        for i in inv_ids:
+            wf_service = netsvc.LocalService("workflow")
+            wf_service.trg_validate(uid, 'account.invoice', i, 'invoice_open', cr)
+        return inv_ids
+
+
     def create_account_move(self, cr, uid, ids, context=None):
         """This method is redefined to deal with prices with/without taxes included depending on company configuration.
            The computation of taxes is fixed to take account the discount of each POS line: line.price_unit * (1-(line.discount or 0.0)/100.0)
@@ -370,9 +424,9 @@ class pos_order_line(osv.osv):
     _order = "create_date desc"
 
     _columns = {
-        'partner_id':fields.related('order_id', 'partner_id', type='many2one', relation='res.partner', string='Empresa'),
-        'state':fields.related('order_id', 'state', type='selection', selection=[('cancel', 'Cancel·lat'), ('draft', 'Esborrany'),
-            ('paid', 'Pagat'), ('done', 'Realitzat'), ('invoiced', 'Facturat')], string='Estat'),
+        'partner_id':fields.related('order_id', 'partner_id', type='many2one', relation='res.partner', string='Partner'),
+        'state':fields.related('order_id', 'state', type='selection', selection=[('cancel', 'Cancel'), ('draft', 'Draft'),
+            ('paid', 'Paid'), ('done', 'Done'), ('invoiced', 'Invoiced')], string='State'),
     }
 
     def unlink(self, cr, uid, ids, context={}):

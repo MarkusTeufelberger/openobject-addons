@@ -111,5 +111,19 @@
             </field>
         </record>
 
+        <!-- Shortcuts -->
+        <act_window name="TPV sales"
+                    domain="[('partner_id', '=', active_id)]"
+                    context="{'partner_id': active_id}"
+                    res_model="pos.order"
+                    src_model="res.partner"
+                    id="act_partner_2_pos_orders"/>
+
+        <act_window name="TPV sales lines"
+                    domain="[('partner_id', '=', active_id)]"
+                    context="{'partner_id': active_id}"
+                    res_model="pos.order.line"
+                    src_model="res.partner"
+                id="act_partner_2_pos_order_lines"/>
     </data>
 </openerp>
