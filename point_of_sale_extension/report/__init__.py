@@ -27,8 +27,4 @@
 #
 ##############################################################################
 
-import wizard
-import report
-import company
-import pos
-
+import custom_report

@@ -27,6 +27,7 @@
         "company_view.xml",
         "pos_wizard.xml",
         "pos_view.xml",
+        "security/ir.model.access.csv",
     ],
     "active": False,
     "installable": True
