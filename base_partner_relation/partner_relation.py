@@ -71,3 +71,21 @@ class res_partner(osv.osv):
 
 res_partner()
 
+class res_partner_address(osv.osv):
+    _inherit = 'res.partner.address'
+
+    def search(self, cr, user, args, offset=0, limit=None, order=None, context=None, count=False):
+        """
+        Add the result of search the partner address in relation with partner
+        """
+        res = []
+        for item in args:
+            if item[0] == 'partner_id' and item[1] == '=':
+                res.append(item[2])
+                partner_relation_ids = self.pool.get('res.partner.relation').search(cr, user, [item], limit=limit, context=context)
+                for r in  self.pool.get('res.partner.relation').read(cr, user, partner_relation_ids, ['relation_id']):
+                    res.append(r['relation_id'][0])
+                args[1]=('partner_id','in',res)
+        return super(res_partner_address,self).search(cr, user, args, offset, limit, order, context, count)
+
+res_partner_address()
