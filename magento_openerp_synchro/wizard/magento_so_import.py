@@ -184,7 +184,7 @@ def _do_import(self, cr, uid, data, context):
                 'pricelist_id' : shop.pricelist_id.id or 1, #Deal with PriceList!!
                 'magento_id' : so['id'],
                 'has_error' : 0,
-                'order_policy' : payments_mapping[so['payment']] or default_payment 
+                'order_policy' : (lambda method:method in payments_mapping.keys() and payments_mapping[method] or default_payment)(so['payment'])
             })
         
         #===============================================================================
