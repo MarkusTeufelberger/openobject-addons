@@ -35,6 +35,7 @@ fields = {
 
 class wiz_schedule(wizard.interface):
     def _scheduling(self, cr, uid, data, context):
+        print "::::"
         pool = pooler.get_pool(cr.dbname)
         hr_int_obj = pool.get("hr.interview")
         if time.strptime(str(data['form']['start_interview']),"%Y-%m-%d %H:%M:%S") < time.strptime(data['form']['end_interview'],"%Y-%m-%d %H:%M:%S") and time.strptime(str(data['form']['start_interview']),"%Y-%m-%d %H:%M:%S")[:3] ==time.strptime(str(data['form']['end_interview']),"%Y-%m-%d %H:%M:%S")[:3] :  
@@ -59,10 +60,10 @@ class wiz_schedule(wizard.interface):
                         data['form']['list_all']=list_all
                         return data['form']
             else :
-                raise  wizard.except_wizard(_('UserError'),_('Start date-time and end date-time difference is less than of interval time '))
+                raise  wizard.except_wizard(_('UserError'),_('Insert appropriate interval time!!!'))
                 return {}
         else :
-            raise  wizard.except_wizard(_('UserError'),_('Start time and end time both are not same or start date and end date both are  not same '))
+            raise  wizard.except_wizard(_('UserError'),_('The Scheduling is not Appropriate. Enter appropriate date and time '))
             return {}
         
         data['form']['list_all']= list_all
@@ -74,9 +75,9 @@ class wiz_schedule(wizard.interface):
     states = {
         'init': {
             'actions': [],
-            'result': {'type': 'form', 'arch':_schedule_form, 'fields':_schedule_fields, 'state':[('Schedule','Scheduled','gtk-ok'),('end','Cancel','gtk-cancel')]}
+            'result': {'type': 'form', 'arch':_schedule_form, 'fields':_schedule_fields, 'state':[('schedule','Scheduled','gtk-ok'),('end','Cancel','gtk-cancel')]}
                 },
-            'scheduled': {
+            'schedule': {
             'actions': [_scheduling],
             'result': {'type': 'form','arch':form, 'fields':fields, 'state':[('end','Ok')]}
                 },                
