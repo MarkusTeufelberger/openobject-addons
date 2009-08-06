@@ -1,1 +1,2 @@
 import wiz_schedule
+import wizard_send_interview_mail

@@ -5,5 +5,9 @@
 			model="hr.interview"
 			name="wiz_interview_scheduling"
 			id="wiz_scheduling"/>
+		<wizard string="Send Mail for Interview"
+			name="hr.email.interview"
+			model="hr.interview"
+			id="wizard_email_interview"/>
 	</data>
 </openerp>
