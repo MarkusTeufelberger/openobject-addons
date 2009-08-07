@@ -1,3 +1,25 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    OpenERP, Open Source Management Solution    
+#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
+#    $Id$
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
 import wizard
 import pooler
 import datetime
@@ -27,15 +49,14 @@ form = """<?xml version="1.0"?>
     <field name="list"   nolabel="1"/>
 </form>
 """
+
 fields = {
     'list' : {'string': "",'type':'text','readonly':True},
     'list_all' : {'string': "",'type':'text','readonly':True}
           }
 
-
 class wiz_schedule(wizard.interface):
     def _scheduling(self, cr, uid, data, context):
-        print "::::"
         pool = pooler.get_pool(cr.dbname)
         hr_int_obj = pool.get("hr.interview")
         if time.strptime(str(data['form']['start_interview']),"%Y-%m-%d %H:%M:%S") < time.strptime(data['form']['end_interview'],"%Y-%m-%d %H:%M:%S") and time.strptime(str(data['form']['start_interview']),"%Y-%m-%d %H:%M:%S")[:3] ==time.strptime(str(data['form']['end_interview']),"%Y-%m-%d %H:%M:%S")[:3] :  
@@ -75,7 +96,7 @@ class wiz_schedule(wizard.interface):
     states = {
         'init': {
             'actions': [],
-            'result': {'type': 'form', 'arch':_schedule_form, 'fields':_schedule_fields, 'state':[('schedule','Scheduled','gtk-ok'),('end','Cancel','gtk-cancel')]}
+            'result': {'type': 'form', 'arch':_schedule_form, 'fields':_schedule_fields, 'state':[('schedule','Schedule','gtk-ok'),('end','Cancel','gtk-cancel')]}
                 },
             'schedule': {
             'actions': [_scheduling],
@@ -83,3 +104,4 @@ class wiz_schedule(wizard.interface):
                 },                
     }
 wiz_schedule('wiz_interview_scheduling')
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

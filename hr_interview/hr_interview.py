@@ -48,6 +48,7 @@ class cateory_question(osv.osv):
 	
 cateory_question()
 
+
 class candidate_experience(osv.osv):
 	_name="candidate.experience"
 	_description="Candidate Experience"
@@ -73,6 +74,7 @@ class hr_interview(osv.osv):
 				obt_marks += rec.obt_marks
 			self.write(cr, uid, ids, { 'performance' : (obt_marks * 100) / tot_marks })
 		return True 
+
 	def _constraint_obt_marks(self, cr, uid, ids):
 		tech_skill_obj=self.pool.get("technical.skill")
 		tech_skill_ids=tech_skill_obj.search(cr,uid,[('candidate_id','=',ids[0])])
@@ -211,4 +213,4 @@ class hr_interview_log(osv.osv):
 		'user_id' : fields.many2one("res.users","User Name")
 		}
 hr_interview_log()
-
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

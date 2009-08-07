@@ -1,3 +1,25 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    OpenERP, Open Source Management Solution    
+#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
+#    $Id$
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
 import wizard
 import pooler
 import tools
@@ -29,15 +51,10 @@ class wizard_email_interview(wizard.interface):
         hr_candidates = hr_candidate_obj.browse(cr,uid,ids)
         for hr_candidate in hr_candidates:
              body = body.replace("__candidate__",hr_candidate.name)
-             try:
-                 print "hr_candidate.date",hr_candidate.date
-                 d1 = mx.DateTime.strptime(str(hr_candidate.date),'%Y-%m-%d %H:%M:%S')
-                 body = body.replace("__date__",d1.strftime('on %B %d,%Y at %H:%M %p'))
-             except Exception,e:
-                 print "eee",e    
+             d1 = mx.DateTime.strptime(str(hr_candidate.date),'%Y-%m-%d %H:%M:%S')
+             body = body.replace("__date__",d1.strftime('on %B %d,%Y at %H:%M %p'))
              to = hr_candidate.email
              files = smtp_obj.send_email(cr, uid, data['form']['smtp_server'], to, subject, body)
-             print "::FILES::",files
         return {}     
             
     def _default_params(self, cr, uid, data, context={}):
@@ -69,3 +86,4 @@ class wizard_email_interview(wizard.interface):
         }
     }
 wizard_email_interview('hr.email.interview')
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
