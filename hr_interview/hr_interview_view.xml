@@ -67,14 +67,12 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="HR Interview">
-	                <group colspan="4" col="6">
-	                  	<field name="hr_id"  select="1"/>
+	                <group col="6" colspan="4">
+	                  	<field name="hr_id" select="1"/>
 	                    <field name="name" select="1"/>
 	                    <field name="crm_case_id"/>
-	                </group>
-	                <group colspan="4" col="6">
-		                    <field name="email" widget="email"  select="2"/>
-		                    <field name="mobile_no" />
+		                    <field name="email" select="2" widget="email"/>
+		                    <field name="mobile_no"/>
 	                    	<field name="date" select="1"/>
 	                </group>
                     <notebook colspan="4">
@@ -83,33 +81,33 @@
 		                    <field name="category_id"/>
 	    	                <field name="experience_id" widget="selection"/>
 	    	                <field name="reference_id"/>
-	    	                <separator string="Notes / Remarks" colspan="4"/>
-	        	            <field name="remarks" colspan="4" nolabel="1"/>
+	    	                <separator colspan="4" string="Notes / Remarks"/>
+	        	            <field colspan="4" name="remarks" nolabel="1" />
 	        	        </page>
 	        	        <page string="Technical">
-	        	        	<separator string="Evaluator" colspan="4"/>
-	        	         	<field name="evaluator_ids" colspan="4" nolabel="1"/>
-                    		<field name="tech_skills_ids" colspan="4" nolabel="1"/>
+	        	        	<separator colspan="4" string="Evaluator"/>
+	        	         	<field colspan="4" name="evaluator_ids" nolabel="1" />
+                    		<field colspan="4" name="tech_skills_ids" nolabel="1" height="250"/>
                     		<button name="_eval_performance" string="Calculate Performance" type="object" />
                     		<field name="performance"/>
                     	</page>
 	        	        <page string="History">
-                    		<field name="history_log_ids" colspan="4" nolabel="1"/>
+                    		<field colspan="4" name="history_log_ids" nolabel="1"/>
                     	</page>
 
 	        	    </notebook>
-					<separator string="Workflow Actions" colspan="4"/>
-					<group col="9"  colspan="4">
+					<separator colspan="4" string="Workflow Actions"/>
+					<group col="9" colspan="4">
 						<field name="state"/>
-						<button name="state_scheduled" string="Scheduled" states="draft,re-scheduled" type="workflow" icon="gtk-execute"/>
-						<button name="state_cancel" string="Cancel" states="draft,scheduled,re-scheduled,start-interview" type="workflow"  icon="gtk-cancel"/>
+						<button icon="gtk-execute" name="state_scheduled" states="draft,re-scheduled" string="Scheduled" type="workflow"/>
+						<button icon="gtk-cancel" name="state_cancel" states="draft,scheduled,re-scheduled,start-interview" string="Cancel" type="workflow"/>
 
-						<button name="state_re_scheduled" string="Re-Scheduled" states="scheduled" type="workflow"  icon="gtk-execute" />
+						<button icon="gtk-execute" name="state_re_scheduled" states="scheduled" string="Re-Scheduled" type="workflow"/>
 
-						<button name="state_start_interview" string="Start-Interview" states="scheduled" type="workflow"  icon="gtk-yes" />
-						<button name="state_end_interview" string="End-Interview" states="start-interview" type="workflow"  icon="gtk-ok" />
-						<button name="state_selected" string="Selected" states="end-interview" type="workflow" icon="gtk-ok"  />
-						<button name="state_rejected" string="Rejected" states="end-interview" type="workflow" icon="gtk-cancel"  />						
+						<button icon="gtk-yes" name="state_start_interview" states="scheduled" string="Start-Interview" type="workflow"/>
+						<button icon="gtk-ok" name="state_end_interview" states="start-interview" string="End-Interview" type="workflow"/>
+						<button icon="gtk-ok" name="state_selected" states="end-interview" string="Selected" type="workflow"/>
+						<button icon="gtk-cancel" name="state_rejected" states="end-interview" string="Rejected" type="workflow"/>						
 					</group>
                 </form>
             </field>
