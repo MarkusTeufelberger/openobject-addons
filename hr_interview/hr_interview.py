@@ -91,14 +91,14 @@ class hr_interview(osv.osv):
 		return True
 
 	_columns ={
-		'hr_id' : fields.char("Interview ID", size =64,required = True),
+		'hr_id' : fields.char("Interview ID", size =64),
 		'name':fields.char("Candidate Name", size=64, required = True,select = True),
 		'crm_case_id' : fields.many2one('crm.case',"Case"),
 		'email' : fields.char("E-mail",size=64,required =True),
 		'mobile_no' :fields.char("Mobile",size=64),
 		'date' :fields.datetime('Scheduled Date'),
 		'education': fields.selection([("be_ce","BE Computers"),("be_it","BE IT"),("bsc_it","BSc IT"),("bca","BCA"),("btech_ce","BTech Computers"),("btech_it","BTech IT"),("mca","MCA"),("msc_it","MSc IT"),("mtech_ce","MTech Computers"),("other","Other")],"Education"),
-		'category_id' : fields.many2one("candidate.category","Category",required=True ),
+		'category_id' : fields.many2one("candidate.category","Category"),
 		'experience_id':fields.many2one("candidate.experience","Experience"),
 		'remarks':fields.text("Remarks"),
 		'evaluator_ids': fields.many2many("hr.employee",'hr_empl_rel', 'hr_cand_id', 'emp_id',"Evaluator"),
@@ -163,13 +163,16 @@ class hr_interview(osv.osv):
 		return False
 	
 	def create(self, cr, uid, vals, context=None):
-		cate_id = vals['category_id']
+	    cate_id = vals.get('category_id', False)
+	    hr_id = super(hr_interview, self).create(cr, uid, vals, context=context)
+	    if not cate_id:
+	        cate_id = self.read(cr, uid, [hr_id], ['category_id'])[0]['category_id'][0]
+        
 		que_obj = self.pool.get("category.question")
 		que_ids= que_obj.search(cr,uid,[('category_id','=',int(cate_id))])
 		tech_skill_obj=self.pool.get("technical.skill")
-		hr_id=super(hr_interview, self).create(cr, uid, vals, context=context)
-		self._log(cr,uid,[hr_id],'draft')
-		for rec in que_obj.browse(cr,uid,que_ids):
+		self._log(cr,uid, [hr_id], 'draft')
+		for rec in que_obj.browse(cr, uid, que_ids):
 			tech_skill_obj.create(cr,uid,{'name':rec.name,'tot_marks':rec.tot_marks,'candidate_id':hr_id})
 		return hr_id
 	
