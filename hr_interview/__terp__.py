@@ -34,7 +34,7 @@ Example: Candidate X to be evaluated for Y Category(Category reflects to the rec
     'website': 'http://www.openerp.com',
     'depends': ['base', 'hr','crm','smtpclient'],
     'init_xml': [],
-    'update_xml': ['hr_interview_view.xml','hr_workflow.xml','hr_sequence.xml','security/ir.model.access.csv','hr_wizard.xml'],
+    'update_xml': ['hr_interview_view.xml','hr_workflow.xml','hr_sequence.xml','security/ir.model.access.csv','hr_wizard.xml','hr_interview_report.xml'],
     'demo_xml': [],
     'installable': True,
     'active': False,

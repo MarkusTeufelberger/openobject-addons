@@ -60,8 +60,8 @@ class wizard_email_interview(wizard.interface):
     def _default_params(self, cr, uid, data, context={}):
         ids = data['ids']
         hr_candidates = pooler.get_pool(cr.dbname).get('hr.interview').browse(cr,uid,ids)
-        body = "Hello __candidate__ ,\n\n" + "Congratulations!\n\n"
         for hr_candidate in hr_candidates:
+            body = "Hello __candidate__ ,\n\n" + "Congratulations!\n\n"
             if hr_candidate.state == 'scheduled':
                 body = body + "Your resume has been short listed in the qualifying candidates.\n"\
                             + "Your interview has been scheduled on __date__\n\n"
