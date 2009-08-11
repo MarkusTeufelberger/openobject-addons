@@ -75,6 +75,16 @@
     <blockTableStyle id="Table2">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="0,0" stop="0,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="1,0" stop="1,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="1,-1" stop="1,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="2,0" stop="2,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#cccccc" start="2,0" stop="2,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="2,-1" stop="2,-1"/>
     </blockTableStyle>
     <blockTableStyle id="Table8">
       <blockAlignment value="LEFT"/>
@@ -83,7 +93,13 @@
     <blockTableStyle id="Table7">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
-     
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="0,0" stop="0,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="1,0" stop="1,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#cccccc" start="1,0" stop="1,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="1,-1" stop="1,-1"/>
     </blockTableStyle>
     <blockTableStyle id="Table3">
       <blockAlignment value="LEFT"/>
@@ -106,10 +122,6 @@
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
     </blockTableStyle>
-    <blockTableStyle id="Table111">
-      <blockAlignment value="LEFT"/>
-      <blockValign value="TOP"/>
-    </blockTableStyle>
     <blockTableStyle id="Table10">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
@@ -117,7 +129,6 @@
     <initialize>
       <paraStyle name="all" alignment="justify"/>
     </initialize>
-    <paraStyle name="PRIGHT" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="RIGHT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P1" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P2" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="Standard" fontName="Helvetica"/>
@@ -189,7 +200,7 @@
           <para style="terp_default_Bold_9">Interview ID : [[ interview.hr_id ]]</para>
         </td>
         <td>
-          <para style="terp_default_9">Scheduled Date : [[ get_scheduled_date(interview.date)   ]]</para>
+          <para style="terp_default_9">Scheduled Date : [[ interview.date ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -199,7 +210,7 @@
           <para style="terp_default_Bold_9">Name : [[ interview.name ]]</para>
         </td>
         <td>
-          <para style="terp_default_9">Education : [[ get_education(interview.education) ]]</para>
+          <para style="terp_default_9">[[ get_education(interview.education) or removeParentNode('para') ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -216,10 +227,10 @@
     <blockTable colWidths="241.0,241.0" style="Table13">
       <tr>
         <td>
-          <para style="terp_default_9">Mobile No : [[ interview.mobile_no ]]</para>
+          <para style="terp_default_9">Mobile No : [[ interview.mobile_no or '' ]]</para>
         </td>
         <td>
-          <para style="terp_default_9">Applied For(Category) : [[ interview.category_id and interview.category_id.name or '' ]]</para>
+          <para style="terp_default_9">Applied For : [[ interview.category_id and interview.category_id.name or '' ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -243,51 +254,65 @@
             <para style="terp_tblheader_Details">Category</para>
           </td>
           <td>
-            <para style="terp_tblheader_Details">Total Marks</para>
+            <para style="terp_tblheader_Details">Total</para>
           </td>
           <td>
-            <para style="terp_tblheader_Details">Obtained Marks</para>
+            <para style="terp_tblheader_Details">Obtained</para>
           </td>
         </tr>
       </blockTable>
+      <para style="terp_default_1">
+        <font color="white"> </font>
+      </para>
       <section>
-        
         <para style="terp_default_8">[[repeatIn(interview.tech_skills_ids,'tech_skills_ids')]]</para>
         <blockTable colWidths="161.0,161.0,161.0" style="Table2">
           <tr>
             <td>
-              <para style="terp_tblheader_Details">[[ tech_skills_ids.name ]]</para>
+              <para style="terp_tblheader_Details">[[ tech_skills_ids.name or '' ]]</para>
             </td>
             <td>
-              <para style="terp_tblheader_Details">[[ tech_skills_ids.tot_marks ]]</para>
+              <para style="terp_tblheader_Details">[[ tech_skills_ids.tot_marks or '' ]]</para>
             </td>
             <td>
-              <para style="Text body">[[ tech_skills_ids.obt_marks ]]</para>
+              <para style="Text body">[[ tech_skills_ids.obt_marks or '' ]]</para>
             </td>
           </tr>
-          </blockTable>
-          <blockTable colWidths="10.0,473.0" style="Table111">
-          <tr>
-          <td>
-          	<para style="terp_tblheader_Details"> </para>
-          </td>
-          <td>
-            <para style="terp_default_italic">[[ tech_skills_ids.remarks or removeParentNode('blockTable') ]]</para>
-          </td>          
-          </tr>
-          </blockTable>
+        </blockTable>
+        <para style="terp_default_1">
+          <font color="white"> </font>
+        </para>
       </section>
-      <blockTable colWidths="161.0,321.0" style="Table7">
+      <para style="terp_default_space">
+        <font color="white"> </font>
+      </para>
+      <blockTable colWidths="48.0,434.0" style="Table8">
         <tr>
           <td>
-            <para style="P1"></para>
+            <para style="terp_tblheader_Details">Remarks: </para>
           </td>
           <td>
-            <para style="PRIGHT"><u>Performances (in %) : [[ tech_skills_ids.candidate_id.performance or "0.0" ]]</u></para>
+            <para style="terp_default_italic">[[ interview.remarks or '' ]]</para>
           </td>
         </tr>
       </blockTable>
+      <blockTable colWidths="161.0,321.0" style="Table7">
+        <tr>
+          <td>
+            <para style="P1">Performances (in %) :</para>
+          </td>
+          <td>
+            <para style="P2">[[ tech_skills_ids.candidate_id and tech_skills_ids.candidate_id.performance or removeParentNode('para') ]]</para>
+          </td>
+        </tr>
+      </blockTable>
+      <para style="terp_default_1">
+        <font color="white"> </font>
+      </para>
     </section>
+    <para style="terp_default_space">
+      <font color="white"> </font>
+    </para>
     <para style="terp_default_space">
       <font color="white"> </font>
     </para>
@@ -307,12 +332,6 @@
         </td>
       </tr>
     </blockTable>
-     <para style="terp_default_1">
-            <font color="white"> </font>
-     </para>
- 	 <para style="terp_default_1">
-    	<font color="white"> </font>
-     </para>
     <blockTable colWidths="241.0,241.0" style="Table4">
       <tr>
         <td>
@@ -327,18 +346,17 @@
         </td>
         <td>
           <para style="terp_tblheader_Details">Final Remarks: </para>
-          <para style="Text body">[[ interview.remarks ]]</para>
+          <para style="Text body">[[ interview.remarks or '' ]]</para>
         </td>
       </tr>
     </blockTable>
-    
     <blockTable colWidths="82.0,301.0,99.0" style="Table10">
       <tr>
         <td>
           <para style="terp_tblheader_Details">Current Date:</para>
         </td>
         <td>
-          <para style="terp_default_9">[[ formatLang(time.strftime("%B %d,%Y at %H:%M %p"),date_time = True) ]]</para>
+          <para style="terp_default_9">[[ formatLang(time.strftime("%Y-%m-%d"),date_time = True) ]]</para>
         </td>
         <td>
           <para style="terp_tblheader_Details_Centre">Signature</para>
