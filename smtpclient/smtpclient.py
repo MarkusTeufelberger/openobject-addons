@@ -39,6 +39,7 @@ import netsvc
 import random
 import sys
 import tools
+import re
 #if sys.version[0:3] > '2.4':
 #    from hashlib import md5
 #else:
@@ -93,11 +94,13 @@ class SmtpClient(osv.osv):
 #        return result
         
     def change_email(self, cr, uid, ids, email):
-        if len(email) > 0 and email.index('@') > 0:
+        ptrn = re.compile('(\w+@\w+(?:\.\w+)+)')
+        result=ptrn.search(email)
+        if not result:
+            raise osv.except_osv(_('Error !'),_('Verify the email address for this server'))
+        else:
             user = email[0:email.index('@')]
             return {'value':{'user':user}}
-        else:
-            return {'value':{'user':email}}
         
     def check_permissions(self, cr, uid, ids):
         cr.execute('select * from res_smtpserver_group_rel where sid=%s and uid=%s' % (ids[0], uid))
