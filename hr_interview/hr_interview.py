@@ -98,7 +98,7 @@ class hr_interview(osv.osv):
 		'mobile_no' :fields.char("Mobile",size=64),
 		'date' :fields.datetime('Scheduled Date'),
 		'education': fields.selection([("be_ce","BE Computers"),("be_it","BE IT"),("bsc_it","BSc IT"),("bca","BCA"),("btech_ce","BTech Computers"),("btech_it","BTech IT"),("mca","MCA"),("msc_it","MSc IT"),("mtech_ce","MTech Computers"),("other","Other")],"Education"),
-		'category_id' : fields.many2one("candidate.category","Category",required=True ),
+		'category_id' : fields.many2one("candidate.category","Category"),
 		'experience_id':fields.many2one("candidate.experience","Experience"),
 		'remarks':fields.text("Remarks"),
 		'evaluator_ids': fields.many2many("hr.employee",'hr_empl_rel', 'hr_cand_id', 'emp_id',"Evaluator"),
@@ -161,18 +161,18 @@ class hr_interview(osv.osv):
 	def copy(self, cr, uid, id, default=None,context=None):
 		raise osv.except_osv(_('Error !'),_('You cannot duplicate the resource!'))
 		return False
-	
-	def create(self, cr, uid, vals, context=None):
-		cate_id = vals['category_id']
-		que_obj = self.pool.get("category.question")
-		que_ids= que_obj.search(cr,uid,[('category_id','=',int(cate_id))])
-		tech_skill_obj=self.pool.get("technical.skill")
-		hr_id=super(hr_interview, self).create(cr, uid, vals, context=context)
+
+	def create(self, cr, uid, vals, context={}):
+		hr_id = super(hr_interview, self).create(cr, uid, vals, context=context)
 		self._log(cr,uid,[hr_id],'draft')
-		for rec in que_obj.browse(cr,uid,que_ids):
-			tech_skill_obj.create(cr,uid,{'name':rec.name,'tot_marks':rec.tot_marks,'candidate_id':hr_id})
-		return hr_id
-	
+		if vals['category_id']:
+			que_obj = self.pool.get("category.question")
+			que_ids= que_obj.search(cr,uid,[('category_id','=',vals['category_id'])])
+			tech_skill_obj=self.pool.get("technical.skill")
+			for rec in que_obj.browse(cr,uid,que_ids):
+				tech_skill_obj.create(cr,uid,{'name':rec.name,'tot_marks':rec.tot_marks,'candidate_id':hr_id})
+		return hr_id    
+
 	def write(self, cr, uid, ids, vals, context=None):
 		if 'category_id' in vals :
 			cate_id = vals['category_id']
@@ -185,7 +185,7 @@ class hr_interview(osv.osv):
 			for rec in que_obj.browse(cr,uid,que_ids):
 				tech_skill_obj.create(cr,uid,{'name':rec.name,'tot_marks':rec.tot_marks,'candidate_id':ids[0]})
 		return super(hr_interview, self).write(cr, uid, ids, vals, context=context)
-
+    
 hr_interview()
 
 
