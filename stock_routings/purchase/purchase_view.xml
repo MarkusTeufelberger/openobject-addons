@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	
+    	<record id="purchase_form_add_group_cancle_button" model="ir.ui.view">
+            <field name="name">Purchase Order Form add Manager Group Cancle Button</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+                <button name="purchase_cancel" states="draft,confirmed,wait_auth" string="Cancel Purchase Order" icon="gtk-cancel" position="replace">
+                    <button name="purchase_cancel" 
+                        states="draft,confirmed,wait_auth,rfq" 
+                        string="Cancel Purchase Order" 
+                        icon="gtk-cancel"
+                        groups="purchase.group_purchase_manager"
+                        />
+                </button>
+            </field>
+        </record>
+
+        <record id="purchase_form_add_state_in_confirm_button" model="ir.ui.view">
+            <field name="name">Purchase Order Form State in Confirm Button</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+                <button name="purchase_confirm" states="draft" string="Confirm Purchase Order" icon="gtk-execute" position="replace">
+                    <button name="purchase_confirm" states="rfq" string="Confirm Purchase Order" icon="gtk-execute"/>
+                </button>
+            </field>
+        </record>
+        
+    	 <record id="purchase_form_add_rfq_button" model="ir.ui.view">
+            <field name="name">Purchase Order Form add RFQ Button</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+                <button name="purchase_approve" states="confirmed" string="Approved by Supplier" icon="gtk-ok" position="after" >
+                    <button name="button_rfq" states="draft" string="Request for Quotation" type="object"/>
+                </button>
+            </field>
+        </record>
+    	
+    	<!--<record id="purchase_form_replace_add_routings" model="ir.ui.view">
+            <field name="name">Purchase Order Form replace delivery page add routing</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+            	<field name="location_id" position="before">
+            		<field name="routing_id" on_change="onchange_routing_id(routing_id)"/>
+            	</field>
+            </field>
+       </record>
+       
+        <record id="purchase_form_replace_delivery_page" model="ir.ui.view">
+            <field name="name"> Purchase Order Form replace delivery page position</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+           		<field name="location_id" position="after">
+     					<group colspan="2" col="2" name="purchase_transport">
+     					  <separator string="Transport Details" colspan="2"/>     					
+                          <field name="kind_transport"/>
+                          <field name="port_of_loading" on_change="onchange_depart_from(port_of_loading)"/>
+                          <field name="port_of_destination"/>  
+                          <field name="loading_code"/>
+                      </group>                
+                 </field>
+            </field>
+        </record>
+     
+        <record id="purchase_form_add_manufacturing" model="ir.ui.view">
+            <field name="name"> Purchase Order Form replace delivery page add manufacturing</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+           		 <field name="fiscal_position" groups="base.group_extended" position="after">
+           		 	  <newline/>
+                       <group colspan="2" col="2" name="purchase_manufactur">
+                       <newline/>                    
+                          <separator string="Manufacturing Company" colspan="2"/>
+                          <field name="factory_id" />        
+                      </group>
+                 </field>
+            </field>
+        </record>      
+        
+        
+        --><record id="purchase_form_replace_delivery_page" model="ir.ui.view">
+            <field name="name">Purchase Order Form replace delivery page position</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+            	<page string="Delivery &amp; Invoices" position="replace">
+                	<page string="Delivery &amp; Invoices">
+                            <group colspan="2" col="2">
+                                <separator string="Delivery" colspan="2"/>
+                                 <field name="routing_id" on_change="onchange_routing_id(routing_id)"/>   
+                                <field name="location_id"/>
+                                <field name="minimum_planned_date"/>
+                                <field name="dest_address_id" on_change="onchange_dest_address_id(dest_address_id)"/>
+                                <field name="payment_term"/>                                        
+                            </group>
+                            <group colspan="2" col="2">
+                                <separator string="Invoice Control" colspan="2"/>
+                                <field name="invoice_method"/>
+                                <field name="invoice_id" readonly="1"/>
+                                <field name="fiscal_position" groups="base.group_extended"/>
+                                <field name="incoterm"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <separator string="Transport Details" colspan="2"/>
+                                <field name="kind_transport"/>
+                                <field name="port_of_loading" on_change="onchange_depart_from(port_of_loading)"/>
+                                <field name="port_of_destination"/>  
+                                <field name="loading_code"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <separator string="Manufacturing Company" colspan="2"/>
+                                <field name="factory_id" />        
+                             </group>
+                            <newline/>
+                            <separator string="Purchase Control" colspan="4"/>
+                            <field name="validator"/>
+                            <field name="date_approve"/>
+                     </page>
+                 </page>
+            </field>
+        </record>        
+    </data>
+</openerp>

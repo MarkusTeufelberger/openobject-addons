@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    
+    	<record id="stock_picking_form_add_page" model="ir.ui.view">
+            <field name="name">Picking Form add BL Page</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form" />
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Transport Details">
+                        <field name="bl_no" />
+                        <field name="vessel_name" />
+                        <field name="voyage_number" />
+                        <field name="shipping_company" />
+                        <field name="departure_date" />
+                        <field name="arrival_date" />
+                        <field name="port_of_departure" />
+                        <field name="port_of_arrival" />
+                        <field name="container_id" />
+                        <newline/>
+                        <field name="container_seal" />
+                        <field name="loading_code" />
+                        <newline/>
+                        <field name="myfab_description" colspan="4"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>   	
+    	
+    	
+    	<record id="stock_view_picking_form_add_page" model="ir.ui.view">
+            <field name="name">Picking Form add BL Page</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Transport Details">
+                        <field name="bl_no" />
+                        <field name="vessel_name" />
+                        <field name="voyage_number" />
+                        <field name="shipping_company" />
+                        <field name="departure_date" />
+                        <field name="arrival_date" />
+                        <field name="port_of_departure" />
+                        <field name="port_of_arrival" />
+                        <field name="container_id" />
+                        <newline/>
+                        <field name="container_seal" />
+                        <field name="loading_code" />
+                        <newline/>
+                        <field name="myfab_description" colspan="4"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    
+        <!-- 
+       =============================
+        Routing
+        =============================
+        -->
+        <record id="view_routing_tree" model="ir.ui.view">
+            <field name="name">stock.routing.tree</field>
+            <field name="model">stock.routing</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Stock Routing">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="kind_transport"/>
+                    <field name="port_of_loading"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_routing_form" model="ir.ui.view">
+            <field name="name">stock.routing.form</field>
+            <field name="model">stock.routing</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stock Routing">
+                    <field name="name"/>
+                    <field name="description" colspan="4"/>
+                    <field name="kind_transport"/>
+                    <field name="port_of_loading"/>
+                    <field name="segment_sequence_ids" colspan="4" nolabel="1"/>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_routing_form" model="ir.actions.act_window">
+            <field name="name">Routings</field>
+            <field name="res_model">stock.routing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_routing_tree"/>
+        </record>
+        <menuitem action="action_routing_form" id="menu_action_routing_form" parent="stock.menu_stock_configuration"/>
+        
+        <!--<record id="action_routing_tree" model="ir.actions.act_window">
+            <field name="name">Routings</field>
+            <field name="res_model">stock.routing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="view_routing_tree"/>
+        </record>
+        <menuitem action="action_routing_tree" id="menu_action_routing_tree" parent="menu_stock_root"/>
+        
+    -->
+    
+    <record id="view_segment_sequence_tree" model="ir.ui.view">
+            <field name="name">segment.sequence.tree</field>
+            <field name="model">segment.sequence</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Segment sequence">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="port_of_loading"/>
+                    <field name="port_of_destination"/>
+              		<field name="kind_transport"/>
+                    <field name="chained_delay"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_segment_sequence_form" model="ir.ui.view">
+            <field name="name">segment.sequence.form</field>
+            <field name="model">segment.sequence</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Segment sequence">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="port_of_loading"/>
+                    <field name="port_of_destination"/>
+              		<field name="kind_transport"/>
+                    <field name="chained_delay"/>
+                </form>
+            </field>
+        </record><!--
+        
+        <record id="view_segment_sequence_form" model="ir.actions.act_window">
+            <field name="name">Segment Sequence</field>
+            <field name="res_model">segment.sequence</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_segment_sequence_tree"/>
+        </record>
+    
+    
+    
+    --></data>
+</openerp>
