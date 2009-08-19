@@ -50,8 +50,8 @@ class stock_picking(osv.osv):
                 'myfab_description' : fields.text('Description',),
                 'container_id' : fields.char('Container ID', size=128,),
                 'container_seal' : fields.char('Nr Container Seal', size=128,),
-                'loading_code' : fields.char('Loading Code', size=128,),             
-              
+                'loading_code' : fields.char('Loading Code', size=128,),
+                'stock_history_lines' : fields.one2many('stock.history','history_id','History',readonly=True), 
               }
 stock_picking()
 
@@ -180,6 +180,18 @@ class segment_sequence(osv.osv):
               }
     
 segment_sequence()
+
+class stock_history(osv.osv):
+    _name='stock.history'
+    _columns={
+              'date': fields.date('Date'),
+              'prev_plan_date': fields.date('Previous Planned Date'),
+              'new_plan_date': fields.date('New Planned Date'),
+              'user': fields.char('User',size=128),
+              'description': fields.char('Description/Explanation',size=256),
+              'history_id': fields.many2one('stock.picking','History'),   
+              }
     
+stock_history()
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

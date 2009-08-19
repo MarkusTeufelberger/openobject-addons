@@ -2,7 +2,17 @@
 <openerp>
     <data>
     
-    
+    	<record id="stock_picking_form_add_btm" model="ir.ui.view">
+            <field name="name">Picking Form add btn for change planned date</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form" />
+            <field name="arch" type="xml">
+            	<field name="min_date" select="2" readonly="1" position="after">
+            		<button name="%(change_planned_date)d" states="unproduction,assigned,underway" string="Change Date" type="action"/>
+            	</field>
+            </field>
+        </record>
     	<record id="stock_picking_form_add_page" model="ir.ui.view">
             <field name="name">Picking Form add BL Page</field>
             <field name="model">stock.picking</field>
@@ -26,11 +36,25 @@
                         <newline/>
                         <field name="myfab_description" colspan="4"/>
                     </page>
+                    <page string="History">
+                    	<field name="stock_history_lines" colspan="4" nolabel="1"/>
+                    </page>
                 </notebook>
             </field>
         </record>   	
     	
-    	
+    	<record id="stock_move_form_add_btm" model="ir.ui.view">
+            <field name="name">Moves Form add btn for change planned date</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+            	<field name="min_date" select="2" position="after">
+            		<button name="%(change_planned_date)d" states="waiting,confirmed,assigned,underway" string="Change Date" type="action"/>
+            	</field>
+            </field>
+        </record>
+        
     	<record id="stock_view_picking_form_add_page" model="ir.ui.view">
             <field name="name">Picking Form add BL Page</field>
             <field name="model">stock.picking</field>
@@ -54,10 +78,13 @@
                         <newline/>
                         <field name="myfab_description" colspan="4"/>
                     </page>
+                    <page string="History">
+                    	<field name="stock_history_lines" colspan="4" nolabel="1"/>
+                    </page>
                 </notebook>
             </field>
         </record>
-    
+    	
         <!-- 
        =============================
         Routing
@@ -154,5 +181,42 @@
     
     
     
-    --></data>
+    -->
+    
+     <!-- 
+       =============================
+       History
+       =============================
+        -->
+        
+       <record id="view_stock_history_tree" model="ir.ui.view">
+            <field name="name">stock.history.tree</field>
+            <field name="model">stock.history</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="History">
+                    <field name="date"/>
+                    <field name="prev_plan_date"/>
+                    <field name="new_plan_date"/>
+                    <field name="user"/>
+              		<field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+	 <record id="view_stock_history_form" model="ir.ui.view">
+            <field name="name">stock.history.form</field>
+            <field name="model">stock.history</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="History">
+                    <field name="date"/>
+                    <field name="prev_plan_date"/>
+                    <field name="new_plan_date"/>
+                    <field name="user"/>
+              		<field name="description"/>
+                </form>
+            </field>
+        </record>        
+    </data>
 </openerp>

@@ -36,6 +36,7 @@
     'update_xml': [
         
         'purchase/purchase_view.xml',
+        'stock/stock_wizard.xml',
         'stock/stock_view.xml',
     ],
     'demo_xml': [

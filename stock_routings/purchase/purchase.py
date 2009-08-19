@@ -64,7 +64,7 @@ class purchase_order(osv.osv):
             return {'value':{'location_id': rout_data}}
         else:
             return {'value':{'location_id':False}}
-    
+        
     def _get_po_no(self, cr, uid, context={}):
         sequence_pool = self.pool.get('ir.sequence')
         sequence_id = 'purchase.order'
@@ -98,6 +98,7 @@ class purchase_order(osv.osv):
             
     def action_picking_create(self, cr, uid, ids, *args):
         picking_id = False
+        all_move_ids=[]
         for order in self.browse(cr, uid, ids):
             loc_id = order.partner_id.property_stock_supplier.id
             istate = 'none'
@@ -144,7 +145,7 @@ class purchase_order(osv.osv):
                         'purchase_line_id': order_line.id,
                         'prodlot_id': stock_prod_id,
                     })
-
+                    all_move_ids.append(stock_move_id)
                     if order_line.move_dest_id:
                         self.pool.get('stock.move').write(cr, uid, [order_line.move_dest_id.id], {'location_id':order.location_id.id})
             
@@ -152,11 +153,13 @@ class purchase_order(osv.osv):
             wf_service.trg_validate(uid, 'stock.picking', picking_id, 'button_confirm', cr)
            
         purchase_order_line_ids = self.pool.get('purchase.order.line').search(cr, uid ,[('order_id', 'in', ids)])
+    
         if purchase_order_line_ids:
-            move_line_ids = self.pool.get('stock.move').search(cr, uid, [('purchase_line_id', 'in', purchase_order_line_ids)])
-            self.pool.get('stock.move').action_confirm(cr, uid, move_line_ids)
-            self.pool.get('stock.move').write(cr, uid, move_line_ids, {'state': 'assigned'})
-            self.set_confirm_moves(cr, uid, move_line_ids)
+            move_line_ids = self.pool.get('stock.move').search(cr, uid, [('purchase_line_id', 'in', purchase_order_line_ids),('state','<>','draft')])
+            
+            self.pool.get('stock.move').action_confirm(cr, uid, all_move_ids)
+            self.pool.get('stock.move').write(cr, uid, all_move_ids, {'state': 'assigned'})
+            self.set_confirm_moves(cr, uid, all_move_ids)
 
         return picking_id
         
