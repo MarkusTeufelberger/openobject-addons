@@ -30,8 +30,10 @@ def get_actual_planned_date(self,cr,uid,data,context={}):
     return {'main_plan_date':stock_data}
 
 def date_difference(cr,uid,old_date,new_date):
-    old_dt=old_date.split('-')
-    new_dt=new_date.split('-')
+    final_old_dt=old_date.split(' ')
+    final_new_dt=new_date.split(' ')
+    old_dt=final_old_dt[0].split('-')
+    new_dt=final_new_dt[0].split('-')
     old_yy,old_mm,old_dd=old_dt[0],old_dt[1],old_dt[2]
     new_yy,new_mm,new_dd=new_dt[0],new_dt[1],new_dt[2]
     days_delay=datetime.date(int(new_yy),int(new_mm),int(new_dd))-datetime.date(int(old_yy),int(old_mm),int(old_dd))
@@ -104,7 +106,6 @@ def change_plan_date(self,cr,uid,data,context={}):
                 old_pick_data=stock_obj.read(cr,uid,r['id'],['min_date','state'])
                 old_pick_date=old_pick_data['min_date']
                 state=old_pick_data['state']
-                
                 if state<>'done':
                     vals={}
                     vals['date']=time.strftime('%Y-%m-%d')
@@ -117,7 +118,7 @@ def change_plan_date(self,cr,uid,data,context={}):
                     
                     stock_obj.write(cr,uid,r['id'],{'min_date':r['min_date']}) 
         
-    return{}
+    return {}
 
 class wizard_change_planned_date(wizard.interface):
     states={
@@ -127,8 +128,8 @@ class wizard_change_planned_date(wizard.interface):
 
                     },
             'change_date':{
-                          'actions':[],
-                          'result':{'type':'action', 'action':change_plan_date, 'states':'end'}
+                          'actions':[change_plan_date],
+                          'result': {'type': 'state', 'state': 'end'},
                           
                           },
             }

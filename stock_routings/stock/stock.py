@@ -51,12 +51,28 @@ class stock_picking(osv.osv):
                 'container_id' : fields.char('Container ID', size=128,),
                 'container_seal' : fields.char('Nr Container Seal', size=128,),
                 'loading_code' : fields.char('Loading Code', size=128,),
-                'stock_history_lines' : fields.one2many('stock.history','history_id','History',readonly=True), 
+                'stock_history_lines' : fields.one2many('stock.history','history_id','History',readonly=True),
+                'state': fields.selection([
+                    ('draft', 'Draft'),
+                    ('auto', 'Waiting1'),
+#                   ('confirmed', 'On The Way'),
+                    ('confirmed','Confirmed'),
+                    ('assigned', 'Available'),
+                    ('flottant', 'Floating'),
+                    ('underway', 'Underway'),
+                    ('unproduction', 'In Production'),
+                    ('done', 'Received'),
+                    ('cancel', 'Cancel'),
+                    ], 'Status', readonly=True, select=True),
               }
 stock_picking()
 
 class stock_move(osv.osv):
     _inherit="stock.move"
+    
+    _columns={
+              'state': fields.selection([('draft','Draft'),('waiting','Waiting'),('confirmed','Confirmed'),('assigned','Available'),('done','Received'),('cancel','Canceled')], 'Status', readonly=True, select=True),
+              }
     
     def action_confirm(self, cr, uid, ids, context={}):
 #        ids = map(lambda m: m.id, moves)
@@ -132,11 +148,12 @@ stock_move()
 class stock_routing(osv.osv):
     _name='stock.routing'
     _columns={
+              'id':fields.integer('id'),
               'name': fields.char('Routing Name',size=256,required=True),
               'description': fields.char('Description',size=256),
               'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Kind Of Transport'),
               'port_of_loading': fields.many2one('stock.location','Incoming Goods Location'),
-             'segment_sequence_ids': fields.one2many('segment.sequence','routing_id','Segment Sequence')
+              'segment_sequence_ids': fields.one2many('segment.sequence','routing_id','Segment Sequence')
               }
     
     def create(self, cr, user, vals, context=None):
@@ -161,8 +178,9 @@ class stock_routing(osv.osv):
             
       if flag==1:
            raise osv.except_osv(_('Error !'), _('Routing Is Not Well Defined'))
-                  
+    
       cr_id=super(osv.osv,self).create(cr,user,vals,context)
+      context.setdefault('id',cr_id)
       return cr_id
     
 stock_routing()
@@ -178,6 +196,31 @@ class segment_sequence(osv.osv):
               'chained_delay': fields.integer('Chained Delay (days)'),
               'routing_id': fields.many2one('stock.routing','Routing'),
               }
+    
+    def get_id(self,cr,uid,context):
+        return context.get('routing_id',False)
+    
+    def get_location(self,cr,uid,context):
+        #for etiny this works properly and gives previous segments port of departure 
+        #location in current segments port of loading location, but in gtk it doesn't 
+        #work and in gtk user have to manually set the location.
+        
+        if context.__contains__('routing_id'):
+            routing_id=context['routing_id']
+            segment_ids=self.search(cr,uid,[('routing_id','=',routing_id)])
+            
+            if segment_ids:
+                segments=self.browse(cr,uid,segment_ids)
+                dest=segments[len(segments)-1].port_of_destination.id
+                context['port_of_loading']=dest
+                return dest
+        return context.get('port_of_loading',False)
+        
+        
+    _defaults={
+                'routing_id': get_id,
+                'port_of_loading': get_location,                
+               }
     
 segment_sequence()
 
