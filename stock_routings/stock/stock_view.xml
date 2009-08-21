@@ -55,6 +55,18 @@
             </field>
         </record>
         
+        <record id="stock_move_form_date" model="ir.ui.view">
+            <field name="name">Moves Form make planned date readonly</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+            	<field name="min_date" select="2" position="replace">
+            		<field name="min_date" select="2" readonly="1"/>
+            	</field>
+            </field>
+        </record>
+        
     	<record id="stock_view_picking_form_add_page" model="ir.ui.view">
             <field name="name">Picking Form add BL Page</field>
             <field name="model">stock.picking</field>

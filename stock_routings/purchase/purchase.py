@@ -32,6 +32,31 @@ class purchase_order(osv.osv):
     _name='purchase.order'
     _inherit='purchase.order'
     
+    def _set_minimum_planned_date(self, cr, uid, ids, name, value, arg, context):
+        if not value: return False
+        if type(ids)!=type([]):
+            ids=[ids]
+        for po in self.browse(cr, uid, ids, context):
+            cr.execute("""update purchase_order_line set
+                    date_planned=%s
+                where
+                    order_id=%s and
+                    (date_planned=%s or date_planned<%s)""", (value,po.id,po.minimum_planned_date,value))
+        return True
+    
+    def _minimum_planned_date(self, cr, uid, ids, field_name, arg, context):
+        res={}
+        purchase_obj=self.browse(cr, uid, ids, context=context)
+        for purchase in purchase_obj:
+            res[purchase.id] = False
+            if purchase.order_line:
+                min_date=purchase.order_line[0].date_planned
+                for line in purchase.order_line:
+                    if line.date_planned < min_date:
+                        min_date=line.date_planned
+                res[purchase.id]=min_date
+        return res
+    
     _columns={
               'state': fields.selection([
 #                           ('draft', 'Request for Quotation'), 
@@ -56,6 +81,7 @@ class purchase_order(osv.osv):
             'routing_id': fields.many2one('stock.routing','Routings'),
             'payment_term' : fields.many2one('account.payment.term', 'Payment Term'),
             'incoterm': fields.selection(_incoterm_get, 'Incoterm',size=3),
+            'minimum_planned_date':fields.function(_minimum_planned_date, fnct_inv=_set_minimum_planned_date, method=True,store=True, string='Planned Date', type='date', help="This is computed as the minimum scheduled date of all purchase order lines' products."),
               }
     def onchange_routing_id(self, cr, uid, ids, routing_id):
         if routing_id:

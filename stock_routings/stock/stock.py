@@ -38,6 +38,43 @@ class stock_picking(osv.osv):
     _name='stock.picking'
     _inherit='stock.picking'
     
+    def _set_minimum_date(self, cr, uid, ids, name, value, arg, context):
+        if not value: return False
+        if isinstance(ids, (int, long)):
+            ids=[ids]
+        for pick in self.browse(cr, uid, ids, context):
+            sql_str="""update stock_move set
+                    date_planned='%s'
+                where
+                    picking_id=%s """ % (value,pick.id)
+            if pick.min_date:
+                sql_str += " and (date_planned='"+pick.min_date+"' or date_planned<'"+value+"')"
+            cr.execute(sql_str)
+        return True
+    
+    def get_min_max_date(self, cr, uid, ids, field_name, arg, context={}):
+        res = {}
+        for id in ids:
+            res[id] = {'min_date':False, 'max_date': False}
+        if not ids:
+            return res
+        cr.execute("""select
+                picking_id,
+                min(date_planned),
+                max(date_planned)
+            from
+                stock_move
+            where
+                picking_id in (""" + ','.join(map(str, ids)) + """)
+            group by
+                picking_id""")
+        for pick, dt1,dt2 in cr.fetchall():
+            res[pick]['min_date'] = dt1
+            res[pick]['max_date'] = dt2
+
+        return res
+    
+    
     _columns={
                 'bl_no' : fields.char('BL No.', size=64,),
                 'vessel_name' : fields.char('Vessel Name', size=128,),
@@ -64,6 +101,8 @@ class stock_picking(osv.osv):
                     ('done', 'Received'),
                     ('cancel', 'Cancel'),
                     ], 'Status', readonly=True, select=True),
+                'min_date': fields.function(get_min_max_date, fnct_inv=_set_minimum_date, multi="min_max_date",
+                 method=True,store=True, type='date', string='Planned Date', select=1),
               }
 stock_picking()
 
