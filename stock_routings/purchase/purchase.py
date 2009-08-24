@@ -137,8 +137,8 @@ class purchase_order(osv.osv):
                 'address_id': order.dest_address_id.id or order.partner_address_id.id,
                 'invoice_state': istate,
                 'purchase_id': order.id,
-                'port_of_departure': order.port_of_loading.id,
-                'port_of_arrival': order.port_of_destination.id,
+                'port_of_departure': loc_id,
+                'port_of_arrival': order.routing_id and order.routing_id.port_of_loading.id,
                 'loading_code': order.loading_code
             })
             for order_line in order.order_line:

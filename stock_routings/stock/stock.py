@@ -149,7 +149,9 @@ class stock_move(osv.osv):
                         'note': picking.note,
                         'move_type': picking.move_type,
                         'address_id': picking.address_id.id,
-                        'invoice_state': 'none'
+                        'invoice_state': 'none',
+                        'port_of_departure': r_seq.port_of_loading.id,
+                        'port_of_arrival': r_seq.port_of_destination.id,
                     })
                     
                         new_moves=[]
@@ -214,13 +216,72 @@ class stock_routing(osv.osv):
               else:
                   prev_dest=segment['port_of_destination']
                   counter=counter+1
-            
       if flag==1:
-           raise osv.except_osv(_('Error !'), _('Routing Is Not Well Defined'))
+          raise osv.except_osv(_('Error !'), _('Routing Is Not Well Defined'))
     
       cr_id=super(osv.osv,self).create(cr,user,vals,context)
       context.setdefault('id',cr_id)
       return cr_id
+  
+    def write(self,cr,uid,ids,vals,context=None):
+        routing_data=self.read(cr,uid,ids,['port_of_loading','segment_sequence_ids'])
+        if vals.__contains__('port_of_loading'):
+            port_loading=vals['port_of_loading']
+            context['port_of_loading']=port_loading
+           
+            if vals.__contains__('segment_sequence_ids'):
+                segment_seq_id=vals['segment_sequence_ids']
+        else:
+            if context.__contains__('port_of_loading'):
+                port_loading=context['port_of_loading']
+                if vals.__contains__('segment_sequence_ids'):
+                    segment_seq_id=vals['segment_sequence_ids']
+            else:
+                port_loading=routing_data[0]['port_of_loading'][0]    
+        
+        seg_ids=routing_data[0]['segment_sequence_ids']
+        if seg_ids:
+            if context.has_key('port_of_loading'):
+                context.__delitem__('port_of_loading')
+            seg_seq_obj=self.pool.get('segment.sequence').read(cr,uid,seg_ids,[])
+          
+            counter=0
+            flag=0
+            for segments in seg_seq_obj:
+                segment=segments
+                if counter==0:
+                    if vals['segment_sequence_ids'] and segment['id']==vals['segment_sequence_ids'][0][1]:
+                        if port_loading<>vals['segment_sequence_ids'][0][2]['port_of_loading']:
+                            flag=1
+                        else:
+                            prev_dest=vals['segment_sequence_ids'][0][2]['port_of_destination']
+                            counter=counter+1
+                    else:
+                        if port_loading<>segment['port_of_loading'][0]:
+                            flag=1
+                        else:
+                            prev_dest=segment['port_of_destination'][0]
+                            counter=counter+1
+                else:
+                    if vals['segment_sequence_ids'] and segment['id']==vals['segment_sequence_ids'][0][1]:
+                         if vals['segment_sequence_ids'][0][2]['port_of_loading']<>prev_dest:
+                            flag=1
+                         else:
+                            prev_dest=vals['segment_sequence_ids'][0][2]['port_of_destination']
+                            counter=counter+1
+                    else:
+                      #  prev_dest=segment['port_of_destination'][0]
+                        if segment['port_of_loading'][0]<>prev_dest:
+                            flag=1
+                        else:
+                            prev_dest=segment['port_of_destination'][0]
+                            counter=counter+1
+            if flag==1:
+                raise osv.except_osv(_('Error !'), _('Routing Is Not Well Defined'))
+        elif segment_seq_id:
+            if not segment_seq_id[0][2]['port_of_loading']==port_loading:
+                raise osv.except_osv(_('Error !'), _('Routing Is Not Well Defined'))
+        return super(osv.osv,self).write(cr,uid,ids,vals,context)
     
 stock_routing()
 
@@ -243,16 +304,19 @@ class segment_sequence(osv.osv):
         #for etiny this works properly and gives previous segments port of departure 
         #location in current segments port of loading location, but in gtk it doesn't 
         #work and in gtk user have to manually set the location.
-        
-        if context.__contains__('routing_id'):
-            routing_id=context['routing_id']
-            segment_ids=self.search(cr,uid,[('routing_id','=',routing_id)])
-            
-            if segment_ids:
-                segments=self.browse(cr,uid,segment_ids)
-                dest=segments[len(segments)-1].port_of_destination.id
-                context['port_of_loading']=dest
-                return dest
+        if context.has_key('client'):  
+            if context.__contains__('routing_id'):
+                routing_id=context['routing_id']
+                segment_ids=self.search(cr,uid,[('routing_id','=',routing_id)])
+                
+                if segment_ids:
+                    segments=self.browse(cr,uid,segment_ids)
+                    dest=segments[len(segments)-1].port_of_destination.id
+                    context['port_of_loading']=dest
+                    return dest
+        else:
+            context['port_of_loading']=False
+            return context.get('port_of_loading',False)
         return context.get('port_of_loading',False)
         
         
