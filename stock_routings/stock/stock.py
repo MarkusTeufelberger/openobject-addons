@@ -111,6 +111,7 @@ class stock_move(osv.osv):
     
     _columns={
               'state': fields.selection([('draft','Draft'),('waiting','Waiting'),('confirmed','Confirmed'),('assigned','Available'),('done','Received'),('cancel','Canceled')], 'Status', readonly=True, select=True),
+              'date_planned': fields.date('Date', required=True, help="Scheduled date for the movement of the products or real date if the move is done."),
               }
     
     def action_confirm(self, cr, uid, ids, context={}):
@@ -317,12 +318,13 @@ class segment_sequence(osv.osv):
         else:
             context['port_of_loading']=False
             return context.get('port_of_loading',False)
+        
         return context.get('port_of_loading',False)
         
         
     _defaults={
                 'routing_id': get_id,
-                'port_of_loading': get_location,                
+                'port_of_loading': get_location, 
                }
     
 segment_sequence()

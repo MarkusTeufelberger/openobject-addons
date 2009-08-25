@@ -50,8 +50,14 @@ def change_plan_date(self,cr,uid,data,context={}):
     new_date=form['new_plan_date']
     user_obj=pooler.get_pool(cr.dbname).get('res.users')
     user=user_obj.read(cr,uid,uid,['name'])['name']
+    days_delay=date_difference(cr,uid,form['main_plan_date'],form['new_plan_date'])
     if not update_all:
-        stock_obj.write(cr,uid,[id],{'min_date':new_date})
+        move_ids=stock_mv_obj.search(cr,uid,[('picking_id','=',id)])
+        stock_mv_data=stock_mv_obj.read(cr,uid,move_ids,['date_planned'])
+        for stock_mv_dt in stock_mv_data:
+            new_move_date=(DateTime.strptime(stock_mv_dt['date_planned'], '%Y-%m-%d %H:%M:%S') + DateTime.RelativeDateTime(days=days_delay or 0)).strftime('%Y-%m-%d')
+            stock_mv_obj.write(cr,uid,stock_mv_dt['id'],{'date_planned':new_move_date})
+        stock_obj.write(cr,uid,[id],{'min_date':new_date})    
         vals={}
         vals['date']=time.strftime('%Y-%m-%d')
         vals['prev_plan_date']=form['main_plan_date']
@@ -66,8 +72,6 @@ def change_plan_date(self,cr,uid,data,context={}):
         move_ids=stock_mv_obj.search(cr,uid,[('picking_id','=',id)])
         all_pick_ids=[]
         all_pick_ids.append(id)
-
-        days_delay=date_difference(cr,uid,form['main_plan_date'],form['new_plan_date'])
 
         for mv_id in move_ids:
             
