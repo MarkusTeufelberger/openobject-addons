@@ -165,7 +165,7 @@ class stock_move(osv.osv):
                             'picking_id': pickid,
                             'state':'waiting',
                             'move_history_ids':[],
-                            'date_planned': (DateTime.strptime(m.date_planned, '%Y-%m-%d %H:%M:%S') + DateTime.RelativeDateTime(days=delay or 0)).strftime('%Y-%m-%d'),
+                            'date_planned': (DateTime.strptime(m.date_planned, '%Y-%m-%d') + DateTime.RelativeDateTime(days=delay or 0)).strftime('%Y-%m-%d'),
                             'move_history_ids2':[]}
                         )
                             

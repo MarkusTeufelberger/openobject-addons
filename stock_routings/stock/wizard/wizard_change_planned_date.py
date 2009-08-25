@@ -55,7 +55,7 @@ def change_plan_date(self,cr,uid,data,context={}):
         move_ids=stock_mv_obj.search(cr,uid,[('picking_id','=',id)])
         stock_mv_data=stock_mv_obj.read(cr,uid,move_ids,['date_planned'])
         for stock_mv_dt in stock_mv_data:
-            new_move_date=(DateTime.strptime(stock_mv_dt['date_planned'], '%Y-%m-%d %H:%M:%S') + DateTime.RelativeDateTime(days=days_delay or 0)).strftime('%Y-%m-%d')
+            new_move_date=(DateTime.strptime(stock_mv_dt['date_planned'], '%Y-%m-%d') + DateTime.RelativeDateTime(days=days_delay or 0)).strftime('%Y-%m-%d')
             stock_mv_obj.write(cr,uid,stock_mv_dt['id'],{'date_planned':new_move_date})
         stock_obj.write(cr,uid,[id],{'min_date':new_date})    
         vals={}
@@ -76,7 +76,7 @@ def change_plan_date(self,cr,uid,data,context={}):
         for mv_id in move_ids:
             
             mv_dt=stock_mv_obj.read(cr,uid,mv_id,['move_dest_id','picking_id','date_planned'])
-            new_move_date=(DateTime.strptime(mv_dt['date_planned'], '%Y-%m-%d %H:%M:%S') + DateTime.RelativeDateTime(days=days_delay or 0)).strftime('%Y-%m-%d')
+            new_move_date=(DateTime.strptime(mv_dt['date_planned'], '%Y-%m-%d') + DateTime.RelativeDateTime(days=days_delay or 0)).strftime('%Y-%m-%d')
             
             stock_mv_obj.write(cr,uid,mv_dt['id'],{'date_planned':new_move_date})
             if not all_pick_ids.__contains__(mv_dt['picking_id'][0]):
