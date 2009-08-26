@@ -54,7 +54,7 @@ class purchase_order(osv.osv):
                 for line in purchase.order_line:
                     if line.date_planned < min_date:
                         min_date=line.date_planned
-                res[purchase.id]=min_date
+                res[purchase.id]=str(min_date).split(' ')[0]
         return res
     
     _columns={

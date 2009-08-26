@@ -69,7 +69,7 @@ class stock_picking(osv.osv):
             group by
                 picking_id""")
         for pick, dt1,dt2 in cr.fetchall():
-            res[pick]['min_date'] = dt1
+            res[pick]['min_date'] = str(dt1).split(' ')[0]
             res[pick]['max_date'] = dt2
 
         return res
