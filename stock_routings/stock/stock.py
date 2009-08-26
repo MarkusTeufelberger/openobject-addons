@@ -111,7 +111,7 @@ class stock_move(osv.osv):
     
     _columns={
               'state': fields.selection([('draft','Draft'),('waiting','Waiting'),('confirmed','Confirmed'),('assigned','Available'),('done','Received'),('cancel','Canceled')], 'Status', readonly=True, select=True),
-              'date_planned': fields.date('Date', required=True, help="Scheduled date for the movement of the products or real date if the move is done."),
+#              'date_planned': fields.date('Date', required=True, help="Scheduled date for the movement of the products or real date if the move is done."),
               }
     
     def action_confirm(self, cr, uid, ids, context={}):
@@ -165,7 +165,7 @@ class stock_move(osv.osv):
                             'picking_id': pickid,
                             'state':'waiting',
                             'move_history_ids':[],
-                            'date_planned': (DateTime.strptime(m.date_planned, '%Y-%m-%d') + DateTime.RelativeDateTime(days=delay or 0)).strftime('%Y-%m-%d'),
+                            'date_planned': (DateTime.strptime(m.date_planned, '%Y-%m-%d %H:%M:%S') + DateTime.RelativeDateTime(days=delay or 0)).strftime('%Y-%m-%d %H:%M:%S'),
                             'move_history_ids2':[]}
                         )
                             

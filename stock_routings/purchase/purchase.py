@@ -191,11 +191,5 @@ class purchase_order(osv.osv):
         
 purchase_order()
 
-class purchase_order_line(osv.osv):
-    _inherit='purchase.order.line'
-    _columns={
-              'date_planned': fields.date('Scheduled date', required=True),              
-              }
-purchase_order_line()    
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
