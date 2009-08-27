@@ -80,5 +80,18 @@ class purchase_order(osv.osv):
         return res
     
 purchase_order()
+
+class stock_picking(osv.osv):
+    _inherit = 'stock.picking'
+
+    def _get_discount_invoice(self, cursor, user, move_line):
+        '''Return the discount for the move line'''
+        discount = 0.00
+        if move_line and move_line.purchase_line_id:
+            discount = move_line.purchase_line_id.discount
+        return discount
+
+stock_picking()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
