@@ -74,6 +74,11 @@ class purchase_order(osv.osv):
             res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
         return res
     
+    def inv_line_create(self, cr, uid, a, ol):
+        res = super(purchase_order,self).inv_line_create(cr, uid, a, ol)
+        res[2].update({'discount': ol.discount,})
+        return res
+    
 purchase_order()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
