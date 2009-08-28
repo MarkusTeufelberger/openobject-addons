@@ -39,6 +39,7 @@ import netsvc
 import random
 import sys
 import tools
+import re
 #if sys.version[0:3] > '2.4':
 #    from hashlib import md5
 #else:
@@ -93,11 +94,13 @@ class SmtpClient(osv.osv):
 #        return result
         
     def change_email(self, cr, uid, ids, email):
-        if len(email) > 0 and email.index('@') > 0:
+        ptrn = re.compile('(\w+@\w+(?:\.\w+)+)')
+        result=ptrn.search(email)
+        if not result:
+            raise osv.except_osv(_('Error !'),_('Verify the email address for this server'))
+        else:
             user = email[0:email.index('@')]
             return {'value':{'user':user}}
-        else:
-            return {'value':{'user':email}}
         
     def check_permissions(self, cr, uid, ids):
         cr.execute('select * from res_smtpserver_group_rel where sid=%s and uid=%s' % (ids[0], uid))
@@ -154,7 +157,7 @@ class SmtpClient(osv.osv):
                 
             
             msg['To'] = toemail
-            msg['From'] = str(self.server[serverid]['from_email'])
+            msg['From'] = tools.ustr(self.server[serverid]['from_email'])
             
             message = msg.as_string()
             
@@ -289,7 +292,7 @@ class SmtpClient(osv.osv):
         
         queue = self.pool.get('email.smtpclient.queue')
         history = self.pool.get('email.smtpclient.history')
-        sids = queue.search(cr, uid, [('state','!=','send'),('state','!=','sending')], limit=30)
+        sids = queue.search(cr, uid, [('state','not in',['send','sending','error'])], limit=30)
         queue.write(cr, uid, sids, {'state':'sending'})
         error = []
         sent = []
@@ -300,7 +303,7 @@ class SmtpClient(osv.osv):
                 self.open_connection(cr, uid, ids, email.server_id.id)
                 
             try:
-                self.smtpServer[email.server_id.id].sendmail(str(email.server_id.email), email.to, email.serialized_message)
+                self.smtpServer[email.server_id.id].sendmail(str(email.server_id.email), email.to, tools.ustr(email.serialized_message))
             except Exception, e:
                 queue.write(cr, uid, [email.id], {'error':e, 'state':'error'})
                 continue

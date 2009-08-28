@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <wizard
+            id="change_planned_date"
+            model="stock.routings"
+            multi="True"
+            name="change.planned.date"
+            string="Change Palnned Date"/>
+    </data>
+</openerp>

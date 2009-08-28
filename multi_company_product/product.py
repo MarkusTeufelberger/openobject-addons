@@ -17,38 +17,30 @@ class product_template(osv.osv):
     
     def _calc_standard_price(self, cr, uid, ids, name, arg, context=None):
         res = {}
-        print 'ids--------------------',ids
-        print 'uid-----------------',uid
         company=self.pool.get('res.users').read(cr,uid,uid,['company_id'])['company_id']
-        print 'company---------------',company
         company_cost_obj=self.pool.get('company.wise.cost.price')
         for product in self.browse(cr, uid, ids, context=context):
             company_cost_ids=company_cost_obj.search(cr,uid,[('company_id','=',company[0]),('product_id','=',product.id)])
             if company_cost_ids:
                 company_cost_data=company_cost_obj.read(cr,uid,company_cost_ids,['standard_price'])
-                print 'company_cost_data-----------------',company_cost_data
     #            res[product.standard_price]=company_cost_data['standard_price']
                 res[product.id]=company_cost_data[0]['standard_price']
             else:
                 res[product.id]=1.0
-                raise osv.except_osv(_('Error !'),
-                        _('There is no cost price defined for this company "%s" ') % \
-                                (company[1]))
+#                raise osv.except_osv(_('Error !'),
+#                        _('There is no cost price defined for this company "%s" ') % \
+#                                (company[1]))
             
         return dict([(i, res[i]) for i in ids ])
     
     def _calc_list_price(self, cr, uid, ids, name, arg, context=None):
         res = {}
-        print 'ids--------------------',ids
-        print 'uid-----------------',uid
         company=self.pool.get('res.users').read(cr,uid,uid,['company_id'])['company_id']
-        print 'company---------------',company
         company_cost_obj=self.pool.get('company.wise.sale.price')
         for product in self.browse(cr, uid, ids, context=context):
             company_list_ids=company_cost_obj.search(cr,uid,[('company_id','=',company[0]),('product_id','=',product.id)])
             if company_list_ids:
                 company_list_data=company_cost_obj.read(cr,uid,company_list_ids,['list_price'])
-                print 'company_cost_data-----------------',company_list_data
     #            res[product.standard_price]=company_cost_data['standard_price']
                 res[product.id]=company_list_data[0]['list_price']
             else:
@@ -64,8 +56,8 @@ class product_template(osv.osv):
         return res
     
     _columns={
-              'list_price': fields.function(_calc_list_price, method=True, type='float', string='Sale Price', help="Base price for computing the customer price. Sometimes called the catalog price."),
-              'standard_price': fields.function(_calc_standard_price, method=True, type='float', string='Cost Price', required=True, help="The cost of the product for accounting stock valuation. It can serves as a base price for supplier price."),
+              'list_price': fields.function(_calc_list_price, method=True, type='float', store=True, string='Sale Price', help="Base price for computing the customer price. Sometimes called the catalog price."),
+              'standard_price': fields.function(_calc_standard_price, method=True, type='float', store=True, string='Cost Price', required=True, help="The cost of the product for accounting stock valuation. It can serves as a base price for supplier price."),
               'standard_price_ids' :fields.one2many('company.wise.cost.price','product_id'),
               'list_price_ids' :fields.one2many('company.wise.sale.price','product_id')
               }
@@ -74,9 +66,9 @@ class product_template(osv.osv):
         standard_ids=vals['standard_price_ids']
         if not standard_ids:
             company=self.pool.get('res.users').read(cr,uid,uid,['company_id'])['company_id']
-            raise osv.except_osv(_('Error !'),
-                        _('There is no cost price defined for this company "%s" ') % \
-                                (company[1]))
+#            raise osv.except_osv(_('Error !'),
+#                        _('There is no cost price defined for this company "%s" ') % \
+#                                (company[1]))
         cr_id=super(osv.osv,self).create(cr,uid,vals,context=context)
         return cr_id
     

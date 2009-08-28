@@ -763,7 +763,7 @@
 		<field name="name">Lohnsteuer für Aushilfen</field>
 	</record>
 	<record id="chart4200" model="account.account.template">
-		<field name="code">4200</field>
+		<field name="code">4201</field>
 		<field name="reconcile" eval="False"/>
 		<field name="parent_id" ref="de_skr03_a_cash"/>
 		<field name="type">other</field>
@@ -947,7 +947,7 @@
 		<field name="name">Steuerlich nicht abzugsfähige Verspätungszuschläge und Zwangsgelder</field>
 	</record>
 	<record id="chart4400" model="account.account.template">
-		<field name="code">4400</field>
+		<field name="code">4401</field>
 		<field name="reconcile" eval="False"/>
 		<field name="parent_id" ref="chart440"/>
 		<field name="type">other</field>
@@ -955,7 +955,7 @@
 		<field name="name">Besondere Kosten (zur freien Verfügung)</field>
 	</record>
 	<record id="chart4500" model="account.account.template">
-		<field name="code">4500</field>
+		<field name="code">4501</field>
 		<field name="reconcile" eval="False"/>
 		<field name="parent_id" ref="chart450"/>
 		<field name="type">other</field>
@@ -1019,7 +1019,7 @@
 		<field name="name">Sonstige Kfz-Kosten</field>
 	</record>
 	<record id="chart4600" model="account.account.template">
-		<field name="code">4600</field>
+		<field name="code">4601</field>
 		<field name="reconcile" eval="False"/>
 		<field name="parent_id" ref="chart460"/>
 		<field name="type">other</field>
@@ -1227,7 +1227,7 @@
 		<field name="name">Aufwand für Gewährleistungen</field>
 	</record>
 	<record id="chart4800" model="account.account.template">
-		<field name="code">4800</field>
+		<field name="code">4801</field>
 		<field name="reconcile" eval="False"/>
 		<field name="parent_id" ref="chart480"/>
 		<field name="type">other</field>
@@ -1411,7 +1411,7 @@
 		<field name="name">Vorwegn. künftiger Wertschw. im Umlaufv. (unübl. Höhe)</field>
 	</record>
 	<record id="chart4900" model="account.account.template">
-		<field name="code">4900</field>
+		<field name="code">4901</field>
 		<field name="reconcile" eval="False"/>
 		<field name="parent_id" ref="chart490"/>
 		<field name="type">other</field>

@@ -1,0 +1,31 @@
+<openerp>
+    <data>
+        <record id="view_order_form_custom" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="invoiced" select="2" position="after">
+                    <field name="planned_date" select="2"/>
+                    <button name="button_refresh_date" string="Update line planned date"
+                        states="draft" type="object" colspan="2"/>
+
+                </field>
+            </field>
+        </record>
+        <record id="view_order_form_custom2" model="ir.ui.view">
+
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="delay" select="2" position="replace">
+                    <field name="delay" invisible="1"/>
+                    <field name="planned_date" select="2"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
