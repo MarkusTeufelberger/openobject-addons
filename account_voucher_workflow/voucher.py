@@ -10,8 +10,7 @@ class AccountVoucher(osv.osv):
              ('proforma','Pro-forma'),
              ('posted','Posted'),
              ('recheck','Waiting for Re-checking'),
-             ('cancel','Cancel'),
-             ('audit','Audit Complete')
+             ('cancel','Cancel')
             ], 'State', readonly=True, size=32),
     }
 AccountVoucher()
