@@ -163,7 +163,8 @@ def _mass_mail_send(cr, uid, data, context, adr):
     # The adr.email field can contain several email addresses separated by ,
     name = adr.name or adr.partner_id.name
     # Some emails smtp accounts has problems with non english characters in name
-    to = ['%s <%s>' % (conv_ascii(name), email) for email in adr.email.split(',')]
+    #to = ['%s <%s>' % (conv_ascii(name), email) for email in adr.email.split(',')]
+    to = ['%s <%s>' % (name, email) for email in adr.email.split(',')]
     #print to
 
     # List of attached files: List of tuples with (file_name, file_content)
@@ -178,7 +179,9 @@ def _mass_mail_send(cr, uid, data, context, adr):
     f_attach = [f for f in f_attach if f] # Removing False elements
 
     email_server = pooler.get_pool(cr.dbname).get('email.smtpclient')
-    email_server.send_email(cr, uid, data['form']['smtp_server'], to, conv_ascii(data['form']['subject']), mail, f_attach) # Bug in smtpclient module can not send non-english chars in email subject
+    email_server.send_email(cr, uid, data['form']['smtp_server'], to, unicode(data['form']['subject'],'UTF-8'), mail, f_attach)
+    # Bug in smtpclient module can not send non-english chars in email subject
+    #email_server.send_email(cr, uid, data['form']['smtp_server'], to, conv_ascii(data['form']['subject']), mail, f_attach)
 
     # Add a partner event
     c_id = pooler.get_pool(cr.dbname).get('res.partner.canal').search(cr ,uid, [('name','ilike','EMAIL'),('active','=',True)])
