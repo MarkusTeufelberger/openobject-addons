@@ -226,7 +226,22 @@ class SmtpClient(osv.osv):
         
         return ids[0]
 
-    def send_email(self, cr, uid, server_id, emailto, subject, body=False, attachments=[]):
+    def send_email(self, cr, uid, server_id, emailto, subject, body=False, attachments=[], reports=[]):
+    
+        def createReport(cr, uid, report, ids):
+            files = []
+            for id in ids:
+                #try:
+                service = netsvc.LocalService(report)
+                (result, format) = service.create(cr, uid, [id], {}, {})
+                report_file = '/tmp/'+ str(id) + '.pdf'
+                fp = open(report_file,'wb+')
+                fp.write(result);
+                fp.close();
+                files += [report_file]    
+                #except Exception,e:
+            return files
+            
         smtp_server = self.browse(cr, uid, server_id)
         if smtp_server.state != 'confirm':
             raise osv.except_osv(_('SMTP Server Error !'), 'Server is not Verified, Please Verify the Server !')
@@ -238,6 +253,10 @@ class SmtpClient(osv.osv):
                 msg['To'] =  to
                 msg['From'] = smtp_server.from_email
                 msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))
+                
+                for rpt in reports:
+                    rpt_file = createReport(cr, uid, rpt[0], rpt[1])
+                    attachments += rpt_file
                 
                 for file in attachments:
                     part = MIMEBase('application', "octet-stream")
@@ -264,6 +283,10 @@ class SmtpClient(osv.osv):
             msg['To'] =  emailto
             msg['From'] = smtp_server.from_email
             msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))
+            
+            for rpt in reports:
+                rpt_file = createReport(cr, uid, rpt[0], rpt[1])
+                attachments += rpt_file
             
             for file in attachments:
                 part = MIMEBase('application', "octet-stream")

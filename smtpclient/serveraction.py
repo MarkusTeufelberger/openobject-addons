@@ -30,6 +30,8 @@ class ServerAction(osv.osv):
     _description = 'Email Client'
     _columns = {
         'email_server':fields.many2one('email.smtpclient', 'Email Server'),
+        'attach_report':fields.boolean('Attach Report?', required=False),
+        'report':fields.many2one('ir.actions.report.xml', 'Report', required=False),
     }
     
     def run(self, cr, uid, ids, context={}):
@@ -67,7 +69,11 @@ class ServerAction(osv.osv):
                 body = self.merge_message(cr, uid, str(action.message), action, context)
                 smtp_pool = self.pool.get('email.smtpclient')
                 
-                if smtp_pool.send_email(cr, uid, action.email_server.id, address, subject, body) == True:
+                reports = []
+                if action.attach_report:
+                    reports.append(('report.'+action.report.report_name, ids))
+
+                if smtp_pool.send_email(cr, uid, action.email_server.id, address, subject, body, reports=reports) == True:
                     logger.notifyChannel('email', netsvc.LOG_INFO, 'Email successfully send to : %s' % (address))
                 else:
                     logger.notifyChannel('email', netsvc.LOG_ERROR, 'Failed to send email to : %s' % (address))
