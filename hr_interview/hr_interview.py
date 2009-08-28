@@ -97,6 +97,7 @@ class hr_interview(osv.osv):
 		'email' : fields.char("E-mail",size=64,required =True),
 		'mobile_no' :fields.char("Mobile",size=64),
 		'date' :fields.datetime('Scheduled Date'),
+		'exam_date' :fields.datetime('Exam On'),
 		'education': fields.selection([("be_ce","BE Computers"),("be_it","BE IT"),("bsc_it","BSc IT"),("bca","BCA"),("btech_ce","BTech Computers"),("btech_it","BTech IT"),("mca","MCA"),("msc_it","MSc IT"),("mtech_ce","MTech Computers"),("other","Other")],"Education"),
 		'category_id' : fields.many2one("candidate.category","Category"),
 		'experience_id':fields.many2one("candidate.experience","Experience"),
@@ -162,19 +163,18 @@ class hr_interview(osv.osv):
 		raise osv.except_osv(_('Error !'),_('You cannot duplicate the resource!'))
 		return False
 	
-	def create(self, cr, uid, vals, context=None):
-	    cate_id = vals.get('category_id', False)
-	    hr_id = super(hr_interview, self).create(cr, uid, vals, context=context)
-	    if not cate_id:
-	        cate_id = self.read(cr, uid, [hr_id], ['category_id'])[0]['category_id'][0]
-        
-		que_obj = self.pool.get("category.question")
-		que_ids= que_obj.search(cr,uid,[('category_id','=',int(cate_id))])
-		tech_skill_obj=self.pool.get("technical.skill")
-		self._log(cr,uid, [hr_id], 'draft')
-		for rec in que_obj.browse(cr, uid, que_ids):
-			tech_skill_obj.create(cr,uid,{'name':rec.name,'tot_marks':rec.tot_marks,'candidate_id':hr_id})
-		return hr_id
+#	def create(self, cr, uid, vals, context=None):
+#	    hr_id = super(hr_interview, self).create(cr, uid, vals, context=context)
+#	    if not cate_id:
+#	        cate_id = self.read(cr, uid, [hr_id], ['category_id'])[0]['category_id'][0]
+#        
+#		que_obj = self.pool.get("category.question")
+#		que_ids= que_obj.search(cr,uid,[('category_id','=',int(cate_id))])
+#		tech_skill_obj=self.pool.get("technical.skill")
+#		self._log(cr,uid, [hr_id], 'draft')
+#		for rec in que_obj.browse(cr, uid, que_ids):
+#			tech_skill_obj.create(cr,uid,{'name':rec.name,'tot_marks':rec.tot_marks,'candidate_id':hr_id})
+#		return hr_id
 	
 	def write(self, cr, uid, ids, vals, context=None):
 		if 'category_id' in vals :

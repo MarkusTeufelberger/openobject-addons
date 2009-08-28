@@ -53,7 +53,8 @@
                 <tree  string="Interview">
                     <field name="hr_id" />
                     <field name="name" select ="1"/>
-                    <field name="email" select="2"/>                    
+                    <field name="email" select="2"/>    
+                    <field name="exam_date"/>                
                     <field name="date" select ="1"/>
                     <field name="education" select ="1" />  
                     <field name="performance" select ="1" />
@@ -78,13 +79,15 @@
                     <notebook colspan="4">
                     	<page string="General">
                     		<group col="6" colspan="4">
-	                   		<field name="category_id"/>
-	                   		<field name="education"/>
+	                   		    <field name="category_id"/>
+	                   		    <field name="education"/>
     	               			<field name="experience_id" widget="selection"/>
     	               			<field name="reference_id"  />
+    	               			<field name="exam_date"/>
     	                	</group>
     	                	<separator string="Notes / Remarks" colspan="4"/>
         	            	<field name="remarks" colspan="4" nolabel="1"/>
+        	            	
 	        	        </page>
 	        	<page string="Technical">
         	        	<separator string="Evaluator" colspan="4"/>

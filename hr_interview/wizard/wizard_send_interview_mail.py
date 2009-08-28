@@ -26,6 +26,7 @@ import tools
 import time
 import datetime
 import mx.DateTime
+import re
 
 mail_form='''<?xml version="1.0"?>
 <form string="Interview Mail">
@@ -42,6 +43,23 @@ mail_fields = {
 
 class wizard_email_interview(wizard.interface):
     
+    def merge_message(self, cr, uid, id, keystr, context):
+        obj_pool = pooler.get_pool(cr.dbname).get('hr.interview')
+        
+        def merge(match):
+            obj = obj_pool.browse(cr, uid, id)
+            exp = str(match.group()[2:-2]).strip()
+            result = eval(exp, {'object':obj, 'context': context,'time':time})
+            if result in (None, False):
+                return str("--------")
+            print 'XXXXXXXXXXXXXXXXXXXX : ', result
+            return str(result)
+
+        com = re.compile('(\[\[.+?\]\])')
+        message = com.sub(merge, keystr)
+        
+        return message
+
     def _send_mail(self, cr, uid, data, context={}):
         smtp_obj = pooler.get_pool(cr.dbname).get('email.smtpclient')
         subject = data['form']['subject']
@@ -50,16 +68,15 @@ class wizard_email_interview(wizard.interface):
         hr_candidate_obj = pooler.get_pool(cr.dbname).get('hr.interview')
         hr_candidates = hr_candidate_obj.browse(cr,uid,ids)
         for hr_candidate in hr_candidates:
-             body = body.replace("__candidate__",hr_candidate.name)
-             d1 = mx.DateTime.strptime(str(hr_candidate.date),'%Y-%m-%d %H:%M:%S')
-             body = body.replace("__date__",d1.strftime('on %B %d,%Y at %H:%M %p'))
-             to = hr_candidate.email
-             files = smtp_obj.send_email(cr, uid, data['form']['smtp_server'], to, subject, body)
+            msg = self.merge_message(cr, uid, hr_candidate.id, body, context)
+            to = hr_candidate.email
+            files = smtp_obj.send_email(cr, uid, data['form']['smtp_server'], to, subject, msg)
         return {}     
-            
+
     def _default_params(self, cr, uid, data, context={}):
         ids = data['ids']
         hr_candidates = pooler.get_pool(cr.dbname).get('hr.interview').browse(cr,uid,ids)
+        subject = '<No Subject>'
         for hr_candidate in hr_candidates:
             body = "Hello __candidate__ ,\n\n" + "Congratulations!\n\n"
             if hr_candidate.state == 'scheduled':
