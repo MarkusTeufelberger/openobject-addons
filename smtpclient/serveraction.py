@@ -71,9 +71,9 @@ class ServerAction(osv.osv):
                 
                 reports = []
                 if action.attach_report:
-                    reports.append(('report.'+action.report.report_name, ids))
+                    reports.append(('report.'+action.report.report_name, [context['active_id']]))
 
-                if smtp_pool.send_email(cr, uid, action.email_server.id, address, subject, body, reports=reports) == True:
+                if smtp_pool.send_email(cr, uid, action.email_server.id, address, subject, body, [], reports) == True:
                     logger.notifyChannel('email', netsvc.LOG_INFO, 'Email successfully send to : %s' % (address))
                 else:
                     logger.notifyChannel('email', netsvc.LOG_ERROR, 'Failed to send email to : %s' % (address))
