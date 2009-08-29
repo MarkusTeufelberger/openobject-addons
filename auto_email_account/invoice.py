@@ -60,13 +60,12 @@ class Invoice(osv.osv):
             state = self.pool.get('email.smtpclient').send_email(
                         cr, 
                         uid, 
-                        [smtpserver_id], 
+                        smtpserver_id, 
                         email, 
                         _("Invoice  : ") + str(address['number']),
-                        ids,
                         body,
-                        'account.invoice',
-                        _('Invoice')
+                        [],
+                        [('report.account.invoice',ids)]
                     )
 
             inv_data = self.read(cr, uid, ids ,['partner_id', 'amount_total'],context=None)
