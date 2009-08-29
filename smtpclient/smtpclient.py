@@ -315,7 +315,7 @@ class SmtpClient(osv.osv):
         
         queue = self.pool.get('email.smtpclient.queue')
         history = self.pool.get('email.smtpclient.history')
-        sids = queue.search(cr, uid, [('state','not in',['send','sending','error'])], limit=30)
+        sids = queue.search(cr, uid, [('state','not in',['send','sending'])], limit=30)
         queue.write(cr, uid, sids, {'state':'sending'})
         error = []
         sent = []
