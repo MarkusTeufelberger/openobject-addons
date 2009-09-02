@@ -148,8 +148,12 @@ class SmtpClient(osv.osv):
             
             if len(body.strip()) <= 0:
                 raise osv.except_osv(_('Message Error!'), _('Please configure Email Server Messages [Verification / Test]'))
+          
+            try:
+                msg = MIMEText(body.encode('utf8') or '',_subtype='plain',_charset='utf-8')
+            except:
+                msg = MIMEText(body or '',_subtype='plain',_charset='utf-8')
             
-            msg = MIMEText(body or '', _charset='utf-8')
             if not test and not self.server[serverid]['state'] == 'confirm':
                 msg['Subject'] = _('OpenERP SMTP server Email Registration Code!')
             else:
