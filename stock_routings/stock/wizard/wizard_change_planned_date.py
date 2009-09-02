@@ -17,7 +17,7 @@ _stock_form= '''<?xml version="1.0"?>
 '''
 
 _stock_fields={
-              'main_plan_date': {'string':'Actual Planned Date' ,'type':'date','readonly':True},
+              'main_plan_date': {'string':'Current Planned Date' ,'type':'date','readonly':True},
               'new_plan_date': {'string': 'New Planned Date', 'type': 'date', 'required': True},
               'description': {'string': 'Description/Explanation','type': 'char', 'size':256},
               'update_all': {'string': 'Upgrade All Routing Dates', 'type': 'boolean'},
@@ -68,7 +68,6 @@ def change_plan_date(self,cr,uid,data,context={}):
         history_id=stock_history_obj.create(cr,uid,vals,context=context)
        
     else:
-
         move_ids=stock_mv_obj.search(cr,uid,[('picking_id','=',id)])
         all_pick_ids=[]
         all_pick_ids.append(id)
