@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="purchase_form_add_company" model="ir.ui.view">
+            <field name="name">Purchase Order Form add Company</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+            	<field name="shipped" select="2" position="after">
+            		<field name="company_id"/>
+            	</field>
+            </field>
+        </record>
+    </data>
+</openerp>
