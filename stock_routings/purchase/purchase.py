@@ -76,7 +76,7 @@ class purchase_order(osv.osv):
             'port_of_loading': fields.many2one('stock.location','Depart From'),
             'port_of_destination': fields.many2one('stock.location','Destination'),
             'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Kind Of Transport'),
-            'factory_id': fields.many2one('res.partner','Factory',domain="[('category_id','=','Goods')]"),
+            'factory_id': fields.many2one('res.partner','Factory'),
             'loading_code': fields.char('Loading Code',size=256),
             'routing_id': fields.many2one('stock.routing','Routings'),
             'payment_term' : fields.many2one('account.payment.term', 'Payment Term'),
