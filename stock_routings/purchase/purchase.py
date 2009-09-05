@@ -86,10 +86,22 @@ class purchase_order(osv.osv):
     def onchange_routing_id(self, cr, uid, ids, routing_id):
         if routing_id:
             rout_obj=self.pool.get('stock.routing')
-            rout_data=rout_obj.read(cr,uid,routing_id,['port_of_loading'])['port_of_loading']
-            return {'value':{'location_id': rout_data}}
+            rout_data=rout_obj.read(cr,uid,routing_id,['port_of_loading','kind_transport','segment_sequence_ids'])
+            port_load=rout_data['port_of_loading']
+            kind_transport=rout_data['kind_transport']
+            segment_ids=rout_data['segment_sequence_ids']
+            segment_data=self.pool.get('segment.sequence').read(cr,uid,segment_ids,['sequence','port_of_destination'])
+            first_seq=segment_data[0]['sequence']
+            first_dest=segment_data[0]['port_of_destination']
+            i=1
+            for i in range(1,len(segment_data)):
+                if segment_data[i]['sequence']>first_seq:
+                    first_seq=segment_data[i]['sequence']
+                    first_dest=segment_data[i]['port_of_destination']
+            
+            return {'value':{'location_id': port_load,'port_of_loading': port_load,'kind_transport': kind_transport,'port_of_destination': first_dest}}
         else:
-            return {'value':{'location_id':False}}
+            return {'value':{'location_id':False,'port_of_loading': False,'kind_transport': False,'port_of_destination': False}}
         
     def _get_po_no(self, cr, uid, context={}):
         sequence_pool = self.pool.get('ir.sequence')
