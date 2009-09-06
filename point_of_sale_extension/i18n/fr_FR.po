@@ -1,18 +1,19 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# * point_of_sale_extension
+#	* point_of_sale_extension
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.4\n"
+"Project-Id-Version: OpenERP Server 5.0.5-bzr\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-09-06 16:27:17+0000\n"
-"PO-Revision-Date: 2009-09-06 18:34+0100\n"
-"Last-Translator: Christophe Chauvet <christophe.chauvet@syleam.fr>\n"
+"POT-Creation-Date: 2009-09-06 17:01:14+0000\n"
+"PO-Revision-Date: 2009-09-06 17:01:14+0000\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.1.1\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: point_of_sale_extension
 #: help:pos.payment2,ask_pay,invoice_wanted:0
@@ -23,13 +24,6 @@ msgstr ""
 #: view:pos.order:0
 msgid "Ma_ke Payment"
 msgstr "Effectuer le paiement"
-
-#. module: point_of_sale_extension
-#: wizard_view:pos.payment2,ask_pay:0
-#: wizard_view:pos.payment2,product_stock_warning:0
-#: wizard_view:pos.payment2,sale_order_warning:0
-msgid "Add payment:"
-msgstr "Ajouter un paiement"
 
 #. module: point_of_sale_extension
 #: constraint:ir.model:0
@@ -79,8 +73,7 @@ msgstr "Date du paiement"
 
 #. module: point_of_sale_extension
 #: model:ir.module.module,description:point_of_sale_extension.module_meta_information
-msgid ""
-"\n"
+msgid "\n"
 "* Only it allows delete draft or canceled POS orders and POS order lines.\n"
 "* If POS order has a partner, the partner is stored in:\n"
 "    - The stock.picking created by the pos order.\n"
@@ -94,7 +87,16 @@ msgid ""
 "    - There is not enough virtual stock in any of the products.\n"
 "  These two warnings can be activated/desactivated (in the configuration tab of the company).\n"
 "* List and search POS order lines by number of order, partner and state.\n"
+""
 msgstr ""
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "There is no receivable account defined for this journal:'\\n"
+"                    ' \"%s\" (id:%d)"
+msgstr "Pas de compte recevable défini pour ce journal :'\\n"
+"                    ' \"%s\" (id:%d)"
 
 #. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
@@ -109,9 +111,9 @@ msgid "Product"
 msgstr "Produit"
 
 #. module: point_of_sale_extension
-#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_orders
-msgid "TPV sales"
-msgstr "Ventes comptoir"
+#: view:res.company:0
+msgid "Point of sale"
+msgstr "Point de vente"
 
 #. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/pos.py:0
@@ -136,10 +138,11 @@ msgid "Journal"
 msgstr "Journal"
 
 #. module: point_of_sale_extension
-#: code:addons/point_of_sale_extension/pos.py:0
-#, python-format
-msgid "Cannot delete a point of sale line which is already confirmed !"
-msgstr "Impossible de supprimer une ligne de ticket qui est déjà confimée !"
+#: wizard_view:pos.payment2,ask_pay:0
+#: wizard_view:pos.payment2,product_stock_warning:0
+#: wizard_view:pos.payment2,sale_order_warning:0
+msgid "Add payment:"
+msgstr "Ajouter un paiement"
 
 #. module: point_of_sale_extension
 #: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_order_lines
@@ -147,14 +150,19 @@ msgid "TPV sales lines"
 msgstr "Lignes des ventes comptoir"
 
 #. module: point_of_sale_extension
+#: help:res.company,pos_journals:0
+msgid "The journals used to pay with the POS."
+msgstr "Les journaux utilisés pour payer avec le point de vente"
+
+#. module: point_of_sale_extension
 #: selection:pos.order.line,state:0
 msgid "Paid"
 msgstr "Payé"
 
 #. module: point_of_sale_extension
-#: help:res.company,pos_journals:0
-msgid "The journals used to pay with the POS."
-msgstr "Les journaux utilisés pour payer avec le point de vente"
+#: wizard_view:pos.payment2,sale_order_warning:0
+msgid "Maybe you may want to create the sale from the existing order:"
+msgstr "Peut-être que vous voudriez effectuer la vente de la commande existante :"
 
 #. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/pos.py:0
@@ -175,8 +183,7 @@ msgstr "Paiement"
 #. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/pos.py:0
 #, python-format
-msgid ""
-"There is no income '\\n"
+msgid "There is no income '\\n"
 "                        'account defined for this product: \"%s\" (id:%d)"
 msgstr ""
 
@@ -191,9 +198,10 @@ msgid "Invalid XML for View Architecture!"
 msgstr "Formulaire XML invalide pour ce type de vue"
 
 #. module: point_of_sale_extension
-#: wizard_view:pos.payment2,sale_order_warning:0
-msgid "Maybe you may want to create the sale from the existing order:"
-msgstr "Peut-être que vous voudriez effectuer la vente de la commande existante:"
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Cannot delete a point of sale line which is already confirmed !"
+msgstr "Impossible de supprimer une ligne de ticket qui est déjà confimée !"
 
 #. module: point_of_sale_extension
 #: wizard_view:pos.payment2,sale_order_warning:0
@@ -244,9 +252,10 @@ msgid "Go on"
 msgstr "Valider"
 
 #. module: point_of_sale_extension
-#: view:res.company:0
-msgid "Point of sale"
-msgstr "Point de vente"
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Invoice from POS: %s"
+msgstr "Facturation à partir du PDV : %s"
 
 #. module: point_of_sale_extension
 #: wizard_field:pos.payment2,sale_order_warning,sale_order:0
@@ -284,12 +293,9 @@ msgid "Payment journals"
 msgstr "Journaux comptable"
 
 #. module: point_of_sale_extension
-#: code:addons/point_of_sale_extension/pos.py:0
-#, python-format
-msgid ""
-"There is no receivable account defined for this journal:'\\n"
-"                    ' \"%s\" (id:%d)"
-msgstr ""
+#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_orders
+msgid "TPV sales"
+msgstr "Ventes comptoir"
 
 #. module: point_of_sale_extension
 #: view:pos.order:0
