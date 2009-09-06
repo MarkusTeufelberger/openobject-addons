@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.1\n"
+"Project-Id-Version: OpenERP Server 5.0.4\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-08-07 17:43:56+0000\n"
-"PO-Revision-Date: 2009-08-07 17:43:56+0000\n"
+"POT-Creation-Date: 2009-09-06 16:27:17+0000\n"
+"PO-Revision-Date: 2009-09-06 16:27:17+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgid "Payment date"
 msgstr ""
 
 #. module: point_of_sale_extension
-#: model:ir.module.module,description:point_of_sale_extension.module_name_translation
+#: model:ir.module.module,description:point_of_sale_extension.module_meta_information
 msgid "\n"
 "* Only it allows delete draft or canceled POS orders and POS order lines.\n"
 "* If POS order has a partner, the partner is stored in:\n"
@@ -95,6 +95,12 @@ msgid "\n"
 "  These two warnings can be activated/desactivated (in the configuration tab of the company).\n"
 "* List and search POS order lines by number of order, partner and state.\n"
 ""
+msgstr ""
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
+#, python-format
+msgid "No cash journal defined !"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -165,6 +171,13 @@ msgstr ""
 #. module: point_of_sale_extension
 #: model:ir.actions.wizard,name:point_of_sale_extension.pos_payment2
 msgid "Payment"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "There is no income '\\n"
+"                        'account defined for this product: \"%s\" (id:%d)"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -261,13 +274,20 @@ msgid "Shows a warning if a product added in the POS order has already been requ
 msgstr ""
 
 #. module: point_of_sale_extension
-#: model:ir.module.module,shortdesc:point_of_sale_extension.module_name_translation
+#: model:ir.module.module,shortdesc:point_of_sale_extension.module_meta_information
 msgid "Point Of Sale Extension"
 msgstr ""
 
 #. module: point_of_sale_extension
 #: field:res.company,pos_journals:0
 msgid "Payment journals"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "There is no receivable account defined for this journal:'\\n"
+"                    ' \"%s\" (id:%d)"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -307,30 +327,5 @@ msgstr ""
 #. module: point_of_sale_extension
 #: selection:pos.order.line,state:0
 msgid "Invoiced"
-msgstr ""
-
-#. module: point_of_sale
-#: rml:pos.receipt:0
-msgid "Tax :"
-msgstr ""
-
-#. module: point_of_sale
-#: rml:pos.receipt:0
-msgid "Disc :"
-msgstr ""
-
-#. module: point_of_sale
-#: rml:pos.receipt:0
-msgid "This coupon is valid until"
-msgstr ""
-
-#. module: point_of_sale
-#: rml:pos.receipt:0
-msgid "Operation Nº :"
-msgstr ""
-
-#. module: point_of_sale
-#: rml:pos.receipt:0
-msgid "Salesman :"
 msgstr ""
 

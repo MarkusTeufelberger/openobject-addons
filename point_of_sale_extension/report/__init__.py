@@ -1,8 +1,10 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2009 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
 #                    Jordi Esteve <jesteve@zikzakmedia.com>
+# Copyright (c) 2009 SYLEAM (http://syleam.fr) Al Rights Reserved
+#                    Christophe Chauvet <christophe.chauvet@syleam.fr>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -28,3 +30,5 @@
 ##############################################################################
 
 import custom_report
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
