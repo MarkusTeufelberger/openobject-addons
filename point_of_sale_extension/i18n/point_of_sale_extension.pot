@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.4\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-09-06 16:27:17+0000\n"
-"PO-Revision-Date: 2009-09-06 16:27:17+0000\n"
+"POT-Creation-Date: 2009-09-06 17:05:59+0000\n"
+"PO-Revision-Date: 2009-09-06 17:05:59+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,13 +23,6 @@ msgstr ""
 #. module: point_of_sale_extension
 #: view:pos.order:0
 msgid "Ma_ke Payment"
-msgstr ""
-
-#. module: point_of_sale_extension
-#: wizard_view:pos.payment2,ask_pay:0
-#: wizard_view:pos.payment2,product_stock_warning:0
-#: wizard_view:pos.payment2,sale_order_warning:0
-msgid "Add payment:"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -98,6 +91,13 @@ msgid "\n"
 msgstr ""
 
 #. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "There is no receivable account defined for this journal:'\\n"
+"                    ' \"%s\" (id:%d)"
+msgstr ""
+
+#. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
 #, python-format
 msgid "No cash journal defined !"
@@ -110,8 +110,8 @@ msgid "Product"
 msgstr ""
 
 #. module: point_of_sale_extension
-#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_orders
-msgid "TPV sales"
+#: view:res.company:0
+msgid "Point of sale"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -137,9 +137,10 @@ msgid "Journal"
 msgstr ""
 
 #. module: point_of_sale_extension
-#: code:addons/point_of_sale_extension/pos.py:0
-#, python-format
-msgid "Cannot delete a point of sale line which is already confirmed !"
+#: wizard_view:pos.payment2,ask_pay:0
+#: wizard_view:pos.payment2,product_stock_warning:0
+#: wizard_view:pos.payment2,sale_order_warning:0
+msgid "Add payment:"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -148,13 +149,18 @@ msgid "TPV sales lines"
 msgstr ""
 
 #. module: point_of_sale_extension
+#: help:res.company,pos_journals:0
+msgid "The journals used to pay with the POS."
+msgstr ""
+
+#. module: point_of_sale_extension
 #: selection:pos.order.line,state:0
 msgid "Paid"
 msgstr ""
 
 #. module: point_of_sale_extension
-#: help:res.company,pos_journals:0
-msgid "The journals used to pay with the POS."
+#: wizard_view:pos.payment2,sale_order_warning:0
+msgid "Maybe you may want to create the sale from the existing order:"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -191,8 +197,9 @@ msgid "Invalid XML for View Architecture!"
 msgstr ""
 
 #. module: point_of_sale_extension
-#: wizard_view:pos.payment2,sale_order_warning:0
-msgid "Maybe you may want to create the sale from the existing order:"
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Cannot delete a point of sale line which is already confirmed !"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -244,8 +251,9 @@ msgid "Go on"
 msgstr ""
 
 #. module: point_of_sale_extension
-#: view:res.company:0
-msgid "Point of sale"
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Invoice from POS: %s"
 msgstr ""
 
 #. module: point_of_sale_extension
@@ -284,10 +292,8 @@ msgid "Payment journals"
 msgstr ""
 
 #. module: point_of_sale_extension
-#: code:addons/point_of_sale_extension/pos.py:0
-#, python-format
-msgid "There is no receivable account defined for this journal:'\\n"
-"                    ' \"%s\" (id:%d)"
+#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_orders
+msgid "TPV sales"
 msgstr ""
 
 #. module: point_of_sale_extension
