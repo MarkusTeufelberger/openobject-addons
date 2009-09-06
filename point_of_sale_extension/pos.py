@@ -34,6 +34,7 @@ from osv import osv
 
 import netsvc
 import time
+from tools.translate import _
 
 
 class pos_order(osv.osv):
@@ -103,9 +104,13 @@ class pos_order(osv.osv):
     }
 
 
-    def action_invoice(self, cr, uid, ids, context={}):
+    def action_invoice(self, cr, uid, ids, context=None):
+        if not context:
+            context ={}
         users_obj = self.pool.get('res.users')
         user = users_obj.browse(cr, uid, uid, context)
+        """ FIXME : the context is always Null, to be fixed. At the moment we use the browse of user"""
+        context.update({'lang': user.context_lang})
         prices_tax_include = user.company_id.pos_prices_tax_include
         inv_ref = self.pool.get('account.invoice')
         inv_line_ref = self.pool.get('account.invoice.line')
@@ -120,7 +125,7 @@ class pos_order(osv.osv):
                 raise osv.except_osv(_('Error'), _('Please provide a partner for the sale.'))
 
             inv = {
-                'name': 'Invoice from POS: '+order.name,
+                'name': _('Invoice from POS: %s') % order.name,
                 'origin': order.name,
                 'type': 'out_invoice',
                 'reference': order.name,
