@@ -7,15 +7,15 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <field name="invoiced" select="2" position="after">
-                    <field name="planned_date" select="2"/>
+                    <field name="soplanned_date" select="2"/>
                     <button name="button_refresh_date" string="Update line planned date"
                         states="draft" type="object" colspan="2"/>
-
+                    
                 </field>
             </field>
         </record>
         <record id="view_order_form_custom2" model="ir.ui.view">
-
+            
             <field name="name">sale.order.form</field>
             <field name="model">sale.order</field>
             <field name="type">form</field>
@@ -23,7 +23,27 @@
             <field name="arch" type="xml">
                 <field name="delay" select="2" position="replace">
                     <field name="delay" invisible="1"/>
-                    <field name="planned_date" select="2"/>
+                    <field name="planned_date" default_get="{'myplanned_date':planned_date}"  select="2"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_order_form_custom3" model="ir.ui.view">
+            
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field colspan="4"
+                    context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom"
+                    name="product_id"
+                    on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], True, parent.date_order, product_packaging, parent.fiscal_position)"
+                    select="1" position="replace">
+                    <field colspan="4"
+                        context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom"
+                        name="product_id"
+                        on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], True, parent.date_order, product_packaging, parent.fiscal_position, False, parent.soplanned_date)"
+                        select="1"/>
                 </field>
             </field>
         </record>
