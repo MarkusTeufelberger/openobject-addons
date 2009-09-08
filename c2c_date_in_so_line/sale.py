@@ -28,7 +28,11 @@ class sale_order(osv.osv):
     _columns = {
         'soplanned_date':fields.date('SO Planned Delivery date',
                                         readonly=True,
-                                        states={'draft':[('readonly',False)]}
+                                        states={'draft':[('readonly',False)]},
+                                        help="""Fullfill to force 'Planned delivery Date' in all lines according to 
+                                        the selected date (when creating the SO lines). Leave empty to let the system compute lines values. You can
+                                        use the button 'Update line planned date' afterwards to force the value once it has 
+                                        been computed."""
                                         )
     }
     ## @param self The object pointer.
@@ -63,7 +67,7 @@ class sale_order(osv.osv):
                     delay = 0
                     planDate = DateTime.strptime(
                                             line.planned_date, 
-                                            '%Y-%m-%d %H:%M:%S'
+                                            '%Y-%m-%d'
                                         )
                                             
                     delta = planDate - now
@@ -86,7 +90,7 @@ class sale_order_line(osv.osv):
     _columns = {
         'planned_date':fields.date('Planned Delivery date',
                                         readonly=True,
-                                        states={'draft':[('readonly',False)]},
+                                        states={'draft':[('readonly',False)]},help="Put the planned delivery date for this lines. This will compute for you the delay to put on the line.",
                                         )
     }    
     _defaults = {'planned_date': _default_planned_date }
