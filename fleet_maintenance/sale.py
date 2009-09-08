@@ -6,6 +6,7 @@ from mx import DateTime
 fixed_month_init_day = 1 # TODO make this a fields.property parameter!
 fixed_days_before_month_end = 0 #TODO make this a fields.property parameter!
 min_maintenance_months = 6 #TODO make this a fields.property parameter!
+default_maintenance_start_delta = 3 #TODO make this a fields.property parameter!
 
 
 class sale_order_line(osv.osv):
@@ -32,7 +33,7 @@ class sale_order_line(osv.osv):
         'maintenance_start_date':fields.date('Maintenance Start Date', required=False),
         'maintenance_end_date':fields.date('Maintenance End Date', required=False),
         'order_fleet_id': fields.related('order_id', 'fleet_id', type='many2one', relation='stock.location', string='Default Sale Order Sub Fleet'),
-        'is_maintenance': fields.related('product_id', 'is_maintenance', type='boolean', string='Is Maintenance'),
+        'is_maintenance': fields.related('product_id', 'is_maintenance', type='boolean', string='Is Maintenance', readonly=True),
     }
     
     def maintenance_qty_change(self, cr, uid, ids, maintenance_product_qty=False, maintenance_month_qty=False, maintenance_start_date=False, maintenance_end_date=False, is_maintenance=False, fleet_id=False):
@@ -207,7 +208,7 @@ class sale_order_line(osv.osv):
     
     def default_maintenance_start_date(self, cr, uid, context={}):
         now = DateTime.now()
-        date = DateTime.DateTime(now.year, now.month, fixed_month_init_day, 0, 0, 0.0) + DateTime.RelativeDateTime(months=3)
+        date = DateTime.DateTime(now.year, now.month, fixed_month_init_day, 0, 0, 0.0) + DateTime.RelativeDateTime(months=default_maintenance_start_delta)
         return date.strftime('%Y-%m-%d')
 
     
