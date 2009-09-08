@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-08-07 17:43:56+0000\n"
-"PO-Revision-Date: 2009-08-07 19:48+0100\n"
+"POT-Creation-Date: 2009-09-06 17:05:59+0000\n"
+"PO-Revision-Date: 2009-09-08 20:39+0100\n"
 "Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,13 +24,6 @@ msgstr "Para crear una factura, por ejemplo si está vendiendo cuotas de socios.
 #: view:pos.order:0
 msgid "Ma_ke Payment"
 msgstr "_Realiza pago"
-
-#. module: point_of_sale_extension
-#: wizard_view:pos.payment2,ask_pay:0
-#: wizard_view:pos.payment2,product_stock_warning:0
-#: wizard_view:pos.payment2,sale_order_warning:0
-msgid "Add payment:"
-msgstr "Añadir pago:"
 
 #. module: point_of_sale_extension
 #: constraint:ir.model:0
@@ -79,7 +72,7 @@ msgid "Payment date"
 msgstr "Fecha de pago"
 
 #. module: point_of_sale_extension
-#: model:ir.module.module,description:point_of_sale_extension.module_name_translation
+#: model:ir.module.module,description:point_of_sale_extension.module_meta_information
 msgid ""
 "\n"
 "* Only it allows delete draft or canceled POS orders and POS order lines.\n"
@@ -112,15 +105,31 @@ msgstr ""
 "* Lista y búsqueda de líneas TPV por número de venta, empresa y estado.\n"
 
 #. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid ""
+"There is no receivable account defined for this journal:'\\n"
+"                    ' \"%s\" (id:%d)"
+msgstr ""
+"No se ha definido una cuenta a cobrar para este diario:'\\n"
+"                    ' \"%s\" (id:%d)"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
+#, python-format
+msgid "No cash journal defined !"
+msgstr "¡No se ha definido un diario de caja!"
+
+#. module: point_of_sale_extension
 #: wizard_field:pos.payment2,product_stock_warning,product:0
 #: wizard_field:pos.payment2,sale_order_warning,product:0
 msgid "Product"
 msgstr "Producto"
 
 #. module: point_of_sale_extension
-#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_orders
-msgid "TPV sales"
-msgstr "Ventas TPV"
+#: view:res.company:0
+msgid "Point of sale"
+msgstr "Terminal punto de venta"
 
 #. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/pos.py:0
@@ -145,10 +154,11 @@ msgid "Journal"
 msgstr "Diario"
 
 #. module: point_of_sale_extension
-#: code:addons/point_of_sale_extension/pos.py:0
-#, python-format
-msgid "Cannot delete a point of sale line which is already confirmed !"
-msgstr "¡No se puede eliminar una línea de una venta que ya está confirmada!"
+#: wizard_view:pos.payment2,ask_pay:0
+#: wizard_view:pos.payment2,product_stock_warning:0
+#: wizard_view:pos.payment2,sale_order_warning:0
+msgid "Add payment:"
+msgstr "Añadir pago:"
 
 #. module: point_of_sale_extension
 #: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_order_lines
@@ -156,14 +166,19 @@ msgid "TPV sales lines"
 msgstr "Líneas ventas TPV"
 
 #. module: point_of_sale_extension
+#: help:res.company,pos_journals:0
+msgid "The journals used to pay with the POS."
+msgstr "Los diarios utilizados para pagar con el TPV."
+
+#. module: point_of_sale_extension
 #: selection:pos.order.line,state:0
 msgid "Paid"
 msgstr "Pagado"
 
 #. module: point_of_sale_extension
-#: help:res.company,pos_journals:0
-msgid "The journals used to pay with the POS."
-msgstr "Los diarios utilizados para pagar con el TPV."
+#: wizard_view:pos.payment2,sale_order_warning:0
+msgid "Maybe you may want to create the sale from the existing order:"
+msgstr "Quizás desea crear la venta a partir del pedido existente:"
 
 #. module: point_of_sale_extension
 #: code:addons/point_of_sale_extension/pos.py:0
@@ -182,6 +197,16 @@ msgid "Payment"
 msgstr "Pago"
 
 #. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid ""
+"There is no income '\\n"
+"                        'account defined for this product: \"%s\" (id:%d)"
+msgstr ""
+"No se ha definido'\\n"
+"                        'una cuenta de ingresos para este producto: \"%s\" (id:%d)"
+
+#. module: point_of_sale_extension
 #: help:res.company,pos_warn_virtual_stock:0
 msgid "Shows a warning if there is not enough virtual stock in any of the products."
 msgstr "Muestra un aviso si no hay suficiente stock virtual en cualquiera de los productos."
@@ -192,9 +217,10 @@ msgid "Invalid XML for View Architecture!"
 msgstr "¡﻿XML no válido para la definición de la vista!"
 
 #. module: point_of_sale_extension
-#: wizard_view:pos.payment2,sale_order_warning:0
-msgid "Maybe you may want to create the sale from the existing order:"
-msgstr "Quizás desea crear la venta a partir del pedido existente:"
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Cannot delete a point of sale line which is already confirmed !"
+msgstr "¡No se puede eliminar una línea de una venta que ya está confirmada!"
 
 #. module: point_of_sale_extension
 #: wizard_view:pos.payment2,sale_order_warning:0
@@ -245,9 +271,10 @@ msgid "Go on"
 msgstr "Continuar"
 
 #. module: point_of_sale_extension
-#: view:res.company:0
-msgid "Point of sale"
-msgstr "Terminal punto de venta"
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Invoice from POS: %s"
+msgstr "Factura desde TPV: %s"
 
 #. module: point_of_sale_extension
 #: wizard_field:pos.payment2,sale_order_warning,sale_order:0
@@ -275,7 +302,7 @@ msgid "Shows a warning if a product added in the POS order has already been requ
 msgstr "Muestra un aviso si un producto que se ha añadido a la venta TPV ya había sido reservado por la empresa (la empresa tiene un pedido de venta con este producto), por lo que el usuario puede decidir si es mejor hacer la venta TPV desde la venta existente."
 
 #. module: point_of_sale_extension
-#: model:ir.module.module,shortdesc:point_of_sale_extension.module_name_translation
+#: model:ir.module.module,shortdesc:point_of_sale_extension.module_meta_information
 msgid "Point Of Sale Extension"
 msgstr "Terminal Punto de Venta. Extensión"
 
@@ -283,6 +310,11 @@ msgstr "Terminal Punto de Venta. Extensión"
 #: field:res.company,pos_journals:0
 msgid "Payment journals"
 msgstr "Diarios de pago"
+
+#. module: point_of_sale_extension
+#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_orders
+msgid "TPV sales"
+msgstr "Ventas TPV"
 
 #. module: point_of_sale_extension
 #: view:pos.order:0
