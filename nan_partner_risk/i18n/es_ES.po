@@ -1,0 +1,115 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* nan_partner_risk
+#
+# Albert Cervera i Areny <albert@nan-tic.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.5-bzr\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-09-09 13:42:01+0000\n"
+"PO-Revision-Date: 2009-09-09 15:42+0200\n"
+"Last-Translator: Albert Cervera i Areny <albert@nan-tic.com>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: Lokalize 1.0\n"
+
+#. module: nan_partner_risk
+#: wizard_field:open_risk_window,init,total_risk_percent:0
+#: field:res.partner,total_risk_percent:0
+msgid "Credit Usage (%)"
+msgstr "Uso del crédito (%)"
+
+#. module: nan_partner_risk
+#: wizard_field:open_risk_window,init,draft_invoices_amount:0
+#: field:res.partner,draft_invoices_amount:0
+msgid "Draft Invoices"
+msgstr "Borradores de factura"
+
+#. module: nan_partner_risk
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML Invalido para la arquitectura de vista"
+
+#. module: nan_partner_risk
+#: model:ir.actions.wizard,name:nan_partner_risk.open_risk_wizard
+#: view:res.partner:0
+msgid "View Risk Information"
+msgstr "Ver información del riesgo"
+
+#. module: nan_partner_risk
+#: field:sale.order,amount_invoiced:0 field:sale.order.line,amount_invoiced:0
+msgid "Invoiced Amount"
+msgstr "Importe facturado"
+
+#. module: nan_partner_risk
+#: wizard_field:open_risk_window,init,total_debt:0
+#: field:res.partner,total_debt:0
+msgid "Total Debt"
+msgstr "Deduda total"
+
+#. module: nan_partner_risk
+#: wizard_field:open_risk_window,init,unpayed_amount:0
+#: field:res.partner,unpayed_amount:0
+msgid "Expired Unpaid Payments"
+msgstr "Efectos impagados"
+
+#. module: nan_partner_risk
+#: model:ir.module.module,description:nan_partner_risk.module_meta_information
+msgid ""
+"This module adds a new button in the partner form to analyze current state "
+"of a partner risk.\n"
+"It reports current information regarding amount of debt in invoices, orders, "
+"etc."
+msgstr ""
+"Este módulo añade un nuevo botón en el formulario de empresas para analizar "
+"el estado actual del riesgo de una empresa.\n"
+"Muestra información actual referente a la dedua en facturas, albaranes, etc."
+
+#. module: nan_partner_risk
+#: wizard_field:open_risk_window,init,credit_limit:0
+msgid "Credit Limit"
+msgstr "Crédito concedido"
+
+#. module: nan_partner_risk
+#: wizard_view:open_risk_window,init:0
+msgid "Risk Information"
+msgstr "Información del riesgo"
+
+#. module: nan_partner_risk
+#: wizard_field:open_risk_window,init,pending_amount:0
+#: field:res.partner,pending_amount:0
+msgid "Unexpired Pending Payments"
+msgstr "Efectos pendientes no vencidos"
+
+#. module: nan_partner_risk
+#: wizard_field:open_risk_window,init,available_risk:0
+#: field:res.partner,available_risk:0
+msgid "Available Credit"
+msgstr "Crédito disponible"
+
+#. module: nan_partner_risk
+#: wizard_button:open_risk_window,init,end:0
+msgid "Close"
+msgstr "Cerrar"
+
+#. module: nan_partner_risk
+#: wizard_field:open_risk_window,init,circulating_amount:0
+#: field:res.partner,circulating_amount:0
+msgid "Payments Sent to Bank"
+msgstr "Efectos en circulación"
+
+#. module: nan_partner_risk
+#: wizard_field:open_risk_window,init,pending_orders_amount:0
+#: field:res.partner,pending_orders_amount:0
+msgid "Uninvoiced Orders"
+msgstr "Albaranes pendientes de facturar"
+
+#. module: nan_partner_risk
+#: model:ir.module.module,shortdesc:nan_partner_risk.module_meta_information
+msgid "Partner Risk Analysis"
+msgstr "Análisis del riesgo de empresas"
+
