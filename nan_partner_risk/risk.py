@@ -86,7 +86,7 @@ class partner(osv.osv):
                 ('account_id.type', 'in', ['receivable', 'payable']), 
                 ('reconcile_id','=',False), 
                 ('date_maturity','<',today),
-            ], context) 
+            ], context=context) 
             # Those that have amount_to_pay == 0, will mean that they're circulating. The payment request has been sent
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
@@ -104,7 +104,7 @@ class partner(osv.osv):
                 ('account_id.type', 'in', ['receivable', 'payable']), 
                 ('reconcile_id','=',False), 
                 '|', ('date_maturity','>=',today), ('date_maturity','=',False)
-            ], context) 
+            ], context=context) 
             # Those that have amount_to_pay == 0, will mean that they're circulating. The payment request has been sent
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
@@ -122,7 +122,7 @@ class partner(osv.osv):
                 ('account_id.type', 'in', ['receivable', 'payable']), 
                 ('reconcile_id','=',False), 
                 '|', ('date_maturity','>=',today), ('date_maturity','=',False)
-            ], context) 
+            ], context=context) 
             # Those that have amount_to_pay == 0, will mean that they're circulating. The payment request has been sent
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
@@ -135,7 +135,7 @@ class partner(osv.osv):
         res = {}
         today = now().strftime('%Y-%m-%d')
         for id in ids:
-            invids = self.pool.get('account.invoice').search( cr, uid, [('partner_id','=',id), ('state','=','draft'), '|', ('date_due','>=',today), ('date_due','=',False)] )
+            invids = self.pool.get('account.invoice').search( cr, uid, [('partner_id','=',id), ('state','=','draft'), '|', ('date_due','>=',today), ('date_due','=',False)], context=context )
             val = 0.0
             for invoice in self.pool.get('account.invoice').browse( cr, uid, invids, context ):
                 val += invoice.amount_total
