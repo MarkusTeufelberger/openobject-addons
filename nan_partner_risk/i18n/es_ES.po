@@ -41,7 +41,8 @@ msgid "View Risk Information"
 msgstr "Ver información del riesgo"
 
 #. module: nan_partner_risk
-#: field:sale.order,amount_invoiced:0 field:sale.order.line,amount_invoiced:0
+#: field:sale.order,amount_invoiced:0
+#: field:sale.order.line,amount_invoiced:0
 msgid "Invoiced Amount"
 msgstr "Importe facturado"
 
