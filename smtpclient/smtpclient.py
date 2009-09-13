@@ -248,7 +248,7 @@ class SmtpClient(osv.osv):
             
         smtp_server = self.browse(cr, uid, server_id)
         if smtp_server.state != 'confirm':
-            raise osv.except_osv(_('SMTP Server Error !'), 'Server is not Verified, Please Verify the Server !')
+            raise osv.except_osv(_('SMTP Server Error !'), _('Server is not Verified, Please Verify the Server !'))
             
         if type(emailto) == type([]):
             for to in emailto:
