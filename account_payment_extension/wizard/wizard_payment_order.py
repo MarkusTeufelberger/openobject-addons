@@ -102,6 +102,7 @@ def create_payment(self, cr, uid, data, context):
             'communication': (line.ref and line.name!='/' and line.ref+'. '+line.name) or line.ref or line.name or '/',
             'communication2': data['form']['communication2'],
             'date': date_to_pay,
+            'currency': line.invoice and line.invoice.currency_id.id or False,
             }, context=context)
     return {}
 
