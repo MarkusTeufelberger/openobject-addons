@@ -502,6 +502,7 @@ class esale_oscom_web(osv.osv):
                         'pay_met_title'  : saleorder['pay_met_title'],
                         'shipping_title' : saleorder['shipping_title'],
                         'orders_status'  : saleorder['orders_status'],
+                        'date_order'     : saleorder['date'],
                         #'price_type'    : saleorder['price_type']
                     }
 
@@ -584,7 +585,7 @@ class esale_oscom_web(osv.osv):
                         linevalue["product_uos"] = linevalue['product_uos'] and linevalue['product_uos'][0]
                         tax_id = linevalue['tax_id'] and linevalue['tax_id'][0]
                         del linevalue['tax_id']
-
+                        #print "linea", linevalue
                         ids = saleorder_line_obj.create(cr, uid, linevalue)
                         if tax_id:
                             cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
@@ -601,11 +602,18 @@ class esale_oscom_web(osv.osv):
                         so_line_shipping.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
                         so_line_shipping['price_unit'] = saleorder['shipping_price']
                         so_line_shipping['name'] = saleorder['shipping_title']
+                        tax_rate_shipping_search_id = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0.1600), ('type_tax_use', '=','sale')]) 
+                        #print "tax_rate_shipping_search_id", tax_rate_shipping_search_id
+                        if tax_rate_shipping_search_id:
+                                so_line_shipping['tax_id'] = tax_rate_shipping_search_id
+                                #print "so_line_shipping: ", so_line_shipping
+                        tax_id = so_line_shipping['tax_id'] and so_line_shipping['tax_id'][0]
                         if so_line_shipping.get('weight',False):
                             del so_line_shipping['weight']
                         del so_line_shipping['tax_id']
                         #print "=== Order line:", so_line_shipping
-                        ids = saleorder_line_obj.create(cr, uid, so_line_shipping)
+                        ids = saleorder_line_obj.create(cr, uid, so_line_shipping)                        
+                        cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
                 #print "=== Cupon line:",saleorder['dcoupon_title']
                 #print "=== Cash order line:",saleorder['cash_title']
                 discount_cost_id = product_obj.search(cr, uid, [('name','=','Discount Coupon')])
@@ -621,11 +629,17 @@ class esale_oscom_web(osv.osv):
                         so_line_discount.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
                         so_line_discount['price_unit'] = saleorder['dcoupon_price']
                         so_line_discount['name'] = saleorder['dcoupon_title']
+                        tax_rate_discount_search_id = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0.1600), ('type_tax_use', '=','sale')]) 
+                        if tax_rate_discount_search_id:
+                                so_line_discount['tax_id'] = tax_rate_discount_search_id
+                                #print "so_line_discount: ", so_line_discount
+                        tax_id = so_line_discount['tax_id'] and so_line_discount['tax_id'][0]
                         if so_line_discount.get('weight',False):
                             del so_line_discount['weight']
                         del so_line_discount['tax_id']
                         #print "=== Cupon line:", so_line_discount
                         ids = saleorder_line_obj.create(cr, uid, so_line_discount)
+                        cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
                 cash_cost_id = product_obj.search(cr, uid, [('name','=','Cash On Delivery')])
                 if cash_cost_id:
                     if saleorder['cash_price'] != 0.0000:
@@ -638,13 +652,18 @@ class esale_oscom_web(osv.osv):
                         so_line_cash.update(saleorder_line_obj.product_id_change(cr, uid, [], value['pricelist_id'], so_line_cash['product_id'], so_line_cash['product_uom_qty'],False, 0, False, '', value['partner_id'])['value'])
                         so_line_cash.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
                         so_line_cash['price_unit'] = saleorder['cash_price']
+                        tax_rate_cash_search_id = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0.1600), ('type_tax_use', '=','sale')]) 
+                        if tax_rate_cash_search_id:
+                                so_line_cash['tax_id'] = tax_rate_cash_search_id
+                                #print "so_line_cash: ", so_line_cash
+                        tax_id = so_line_cash['tax_id'] and so_line_cash['tax_id'][0]
                         so_line_cash['name'] = saleorder['cash_title']
                         if so_line_cash.get('weight',False):
                             del so_line_cash['weight']
                         del so_line_cash['tax_id']
                         #print "=== Order line:", so_line_cash
                         ids = saleorder_line_obj.create(cr, uid, so_line_cash)
-
+                        cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
                 no_of_so +=1
 
                 ######################################################################################
