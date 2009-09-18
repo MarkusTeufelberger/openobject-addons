@@ -84,7 +84,7 @@ class ObjRenderer :
                     #print o.properties["attributes"].value
                     for attr in o.properties["attributes"].value :
                         # see objects/UML/umlattributes.c:umlattribute_props
-                        #print "\t", attr[0], attr[1], attr[4]
+                        #print "    ", attr[0], attr[1], attr[4]
                         k.AddAttribute(attr[0], attr[1], attr[4], attr[2], attr[3])
                     self.klasses[o.properties["name"].value] = k
                     self.klass_names += [o.properties["name"].value]
@@ -162,9 +162,9 @@ class OpenERPRenderer(ObjRenderer) :
             attrs = ''
             if attr[0] in ('one2many', 'many2many', 'text'):
                 attrs='colspan="4" '
-            fields_form += ("\t\t\t\t<field name=\"%s\" "+attrs+"select=\"%d\"/>\n") % (sa,i)
+            fields_form += ("                <field name=\"%s\" "+attrs+"select=\"%d\"/>\n") % (sa,i)
             if attr[0] not in ('one2many', 'many2many'):
-                fields_tree += "\t\t\t\t<field name=\"%s\"/>\n" % (sa,)
+                fields_tree += "                <field name=\"%s\"/>\n" % (sa,)
             if (i==2) or not i:
                 i=-1
             i += 1
@@ -260,41 +260,41 @@ from osv import osv, fields
             cname = sk.replace('.','_')
             result += "class %s(osv.osv):\n" % (cname,)
             if self.klasses[sk].comment:
-                result += "\t"+'"""'+self.klasses[sk].comment+'"""\n'
-            result += "\t_name = '%s'\n" % (sk,)
+                result += "    "+'"""'+self.klasses[sk].comment+'"""\n'
+            result += "    _name = '%s'\n" % (sk,)
 
 
             parents = self.klasses[sk].parents
             if parents:
-                result += "\t_inherit = '"+parents[0]+"'\n"
+                result += "    _inherit = '"+parents[0]+"'\n"
             templates = self.klasses[sk].templates
             if templates:
-                result += "\t_inherits = {'"+templates[0]+"':'"+templates[0]+"'}\n"
+                result += "    _inherits = {'"+templates[0]+"':'"+templates[0]+"'}\n"
 
 
             default = {}
-            result += "\t_columns = {\n"
+            result += "    _columns = {\n"
             for sa,attr in self.klasses[sk].attributes :
                 value = attr[2]
                 if attr[3]:
                     value += ", help='%s'" % (attr[3].replace("'"," "),)
                 attr_type = attr[0]
-                result += "\t\t'%s': fields.%s(%s),\n" % (sa, attr_type, value)
-            result += "\t}\n"
+                result += "        '%s': fields.%s(%s),\n" % (sa, attr_type, value)
+            result += "    }\n"
 
             if default:
-                result += '\t_defaults = {'
+                result += '    _defaults = {'
                 for d in default:
-                    result += "\t\t'%s':lambda *args: '%s'\n" % (d, default[d])
-                result += '\t}'
+                    result += "        '%s':lambda *args: '%s'\n" % (d, default[d])
+                result += '    }'
 
             for so, op in self.klasses[sk].operations :
                 pars = "self, cr, uid, ids"
                 for p in op[2] :
                     pars = pars + ", " + p[0]
-                result+="\tdef %s (%s) :\n" % (so, pars)
-                if op[4]: result+="\t\t\"\"\" %s \"\"\"\n" % op[4]
-                result+="\t\t# returns %s\n" % (op[0], )
+                result+="    def %s (%s) :\n" % (so, pars)
+                if op[4]: result+="        \"\"\" %s \"\"\"\n" % op[4]
+                result+="        # returns %s\n" % (op[0], )
             result += cname+"()\n\n"
         return result
 
