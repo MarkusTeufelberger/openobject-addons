@@ -30,7 +30,6 @@ class ServerAction(osv.osv):
     _description = 'Email Client'
     _columns = {
         'email_server':fields.many2one('email.smtpclient', 'Email Server'),
-        'attach_report':fields.boolean('Attach Report?', required=False),
         'report':fields.many2one('ir.actions.report.xml', 'Report', required=False),
     }
     
@@ -70,7 +69,7 @@ class ServerAction(osv.osv):
                 smtp_pool = self.pool.get('email.smtpclient')
                 
                 reports = []
-                if action.attach_report:
+                if action.report:
                     reports.append(('report.'+action.report.report_name, [context['active_id']]))
 
                 if smtp_pool.send_email(cr, uid, action.email_server.id, address, subject, body, [], reports) == True:
