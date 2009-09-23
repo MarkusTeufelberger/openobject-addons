@@ -75,7 +75,7 @@ def _populate_statement(obj, cursor, user, data, context):
             }, context=context)
         statement_line_obj.create(cursor, user, {
             'name': (line.order_id.reference or '?') +'. '+ line.name,
-            'amount': - amount,
+            'amount': line.order_id.type == 'payable' and - amount or amount,
             'type': line.order_id.type=='payable' and 'supplier' or 'customer',
             'partner_id': line.partner_id.id,
             'account_id': line.move_line_id.account_id.id,

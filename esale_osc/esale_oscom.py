@@ -1,30 +1,23 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2004 TINY SPRL. (http://tiny.be) All Rights Reserved.
+#    OpenERP, Open Source Management Solution
+#    Copyright (c) 2008 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
+#                       Jordi Esteve <jesteve@zikzakmedia.com>
+#    $Id$
 #
-# $Id: sale.py 1005 2005-07-25 08:41:42Z nicoe $
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
 #
-# WARNING: This program as such is intended to be used by professional
-# programmers who take the whole responsability of assessing all potential
-# consequences resulting from its eventual inadequacies and bugs
-# End users who are looking for a ready-to-use solution with commercial
-# garantees and support are strongly adviced to contract a Free Software
-# Service Company
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
 #
-# This program is Free Software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
@@ -509,6 +502,7 @@ class esale_oscom_web(osv.osv):
                         'pay_met_title'  : saleorder['pay_met_title'],
                         'shipping_title' : saleorder['shipping_title'],
                         'orders_status'  : saleorder['orders_status'],
+                        'date_order'     : saleorder['date'],
                         #'price_type'    : saleorder['price_type']
                     }
 
@@ -591,7 +585,7 @@ class esale_oscom_web(osv.osv):
                         linevalue["product_uos"] = linevalue['product_uos'] and linevalue['product_uos'][0]
                         tax_id = linevalue['tax_id'] and linevalue['tax_id'][0]
                         del linevalue['tax_id']
-
+                        #print "linea", linevalue
                         ids = saleorder_line_obj.create(cr, uid, linevalue)
                         if tax_id:
                             cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
@@ -608,11 +602,18 @@ class esale_oscom_web(osv.osv):
                         so_line_shipping.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
                         so_line_shipping['price_unit'] = saleorder['shipping_price']
                         so_line_shipping['name'] = saleorder['shipping_title']
+                        tax_rate_shipping_search_id = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0.1600), ('type_tax_use', '=','sale')]) 
+                        #print "tax_rate_shipping_search_id", tax_rate_shipping_search_id
+                        if tax_rate_shipping_search_id:
+                                so_line_shipping['tax_id'] = tax_rate_shipping_search_id
+                                #print "so_line_shipping: ", so_line_shipping
+                        tax_id = so_line_shipping['tax_id'] and so_line_shipping['tax_id'][0]
                         if so_line_shipping.get('weight',False):
                             del so_line_shipping['weight']
                         del so_line_shipping['tax_id']
                         #print "=== Order line:", so_line_shipping
-                        ids = saleorder_line_obj.create(cr, uid, so_line_shipping)
+                        ids = saleorder_line_obj.create(cr, uid, so_line_shipping)                        
+                        cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
                 #print "=== Cupon line:",saleorder['dcoupon_title']
                 #print "=== Cash order line:",saleorder['cash_title']
                 discount_cost_id = product_obj.search(cr, uid, [('name','=','Discount Coupon')])
@@ -628,11 +629,17 @@ class esale_oscom_web(osv.osv):
                         so_line_discount.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
                         so_line_discount['price_unit'] = saleorder['dcoupon_price']
                         so_line_discount['name'] = saleorder['dcoupon_title']
+                        tax_rate_discount_search_id = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0.1600), ('type_tax_use', '=','sale')]) 
+                        if tax_rate_discount_search_id:
+                                so_line_discount['tax_id'] = tax_rate_discount_search_id
+                                #print "so_line_discount: ", so_line_discount
+                        tax_id = so_line_discount['tax_id'] and so_line_discount['tax_id'][0]
                         if so_line_discount.get('weight',False):
                             del so_line_discount['weight']
                         del so_line_discount['tax_id']
                         #print "=== Cupon line:", so_line_discount
                         ids = saleorder_line_obj.create(cr, uid, so_line_discount)
+                        cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
                 cash_cost_id = product_obj.search(cr, uid, [('name','=','Cash On Delivery')])
                 if cash_cost_id:
                     if saleorder['cash_price'] != 0.0000:
@@ -645,13 +652,18 @@ class esale_oscom_web(osv.osv):
                         so_line_cash.update(saleorder_line_obj.product_id_change(cr, uid, [], value['pricelist_id'], so_line_cash['product_id'], so_line_cash['product_uom_qty'],False, 0, False, '', value['partner_id'])['value'])
                         so_line_cash.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
                         so_line_cash['price_unit'] = saleorder['cash_price']
+                        tax_rate_cash_search_id = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0.1600), ('type_tax_use', '=','sale')]) 
+                        if tax_rate_cash_search_id:
+                                so_line_cash['tax_id'] = tax_rate_cash_search_id
+                                #print "so_line_cash: ", so_line_cash
+                        tax_id = so_line_cash['tax_id'] and so_line_cash['tax_id'][0]
                         so_line_cash['name'] = saleorder['cash_title']
                         if so_line_cash.get('weight',False):
                             del so_line_cash['weight']
                         del so_line_cash['tax_id']
                         #print "=== Order line:", so_line_cash
                         ids = saleorder_line_obj.create(cr, uid, so_line_cash)
-
+                        cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
                 no_of_so +=1
 
                 ######################################################################################

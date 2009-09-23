@@ -102,11 +102,15 @@ class account_invoice_line(osv.osv):
             if type in ('in_invoice', 'in_refund'):
                 if not price_unit and partner_id:
                     pricelist = self.pool.get('res.partner').browse(cr, uid, partner_id).property_product_pricelist_purchase.id
+                    if not pricelist:
+                        raise osv.except_osv(_('No Purchase Pricelist Found !'),_("You must first define a pricelist for Supplier !"))
                     price_unit = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist], product.id, qty or 1.0, partner_id, {'uom': uom})[pricelist]
                     real_price=get_real_price(pricelist, product.id)
             else:
                 if partner_id:
                     pricelist = self.pool.get('res.partner').browse(cr, uid, partner_id).property_product_pricelist.id
+                    if not pricelist:
+                        raise osv.except_osv(_('No Sale Pricelist Found '),_("You must first define a pricelist for Customer !"))
                     price_unit = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist], product.id, qty or 1.0, partner_id, {'uom': uom})[pricelist]
                     real_price=get_real_price(pricelist, product.id)
 

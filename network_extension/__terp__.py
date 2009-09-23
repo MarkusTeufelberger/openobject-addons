@@ -1,16 +1,20 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
-#    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
+#    network_extension module for OpenERP
+#    Copyright (C) 2008 Zikzakmedia S.L. (http://zikzakmedia.com)
+#       Jordi Esteve <jesteve@zikzakmedia.com> All Rights Reserved.
+#    Copyright (C) 2009 SYLEAM (http://syleam.fr)
+#       Christophe Chauvet <christophe.chauvet@syleam.fr> All Rights Reserved.
 #
-#    This program is free software: you can redistribute it and/or modify
+#    This file is a part of network_extension
+#
+#    network_extension is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
+#    network_extension is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
@@ -19,12 +23,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
     "name" : "Network Management Extension",
-    "version" : "1.0",
+    "version" : "1.0.1",
     "author" : "Zikzakmedia SL",
     "category" : "Enterprise Specific Modules/Information Technology",
-    "website": "http://www.zikzakmedia.com",
+    "website": "www.zikzakmedia.com",
+    "license" : "GPL-3",
     "depends" : ["network"],
     'init_xml': ['network_protocol_data.xml'],
     "demo_xml" : [],
@@ -33,15 +39,17 @@
         "network_view.xml",
     ],
     "description": """
-    Organize your software and configurations.
+Organize your software and configurations.
     - Additional network information: IP, domain, DNS, gateway
     - Protocols
     - Services
     - Ports
     - Public and private URLs
-    """,
+    - Password encryption
+
+System dependency: package python-crypto required.""",
     "active" : False,
     "installable": True
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

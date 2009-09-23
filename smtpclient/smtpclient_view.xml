@@ -235,7 +235,7 @@
 						</page>
 						<page string="Error">
 							<separator string="Last Error occured" colspan="4"/>
-							<field name="error" select="2" nolabel="1"/>
+							<field name="error" select="2" colspan="4" nolabel="1"/>
 						</page>
 						<page string="Message">
 							<separator string="Message with All Headers" colspan="4"/>

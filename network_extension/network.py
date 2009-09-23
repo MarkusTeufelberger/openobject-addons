@@ -1,16 +1,20 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
-#    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
+#    network_extension module for OpenERP
+#    Copyright (C) 2008 Zikzakmedia S.L. (http://zikzakmedia.com)
+#       Jordi Esteve <jesteve@zikzakmedia.com> All Rights Reserved.
+#    Copyright (C) 2009 SYLEAM (http://syleam.fr)
+#       Christophe Chauvet <christophe.chauvet@syleam.fr> All Rights Reserved.
 #
-#    This program is free software: you can redistribute it and/or modify
+#    This file is a part of network_extension
+#
+#    network_extension is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
+#    network_extension is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
@@ -20,13 +24,20 @@
 #
 ##############################################################################
 
+from osv import osv
+from osv import fields
+from tools.translate import _
+
+import base64
 import time
-from osv import fields, osv
 
 #--------------------------------------------------------------
 # A network is composed of all kind of networkable materials
 #--------------------------------------------------------------
 class network_network(osv.osv):
+    """
+    A network is composed of all kind of networkable materials
+    """
     _inherit = "network.network"
     _columns = {
         'gateway': fields.char('Gateway', size=100),
@@ -34,13 +45,16 @@ class network_network(osv.osv):
         'public_ip_address': fields.char('Public IP address', size=100),
         'public_domain': fields.char('Public domain', size=100),
     }
-network_network()
 
+network_network()
 
 #----------------------------------------------------------
 # A software installed on a material
 #----------------------------------------------------------
 class network_software(osv.osv):
+    """
+    A software installed on a material
+    """
     _inherit = "network.software"
     _columns = {
         'type': fields.many2one('network.software.type',
@@ -57,6 +71,7 @@ class network_software(osv.osv):
     _defaults = {
         'material_id': lambda obj, cursor, user, context: obj._default_material(cursor, user, context=context),
     }
+
 network_software()
 
 
@@ -64,24 +79,93 @@ network_software()
 # Couples of login/password
 #------------------------------------------------------------
 class network_software_logpass(osv.osv):
+    """
+    Couples of login/password
+    """
     _inherit = "network.software.logpass"
     _columns = {
         'name': fields.char('Name', size=100),
         'note': fields.text('Note'),
-        'material':fields.related('software_id', 'material_id', type='many2one', relation='network.material', string='Material', readonly=True),
+        'material': fields.related('software_id', 'material_id', type='many2one', relation='network.material', string='Material', readonly=True),
+        'encrypted': fields.boolean('Encrypted'),
     }
+
+    _defaults = {
+        'encrypted': lambda obj, cursor, user, context: False,
+    }
+
+    def onchange_password(self, cr, uid, ids, encrypted, context={}):
+        return {'value':{'encrypted': False}}
+
+
+    def _encrypt_password(self, cr, uid, ids, *args):
+        for rec in self.browse(cr, uid, ids):
+            try:
+                from Crypto.Cipher import ARC4
+            except ImportError:
+                raise osv.except_osv(_('Error !'), _('Package python-crypto no installed.'))
+
+            if not rec.encrypted:
+                obj_encrypt_password = self.pool.get('network.encrypt.password')
+                encrypt_password_ids = obj_encrypt_password.search(cr, uid, [('create_uid','=',uid),('write_uid','=',uid)])
+                encrypt_password_id = encrypt_password_ids and encrypt_password_ids[0] or False
+                if encrypt_password_id:
+                    passwordkey = obj_encrypt_password.browse(cr, uid, encrypt_password_id).name
+                    enc = ARC4.new(passwordkey)
+                    try:
+                        encripted = base64.b64encode(enc.encrypt(rec.password))
+                    except UnicodeEncodeError:
+                        break
+                    self.write(cr, uid, [rec.id], {'password': encripted, 'encrypted': True})
+                else:
+                    raise osv.except_osv(_('Error !'), _('Not encrypt/decrypt password has given.'))
+        return True
+
+
+    def _decrypt_password(self, cr, uid, ids, *args):
+        for rec in self.browse(cr, uid, ids):
+            try:
+                from Crypto.Cipher import ARC4
+            except ImportError:
+                raise osv.except_osv(_('Error !'), _('Package python-crypto no installed.'))
+
+            if rec.encrypted:
+                obj_encrypt_password = self.pool.get('network.encrypt.password')
+                encrypt_password_ids = obj_encrypt_password.search(cr, uid, [('create_uid','=',uid),('write_uid','=',uid)])
+                encrypt_password_id = encrypt_password_ids and encrypt_password_ids[0] or False
+                if encrypt_password_id:
+                    passwordkey = obj_encrypt_password.browse(cr, uid, encrypt_password_id).name
+                    dec = ARC4.new(passwordkey)
+                    try:
+                        desencripted = dec.decrypt(base64.b64decode(rec.password))
+                        unicode(desencripted, 'ascii')
+                        raise osv.except_osv(rec.login+_(' password:'), desencripted)
+                    except UnicodeDecodeError:
+                        raise osv.except_osv(_('Error !'), _('Wrong encrypt/decrypt password.'))
+                else:
+                    raise osv.except_osv(_('Error !'), _('Not encrypt/decrypt password has given.'))
+        return True
+
 network_software_logpass()
 
 
 #----------------------------------------------------------
-# Protocol (ssh, http, smpt, ...)
+# Protocol (ssh, http, smtp, ...)
 #----------------------------------------------------------
 class network_protocol(osv.osv):
+    """
+    Protocol (ssh, http, smtp, ...)
+    """
     _name = "network.protocol"
     _description = "Protocol"
+
     _columns = {
-        'name': fields.char('Name', size=64, select=1),
+        'name': fields.char('Name', size=64, required=True, select=1),
+        'description': fields.char('Description', size=256, translate=True),
+        'port': fields.integer('Port', help='Default port defined see(http://www.iana.org/assignments/port-numbers)', required=True),
+        'protocol': fields.selection([('tcp', 'TCP'),('udp', 'UDP'), ('both', 'Both'), ('other', 'Other')], 'Protocol', required=True),
     }
+
 network_protocol()
 
 
@@ -89,8 +173,12 @@ network_protocol()
 # Services
 #----------------------------------------------------------
 class network_service(osv.osv):
+    """
+    Services
+    """
     _name = "network.service"
     _description = "Service Network"
+
     _columns = {
         'name': fields.char('Name', size=64, select=1),
         'software_id': fields.many2one('network.software', 'Software', required=True),
@@ -136,6 +224,41 @@ class network_service(osv.osv):
     def onchange_port(self, cr, uid, ids, port, context={}):
         if not port:
             return {}
-        return {'value':{'public_port': port}}
+        return {'value': {'public_port': port}}
 
 network_service()
+
+class network_material(osv.osv):
+    _inherit = 'network.material'
+
+    _columns = {
+        'mac_addr': fields.char('MAC addresss', size=17),
+    }
+
+    # TODO: Add On Changeon the mac adress, to check if it correct
+    #       regexp: /^([0-9a-f]{2}([:-]|$)){6}$/i
+
+network_material()
+
+
+class network_encrypt_password(osv.osv_memory):
+    """
+    Password encryption
+    """
+    _name = 'network.encrypt.password'
+    _description = 'Password encryption'
+
+    _columns = {
+        'name': fields.char('Encrypt/Decrypt password', size=100),
+    }
+
+    def create(self, cr, uid, vals, context=None):
+        encrypt_password_ids = self.search(cr, uid, [('create_uid','=',uid),('write_uid','=',uid)], context=context)
+        self.unlink(cr, uid, encrypt_password_ids, context=context)
+        return super(osv.osv_memory, self).create(cr, uid, vals, context=context)
+
+network_encrypt_password()
+
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

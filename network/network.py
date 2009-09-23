@@ -30,7 +30,7 @@ class network_hardware_type(osv.osv):
     _name = "network.hardware.type"
     _description = "Hardware type"
     _columns = {
-        'name': fields.char('Type of material', size=64, required=True),
+        'name': fields.char('Type of material', size=64, translate=True, required=True),
         'networkable': fields.boolean('Networkable hardware'),
     }
     _defaults = {
@@ -51,6 +51,7 @@ class network_network(osv.osv):
         'contact_id': fields.many2one('res.partner', 'Partner', required=True),
         'material_ids': fields.one2many('network.material', 'network_id', 'Members'),
     }
+
 network_network()
 
 def _calc_warranty(*args):
@@ -97,17 +98,24 @@ network_material()
 class network_changes(osv.osv):
     _name = 'network.changes'
     _description = 'Network changes'
+
     _columns = {
         'name': fields.char('Short Description', size=64,
                              required=True),
         'description': fields.text('Long Description'),
-        'date': fields.date('Change date'),
+        'date': fields.datetime('Change date'),
         'machine_id': fields.many2one('network.material',
                                        'Machine'),
+        'user_id': fields.many2one('res.users', 'User', required=True),
     }
+
     _defaults = {
-        'date': lambda *a: time.strftime('%Y-%m-%d'),
+        'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
+        'user_id': lambda self,cr,uid,ctx : uid,
     }
+
+    _order = 'date desc'
+
 network_changes()
 
 #----------------------------------------------------------
@@ -117,7 +125,7 @@ class network_soft_type(osv.osv):
     _name = "network.software.type"
     _description = "Software type"
     _columns = {
-        'name': fields.char('Composant Name', size=64, required=True),
+        'name': fields.char('Composant Name', size=64, translate=True, required=True),
         'note': fields.text('Notes'),
     }
 network_soft_type()

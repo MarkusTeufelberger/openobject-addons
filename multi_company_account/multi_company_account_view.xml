@@ -163,6 +163,18 @@
             </field>
         </record>
         
+        <record id="view_invoice_add_company_tree" model="ir.ui.view">
+        	<field name="name">Invoice Tree add Company</field>
+            <field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="arch" type="xml">
+            	<field name="partner_id" groups="base.group_user" position="before">
+            		<field name="company_id"/>
+            	</field>
+            </field>
+        </record>
+        
         <record id="view_journal_period_tree_new" model="ir.ui.view">
             <field name="name">account.journal.period.tree</field>
             <field name="model">account.journal.period</field>

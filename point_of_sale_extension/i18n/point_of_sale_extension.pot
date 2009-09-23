@@ -335,3 +335,29 @@ msgstr ""
 msgid "Invoiced"
 msgstr ""
 
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Tax :"
+msgstr ""
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Disc :"
+msgstr ""
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "This coupon is valid until"
+msgstr ""
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Operation Nº :"
+msgstr ""
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Salesman :"
+msgstr ""
+
+

@@ -21,10 +21,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 {
-    "name" : "Vogelvins code customisation modules",
+    "name" : "Date in SO lines",
     "description":"""This module allows to set planned execution date in Sale order
     When the So is confirmed the delay is automtically computed this way you do not have to use 
-    day for computing Delyvery date of generated picking""",
+    day for computing Delivery date of generated picking. If a date is set on the SO, it will automatically be taken in so line, if not it will recompute a date based on the product customer lead time !!!Warning this module overrite the so line product_id_change function  and add a parameters in signature. If there alerady is a module that does the same they will conflict""",
     "version" : "1.0",
     "depends" : [
                     "base",
