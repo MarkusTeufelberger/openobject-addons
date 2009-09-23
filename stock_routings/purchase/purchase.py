@@ -99,9 +99,10 @@ class purchase_order(osv.osv):
                     first_seq=segment_data[i]['sequence']
                     first_dest=segment_data[i]['port_of_destination']
             
-            return {'value':{'location_id': port_load,'port_of_loading': port_load,'kind_transport': kind_transport,'port_of_destination': first_dest}}
+            #return {'value':{'location_id': port_load,'port_of_loading': port_load,'kind_transport': kind_transport,'port_of_destination': first_dest}}
+            return {'value':{'location_id': port_load,'port_of_loading': port_load,'kind_transport': kind_transport}}
         else:
-            return {'value':{'location_id':False,'port_of_loading': False,'kind_transport': False,'port_of_destination': False}}
+            return {'value':{'location_id': False,'port_of_loading': False,'kind_transport': False}}
         
     def _get_po_no(self, cr, uid, context={}):
         sequence_pool = self.pool.get('ir.sequence')
@@ -137,12 +138,17 @@ class purchase_order(osv.osv):
     def action_picking_create(self, cr, uid, ids, *args):
         picking_id = False
         all_move_ids=[]
+        sequence_id=self.pool.get('ir.sequence').search(cr,uid,[('code','=','stock.picking'),('name','=','Packing')])
+        print 'sequence_id----------------',sequence_id
+        new_name = self.pool.get('ir.sequence').get_id(cr, uid, sequence_id[0])
+        print 'new_name-----------------',new_name
         for order in self.browse(cr, uid, ids):
             loc_id = order.partner_id.property_stock_supplier.id
             istate = 'none'
             if order.invoice_method=='picking' or order.invoice_method=='automatic':
                 istate = '2binvoiced'
             picking_id = self.pool.get('stock.picking').create(cr, uid, {
+                'name': new_name,
                 'origin': order.name + ((order.origin and (':'+order.origin)) or ''),
 #               'origin': ((order.origin and (order.origin+':')) or '') + order.name + ((order.origin and (':'+order.origin)) or ''),
                 'type': 'in',
@@ -151,7 +157,8 @@ class purchase_order(osv.osv):
                 'purchase_id': order.id,
                 'port_of_departure': loc_id,
                 'port_of_arrival': order.routing_id and order.routing_id.port_of_loading.id,
-                'loading_code': order.loading_code
+                'loading_code': order.loading_code,
+                'sequence_id': sequence_id[0]
             })
             for order_line in order.order_line:
                 if not order_line.product_id:

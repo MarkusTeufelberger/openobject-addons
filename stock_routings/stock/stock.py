@@ -103,6 +103,7 @@ class stock_picking(osv.osv):
                     ], 'Status', readonly=True, select=True),
                 'min_date': fields.function(get_min_max_date, fnct_inv=_set_minimum_date, multi="min_max_date",
                  method=True,store=True, type='date', string='Planned Date', select=1),
+                'sequence_id': fields.many2one('ir.sequence','Sequence'),
               }
 stock_picking()
 
@@ -111,6 +112,7 @@ class stock_move(osv.osv):
     
     _columns={
               'state': fields.selection([('draft','Draft'),('waiting','Waiting'),('confirmed','Confirmed'),('assigned','Available'),('done','Received'),('cancel','Canceled')], 'Status', readonly=True, select=True),
+              'product_qty': fields.float('Quantity', required=True,states={'confirmed': [('readonly', True)],'assigned': [('readonly', True)],'flottant': [('readonly', True)],'underway': [('readonly', True)],'unproduction': [('readonly', True)],'cancel': [('readonly', True)]}),
 #              'date_planned': fields.date('Date', required=True, help="Scheduled date for the movement of the products or real date if the move is done."),
               }
     
