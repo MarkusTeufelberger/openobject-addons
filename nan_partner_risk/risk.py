@@ -138,7 +138,15 @@ class partner(osv.osv):
             invids = self.pool.get('account.invoice').search( cr, uid, [('partner_id','=',id), ('state','=','draft'), '|', ('date_due','>=',today), ('date_due','=',False)], context=context )
             val = 0.0
             for invoice in self.pool.get('account.invoice').browse( cr, uid, invids, context ):
-                val += invoice.amount_total
+                # Note that even if the invoice is in 'draft' state it can have an account.move because it 
+                # may have been validated and brought back to draft. Here we'll only consider invoices with 
+                # NO account.move as thouse will be added in other fields.
+                if invoice.move_id:
+                    continue
+                if invoice.type in ('out_invoice','in_refund'):
+                    val += invoice.amount_total
+                else:
+                    val -= invoice.amount_total
             res[id] = val
         return res
 
