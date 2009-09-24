@@ -89,8 +89,24 @@ class account_invoice_line(osv.osv):
 
         def get_real_price(pricelist_id, product_id):
             product_tmpl_id = self.pool.get('product.product').browse(cr, uid, product_id, context).product_tmpl_id.id
-            pricetype_id = self.pool.get('product.pricelist').browse(cr, uid, pricelist_id).version_id[0].items_id[0].base
-            field_name = self.pool.get('product.price.type').browse(cr, uid, pricetype_id).field
+            version_id = self.pool.get('product.pricelist').browse(cr, uid, pricelist_id).version_id
+            version_id =  version_id and version_id[0] or False
+            
+            if not version_id:
+                raise osv.except_osv(_('No Pricelist Version Found !'),_("You must first define Pricelist Version to the Partner Pricelist!"))
+            else:
+                items = version_id.items_id
+                
+                if not items:
+                    raise osv.except_osv(_('No Pricelist ListPrice Items Found !'),_("You must first define ListPrice Items to Pricelist Version of the Partner Pricelist!"))
+                else:
+                    pricetype_id = items[0].base
+                    
+            if pricetype_id > 0:
+                field_name = self.pool.get('product.price.type').browse(cr, uid, pricetype_id).field
+            else:
+                field_name= 'list_price'
+                
             product_read = self.pool.get('product.template').read(cr, uid, product_tmpl_id, [field_name], context)
             return product_read[field_name]
 
