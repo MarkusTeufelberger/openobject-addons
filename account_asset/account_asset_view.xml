@@ -63,7 +63,7 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Asset">
-                <notebook>
+                <notebook colspan="4">
                 <page string="General info">
                     <field name="name" select="1"/>
                     <field name="code" select="1"/>
