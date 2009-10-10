@@ -73,7 +73,7 @@
                         <form string="Depreciation methods">
                             <field name="name" select="1" colspan="4"/>
                             <separator string="Methods" colspan="4"/>
-                            <notebook>
+                            <notebook colspan="4">
                             <page string="Depreciation">
                                 <separator string="Accounts information" colspan="4"/>
                                 <field name="account_asset_id"/>
