@@ -87,11 +87,11 @@ class account_move_line(osv.osv):
         invoice_obj = self.pool.get('account.invoice')
         for rec in self.browse(cr, uid, ids, context):
             result[rec.id] = (0,0)
-            invoice_id = invoice_obj.search(cr, uid, [('move_id', '=', rec.move_id.id)])
+            invoice_id = invoice_obj.search(cr, uid, [('move_id', '=', rec.move_id.id)], context=context)
             if invoice_id:
-                inv = invoice_obj.browse(cr, uid, invoice_id[0])
+                inv = invoice_obj.browse(cr, uid, invoice_id[0], context)
                 if inv.payment_type:
-                    result[rec.id] = (inv.payment_type.id, self.pool.get('payment.type').browse(cr, uid, inv.payment_type.id).name)
+                    result[rec.id] = (inv.payment_type.id, self.pool.get('payment.type').browse(cr, uid, inv.payment_type.id, context).name)
             else:
                 result[rec.id] = (0,0)
         return result
@@ -99,14 +99,20 @@ class account_move_line(osv.osv):
     def _payment_type_search(self, cr, uid, obj, name, args, context={}):
         if not len(args):
             return []
-        text = args[0][2]
-        if not text:
+	operator = args[0][1]
+        value = args[0][2]
+        if not value:
             return []
-        ptype_id = self.pool.get('payment.type').search(cr,uid,[('name','ilike',text)])
-        if ptype_id:
+	if isinstance(value, int) or isinstance(value, long):
+		ids = [value]
+	elif isinstance(value, list):
+		ids = value 
+	else:
+		ids = self.pool.get('payment.type').search(cr,uid,[('name','ilike',value)], context=context)
+        if ids:
             cr.execute('SELECT l.id ' \
                 'FROM account_move_line l, account_invoice i ' \
-                'WHERE l.move_id = i.move_id AND i.payment_type in (%s)' % (','.join(map(str, ptype_id))))
+                'WHERE l.move_id = i.move_id AND i.payment_type in (%s)' % (','.join(map(str, ids))))
             res = cr.fetchall()
             if len(res):
                 return [('id', 'in', [x[0] for x in res])]
