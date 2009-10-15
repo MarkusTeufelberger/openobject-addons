@@ -88,8 +88,8 @@ class sale_shop(external_osv.external_osv):
         #'exportable_category_ids': fields.function(_get_exportable_category_ids, method=True, type='one2many', relation="product.category", string='Exportable Categories'),
         'exportable_root_category_ids': fields.many2many('product.category', 'shop_category_rel', 'categ_id', 'shop_id', 'Exportable Root Categories'),
         'exportable_product_ids': fields.function(_get_exportable_product_ids, method=True, type='one2many', relation="product.product", string='Exportable Products'),
-        'referential_id': fields.related('entity_id', 'referential_id', type='many2one', relation='external.referential', string='External Referential'),
-        'entity_id':fields.many2one('external.shop.group', 'Referential Sub Entity')
+        'entity_id':fields.many2one('external.shop.group', 'Shop Group'),#TODO rename key
+        'referential_id': fields.related('entity_id', 'referential_id', type='many2one', relation='external.referential', string='External Referential')
     }
     
     _defaults = {
