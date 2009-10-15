@@ -2,6 +2,18 @@
 <openerp>
     <data>
 
+	<record id="view_account_tree_add_company" model="ir.ui.view">
+            <field name="name">Account Tree add Company</field>
+            <field name="model">account.account</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.view_account_tree"/>
+            <field name="arch" type="xml">
+                <field name="balance" position="after">
+                    <field name="company_id" />
+                </field>
+            </field>
+        </record>
+	
 	<record model="ir.ui.view" id="view_account_move_line_form_inherit">
 		<field name="name">account.move.line.form.inherit</field>
 		<field name="model">account.move.line</field>
