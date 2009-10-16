@@ -114,8 +114,17 @@ class external_osv(osv.osv):
                             #del vals[for_key_field] looks like it is affecting the import :(
                             #Check if record exists
                             existing_ir_model_data_id = self.pool.get('ir.model.data').search(cr, uid, [('model', '=', self._name), ('name', '=', self.prefixed_id(external_id))])
+                            record_test_id = False
                             if existing_ir_model_data_id:
                                 existing_rec_id = self.pool.get('ir.model.data').read(cr, uid, existing_ir_model_data_id, ['res_id'])[0]['res_id']
+                                
+                                #Note: I wonder why OpenERP doesn't clean up already ir_model_data which res_id records have been deleted
+                                record_test_id = self.search(cr, uid, [('id', '=', existing_rec_id)])
+                                if not record_test_id:
+                                    self.pool.get('ir.model.data').unlink(cr, uid, existing_ir_model_data_id)
+
+                            if record_test_id:
+                                del vals[for_key_field]
                                 if self.write(cr,uid,existing_rec_id,vals,context):
                                     write_ids.append(existing_rec_id)
                             else:
@@ -129,6 +138,9 @@ class external_osv(osv.osv):
                                         'module':'base_external_referentials'
                                                       }
                                 self.pool.get('ir.model.data').create(cr,uid,ir_model_data_vals)
+                                
+        return {'create_ids': create_ids, 'write_ids': write_ids}
+
 
     def ext_export_data(self,cr,uid,ids,external_referential_id,defaults={},context={}):
         #if ids is [] all records are selected or ids has to be a list of ids
