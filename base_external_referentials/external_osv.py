@@ -54,6 +54,13 @@ class external_osv(osv.osv):
                     return oe_id
         return False
     
+    def oe_get(self, cr, uid, ids, context=None):
+        res = {}
+        for record in self.read(cr, uid, ids, [context['field']], context):
+            rid = self.pool.get(context['oe_model']).extid_to_oeid(cr, uid, record[context['field']], self.referential_id(cr, uid, record['id']))
+            res[record['id']] = rid
+        return res
+    
     def ext_import(self,cr, uid, data, external_referential_id, defaults={}, context={}):
         #Inward data has to be list of dictionary
         #This function will import a given set of data as list of dictionary into Open ERP
