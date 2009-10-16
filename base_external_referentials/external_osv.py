@@ -37,6 +37,10 @@ class external_osv(osv.osv):
             return self.pool.get('ir.model.data').read(cr,uid,model_data_id[0],['external_referential_id'])['external_referential_id'][0]
         else:
             return False
+        
+    def external_connection(self, cr, uid, referential, DEBUG=False):
+        """Should be overridden to provide valid external referential connection"""
+        return False
 
     def extid_to_oeid(self, cr, uid, ids, external_referential_id):
         #First get the external key field name

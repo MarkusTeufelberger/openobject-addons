@@ -88,45 +88,57 @@ class sale_shop(external_osv.external_osv):
         #'exportable_category_ids': fields.function(_get_exportable_category_ids, method=True, type='one2many', relation="product.category", string='Exportable Categories'),
         'exportable_root_category_ids': fields.many2many('product.category', 'shop_category_rel', 'categ_id', 'shop_id', 'Exportable Root Categories'),
         'exportable_product_ids': fields.function(_get_exportable_product_ids, method=True, type='one2many', relation="product.product", string='Exportable Products'),
-        'referential_id': fields.related('entity_id', 'referential_id', type='many2one', relation='external.referential', string='External Referential'),
-        'entity_id':fields.many2one('external.shop.group', 'Referential Sub Entity')
+        'entity_id':fields.many2one('external.shop.group', 'Shop Group'),#TODO rename key
+        'referential_id': fields.related('entity_id', 'referential_id', type='many2one', relation='external.referential', string='External Referential')
     }
     
     _defaults = {
         'payment_default_id': lambda *a: 1, #required field that would cause trouble if not set when importing
     }
     
-    def export_categories(self, cr, uid, ids, ctx):
-        for shop in self.browse(cr, uid, ids):
-            categories = Set([])
-            for category in shop.exportable_root_category_ids:#TODO ensure order is from root to leaf
-                for child in category.recursive_childen_ids:
-                    categories.add(child)
-            self.export_categories_collection(cr, uid, shop, [categ for categ in categories], ctx)
+    def export_categories(self, cr, uid, shop, ext_connection, ctx):
+        categories = Set([])
+        for category in shop.exportable_root_category_ids:#TODO ensure order is from root to leaf
+            for child in category.recursive_childen_ids:
+                categories.add(child)
+        self.export_categories_collection(cr, uid, shop, [categ for categ in categories], ext_connection, ctx)
         
-    def export_categories_collection(self, cr, uid, shop, categories, ctx):
+    def export_categories_collection(self, cr, uid, shop, categories, ext_connection, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
         
-    def export_products_collection(self, cr, uid, shop, products, ctx):
+    def export_products_collection(self, cr, uid, shop, products, ext_connection, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
 
-
-    def export_products(self, cr, uid, ids, ctx):
-        for shop in self.browse(cr, uid, ids):
-            self.export_products_collection(cr, uid, shop, shop.exportable_product_ids, ctx)
+    def export_products(self, cr, uid, shop, ext_connection, ctx):
+        self.export_products_collection(cr, uid, shop, shop.exportable_product_ids, ext_connection, ctx)
     
     def export_catalog(self, cr, uid, ids, ctx):
-        self.export_categories(cr, uid, ids, ctx)
-        self.export_products(cr, uid, ids, ctx)
+        for shop in self.browse(cr, uid, ids):
+            ext_connection = self.external_connection(cr, uid, shop.referential_id)
+            if ext_connection:
+                self.export_categories(cr, uid, shop, ext_connection, ctx)
+                self.export_products(cr, uid, shop, ext_connection, ctx)
         
     def import_catalog(self, cr, uid, ids, ctx):
         #TODO import categories, then products
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
         
     def import_orders(self, cr, uid, ids, ctx):
+        for shop in self.browse(cr, uid, ids):
+            ext_connection = self.external_connection(cr, uid, shop.referential_id)
+            if ext_connection:
+                self.import_shop_orders(cr, uid, shop, ext_connection, ctx)
+            
+    def import_shop_orders(self, cr, uid, shop, ext_connection, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
 
     def update_orders(self, cr, uid, ids, ctx):
+        for shop in self.browse(cr, uid, ids):
+            ext_connection = self.external_connection(cr, uid, shop.referential_id)
+            if ext_connection:
+                self.update_shop_orders(cr, uid, shop, ext_connection, ctx)
+        
+    def update_shop_orders(self, cr, uid, shop, ext_connection, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
 
 sale_shop()
