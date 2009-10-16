@@ -24,7 +24,7 @@ from base_external_referentials import external_osv
 from sets import Set
 
 
-class external_shop_group(osv.osv):
+class external_shop_group(external_osv.external_osv):
     _name = 'external.shop.group'
     _description = 'External Referential Shop Group'
     
@@ -33,6 +33,12 @@ class external_shop_group(osv.osv):
         'referential_id': fields.many2one('external.referential', 'Referential', select=True, ondelete='cascade'),
         'shop_ids': fields.one2many('sale.shop', 'entity_id', 'Sale Shops'),
     }
+    
+    def ext_import(self,cr, uid, data, external_referential_id, defaults={}, context={}):
+        res = super(external_shop_group, self).ext_import(cr, uid, data, external_referential_id, defaults, context)
+        all_ids = res['create_ids'] + res['create_ids']
+        self.write(cr, uid, all_ids, {'referential_id': external_referential_id}, context)
+        return res
     
 external_shop_group()
 
