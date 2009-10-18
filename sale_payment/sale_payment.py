@@ -43,7 +43,9 @@ class sale_order(osv.osv):
 
         return self.onchange_paytype_id(cr, uid, ids, paytype_id, part, result)
 
-    def onchange_paytype_id(self, cr, uid, ids, paytype_id, partner_id, result = {'value': {}}):
+    def onchange_paytype_id(self, cr, uid, ids, paytype_id, partner_id, result = None):
+    	if result is None:
+		result = {'value': {}}
         if paytype_id and partner_id:
             paytype = self.pool.get('payment.type').browse(cr, uid, paytype_id)
             if paytype.suitable_bank_types and paytype.active:
