@@ -100,7 +100,7 @@ class sale_shop(external_osv.external_osv):
         for category in shop.exportable_root_category_ids:#TODO ensure order is from root to leaf
             for child in category.recursive_childen_ids:
                 categories.add(child)
-        self.export_categories_collection(cr, uid, shop, [categ for categ in categories], ext_connection, ctx)
+        self.pool.get('product.category').ext_export(cr, uid, [categ.id for categ in categories], [shop.referential_id.id], {}, {'conn_obj': ext_connection})
         
     def export_categories_collection(self, cr, uid, shop, categories, ext_connection, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
