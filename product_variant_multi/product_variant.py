@@ -22,6 +22,8 @@
 
 from osv import fields, osv
 
+from tools import config
+
 #
 # Dimensions Definition
 #
@@ -62,8 +64,8 @@ class product_variant_dimension_value(osv.osv):
     _columns = {
         'name' : fields.char('Dimension Value', size=64, required=True),
         'sequence' : fields.integer('Sequence'),
-        'price_extra' : fields.float('Price Extra', size=64),
-        'price_margin' : fields.float('Price Margin', size=64), #TODO: this field is not implemented yet
+        'price_extra' : fields.float('Price Extra', digits=(16, int(config['price_accuracy']))),
+        'price_margin' : fields.float('Price Margin', digits=(16, int(config['price_accuracy']))),
         'dimension_id' : fields.many2one('product.variant.dimension.type', 'Dimension Type', required=True, ondelete='cascade'),
         'product_tmpl_id': fields.related('dimension_id', 'product_tmpl_id', type="many2one", relation="product.template", string="Product Template", store=True),
         'dimension_sequence': fields.related('dimension_id', 'sequence', string="Related Dimension Sequence",#used for ordering purposes in the "variants"
@@ -161,6 +163,25 @@ class product_product(osv.osv):
             if len(unique_set) != len(buffer):
                 return False
         return True
+
+    def price_get(self, cr, uid, ids, ptype='list_price', context={}):
+        result = super(product_product, self).price_get(cr, uid, ids, ptype, context)
+        
+        if ptype == 'list_price':
+            product_uom_obj = self.pool.get('product.uom')
+            for product in self.browse(cr, uid, ids, context=context):
+                dimension_extra = 0.0
+                for dim in product.dimension_value_ids:
+                    dimension_extra += product.price_extra * dim.price_margin + dim.price_extra
+                
+                if 'uom' in context:
+                    uom = product.uos_id or product.uom_id
+                    dimension_extra = product_uom_obj._compute_price(cr, uid,
+                            uom.id, dimension_extra, context['uom'])
+                
+                result[product.id] += dimension_extra
+
+        return result
 
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
