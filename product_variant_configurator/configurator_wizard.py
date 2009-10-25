@@ -73,18 +73,16 @@ class product_variant_configurator_configurator(osv.osv_memory):
 
     #TODO load the product of the sale order line in the wizard in case of modification
     def default_get(self, cr, uid, fields_list, context=None):
+        res = super(osv.osv_memory, self).default_get(cr, uid, fields_list, context) # Also not sure about osv_memory ? shouldn't it be your class ?
         sol_id = context.get('active_id', False)
         if (context.get('active_id_object_type', False) == 'sale.order.line' and sol_id):
             res_sol = self.pool.get('sale.order.line').read(cr, uid, sol_id, ['product_id', 'dimension_custom_value_ids'])
-            
             if res_sol:
                 res_product = self.pool.get('product.product').read(cr, uid, res_sol['product_id'][0], ['product_tmpl_id', 'dimension_value_ids'])
+                res.update({'product_variant_id': res_sol['product_id'],
+                      'product_tmpl_id': res_product['product_tmpl_id'], })
 
-                vals = {'product_variant_id': res_sol['product_id'],
-                      'product_tmpl_id': res_product['product_tmpl_id'], }
-                return vals
-    
-        return super(osv.osv_memory, self).default_get(cr, uid, fields_list, context)
+        return res
     
     def onchange_product_tmpl_id(self, cr, uid, ids, product_tmpl_id=False):
         result = {}
