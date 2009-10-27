@@ -63,7 +63,7 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Asset">
-                <notebook>
+                <notebook colspan="4">
                 <page string="General info">
                     <field name="name" select="1"/>
                     <field name="code" select="1"/>
@@ -73,7 +73,7 @@
                         <form string="Depreciation methods">
                             <field name="name" select="1" colspan="4"/>
                             <separator string="Methods" colspan="4"/>
-                            <notebook>
+                            <notebook colspan="4">
                             <page string="Depreciation">
                                 <separator string="Accounts information" colspan="4"/>
                                 <field name="account_asset_id"/>
