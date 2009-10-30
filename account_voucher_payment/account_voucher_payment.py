@@ -50,13 +50,13 @@ class account_voucher(osv.osv):
             diff_currency_p = inv.currency_id.id <> company_currency
 
             total = 0
-            if inv.type in ('pay_voucher', 'journal_voucher', 'rec_voucher','cont_voucher','bank_pay_voucher','bank_rec_voucher','journal_sale_voucher','journal_pur_voucher'):
+            if inv.type in ('pay_voucher', 'journal_voucher', 'rec_voucher','cont_voucher','bank_pay_voucher','bank_rec_voucher','journal_sale_vou','journal_pur_voucher'):
                 ref = inv.reference
             else:
                 ref = self._convert_ref(cr, uid, inv.number)
-                
             date = inv.date
             total_currency = 0
+            acc_id = False
             for i in iml:
                 partner_id=i['partner_id']
                 acc_id = i['account_id']    
@@ -76,7 +76,9 @@ class account_voucher(osv.osv):
 
             name = inv['name'] or '/'
             totlines = False
-
+            if not acc_id:
+                raise osv.except_osv(_('Error !'), _('No Account found for Moves!'))
+            
             iml.append({
                 'type': 'dest',
                 'name': name,
@@ -105,9 +107,8 @@ class account_voucher(osv.osv):
                 'name': name, 
                 'journal_id': journal_id, 
                 'voucher_type':inv.type,
-                'narration' : inv.narration
+                'narration' : inv.narration,
             }
-            
             if inv.period_id:
                 move['period_id'] = inv.period_id.id
                 for i in line:
