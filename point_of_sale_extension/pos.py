@@ -29,6 +29,7 @@
 
 from osv import fields
 from osv import osv
+from tools import config
 
 import netsvc
 import time
@@ -492,8 +493,9 @@ class pos_order_line(osv.osv):
         'partner_id':fields.related('order_id', 'partner_id', type='many2one', relation='res.partner', string='Partner'),
         'state':fields.related('order_id', 'state', type='selection', selection=[('cancel', 'Cancel'), ('draft', 'Draft'),
             ('paid', 'Paid'), ('done', 'Done'), ('invoiced', 'Invoiced')], string='State'),
+        'price_unit': fields.float('Unit Price', required=True, digits=(16, int(config['price_accuracy']))),
         'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal'),
-        'price_unit_vat': fields.function(_price_unit_vat, method=True, string='Total Unit'),
+        'price_unit_vat': fields.function(_price_unit_vat, method=True, string='Total Unit', digits=(16, int(config['price_accuracy']))),
         'price_subtotal_vat': fields.function(_price_subtotal_vat, method=True, string='Subtotal+Tax'),
     }
 
