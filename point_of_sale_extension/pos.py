@@ -7,6 +7,8 @@
 #       All Rights Reserved, Jordi Esteve <jesteve@zikzakmedia.com>
 #    Copyright (c) 2009 SYLEAM (http://syleam.fr) 
 #       All Rights Reserved, Christophe Chauvet <christophe.chauvet@syleam.fr>
+#    Copyright (c) 2009 SYLEAM (http://syleam.fr) 
+#       All Rights Reserved, Sebastien LANGE <sebastien.lange@syleam.fr>
 #
 #    This file is a part of point_of_sale_extension
 #
@@ -27,6 +29,7 @@
 
 from osv import fields
 from osv import osv
+from tools import config
 
 import netsvc
 import time
@@ -46,51 +49,47 @@ class pos_order(osv.osv):
 
         for order in self.browse(cr, uid, ids):
             val = 0.0
+            cur_obj = self.pool.get('res.currency')
+            cur = order.pricelist_id.currency_id
             for line in order.lines:
                 if prices_tax_include:
-                    val = reduce(lambda x, y: x+round(y['amount'], 2),
+                    val = reduce(lambda x, y: x + y['amount'],
                         tax_obj.compute_inv(cr, uid, line.product_id.taxes_id,
                             line.price_unit * \
                             (1-(line.discount or 0.0)/100.0), line.qty),
                             val)
                 else:
-                    val = reduce(lambda x, y: x+round(y['amount'], 2),
+                    val = reduce(lambda x, y: x + y['amount'],
                         tax_obj.compute(cr, uid, line.product_id.taxes_id,
                             line.price_unit * \
                             (1-(line.discount or 0.0)/100.0), line.qty),
                             val)
 
-            res[order.id] = val
+            res[order.id] = cur_obj.round(cr, uid, cur, val)
         return res
 
 
     def _amount_total(self, cr, uid, ids, field_name, arg, context):
         """This method is redefined to deal with prices with/without taxes included depending on company configuration"""
-        id_set = ",".join(map(str, ids))
-        cr.execute("""
-        SELECT
-            p.id,
-            COALESCE(SUM(
-                l.price_unit*l.qty*(1-(l.discount/100.0)))::decimal(16,2), 0
-                ) AS amount
-        FROM pos_order p
-            LEFT OUTER JOIN pos_order_line l ON (p.id=l.order_id)
-        WHERE p.id IN (""" + id_set  +""") GROUP BY p.id """)
-        res = dict(cr.fetchall())
-
+        res = {}
         users_obj = self.pool.get('res.users')
         user = users_obj.browse(cr, uid, uid, context)
         prices_tax_include = user.company_id.pos_prices_tax_include
-
-        for rec in self.browse(cr, uid, ids, context):
-            if rec.partner_id \
-               and rec.partner_id.property_account_position \
-               and rec.partner_id.property_account_position.tax_ids:
+        cur_obj = self.pool.get('res.currency')
+        for order in self.browse(cr, uid, ids):
+            cur = order.pricelist_id.currency_id
+            val = 0.0
+            for line in order.lines:
+                val += line.price_subtotal
+            res[order.id] = cur_obj.round(cr, uid, cur, val)
+            if order.partner_id \
+               and order.partner_id.property_account_position \
+               and order.partner_id.property_account_position.tax_ids:
                 if prices_tax_include:
-                    res[rec.id] = res[rec.id] - rec.amount_tax
+                    res[order.id] = cur_obj.round(cr, uid, cur, val) - order.amount_tax
             else:
                 if not prices_tax_include:
-                    res[rec.id] = res[rec.id] + rec.amount_tax
+                    res[order.id] = cur_obj.round(cr, uid, cur, val) + order.amount_tax
         return res
 
 
@@ -171,8 +170,10 @@ class pos_order(osv.osv):
         users_obj = self.pool.get('res.users')
         user = users_obj.browse(cr, uid, uid, context)
         prices_tax_include = user.company_id.pos_prices_tax_include
+        cur_obj = self.pool.get('res.currency')
 
         for order in self.browse(cr, uid, ids, context=context):
+            cur = order.pricelist_id.currency_id
 
             if order.amount_total == 0:
                 continue
@@ -201,15 +202,15 @@ class pos_order(osv.osv):
                     computed_taxes = account_tax_obj.compute(cr, uid, line.product_id.taxes_id, line.price_unit * (1-(line.discount or 0.0)/100.0), line.qty)
 
                 for tax in computed_taxes:
-                    tax_amount += round(tax['amount'], 2)
+                    tax_amount += cur_obj.round(cr, uid, cur, tax['amount'])
                     group_key = (tax['tax_code_id'],
                                 tax['base_code_id'],
                                 tax['account_collected_id'])
 
                     if group_key in group_tax:
-                        group_tax[group_key] += round(tax['amount'], 2)
+                        group_tax[group_key] += cur_obj.round(cr, uid, cr, tax['amount'])
                     else:
-                        group_tax[group_key] = round(tax['amount'], 2)
+                        group_tax[group_key] = cur_obj.round(cr, uid, cur, tax['amount'])
 
                 amount = line.price_subtotal
                 if prices_tax_include:
@@ -436,6 +437,14 @@ class pos_order_line(osv.osv):
     _inherit = 'pos.order.line'
     _order = "create_date desc"
 
+    def _amount_line(self, cr, uid, ids, field_name, arg, context):
+        res = {}
+        cur_obj = self.pool.get('res.currency')
+        for line in self.browse(cr, uid, ids):
+            cur = line.order_id.pricelist_id.currency_id
+            res[line.id] = cur_obj.round(cr, uid, cur, (line.price_unit * line.qty * (1 - (line.discount or 0.0) / 100.0)))
+        return res
+
     def _price_unit_vat(self, cr, uid, ids, field_name, arg, context):
         """This method is defined to show unit prices minus discount plus taxes on order line"""
         res = {}
@@ -443,16 +452,18 @@ class pos_order_line(osv.osv):
         users_obj = self.pool.get('res.users')
         user = users_obj.browse(cr, uid, uid, context)
         prices_tax_include = user.company_id.pos_prices_tax_include
+        cur_obj = self.pool.get('res.currency')
 
         for line in self.browse(cr, uid, ids):
             val = 0.0
+            cur = line.order_id.pricelist_id.currency_id
             if not prices_tax_include:
-                val = reduce(lambda x, y: x+round(y['amount'], 2),
+                val = reduce(lambda x, y: x+cur_obj.round(cr, uid, cur, y['amount']),
                     tax_obj.compute(cr, uid, line.product_id.taxes_id,
                         line.price_unit * \
                         (1-(line.discount or 0.0)/100.0), 1),
                         val)
-            res[line.id] = val + line.price_unit * (1-(line.discount or 0.0)/100.0)
+            res[line.id] = cur_obj.round(cr, uid, cur, (val + line.price_unit * (1-(line.discount or 0.0)/100.0)))
         return res
 
 
@@ -463,16 +474,18 @@ class pos_order_line(osv.osv):
         users_obj = self.pool.get('res.users')
         user = users_obj.browse(cr, uid, uid, context)
         prices_tax_include = user.company_id.pos_prices_tax_include
+        cur_obj = self.pool.get('res.currency')
 
         for line in self.browse(cr, uid, ids):
             val = 0.0
+            cur = line.order_id.pricelist_id.currency_id
             if not prices_tax_include:
-                val = reduce(lambda x, y: x+round(y['amount'], 2),
+                val = reduce(lambda x, y: x+cur_obj.round(cr, uid, cur, y['amount']),
                     tax_obj.compute(cr, uid, line.product_id.taxes_id,
                         line.price_unit * \
                         (1-(line.discount or 0.0)/100.0), line.qty),
                         val)
-            res[line.id] = val + (line.price_unit * (1-(line.discount or 0.0)/100.0) * line.qty)
+            res[line.id] = cur_obj.round(cr, uid, cur, (val + (line.price_unit * (1-(line.discount or 0.0)/100.0) * line.qty)))
         return res
 
 
@@ -480,7 +493,9 @@ class pos_order_line(osv.osv):
         'partner_id':fields.related('order_id', 'partner_id', type='many2one', relation='res.partner', string='Partner'),
         'state':fields.related('order_id', 'state', type='selection', selection=[('cancel', 'Cancel'), ('draft', 'Draft'),
             ('paid', 'Paid'), ('done', 'Done'), ('invoiced', 'Invoiced')], string='State'),
-        'price_unit_vat': fields.function(_price_unit_vat, method=True, string='Total Unit'),
+        'price_unit': fields.float('Unit Price', required=True, digits=(16, int(config['price_accuracy']))),
+        'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal'),
+        'price_unit_vat': fields.function(_price_unit_vat, method=True, string='Total Unit', digits=(16, int(config['price_accuracy']))),
         'price_subtotal_vat': fields.function(_price_subtotal_vat, method=True, string='Subtotal+Tax'),
     }
 
