@@ -40,6 +40,7 @@ import random
 import sys
 import tools
 import re
+from tools.translate import _
 #if sys.version[0:3] > '2.4':
 #    from hashlib import md5
 #else:
@@ -256,7 +257,10 @@ class SmtpClient(osv.osv):
                 msg['Subject'] = subject 
                 msg['To'] =  to
                 msg['From'] = smtp_server.from_email
-                msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))
+                try:
+                    msg.attach(MIMEText(body.encode('utf8') or '', _charset='utf-8', _subtype="html"))
+                except:
+                    msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))
                 
                 for rpt in reports:
                     rpt_file = createReport(cr, uid, rpt[0], rpt[1])
@@ -286,7 +290,10 @@ class SmtpClient(osv.osv):
             msg['Subject'] = subject 
             msg['To'] =  emailto
             msg['From'] = smtp_server.from_email
-            msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))
+            try:
+                msg.attach(MIMEText(body.encode('utf8') or '', _charset='utf-8', _subtype="html"))
+            except:
+                msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))    
             
             for rpt in reports:
                 rpt_file = createReport(cr, uid, rpt[0], rpt[1])
