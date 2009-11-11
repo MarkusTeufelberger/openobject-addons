@@ -26,6 +26,7 @@ from osv import osv, fields
 from mako.template import Template
 import netsvc
 import base64
+from tools.translate import _
 
 class poweremail_send_wizard(osv.osv_memory):
     _name = 'poweremail.send.wizard'
@@ -91,9 +92,9 @@ class poweremail_send_wizard(osv.osv_memory):
         'rel_model':fields.many2one('ir.model','Model',readonly=True),
         'rel_model_ref':fields.integer('Referred Document',readonly=True),
         'from':fields.selection(_get_accounts,'From Account',select=True),
-        'to':fields.char('To',size=100,readonly=True),
-        'cc':fields.char('CC',size=100,),
-        'bcc':fields.char('BCC',size=100,),
+        'to':fields.char('To',size=250,readonly=True),
+        'cc':fields.char('CC',size=250,),
+        'bcc':fields.char('BCC',size=250,),
         'subject':fields.char('Subject',size=200),
         'body_text':fields.text('Body',),
         'body_html':fields.text('Body',),
@@ -161,7 +162,9 @@ class poweremail_send_wizard(osv.osv_memory):
                 record_id = screen_vals['rel_model_ref']
                 reportname = 'report.' + self.pool.get('ir.actions.report.xml').read(cr,uid,self.template.report_template.id,['report_name'])['report_name']
                 service = netsvc.LocalService(reportname)
-                (result, format) = service.create(cr, uid, [record_id], {}, {})
+                data = {}
+                data['model'] = self.pool.get('ir.model').browse(cr, uid, screen_vals['rel_model']).name
+                (result, format) = service.create(cr, uid, [record_id], data, ctx)
                 att_obj = self.pool.get('ir.attachment')
                 new_att_vals={
                                 'name':screen_vals['subject'] + ' (Email Attachment)',
@@ -175,7 +178,4 @@ class poweremail_send_wizard(osv.osv_memory):
                 if attid:
                     self.pool.get('poweremail.mailbox').write(cr,uid,mail_id,{'pem_attachments_ids':[[6, 0, [attid]]],'mail_type':'multipart/mixed'})
             return mail_id
-        
 poweremail_send_wizard()
-    
-    

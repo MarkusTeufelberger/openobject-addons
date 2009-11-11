@@ -27,6 +27,8 @@ from mako.template import Template
 import netsvc
 import base64
 import poweremail_engines
+import random
+from tools.translate import _
 
 class poweremail_templates(osv.osv):
     _name="poweremail.templates"
@@ -41,9 +43,9 @@ class poweremail_templates(osv.osv):
         'name' : fields.char('Name of Template',size=100,required=True),
         'object_name':fields.many2one('ir.model','Model'),
         'model_int_name':fields.char('Model Internal Name',size=200,),
-        'def_to':fields.char('Recepient (To)',size=64,help="The default recepient of email. Placeholders can be used here."),
-        'def_cc':fields.char('Default CC',size=64,help="The default CC for the email. Placeholders can be used here."),
-        'def_bcc':fields.char('Default BCC',size=64,help="The default BCC for the email. Placeholders can be used here."),
+        'def_to':fields.char('Recepient (To)',size=250,help="The default recepient of email. Placeholders can be used here."),
+        'def_cc':fields.char('Default CC',size=250,help="The default CC for the email. Placeholders can be used here."),
+        'def_bcc':fields.char('Default BCC',size=250,help="The default BCC for the email. Placeholders can be used here."),
         'def_subject':fields.char('Default Subject',size=200, help="The default subject of email. Placeholders can be used here."),
         'def_body_text':fields.text('Standard Body (Text)',help="The text version of the mail"),
         'def_body_html':fields.text('Body (Text-Web Client Only)',help="The text version of the mail"),
@@ -51,7 +53,7 @@ class poweremail_templates(osv.osv):
         'file_name':fields.char('File Name Pattern',size=200,help="File name pattern can be specified with placeholders. eg. 2009_SO003.pdf"),
         'report_template':fields.many2one('ir.actions.report.xml','Report to send'),
         #'report_template':fields.reference('Report to send',[('ir.actions.report.xml','Reports')],size=128),
-        'allowed_groups':fields.many2many('res.groups','template_group_rel','templ_id','group_id',string="Allowed User Groups",  help="Only users from these groups will be allowed to send mails from this ID"),
+        'allowed_groups':fields.many2many('res.groups','template_group_rel','templ_id','group_id',string="Allowed User Groups",  help="Only users from these groups will be allowed to send mails from this Template"),
         'enforce_from_account':fields.many2one('poweremail.core_accounts',string="Enforce From Account",help="Emails will be sent only from this account.",domain="[('company','=','yes')]"),
 
         'auto_email':fields.boolean('Auto Email', help="Selecting Auto Email will create a server action for you which automatically sends mail after a new record is created.\nNote:Auto email can be enabled only after saving template."),
@@ -170,6 +172,17 @@ class poweremail_templates(osv.osv):
                 raise osv.except_osv(_("Warning"),_("Deletion of Record failed"))
                 return False
         return True
+    
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
+        default = default.copy()
+        new_name = "Copy of template " + default.get('name','No Name')
+        check = self.search(cr,uid,[('name','=',new_name)])
+        if check:
+            new_name = new_name + '_' + random.choice('abcdefghij') + random.choice('lmnopqrs') + random.choice('tuvwzyz')
+        default.update({'name':new_name,})
+        return super(poweremail_templates, self).copy(cr, uid, id, default, context)
     
     def compute_pl(self,model_object_field,sub_model_object_field,null_value):
         #Configure for MAKO
@@ -345,7 +358,9 @@ class poweremail_templates(osv.osv):
                 if template.report_template:
                     reportname = 'report.' + self.pool.get('ir.actions.report.xml').read(cr,uid,template.report_template.id,['report_name'])['report_name']
                     service = netsvc.LocalService(reportname)
-                    (result, format) = service.create(cr, uid, [recid], {}, {})
+                    data = {}
+                    data['model'] = template.model_int_name
+                    (result, format) = service.create(cr, uid, [recid], data, context)
                     att_obj = self.pool.get('ir.attachment')
                     new_att_vals={
                                     'name':vals['pem_subject'] + ' (Email Attachment)',
@@ -400,9 +415,9 @@ class poweremail_preview(osv.osv_memory):
         'ref_template':fields.many2one('poweremail.templates','Template',readonly=True),
         'rel_model':fields.many2one('ir.model','Model',readonly=True),
         'rel_model_ref':fields.selection(_get_model_recs,'Referred Document'),
-        'to':fields.char('To',size=100,readonly=True),
-        'cc':fields.char('CC',size=100,readonly=True),
-        'bcc':fields.char('BCC',size=100,readonly=True),
+        'to':fields.char('To',size=250,readonly=True),
+        'cc':fields.char('CC',size=250,readonly=True),
+        'bcc':fields.char('BCC',size=250,readonly=True),
         'subject':fields.char('Subject',size=200,readonly=True),
         'body_text':fields.text('Body',readonly=True),
         'body_html':fields.text('Body',readonly=True),
