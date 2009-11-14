@@ -208,7 +208,7 @@ class pos_order(osv.osv):
                                 tax['account_collected_id'])
 
                     if group_key in group_tax:
-                        group_tax[group_key] += cur_obj.round(cr, uid, cr, tax['amount'])
+                        group_tax[group_key] += cur_obj.round(cr, uid, cur, tax['amount'])
                     else:
                         group_tax[group_key] = cur_obj.round(cr, uid, cur, tax['amount'])
 
