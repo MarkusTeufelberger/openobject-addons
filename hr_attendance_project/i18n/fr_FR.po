@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-11-14 19:01:16+0000\n"
-"PO-Revision-Date: 2009-11-14 19:01:16+0000\n"
+"POT-Creation-Date: 2009-11-14 19:02:04+0000\n"
+"PO-Revision-Date: 2009-11-14 19:02:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
 #, python-format
 msgid "This duration is negative, not possible !"
-msgstr ""
+msgstr "La durée est négative, vérifier votre temps !"
 
 #. module: hr_attendance_project
 #: model:ir.module.module,description:hr_attendance_project.module_meta_information
@@ -32,66 +32,66 @@ msgstr ""
 #: wizard_view:hr_timesheet.sitp_sotp,sign_out:0
 #: model:ir.actions.wizard,name:hr_attendance_project.sitp_stop_task
 msgid "Sign in / Sign out"
-msgstr ""
+msgstr "Pointer l'entrée / Pointer la sortie"
 
 #. module: hr_attendance_project
 #: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
 #, python-format
 msgid "No employee defined for your user !"
-msgstr ""
+msgstr "Pas d'employé défini pour vous !"
 
 #. module: hr_attendance_project
 #: wizard_view:hr_timesheet.sitp_sotp,sign_out:0
 msgid "(Keep empty for current time)"
-msgstr ""
+msgstr "(Garder vide pour la date courante)"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_out,server_date:0
 msgid "Current Date"
-msgstr ""
+msgstr "Date courante"
 
 #. module: hr_attendance_project
 #: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
 #, python-format
 msgid "This project does not have any analytic account defined."
-msgstr ""
+msgstr "Ce projet n'a pas de compte analytique défini."
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,server_date:0
 msgid "Current Server Date"
-msgstr ""
+msgstr "Date courante du serveur"
 
 #. module: hr_attendance_project
 #: model:ir.actions.wizard,name:hr_attendance_project.sitp_sotp
 #: model:ir.ui.menu,name:hr_attendance_project.menu_sitp_sotp
 msgid "Sign in / Sign out by task project"
-msgstr ""
+msgstr "Pointer l'entrée / Pointer la sortie par tache"
 
 #. module: hr_attendance_project
 #: wizard_button:hr_timesheet.sitp_sotp,sign_in,so_result_end:0
 msgid "Stop Working"
-msgstr ""
+msgstr "Fin de la journée"
 
 #. module: hr_attendance_project
 #: wizard_view:hr_timesheet.sitp_sotp,sign_out:0
 msgid "Sign in"
-msgstr ""
+msgstr "Pointer l'entrée"
 
 #. module: hr_attendance_project
 #: wizard_view:hr_timesheet.sitp_sotp,sign_out:0
 msgid "(local time on the server side)"
-msgstr ""
+msgstr "Heure local coté serveur"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,date_start:0
 #: wizard_field:hr_timesheet.sitp_sotp,sign_out,date:0
 msgid "Starting Date"
-msgstr ""
+msgstr "Date de démarrage"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,date:0
 msgid "Closing Date"
-msgstr ""
+msgstr "Date de fin"
 
 #. module: hr_attendance_project
 #: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
@@ -100,92 +100,91 @@ msgstr ""
 #: wizard_field:hr_timesheet.sitp_sotp,sign_out,tasks_project:0
 #, python-format
 msgid "Task"
-msgstr ""
+msgstr "Tâche"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,analytic_amount:0
 msgid "Minimum Analytic Amount"
-msgstr ""
+msgstr "Montant analytique minimum"
 
 #. module: hr_attendance_project
 #: model:ir.actions.wizard,name:hr_attendance_project.sitp_sotp_my
 #: model:ir.ui.menu,name:hr_attendance_project.menu_sitp_sotp_my
 msgid "Sign in / Sign out by my task project"
-msgstr ""
+msgstr "Pointer l'entrée / Pointer la sortie pour mes tâches"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,state:0
 #: wizard_field:hr_timesheet.sitp_sotp,sign_out,state:0
 msgid "Current state"
-msgstr ""
+msgstr "État actuel"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,hours_no_work:0
 msgid "Hours not working"
-msgstr ""
+msgstr "Temps non travaillé"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,project_id:0
 msgid "Project"
-msgstr ""
+msgstr "Projet"
 
 #. module: hr_attendance_project
 #: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,name:0
 #: wizard_field:hr_timesheet.sitp_sotp,sign_out,name:0
 msgid "Employee's name"
-msgstr ""
+msgstr "Nom de l'employé"
 
 #. module: hr_attendance_project
 #: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
 #, python-format
 msgid "UserError"
-msgstr ""
+msgstr "Erreur utilisateur"
 
 #. module: hr_attendance_project
 #: wizard_button:hr_timesheet.sitp_sotp,sign_out,si_result_open_task:0
 msgid "Start Working and Open Task"
-msgstr ""
+msgstr "Démarrage et ouverture de la tâche"
 
 #. module: hr_attendance_project
 #: wizard_button:hr_timesheet.sitp_sotp,sign_out,si_result:0
 msgid "Start Working"
-msgstr ""
+msgstr "Démarrage"
 
 #. module: hr_attendance_project
 #: model:ir.module.module,shortdesc:hr_attendance_project.module_meta_information
 msgid "Attendances of Employees in Projects"
-msgstr ""
+msgstr "Présence des employés dans les projets"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,account_id:0
 msgid "Analytic Account"
-msgstr ""
+msgstr "Compte analytique"
 
 #. module: hr_attendance_project
 #: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
 #, python-format
 msgid "No cost unit defined for this employee !"
-msgstr ""
+msgstr "Pas d'unité de coût pour cette employé !"
 
 #. module: hr_attendance_project
 #: wizard_button:hr_timesheet.sitp_sotp,sign_in,end:0
 #: wizard_button:hr_timesheet.sitp_sotp,sign_out,end:0
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,info:0
 msgid "Work Description"
-msgstr ""
+msgstr "Travail effectué"
 
 #. module: hr_attendance_project
 #: wizard_button:hr_timesheet.sitp_sotp,sign_in,so_result:0
 msgid "Change Work"
-msgstr ""
-
+msgstr "Changement de travail"
