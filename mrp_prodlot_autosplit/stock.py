@@ -61,6 +61,43 @@ class stock_move(osv.osv):
 #            """_(The product associated to the move require a unique (per instance) production number, 
 #            you should split the move assign a different number to every move)""",
 #            ['prodlot_id'])]
+
+    def action_done(self, cr, uid, ids, context=None):
+        """If we autosplit moves without reconnecting them 1 by 1, at least when some move which has descendants is split
+        The following situation would happen (alphabetical order is order of creation, initially b and a pre-exists, then a is split, so a might get assigned and then split too):
+        Incoming moves b, c, d
+        Outgoing moves a, e, f
+        Then we have those links: b->a, c->a, d->a
+        and: b->, b->e, b->f
+        The following code will detect this situation and reconnect properly the moves into only: b->a, c->e and d->f  
+        """
+        result = super(stock_move, self).action_done(cr, uid, ids, context)
+        for move in self.browse(cr, uid, ids):
+            if move.product_id.unique_production_number and move.move_dest_id and move.move_dest_id.id:
+                cr.execute("select stock_move.id from stock_move_history_ids left join stock_move on stock_move.id = stock_move_history_ids.child_id where parent_id=%s and stock_move.product_qty=1", (move.id,))
+                unitary_out_moves = cr.fetchall()
+                if unitary_out_moves and len(unitary_out_moves) > 1:
+                    unitary_in_moves = []
+                    out_node = False
+                    counter1 = 0
+                    while len(unitary_in_moves) != len(unitary_out_moves):
+                        cr.execute("select stock_move.id from stock_move_history_ids left join stock_move on stock_move.id = stock_move_history_ids.parent_id where child_id=%s and stock_move.product_qty=1", (unitary_out_moves[counter1][0],))
+                        unitary_in_moves = cr.fetchall()
+                        out_node = unitary_out_moves[counter1][0]
+                        counter1 += 1
+                    
+                    if len(unitary_in_moves) == len(unitary_out_moves):
+                        unitary_out_moves.reverse()
+                        unitary_out_moves.pop()
+                        unitary_in_moves.reverse()
+                        unitary_in_moves.pop()
+                        counter = 0
+                        for unitary_in_move in unitary_in_moves:
+                            cr.execute("delete from stock_move_history_ids where parent_id=%s and child_id=%s", (unitary_in_moves[counter][0], out_node))
+                            cr.execute("update stock_move_history_ids set parent_id=%s where parent_id=%s and child_id=%s", (unitary_in_moves[counter][0], move.id, unitary_out_moves[counter][0]))
+                            counter += 1
+
+        return result
     
 stock_move()
 
@@ -72,7 +109,6 @@ class stock_picking(osv.osv):
         result = super(stock_picking, self).action_assign_wkf(cr, uid, ids)
         
         for picking in self.browse(cr, uid, ids):
-                additional_move_lines = []
                 for move in picking.move_lines:
                     if move.product_id.unique_production_number and move.product_qty > 1 and (\
                     (move.product_id.track_production and move.location_id.usage == 'production') or \
@@ -80,14 +116,12 @@ class stock_picking(osv.osv):
                     (move.product_id.track_incoming and move.location_id.usage == 'supplier') or \
                     (move.product_id.track_outgoing and move.location_dest_id.usage == 'customer')):
 
-                        while move.product_qty > 0:
-                            new_move_id = self.pool.get('stock.move').copy(cr, uid, move.id, {'product_qty': 1, 'product_uos_qty': move.product_id.uos_coeff, 'state': move.state, 'prodlot_id': None})
-                            additional_move_lines.append(new_move_id)
-                            move.product_qty -= 1;
-                        
-                        self.pool.get('stock.move').write(cr, uid, move.id, {'state': 'draft'})
-                        self.pool.get('stock.move').unlink(cr, uid, [move.id], {})
-        
+                        qty = move.product_qty
+                        self.pool.get('stock.move').write(cr, uid, move.id, {'product_qty': 1, 'product_uos_qty': move.product_id.uos_coeff})
+                        while qty > 1:
+                            self.pool.get('stock.move').copy(cr, uid, move.id, {'state': move.state, 'prodlot_id': None})
+                            qty -= 1;    
+
         return result
         
 stock_picking()
