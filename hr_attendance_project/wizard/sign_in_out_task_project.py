@@ -28,6 +28,7 @@
 
 import wizard
 import time
+import datetime
 import pooler
 from tools.translate import _
 from tools.misc import UpdateableStr
@@ -68,6 +69,7 @@ so_form_base = '''<?xml version="1.0" ?>
     <field name="date" colspan="2"/>
     <label string="(Keep empty for current_time)" colspan="2"/>
     <field name="analytic_amount"/>
+    <field name="hours_no_work" widget="float_time"/>
 </form>'''
 
 so_form = UpdateableStr()
@@ -84,6 +86,7 @@ so_fields = {
     'project_id': {'string':"Project", 'type':'many2one', 'relation':'project.project'},
     'tasks_account': {'string':"Task", 'type':'many2one', 'relation':'project.task'},
     'tasks_project': {'string':"Task", 'type':'many2one', 'relation':'project.task'},
+    'hours_no_work': {'string':"Hours not working", 'type':'float'},
 }
 
 def _get_empid(self, cr, uid, data, context):
@@ -149,7 +152,7 @@ def _open_task(self, cr, uid, data, context):
         return {
             'domain': "[('id','=', %s)]" %  data['form']['tasks_project'],
             'context': "{'task':1}",
-            'name': 'Task',
+            'name': _('Task'),
             'view_type': 'form',
             'view_mode': 'tree,form',
             'res_model': 'project.task',
@@ -166,6 +169,10 @@ def _write(self, cr, uid, data, emp_id, context):
 
     hour = (time.mktime(time.strptime(data['form']['date'] or time.strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')) -
         time.mktime(time.strptime(data['form']['date_start'], '%Y-%m-%d %H:%M:%S'))) / 3600.0
+    hour -= data['form']['hours_no_work']
+    if hour < 0:
+        raise wizard.except_wizard(_('Error'), _('This duration is negative, not possible !'))
+
     minimum = data['form']['analytic_amount']
     if minimum:
         hour = round(round((hour + minimum / 2) / minimum) * minimum, 2)
