@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-11-14 19:02:04+0000\n"
-"PO-Revision-Date: 2009-11-14 19:02:04+0000\n"
+"POT-Creation-Date: 2009-11-14 22:13:23+0000\n"
+"PO-Revision-Date: 2009-11-14 22:13:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -130,6 +130,11 @@ msgid "Project"
 msgstr "Projet"
 
 #. module: hr_attendance_project
+#: wizard_button:hr_timesheet.sitp_sotp,sign_in,so_result_task:0
+msgid "Change Task"
+msgstr "Changement de tâche"
+
+#. module: hr_attendance_project
 #: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
 #, python-format
 msgid "Error"
@@ -188,3 +193,9 @@ msgstr "Travail effectué"
 #: wizard_button:hr_timesheet.sitp_sotp,sign_in,so_result:0
 msgid "Change Work"
 msgstr "Changement de travail"
+
+#. module: hr_attendance_project
+#: wizard_field:hr_timesheet.sitp_sotp,sign_in,tasks_project_next:0
+msgid "Next Task"
+msgstr "Prochaine tâche"
+

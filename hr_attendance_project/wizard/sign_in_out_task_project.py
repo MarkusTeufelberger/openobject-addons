@@ -42,7 +42,7 @@ si_form ='''<?xml version="1.0"?>
     <label string="(local time on the server side)" colspan="2"/>
     <field name="date"/>
     <label string="(Keep empty for current time)" colspan="2"/>
-    <field name="tasks_project" domain="[('project_id.members', 'child_of', [uid]),('state','in',['draft','open'])]" colspan="4"/>
+    <field name="tasks_project" domain="[('project_id.members', 'child_of', [uid]),('project_id.state','=','open'),('state','in',['draft','open'])]" colspan="4"/>
 </form>'''
 
 si_fields = {
@@ -70,6 +70,8 @@ so_form_base = '''<?xml version="1.0" ?>
     <label string="(Keep empty for current_time)" colspan="2"/>
     <field name="analytic_amount"/>
     <field name="hours_no_work" widget="float_time"/>
+    <separator string="Next Task" colspan="4" />
+    <field name="tasks_project_next" domain="[('project_id.members', 'child_of', [uid]),('project_id.state','=','open'),('state','in',['draft','open'])]" colspan="4"/>
 </form>'''
 
 so_form = UpdateableStr()
@@ -86,6 +88,7 @@ so_fields = {
     'project_id': {'string':"Project", 'type':'many2one', 'relation':'project.project'},
     'tasks_account': {'string':"Task", 'type':'many2one', 'relation':'project.task'},
     'tasks_project': {'string':"Task", 'type':'many2one', 'relation':'project.task'},
+    'tasks_project_next': {'string':"Next Task", 'type':'many2one', 'relation':'project.task'},
     'hours_no_work': {'string':"Hours not working", 'type':'float'},
 }
 
@@ -223,6 +226,28 @@ def _sign_out_result(self, cr, uid, data, context):
     _write(self, cr, uid, data, emp_id, context)
     return {}
 
+def _so_open_task(self, cr, uid, data, context):
+    pool_obj = pooler.get_pool(cr.dbname)
+    emp_obj = pool_obj.get('hr.employee')
+    emp_id = data['form']['emp_id']
+    emp_obj.sign_change(cr, uid, [emp_id], dt=data['form']['date'])
+    _write(self, cr, uid, data, emp_id, context)
+    model_data_ids = pool_obj.get('ir.model.data').search(cr,uid,[('model','=','ir.ui.view'),('name','=','view_task_form2')])
+    resource_id = pool_obj.get('ir.model.data').read(cr,uid,model_data_ids,fields=['res_id'])[0]['res_id']
+    if data['form']['tasks_project_next']:
+        return {
+            'domain': "[('id','=', %s)]" %  data['form']['tasks_project_next'],
+            'context': "{'task':1}",
+            'name': _('Task'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'project.task',
+            'views': [(False,'tree'),(resource_id,'form')],
+            'type': 'ir.actions.act_window'
+        }
+    else:
+        return {}
+
 def _state_check(self, cr, uid, data, context):
     emp_id = _get_empid(self, cr, uid, data, context)['emp_id']
     # get the latest action (sign_in or out) for this employee
@@ -251,11 +276,15 @@ class wiz_sitp_sotp(wizard.interface):
             },
             'sign_in' : { # this means sign_out...
                 'actions' : [_get_empid2],
-                'result' : {'type':'form', 'arch':so_form, 'fields':so_fields, 'state':[('end', 'Cancel'),('so_result', 'Change Work'),('so_result_end', 'Stop Working') ] }
+                'result' : {'type':'form', 'arch':so_form, 'fields':so_fields, 'state':[('end', 'Cancel'),('so_result', 'Change Work'),('so_result_task', 'Change Task'),('so_result_end', 'Stop Working') ] }
             },
             'so_result' : {
                 'actions' : [_sign_out_result],
                 'result' : {'type':'state', 'state':'end'}
+            },
+            'so_result_task': {
+                'actions': [],
+                'result': {'type':'action', 'action':_so_open_task, 'state':'end'}
             },
             'so_result_end' : {
                 'actions' : [_sign_out_result_end],
