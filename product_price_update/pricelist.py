@@ -53,7 +53,7 @@ class product_price_update_wizard(osv.osv_memory):
         self.updated_products = 0
         def _update(categ_id):
             if wiz.upgrade:
-                child_ids = cat_obj.search(cr, uid, [('parent_id', '=', categ_id),])
+                child_ids = cat_obj.search(cr, uid, [('parent_id', '=', categ_id)])
                 for child_id in child_ids:
                     _update(child_id)
             #if both parent and child categories are given in wiz.categ_ids, then
@@ -64,8 +64,8 @@ class product_price_update_wizard(osv.osv_memory):
                     price_old = getattr(prod, wiz.price_type_id.field)
                     price_new = pricelist_obj.price_get(cr, uid, \
                         [wiz.pricelist_id.id], prod.id, 1)[wiz.pricelist_id.id]
-                    if round(price_old, int(config['price_accuracy'])) != \
-                        round(price_new, int(config['price_accuracy'])):
+                    roundstr = '%.' + config['price_accuracy'] + 'f'
+                    if roundstr % price_old != roundstr % price_new:
                         prod_obj.write(cr, uid, [prod.id], {
                             wiz.price_type_id.field: price_new})
                         self.updated_products += 1
