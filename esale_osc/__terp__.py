@@ -30,14 +30,18 @@
 	"website" : "www.aulaerp.com/cursos-aulaerp/configuracion-y-funcionamiento-del-conector-openerp-oscommerce.html",
 	"depends" : ["product", "stock", "sale", "account_payment"],
 	"description": """OSCommerce (Zencart) eCommerce interface synchronisation.
-Users can order on the website, orders are automatically imported in OpenERP.
 
-You can export products, stock level and create links between
-categories of products, taxes and languages.
+Syncro Oscommerce to Openerp
+ 1. Import/upgrade categories.
+ 2. Import/upgrade products. 
+ 3. Import Orders on selected status. On importing order, if not exists, customer is created automatically 
 
-If you product has an image attached, it sends the image to the OScommerce website.
+Syncro Openerp to Oscommerce
+ 1. Export products, prices, image, specials.
+ 2. Export Stocks. 
+ 3. Change Oscommerce Order status and include comments. Upload Osc Status and comments. 
 
-Developed by Tiny, Axelor and Zikzakmedia""",
+Developed by Tiny, Axelor, Zikzakmedia and Ana Juaristi""",
 	"init_xml" : [],
 	"demo_xml" : [],
 	"update_xml" : [

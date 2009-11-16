@@ -42,8 +42,11 @@ class esale_oscom_web(osv.osv):
         'tax_ids': fields.one2many('esale.oscom.tax', 'web_id', 'Taxes'),
         'category_ids': fields.one2many('esale.oscom.category', 'web_id', 'Categories'),
         'pay_typ_ids': fields.one2many('esale.oscom.paytype', 'web_id', 'Payment types'),
+        'status_ids': fields.one2many('esale.oscom.status', 'web_id', 'Osc Status'),
         'esale_account_id': fields.many2one('account.account', 'Dest. account', required=True, help="Payment account for web invoices."),
         'price_type': fields.selection([('0', 'Untaxed price'), ('1', 'Taxed price')], 'Price type', required=True),
+        'date_download_from':fields.date('Date Download From', help="Specify date since you want to download modified or new products"),
+        'intermediate': fields.many2one('esale.oscom.status', 'Intermediate Status', help="Select intermediate status for Osc downloaded Orders"), 
     }
     _defaults = {
         'active': lambda *a: 1,
@@ -80,6 +83,26 @@ class esale_oscom_web(osv.osv):
                         'name' : tax[1]
                     }
                     esale_tax_obj.create(cr, uid, value)
+        return True
+
+    def status_import(self, cr, uid, ids, *args):
+        esale_status_obj = self.pool.get('esale.oscom.status')
+        for website in self.browse(cr, uid, ids):
+            server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
+            statuses = server.get_statuses()
+            for status in statuses:
+                update_statuses_ids = esale_status_obj.search(cr, uid, [('web_id','=',website.id), ('esale_oscom_id','=',status[0])])
+                if len(update_statuses_ids):
+                    esale_status_obj.write(cr, uid, update_statuses_ids, {'name': status[1]})
+                else:
+                    value = {
+                        'web_id' : website.id,
+                        'esale_oscom_id' : status[0],
+                        'name' : status[1],
+                        'language_id': status[2],
+                        'download': 0
+                    }
+                    esale_status_obj.create(cr, uid, value)
         return True
 
 
@@ -231,7 +254,7 @@ class esale_oscom_web(osv.osv):
         esale_product_obj = self.pool.get('esale.oscom.product')
         manufacturer_obj = self.pool.get('product.manufacturer')
         stock_inventory_obj = self.pool.get('stock.inventory')
-        stock_inventory_line_obj = self.pool.get('stock.inventory.line')
+        stock_inventory_line_obj = self.pool.get('stock.inventory.line')            
 
         created, updated = 0,0
         for website in self.browse(cr, uid, ids):
@@ -266,17 +289,19 @@ class esale_oscom_web(osv.osv):
             }
             stock_init_id =  stock_inventory_obj.create(cr, uid, value_stock_inv)
 
-            mini = server.get_min_products_id()
-            maxi = mini + 30
-            tope = server.get_max_products_id()
-            #print "Product maxi:" , tope
-            while maxi <= tope:
-                #print "Start mini loop", mini
-                #print "Start maxi loop", maxi
-                products_osc = server.get_products(osc_langs, mini, maxi)
-                #print products_osc
-                mini = maxi
-                maxi = maxi + 30
+            oscom_id = 0
+            bloque = 30
+            continuar = True
+            transaccional = server.isTransactional()
+            from_date = website.date_download_from
+            print "from_date", from_date
+
+            while (continuar):
+                products_osc = server.get_products(osc_langs, oscom_id, bloque, from_date)
+
+                if (len(products_osc) < bloque):
+                    continuar = False
+
                 for product in products_osc:
                     #print "================================product from osc=========================================="
                     #print product
@@ -298,6 +323,7 @@ class esale_oscom_web(osv.osv):
                         tax = [(6, 0, [oerp_taxs[info_prod['products_tax_class_id']].id])]
 
                     # Search manufacturer. If not exists, create it. Create related url for each language
+                    manuf_id = ''
                     if (len(info_prod['manufacturers_name']) > 0):
                         manuf_ids = manufacturer_obj.search(cr, uid, [('name','=',info_prod['manufacturers_name'])])
                         if not manuf_ids:
@@ -323,6 +349,7 @@ class esale_oscom_web(osv.osv):
                         'spe_price': 'specials_new_products_price' in spec_prod and spec_prod['specials_new_products_price'] or False,
                         'exp_date': 'expires_date' in spec_prod and spec_prod['expires_date']!='0000-00-00 00:00:00' and spec_prod['expires_date'] or False,
                         'oscom_url': website_url[0] + "//" + website_url[2] + "/" +"product_info.php?cPath=" + str(info_prod['categ_id']) + "&products_id=" + str(info_prod['products_id']),
+                        'manufacturer_id': manuf_id or False,
                         #'ean13': info_prod['products_model'],
                         #'type': 'Stockable product',
                         #'supply_method': 'buy',
@@ -382,7 +409,13 @@ class esale_oscom_web(osv.osv):
                         'product_qty' : info_prod['products_quantity']
                     }
                     stock_inventory_line_id = stock_inventory_line_obj.create(cr, uid, value_inventory_line)
-            cr.commit()
+                    if transaccional:
+                        server.setSyncronizedFlag(info_prod['products_id'])
+                cr.commit()
+                if (created>0 or updated>0):
+                    oscom_id = info_prod['products_id']
+                else:
+                    raise osv.except_osv(_('Product import done'),_('New or updated products are not found'))
             raise osv.except_osv(_('Product import done'), _('Created: %d products\nUpdated: %d products\n\nRefresh screen to see updates') % (created, updated))
         return True
 
@@ -441,29 +474,43 @@ class esale_oscom_web(osv.osv):
         tax_obj = self.pool.get('account.tax')
         inv_obj = self.pool.get('account.invoice')
         journal_obj = self.pool.get('account.journal')
+        esale_status_obj = self.pool.get('esale.oscom.status')
+        statuses_ids_aux = esale_status_obj.search(cr, uid, [('download','=','TRUE')])
+        statuses_ids =[]
+        if statuses_ids_aux:
+            for idst in statuses_ids_aux:
+                osc_id = esale_status_obj.read(cr, uid, idst, ['esale_oscom_id'])
+                print osc_id
+                print osc_id['esale_oscom_id']
+                statuses_ids.append(osc_id['esale_oscom_id'])
+        print "statuses_ids", statuses_ids
 
         website = self.pool.get('esale.oscom.web').browse(cr, uid, website_id)
-        server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
+        osc_int = esale_status_obj.read(cr, uid, website.intermediate.id, ['esale_oscom_id'])
+        intermediate = osc_int['esale_oscom_id']
+        print "intermediate antes de import", intermediate
 
+        server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
         cr.execute("select max(esale_oscom_id) from sale_order where esale_oscom_web=%s;" % str(website.id))
         max_web_id = cr.fetchone()[0]
 
         min_openorder=-1
         if max_web_id:
-            saleorders = server.get_saleorders(max_web_id)
+            saleorders = server.get_saleorders(max_web_id, statuses_ids)
             min_openorder = server.get_min_open_orders(max_web_id)
         else:
-            saleorders = server.get_saleorders(0)
+            saleorders = server.get_saleorders(0, statuses_ids)
         no_of_so = 0
         for saleorder in saleorders:
-            #print "==========*********NEW**************==========="
-            #print "== Oscommerce Sale Order Number :", saleorder['id']
+            print "==========*********NEW**************==========="
+            print "== Oscommerce Sale Order Number :", saleorder['id']
             if len(saleorder['partner']) > 0 :
                 oscom_partner = saleorder['partner'][0]
-                #print "== Sale order partner:", saleorder['partner'][0]
+                print "== Sale order partner:", saleorder['partner'][0]
             partner_ids = partner_obj.search(cr, uid, [('esale_oscom_id','=',oscom_partner['esale_oscom_id'])])
             if len(partner_ids):
                 partner_id = partner_ids[0]
+                print "partner: ", partner_ids
                 partner_obj.write(cr, uid, partner_ids, {'name':oscom_partner['name']})
             else:
                 del oscom_partner['addresses']
@@ -543,6 +590,10 @@ class esale_oscom_web(osv.osv):
                     value['partner_invoice_id'] =  default_address_id
 
                 order_id = saleorder_obj.create(cr, uid, value)
+                order_id_obj = saleorder_obj.browse(cr, uid, order_id)
+                print "id obj", order_id_obj.name
+                concat_cod = order_id_obj.name + "-" + str(saleorder['id']) + "-" + oscom_partner['name']
+                saleorder_obj.write(cr, uid, order_id, {'name':concat_cod})
 
                 for orderline in saleorder['lines']:
                     ids = esale_product_obj.search(cr, uid, [('esale_oscom_id', '=', orderline['product_id']), ('web_id', '=', website.id)])
@@ -560,9 +611,6 @@ class esale_oscom_web(osv.osv):
                             tax_rate_search_ids = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',orderline['tax_rate']/100), ('type_tax_use', '=','sale')])
                             if tax_rate_search_ids:
                                 onchange_product_sol['tax_id'] = tax_rate_search_ids
-                            else:
-                                new_tax_id = int(tax_obj.create(cr, uid, {'name':'NEW '+str(orderline['tax_rate']),'amount':orderline['tax_rate']/100}))
-                                onchange_product_sol['tax_id'] = [new_tax_id]
                         price = orderline['price']
                         name = orderline['name']
                         attributes = (orderline.has_key('attributes') and orderline['attributes']) or False
@@ -722,17 +770,12 @@ class esale_oscom_web(osv.osv):
                     pass
             cr.commit()
         for saleorder in saleorders:
-            server.process_order(saleorder['id'])
+            print "website.intermediate: " , intermediate
+            server.update_order_status(saleorder['id'], intermediate, '',0,0)
 
         ###################### look for open orders in site that are 'done' in TinyERP ###################
         ######################                and close them                           ###################
-        if (min_openorder > -1):
-            cr.execute("select esale_oscom_id from sale_order where (esale_oscom_id>=%s) and (state = 'done') and (esale_oscom_web=%s);", (str(min_openorder), str(website.id)))
-            openorders=cr.fetchall()
-            for openorder in openorders:
-                server.close_open_orders(openorder[0])
         return no_of_so
-
 esale_oscom_web()
 
 
@@ -747,6 +790,17 @@ class esale_oscom_tax(osv.osv):
     }
 esale_oscom_tax()
 
+class esale_oscom_status(osv.osv):
+    _name = "esale.oscom.status"
+    _description = "esale_oscom Status"
+    _columns = {
+        'name': fields.char('Status name', size=32, required=True, readonly=True),
+        'esale_oscom_id': fields.integer('OScommerce Id'),
+        'web_id': fields.many2one('esale.oscom.web', 'Website'),
+        'language_id': fields.integer('Language Id'),
+        'download': fields.boolean('Download Orders on Status'),
+    }
+esale_oscom_status()
 
 class esale_oscom_category(osv.osv):
     _name = "esale.oscom.category"
@@ -846,10 +900,16 @@ class esale_oscom_saleorder(osv.osv):
         'esale_oscom_id': fields.integer('esale_oscom Id'),
         'pay_met_title': fields.char('Payment Method', size=255),
         'shipping_title': fields.char('Shipping', size=255),
-        'orders_status': fields.char('Oscommerce Status', size=255),
+        'orders_status': fields.char('Osc Status Inic', size=255),
+        'orders_status_id': fields.many2one('esale.oscom.status','Osc Status Actual'),
+        'status_comment': fields.char('Status Comment', size=256, help="Write a comment to include on order"), 
+        'update_comment': fields.boolean('Update Comment', help="Update comments on order"),  
+        'send_web_email': fields.boolean('Send web E-mail', help="Send comments to customer"), 
     }
     _defaults = {
         'esale_oscom_id': lambda *a: False,
+        'update_comment': lambda *a: False,
+        'send_web_email': lambda *a: False,
     }
 
     def onchange_esale_oscom_web(self, cr, uid, ids, esale_oscom_web):
@@ -862,6 +922,19 @@ class esale_oscom_saleorder(osv.osv):
             value.update(self.pool.get('sale.order').onchange_partner_id(cr, uid, ids, value['partner_id'])['value'])
 
         return {'value':value}
+
+    def onchange_esale_oscom_status(self, cr, uid, ids, esale_oscom_web, esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email ):
+        value={}
+        if esale_oscom_web:
+            website = self.pool.get('esale.oscom.web').browse(cr, uid, esale_oscom_web)
+            server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
+            print "id pedido: ", esale_oscom_id
+            print "status_id: ", orders_status_id
+            print "update_comment: ", update_comment
+            print "send_web_email: ", send_web_email 
+            updated_status = server.update_order_status(esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email )
+
+        return {'value':updated_status}
 
     def order_create(self, cr, uid, ids, context={}):
         partner_obj = self.pool.get('res.partner')
