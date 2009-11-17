@@ -79,12 +79,12 @@ class stock_move(osv.osv):
                 if unitary_out_moves and len(unitary_out_moves) > 1:
                     unitary_in_moves = []
                     out_node = False
-                    counter1 = 0
-                    while len(unitary_in_moves) != len(unitary_out_moves):
-                        cr.execute("select stock_move.id from stock_move_history_ids left join stock_move on stock_move.id = stock_move_history_ids.parent_id where child_id=%s and stock_move.product_qty=1", (unitary_out_moves[counter1][0],))
+                    counter = 0
+                    while len(unitary_in_moves) != len(unitary_out_moves) and counter < len(unitary_out_moves):
+                        out_node = unitary_out_moves[counter][0]
+                        cr.execute("select stock_move.id from stock_move_history_ids left join stock_move on stock_move.id = stock_move_history_ids.parent_id where child_id=%s and stock_move.product_qty=1", (out_node,))
                         unitary_in_moves = cr.fetchall()
-                        out_node = unitary_out_moves[counter1][0]
-                        counter1 += 1
+                        counter += 1
                     
                     if len(unitary_in_moves) == len(unitary_out_moves):
                         unitary_out_moves.reverse()
