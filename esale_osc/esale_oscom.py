@@ -4,6 +4,7 @@
 #    OpenERP, Open Source Management Solution
 #    Copyright (c) 2008 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
 #                       Jordi Esteve <jesteve@zikzakmedia.com>
+#                       Ana Juaristi <ajuaristio@gmail.com>
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -27,6 +28,108 @@ import ir
 import time
 import xmlrpclib
 from mx import DateTime
+
+
+class esale_oscom_web(osv.osv):
+    _name = 'esale.oscom.web'
+esale_oscom_web()
+
+
+class esale_oscom_tax(osv.osv):
+    _name = "esale.oscom.tax"
+    _description = "esale_oscom Tax"
+    _columns = {
+        'name': fields.char('Tax name', size=32, required=True, readonly=True),
+        'esale_oscom_id': fields.integer('OScommerce Id'),
+        'web_id': fields.many2one('esale.oscom.web', 'Website'),
+        'tax_id': fields.many2one('account.tax', 'OpenERP tax'),
+    }
+esale_oscom_tax()
+
+
+class esale_oscom_status(osv.osv):
+    _name = "esale.oscom.status"
+    _description = "esale_oscom Status"
+    _columns = {
+        'name': fields.char('Status name', size=32, required=True, readonly=True),
+        'esale_oscom_id': fields.integer('OScommerce Id'),
+        'web_id': fields.many2one('esale.oscom.web', 'Website'),
+        'language_id': fields.integer('Language Id'),
+        'download': fields.boolean('Download Orders on Status'),
+    }
+esale_oscom_status()
+
+
+class esale_oscom_category(osv.osv):
+    _name = "esale.oscom.category"
+    _description = "esale_oscom Category"
+    _columns = {
+        'name': fields.char('Name', size=64, required=True, readonly=True),
+        'esale_oscom_id': fields.integer('OScommerce Id', required=True),
+        'web_id': fields.many2one('esale.oscom.web', 'Website'),
+        'category_id': fields.many2one('product.category', 'OpenERP category'),
+    }
+esale_oscom_category()
+
+
+class esale_oscom_paytype(osv.osv):
+    _name = "esale.oscom.paytype"
+    _description = "esale_oscom PayType"
+    _columns = {
+        'name': fields.char('Name', size=64, required=True, readonly=True),
+        'esale_oscom_id': fields.integer('OScommerce Id', required=True),
+        'web_id': fields.many2one('esale.oscom.web', 'Website'),
+        'payment_id': fields.many2one('payment.type', 'OpenERP payment'),
+        'paytyp': fields.selection([('type1','SO in State Draft'),('type2','SO Confirmed'),('type3','Invoice Draft'),('type4','Invoice Confirmed'),('type5','Invoice Payed')], 'Payment type'),
+        'journal_id': fields.many2one('account.journal', 'OpenERP payment journal'),
+    }
+esale_oscom_paytype()
+
+
+class esale_oscom_language(osv.osv):
+    _name = "esale.oscom.lang"
+    _description = "esale_oscom Language"
+    _columns = {
+        'name': fields.char('Name', size=32, required=True, readonly=True),
+        'esale_oscom_id': fields.integer('OScommerce Id', required=True),
+        'web_id': fields.many2one('esale.oscom.web', 'Website'),
+        'language_id': fields.many2one('res.lang', 'OpenERP language'),
+    }
+esale_oscom_language()
+
+
+class esale_oscom_product(osv.osv):
+    _name = "esale.oscom.product"
+    _description = "esale_oscom Product"
+    _columns = {
+        'name': fields.char('Name', size=64, required=True, readonly=True),
+        'esale_oscom_id': fields.integer('OScommerce product Id'),
+        'web_id': fields.many2one('esale.oscom.web', 'Website'),
+        'product_id': fields.many2one('product.product', 'OpenERP product'),
+    }
+
+    def onchange_product_id(self, cr, uid, ids, product_id, web_id):
+        value = {}
+        if (product_id):
+            product = self.pool.get('product.product').browse(cr, uid, product_id)
+            value['name'] = product.name
+        return {'value': value}
+
+    def unlink(self, cr, uid, ids, context=None):
+        websites = {}
+        for esale_product in self.browse(cr, uid, ids):
+            web_product_ids = websites.get(esale_product.web_id and esale_product.web_id.id)
+            if web_product_ids and len(web_product_ids):
+                web_product_ids.append(esale_product.esale_oscom_id)
+            else:
+                websites[esale_product.web_id and esale_product.web_id.id] = [esale_product.esale_oscom_id]
+        websites_objs = self.pool.get('esale.oscom.web').browse(cr, uid, [x for x in websites.keys() if type(x) is int])
+        for website in websites_objs:
+            server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
+            server.remove_product({'oscom_product_ids':websites.get(website.id)})
+        return super(esale_oscom_product,self).unlink(cr, uid, ids, context)
+esale_oscom_product()
+
 
 class esale_oscom_web(osv.osv):
     _name = "esale.oscom.web"
@@ -777,100 +880,6 @@ class esale_oscom_web(osv.osv):
         ######################                and close them                           ###################
         return no_of_so
 esale_oscom_web()
-
-
-class esale_oscom_tax(osv.osv):
-    _name = "esale.oscom.tax"
-    _description = "esale_oscom Tax"
-    _columns = {
-        'name': fields.char('Tax name', size=32, required=True, readonly=True),
-        'esale_oscom_id': fields.integer('OScommerce Id'),
-        'web_id': fields.many2one('esale.oscom.web', 'Website'),
-        'tax_id': fields.many2one('account.tax', 'OpenERP tax'),
-    }
-esale_oscom_tax()
-
-class esale_oscom_status(osv.osv):
-    _name = "esale.oscom.status"
-    _description = "esale_oscom Status"
-    _columns = {
-        'name': fields.char('Status name', size=32, required=True, readonly=True),
-        'esale_oscom_id': fields.integer('OScommerce Id'),
-        'web_id': fields.many2one('esale.oscom.web', 'Website'),
-        'language_id': fields.integer('Language Id'),
-        'download': fields.boolean('Download Orders on Status'),
-    }
-esale_oscom_status()
-
-class esale_oscom_category(osv.osv):
-    _name = "esale.oscom.category"
-    _description = "esale_oscom Category"
-    _columns = {
-        'name': fields.char('Name', size=64, required=True, readonly=True),
-        'esale_oscom_id': fields.integer('OScommerce Id', required=True),
-        'web_id': fields.many2one('esale.oscom.web', 'Website'),
-        'category_id': fields.many2one('product.category', 'OpenERP category'),
-    }
-esale_oscom_category()
-
-
-class esale_oscom_paytype(osv.osv):
-    _name = "esale.oscom.paytype"
-    _description = "esale_oscom PayType"
-    _columns = {
-        'name': fields.char('Name', size=64, required=True, readonly=True),
-        'esale_oscom_id': fields.integer('OScommerce Id', required=True),
-        'web_id': fields.many2one('esale.oscom.web', 'Website'),
-        'payment_id': fields.many2one('payment.type', 'OpenERP payment'),
-        'paytyp': fields.selection([('type1','SO in State Draft'),('type2','SO Confirmed'),('type3','Invoice Draft'),('type4','Invoice Confirmed'),('type5','Invoice Payed')], 'Payment type'),
-        'journal_id': fields.many2one('account.journal', 'OpenERP payment journal'),
-    }
-esale_oscom_paytype()
-
-
-class esale_oscom_product(osv.osv):
-    _name = "esale.oscom.product"
-    _description = "esale_oscom Product"
-    _columns = {
-        'name': fields.char('Name', size=64, required=True, readonly=True),
-        'esale_oscom_id': fields.integer('OScommerce product Id'),
-        'web_id': fields.many2one('esale.oscom.web', 'Website'),
-        'product_id': fields.many2one('product.product', 'OpenERP product'),
-    }
-
-    def onchange_product_id(self, cr, uid, ids, product_id, web_id):
-        value = {}
-        if (product_id):
-            product = self.pool.get('product.product').browse(cr, uid, product_id)
-            value['name'] = product.name
-        return {'value': value}
-
-    def unlink(self, cr, uid, ids, context=None):
-        websites = {}
-        for esale_product in self.browse(cr, uid, ids):
-            web_product_ids = websites.get(esale_product.web_id and esale_product.web_id.id)
-            if web_product_ids and len(web_product_ids):
-                web_product_ids.append(esale_product.esale_oscom_id)
-            else:
-                websites[esale_product.web_id and esale_product.web_id.id] = [esale_product.esale_oscom_id]
-        websites_objs = self.pool.get('esale.oscom.web').browse(cr, uid, [x for x in websites.keys() if type(x) is int])
-        for website in websites_objs:
-            server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
-            server.remove_product({'oscom_product_ids':websites.get(website.id)})
-        return super(esale_oscom_product,self).unlink(cr, uid, ids, context)
-esale_oscom_product()
-
-
-class esale_oscom_language(osv.osv):
-    _name = "esale.oscom.lang"
-    _description = "esale_oscom Language"
-    _columns = {
-        'name': fields.char('Name', size=32, required=True, readonly=True),
-        'esale_oscom_id': fields.integer('OScommerce Id', required=True),
-        'web_id': fields.many2one('esale.oscom.web', 'Website'),
-        'language_id': fields.many2one('res.lang', 'OpenERP language'),
-    }
-esale_oscom_language()
 
 
 class esale_oscom_saleorder_line(osv.osv):
