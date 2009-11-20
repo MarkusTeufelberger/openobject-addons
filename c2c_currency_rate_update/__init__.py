@@ -2,6 +2,7 @@
 #
 # Copyright (c) 2008 Camtocamp SA
 # @author JB Aubort
+# European Central Bank and Polish National Bank invented by Grzegorz Grzelak
 # $Id: $
 #
 # WARNING: This program as such is intended to be used by professional
