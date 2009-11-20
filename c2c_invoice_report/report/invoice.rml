@@ -313,7 +313,7 @@
           <para style="terp_default_Centre_9">[[ o.name ]]</para>
         </td>
         <td>
-          <para style="terp_default_Centre_9">[[ formatLang(o.date_invoice,date=True) ]]</para>
+          <para style="terp_default_Centre_9">[[ formatLang(o.date_invoice,date=True) and o.date_invoice or '' ]]</para>
         </td>
         <td>
           <para style="terp_default_Centre_9">[[ o.address_invoice_id.partner_id.ref or '' ]]</para>
@@ -487,45 +487,46 @@
       </tr>
     </blockTable>
     <blockTable colWidths="530.0" style="Table_Main_Table">
-      <tr>
-        <td>
-          <para style="terp_default_8">
-            <font color="white"> </font>
-          </para>
-          <blockTable colWidths="54.0,58.0,67.0" style="Table_Tax_Header">
-            <tr>
-              <td>
-                <para style="terp_tblheader_Details_Centre">Tax</para>
-              </td>
-              <td>
-                <para style="terp_tblheader_Details_Right">Base</para>
-              </td>
-              <td>
-                <para style="terp_tblheader_Details_Right">Amount</para>
-              </td>
-            </tr>
-          </blockTable>
-          <para style="terp_default_2">
-            <font color="white"> </font>
-          </para>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <para style="terp_default_8">[[ repeatIn(o.tax_line,'t') ]]</para>
-          <blockTable colWidths="53.0,60.0,65.0" style="Table_Tax_Content">
-            <tr>
-              <td>
-                <para style="terp_default_Centre_8">[[ lt.description and lt.description + ' - ' + t.name or t.name ]] </para>
-              </td>
-              <td>
-                <para style="terp_default_Right_8">[[ formatLang(t.base) ]]</para>
-              </td>
-              <td>
-                <para style="terp_default_Right_8">[[ formatLang(t.amount) ]][[  t.tax_code_id.notprintable and removeParentNode('blockTable') or '' ]]</para>
-              </td>
-            </tr>
-          </blockTable>
+          <tr>
+            <td>
+              <para style="terp_default_8">
+                <font color="white"> </font>
+              </para>
+              <blockTable colWidths="54.0,58.0,67.0" style="Table_Tax_Header">
+                <tr>
+                  <td>
+                    <para style="terp_tblheader_Details_Centre">Tax</para>
+                  </td>
+                  <td>
+                    <para style="terp_tblheader_Details_Right">Base</para>
+                  </td>
+                  <td>
+                    <para style="terp_tblheader_Details_Right">Amount</para>
+                  </td>
+                </tr>
+              </blockTable>
+              <para style="terp_default_2">
+                <font color="white"> </font>
+              </para>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <para style="terp_default_8">[[ repeatIn(o.tax_line,'t') ]]</para>
+              <blockTable colWidths="53.0,60.0,65.0" style="Table_Tax_Content">
+                <tr>
+                  <td>
+                   <para style="terp_default_Centre_8">[[t.name or t.name ]] </para>
+                  </td>
+                  <td>
+                    <para style="terp_default_Right_8">[[ formatLang(t.base) ]]</para>
+                  </td>
+                  <td>
+                    <para style="terp_default_Right_8">[[ formatLang(t.amount) ]]</para>
+                  </td>
+                </tr>
+              </blockTable>
+    
         </td>
       </tr>
       <tr>
