@@ -43,13 +43,14 @@ Paypal transactions are classified as:
     * supplier: 'Type' in ['Credit']
     * general: Other cases, 'Type' in ['Transfer', 'Chargeback Settlement', ...]
 
-Tries to fill the partner and invoice to conciliate from the Paypal transaction ID. If not, try to find the partner with the from (customer) or to (supplier) email addresses (from1@email.com or to@email.com in the example) and, if the 'Search invoice by amount' option is checked, try to conciliate it with an open invoice with the same partner, same amount+-0.01 and payment type 'PAYPAL'.
+Tries to fill the partner and invoice to conciliate from the Paypal transaction ID. If not, try to find the partner with the from (customer) or to (supplier) email addresses (from1@email.com or to@email.com in the example) and, if the 'Search invoice to reconcile' option is checked, try to conciliate it with an open invoice with the same partner, same amount+-accuracy, same date+-accuracy and payment type 'PAYPAL'.
 
 The from/to Paypal email address (it can be considered as a Paypal account) is searched in the partner bank account field (the bank name of Paypal accounts must be 'PAYPAL').
 
 First we must define a Paypal importation configuration:
     * The account for the Paypal fees.
     * If you want to insert the Paypal transactions in the bank statement or only show the warning or error messages.
+    * If you want to reconcile with open invoices (giving an amount and date accuracy to search the invoices).
 """,
     "website" : "www.zikzakmedia.com",
     "license" : "GPL-3",

@@ -38,11 +38,12 @@ Adds a wizard in bank statements to select a CSV file with ePassporte payments l
 
 Checks if the bank statement currency and ePassporte file currency (USD in the example) are the same.
 Tries to fill the partner information from the ePassporte account (businessaccount and particularaccount in the example). This ePassporte account is searched in the partner bank account field (the bank name of ePassporte accounts must be 'EPASSPORTE').
-Tries to conciliate with an open invoice with the same partner, same amount+-0.01 and payment type 'EPASSPORTE'.
+If the 'Search invoice to reconcile' option is checked, tries to reconcile with an open invoice with the same partner, same amount+-accuracy, same date+-accuracy and payment type 'EPASSPORTE'.
 
 First we must define an ePassporte importation configuration:
     * The account for the ePassporte fees.
     * If you want to insert the ePassporte transactions in the bank statement or only show the warning or error messages.
+    * If you want to reconcile with open invoices (giving an amount and date accuracy to search the invoices).
 """,
     "website" : "www.zikzakmedia.com",
     "license" : "GPL-3",
