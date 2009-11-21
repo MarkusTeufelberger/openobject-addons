@@ -254,7 +254,7 @@ class SmtpClient(osv.osv):
         if type(emailto) == type([]):
             for to in emailto:
                 msg = MIMEMultipart()
-                msg['Subject'] = subject 
+                msg['Subject'] = tools.ustr(subject) 
                 msg['To'] =  to
                 msg['From'] = smtp_server.from_email
                 try:
@@ -287,7 +287,7 @@ class SmtpClient(osv.osv):
                     })
         else:
             msg = MIMEMultipart()
-            msg['Subject'] = subject 
+            msg['Subject'] = tools.ustr(subject) 
             msg['To'] =  emailto
             msg['From'] = smtp_server.from_email
             try:
