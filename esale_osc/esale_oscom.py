@@ -397,7 +397,7 @@ class esale_oscom_web(osv.osv):
             continuar = True
             transaccional = server.isTransactional()
             from_date = website.date_download_from
-            print "from_date", from_date
+            #print "from_date", from_date
 
             while (continuar):
                 products_osc = server.get_products(osc_langs, oscom_id, bloque, from_date)
@@ -583,15 +583,15 @@ class esale_oscom_web(osv.osv):
         if statuses_ids_aux:
             for idst in statuses_ids_aux:
                 osc_id = esale_status_obj.read(cr, uid, idst, ['esale_oscom_id'])
-                print osc_id
-                print osc_id['esale_oscom_id']
+                #print osc_id
+                #print osc_id['esale_oscom_id']
                 statuses_ids.append(osc_id['esale_oscom_id'])
-        print "statuses_ids", statuses_ids
+        #print "statuses_ids", statuses_ids
 
         website = self.pool.get('esale.oscom.web').browse(cr, uid, website_id)
         osc_int = esale_status_obj.read(cr, uid, website.intermediate.id, ['esale_oscom_id'])
         intermediate = osc_int['esale_oscom_id']
-        print "intermediate antes de import", intermediate
+        #print "intermediate antes de import", intermediate
 
         server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
         cr.execute("select max(esale_oscom_id) from sale_order where esale_oscom_web=%s;" % str(website.id))
@@ -605,15 +605,15 @@ class esale_oscom_web(osv.osv):
             saleorders = server.get_saleorders(0, statuses_ids)
         no_of_so = 0
         for saleorder in saleorders:
-            print "==========*********NEW**************==========="
-            print "== Oscommerce Sale Order Number :", saleorder['id']
+            #print "==========*********NEW**************==========="
+            #print "== Oscommerce Sale Order Number :", saleorder['id']
             if len(saleorder['partner']) > 0 :
                 oscom_partner = saleorder['partner'][0]
-                print "== Sale order partner:", saleorder['partner'][0]
+                #print "== Sale order partner:", saleorder['partner'][0]
             partner_ids = partner_obj.search(cr, uid, [('esale_oscom_id','=',oscom_partner['esale_oscom_id'])])
             if len(partner_ids):
                 partner_id = partner_ids[0]
-                print "partner: ", partner_ids
+                #print "partner: ", partner_ids
                 partner_obj.write(cr, uid, partner_ids, {'name':oscom_partner['name']})
             else:
                 del oscom_partner['addresses']
@@ -694,7 +694,7 @@ class esale_oscom_web(osv.osv):
 
                 order_id = saleorder_obj.create(cr, uid, value)
                 order_id_obj = saleorder_obj.browse(cr, uid, order_id)
-                print "id obj", order_id_obj.name
+                #print "id obj", order_id_obj.name
                 concat_cod = order_id_obj.name + "-" + str(saleorder['id']) + "-" + oscom_partner['name']
                 saleorder_obj.write(cr, uid, order_id, {'name':concat_cod})
 
@@ -873,7 +873,7 @@ class esale_oscom_web(osv.osv):
                     pass
             cr.commit()
         for saleorder in saleorders:
-            print "website.intermediate: " , intermediate
+            #print "website.intermediate: " , intermediate
             server.update_order_status(saleorder['id'], intermediate, '',0,0)
 
         ###################### look for open orders in site that are 'done' in TinyERP ###################
@@ -937,11 +937,15 @@ class esale_oscom_saleorder(osv.osv):
         if esale_oscom_web:
             website = self.pool.get('esale.oscom.web').browse(cr, uid, esale_oscom_web)
             server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
-            print "id pedido: ", esale_oscom_id
-            print "status_id: ", orders_status_id
-            print "update_comment: ", update_comment
-            print "send_web_email: ", send_web_email 
-            updated_status = server.update_order_status(esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email )
+            esale_status_obj = self.pool.get('esale.oscom.status')
+            osc_int = esale_status_obj.read(cr, uid, orders_status_id, ['esale_oscom_id'])
+            ostatus_id = osc_int['esale_oscom_id']          
+            #print "id pedido: ", esale_oscom_id
+            #print "orig status_id: ", orders_status_id
+            #print "final status_id: ", ostatus_id
+            #print "update_comment: ", update_comment
+            #print "send_web_email: ", send_web_email 
+            updated_status = server.update_order_status(esale_oscom_id, ostatus_id, status_comment, update_comment, send_web_email )
 
         return {'value':updated_status}
 
