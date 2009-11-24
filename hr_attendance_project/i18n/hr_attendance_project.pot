@@ -42,6 +42,7 @@ msgstr ""
 
 #. module: hr_attendance_project
 #: wizard_view:hr_timesheet.sitp_sotp,sign_out:0
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
 msgid "(Keep empty for current time)"
 msgstr ""
 
@@ -196,6 +197,23 @@ msgstr ""
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,tasks_project_next:0
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
 msgid "Next Task"
+msgstr ""
+
+#. module: hr_attendance_project
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
+#: model:ir.actions.wizard,name:hr_attendance_project.sitp_stop_task
+msgid "Sign in status"
+msgstr ""
+
+#. module: hr_attendance_project
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
+msgid "General Information"
+msgstr ""
+
+#. module: hr_attendance_project
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
+msgid "Work done in the last period"
 msgstr ""
 

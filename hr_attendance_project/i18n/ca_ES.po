@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-11-05 19:18:55+0000\n"
-"PO-Revision-Date: 2009-11-05 20:57+0100\n"
+"POT-Creation-Date: 2009-11-14 22:10:55+0000\n"
+"PO-Revision-Date: 2009-11-24 13:44+0100\n"
 "Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+
+#. module: hr_attendance_project
+#: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
+#, python-format
+msgid "This duration is negative, not possible !"
+msgstr "Aquesta durada és negativa, no és possible!"
 
 #. module: hr_attendance_project
 #: model:ir.module.module,description:hr_attendance_project.module_meta_information
@@ -28,11 +34,19 @@ msgstr ""
 
 #. module: hr_attendance_project
 #: wizard_view:hr_timesheet.sitp_sotp,sign_out:0
+#: model:ir.actions.wizard,name:hr_attendance_project.sitp_stop_task
 msgid "Sign in / Sign out"
 msgstr "Registra entrada/sortida"
 
 #. module: hr_attendance_project
+#: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
+#, python-format
+msgid "No employee defined for your user !"
+msgstr "No s'ha definit un treballador pel vostre usuari!"
+
+#. module: hr_attendance_project
 #: wizard_view:hr_timesheet.sitp_sotp,sign_out:0
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
 msgid "(Keep empty for current time)"
 msgstr "(buit per data actual)"
 
@@ -40,6 +54,12 @@ msgstr "(buit per data actual)"
 #: wizard_field:hr_timesheet.sitp_sotp,sign_out,server_date:0
 msgid "Current Date"
 msgstr "Data actual"
+
+#. module: hr_attendance_project
+#: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
+#, python-format
+msgid "This project does not have any analytic account defined."
+msgstr "Aquest projecte no té definit un compte analític."
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,server_date:0
@@ -79,8 +99,11 @@ msgid "Closing Date"
 msgstr "Data límit"
 
 #. module: hr_attendance_project
+#: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,tasks_account:0
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,tasks_project:0
+#: wizard_field:hr_timesheet.sitp_sotp,sign_out,tasks_project:0
+#, python-format
 msgid "Task"
 msgstr "Tasca"
 
@@ -102,9 +125,25 @@ msgid "Current state"
 msgstr "Estat actual"
 
 #. module: hr_attendance_project
+#: wizard_field:hr_timesheet.sitp_sotp,sign_in,hours_no_work:0
+msgid "Hours not working"
+msgstr "Hores no treballades"
+
+#. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,project_id:0
 msgid "Project"
 msgstr "Projecte"
+
+#. module: hr_attendance_project
+#: wizard_button:hr_timesheet.sitp_sotp,sign_in,so_result_task:0
+msgid "Change Task"
+msgstr "Canvia treball i obre tasca"
+
+#. module: hr_attendance_project
+#: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
+#, python-format
+msgid "Error"
+msgstr "Error"
 
 #. module: hr_attendance_project
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,name:0
@@ -113,13 +152,23 @@ msgid "Employee's name"
 msgstr "Nom del treballador"
 
 #. module: hr_attendance_project
+#: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
+#, python-format
+msgid "UserError"
+msgstr "Error d'usuari"
+
+#. module: hr_attendance_project
+#: wizard_button:hr_timesheet.sitp_sotp,sign_out,si_result_open_task:0
+msgid "Start Working and Open Task"
+msgstr "Comença a treballar i obre tasca"
+
+#. module: hr_attendance_project
 #: wizard_button:hr_timesheet.sitp_sotp,sign_out,si_result:0
 msgid "Start Working"
 msgstr "Comença a treballar"
 
 #. module: hr_attendance_project
 #: model:ir.module.module,shortdesc:hr_attendance_project.module_meta_information
-#, fuzzy
 msgid "Attendances of Employees in Projects"
 msgstr "Assistència dels treballadors en els projectes"
 
@@ -127,6 +176,12 @@ msgstr "Assistència dels treballadors en els projectes"
 #: wizard_field:hr_timesheet.sitp_sotp,sign_in,account_id:0
 msgid "Analytic Account"
 msgstr "Compte analític"
+
+#. module: hr_attendance_project
+#: code:addons/hr_attendance_project/wizard/sign_in_out_task_project.py:0
+#, python-format
+msgid "No cost unit defined for this employee !"
+msgstr "No s'ha definit un cost unitari per aquest treballador!"
 
 #. module: hr_attendance_project
 #: wizard_button:hr_timesheet.sitp_sotp,sign_in,end:0
@@ -144,15 +199,31 @@ msgstr "Descripció del treball"
 msgid "Change Work"
 msgstr "Canvia treball"
 
+#. module: hr_attendance_project
+#: wizard_field:hr_timesheet.sitp_sotp,sign_in,tasks_project_next:0
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
+msgid "Next Task"
+msgstr "Nova tasca"
+
+#. module: hr_attendance_project
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
+#: model:ir.actions.wizard,name:hr_attendance_project.sitp_stop_task
+msgid "Sign in status"
+msgstr "Estat del registre d'entrada"
+
+#. module: hr_attendance_project
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
+msgid "General Information"
+msgstr "Informació general"
+
+#. module: hr_attendance_project
+#: wizard_view:hr_timesheet.sitp_sotp,sign_in:0
+msgid "Work done in the last period"
+msgstr "Treball realitzat en l'últim període"
+
 #~ msgid "This module aims to manage employee's attendances in Projects"
 #~ msgstr ""
 #~ "Aquest mòdul gestiona la assistència dels treballadors en els projectes"
 #~ msgid "(Keep empty for current_time)"
 #~ msgstr "(buit per data actual)"
-#~ msgid "Sign in status"
-#~ msgstr "Estat del registre d'entrada"
-#~ msgid "Work done in the last period"
-#~ msgstr "Treball realitzat en l'últim període"
-#~ msgid "General Information"
-#~ msgstr "Informació general"
 

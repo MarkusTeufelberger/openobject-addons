@@ -67,7 +67,7 @@ so_form_base = '''<?xml version="1.0" ?>
     <field name="tasks_project" domain="[('project_id', '=', project_id),('state','=','open'),%s]" attrs="{'readonly':[('account_id','!=',False)],'required':[('account_id','==',False)]}"/>
     <field name="info" colspan="4"/>
     <field name="date" colspan="2"/>
-    <label string="(Keep empty for current_time)" colspan="2"/>
+    <label string="(Keep empty for current time)" colspan="2"/>
     <field name="analytic_amount"/>
     <field name="hours_no_work" widget="float_time"/>
     <separator string="Next Task" colspan="4" />
@@ -167,7 +167,8 @@ def _open_task(self, cr, uid, data, context):
 
 def _write(self, cr, uid, data, emp_id, context):
     project_obj = pooler.get_pool(cr.dbname).get('project.project')
-    project_task_obj = pooler.get_pool(cr.dbname).get('project.task.work')
+    project_task_obj = pooler.get_pool(cr.dbname).get('project.task')
+    project_work_obj = pooler.get_pool(cr.dbname).get('project.task.work')
     timesheet_obj = pooler.get_pool(cr.dbname).get('hr.analytic.timesheet')
 
     hour = (time.mktime(time.strptime(data['form']['date'] or time.strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')) -
@@ -201,16 +202,19 @@ def _write(self, cr, uid, data, emp_id, context):
         'hours': hour,
         'user_id': uid,
     }
-    project_task_obj.create(cr, uid, value)
+    project_work_obj.create(cr, uid, value)
 
-    res['name'] = data['form']['info']
-    #res['account_id'] = data['form']['account_id']
-    res['account_id'] = account_id
-    res['unit_amount'] = hour
-    res.update(up)
-    up = timesheet_obj.on_change_account_id(cr, uid, [], res['account_id']).get('value', {})
-    res.update(up)
-    return timesheet_obj.create(cr, uid, res, context)
+    task = project_task_obj.browse(cr, uid, task_id)
+    # To avoid create two analityc lines, one from creating the work in the task project and the other from the timesheet
+    if not task.project_id or not task.project_id.category_id:
+        res['name'] = data['form']['info']
+        res['account_id'] = account_id
+        res['unit_amount'] = hour
+        res.update(up)
+        up = timesheet_obj.on_change_account_id(cr, uid, [], res['account_id']).get('value', {})
+        res.update(up)
+        timesheet_obj.create(cr, uid, res, context)
+    return
 
 def _sign_out_result_end(self, cr, uid, data, context):
     emp_obj = pooler.get_pool(cr.dbname).get('hr.employee')
