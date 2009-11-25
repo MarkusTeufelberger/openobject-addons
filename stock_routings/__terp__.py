@@ -22,7 +22,7 @@
 
 
 {
-    "name" : "Stock Routings",
+    "name" : "Stock Routings to define different routings",
     "version" : "1.1",
     "depends" : [
                     "stock",

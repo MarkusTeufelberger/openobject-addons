@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "Auto Email Stock Picking",
+    "name" : "Auto Email Stock Picking - Send email to customer and supplier from picking",
     "version" : "1.0",
     "depends" : ["smtpclient","stock"],
     "author" : "Tiny",

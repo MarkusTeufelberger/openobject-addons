@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "Library",
+    "name" : "Library Management",
     "version" : "1.0",
     "author" : "Tiny",
     "category" : "Generic Modules/Sales & Purchases",

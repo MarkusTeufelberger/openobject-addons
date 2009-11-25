@@ -1,5 +1,5 @@
 {
-    "name" : "Sale Number",
+    "name" : "Confirm Sale Order add Sale Number",
     "version" : "1.0",
     "author" : "Tiny",
     "website" : "http://tinyerp.com/module_sale.html",

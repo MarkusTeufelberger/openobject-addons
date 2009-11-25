@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    'name' : 'Training Room',
+    'name' : 'Module Training Room - Helps to manage the training location',
     'version' : '0.0.1',
     'author' : 'Tiny SPRL',
     'website' : 'http://www.openerp.com',

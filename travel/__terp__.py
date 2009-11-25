@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "Travel",
+    "name" : "Travel Management",
     "author" : "Tiny",
     "version" : "1.0",
     "depends" : ["base","product"],

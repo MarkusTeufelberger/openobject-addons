@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "sale_layout",
+    "name" : "Sale Order Layout Improvement",
     "version" : "1.0",
     "depends" : ["base", "sale"],
     "author" : "Tiny",

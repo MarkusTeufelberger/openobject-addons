@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name" : "Hotel Restaurant",
+    "name" : "Hotel Restaurant Management",
     "version" : "1.0",
     "author" : "Tiny",
     "category" : "Generic Modules/Hotel Restaurant",
