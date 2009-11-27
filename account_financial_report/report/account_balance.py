@@ -3,6 +3,8 @@
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
+#    Copyright (c) 2009 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
+#                       Jordi Esteve <jesteve@zikzakmedia.com>
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -31,6 +33,12 @@ from tools import config
 
 class account_balance(report_sxw.rml_parse):
     _name = 'report.account.account.balance'
+
+    def set_context(self, objects, data, ids, report_type = None):
+        self.get_context_date_period(data['form'])
+        super(account_balance, self).set_context(objects, data, ids, report_type)
+
+
     def __init__(self, cr, uid, name, context):
         super(account_balance, self).__init__(cr, uid, name, context)
         self.sum_debit = 0.00
@@ -41,6 +49,8 @@ class account_balance(report_sxw.rml_parse):
         self.sum_balance_fy = 0.00
         self.date_lst = []
         self.date_lst_string = ''
+        self.ctx = {}      # Context for given date or period
+        self.ctxfy = {}    # Context from the date start or first period of the fiscal year
         self.localcontext.update({
             'time': time,
             'lines': self.lines,
@@ -64,7 +74,7 @@ class account_balance(report_sxw.rml_parse):
             fisc_id = form['fiscalyear']
             if not (fisc_id):
                 return ''
-            self.cr.execute("select name from account_fiscalyear where id = %s" , (int(fisc_id),))
+            self.cr.execute("SELECT name FROM account_fiscalyear WHERE id = %s" , (int(fisc_id),))
             res=self.cr.fetchone()
         return res and res[0] or ''
 
@@ -73,7 +83,7 @@ class account_balance(report_sxw.rml_parse):
         result=''
         if form.has_key('periods') and form['periods'][0][2]:
             period_ids = ",".join([str(x) for x in form['periods'][0][2] if x])
-            self.cr.execute("select name from account_period where id in (%s)" % (period_ids))
+            self.cr.execute("SELECT name FROM account_period WHERE id in (%s)" % (period_ids))
             res = self.cr.fetchall()
             len_res = len(res) 
             for r in res:
@@ -95,7 +105,67 @@ class account_balance(report_sxw.rml_parse):
             
         return str(result and result[:-1]) or ''
 
-    
+
+    def get_context_date_period(self, form):
+        # ctx: Context for the given date or period
+        ctx = self.context.copy()
+        ctx['state'] = form['context'].get('state','all')
+        if 'fiscalyear' in form and form['fiscalyear']:
+            ctx['fiscalyear'] = form['fiscalyear']
+        if form['state'] in ['byperiod', 'all']:
+            ctx['periods'] = form['periods'][0][2]
+        if form['state'] in ['bydate', 'all']:
+            ctx['date_from'] = form['date_from']
+            ctx['date_to'] = form['date_to']
+        if 'periods' not in ctx:
+            ctx['periods'] = []
+        self.ctx = ctx
+
+        # ctxfy: Context from the date start / first period of the fiscal year
+        ctxfy = ctx.copy()
+        ctxfy['periods'] = ctx['periods'][:]
+
+        if form['state'] in ['byperiod', 'all'] and len(ctx['periods']):
+            self.cr.execute("""SELECT id, date_start, fiscalyear_id
+                FROM account_period
+                WHERE date_start = (SELECT min(date_start) FROM account_period WHERE id in (%s))"""
+                % (','.join([str(x) for x in ctx['periods']])))
+            res = self.cr.dictfetchone()
+            self.cr.execute("""SELECT id
+                FROM account_period
+                WHERE fiscalyear_id in (%s) AND special=FALSE AND date_start < '%s'"""
+                % (res['fiscalyear_id'], res['date_start']))
+            ids = filter(None, map(lambda x:x[0], self.cr.fetchall()))
+            ctxfy['periods'].extend(ids)
+
+        if form['state'] in ['bydate', 'all']:
+            self.cr.execute("""SELECT date_start
+                FROM account_fiscalyear
+                WHERE '%s' BETWEEN date_start AND date_stop""" % (ctx['date_from']))
+            res = self.cr.dictfetchone()
+            ctxfy['date_from'] = res['date_start']
+
+        if form['state'] == 'none' or (form['state'] == 'byperiod' and not len(ctx['periods'])):
+            if 'fiscalyear' in form and form['fiscalyear']:
+                sql = """SELECT id, date_start
+                    FROM account_period
+                    WHERE fiscalyear_id in (%s) AND special=FALSE
+                    ORDER BY date_start""" % (ctx['fiscalyear'])
+            else:
+                sql = """SELECT id, date_start
+                    FROM account_period
+                    WHERE fiscalyear_id in (SELECT id FROM account_fiscalyear WHERE state='draft') AND special=FALSE
+                    ORDER BY date_start"""
+            self.cr.execute(sql)
+            res = self.cr.dictfetchall()
+            ids = filter(None, map(lambda x:x['id'], res))
+            ctxfy['periods'] = ids
+        self.ctxfy = ctxfy
+#        print "ctx=", self.ctx
+#        print "ctxfy=", self.ctxfy
+
+
+
     def lines(self, form, ids={}, done=None, level=1):
         if not ids:
             ids = self.ids
@@ -104,36 +174,37 @@ class account_balance(report_sxw.rml_parse):
         if not done:
             done={}
         if form.has_key('Account_list') and form['Account_list']:
-            ids = [form['Account_list']]
+            ids = form['Account_list']
             del form['Account_list']
         res={}
         result_acc=[]
-        ctx = self.context.copy()
-        ctx['state'] = form['context'].get('state','all')
-        ctx['fiscalyear'] = form['fiscalyear']
-        ctx_fy = ctx.copy()
-        ctx_fy['periods'] = self.pool.get('account.period').search(self.cr, self.uid, [('fiscalyear_id','=',form['fiscalyear'])])
-        if form['state']=='byperiod' :
-            ctx['periods'] = form['periods'][0][2]
-        elif form['state']== 'bydate':
-            ctx['date_from'] = form['date_from']
-            ctx['date_to'] =  form['date_to'] 
-        elif form['state'] == 'all' :
-            ctx['periods'] = form['periods'][0][2]
-            ctx['date_from'] = form['date_from']
-            ctx['date_to'] =  form['date_to']
-#            accounts = self.pool.get('account.account').browse(self.cr, self.uid, ids, ctx)
+        account_obj = self.pool.get('account.account')
+        period_obj = self.pool.get('account.period')
+
+        ctx_allfy = self.context.copy()
+        ctx_allfy['fiscalyear'] = form['fiscalyear']
+        ctx_allfy['periods'] = period_obj.search(self.cr, self.uid, [('fiscalyear_id','=',form['fiscalyear'])])
+
+        ctx_allfy_nospecial = self.context.copy()
+        ctx_allfy_nospecial['fiscalyear'] = form['fiscalyear']
+        ctx_allfy_nospecial['periods'] = period_obj.search(self.cr, self.uid, [('fiscalyear_id','=',form['fiscalyear']),('special','=',False)])
+
+#            accounts = account_obj.browse(self.cr, self.uid, ids, self.ctx)
 #            def cmp_code(x, y):
 #                return cmp(x.code, y.code)
 #            accounts.sort(cmp_code)
-        child_ids = self.pool.get('account.account')._get_children_and_consol(self.cr, self.uid, ids, ctx)
+        child_ids = account_obj._get_children_and_consol(self.cr, self.uid, ids, self.ctx)
         if child_ids:
             ids = child_ids
         # Amounts in period or date
-        accounts = self.pool.get('account.account').read(self.cr, self.uid, ids,['type','code','name','debit','credit','balance','parent_id'], ctx)
-        # Amounts in fiscal year
-        accounts_fy = self.pool.get('account.account').read(self.cr, self.uid, ids,['type','code','name','debit','credit','balance','parent_id'], ctx_fy)
-        for account, account_fy in zip(accounts, accounts_fy):
+        accounts = account_obj.read(self.cr, self.uid, ids, ['type','code','name','debit','credit','balance','parent_id'], self.ctx)
+        # Amounts from the date start / first period of the fiscal year
+        accounts_fy = account_obj.read(self.cr, self.uid, ids, ['balance'], self.ctxfy)
+        # Amounts in all fiscal year
+        accounts_allfy = account_obj.read(self.cr, self.uid, ids, ['balance'], ctx_allfy)
+        # Amounts in all fiscal year without special periods
+        accounts_allfy_nos = account_obj.read(self.cr, self.uid, ids, ['debit','credit'], ctx_allfy_nospecial)
+        for account, account_fy, account_allfy, account_allfy_nos in zip(accounts, accounts_fy, accounts_allfy, accounts_allfy_nos):
             if account['id'] in done:
                 continue
             done[account['id']] = 1
@@ -145,22 +216,26 @@ class account_balance(report_sxw.rml_parse):
                     'level': level,
                     'debit': account['debit'],
                     'credit': account['credit'],
-                    'balance': account['balance'],
-                    'balanceinit': round(account['balance']-account['debit']+account['credit'], int(config['price_accuracy'])),
-                    'debit_fy': account_fy['debit'],
-                    'credit_fy': account_fy['credit'],
-                    'balance_fy': account_fy['balance'],
-                    'balanceinit_fy': account_fy['balance']-account_fy['debit']+account_fy['credit'],
+                    'balance': account_fy['balance'],
+                    'balanceinit': round(account_fy['balance']-account['debit']+account['credit'], int(config['price_accuracy'])),
+                    'debit_fy': account_allfy_nos['debit'],
+                    'credit_fy': account_allfy_nos['credit'],
+                    'balance_fy': account_allfy['balance'],
+                    'balanceinit_fy': round(account_allfy['balance']-account_allfy_nos['debit']+account_allfy_nos['credit'], int(config['price_accuracy'])),
                    # 'leef': not bool(account['child_id']),
                     'parent_id':account['parent_id'],
                     'bal_type':'',
                 }
+            if res['balanceinit'] == -0:
+                res['balanceinit'] = 0
+            if res['balanceinit_fy'] == -0:
+                res['balanceinit_fy'] = 0
             self.sum_debit += account['debit']
             self.sum_credit += account['credit']
-            self.sum_balance += account['balance']
-            self.sum_debit_fy += account_fy['debit']
-            self.sum_credit_fy += account_fy['credit']
-            self.sum_balance_fy += account_fy['balance']
+            self.sum_balance += account_fy['balance']
+            self.sum_debit_fy += account_allfy_nos['debit']
+            self.sum_credit_fy += account_allfy_nos['credit']
+            self.sum_balance_fy += account_allfy['balance']
 #                if account.child_id:
 #                    def _check_rec(account):
 #                        if not account.child_id:
@@ -172,7 +247,7 @@ class account_balance(report_sxw.rml_parse):
 #                    if not _check_rec(account) :
 #                        continue
             if account['parent_id']:
-#                    acc = self.pool.get('account.account').read(self.cr, self.uid, [ account['parent_id'][0] ] ,['name'], ctx)
+#                    acc = account_obj.read(self.cr, self.uid, [ account['parent_id'][0] ] ,['name'], self.ctx)
                 for r in result_acc:
                     if r['id'] == account['parent_id'][0]:
                         res['level'] = r['level'] + 1

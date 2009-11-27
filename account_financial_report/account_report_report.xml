@@ -13,6 +13,28 @@
 			auto="False"
 			menu="False"/>
 
+	# Report cumulative general ledger
+        <report
+            id="account_general_ledger_cumulative"
+            string="Cumulative general ledger"
+            model="account.account"
+            name="account.general.ledger.cumulative"
+            rml="account_financial_report/report/general_ledger.rml"
+			header="False"
+			auto="False"
+			menu="False"/>
+
+	# Report cumulative general ledger landscape
+        <report
+            id="account_general_ledger_cumulative_landscape"
+            string="Cumulative general ledger landscape"
+            model="account.account"
+            name="account.general.ledger.cumulative.landscape"
+            rml="account_financial_report/report/general_ledger_landscape.rml"
+			header="False"
+			auto="False"
+			menu="False"/>
+
 	# Report account chart
 		<report
             id="account_account_chart_report"

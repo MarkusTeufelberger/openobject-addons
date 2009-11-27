@@ -2,8 +2,10 @@
 #
 # Copyright (c) 2005-2006 TINY SPRL. (http://tiny.be) All Rights Reserved.
 #
-#  Created by Nicolas Bessi on 13.10.08.
-#  Copyright (c) 2008 CamptoCamp. All rights reserved.
+#    Created by Nicolas Bessi on 13.10.08.
+#    Copyright (c) 2008 CamptoCamp. All rights reserved.
+#    Copyright (c) 2009 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
+#                       Jordi Esteve <jesteve@zikzakmedia.com>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential

@@ -39,6 +39,28 @@
 			icon="STOCK_PRINT"
 			id="menu_account_balance_full_report"/>
 
+	# Report cumulative general ledger
+        <wizard
+            string="Cum. general ledger"
+            keyword="client_print_multi"
+            model="account.account"
+            name="account.general.ledger.cumulative.report"
+            id="wizard_account_general_ledger_cumulative_report"/>
+
+		<wizard
+			string="Cumulative general ledger"
+			model="account.account"
+			name="account.general.ledger.cumulative.report"
+			menu="False"
+			id="wizard_account_general_ledger_cumulative_report_menu"/>
+		<menuitem
+			name="Cumulative general ledger"
+			parent="account.menu_generic_report"
+			action="wizard_account_general_ledger_cumulative_report_menu"
+			type="wizard"
+			icon="STOCK_PRINT"
+			id="menu_account_general_ledger_cumulative_report"/>
+
 	# Report account chart
 		<wizard
 			string="Chart of accounts"

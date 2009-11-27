@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-11-04 18:20:44+0000\n"
-"PO-Revision-Date: 2009-11-05 19:14+0100\n"
+"POT-Creation-Date: 2009-11-27 09:56:30+0000\n"
+"PO-Revision-Date: 2009-11-27 11:36+0100\n"
 "Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,7 @@ msgstr "Factures proveïdor"
 
 #. module: account_financial_report
 #: wizard_field:account.balance.full.report,checktype,display_account:0
+#: wizard_field:account.general.ledger.cumulative.report,checktype,display_account:0
 msgid "Display accounts "
 msgstr "Imprimeix comptes"
 
@@ -34,6 +35,11 @@ msgstr "Codi compte"
 #: rml:account.invoice.list.report:0
 msgid "Customer Refund Invoices"
 msgstr "Abonament de Client"
+
+#. module: account_financial_report
+#: wizard_field:account.general.ledger.cumulative.report,checktype,initial_balance:0
+msgid "Show initial balances"
+msgstr "Mostra saldo inicial"
 
 #. module: account_financial_report
 #: rml:account.invoice.list.report:0
@@ -52,6 +58,7 @@ msgstr "Línies assentament"
 
 #. module: account_financial_report
 #: wizard_field:account.balance.full.report,checktype,company_id:0
+#: wizard_field:account.general.ledger.cumulative.report,checktype,company_id:0
 #: wizard_field:account.invoice.list.report,init,company_id:0
 msgid "Company"
 msgstr "Companyia"
@@ -79,6 +86,7 @@ msgstr "Compte analític"
 #: wizard_field:account.account.chart.report,init,account:0
 #: rml:account.balance.full:0
 #: wizard_field:account.balance.full.report,account_selection,Account_list:0
+#: wizard_field:account.general.ledger.cumulative.report,account_selection,Account_list:0
 #: rml:account.move.line.report:0
 #: rml:account.move.report:0
 #: rml:account.move.report.h:0
@@ -89,6 +97,7 @@ msgstr "Compte"
 
 #. module: account_financial_report
 #: selection:account.balance.full.report,checktype,state:0
+#: selection:account.general.ledger.cumulative.report,checktype,state:0
 #: selection:account.invoice.list.report,init,state:0
 msgid "By Date and Period"
 msgstr "Per data i període"
@@ -104,7 +113,13 @@ msgid "Taxes"
 msgstr "Impostos"
 
 #. module: account_financial_report
+#: rml:account.general.ledger.cumulative:0
+msgid "Ref - Entry Label"
+msgstr "Ref. línies d'assentament"
+
+#. module: account_financial_report
 #: selection:account.balance.full.report,checktype,state:0
+#: selection:account.general.ledger.cumulative.report,checktype,state:0
 #: selection:account.invoice.list.report,init,state:0
 msgid "By Date"
 msgstr "Per data"
@@ -116,15 +131,49 @@ msgid "Cancelled"
 msgstr "Cancel·lada"
 
 #. module: account_financial_report
+#: model:ir.actions.wizard,name:account_financial_report.wizard_account_general_ledger_cumulative_report
+msgid "Cum. general ledger"
+msgstr "Llibre major acum."
+
+#. module: account_financial_report
 #: rml:account.move.line.report:0
 msgid "Entry Lines  -"
-msgstr "Línies de assentament  -"
+msgstr "Línies d'assentament  -"
 
 #. module: account_financial_report
 #: wizard_view:account.balance.full.report,checktype:0
 #: wizard_view:account.invoice.list.report,init:0
 msgid "Select period"
 msgstr "Selecciona període"
+
+#. module: account_financial_report
+#: model:ir.module.module,description:account_financial_report.module_meta_information
+msgid ""
+"\n"
+"Add some common financial/accounting reports and some wizards to quickly compute them:\n"
+"  * Account chart list\n"
+"  * Invoice list\n"
+"  * Account move (journal ledger)\n"
+"  * Account move line\n"
+"  * Account balance compared period-fiscal year\n"
+"  * Cumulative general ledger\n"
+"\n"
+"They can be found in the \"Financial Management/Legal Statements/Generic Reports\" menu or in the tree/form views of accounts, journals, invoices, account entries and account move lines.\n"
+"\n"
+"Some reports are based on previous work by Pexego and others on the c2c_finance_report module for TinyERP 4.2 by Camptocamp SA.\n"
+msgstr ""
+"\n"
+"Proporciona alguns informes comptables/financers comuns i alguns assistents per a calcular ràpidament:\n"
+"   * Llistat del plan comptable\n"
+"   * Llistat de factures emeses/rebudes\n"
+"   * Assentaments comptables (llibre diari)\n"
+"   * Línies d'assentaments comptables\n"
+"   * Balanç de sumes i saldos\n"
+"   * Llibre major amb saldos acumulatius\n"
+"\n"
+"Estan disponibles en el menú \"Gestió Financera / Declaracions oficials / Informes genèrics\" o en les vistes arbre /formulari dels comptes comptables, diaris, factures, assentaments comptables i línies d'assentament comptable.\n"
+"\n"
+"Alguns informes es basen en treballs anteriors de Pexego i altres en el mòdul c2c_finance_report per TinyERP 4.2 de Camptocamp SA.\n"
 
 #. module: account_financial_report
 #: rml:account.move.report:0
@@ -150,9 +199,9 @@ msgid "Account Chart"
 msgstr "Pla Comptable"
 
 #. module: account_financial_report
-#: rml:account.move.line.report:0
-msgid "Ref."
-msgstr "Ref."
+#: rml:account.invoice.list.report:0
+msgid "Untaxed"
+msgstr "Base"
 
 #. module: account_financial_report
 #: rml:account.move.report.h:0
@@ -161,6 +210,8 @@ msgid "To check"
 msgstr "Verif."
 
 #. module: account_financial_report
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
 #: rml:account.invoice.list.report:0
 #: rml:account.move.line.report:0
 #: rml:account.move.report:0
@@ -182,13 +233,22 @@ msgid "By reference number"
 msgstr "Per número referència"
 
 #. module: account_financial_report
+#: rml:account.balance.full:0
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "Periods/Date range:"
+msgstr "Períodes/Interval dates:"
+
+#. module: account_financial_report
 #: wizard_view:account.account.chart.report,init:0
 #: wizard_view:account.balance.full.report,account_selection:0
+#: wizard_view:account.general.ledger.cumulative.report,account_selection:0
 msgid "Select parent account"
 msgstr "Selecciona compte pare"
 
 #. module: account_financial_report
 #: wizard_button:account.balance.full.report,account_selection,checktype:0
+#: wizard_button:account.general.ledger.cumulative.report,account_selection,checktype:0
 msgid "Next"
 msgstr "Següent"
 
@@ -207,6 +267,8 @@ msgstr "Vàlid"
 
 #. module: account_financial_report
 #: rml:account.balance.full:0
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
 #: rml:account.move.line.report:0
 #: rml:account.move.report:0
 #: rml:account.move.report.h:0
@@ -218,6 +280,7 @@ msgstr "Deure"
 #. module: account_financial_report
 #: wizard_button:account.account.chart.report,init,report:0
 #: wizard_button:account.balance.full.report,checktype,report:0
+#: wizard_button:account.general.ledger.cumulative.report,checktype,checkreport:0
 #: wizard_button:account.invoice.list.report,init,report:0
 #: wizard_button:account.journal.entries.report,init,print:0
 msgid "Print"
@@ -225,26 +288,47 @@ msgstr "Imprimeix"
 
 #. module: account_financial_report
 #: wizard_field:account.balance.full.report,checktype,date_from:0
+#: wizard_field:account.general.ledger.cumulative.report,checktype,date_from:0
 #: wizard_field:account.invoice.list.report,init,date_from:0
 msgid "Start date"
 msgstr "Data inicial"
 
 #. module: account_financial_report
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "Ref"
+msgstr "Ref."
+
+#. module: account_financial_report
+#: rml:account.balance.full:0
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "Fiscal year:"
+msgstr "Exercici fiscal:"
+
+#. module: account_financial_report
 #: wizard_view:account.balance.full.report,checktype:0
+#: wizard_view:account.general.ledger.cumulative.report,checktype:0
 #: wizard_view:account.invoice.list.report,init:0
 msgid "Filter on Periods"
 msgstr "Filtra per períodes"
 
 #. module: account_financial_report
 #: selection:account.balance.full.report,checktype,state:0
+#: selection:account.general.ledger.cumulative.report,checktype,state:0
 #: selection:account.invoice.list.report,init,state:0
 msgid "No Filter"
 msgstr "No filtra"
 
 #. module: account_financial_report
 #: selection:account.balance.full.report,checktype,display_account:0
+#: selection:account.general.ledger.cumulative.report,checktype,display_account:0
 msgid "With balance is not equal to 0"
 msgstr "Amb saldo diferent a 0"
+
+#. module: account_financial_report
+#: wizard_field:account.general.ledger.cumulative.report,checktype,sortbydate:0
+msgid "Sort by:"
+msgstr "Ordena per:"
 
 #. module: account_financial_report
 #: rml:account.balance.full:0
@@ -259,6 +343,12 @@ msgid "Chart of accounts"
 msgstr "Pla comptable"
 
 #. module: account_financial_report
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "Mvt"
+msgstr "Assent."
+
+#. module: account_financial_report
 #: rml:account.account.chart.report:0
 msgid "1cm 27.9cm 20cm 27.9cm"
 msgstr "1cm 27.9cm 20cm 27.9cm"
@@ -269,41 +359,19 @@ msgid "Customer refunds"
 msgstr "Abonaments client"
 
 #. module: account_financial_report
-#: model:ir.module.module,description:account_financial_report.module_meta_information
-msgid ""
-"\n"
-"Add some common financial/accounting reports and some wizards to quickly compute them:\n"
-"  * Account chart list\n"
-"  * Invoice list\n"
-"  * Account move (journal ledger)\n"
-"  * Account move line\n"
-"  * Account balance compared period-fiscal year\n"
-"\n"
-"They can be found in the \"Financial Management/Legal Statements/Generic Reports\" menu or in the tree/form views of accounts, journals, invoices, account entries and account move lines.\n"
-"\n"
-"Some reports are based on previous work from Pexego and others on the c2c_finance_report module for TinyERP 4.2 from Camptocamp SA.\n"
-msgstr ""
-"\n"
-"Proporciona alguns informes comptables/financers comuns i alguns assistents per a calcular ràpidament:\n"
-"   * Llistat del plan comptable\n"
-"   * Llistat de factures emeses/rebudes\n"
-"   * Assentaments comptables (llibre diari)\n"
-"   * Línies d'assentaments comptables\n"
-"   * Balanç de sumes i saldos\n"
-"\n"
-"Estan disponibles en el menú \"Gestió Financera / Declaracions oficials / Informes genèrics\" o en les vistes arbre /formulari dels comptes comptables, diaris, factures, assentaments comptables i línies d'assentament comptable.\n"
-"\n"
-"Alguns informes es basen en treballs anteriors de Pexego i altres en el mòdul c2c_finance_report per TinyERP 4.2 de Camptocamp SA.\n"
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "Entry Label"
+msgstr "Línia d'assentament"
 
 #. module: account_financial_report
-#: selection:account.balance.full.report,checktype,display_account:0
-msgid "With movements"
-msgstr "Amb moviments"
+#: model:ir.actions.report.xml,name:account_financial_report.account_general_ledger_cumulative_landscape
+msgid "Cumulative general ledger landscape"
+msgstr "Llibre major acumulat horitzontal"
 
 #. module: account_financial_report
-#: wizard_field:account.invoice.list.report,init,in_refund:0
-msgid "Supplier refunds"
-msgstr "Abonaments proveïdor"
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "Counterpart"
+msgstr "Contrapartida"
 
 #. module: account_financial_report
 #: wizard_view:account.invoice.list.report,init:0
@@ -317,9 +385,15 @@ msgstr "Data venciment"
 
 #. module: account_financial_report
 #: rml:account.invoice.list.report:0
-#: wizard_field:account.invoice.list.report,init,open:0
-msgid "Open"
-msgstr "Oberta"
+#: wizard_field:account.invoice.list.report,init,proforma:0
+msgid "Pro-forma"
+msgstr "Pro-forma"
+
+#. module: account_financial_report
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "Currency"
+msgstr "Divisa"
 
 #. module: account_financial_report
 #: selection:account.journal.entries.report,init,sort_selection:0
@@ -333,11 +407,13 @@ msgstr "Codi empresa"
 
 #. module: account_financial_report
 #: wizard_view:account.balance.full.report,checktype:0
+#: wizard_view:account.general.ledger.cumulative.report,checktype:0
 msgid "(Keep empty for all open fiscal years)"
 msgstr "(deixar-ho en blanc per a tots els exercicis oberts)"
 
 #. module: account_financial_report
 #: wizard_view:account.balance.full.report,checktype:0
+#: wizard_view:account.general.ledger.cumulative.report,checktype:0
 #: wizard_view:account.invoice.list.report,init:0
 msgid "Date Filter"
 msgstr "Filtra per dates"
@@ -350,6 +426,11 @@ msgstr "Filtra per dates"
 #: rml:account.print.journal.entriesh:0
 msgid "Draft"
 msgstr "Esborrany"
+
+#. module: account_financial_report
+#: selection:account.general.ledger.cumulative.report,checktype,sortbydate:0
+msgid "Movement"
+msgstr "Assentament"
 
 #. module: account_financial_report
 #: model:ir.actions.report.xml,name:account_financial_report.account_balance_full
@@ -367,6 +448,7 @@ msgstr "NO"
 
 #. module: account_financial_report
 #: selection:account.balance.full.report,checktype,state:0
+#: selection:account.general.ledger.cumulative.report,checktype,state:0
 #: selection:account.invoice.list.report,init,state:0
 msgid "By Period"
 msgstr "Per període"
@@ -378,6 +460,7 @@ msgstr "Pagada"
 
 #. module: account_financial_report
 #: help:account.balance.full.report,checktype,periods:0
+#: help:account.general.ledger.cumulative.report,checktype,periods:0
 #: help:account.invoice.list.report,init,periods:0
 msgid "All periods if empty"
 msgstr "Tots els períodes si es deixa en blanc"
@@ -388,6 +471,9 @@ msgid "Init. balance"
 msgstr "Saldo inicial"
 
 #. module: account_financial_report
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
+#: selection:account.general.ledger.cumulative.report,checktype,sortbydate:0
 #: rml:account.move.line.report:0
 #: rml:account.move.report:0
 #: rml:account.move.report.h:0
@@ -397,9 +483,15 @@ msgid "Date"
 msgstr "Data"
 
 #. module: account_financial_report
-#: rml:account.balance.full:0
-msgid ":"
-msgstr ":"
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "1.3cm 24.9cm 38.3cm 24.9cm"
+msgstr "1.3cm 24.9cm 38.3cm 24.9cm"
+
+#. module: account_financial_report
+#: selection:account.balance.full.report,checktype,display_account:0
+#: selection:account.general.ledger.cumulative.report,checktype,display_account:0
+msgid "With movements"
+msgstr "Amb moviments"
 
 #. module: account_financial_report
 #: wizard_view:account.journal.entries.report,init:0
@@ -407,17 +499,20 @@ msgid "Print Journal"
 msgstr "Imprimeix diari"
 
 #. module: account_financial_report
-#: rml:account.invoice.list.report:0
-msgid "Untaxed"
-msgstr "Base"
+#: wizard_field:account.invoice.list.report,init,in_refund:0
+msgid "Supplier refunds"
+msgstr "Abonaments proveïdor"
 
 #. module: account_financial_report
 #: help:account.balance.full.report,checktype,fiscalyear:0
+#: help:account.general.ledger.cumulative.report,checktype,fiscalyear:0
 msgid "Keep empty for all open fiscal year"
 msgstr "Deixar-ho en blanc per a tots els exercicis oberts"
 
 #. module: account_financial_report
 #: rml:account.balance.full:0
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
 #: rml:account.move.line.report:0
 #: rml:account.move.report:0
 #: rml:account.move.report.h:0
@@ -428,11 +523,14 @@ msgstr "Deure"
 
 #. module: account_financial_report
 #: rml:account.balance.full:0
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
 msgid "Balance"
 msgstr "Saldo"
 
 #. module: account_financial_report
 #: wizard_field:account.balance.full.report,checktype,date_to:0
+#: wizard_field:account.general.ledger.cumulative.report,checktype,date_to:0
 #: wizard_field:account.invoice.list.report,init,date_to:0
 msgid "End date"
 msgstr "Data final"
@@ -454,23 +552,20 @@ msgstr "Factures de Client"
 
 #. module: account_financial_report
 #: wizard_field:account.balance.full.report,checktype,state:0
+#: wizard_field:account.general.ledger.cumulative.report,checktype,state:0
 #: wizard_field:account.invoice.list.report,init,state:0
 msgid "Date/Period Filter"
 msgstr "Filtra per data/període"
 
 #. module: account_financial_report
-#: rml:account.balance.full:0
-#: wizard_field:account.journal.entries.report,init,period_ids:0
-#: rml:account.move.report:0
-#: rml:account.move.report.h:0
-#: rml:account.print.journal.entries:0
-#: rml:account.print.journal.entriesh:0
-msgid "Period"
-msgstr "Període"
+#: rml:account.invoice.list.report:0
+msgid "Number"
+msgstr "Número"
 
 #. module: account_financial_report
 #: rml:account.balance.full:0
 #: wizard_field:account.balance.full.report,checktype,fiscalyear:0
+#: wizard_field:account.general.ledger.cumulative.report,checktype,fiscalyear:0
 msgid "Fiscal year"
 msgstr "Exercici fiscal"
 
@@ -481,11 +576,13 @@ msgstr "Pagada"
 
 #. module: account_financial_report
 #: wizard_field:account.balance.full.report,checktype,periods:0
+#: wizard_field:account.general.ledger.cumulative.report,checktype,periods:0
 #: wizard_field:account.invoice.list.report,init,periods:0
 msgid "Periods"
 msgstr "Períodes"
 
 #. module: account_financial_report
+#: wizard_field:account.general.ledger.cumulative.report,checktype,landscape:0
 #: wizard_field:account.journal.entries.report,init,landscape:0
 msgid "Landscape Mode"
 msgstr "Informe horitzontal"
@@ -494,6 +591,8 @@ msgstr "Informe horitzontal"
 #: wizard_button:account.account.chart.report,init,end:0
 #: wizard_button:account.balance.full.report,account_selection,end:0
 #: wizard_button:account.balance.full.report,checktype,end:0
+#: wizard_button:account.general.ledger.cumulative.report,account_selection,end:0
+#: wizard_button:account.general.ledger.cumulative.report,checktype,end:0
 #: wizard_button:account.invoice.list.report,init,end:0
 #: wizard_button:account.journal.entries.report,init,end:0
 msgid "Cancel"
@@ -501,9 +600,9 @@ msgstr "Cancel·la"
 
 #. module: account_financial_report
 #: rml:account.invoice.list.report:0
-#: wizard_field:account.invoice.list.report,init,proforma:0
-msgid "Pro-forma"
-msgstr "Pro-forma"
+#: wizard_field:account.invoice.list.report,init,open:0
+msgid "Open"
+msgstr "Oberta"
 
 #. module: account_financial_report
 #: model:ir.module.module,shortdesc:account_financial_report.module_meta_information
@@ -516,6 +615,16 @@ msgstr "Informes financers comuns"
 #: model:ir.ui.menu,name:account_financial_report.menu_journal_entries_report
 msgid "Print journal by entries"
 msgstr "Imprimeix diari per assentaments"
+
+#. module: account_financial_report
+#: rml:account.balance.full:0
+#: wizard_field:account.journal.entries.report,init,period_ids:0
+#: rml:account.move.report:0
+#: rml:account.move.report.h:0
+#: rml:account.print.journal.entries:0
+#: rml:account.print.journal.entriesh:0
+msgid "Period"
+msgstr "Període"
 
 #. module: account_financial_report
 #: rml:account.invoice.list.report:0
@@ -551,14 +660,19 @@ msgid "Invoice List"
 msgstr "Llistat de Factures"
 
 #. module: account_financial_report
+#: wizard_field:account.general.ledger.cumulative.report,checktype,amount_currency:0
+msgid "With Currency"
+msgstr "Mostra divisa"
+
+#. module: account_financial_report
 #: rml:account.invoice.list.report:0
 msgid "Supplier Refund Invoices"
 msgstr "Abonaments de Proveïdor"
 
 #. module: account_financial_report
-#: rml:account.invoice.list.report:0
-msgid "Number"
-msgstr "Número"
+#: rml:account.move.line.report:0
+msgid "Ref."
+msgstr "Ref."
 
 #. module: account_financial_report
 #: rml:account.move.report.h:0
@@ -575,6 +689,12 @@ msgid "Journal Ledger  -"
 msgstr "Llibre diari  -"
 
 #. module: account_financial_report
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "General Ledger -"
+msgstr "Llibre diari  -"
+
+#. module: account_financial_report
 #: wizard_field:account.journal.entries.report,init,sort_selection:0
 msgid "Entries Sorted By"
 msgstr "Assentaments ordenats per"
@@ -588,6 +708,11 @@ msgstr "Factures client"
 #: rml:account.invoice.list.report:0
 msgid "Invoice date"
 msgstr "Data factura"
+
+#. module: account_financial_report
+#: wizard_view:account.general.ledger.cumulative.report,checktype:0
+msgid "Select Date-Period"
+msgstr "Selecciona període-data"
 
 #. module: account_financial_report
 #: rml:account.invoice.list.report:0
@@ -610,8 +735,15 @@ msgid "Entry"
 msgstr "Assentament"
 
 #. module: account_financial_report
+#: rml:account.general.ledger.cumulative:0
+msgid "0.9cm 27.7cm 20.1cm 27.7cm"
+msgstr "0.9cm 27.7cm 20.1cm 27.7cm"
+
+#. module: account_financial_report
 #: rml:account.account.chart.report:0
 #: rml:account.balance.full:0
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
 #: rml:account.invoice.list.report:0
 #: rml:account.move.line.report:0
 #: rml:account.move.report:0
@@ -628,6 +760,7 @@ msgstr "Imprimeix diari per assentaments horitzontal"
 
 #. module: account_financial_report
 #: selection:account.balance.full.report,checktype,display_account:0
+#: selection:account.general.ledger.cumulative.report,checktype,display_account:0
 msgid "All"
 msgstr "Tots"
 
@@ -638,9 +771,9 @@ msgid "Print invoice list"
 msgstr "Imprimeix llistat de factures"
 
 #. module: account_financial_report
-#: rml:account.invoice.list.report:0
-msgid "Invoice description"
-msgstr "Descripció factura"
+#: rml:account.general.ledger.cumulative.landscape:0
+msgid "JNRL"
+msgstr "Diari"
 
 #. module: account_financial_report
 #: rml:account.balance.full:0
@@ -648,7 +781,15 @@ msgid "1cm 19.2cm 28.7cm 19.2cm"
 msgstr "1cm 19.2cm 28.7cm 19.2cm"
 
 #. module: account_financial_report
+#: model:ir.actions.report.xml,name:account_financial_report.account_general_ledger_cumulative
+#: model:ir.actions.wizard,name:account_financial_report.wizard_account_general_ledger_cumulative_report_menu
+#: model:ir.ui.menu,name:account_financial_report.menu_account_general_ledger_cumulative_report
+msgid "Cumulative general ledger"
+msgstr "Llibre major acumulat"
+
+#. module: account_financial_report
 #: wizard_view:account.balance.full.report,checktype:0
+#: wizard_view:account.general.ledger.cumulative.report,checktype:0
 msgid "Filters"
 msgstr "Filtres"
 
@@ -658,8 +799,14 @@ msgid "Filter by type"
 msgstr "Filtrar per tipus"
 
 #. module: account_financial_report
-#: rml:account.balance.full:0
+#: rml:account.general.ledger.cumulative:0
+#: rml:account.general.ledger.cumulative.landscape:0
 #: rml:account.invoice.list.report:0
 msgid "Total"
 msgstr "Total"
+
+#~ msgid ":"
+#~ msgstr ":"
+#~ msgid "Invoice description"
+#~ msgstr "Descripció factura"
 

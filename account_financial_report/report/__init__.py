@@ -24,5 +24,7 @@
 import account_balance
 import account_chart
 import account_move_line_record
+import general_ledger_landscape
+import general_ledger
 import invoice_list
 
