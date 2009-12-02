@@ -32,7 +32,7 @@ msgstr "Deduda total"
 #. module: nan_partner_risk
 #: view:sale.order:0
 msgid "Approve Order"
-msgstr "Aprovar el pedido"
+msgstr "Aprobar el pedido"
 
 #. module: nan_partner_risk
 #: wizard_view:open_risk_window,init:0
