@@ -52,8 +52,23 @@ class sale_order_line(osv.osv):
 sale_order_line()
 
 class sale_order(osv.osv):
-    _name = 'sale.order'
     _inherit = 'sale.order'
+
+    # Inherited onchange function
+    def onchange_partner_id(self, cr, uid, ids, part):
+        result = super(sale_order,self).onchange_partner_id(cr, uid, ids, part)
+        if part:
+            partner = self.pool.get('res.partner').browse(cr, uid, part)
+            risk = partner.available_risk
+            if partner.available_risk < 0.0:
+                result['warning'] = {
+                    'title': _('Credit Limit Exceeded'),
+                    'message': _('Warning: Credit Limit Exceeded.\n\nThis partner has a credit limit of %(limit).2f and already has a debt of %(debt).2f.') % {
+                        'limit': partner.credit_limit,
+                        'debt': partner.total_debt,
+                    }
+                }
+        return result
 
     def _amount_invoiced(self, cr, uid, ids, field_name, arg, context):
         result = {}
@@ -69,9 +84,20 @@ class sale_order(osv.osv):
 
     _columns = {
         'amount_invoiced': fields.function(_amount_invoiced, method=True, string='Invoiced Amount', type='float'),
+        'state': fields.selection([
+            ('draft', 'Quotation'),
+            ('waiting_date', 'Waiting Schedule'),
+            ('manual', 'Manual In Progress'),
+            ('progress', 'In Progress'),
+            ('shipping_except', 'Shipping Exception'),
+            ('invoice_except', 'Invoice Exception'),
+            ('done', 'Done'),
+            ('cancel', 'Cancelled'),
+            ('wait_risk', 'Wait Risk Approval'),
+            ], 'Order State', readonly=True, help="Gives the state of the quotation or sale order. The exception state is automatically set when a cancel operation occurs in the invoice validation (Invoice Exception) or in the packing list process (Shipping Exception). The 'Waiting Schedule' state is set when the invoice is confirmed but waiting for the scheduler to run on the date 'Date Ordered'.", select=True),
     }
 sale_order()
-	
+
 
 class partner(osv.osv):
     _name = 'res.partner'
@@ -153,7 +179,7 @@ class partner(osv.osv):
     def _pending_orders_amount(self, cr, uid, ids, name, arg, context=None):
         res = {}
         for id in ids:
-            sids = self.pool.get('sale.order').search( cr, uid, [('partner_id','=',id),('state','not in',['draft','cancel'])], context=context )
+            sids = self.pool.get('sale.order').search( cr, uid, [('partner_id','=',id),('state','not in',['draft','cancel','wait_risk'])], context=context )
             total = 0.0
             for order in self.pool.get('sale.order').browse(cr, uid, sids, context):
                 total += order.amount_total - order.amount_invoiced

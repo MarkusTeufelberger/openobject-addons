@@ -3,7 +3,9 @@
 	"name" : "Partner Risk Analysis",
 	"version" : "0.1",
 	"description" : """This module adds a new button in the partner form to analyze current state of a partner risk.
-It reports current information regarding amount of debt in invoices, orders, etc.""",
+It reports current information regarding amount of debt in invoices, orders, etc.
+
+It also modifies the workflow of sale orders by adding a new step when partner's risk is exceeded.""",
 	"author" : "NaN",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 
@@ -17,6 +19,8 @@ It reports current information regarding amount of debt in invoices, orders, etc
 	"demo_xml" : [],
 	"update_xml" : [
 		'risk_view.xml',
+		'sale_view.xml',
+		'sale_workflow.xml',
 	],
 	"active": False,
 	"installable": True
