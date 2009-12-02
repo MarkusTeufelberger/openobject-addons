@@ -70,7 +70,7 @@ msgstr "Uso del crédito (%)"
 #. module: nan_partner_risk
 #: view:sale.order:0
 msgid "Confirm Order"
-msgstr "Confirmar la orden"
+msgstr "Confirmar el pedido"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,available_risk:0
