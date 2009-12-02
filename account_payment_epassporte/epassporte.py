@@ -123,7 +123,7 @@ class account_bank_statement(osv.osv):
         if st.state == 'confirm':
             log.add(_('Wrong import\n\nSummary:\n '), True)
             log.add(_('The bank statement is alredy confirmed. It can not be imported from file.'), True)
-            return (log(), 'Error')
+            return (log(), _('Error'))
 
         try:
             unicode(file2, 'utf8')
@@ -140,7 +140,7 @@ class account_bank_statement(osv.osv):
         if not bank_id:
             log.add(_('Wrong import\n\nSummary:\n '), True)
             log.add(_('Bank type EPASSPORTE not found'), True)
-            return (log(), 'Error')
+            return (log(), _('Error'))
 
         invoice_list = []
         credit_payment = 0.0
@@ -158,7 +158,7 @@ class account_bank_statement(osv.osv):
             if 'Amount in '+st.currency.name not in row:
                 log.add(_('Wrong import\n\nSummary:\n '), True)
                 log.add(_('Bank statement currency and ePassporte file currency are different.'), True)
-                return (log(), 'Error')
+                return (log(), _('Error'))
 
             amount_payment = float(row['Amount in '+st.currency.name])
             date_transaction = datetime.datetime.strptime(row['Transaction Date'],"%m/%d/%Y").strftime("%Y-%m-%d")
@@ -203,15 +203,12 @@ class account_bank_statement(osv.osv):
                 partner_bank_name = name_payment = row['Description']
 
             partner_bank_ids = partner_bank_obj.search(cr, uid, [('acc_number', '=', partner_bank_name),('bank', '=',  bank_id)])
-            partner_bank_id = partner_bank_ids and partner_bank_ids[0] or False
-
-            if partner_bank_id:
-                partner_bank = partner_bank_obj.browse(cr, uid, partner_bank_id)
-                partner_id = partner_bank.partner_id.id
-                if type_payment == 'customer':
-                    account_id = partner_bank.partner_id.property_account_receivable.id
-                else:
-                    account_id = partner_bank.partner_id.property_account_payable.id
+            if partner_bank_ids:
+                partner_banks = partner_bank_obj.browse(cr, uid, partner_bank_ids)
+                partner_ids = [x.partner_id.id for x in partner_banks]
+                partner = partner_banks[0].partner_id
+                partner_id = partner.id
+                account_id = type_payment == 'customer' and partner.property_account_receivable.id or partner.property_account_payable.id
 
                 # Search invoice
                 invoice_id = False
@@ -232,10 +229,11 @@ class account_bank_statement(osv.osv):
                         ('date_invoice', '>=', d_first),
                         ('date_invoice', '<=', d_last),
                         ('currency_id', '=', st.currency.id),
-                        ('partner_id', '=', partner_id)],
+                        ('partner_id', 'in', partner_ids)],
                         order='date_invoice')
                     invoice_ids = [x for x in invoice_ids if x not in invoice_list]
                     invoice_id = invoice_ids and invoice_ids[0] or False
+
                     # If not found, try to find an invoice with the company currency if it is different from statement currency
                     if not invoice_id and company_currency_id != st.currency.id:
                         invoice_amount = cur_obj.compute(cr, uid, st.currency.id, company_currency_id, invoice_amount, context={'date': date_transaction})
@@ -247,7 +245,7 @@ class account_bank_statement(osv.osv):
                             ('date_invoice', '>=', d_first),
                             ('date_invoice', '<=', d_last),
                             ('currency_id', '=', company_currency_id),
-                            ('partner_id', '=', partner_id)],
+                            ('partner_id', 'in', partner_ids)],
                             order='date_invoice')
                         invoice_ids = [x for x in invoice_ids if x not in invoice_list]
                         invoice_id = invoice_ids and invoice_ids[0] or False
@@ -257,6 +255,7 @@ class account_bank_statement(osv.osv):
                 if invoice_id:
                     invoice_list.append(invoice_id)
                     invoice = invoice_obj.browse(cr, uid, invoice_id)
+                    partner_id = invoice.partner_id.id
                     if invoice.amount_total - invoice_amount:
                         warnings += _("\nWARNING: Invoice %s and its payment have a difference %f,") % (invoice.number, invoice.amount_total - invoice_amount)
                     if invoice.move_id:
@@ -315,7 +314,7 @@ class account_bank_statement(osv.osv):
             log.add(_(" Total not added payments: %d\n") % (count_noupdate))
 
         log.add(warnings)
-        return (log(), 'Success')
+        return (log(), _('Success'))
 
 account_bank_statement()
 
