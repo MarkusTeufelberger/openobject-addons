@@ -490,7 +490,6 @@ class pos_order_line(osv.osv):
 
 
     _columns = {
-        'partner_id':fields.related('order_id', 'partner_id', type='many2one', relation='res.partner', string='Partner'),
         'state':fields.related('order_id', 'state', type='selection', selection=[('cancel', 'Cancel'), ('draft', 'Draft'),
             ('paid', 'Paid'), ('done', 'Done'), ('invoiced', 'Invoiced')], string='State'),
         'price_unit': fields.float('Unit Price', required=True, digits=(16, int(config['price_accuracy']))),
