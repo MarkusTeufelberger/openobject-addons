@@ -1,0 +1,67 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* product_tax_include
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.6\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-12-05 14:38:47+0000\n"
+"PO-Revision-Date: 2009-12-05 14:38:47+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_tax_include
+#: model:ir.module.module,shortdesc:product_tax_include.module_meta_information
+msgid "Product Tax Include"
+msgstr ""
+
+#. module: product_tax_include
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: product_tax_include
+#: help:product.template,price_unit_tax:0
+msgid "Price calculated with taxes included or excluded, depend of the configuration in company configuration"
+msgstr ""
+
+#. module: product_tax_include
+#: view:res.company:0
+msgid "Product"
+msgstr ""
+
+#. module: product_tax_include
+#: field:product.template,price_unit_tax:0
+msgid "Sale price with taxes included or excluded"
+msgstr ""
+
+#. module: product_tax_include
+#: field:res.company,product_prices_tax_include:0
+msgid "Prices tax included"
+msgstr ""
+
+#. module: product_tax_include
+#: help:res.company,product_prices_tax_include:0
+msgid "Product prices have tax included."
+msgstr ""
+
+#. module: product_tax_include
+#: view:res.company:0
+msgid "Configuration"
+msgstr ""
+
+#. module: product_tax_include
+#: model:ir.module.module,description:product_tax_include.module_meta_information
+msgid "Add new field for tax include in product\n"
+"\n"
+" OpenERP version : 5.0\n"
+" Creation : 2009-12-05\n"
+" Last update : 2009-12-05\n"
+""
+msgstr ""
+
