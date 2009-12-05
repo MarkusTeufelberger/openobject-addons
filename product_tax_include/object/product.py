@@ -61,7 +61,7 @@ class product_template(osv.osv):
             'price_unit_tax' : fields.function(_price_unit_tax,
                                 method=True,
                                 string='Sale price with taxes included or excluded',
-                                store=True,
+                                store=False,
                                 type='float',
                                 digits=(16, int(config['price_accuracy'])),
                                 help="Price calculated with taxes included or excluded, depend of the configuration in company configuration"),
