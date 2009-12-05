@@ -24,7 +24,7 @@
 {
     'name': 'Product Tax Include',
     'version': '0.0.1',
-    'category': 'Profile',
+    'category': 'Generic Modules/Inventory Control',
     'description': """Add new field for tax include in product
 
  OpenERP version : 5.0
