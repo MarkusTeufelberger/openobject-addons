@@ -208,9 +208,9 @@ class pos_order(osv.osv):
                                 tax['account_collected_id'])
 
                     if group_key in group_tax:
-                        group_tax[group_key] += cur_obj.round(cr, uid, cur, tax['amount'])
+                        group_tax[group_key] +=  tax['amount']
                     else:
-                        group_tax[group_key] = cur_obj.round(cr, uid, cur, tax['amount'])
+                        group_tax[group_key] = tax['amount']
 
                 amount = line.price_subtotal
                 if prices_tax_include:
@@ -291,18 +291,19 @@ class pos_order(osv.osv):
             # Create a move for each tax group
             (tax_code_pos, base_code_pos, account_pos)= (0, 1, 2)
             for key, amount in group_tax.items():
+                tax_amount = cur_obj.round(cr, uid, cur, amount)
                 account_move_line_obj.create(cr, uid, {
                     'name': order.name,
                     'date': order.date_order,
                     'ref': order.name,
                     'move_id': move_id,
                     'account_id': key[account_pos],
-                    'credit': ((amount>0) and amount) or 0.0,
-                    'debit': ((amount<0) and -amount) or 0.0,
+                    'credit': ((tax_amount>0) and tax_amount) or 0.0,
+                    'debit': ((tax_amount<0) and -tax_amount) or 0.0,
                     'journal_id': order.sale_journal.id,
                     'period_id': period,
                     'tax_code_id': key[tax_code_pos],
-                    'tax_amount': amount,
+                    'tax_amount': tax_amount,
                     'partner_id': order.partner_id and order.partner_id.id or False
                 }, context=context)
 
