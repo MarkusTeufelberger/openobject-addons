@@ -23,25 +23,8 @@
 #
 ##############################################################################
 
-{
-    "name":"Margins (amount and pourcent) in Sale Orders",
-    "version":"1.0",
-    "author":"Everlibre & SYLEAM",
-    "category" : "Generic Modules/Sales & Purchases",
-    "depends":[
-        "base",
-        "sale",
-        "account"
-    ],
-    "demo_xml":[],
-    "update_xml":[
-        "security/ir.model.access.csv",
-        "view/sale_margin_view.xml",
-        "view/report_margin_view.xml",
-    ],
-    "active": False,
-    "installable": True,
-    "license": "GPL-3",
-}
+import invoice_margin
+import report_margin
+import sale_margin
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
