@@ -1,4 +1,4 @@
-# Spanish translation for openobject-addons
+# Catalan translation for openobject-addons
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the openobject-addons package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: openobject-addons\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-18 17:17+0000\n"
-"PO-Revision-Date: 2009-12-06 06:04+0000\n"
+"PO-Revision-Date: 2009-12-06 23:09+0000\n"
 "Last-Translator: Jordi Esteve - http://www.zikzakmedia.com "
 "<jesteve@zikzakmedia.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,26 +26,26 @@ msgstr ""
 #: selection:report.account.invoice.product,type:0
 #: selection:stock.invoice_onshipping,init,type:0
 msgid "Customer Refund"
-msgstr "Factura de abono de cliente"
+msgstr "Factura d'abonament de client"
 
 #. module: sale_margin
 #: model:ir.model,name:sale_margin.model_report_account_invoice_product
 msgid "report.account.invoice.product"
-msgstr "informe.contabilidad.factura.producto"
+msgstr "informe.comptabilitat.factura.producte"
 
 #. module: sale_margin
 #: constraint:ir.model:0
 msgid ""
 "The Object name must start with x_ and not contain any special character !"
 msgstr ""
-"¡El nombre del objeto debe empezar con x_ y no contener ningún carácter "
+"El nom de l'objecte ha de començar amb x_ i no contenir cap caràcter "
 "especial!"
 
 #. module: sale_margin
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_all_invoice_by_product
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_invoice_by_product
 msgid "Invoices by Product"
-msgstr "Facturas por producto"
+msgstr "Factures per producte"
 
 #. module: sale_margin
 #: selection:report.account.invoice,type:0
@@ -55,22 +55,22 @@ msgstr "Facturas por producto"
 #: selection:report.account.invoice.product,type:0
 #: selection:stock.invoice_onshipping,init,type:0
 msgid "Customer Invoice"
-msgstr "Factura de cliente"
+msgstr "Factura de client"
 
 #. module: sale_margin
 #: wizard_view:stock.invoice_onshipping,init:0
 msgid "Create invoices"
-msgstr "Crear facturas"
+msgstr "Crea factures"
 
 #. module: sale_margin
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr "¡XML inválido para la definición de la vista!"
+msgstr "﻿XML invàlid per a la definició de la vista!"
 
 #. module: sale_margin
 #: model:ir.model,name:sale_margin.model_report_account_invoice_partner_product
 msgid "report.account.invoice.partner.product"
-msgstr "informe.contabilidad.factura.empresa.producto"
+msgstr "informe.comptabilitat.factura.empresa.producte"
 
 #. module: sale_margin
 #: selection:report.account.invoice,type:0
@@ -80,7 +80,7 @@ msgstr "informe.contabilidad.factura.empresa.producto"
 #: selection:report.account.invoice.product,type:0
 #: selection:stock.invoice_onshipping,init,type:0
 msgid "Supplier Invoice"
-msgstr "Factura de proveedor"
+msgstr "Factura de proveïdor"
 
 #. module: sale_margin
 #: field:report.account.invoice,state:0
@@ -89,12 +89,12 @@ msgstr "Factura de proveedor"
 #: field:report.account.invoice.partner.product,state:0
 #: field:report.account.invoice.product,state:0
 msgid "State"
-msgstr "Estado"
+msgstr "Estat"
 
 #. module: sale_margin
 #: view:stock.picking:0
 msgid "Create Invoice"
-msgstr "Crear factura"
+msgstr "Crea factura"
 
 #. module: sale_margin
 #: selection:report.account.invoice,state:0
@@ -103,23 +103,23 @@ msgstr "Crear factura"
 #: selection:report.account.invoice.partner.product,state:0
 #: selection:report.account.invoice.product,state:0
 msgid "Draft"
-msgstr "Borrador"
+msgstr "Esborrany"
 
 #. module: sale_margin
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr "Nombre de modelo no válido en la definición de la acción."
+msgstr "Nom de model no vàlid en la definició de l'acció."
 
 #. module: sale_margin
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_all_month_product
 msgid "All Months"
-msgstr "Todos los meses"
+msgstr "Tots els mesos"
 
 #. module: sale_margin
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_partner_product_tree
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_partner_product_tree_all
 msgid "report.account.invoice.partner.product.tree"
-msgstr "informe.contabilidad.factura.empresa.producto.árbol"
+msgstr "informe.comptabilitat.factura.empresa.producte.arbre"
 
 #. module: sale_margin
 #: field:report.account.invoice,type:0
@@ -129,38 +129,38 @@ msgstr "informe.contabilidad.factura.empresa.producto.árbol"
 #: field:report.account.invoice.product,type:0
 #: wizard_field:stock.invoice_onshipping,init,type:0
 msgid "Type"
-msgstr "Tipo"
+msgstr "Tipus"
 
 #. module: sale_margin
 #: wizard_field:stock.invoice_onshipping,init,journal_id:0
 msgid "Destination Journal"
-msgstr "Diario de destino"
+msgstr "Diari de destí"
 
 #. module: sale_margin
 #: view:stock.picking:0
 msgid "Supplier Invoices"
-msgstr "Facturas de proveedor"
+msgstr "Factures de proveïdor"
 
 #. module: sale_margin
 #: field:report.account.invoice.partner.product,product_id:0
 #: field:report.account.invoice.product,product_id:0
 msgid "Product"
-msgstr "Producto"
+msgstr "Producte"
 
 #. module: sale_margin
 #: field:sale.order.line,marginpourcent:0
 msgid "Margin %"
-msgstr "Margen %"
+msgstr "Marge %"
 
 #. module: sale_margin
 #: view:report.account.invoice.partner:0
 msgid "Invoices by partner"
-msgstr "Facturas por empresa"
+msgstr "Factures per empresa"
 
 #. module: sale_margin
 #: view:report.account.invoice.category:0
 msgid "Invoices by category"
-msgstr "Facturas por categoría"
+msgstr "Factures per categoria"
 
 #. module: sale_margin
 #: selection:report.account.invoice,state:0
@@ -169,40 +169,40 @@ msgstr "Facturas por categoría"
 #: selection:report.account.invoice.partner.product,state:0
 #: selection:report.account.invoice.product,state:0
 msgid "Paid"
-msgstr "Pagado"
+msgstr "Pagat"
 
 #. module: sale_margin
 #: model:ir.actions.wizard,name:sale_margin.wizard_picking_invoice_create
 #: wizard_button:stock.invoice_onshipping,init,create_invoice:0
 msgid "Create invoice"
-msgstr "Crear factura"
+msgstr "Crea factura"
 
 #. module: sale_margin
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_category_tree
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_category_tree_all
 msgid "report.account.invoice.category.tree"
-msgstr "informe.contabilidad.factura.categoría.árbol"
+msgstr "informe.comptabilitat.factura.categoria.arbre"
 
 #. module: sale_margin
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_all_invoice_by_partner_product
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_invoice_by_partner_product
 msgid "Invoices by Partner and Product"
-msgstr "Facturas por empresa y producto"
+msgstr "Factures per empresa i producte"
 
 #. module: sale_margin
 #: model:ir.model,name:sale_margin.model_report_account_invoice_category
 msgid "report.account.invoice.category"
-msgstr "informe.contabilidad.factura.categoría"
+msgstr "informe.comptabilitat.factura.categoria"
 
 #. module: sale_margin
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_this_month_product
 msgid "This Month"
-msgstr "Este Mes"
+msgstr "Aquest mes"
 
 #. module: sale_margin
 #: field:report.account.invoice.category,categ_id:0
 msgid "Categories"
-msgstr "Categorías"
+msgstr "Categories"
 
 #. module: sale_margin
 #: field:account.invoice.line,cost_price:0
@@ -213,34 +213,34 @@ msgstr "Categorías"
 #: field:report.account.invoice.product,cost_price:0
 #: field:sale.order.line,purchase_price:0
 msgid "Cost Price"
-msgstr "Precio coste"
+msgstr "Preu cost"
 
 #. module: sale_margin
 #: wizard_field:stock.invoice_onshipping,init,group:0
 msgid "Group by partner"
-msgstr "Agrupar por empresa"
+msgstr "Agrupa per empresa"
 
 #. module: sale_margin
 #: model:ir.model,name:sale_margin.model_report_account_invoice_partner
 msgid "report.account.invoice.partner"
-msgstr "informe.contabilidad.factura.empresa"
+msgstr "informe.comptabilitat.factura.empresa"
 
 #. module: sale_margin
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_all_invoice_by_partner
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_invoice_by_partner
 msgid "Invoices by Partner"
-msgstr "Facturas por empresa"
+msgstr "Factures per empresa"
 
 #. module: sale_margin
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_all_invoice_by_category
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_invoice_by_category
 msgid "Invoices by Category"
-msgstr "Facturas por categoría"
+msgstr "Factures per categoria"
 
 #. module: sale_margin
 #: view:report.account.invoice.partner.product:0
 msgid "Invoices by partner and product"
-msgstr "Facturas por empresa y producto"
+msgstr "Factures per empresa i producte"
 
 #. module: sale_margin
 #: field:report.account.invoice,amount:0
@@ -249,7 +249,7 @@ msgstr "Facturas por empresa y producto"
 #: field:report.account.invoice.partner.product,amount:0
 #: field:report.account.invoice.product,amount:0
 msgid "Amount"
-msgstr "Importe"
+msgstr "Quantitat"
 
 #. module: sale_margin
 #: selection:report.account.invoice,type:0
@@ -259,13 +259,13 @@ msgstr "Importe"
 #: selection:report.account.invoice.product,type:0
 #: selection:stock.invoice_onshipping,init,type:0
 msgid "Supplier Refund"
-msgstr "Factura de abono de proveedor"
+msgstr "Factura d'abonament de proveïdor"
 
 #. module: sale_margin
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_partner_tree
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_partner_tree_all
 msgid "report.account.invoice.partner.tree"
-msgstr "informe.contabilidad.factura.empresa.árbol"
+msgstr "informe.comptabilitat.factura.empresa.arbre"
 
 #. module: sale_margin
 #: field:report.account.invoice,margin:0
@@ -276,7 +276,7 @@ msgstr "informe.contabilidad.factura.empresa.árbol"
 #: field:sale.order,margin:0
 #: field:sale.order.line,margin:0
 msgid "Margin"
-msgstr "Margen"
+msgstr "Marge"
 
 #. module: sale_margin
 #: field:report.account.invoice,quantity:0
@@ -285,22 +285,22 @@ msgstr "Margen"
 #: field:report.account.invoice.partner.product,quantity:0
 #: field:report.account.invoice.product,quantity:0
 msgid "Quantity"
-msgstr "Cantidad"
+msgstr "Quantitat"
 
 #. module: sale_margin
 #: view:report.account.invoice.product:0
 msgid "Invoices by product"
-msgstr "Facturas por producto"
+msgstr "Factures per producte"
 
 #. module: sale_margin
 #: model:ir.module.module,shortdesc:sale_margin.module_meta_information
 msgid "Margins in Sale Orders"
-msgstr "Márgenes en pedidos de venta"
+msgstr "Marges en comandes de venda"
 
 #. module: sale_margin
 #: model:ir.model,name:sale_margin.model_report_account_invoice
 msgid "report.account.invoice"
-msgstr "informe.contabilidad.factura"
+msgstr "informe.comptabilitat.factura"
 
 #. module: sale_margin
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_all_invoice_by_invoices
@@ -309,7 +309,7 @@ msgstr "informe.contabilidad.factura"
 #: view:stock.picking:0
 #: field:stock.picking,invoice_ids:0
 msgid "Invoices"
-msgstr "Facturas"
+msgstr "Factures"
 
 #. module: sale_margin
 #: selection:report.account.invoice,state:0
@@ -336,7 +336,7 @@ msgstr "Mes"
 #: selection:report.account.invoice.partner.product,state:0
 #: selection:report.account.invoice.product,state:0
 msgid "Canceled"
-msgstr "Cancelada"
+msgstr "Cancel·lada"
 
 #. module: sale_margin
 #: model:ir.ui.menu,name:sale_margin.menu_report_account_invoice_product
@@ -346,7 +346,7 @@ msgstr "Factura"
 #. module: sale_margin
 #: wizard_button:stock.invoice_onshipping,init,end:0
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Cancel·la"
 
 #. module: sale_margin
 #: field:report.account.invoice.partner,partner_id:0
@@ -358,7 +358,7 @@ msgstr "Empresa"
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_tree
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_tree_all
 msgid "report.account.invoice.tree"
-msgstr "informe.contabilidad.factura.árbol"
+msgstr "informe.comptabilitat.factura.arbre"
 
 #. module: sale_margin
 #: selection:report.account.invoice,state:0
@@ -367,10 +367,10 @@ msgstr "informe.contabilidad.factura.árbol"
 #: selection:report.account.invoice.partner.product,state:0
 #: selection:report.account.invoice.product,state:0
 msgid "Open"
-msgstr "Abierta"
+msgstr "Oberta"
 
 #. module: sale_margin
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_product_tree
 #: model:ir.actions.act_window,name:sale_margin.action_report_account_invoice_product_tree_all
 msgid "report.account.invoice.product.tree"
-msgstr "informe.contabilidad.factura.producto.árbol"
+msgstr "informe.comptabilitat.factura.producte.arbre"
