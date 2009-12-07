@@ -139,9 +139,7 @@ class purchase_order(osv.osv):
         picking_id = False
         all_move_ids=[]
         sequence_id=self.pool.get('ir.sequence').search(cr,uid,[('code','=','stock.picking'),('name','=','Packing')])
-        print 'sequence_id----------------',sequence_id
         new_name = self.pool.get('ir.sequence').get_id(cr, uid, sequence_id[0])
-        print 'new_name-----------------',new_name
         for order in self.browse(cr, uid, ids):
             loc_id = order.partner_id.property_stock_supplier.id
             istate = 'none'
