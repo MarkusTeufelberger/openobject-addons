@@ -54,7 +54,8 @@ from reportlab.lib.enums import *
 import time
 from c2c_reporting_tools.c2c_helper import *
 from c2c_reporting_tools.flowables.color_legend import *
-from c2c_reporting_tools.translation import _
+# from c2c_reporting_tools.translation import _
+from tools.translate import _ 
 
 class TimeBoxesChartBuilder(object):
     """ Tool to generate a graphical object to be displayed in rapports
