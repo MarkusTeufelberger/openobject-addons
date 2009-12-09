@@ -14,7 +14,7 @@
             </field>
         </record>
 	
-		<!-- Add Picking and Syatem date in incoming product Picking  
+		<!--  Add Picking and Syatem date in incoming product Picking  --> 
 		
 		 <record id="stock_picking_form_add_date_fields" model="ir.ui.view">
             <field name="name">Picking Form add State in date fields</field>
@@ -29,7 +29,7 @@
             </field>
         </record>
 	
-    	--><record id="stock_picking_form_add_page" model="ir.ui.view">
+    	<record id="stock_picking_form_add_page" model="ir.ui.view">
             <field name="name">Picking Form add Transport Page in Incoming</field>
             <field name="model">stock.picking</field>
             <field name="type">form</field>
@@ -64,12 +64,13 @@
             <field name="model">stock.picking</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="priority">19</field>
             <field name="arch" type="xml">
             	<field name="min_date" select="2" position="after">
             		<button name="%(change_planned_date)d" states="waiting,confirmed,assigned,underway" string="Change Date" type="action"/>
             	</field>
             </field>
-        </record><!--
+        </record>
         
         <record id="stock_move_form_add_picking_date" model="ir.ui.view">
             <field name="name">Moves Form add Picking And System date</field>
@@ -85,7 +86,8 @@
             </field>
         </record>
         
-        --><!-- Add Picking date in Internal move 
+      <!--     Add Picking date in Internal move -->
+      
         <record id="stock_view_picking_form_add_picking_date" model="ir.ui.view">
             <field name="name">Internal Move From view Add Picking Date</field>
             <field name="model">stock.picking</field>
@@ -99,7 +101,7 @@
         </record>
         
         
-        --><!-- Add Picking date in Moves of Incoming Product Picking form -->
+        <!-- Add Picking date in Moves of Incoming Product Picking form -->
         
         <record id="stock_view_moves_form_add_picking_date" model="ir.ui.view">
             <field name="name">Incoming Prod Internal Move From view Add Picking Date</field>
