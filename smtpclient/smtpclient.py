@@ -93,7 +93,23 @@ class SmtpClient(osv.osv):
 #        result = super(SmtpClient, self).read(cr, uid, ids, fields, context, load)
 #        result = override_password(result)
 #        return result
-        
+    
+    def write(self, cr, user, ids, vals, context=None):
+        flag = False
+        if vals.get('password', False) != False:
+            for pass_char in vals.get('password'):
+                if pass_char != '*':
+                    flag= True
+                    break
+
+            if flag:    
+                vals['password'] = base64.b64encode(vals.get('password'))
+            else:
+                del vals['password']    
+            
+        res = super(SmtpClient, self).write(cr, user, ids, vals, context)
+        return res
+            
     def change_email(self, cr, uid, ids, email):
         ptrn = re.compile('(\w+@\w+(?:\.\w+)+)')
         result=ptrn.search(email)
