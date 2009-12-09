@@ -106,7 +106,7 @@ class stock_picking(osv.osv):
                  method=True,store=True, type='date', string='Planned Date', select=1),
                 'sequence_id': fields.many2one('ir.sequence','Sequence'),
                 'picking_date' : fields.date('Picking Date', help="Date when actual picking is done by user.",states={'done':[('readonly',True)]}),
-                'system_date' : fields.datetime('System Date',states={'done':[('readonly',True)]}),
+                'system_date' : fields.datetime('System Date',readonly=True),
               }
 stock_picking()
 
