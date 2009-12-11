@@ -389,7 +389,7 @@ class stock_move(osv.osv):
                 old_pick_data=stock_obj.read(cr,uid,r['id'],['min_date','state'])
                 old_pick_date=old_pick_data['min_date']
                 state=old_pick_data['state']
-                if state<>'done':
+                if state<>'done' and old_pick_date <> r['min_date']:
                     vals={}
                     vals['date']=time.strftime('%Y-%m-%d')
                     vals['prev_plan_date']=old_pick_date
