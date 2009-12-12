@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_partner_crm_analytic_form">
+            <field name="name">res.partner.crm.analytic.form</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="CRM Analytic">
+                        <field name="crm_analytic_ids" nolabel="1" mode="tree,form">
+                            <tree string="Section Analytic" editable="bottom">
+                                <field name="section_id"/>
+                                <field name="account_id"/>
+                            </tree>
+                            <form string="CRM Analytic">
+                                <field name="section_id"/>
+                                <field name="account_id"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>
