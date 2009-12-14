@@ -185,9 +185,10 @@ class crm_case(osv.osv):
             context = {}
         if context.get('calculate_duration', False):
             unlink_ids = []
-            for z in vals['timesheet_ids']:
-                if not z[2]:
-                    unlink_ids.append(z[1])
+            if vals.get('timesheet_ids', False):
+                for z in vals['timesheet_ids']:
+                    if not z[2]:
+                        unlink_ids.append(z[1])
             for id in ids:
                 case = self.browse(cr, uid, id, context=context)
                 duration = 0.0
