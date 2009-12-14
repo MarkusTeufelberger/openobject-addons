@@ -21,6 +21,7 @@
 ##############################################################################
 
 from osv import fields, osv
+from tools.translate import _
 import pooler
 
 class profile_game_phase_one(osv.osv):
