@@ -66,9 +66,10 @@ class product_variant_configurator_configurator(osv.osv_memory):
     
     def create(self, cr, uid, vals, context=None):
         id = super(osv.osv_memory, self).create(cr, uid, vals, context)
-        line_ids = [i[1] for i in vals['dimension_configuration_line_ids']]
-        if line_ids:
-            self.pool.get('product_variant_configurator.line').write(cr, uid, line_ids, {'configurator_id':id})
+        if 'dimension_configuration_line_ids' in vals:
+            line_ids = [i[1] for i in vals['dimension_configuration_line_ids']]
+            if len(line_ids) > 0:
+                self.pool.get('product_variant_configurator.line').write(cr, uid, line_ids, {'configurator_id':id})
         return id
 
     #TODO load the product of the sale order line in the wizard in case of modification
