@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	       <wizard string="Fill in Timesheet" model="hr_timesheet_sheet.sheet" name="hr.holiday.fullfill.timesheetc2c" id="fullfill_timesheet_with_holidaysc2c"/>
+	</data>
+</openerp>
+
