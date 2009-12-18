@@ -256,25 +256,27 @@
 		<field name="inherit_id" ref="sale.view_order_form" />
 		<field name="arch" type="xml">
 		<notebook>
-		    <page string="Os Commerce Information" position="inside">
-		        <separator string="OsCommerce" colspan="4"/>
-		            <group col="2" colspan="2">
-					    <field name="esale_oscom_id" readonly="1" select="1"/>
+			<page string="Os Commerce Information" position="inside">
+				<separator string="OsCommerce" colspan="4"/>
+					<group col="2" colspan="2">
+						<field name="esale_oscom_id" readonly="1" select="1"/>
 						<field name="esale_oscom_web" on_change="onchange_esale_oscom_web(esale_oscom_web)" select="1"/>
-		            </group>
-		            <group col="2" colspan="2">
-			            <field name="pay_met_title" readonly="1"/>
-		                <field name="shipping_title" readonly="1"/>
-		            </group>
-	                <field name="orders_status" readonly="1"/>
-                <separator string="Options selected will be applied on changing osc order status" colspan="4"/>
-		            <group col="2" colspan="2">
-                        <field name="update_comment"/>
-                        <field name="send_web_email"/>
-		            </group>
-                <field colspan="4" name="status_comment"/>
-			    <field name="orders_status_id" on_change="onchange_esale_oscom_status(esale_oscom_web, esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email )" select="1"/>
-		    </page>
+					</group>
+					<group col="2" colspan="2">
+						<field name="pay_met_title" readonly="1"/>
+						<field name="shipping_title" readonly="1"/>
+					</group>
+					<field name="orders_status" readonly="1"/>
+					<field name="shipping_agency"/>
+					<field name="tracking_number"/>
+				<separator string="Options selected will be applied on changing osc order status" colspan="4"/>
+					<group col="2" colspan="2">
+						<field name="update_comment"/>
+						<field name="send_web_email"/>
+					</group>
+				<field colspan="4" name="status_comment"/>
+				<field name="orders_status_id" on_change="onchange_esale_oscom_status(esale_oscom_web, esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email,tracking_number )" select="1"/>
+			</page>
 		</notebook>
 		</field>
 	</record>

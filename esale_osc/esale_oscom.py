@@ -397,7 +397,7 @@ class esale_oscom_web(osv.osv):
             continuar = True
             transaccional = server.isTransactional()
             from_date = website.date_download_from
-            #print "from_date", from_date
+            print "from_date", from_date
 
             while (continuar):
                 products_osc = server.get_products(osc_langs, oscom_id, bloque, from_date)
@@ -583,15 +583,13 @@ class esale_oscom_web(osv.osv):
         if statuses_ids_aux:
             for idst in statuses_ids_aux:
                 osc_id = esale_status_obj.read(cr, uid, idst, ['esale_oscom_id'])
-                #print osc_id
-                #print osc_id['esale_oscom_id']
                 statuses_ids.append(osc_id['esale_oscom_id'])
         #print "statuses_ids", statuses_ids
 
         website = self.pool.get('esale.oscom.web').browse(cr, uid, website_id)
         osc_int = esale_status_obj.read(cr, uid, website.intermediate.id, ['esale_oscom_id'])
         intermediate = osc_int['esale_oscom_id']
-        #print "intermediate antes de import", intermediate
+        #print "intermediate before import", intermediate
 
         server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
         cr.execute("select max(esale_oscom_id) from sale_order where esale_oscom_web=%s;" % str(website.id))
@@ -605,8 +603,9 @@ class esale_oscom_web(osv.osv):
             saleorders = server.get_saleorders(0, statuses_ids)
         no_of_so = 0
         for saleorder in saleorders:
-            #print "==========*********NEW**************==========="
-            #print "== Oscommerce Sale Order Number :", saleorder['id']
+            # print "==========*********NEW**************==========="
+            # print "== Oscommerce Sale Order Number :", saleorder['id']
+            # print "PEDIDO VENTA: " , saleorder
             if len(saleorder['partner']) > 0 :
                 oscom_partner = saleorder['partner'][0]
                 #print "== Sale order partner:", saleorder['partner'][0]
@@ -624,21 +623,21 @@ class esale_oscom_web(osv.osv):
 
             # Default address is right on Website so we create the order.
             if len(saleorder['address']) > 0 :
-                #print "===Sale order address:",saleorder['address'][0]
+                # print "===Sale order address:",saleorder['address'][0]
                 default_address = saleorder['address'][0]
                 del saleorder['address']
                 default_address['type'] = 'default'
                 default_address_id = _add_address(self, cr, uid, default_address.copy(), partner_id, context)
                 shipping_address = []
                 if len(saleorder['delivery']) > 0 :
-                    #print "===Sale order Delivery:",saleorder['delivery'][0]
+                    # print "===Sale order Delivery:",saleorder['delivery'][0]
                     shipping_address = saleorder['delivery'][0]
                     del saleorder['delivery']
                     shipping_address['type'] = 'delivery'
                     shipping_address_id = _add_address(self, cr, uid, shipping_address.copy(), partner_id, context)
                 billing_address = []
                 if len(saleorder['billing']) > 0 :
-                    #print "===Sale order Billing:",saleorder['billing'][0]
+                    # print "===Sale order Billing:",saleorder['billing'][0]
                     billing_address = saleorder['billing'][0]
                     del saleorder['billing']
                     billing_address['type'] = 'invoice'
@@ -691,130 +690,64 @@ class esale_oscom_web(osv.osv):
                     value['partner_invoice_id'] = billing_address_id
                 else:
                     value['partner_invoice_id'] =  default_address_id
-
                 order_id = saleorder_obj.create(cr, uid, value)
                 order_id_obj = saleorder_obj.browse(cr, uid, order_id)
-                #print "id obj", order_id_obj.name
                 concat_cod = order_id_obj.name + "-" + str(saleorder['id']) + "-" + oscom_partner['name']
                 saleorder_obj.write(cr, uid, order_id, {'name':concat_cod})
-
+ 
                 for orderline in saleorder['lines']:
                     ids = esale_product_obj.search(cr, uid, [('esale_oscom_id', '=', orderline['product_id']), ('web_id', '=', website.id)])
+
                     if len(ids):
                         oscom_product_id = ids[0]
                         oscom_product = esale_product_obj.browse(cr, uid, oscom_product_id)
-                        linevalue = {
-                            'product_id'     : oscom_product.product_id.id,
-                            'product_uom_qty': orderline['product_qty'],
-                            'order_id'       : order_id
-                        }
-                        onchange_product_sol = saleorder_line_obj.product_id_change(cr, uid, [], value['pricelist_id'], linevalue['product_id'], linevalue['product_uom_qty'],False, 0, False, '', value['partner_id'])['value']
-                        onchange_product_sol['tax_id'] = False
-                        if orderline['tax_rate'] > 0.0000:
-                            tax_rate_search_ids = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',orderline['tax_rate']/100), ('type_tax_use', '=','sale')])
-                            if tax_rate_search_ids:
-                                onchange_product_sol['tax_id'] = tax_rate_search_ids
-                        price = orderline['price']
-                        name = orderline['name']
-                        attributes = (orderline.has_key('attributes') and orderline['attributes']) or False
-                        if saleorder['price_type'] == 'tax_excluded' and attributes:
-                            price = eval(str(price) + attributes['price_prefix'] + str(attributes['options_values_price']))
+                        product_id = oscom_product.product_id.id
+                        print "id producto linea producto", product_id
+                    else:
+                    # if not exists a product_id on OpenERP products to be matched with Osc product. The order line will be generated 
+                    # with generic Shipping Cost product created by the module.  
+                        product_id = product_obj.search(cr, uid, [('name','=','Shipping Cost')])[0]                            
+                    # print "id product Generic", product_id
+
+                    linevalue = {
+                        'product_id'     : product_id,
+                        'product_uom_qty': orderline['product_qty'],
+                        'order_id'       : order_id,
+                    }
+                    onchange_product_sol = saleorder_line_obj.product_id_change(cr, uid, [], value['pricelist_id'], linevalue['product_id'], linevalue['product_uom_qty'],False, 0, False, '', value['partner_id'])['value']
+                    onchange_product_sol['tax_id'] = False
+                    if orderline['tax_rate'] > 0.0000:
+                        tax_rate_search_ids = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',orderline['tax_rate']/100), ('type_tax_use', '=','sale')])
+                        if tax_rate_search_ids:
+                            onchange_product_sol['tax_id'] = tax_rate_search_ids
+                    price = orderline['price']
+                    name = orderline['name']                      
+                    attributes = (orderline.has_key('attributes') and orderline['attributes']) or False
+                    if saleorder['price_type'] == 'tax_excluded' and attributes:
+                        # print "EVALUANDO PRECIOS ATRIBUTOS: ", str(price)
+                        # print "prefix: ", attributes['price_prefix']
+                        # print "EVALUANDO PRECIOS ATRIBUTOS2: ", str(attributes['options_values_price'])
+                        price = eval(str(price) + attributes['price_prefix'] + str(attributes['options_values_price']))
+                        name = name + ' ' + attributes['products_options'] + ' + ' + attributes['products_options_values']
+                    elif saleorder['price_type'] == 'tax_included':
+                        price = price * (1+orderline['tax_rate']/100)
+                        if attributes:
+                            options_value_price = attributes['options_values_price']
+                            cal_options_value_price = options_value_price * (1+orderline['tax_rate']/100)
+                            price = eval(str(price) + attributes['price_prefix'] + str(cal_options_value_price))
                             name = name + ' ' + attributes['products_options'] + ' + ' + attributes['products_options_values']
-                        elif saleorder['price_type'] == 'tax_included':
-                            price = price * (1+orderline['tax_rate']/100)
-                            if attributes:
-                                options_value_price = attributes['options_values_price']
-                                cal_options_value_price = options_value_price * (1+orderline['tax_rate']/100)
-                                price = eval(str(price) + attributes['price_prefix'] + str(cal_options_value_price))
-                                name = name + ' ' + attributes['products_options'] + ' + ' + attributes['products_options_values']
-                        onchange_product_sol['price_unit'] = round(price,2)
-                        linevalue.update(onchange_product_sol)
-                        linevalue.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
-                        linevalue['name'] = name
-                        if linevalue.get('weight',False):
-                            del linevalue['weight']
-                        linevalue["product_uos"] = linevalue['product_uos'] and linevalue['product_uos'][0]
-                        tax_id = linevalue['tax_id'] and linevalue['tax_id'][0]
-                        del linevalue['tax_id']
-                        #print "linea", linevalue
-                        ids = saleorder_line_obj.create(cr, uid, linevalue)
-                        if tax_id:
-                            cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
-                #print "======== UPDATE:",saleorder['shipping_title']
-                shopping_cost_id = product_obj.search(cr, uid, [('name','=','Shipping Cost')])
-                if shopping_cost_id:
-                    if saleorder['shipping_price'] > 0.0000:
-                        so_line_shipping = {
-                            'product_id'     : shopping_cost_id[0],
-                            'product_uom_qty': 1,
-                            'order_id'       : order_id
-                        }
-                        so_line_shipping.update(saleorder_line_obj.product_id_change(cr, uid, [], value['pricelist_id'], so_line_shipping['product_id'], so_line_shipping['product_uom_qty'],False, 0, False, '', value['partner_id'])['value'])
-                        so_line_shipping.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
-                        so_line_shipping['price_unit'] = saleorder['shipping_price']
-                        so_line_shipping['name'] = saleorder['shipping_title']
-                        tax_rate_shipping_search_id = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0.1600), ('type_tax_use', '=','sale')]) 
-                        #print "tax_rate_shipping_search_id", tax_rate_shipping_search_id
-                        if tax_rate_shipping_search_id:
-                                so_line_shipping['tax_id'] = tax_rate_shipping_search_id
-                                #print "so_line_shipping: ", so_line_shipping
-                        tax_id = so_line_shipping['tax_id'] and so_line_shipping['tax_id'][0]
-                        if so_line_shipping.get('weight',False):
-                            del so_line_shipping['weight']
-                        del so_line_shipping['tax_id']
-                        #print "=== Order line:", so_line_shipping
-                        ids = saleorder_line_obj.create(cr, uid, so_line_shipping)                        
-                        cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
-                #print "=== Cupon line:",saleorder['dcoupon_title']
-                #print "=== Cash order line:",saleorder['cash_title']
-                discount_cost_id = product_obj.search(cr, uid, [('name','=','Discount Coupon')])
-                if discount_cost_id:
-                    if saleorder['dcoupon_price'] != 0.0000:
-                        so_line_discount = {
-                            'product_id'     : discount_cost_id[0],
-                            'product_uom_qty': 1,
-                            'order_id'       : order_id
-                        }
-                        #print "=== Cupon line:",saleorder['dcoupon_title']
-                        so_line_discount.update(saleorder_line_obj.product_id_change(cr, uid, [], value['pricelist_id'], so_line_discount['product_id'], so_line_discount['product_uom_qty'],False, 0, False, '', value['partner_id'])['value'])
-                        so_line_discount.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
-                        so_line_discount['price_unit'] = saleorder['dcoupon_price']
-                        so_line_discount['name'] = saleorder['dcoupon_title']
-                        tax_rate_discount_search_id = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0.1600), ('type_tax_use', '=','sale')]) 
-                        if tax_rate_discount_search_id:
-                                so_line_discount['tax_id'] = tax_rate_discount_search_id
-                                #print "so_line_discount: ", so_line_discount
-                        tax_id = so_line_discount['tax_id'] and so_line_discount['tax_id'][0]
-                        if so_line_discount.get('weight',False):
-                            del so_line_discount['weight']
-                        del so_line_discount['tax_id']
-                        #print "=== Cupon line:", so_line_discount
-                        ids = saleorder_line_obj.create(cr, uid, so_line_discount)
-                        cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
-                cash_cost_id = product_obj.search(cr, uid, [('name','=','Cash On Delivery')])
-                if cash_cost_id:
-                    if saleorder['cash_price'] != 0.0000:
-                        so_line_cash = {
-                            'product_id'     : cash_cost_id[0],
-                            'product_uom_qty': 1,
-                            'order_id'       : order_id
-                        }
-                        #print "=== Cash order line:",saleorder['cash_title']
-                        so_line_cash.update(saleorder_line_obj.product_id_change(cr, uid, [], value['pricelist_id'], so_line_cash['product_id'], so_line_cash['product_uom_qty'],False, 0, False, '', value['partner_id'])['value'])
-                        so_line_cash.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
-                        so_line_cash['price_unit'] = saleorder['cash_price']
-                        tax_rate_cash_search_id = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0.1600), ('type_tax_use', '=','sale')]) 
-                        if tax_rate_cash_search_id:
-                                so_line_cash['tax_id'] = tax_rate_cash_search_id
-                                #print "so_line_cash: ", so_line_cash
-                        tax_id = so_line_cash['tax_id'] and so_line_cash['tax_id'][0]
-                        so_line_cash['name'] = saleorder['cash_title']
-                        if so_line_cash.get('weight',False):
-                            del so_line_cash['weight']
-                        del so_line_cash['tax_id']
-                        #print "=== Order line:", so_line_cash
-                        ids = saleorder_line_obj.create(cr, uid, so_line_cash)
-                        cr.execute('insert into sale_order_tax (order_line_id,tax_id) values (%d,%d)', (ids, tax_id))
+                    onchange_product_sol['price_unit'] = round(price,2)
+                    linevalue.update(onchange_product_sol)
+                    linevalue.update(saleorder_line_obj.default_get(cr, uid, ['sequence', 'invoiced', 'state', 'product_packaging']))
+                    linevalue['name'] = name
+                    if linevalue.get('weight',False):
+                        del linevalue['weight']
+                    linevalue["product_uos"] = linevalue['product_uos'] and linevalue['product_uos'][0]
+                    tax_id = linevalue['tax_id'] and linevalue['tax_id'][0]
+                    del linevalue['tax_id']
+                    ptax_id = [tax_id]
+                    id_orderline = saleorder_line_obj.create(cr, uid, linevalue)
+                    saleorder_line_obj.write(cr, uid, [id_orderline], {'tax_id':[(6, 0, ptax_id)]})
                 no_of_so +=1
 
                 ######################################################################################
@@ -873,7 +806,7 @@ class esale_oscom_web(osv.osv):
                     pass
             cr.commit()
         for saleorder in saleorders:
-            #print "website.intermediate: " , intermediate
+            print "website.intermediate: " , intermediate
             server.update_order_status(saleorder['id'], intermediate, '',0,0)
 
         ###################### look for open orders in site that are 'done' in TinyERP ###################
@@ -909,6 +842,8 @@ class esale_oscom_saleorder(osv.osv):
         'esale_oscom_id': fields.integer('esale_oscom Id'),
         'pay_met_title': fields.char('Payment Method', size=255),
         'shipping_title': fields.char('Shipping', size=255),
+        'shipping_agency': fields.many2one('res.partner', 'Carrier Partner',help=" Include Carrier to delivery order with" ),
+        'tracking_number': fields.char('Num tracking', size=32, help="Include order trucking number given by carrier"),
         'orders_status': fields.char('Osc Status Inic', size=255),
         'orders_status_id': fields.many2one('esale.oscom.status','Osc Status Actual'),
         'status_comment': fields.char('Status Comment', size=256, help="Write a comment to include on order"), 
@@ -932,20 +867,23 @@ class esale_oscom_saleorder(osv.osv):
 
         return {'value':value}
 
-    def onchange_esale_oscom_status(self, cr, uid, ids, esale_oscom_web, esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email ):
+    def onchange_esale_oscom_status(self, cr, uid, ids, esale_oscom_web, esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email, tracking_number ):
         value={}
         if esale_oscom_web:
             website = self.pool.get('esale.oscom.web').browse(cr, uid, esale_oscom_web)
             server = xmlrpclib.ServerProxy("%s/openerp-synchro.php" % website.url)
             esale_status_obj = self.pool.get('esale.oscom.status')
             osc_int = esale_status_obj.read(cr, uid, orders_status_id, ['esale_oscom_id'])
-            ostatus_id = osc_int['esale_oscom_id']          
+            ostatus_id = osc_int['esale_oscom_id'] 
+            status_comment_tn =   status_comment 
+            if tracking_number != "":
+                status_comment_tn = "Tracking: " + tracking_number + "\n " + status_comment
             #print "id pedido: ", esale_oscom_id
             #print "orig status_id: ", orders_status_id
             #print "final status_id: ", ostatus_id
             #print "update_comment: ", update_comment
-            #print "send_web_email: ", send_web_email 
-            updated_status = server.update_order_status(esale_oscom_id, ostatus_id, status_comment, update_comment, send_web_email )
+            print "status_comment: ", status_comment_tn
+            updated_status = server.update_order_status(esale_oscom_id, ostatus_id, status_comment_tn, update_comment, send_web_email)
 
         return {'value':updated_status}
 

@@ -80,7 +80,7 @@ function get_statuses() {
 
     $result = mysql_query("select orders_status_id, orders_status_name, language_id from orders_status;");
     if ($result) while ($row = mysql_fetch_row($result)) {
-        $status[] = new xmlrpcval(array(new xmlrpcval($row[0], "int"), new xmlrpcval($row[1], "string"), new xmlrpcval($row[2], "int")), "array");
+        $status[] = new xmlrpcval(array(new xmlrpcval($row[0], "int"), new xmlrpcval(clean_special_chars($row[1]), "string"), new xmlrpcval($row[2], "int")), "array");
     }
     return new xmlrpcresp( new xmlrpcval($status, "array"));
 }
@@ -628,14 +628,14 @@ function get_partner_address($address_condition, $email="", $phone="", $fax="") 
         foreach($address_condition as $key=>$values) {
             if ($flag) {
                 if (!is_numeric($values)) {
-                    $where.=$key."='".str_replace("'", "''", $values)."'";
+                    $where.= "(" . $key."='".str_replace("'", "''", $values)."'" . " or isnull(" . $key . "))" ;
                 } else {
                     $where.=$key."=".$values;
                 }
                 $flag=false;
             } else {
                 if (!is_numeric($values)) {
-                    $where.=" and ".$key."='".str_replace("'", "''", $values)."'";
+                    $where.=" and "."(" . $key."='".str_replace("'", "''", $values)."'" . " or isnull(" . $key . "))" ;
                 } else {
                     $where.=" and ".$key."=".$values;
                 }
@@ -695,16 +695,17 @@ function get_customer($cust_id) {
                             where c.customers_id = " . $row_cust['customers_id'] . " and a.address_book_id = c.customers_default_address_id;";
         $result_company = mysql_query($query_company);
             if ($result_company) while ($row_nif=mysql_fetch_array($result_company, MYSQL_ASSOC)) {                        
-                fwrite($f, "TRATANDO NIF: " .  strtoupper($row_nif['entry_nif']) . " -- Longitud: " . strlen($row_nif['entry_nif']) );        
+                $cif_nif = substr_replace(substr_replace(strtoupper($row_nif['entry_nif']), '-', ''), ' ', '');
+                fwrite($f, "TRATANDO NIF: " .  $cif_nif . " -- Longitud: " . strlen($cif_nif) );        
 
-            if (strlen($row_nif['entry_nif'])== 9) {
-                $partner['vat'] = new xmlrpcval("ES" . strtoupper(utf8_encode($row_nif['entry_nif'])), "string");
-                fwrite($f, " -- NIF CORRECTO: " . "ES" . strtoupper($row_nif['entry_nif']));        
+            if (strlen($cif_nif)== 9) {
+                $partner['vat'] = new xmlrpcval("ES" . clean_special_chars($cif_nif), "string");
+                fwrite($f, " -- NIF CORRECTO: " . "ES" . $cif_nif);        
                                 fwrite($f, " -- Nombre: " . $row_cust['name']);        
                 fwrite($f, " -- Compania: " . $row_nif['entry_company'].  " -- IDCliente: " . $row_cust['customers_id'] . "\n");
             }else {
-                $cif_nif = substr_replace(substr_replace($row_nif['entry_nif']. '-', ''), ' ', '');
-                    $partner['vat'] = new xmlrpcval("", "string");
+                $cif_nif = "01234567L";
+                $partner['vat'] = new xmlrpcval("ES" . clean_special_chars($cif_nif), "string");
                 fwrite($f, " -- ERROR EN NIF: " . "ES" . $cif_nif);        
                                 fwrite($f, " -- Nombre: " . $row_cust['name']);        
                 fwrite($f, " -- Compania " . $row_nif['entry_company'].  " -- IDCliente " . $row_cust['customers_id'] . "\n");
@@ -799,18 +800,6 @@ function get_saleorders($last_so, $statuses_ids) {
                 $shopping_price = $row_shopping[0];
                 $shipping_title = $row_shopping[1];
             }
-            $dcoupon_price = 0;
-            $result_coupon = mysql_query("SELECT value, title from orders_total where class='ot_discount_coupon' and orders_id=".$row[0].";");
-            if ($result_coupon && $row_coupon=mysql_fetch_row($result_coupon)) {
-                $dcoupon_price = $row_coupon[0];
-                $dcoupon_title = $row_coupon[1];
-            }
-            $cash_price = 0;
-            $result_cash = mysql_query("SELECT value, title from orders_total where class='ot_fixed_payment_chg' and orders_id=".$row[0].";");
-            if ($result_cash && $row_cash=mysql_fetch_row($result_cash)) {
-                $cash_price = $row_cash[0];
-                $cash_title = $row_cash[1];
-            }
 
             $result_customer = mysql_query("SELECT customers_email_address, customers_telephone, customers_fax FROM customers WHERE customers_id=".$row[25].";");
             if ($result_customer && $row_customer=mysql_fetch_row($result_customer)) {
@@ -847,16 +836,21 @@ function get_saleorders($last_so, $statuses_ids) {
                             $status = $row_status[0];
             }
             $orderlines = array();
-            $resultb = mysql_query("select products_id, products_quantity, products_price, products_tax, products_name, orders_products_id from orders_products where orders_id=".$row[0].";");
+            $resultb = mysql_query("select products_id, products_quantity, products_price, products_tax, products_name, orders_products_id from orders_products where orders_id=".$row[0]." UNION select 0, 1, value, '16.0000', title, 0 from orders_total where class not in('ot_subtotal', 'ot_total', 'ot_tax') and orders_id=".$row[0].";");
             if ($resultb){
                 while ($rowb = mysql_fetch_row($resultb)) {
                     $values_array = array("product_id" => new xmlrpcval($rowb[0], "int"),
                         "product_qty" => new xmlrpcval($rowb[1], "int"),
                         "price" => new xmlrpcval($rowb[2], "double"),
                         "tax_rate" => new xmlrpcval($rowb[3],"double"),
-                        "name" => new xmlrpcval(clean_special_chars($rowb[4]),"string"));
+                        "name" => new xmlrpcval(html_entity_decode(clean_special_chars($rowb[4])),"string"));
                     $result_orders_product_attributes = mysql_query("select products_options, products_options_values, options_values_price, price_prefix from orders_products_attributes where orders_id=".$row[0]." and orders_products_id=".$rowb[5].";");
                     if($result_orders_product_attributes && $row_orders_product_attributes= mysql_fetch_row($result_orders_product_attributes)) {
+                        //debug("En atributos línea:" . $row_orders_product_attributes[0]); 
+                    if ($row_orders_product_attributes[3] !== '+' and $row_orders_product_attributes[3] !== '-'){$row_orders_product_attributes[3]='+';}
+
+                        //debug("En atributos línea prefijo :" . $row_orders_product_attributes[3]); 
+
                         $orders_product_attributes = new xmlrpcval( array(
                             "products_options" => new xmlrpcval(clean_special_chars($row_orders_product_attributes[0]),"string"),
                             "products_options_values" => new xmlrpcval(clean_special_chars($row_orders_product_attributes[1]),"string"),
@@ -888,10 +882,6 @@ function get_saleorders($last_so, $statuses_ids) {
                 "pay_met_title" => new xmlrpcval( clean_special_chars($row[24]), "string"),
                 "shipping_price" => new xmlrpcval( $shopping_price, "double"),
                 "shipping_title" => new xmlrpcval(html_entity_decode(clean_special_chars($shipping_title)), "string"),
-                "dcoupon_price" => new xmlrpcval( $dcoupon_price, "double"),
-                "dcoupon_title" => new xmlrpcval(html_entity_decode(clean_special_chars($dcoupon_title)), "string"),
-                "cash_price" => new xmlrpcval( $cash_price, "double"),
-                "cash_title" => new xmlrpcval(html_entity_decode(clean_special_chars($cash_title)), "string"),
                 "orders_status" => new xmlrpcval( clean_special_chars($status), "string"),
                 "partner" => get_customer($row[25]),
                 "date" => new xmlrpcval( $row[21], "string"),
@@ -949,7 +939,7 @@ function process_order($order_id, $order_status_id) {
 }
 
 
-function update_order_status($order_id, $order_status_id, $status_comment, $update_comment, $send_web_email ) {
+function update_order_status($order_id, $order_status_id, $status_comment, $update_comment, $send_web_email) {
      
       $oID = $order_id;
     
