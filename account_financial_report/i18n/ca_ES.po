@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2009-11-27 09:56:30+0000\n"
-"PO-Revision-Date: 2009-11-27 11:36+0100\n"
+"PO-Revision-Date: 2009-11-27 12:38+0100\n"
 "Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -692,7 +692,7 @@ msgstr "Llibre diari  -"
 #: rml:account.general.ledger.cumulative:0
 #: rml:account.general.ledger.cumulative.landscape:0
 msgid "General Ledger -"
-msgstr "Llibre diari  -"
+msgstr "Llibre major  -"
 
 #. module: account_financial_report
 #: wizard_field:account.journal.entries.report,init,sort_selection:0

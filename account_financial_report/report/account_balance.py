@@ -226,9 +226,9 @@ class account_balance(report_sxw.rml_parse):
                     'parent_id':account['parent_id'],
                     'bal_type':'',
                 }
-            if res['balanceinit'] == -0:
+            if abs(res['balanceinit']) < 10**-int(config['price_accuracy']):
                 res['balanceinit'] = 0
-            if res['balanceinit_fy'] == -0:
+            if abs(res['balanceinit_fy']) < 10**-int(config['price_accuracy']):
                 res['balanceinit_fy'] = 0
             self.sum_debit += account['debit']
             self.sum_credit += account['credit']
