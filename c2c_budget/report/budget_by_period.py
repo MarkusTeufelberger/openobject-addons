@@ -77,7 +77,7 @@ class budget_by_period(StandardReport):
                 start_period = version_obj.get_period(self.cr, self.uid, version, self.datas['form']['from_date'], context=self.context)
                 periods.append(start_period)
                 if self.datas['form']['periods_nbr'] >= 2:
-                    next_periods = version_obj.get_next_periods(self.cr, self.uid, version, start_period, self.datas['form']['periods_nbr']-1, context=self.context)
+                    next_periods = version_obj.get_next_periods(self.cr, self.uid, version, start_period, int(self.datas['form']['periods_nbr'])-1, context=self.context)
                     periods = periods + next_periods
             analytic_accounts = []
             
