@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- RMA Picking (CRM) -->
+		<record id="view_picking_incident_form" model="ir.ui.view">
+			<field name="name">stock.picking.rma.form</field>
+			<field name="priority">20</field>
+			<field name="model">stock.picking</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Packing list">
+					<group colspan="4" col="6">
+						<field name="type" />
+						<field name="name" readonly="1" />
+						<field name="date" />
+					</group>
+
+					<field colspan="4" name="move_lines" nolabel="1" default_get="{'move_line':move_lines}" context="{'location_id_usage':context.get('location_id_usage', 'internal'),'location_dest_id_usage':context.get('location_dest_id_usage', 'customer'),'product_id':context.get('product_id', False),'location_id':context.get('location_id', False),'location_dest_id':context.get('location_dest_id', False),'prodlot_id':context.get('prodlot_id', False)}">
+						<form string="Stock Moves">
+							<separator colspan="4" string="Move Information" />
+							<field name="location_id" select="1"/><!-- TODO filter domain using location_id_usage form context-->
+							<field name="location_dest_id" select="1"/><!-- TODO filter domain using location_dest_id_usage form context-->
+							<field colspan="4" context="location=location_id" name="product_id"
+								on_change="onchange_product_id(product_id, location_id, location_dest_id)" select="1" />
+							<field name="product_qty" select="1" />
+							<field name="product_uom" select="1" />
+							<field name="name" invisible="1" />
+							<field groups="product.group_uos" name="product_uos" />
+							<field groups="product.group_uos" name="product_uos_qty" />
+							<field colspan="4" invisible="1" name="name" select="1" />
+							<field invisible="1" name="date" />
+							<field name="date_planned" />
+							<field name="address_id" select="1" context="{'context_display':'partner'}" />
+							<field groups="base.group_extended" name="product_packaging" />
+							<field name="prodlot_id" select="2" context="{'location_id':location_id, 'product_id':product_id}" domain="[('product_id','=',product_id)]"
+								on_change="onchange_lot_id(prodlot_id,product_qty, location_id)" />
+							<field groups="base.group_extended" name="tracking_id" select="2" />
+							<newline />
+							<separator colspan="4" string="Move State" />
+							<field name="state" select="1" />
+							<group>
+								<button name="force_assign" states="confirmed" string="Force Availability" type="object" />
+								<button name="cancel_assign" states="assigned" string="Cancel Availability" type="object" />
+								<button name="action_cancel" states="assigned" string="Cancel" type="object" />
+							</group>
+						</form>
+					</field>
+					<group col="10" colspan="4">
+						<field name="state" readonly="1" />
+						<button name="draft_force_assign" states="draft" string="Process Later" type="object" />
+						<button name="draft_validate" states="draft" string="Process Now" type="object" />
+						<button name="action_assign" states="confirmed" string="Check Availability" type="object" />
+						<button name="force_assign" states="confirmed" string="Force Availability" type="object" />
+						<button name="button_cancel" states="assigned,confirmed,draft" string="Cancel" />
+					</group>
+
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>
