@@ -11,8 +11,8 @@
 				<form string="RMA">
 					<separator string="Identification" />
 					<group col="6" colspan="4">
-						<field name="partner_id" />
-						<field name="invoice_id" />
+						<field name="partner_id" on_change="onchange_form(partner_id, False)"/>
+						<field name="invoice_id" on_change="onchange_form(False, invoice_id)"/>
 
 						<field name="prodlot_id" />
 						<field name="product_id" />
