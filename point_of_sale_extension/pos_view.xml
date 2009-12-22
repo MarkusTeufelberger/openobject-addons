@@ -91,20 +91,28 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
             <field name="arch" type="xml">
-                <field name="price_unit" position="after">
-                    <field name="price_unit_vat" readonly="1"/>
-                </field>
-            </field>
-        </record>
+                <field name="lines" position="replace">
+                    <field name="lines" colspan="4" nolabel="1">
+                        <tree string="Order lines" editable="bottom">
+                            <field name="product_id" on_change="onchange_product_id(parent.pricelist_id,product_id,qty,parent.partner_id)" width="275"/>
+                            <field name="qty" />
+                            <field name="discount" />
+                            <field name="price_unit" />
+                            <field name="price_unit_vat" readonly="1"/>
+                            <field name="price_subtotal"/>
+                            <field name="price_subtotal_vat" readonly="1"/>
+                        </tree>
 
-        <record model="ir.ui.view" id="view_pos_pos_form_ext9">
-            <field name="name">pos.order.form.ext9</field>
-            <field name="model">pos.order</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
-            <field name="arch" type="xml">
-                <field name="price_subtotal" position="after">
-                    <field name="price_subtotal_vat" readonly="1"/>
+                        <form string="Order lines">
+                            <field name="product_id" on_change="onchange_product_id(parent.pricelist_id,product_id,qty,parent.partner_id)" colspan="4"/>
+                            <field name="qty" />
+                            <field name="discount" />
+                            <field name="price_unit" />
+                            <field name="price_unit_vat" readonly="1"/>
+                            <field name="price_subtotal"/>
+                            <field name="price_subtotal_vat" readonly="1"/>
+                        </form>
+                    </field>
                 </field>
             </field>
         </record>

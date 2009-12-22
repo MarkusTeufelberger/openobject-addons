@@ -38,6 +38,7 @@ from tools.translate import _
 
 class pos_order(osv.osv):
     _inherit = 'pos.order'
+    _order = "date_order desc, create_date desc"
 
     def _amount_tax(self, cr, uid, ids, field_name, arg, context):
         """This method is redefined to deal with prices with/without taxes included depending on company configuration"""
@@ -439,6 +440,7 @@ class pos_order_line(osv.osv):
     _order = "create_date desc"
 
     def _amount_line(self, cr, uid, ids, field_name, arg, context):
+        """This method is defined to compute subtotal prices on order lines"""
         res = {}
         cur_obj = self.pool.get('res.currency')
         for line in self.browse(cr, uid, ids):
@@ -446,8 +448,10 @@ class pos_order_line(osv.osv):
             res[line.id] = cur_obj.round(cr, uid, cur, (line.price_unit * line.qty * (1 - (line.discount or 0.0) / 100.0)))
         return res
 
-    def _price_unit_vat(self, cr, uid, ids, field_name, arg, context):
-        """This method is defined to show unit prices minus discount plus taxes on order line"""
+    def _amount_vat(self, cr, uid, ids, name, args, context=None):
+        """This method is defined to compute on order lines:
+            * unit prices minus discount plus taxes
+            * subtotal prices plus taxes"""
         res = {}
         tax_obj = self.pool.get('account.tax')
         users_obj = self.pool.get('res.users')
@@ -456,48 +460,32 @@ class pos_order_line(osv.osv):
         cur_obj = self.pool.get('res.currency')
 
         for line in self.browse(cr, uid, ids):
-            val = 0.0
+            res[line.id] = {}
+            val1, valt = 0.0, 0.0
             cur = line.order_id.pricelist_id.currency_id
             if not prices_tax_include:
-                val = reduce(lambda x, y: x+cur_obj.round(cr, uid, cur, y['amount']),
+                val1 = reduce(lambda x, y: x+cur_obj.round(cr, uid, cur, y['amount']),
                     tax_obj.compute(cr, uid, line.product_id.taxes_id,
                         line.price_unit * \
                         (1-(line.discount or 0.0)/100.0), 1),
-                        val)
-            res[line.id] = cur_obj.round(cr, uid, cur, (val + line.price_unit * (1-(line.discount or 0.0)/100.0)))
-        return res
-
-
-    def _price_subtotal_vat(self, cr, uid, ids, field_name, arg, context):
-        """This method is defined to show subtotal prices plus taxes on order line"""
-        res = {}
-        tax_obj = self.pool.get('account.tax')
-        users_obj = self.pool.get('res.users')
-        user = users_obj.browse(cr, uid, uid, context)
-        prices_tax_include = user.company_id.pos_prices_tax_include
-        cur_obj = self.pool.get('res.currency')
-
-        for line in self.browse(cr, uid, ids):
-            val = 0.0
-            cur = line.order_id.pricelist_id.currency_id
-            if not prices_tax_include:
-                val = reduce(lambda x, y: x+cur_obj.round(cr, uid, cur, y['amount']),
+                        val1)
+                valt = reduce(lambda x, y: x+cur_obj.round(cr, uid, cur, y['amount']),
                     tax_obj.compute(cr, uid, line.product_id.taxes_id,
                         line.price_unit * \
                         (1-(line.discount or 0.0)/100.0), line.qty),
-                        val)
-            res[line.id] = cur_obj.round(cr, uid, cur, (val + (line.price_unit * (1-(line.discount or 0.0)/100.0) * line.qty)))
+                        valt)
+            res[line.id]['price_unit_vat'] = cur_obj.round(cr, uid, cur, (val1 + line.price_unit * (1-(line.discount or 0.0)/100.0)))
+            res[line.id]['price_subtotal_vat'] = cur_obj.round(cr, uid, cur, (valt + (line.price_unit * (1-(line.discount or 0.0)/100.0) * line.qty)))
         return res
 
-
     _columns = {
-        'partner_id':fields.related('order_id', 'partner_id', type='many2one', relation='res.partner', string='Partner', store=True),
+        'partner_id':fields.related('order_id', 'partner_id', type='many2one', relation='res.partner', string='Partner'),
         'state':fields.related('order_id', 'state', type='selection', selection=[('cancel', 'Cancel'), ('draft', 'Draft'),
             ('paid', 'Paid'), ('done', 'Done'), ('invoiced', 'Invoiced')], string='State'),
         'price_unit': fields.float('Unit Price', required=True, digits=(16, int(config['price_accuracy']))),
         'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal'),
-        'price_unit_vat': fields.function(_price_unit_vat, method=True, string='Total Unit', digits=(16, int(config['price_accuracy']))),
-        'price_subtotal_vat': fields.function(_price_subtotal_vat, method=True, string='Subtotal+Tax'),
+        'price_unit_vat': fields.function(_amount_vat, method=True, string='Total Unit', digits=(16, int(config['price_accuracy'])), multi='vat'),
+        'price_subtotal_vat': fields.function(_amount_vat, method=True, string='Subtotal+Tax', multi='vat'),
     }
 
     def unlink(self, cr, uid, ids, context={}):
