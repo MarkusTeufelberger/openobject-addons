@@ -146,7 +146,6 @@ class stock_move(osv.osv):
             new_moves=[]
             if moves:
                 picking=moves[0].picking_id
-          
                 if picking.purchase_id.routing_id:
                     routing_sequence=picking.purchase_id.routing_id.segment_sequence_ids
                     count=0
@@ -199,6 +198,65 @@ class stock_move(osv.osv):
                         wf_service = netsvc.LocalService("workflow")
                         wf_service.trg_validate(uid, 'stock.picking', pickid, 'button_confirm', cr)
                         
+                elif moves[0].purchase_line_id.order_id.routing_id:
+                    routing_sequence=moves[0].purchase_line_id.order_id.routing_id.segment_sequence_ids
+                    if moves[0].location_id and moves[0].location_dest_id:
+                        first_location_id=moves[0].location_id.id
+                        first_dest_location_id=moves[0].location_dest_id.id
+                    count=0
+                    this_move=False
+                    for r_seq in routing_sequence:                        
+                        count=count+1
+                        if this_move:
+                            loc=r_seq.port_of_loading
+                            dest_loc=r_seq.port_of_destination
+                            delay=r_seq.chained_delay
+                            po=picking.purchase_id.name
+                            sequence=r_seq.sequence
+                            routing_id=picking.purchase_id.routing_id
+                         
+                            ptype = self.pool.get('stock.location').picking_type_get(cr, uid, loc, dest_loc)
+                            pickid = self.pool.get('stock.picking').create(cr, uid, {
+                            'name': picking.name,
+                            'origin': str(picking.origin or ''),
+                            'type': ptype,
+                            'note': picking.note,
+                            'move_type': picking.move_type,
+                            'address_id': picking.address_id.id,
+                            'invoice_state': 'none',
+                            'port_of_departure': r_seq.port_of_loading.id,
+                            'port_of_arrival': r_seq.port_of_destination.id,
+                        })
+                        
+                            new_moves=[]
+                            for m in moves:
+                                
+                                new_id = self.pool.get('stock.move').copy(cr, uid, m.id, {
+                                'location_id': loc.id,
+                                'location_dest_id': dest_loc.id,
+                                'date_moved': time.strftime('%Y-%m-%d'),
+                                'picking_id': pickid,
+                                'state':'waiting',
+                                'move_history_ids':[],
+                                'date_planned': (DateTime.strptime(m.date_planned, '%Y-%m-%d %H:%M:%S') + DateTime.RelativeDateTime(days=delay or 0)).strftime('%Y-%m-%d %H:%M:%S'),
+                                'move_history_ids2':[]}
+                            )
+                                
+                                if count<=len(routing_sequence):
+                                    self.pool.get('stock.move').write(cr, uid, [m.id], {
+                                        'move_dest_id': new_id,
+                                        'move_history_ids': [(4, new_id)]
+                                    })
+                                    new_moves.append(self.browse(cr, uid, [new_id])[0])
+                                   
+                               # m=self.pool.get('stock.move').browse(cr,uid,[new_id])[0]
+                            moves=[]
+                            moves=new_moves
+                            wf_service = netsvc.LocalService("workflow")
+                            wf_service.trg_validate(uid, 'stock.picking', pickid, 'button_confirm', cr)
+                        
+                        if r_seq.port_of_loading.id==first_location_id and r_seq.port_of_destination.id==first_dest_location_id:
+                            this_move=True
                 
         create_chained_picking(self, cr, uid, n_moves, context)
         return []
