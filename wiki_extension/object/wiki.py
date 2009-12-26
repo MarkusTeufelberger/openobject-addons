@@ -33,7 +33,7 @@ AVAILABLE_STATES = [
 class WikiGroup(osv.osv):
     _inherit = "wiki.groups"
     _columns={
-        'members': fields.many2many('res.users', 'wiki_groups_user_rel', 'wiki_groups_id', 'uid', 'Wiki Groups Members',
+        'member_ids': fields.many2many('res.users', 'wiki_groups_user_rel', 'wiki_groups_id', 'uid', 'Wiki Groups Members',
             help="Wiki groups's member. Not used in any computation, just for information purpose."),
     }
 WikiGroup()
