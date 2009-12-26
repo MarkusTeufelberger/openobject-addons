@@ -42,6 +42,7 @@ WikiGroup()
 class Wiki(osv.osv):
     _inherit="wiki.wiki"
     _columns={
+        'text_area':fields.text("Content", select=False),
         'state': fields.selection(AVAILABLE_STATES, 'Status', size=16),
     }
 
@@ -55,5 +56,12 @@ class Wiki(osv.osv):
         'state': lambda *a: 'open',
     }
 Wiki()
+
+class History(osv.osv):
+    _inherit="wiki.wiki.history"
+    _columns={
+      'text_area':fields.text("Text area",select=False),
+    }
+History()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
