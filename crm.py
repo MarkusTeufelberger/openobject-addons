@@ -46,17 +46,71 @@ class crm_case(osv.osv):
     }
 
 
-    def onchange_form(self, cr, uid, ids, partner_id=False, invoice_id=False):
-        result = {}
-        if partner_id:           
-            result = {'value':{'invoice_id': False, 'product_id': False, 'prodlot_id': False}, 'domain':{'invoice_id':"[('partner_id','=',partner_id)]"}}
-        if invoice_id:
-            inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id)
-            inv_lines = inv.invoice_line
-            product_ids =[]
+    def onchange_form(self, cr, uid, ids, partner_id=False, invoice_id=False, product_id=False, prodlot_id=False):
+        
+        def inv_2_product(cr, uid, invoice_id):
+            product_ids = []
+            inv_lines = self.pool.get('account.invoice').browse(cr, uid, invoice_id).invoice_line
+            
             for inv_line in inv_lines:
+                if not self.pool.get('account.invoice.line').read(cr, uid, inv_line.id)['product_id']:
+                    continue
                 product_ids.append(self.pool.get('account.invoice.line').read(cr, uid, inv_line.id)['product_id'][0])
-            result = {'value':{'partner_id': inv.partner_id.id, 'product_id':False, 'prodlot_id': False}, 'domain':{'product_id':"[('id','in', %s)]" % product_ids}}   
+
+            return product_ids
+        
+        
+        def inv_2_prodlot(cr, uid, invoice_id):
+            stock_move_ids = []
+            prodlot_ids = []
+            sale_line_ids = []
+            inv_lines = self.pool.get('account.invoice').browse(cr, uid, invoice_id).invoice_line  
+                
+            for inv_line in inv_lines:  
+                cr.execute("select order_line_id from sale_order_line_invoice_rel where invoice_id= %s" % int(inv_line.id))
+                sale_line_ids = cr.fetchone()
+                stock_move_ids.append(self.pool.get('stock.move').search(cr, uid, [('sale_line_id', 'in', sale_line_ids)])[0])
+
+                for stock_move_id in stock_move_ids:
+                    if not self.pool.get('stock.move').read(cr, uid, stock_move_id)['prodlot_id']:
+                        continue
+                    prodlot_ids.append(self.pool.get('stock.move').read(cr, uid, stock_move_id)['prodlot_id'][0])
+                    
+            return prodlot_ids
+        
+             
+        
+        
+        result = {}
+        
+        print 'partner_id, invoice_id, product_id, prodlot_id', partner_id, invoice_id, product_id, prodlot_id
+        
+        if not partner_id and not invoice_id:
+            print 'pass'
+            result = {}
+        
+        elif not invoice_id:
+            print 'partner'           
+            result = {'value':{'invoice_id': False, 'product_id': False, 'prodlot_id': False}, 'domain':{'invoice_id':"[('partner_id','=',partner_id)]"}}
+
+        else:
+            print 'else'
+            product_ids = inv_2_product(cr, uid, invoice_id)
+            prodlot_ids = inv_2_prodlot(cr, uid, invoice_id)
+            result = {'domain':{'product_id':"[('id','in', %s)]" % product_ids, 'prodlot_id':"[('id','in', %s)]" % prodlot_ids}}   
+
         return result
+
+#'value':{'partner_id': self.pool.get('account.invoice').browse(cr, uid, invoice_id).id, 'product_id':False, 'prodlot_id': False}, 
+    
+    
+    
+
+
+
+
+
+
+
 
 crm_case()
