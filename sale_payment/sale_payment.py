@@ -84,7 +84,7 @@ class stock_picking(osv.osv):
             paytype_id = partner.payment_type_customer.id
             result = {'value': {}}
             result['value']['payment_type'] = paytype_id
-            invoice_vals = sale_obj.onchange_paytype_id(cr, uid, ids, paytype_id, partner.id, result)['value']
+            invoice_vals = invoice_obj.onchange_payment_type(cr, uid, ids, paytype_id, partner.id, result)['value']
             #print invoice_vals
             invoice_obj.write(cr, uid, [invoice_id], invoice_vals, context=context)
         return res
