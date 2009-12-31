@@ -48,56 +48,193 @@ class crm_case(osv.osv):
 
     def onchange_form(self, cr, uid, ids, partner_id=False, invoice_id=False, product_id=False, prodlot_id=False):
         
-        def inv_2_product(cr, uid, invoice_id):
+        def invoice_2_product(cr, uid, invoice_ids):
             product_ids = []
-            inv_lines = self.pool.get('account.invoice').browse(cr, uid, invoice_id).invoice_line
+            inv_lines_ids = self.pool.get('account.invoice.line').search(cr, uid, [('invoice_id', 'in', invoice_ids)])
+            res = self.pool.get('account.invoice.line').read(cr, uid, inv_lines_ids)
             
-            for inv_line in inv_lines:
-                if not self.pool.get('account.invoice.line').read(cr, uid, inv_line.id)['product_id']:
-                    continue
-                product_ids.append(self.pool.get('account.invoice.line').read(cr, uid, inv_line.id)['product_id'][0])
-
-            return product_ids
+            for line in res:
+                if line['product_id']:
+                    product_ids.append(line['product_id'][0])
+            
+            return [i for i in set(product_ids)]
         
         
-        def inv_2_prodlot(cr, uid, invoice_id):
-            stock_move_ids = []
+        def invoice_2_prodlot(cr, uid, invoice_ids):
             prodlot_ids = []
             sale_line_ids = []
-            inv_lines = self.pool.get('account.invoice').browse(cr, uid, invoice_id).invoice_line  
-                
-            for inv_line in inv_lines:  
-                cr.execute("select order_line_id from sale_order_line_invoice_rel where invoice_id= %s" % int(inv_line.id))
-                sale_line_ids = cr.fetchone()
-                stock_move_ids.append(self.pool.get('stock.move').search(cr, uid, [('sale_line_id', 'in', sale_line_ids)])[0])
-
-                for stock_move_id in stock_move_ids:
-                    if not self.pool.get('stock.move').read(cr, uid, stock_move_id)['prodlot_id']:
-                        continue
-                    prodlot_ids.append(self.pool.get('stock.move').read(cr, uid, stock_move_id)['prodlot_id'][0])
-                    
-            return prodlot_ids
+            
+            inv_lines_ids = self.pool.get('account.invoice.line').search(cr, uid, [('invoice_id', 'in', invoice_ids)]) 
+            cr.execute("select order_line_id from sale_order_line_invoice_rel where invoice_id in ("+ ','.join(map(lambda x: str(x),inv_lines_ids))+')')
+            res = cr.fetchall()
+            for i in res:
+                for j in i:
+                    sale_line_ids.append(j)
+            
+            stock_move_ids = self.pool.get('stock.move').search(cr, uid, [('sale_line_id', 'in', sale_line_ids)])
+            res = self.pool.get('stock.move').read(cr, uid, stock_move_ids)
+            
+            for line in res:
+                if line['prodlot_id']:
+                    prodlot_ids.append(line['prodlot_id'][0])
+            
+            return [i for i in set(prodlot_ids)]
         
+        def prodlot_2_product(cr, uid, prodlot_ids):
+            product_ids = []
+            print prodlot_ids
+            
+            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)])
+            if len (stock_move_ids)==0:
+                print 'no prodlot sale'
+                return []
+            
+            print 'stock_move_ids', stock_move_ids
+            res=self.pool.get('stock.move').read(cr, uid, stock_move_ids)
+            print res
+
+            for line in res:
+                if line['product_id']:
+                    product_ids.append(line['product_id'][0])   
+            
+            return [i for i in set(product_ids)]
+        
+        
+            
+        def stock_move_2_invoice(cr, uid, stock_move_ids):
+            invoice_ids = []
+            sale_line_ids = []
+            inv_line_ids = []
+            
+            res=self.pool.get('stock.move').read(cr, uid, stock_move_ids)
+            for line in res:
+                if line['sale_line_id']:
+                    sale_line_ids.append(line['sale_line_id'][0])
+            
+            cr.execute("select invoice_id from sale_order_line_invoice_rel where order_line_id in ("+ ','.join(map(lambda x: str(x),sale_line_ids))+')')
+            res = cr.fetchall()     
+            for i in res:
+                for j in i:
+                    inv_line_ids.append(j)
+                    
+            res=self.pool.get('account.invoice.line').read(cr, uid, inv_line_ids)
+            for line in res:
+                if line['invoice_id']:
+                    invoice_ids.append(line['invoice_id'][0])
+
+            return [i for i in set(invoice_ids)] 
+         
+        
+        def prodlot_2_invoice(cr, uid, prodlot_ids):
+
+            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)])
+            if len (stock_move_ids)==0:
+                print 'no prodlot sold'
+                return []
+            
+            return stock_move_2_invoice(cr, uid, stock_move_ids)
+        
+
+        def product_2_invoice(cr, uid, product_ids):
+
+            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
+            if len (stock_move_ids)==0:
+                print 'no product sold'
+                return []
+            
+            return stock_move_2_invoice(cr, uid, stock_move_ids)
+        
+        
+        def invoice_2_partner(cr, uid, invoice_ids):
+            partner_ids = []
+            res=self.pool.get('account.invoice').read(cr, uid, invoice_ids)
+            for line in res:
+                if line['partner_id']:
+                    partner_ids.append(line['partner_id'][0])
+                    
+            return [i for i in set(partner_ids)]
+        
+        
+
+        
+        
+        
+        product_ids=[]
+        prodlot_ids=[]
+        invoice_ids = []
+        partner_ids = []
              
         
         
-        result = {}
+        result = {'value':{}, 'domain':{}}
         
         print 'partner_id, invoice_id, product_id, prodlot_id', partner_id, invoice_id, product_id, prodlot_id
         
         if not partner_id and not invoice_id:
-            print 'pass'
-            result = {}
-        
+            if prodlot_id:
+                if not product_id:
+                    product_ids=prodlot_2_product(cr, uid, [prodlot_id])
+                    print 'product_ids', product_ids
+                    invoice_ids=prodlot_2_invoice(cr, uid, [prodlot_id])
+                    print 'invoice_ids', invoice_ids
+
+                else:
+                    invoice_ids = set(prodlot_2_invoice(cr, uid, [prodlot_id]))
+                    invoice_ids = [i for i in invoice_ids.intersection(set(product_2_invoice(cr, uid, [product_id])))]
+                
+                partner_ids = invoice_2_partner(cr, uid, invoice_ids)  
+                    
+                    
+                
+                 
         elif not invoice_id:
             print 'partner'           
             result = {'value':{'invoice_id': False, 'product_id': False, 'prodlot_id': False}, 'domain':{'invoice_id':"[('partner_id','=',partner_id)]"}}
 
         else:
             print 'else'
-            product_ids = inv_2_product(cr, uid, invoice_id)
-            prodlot_ids = inv_2_prodlot(cr, uid, invoice_id)
+            product_ids = invoice_2_product(cr, uid, [invoice_id])
+            print '---1---'
+            prodlot_ids = invoice_2_prodlot(cr, uid, [invoice_id])
             result = {'domain':{'product_id':"[('id','in', %s)]" % product_ids, 'prodlot_id':"[('id','in', %s)]" % prodlot_ids}}   
+
+
+
+
+
+        if not product_id and len (product_ids) != 0:
+            if len(product_ids)==1:
+                print 'product value'
+                result['value']['product_id'] = product_ids[0]
+            else:
+                print 'product domain'
+                result['domain']['product_id']= "[('id','in', %s)]" % product_ids
+                
+        if not prodlot_id and len (prodlot_ids) != 0:
+            if len(prodlot_ids)==1:
+                print 'prodlot value'
+                result['value']['prodlot_id'] = prodlot_ids[0]
+            else:
+                print 'prodlot domain'
+                result['domain']['prodlot_id']= "[('id','in', %s)]" % prodlot_ids
+
+        if not invoice_id and len (invoice_ids) != 0:
+            if len(invoice_ids)==1:
+                print 'invoice value'
+                result['value']['invoice_id'] = invoice_ids[0]
+            else:
+                print 'invoice domain'
+                result['domain']['invoice_id']= "[('id','in', %s)]" % invoice_ids
+                
+        if not partner_id and len (partner_ids) != 0:
+            if len(prodlot_ids)==1:
+                print 'partner value'
+                result['value']['partner_id'] = partner_ids[0]
+            else:
+                print 'partner domain'
+                result['domain']['partner_id']= "[('id','in', %s)]" % partner_ids
+
+        print result
 
         return result
 
