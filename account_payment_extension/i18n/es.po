@@ -8,26 +8,25 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.0-rc1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2009-12-06 20:14+0000\n"
-"PO-Revision-Date: 2009-12-18 17:55+0000\n"
-"Last-Translator: Jordi Esteve - http://www.zikzakmedia.com "
-"<jesteve@zikzakmedia.com>\n"
+"PO-Revision-Date: 2009-12-31 00:49+0000\n"
+"Last-Translator: Eduardo <Unknown>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-12-19 04:36+0000\n"
+"X-Launchpad-Export-Date: 2009-12-31 05:02+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_to_pay
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_to_pay
 msgid "Invoice payments to pay"
-msgstr "Efectos pendientes de pago"
+msgstr "Cuentas pendientes de pago"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_pay_payments
 msgid "Payable payment orders"
-msgstr "Órdenes de pago"
+msgstr "Órdenes de pago que se pueden pagar"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable_unreconciled
@@ -37,31 +36,31 @@ msgstr "Pagos realizados no conciliados"
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_receivable
 msgid "All received and to receive invoice payments"
-msgstr "Todos los efectos de cobro"
+msgstr "Todos los pagos facturados recibidos y por recibir"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_payment_type_form
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
 #: view:payment.type:0
 msgid "Payment Type"
-msgstr ""
+msgstr "Método de pago"
 
 #. module: account_payment_extension
 #: wizard_field:populate_statement_ext,init,lines:0
 msgid "Payment Lines"
-msgstr "Pagos"
+msgstr "Líneas para pago"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_tree
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_form
 msgid "Rec. payment order"
-msgstr "Órdenes de cobro"
+msgstr "Órdenes de cobro recibidas"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_draft
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_draft
 msgid "Draft pay. payment order"
-msgstr "Órdenes de pago borrador"
+msgstr "Borrador de órdenes de pago"
 
 #. module: account_payment_extension
 #: constraint:ir.actions.act_window:0
