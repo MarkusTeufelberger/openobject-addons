@@ -17,11 +17,21 @@
 						<field name="prodlot_id" on_change="onchange_form(partner_id, invoice_id, product_id, prodlot_id)"/>
 					</group>
 					<separator string="Moves" />
-					<group col="4" colspan="4">
-						<field name="related_incoming_picking_state" nolabel="1"/><field name="incoming_picking_id" mode="form" domain="[('type','=','in')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'customer','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
-					</group>
-					<group col="4" colspan="4">
-						<field name="related_outgoing_picking_state" nolabel="1"/><field name="outgoing_picking_id" domain="[('type','=','out')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'customer','product_id':product_id,'prodlot_id':prodlot_id}" />
+					<group col="6" colspan="6">
+						<group col="2" colspan="2">
+							<group col="3" colspan="3">
+								<field name="incoming_picking_id" mode="form" domain="[('type','=','in')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'customer','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="related_incoming_picking_state" nolabel="1"/>
+							</group>
+							<group col="3" colspan="3">
+								<field name="outgoing_picking_id" domain="[('type','=','out')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'customer','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="related_outgoing_picking_state" nolabel="1"/>
+							</group>
+						</group>
+						<group col="2" colspan="2">
+								<field name="in_supplier_picking_id" domain="[('type','=','out')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'supplier','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="out_supplier_picking_id" domain="[('type','=','in')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'supplier','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
+						</group>
 					</group>
 					<separator string="Qualification" />
 					<group col="6" colspan="4">
@@ -29,35 +39,36 @@
 						<field name="name" string="Description" />
 						<field name="user_id" select="2" string="Responsible" />
 						<field name="section_id" />
-						<newline />
 						<field name="create_date" string="RMA date" />
 						<field name="categ_id" on_change="onchange_categ_id(categ_id)" select="1" string="Type of RMA" />
-						<label align="1.0" string="Stage: " />
-						<group col="2" colspan="1">
-							<field name="stage_id" nolabel="1" select="1" />
-							<button icon="gtk-go-forward" name="stage_next" string="" type="object" />
-						</group>
 					</group>
 					<notebook>
 						<page string="RMA Info">
-							<field colspan="1" name="partner_address_id" on_change="onchange_partner_address_id(partner_address_id, email_from)"
-								string="Contact" />
-							<field name="email_from" />
-							<field name="partner_phone" />
-							<field name="partner_mobile" />
-							<newline />
-							<field name="priority" />
-							<field name="category2_id" select="1" string="Type of Action" />
-
-							<separator colspan="2" string="RMA Description" />
-							<separator colspan="2" string="Action Description" />
-							<field colspan="2" name="description" nolabel="1" />
-							<label colspan="2" string="" />
-							<group colspan="2">
-								<button name="case_log_reply" states="open" string="Send Partner &amp; Historize" type="object" />
-								<button name="case_log" states="open" string="Historize" type="object" />
+							<group col="10" colspan="4">
+								<field name="partner_address_id" on_change="onchange_partner_address_id(partner_address_id, email_from)"
+									string="Contact" />
+								<field name="email_from" />
+								<field name="partner_phone" />
+								<field name="partner_mobile" />				
 							</group>
+
+							<group col="2" colspan="2">
+								<separator colspan="2" string="Claim Description" />
+								<field colspan="2" name="note" nolabel="1" />
+							</group>
+							<group col="2" colspan="2">
+								<separator colspan="2" string="Action Description" />
+								<field name="category2_id" select="1" colspan="2" string="Type of Action" />
+								<field colspan="2" name="description" nolabel="1" />
+							</group>
+							
 							<separator colspan="4" string="Status" />
+							<group col="8" colspan="4">
+								<field name="priority" />
+								<label align="1.0" string="Stage: " />
+								<field name="stage_id" nolabel="1" select="1" />
+								<button icon="gtk-go-forward" name="stage_next" string="" type="object" />
+							</group>
 							<group col="8" colspan="4">
 								<field name="state" select="1" />
 								<button name="case_close" states="open,draft,pending" string="Done" type="object" />
@@ -73,7 +84,6 @@
 							<field name="email_cc" />
 							<field name="canal_id" />
 							<separator colspan="4" string="Dates" />
-							<field name="create_date" />
 							<field name="date_closed" />
 							<field name="date_action_last" />
 							<field name="date_action_next" />
@@ -107,10 +117,6 @@
 									<field name="canal_id" />
 								</form>
 							</field>
-						</page>
-						<page string="Supplier Return?">
-							<field name="in_supplier_picking_id" domain="[('type','=','out')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'supplier','product_id':product_id,'prodlot_id':prodlot_id}" />
-							<field name="out_supplier_picking_id" domain="[('type','=','in')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'supplier','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
 						</page>
 						<page string="Money">
 							<field name="planned_cost" string="RMA Cost" />
