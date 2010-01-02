@@ -45,13 +45,10 @@ class crm_case(osv.osv):
         'rma_ref': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'rma'),
     }
 
-    global filtre
-    filtre = {'value':{}, 'domain':{}}
-
     global parent
     parent = {'partner' : {}, 'invoice' : {}, 'product' : {}, 'prodlot':{}}
 
-    def onchange_form(self, cr, uid, ids, partner_id=False, invoice_id=False, product_id=False, prodlot_id=False):
+    def onchange_form(self, cr, uid, ids, action, partner_id=False, invoice_id=False, product_id=False, prodlot_id=False):
         #si on n'utilise pas la nouvelle fonction search ne pas oublier de check avec des if avant d'appeler le read
         
         def invoice_2_product(cr, uid, invoice_ids):
@@ -186,56 +183,27 @@ class crm_case(osv.osv):
         def partner_2_invoice(cr, uid, partner_ids):
             return set(self.pool.get('account.invoice').search(cr, uid, [('partner_id', 'in', partner_ids)]))
             
-
         
+        if not partner_id and not invoice_id and not product_id and not prodlot_id:
+            for field in parent:
+                parent[field] = {}
+            return
         
+        filtre = {'value':{}, 'domain':{}}
         product_ids=set([])
         prodlot_ids=set([])
         invoice_ids =set([])
         partner_ids =set([])
-        
-        print 'partner_id, invoice_id, product_id, prodlot_id', partner_id, invoice_id, product_id, prodlot_id
-        print 'filtre', filtre
-        
-#probleme 
-#choix d'un partner 
-#--> création d'un domain et valeur sur les produits, les invoices, les prodlot
-#puis choix d'un produit
-#--> création d'un domain et valeur sur les invoices, les prodlot
-#changement de produit
-#-->les champs qui ont été complété par value reste et ne sont pas recalculer
 
-        if not partner_id and not invoice_id and not product_id and not prodlot_id:
-            filtre['value'] = {}
-            filtre['domain'] = {}
-            print 'clear'
-            return filtre
-            
-
-        value = filtre['value'].copy()
-
-        for field in value:
-            if not filtre['value'][field]:
-                del filtre['value'][field] 
-        
-        
-        if filtre['value']:
-            if filtre['value'].get('product_id', False):
-                filtre['value']['product_id'] = False
-                product_id = None
-                
-            if filtre['value'].get('prodlot_id', False):
-                filtre['value']['prodlot_id'] = False
-                prodlot_id = None
-            if filtre['value'].get('invoice_id', False):
-                filtre['value']['invoice_id'] = False
-                invoice_id = None
-            if filtre['value'].get('partner_id', False):
-                filtre['value']['partner_id'] = False
-                partner_id = None
-        
-        
-        
+        if parent['partner'].get(action, False):
+            partner_id = False
+        if parent['invoice'].get(action, False):
+            invoice_id = False
+        if parent['product'].get(action, False):
+            product_id = False
+        if parent['prodlot'].get(action, False):
+            prodlot_id = False
+ 
         if partner_id:
             if not invoice_id:
                 invoice_ids = partner_2_invoice(cr, uid, [partner_id])
@@ -274,8 +242,8 @@ class crm_case(osv.osv):
                 else:
                     invoice_ids = product_2_invoice(cr, uid, [product_id])
         
+        invoice_ids = [i for i in invoice_ids]
         if invoice_ids:
-            invoice_ids = [i for i in invoice_ids]
             if not partner_id:
                 partner_ids = invoice_2_partner(cr, uid, invoice_ids)
                 
@@ -295,45 +263,40 @@ class crm_case(osv.osv):
         product_ids = [i for i in product_ids]
         prodlot_ids = [i for i in prodlot_ids]
 
-        if not product_id and len (product_ids) != 0:
-            if len(product_ids)==1:
-                print 'product value'
-                filtre['value']['product_id'] = product_ids[0]
-            else:
-                print 'product domain'
-                filtre['domain']['product_id']= "[('id','in', %s)]" % product_ids
-                
-        if not prodlot_id and len (prodlot_ids) != 0:
-            if len(prodlot_ids)==1:
-                print 'prodlot value'
-                filtre['value']['prodlot_id'] = prodlot_ids[0]
-            else:
-                print 'prodlot domain'
-                filtre['domain']['prodlot_id']= "[('id','in', %s)]" % prodlot_ids
-
-        if not invoice_id and len (invoice_ids) != 0:
-            if len(invoice_ids)==1:
-                print 'invoice value'
-                filtre['value']['invoice_id'] = invoice_ids[0]
-            else:
-                print 'invoice domain'
-                filtre['domain']['invoice_id']= "[('id','in', %s)]" % invoice_ids
-                
-        if not partner_id and len (partner_ids) != 0:
+        if not partner_id:
+            parent['partner'] = {'invoice' : invoice_id, 'product' : product_id, 'prodlot' : prodlot_id}
+            filtre['domain']['partner_id']= "[('id','in', %s)]" % partner_ids
             if len(partner_ids)==1:
-                print 'partner value'
                 filtre['value']['partner_id'] = partner_ids[0]
             else:
-                print 'partner domain'
-                filtre['domain']['partner_id']= "[('id','in', %s)]" % partner_ids
+                filtre['value']['partner_id'] = False
+                
+            
+        if not invoice_id:
+            parent['invoice'] = {'partner' : partner_id, 'product' : product_id, 'prodlot' : prodlot_id}
+            filtre['domain']['invoice_id']= "[('id','in', %s)]" % invoice_ids
+            if len(invoice_ids)==1:
+                filtre['value']['invoice_id'] = invoice_ids[0]
+            else:
+                filtre['value']['invoice_id'] = False
 
-        print filtre
-
+        if not product_id:
+            parent['product'] = {'partner' : partner_id, 'invoice' : invoice_id, 'prodlot' : prodlot_id}
+            filtre['domain']['product_id']= "[('id','in', %s)]" % product_ids
+            if len(product_ids)==1:
+                filtre['value']['product_id'] = product_ids[0]
+            else:
+                filtre['value']['product_id'] = False
+                
+        if not prodlot_id:
+            parent['prodlot'] = {'partner' : partner_id, 'invoice' : invoice_id, 'product' : product_id}
+            filtre['domain']['prodlot_id']= "[('id','in', %s)]" % prodlot_ids
+            if len(prodlot_ids)==1:
+                filtre['value']['prodlot_id'] = prodlot_ids[0]
+            else:
+                filtre['value']['prodlot_id'] = False
+        
+        print 'filtre', filtre
         return filtre
-    
-    
-    
-    
-    
 
 crm_case()
