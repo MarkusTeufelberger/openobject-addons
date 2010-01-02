@@ -59,10 +59,19 @@ email_done_fields = {
 def _get_defaults(self, cr, uid, data, context):
     p = pooler.get_pool(cr.dbname)
     user = p.get('res.users').browse(cr, uid, uid, context)
-    subject = user.company_id.name+_('. Purchase Num.')
+    orders = p.get(data['model']).browse(cr, uid, data['ids'], context)
+
+    # Calculate 'subject'
+    # Ensure subject is tranlated into partner's language.
+    current_lang = context.get('lang')
+    context['lang'] = orders[0].partner_id.lang or current_lang
+    subject = user.company_id.name + _('. Purchase Num.')
+    context['lang'] = current_lang
+
+    # Calculate 'text'
     text = '\n--\n' + user.signature
 
-    orders = p.get(data['model']).browse(cr, uid, data['ids'], context)
+    # Calculate 'to'
     adr_ids = []
     partner_id = orders[0].partner_id.id
     for o in orders:
@@ -82,6 +91,7 @@ def _get_defaults(self, cr, uid, data, context):
             # The adr.email field can contain several email addresses separated by ,
             to.extend(['%s <%s>' % (name, email) for email in adr.email.split(',')])
     to = ','.join(to)
+
     return {'to': to, 'subject': subject, 'text': text}
 
 
