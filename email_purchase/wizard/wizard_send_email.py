@@ -101,7 +101,7 @@ def create_report(cr, uid, res_ids, report_name=False, file_name=False):
     try:
         ret_file_name = '/tmp/'+file_name+'.pdf'
         service = netsvc.LocalService("report."+report_name);
-        (result, format) = service.create(cr, uid, res_ids, {}, {})
+        (result, format) = service.create(cr, uid, res_ids, {'model': report_name}, {})
         fp = open(ret_file_name, 'wb+');
         fp.write(result);
         fp.close();
