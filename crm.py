@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 #########################################################################
-#This module intergrates Open ERP with the magento core                 #
-#Core settings are stored here                                          #
+#                                                                       #
+#                                                                       #
 #########################################################################
 #                                                                       #
-# Copyright (C) 2009  Raphaël Valyi                                     #
+# Copyright (C) 2009  Raphaël Valyi, Sébastien Beau                     #
 #                                                                       #
 #This program is free software: you can redistribute it and/or modify   #
 #it under the terms of the GNU General Public License as published by   #
@@ -46,30 +46,18 @@ class crm_case(osv.osv):
     }
 
     global parent
-    parent = {'partner' : {}, 'invoice' : {}, 'product' : {}, 'prodlot':{}}
+    parent = {}
 
     def onchange_form(self, cr, uid, ids, action, partner_id=False, invoice_id=False, product_id=False, prodlot_id=False):
-        #si on n'utilise pas la nouvelle fonction search ne pas oublier de check avec des if avant d'appeler le read
         
         def invoice_2_product(cr, uid, invoice_ids):
-#            product_ids = []
-#            inv_lines_ids = self.pool.get('account.invoice.line').search(cr, uid, [('invoice_id', 'in', invoice_ids)])
-#            res = self.pool.get('account.invoice.line').read(cr, uid, inv_lines_ids)
-#            
-#            for line in res:
-#                if line['product_id']:
-#                    product_ids.append(line['product_id'][0])
-            
-            product_ids = self.pool.get('account.invoice.line').search(cr, uid, [('invoice_id', 'in', invoice_ids)], name = 'product_id')
-            
-            
-            return set(product_ids)
+            inv_lines_ids = self.pool.get('account.invoice.line').search(cr, uid, [('invoice_id', 'in', invoice_ids)])
+            res = self.pool.get('account.invoice.line').read(cr, uid, inv_lines_ids,['product_id'])
+            return set([x['product_id'][0] for x in res if x['product_id']])
         
         
         def invoice_2_prodlot(cr, uid, invoice_ids):
-#            prodlot_ids = []
             sale_line_ids = []
-            
             inv_line_ids = self.pool.get('account.invoice.line').search(cr, uid, [('invoice_id', 'in', invoice_ids)])
             if not inv_line_ids:
                 return []                
@@ -78,132 +66,81 @@ class crm_case(osv.osv):
             for i in res:
                 for j in i:
                     sale_line_ids.append(j)
-            
-#            stock_move_ids = self.pool.get('stock.move').search(cr, uid, [('sale_line_id', 'in', sale_line_ids)])
-#            res = self.pool.get('stock.move').read(cr, uid, stock_move_ids)
-#            
-#            for line in res:
-#                if line['prodlot_id']:
-#                    prodlot_ids.append(line['prodlot_id'][0])
-
-            prodlot_ids  = self.pool.get('stock.move').search(cr, uid, [('sale_line_id', 'in', sale_line_ids)], name = 'prodlot_id')
-            
-            return set(prodlot_ids)
+            stock_move_ids = self.pool.get('stock.move').search(cr, uid, [('sale_line_id', 'in', sale_line_ids)])
+            res = self.pool.get('stock.move').read(cr, uid, stock_move_ids, ['prodlot_id'])
+            return set([x['prodlot_id'] for x in res if x['prodlot_id']])
         
-        def prodlot_2_product(cr, uid, prodlot_ids):
-
-            print prodlot_ids
-#            product_ids = []            
-#            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)])
-#            if len (stock_move_ids)==0: 
-#                print 'no prodlot sale'
-#                return []
-#            
-#            print 'stock_move_ids', stock_move_ids
-#            res=self.pool.get('stock.move').read(cr, uid, stock_move_ids)
-#            print res
-#
-#            for line in res:
-#                if line['product_id']:
-#                    product_ids.append(line['product_id'][0])   
-
-            product_ids = self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)], name = 'product_id')
-            
-            return set(product_ids)
+        def prodlot_2_product(cr, uid, prodlot_ids):          
+            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)])
+            res=self.pool.get('stock.move').read(cr, uid, stock_move_ids, ['product_id'])
+            return set([x['product_id'][0] for x in res if x['product_id']])
         
         
         def product_2_prodlot(cr, uid, product_ids):
-            return set(self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)], name = 'prodlot_id'))
+            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
+            res=self.pool.get('stock.move').read(cr, uid, stock_move_ids, ['prodlot_id'])
+            return set([x['prodlot_id'] for x in res if x['prodlot_id']])
             
             
-        def sale_line_2_invoice(cr, uid, sale_line_ids):
-#            invoice_ids = []
-#            sale_line_ids = []
+        def stock_move_2_invoice(cr, uid, stock_move_ids):
             inv_line_ids = []
-            
-#            res=self.pool.get('stock.move').read(cr, uid, stock_move_ids)
-#            for line in res:
-#                if line['sale_line_id']:
-#                    sale_line_ids.append(line['sale_line_id'][0])
-
-#            sale_line_ids = self.pool.get('stock.move').search(cr, uid, [('id', 'in', stock_move_ids)], name = 'sale_line_id')
+            res=self.pool.get('stock.move').read(cr, uid, stock_move_ids, ['sale_line_id'])
+            sale_line_ids = [x['sale_line_id'][0] for x in res if x['sale_line_id']]
             if not sale_line_ids:
-                return []   
+                return []
             cr.execute("select invoice_id from sale_order_line_invoice_rel where order_line_id in ("+ ','.join(map(lambda x: str(x),sale_line_ids))+')')
             res = cr.fetchall()     
             for i in res:
                 for j in i:
                     inv_line_ids.append(j)
                     
-#            res=self.pool.get('account.invoice.line').read(cr, uid, inv_line_ids)
-#            for line in res:
-#                if line['invoice_id']:
-#                    invoice_ids.append(line['invoice_id'][0])
-
-            invoice_ids = self.pool.get('account.invoice.line').search(cr, uid, [('id', 'in', inv_line_ids)], name = 'invoice_id')
-
-            return invoice_ids
+            res=self.pool.get('account.invoice.line').read(cr, uid, inv_line_ids,['invoice_id'])
+            return [x['invoice_id'][0] for x in res if x['invoice_id']]
          
         
         def prodlot_2_invoice(cr, uid, prodlot_ids):
 
-#            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)])
-#            if len (stock_move_ids)==0:
-#                print 'no prodlot sold'
-#                return []
-            sale_line_ids=self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)], name = 'sale_line_id')
-            
-            return set(sale_line_2_invoice(cr, uid, sale_line_ids))
+            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)])
+            return set(stock_move_2_invoice(cr, uid, stock_move_ids))
         
 
         def product_2_invoice(cr, uid, product_ids):
-
-#            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
-#            if len (stock_move_ids)==0:
-#                print 'no product sold'
-#                return []
-            
-            sale_line_ids=self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)], name = 'sale_line_id')
-
-            return set(sale_line_2_invoice(cr, uid, sale_line_ids))
+            stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
+            return set(stock_move_2_invoice(cr, uid, stock_move_ids))
         
         
         def invoice_2_partner(cr, uid, invoice_ids):
-#            partner_ids = []
-#            res=self.pool.get('account.invoice').read(cr, uid, invoice_ids)
-#            for line in res:
-#                if line['partner_id']:
-#                    partner_ids.append(line['partner_id'][0])
-
-            partner_ids=self.pool.get('account.invoice').search(cr, uid, [('id', 'in', invoice_ids)], name = 'partner_id')
-
-                    
-            return set(partner_ids)
+            res=self.pool.get('account.invoice').read(cr, uid, invoice_ids)
+            return set([x['partner_id'][0] for x in res if x['partner_id']])
          
         def partner_2_invoice(cr, uid, partner_ids):
             return set(self.pool.get('account.invoice').search(cr, uid, [('partner_id', 'in', partner_ids)]))
             
         
+        
+        #creates the dictionary for each user
         if not partner_id and not invoice_id and not product_id and not prodlot_id:
-            for field in parent:
-                parent[field] = {}
+            parent[uid]={'partner' : {}, 'invoice' : {}, 'product' : {}, 'prodlot':{}}
             return
         
-        filtre = {'value':{}, 'domain':{}}
+        filter = {'value':{}, 'domain':{}}
         product_ids=set([])
         prodlot_ids=set([])
         invoice_ids =set([])
         partner_ids =set([])
 
-        if parent['partner'].get(action, False):
+        #removes fields which have for parent the field which launch the on change
+        if parent[uid]['partner'].get(action, False):
             partner_id = False
-        if parent['invoice'].get(action, False):
+        if parent[uid]['invoice'].get(action, False):
             invoice_id = False
-        if parent['product'].get(action, False):
+        if parent[uid]['product'].get(action, False):
             product_id = False
-        if parent['prodlot'].get(action, False):
+        if parent[uid]['prodlot'].get(action, False):
             prodlot_id = False
- 
+
+
+        # starts to find all of ids in function of the existing field
         if partner_id:
             if not invoice_id:
                 invoice_ids = partner_2_invoice(cr, uid, [partner_id])
@@ -258,45 +195,46 @@ class crm_case(osv.osv):
                     prodlot_ids = prodlot_ids.intersection(invoice_2_prodlot(cr, uid, invoice_ids))
                 else:
                     prodlot_ids = invoice_2_prodlot(cr, uid, invoice_ids)
+                    
         
         partner_ids = [i for i in partner_ids]
         product_ids = [i for i in product_ids]
         prodlot_ids = [i for i in prodlot_ids]
 
+
+        #result are transformed in domain and value filter
         if not partner_id:
-            parent['partner'] = {'invoice' : invoice_id, 'product' : product_id, 'prodlot' : prodlot_id}
-            filtre['domain']['partner_id']= "[('id','in', %s)]" % partner_ids
+            parent[uid]['partner'] = {'invoice' : invoice_id, 'product' : product_id, 'prodlot' : prodlot_id}
+            filter['domain']['partner_id']= "[('id','in', %s)]" % partner_ids
             if len(partner_ids)==1:
-                filtre['value']['partner_id'] = partner_ids[0]
+                filter['value']['partner_id'] = partner_ids[0]
             else:
-                filtre['value']['partner_id'] = False
-                
+                filter['value']['partner_id'] = False
             
         if not invoice_id:
-            parent['invoice'] = {'partner' : partner_id, 'product' : product_id, 'prodlot' : prodlot_id}
-            filtre['domain']['invoice_id']= "[('id','in', %s)]" % invoice_ids
+            parent[uid]['invoice'] = {'partner' : partner_id, 'product' : product_id, 'prodlot' : prodlot_id}
+            filter['domain']['invoice_id']= "[('id','in', %s)]" % invoice_ids
             if len(invoice_ids)==1:
-                filtre['value']['invoice_id'] = invoice_ids[0]
+                filter['value']['invoice_id'] = invoice_ids[0]
             else:
-                filtre['value']['invoice_id'] = False
+                filter['value']['invoice_id'] = False
 
         if not product_id:
-            parent['product'] = {'partner' : partner_id, 'invoice' : invoice_id, 'prodlot' : prodlot_id}
-            filtre['domain']['product_id']= "[('id','in', %s)]" % product_ids
+            parent[uid]['product'] = {'partner' : partner_id, 'invoice' : invoice_id, 'prodlot' : prodlot_id}
+            filter['domain']['product_id']= "[('id','in', %s)]" % product_ids
             if len(product_ids)==1:
-                filtre['value']['product_id'] = product_ids[0]
+                filter['value']['product_id'] = product_ids[0]
             else:
-                filtre['value']['product_id'] = False
+                filter['value']['product_id'] = False
                 
         if not prodlot_id:
-            parent['prodlot'] = {'partner' : partner_id, 'invoice' : invoice_id, 'product' : product_id}
-            filtre['domain']['prodlot_id']= "[('id','in', %s)]" % prodlot_ids
+            parent[uid]['prodlot'] = {'partner' : partner_id, 'invoice' : invoice_id, 'product' : product_id}
+            filter['domain']['prodlot_id']= "[('id','in', %s)]" % prodlot_ids
             if len(prodlot_ids)==1:
-                filtre['value']['prodlot_id'] = prodlot_ids[0]
+                filter['value']['prodlot_id'] = prodlot_ids[0]
             else:
-                filtre['value']['prodlot_id'] = False
-        
-        print 'filtre', filtre
-        return filtre
+                filter['value']['prodlot_id'] = False
+
+        return filter
 
 crm_case()
