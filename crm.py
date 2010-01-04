@@ -38,7 +38,8 @@ class crm_case(osv.osv):
         'out_supplier_picking_id': fields.many2one('stock.picking', 'Return From Supplier Picking', required=False, select=True),
         'prodlot_id': fields.many2one('stock.production.lot', 'Serial / Lot Number'),
         'product_id': fields.many2one('product.product', 'Product'),
-        'invoice_id': fields.many2one('account.invoice', 'Invoice')
+        'invoice_id': fields.many2one('account.invoice', 'Invoice'),
+        'new_invoice_id': fields.many2one('account.invoice', 'Invoice')
     }
     
     _defaults = {
