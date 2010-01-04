@@ -48,13 +48,12 @@ class crm_case(osv.osv):
     global parent
     parent = {}
 
-    def onchange_form(self, cr, uid, ids, action, partner_id=False, invoice_id=False, product_id=False, prodlot_id=False):
+    def onchange_form(self, cr, uid, ids, action, partner_id, invoice_id, product_id, prodlot_id):
         
         def invoice_2_product(cr, uid, invoice_ids):
             inv_lines_ids = self.pool.get('account.invoice.line').search(cr, uid, [('invoice_id', 'in', invoice_ids)])
             res = self.pool.get('account.invoice.line').read(cr, uid, inv_lines_ids,['product_id'])
             return set([x['product_id'][0] for x in res if x['product_id']])
-        
         
         def invoice_2_prodlot(cr, uid, invoice_ids):
             sale_line_ids = []
@@ -68,19 +67,17 @@ class crm_case(osv.osv):
                     sale_line_ids.append(j)
             stock_move_ids = self.pool.get('stock.move').search(cr, uid, [('sale_line_id', 'in', sale_line_ids)])
             res = self.pool.get('stock.move').read(cr, uid, stock_move_ids, ['prodlot_id'])
-            return set([x['prodlot_id'] for x in res if x['prodlot_id']])
+            return set([x['prodlot_id'][0] for x in res if x['prodlot_id']])
         
         def prodlot_2_product(cr, uid, prodlot_ids):          
             stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)])
             res=self.pool.get('stock.move').read(cr, uid, stock_move_ids, ['product_id'])
             return set([x['product_id'][0] for x in res if x['product_id']])
         
-        
         def product_2_prodlot(cr, uid, product_ids):
             stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
             res=self.pool.get('stock.move').read(cr, uid, stock_move_ids, ['prodlot_id'])
-            return set([x['prodlot_id'] for x in res if x['prodlot_id']])
-            
+            return set([x['prodlot_id'][0] for x in res if x['prodlot_id']])
             
         def stock_move_2_invoice(cr, uid, stock_move_ids):
             inv_line_ids = []
@@ -93,21 +90,17 @@ class crm_case(osv.osv):
             for i in res:
                 for j in i:
                     inv_line_ids.append(j)
-                    
+
             res=self.pool.get('account.invoice.line').read(cr, uid, inv_line_ids,['invoice_id'])
             return [x['invoice_id'][0] for x in res if x['invoice_id']]
-         
         
         def prodlot_2_invoice(cr, uid, prodlot_ids):
-
             stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('prodlot_id', 'in', prodlot_ids)])
             return set(stock_move_2_invoice(cr, uid, stock_move_ids))
-        
 
         def product_2_invoice(cr, uid, product_ids):
             stock_move_ids=self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
             return set(stock_move_2_invoice(cr, uid, stock_move_ids))
-        
         
         def invoice_2_partner(cr, uid, invoice_ids):
             res=self.pool.get('account.invoice').read(cr, uid, invoice_ids)
@@ -115,125 +108,55 @@ class crm_case(osv.osv):
          
         def partner_2_invoice(cr, uid, partner_ids):
             return set(self.pool.get('account.invoice').search(cr, uid, [('partner_id', 'in', partner_ids)]))
-            
-        
+                    
+        def find_ids(cr, uid, dico):
+            for field_2_convert in dico:
+                if id[field_2_convert]:
+                    for key in dico[field_2_convert]:
+                        if not id[key]:
+                            if res_ids[key]:
+                                res_ids[key] = res_ids[key].intersection(dico[field_2_convert][key](cr, uid, id[field_2_convert]))
+                            else:
+                                res_ids[key] = dico[field_2_convert][key](cr, uid, id[field_2_convert])
+            return
         
         #creates the dictionary for each user
         if not partner_id and not invoice_id and not product_id and not prodlot_id:
             parent[uid]={'partner' : {}, 'invoice' : {}, 'product' : {}, 'prodlot':{}}
             return
         
+        res_ids={'partner':[], 'invoice':[], 'product':[], 'prodlot':[]}
         filter = {'value':{}, 'domain':{}}
-        product_ids=set([])
-        prodlot_ids=set([])
-        invoice_ids =set([])
-        partner_ids =set([])
 
-        #removes fields which have for parent the field which launch the on change
-        if parent[uid]['partner'].get(action, False):
-            partner_id = False
-        if parent[uid]['invoice'].get(action, False):
-            invoice_id = False
-        if parent[uid]['product'].get(action, False):
-            product_id = False
-        if parent[uid]['prodlot'].get(action, False):
-            prodlot_id = False
-
-
+        #removes fields which have for parent the field which launch the on change and convert each field to a table
+        id = {'partner':partner_id, 'invoice':invoice_id, 'product':product_id, 'prodlot':prodlot_id}
+        for key in id:
+            if parent[uid][key].get(action, False) or not id[key]:
+                id[key] = []
+            else:
+                id[key] = [id[key]]
+                
         # starts to find all of ids in function of the existing field
-        if partner_id:
-            if not invoice_id:
-                invoice_ids = partner_2_invoice(cr, uid, [partner_id])
-                
-        if invoice_id:
-            if not partner_id:
-                partner_ids = invoice_2_partner(cr, uid, [invoice_id])
-            if not product_id:
-                product_ids = invoice_2_product(cr, uid, [invoice_id])
-            if not prodlot_id:
-                prodlot_ids = invoice_2_prodlot(cr, uid, [invoice_id])  
-        
-        if prodlot_id:
-            if not product_id:
-                if product_ids:
-                    product_ids = product_ids.intersection(prodlot_2_product(cr, uid, [prodlot_id]))
-                else:
-                    product_ids = prodlot_2_product(cr, uid, [prodlot_id])
-                    
-            if not invoice_id:
-                if invoice_ids:
-                    invoice_ids = invoice_ids.intersection(prodlot_2_invoice(cr, uid, [prodlot_id]))
-                else:
-                    invoice_ids = prodlot_2_invoice(cr, uid, [prodlot_id])
-            
-        if product_id:
-            if not prodlot_id:
-                if prodlot_ids:
-                    prodlot_ids = prodlot_ids.intersection(product_2_prodlot(cr, uid, [product_id]))
-                else:
-                    prodlot_ids = product_2_prodlot(cr, uid, [product_id])
-                    
-            if not invoice_id:
-                if invoice_ids:
-                    invoice_ids = invoice_ids.intersection(product_2_invoice(cr, uid, [product_id]))
-                else:
-                    invoice_ids = product_2_invoice(cr, uid, [product_id])
-        
-        invoice_ids = [i for i in invoice_ids]
-        if invoice_ids:
-            if not partner_id:
-                partner_ids = invoice_2_partner(cr, uid, invoice_ids)
-                
-            if not product_id:
-                if product_ids:
-                    product_ids = product_ids.intersection(invoice_2_product(cr, uid, invoice_ids))
-                else:
-                    product_ids = invoice_2_product(cr, uid, invoice_ids)
-                    
-            if not prodlot_id:
-                if prodlot_ids:
-                    prodlot_ids = prodlot_ids.intersection(invoice_2_prodlot(cr, uid, invoice_ids))
-                else:
-                    prodlot_ids = invoice_2_prodlot(cr, uid, invoice_ids)
-                    
-        
-        partner_ids = [i for i in partner_ids]
-        product_ids = [i for i in product_ids]
-        prodlot_ids = [i for i in prodlot_ids]
+        find_ids(cr, uid, {'partner': {'invoice' : partner_2_invoice},
+                           'invoice': {'partner' : invoice_2_partner, 'product' : invoice_2_product, 'prodlot' : invoice_2_prodlot},
+                           'product': {'invoice' : product_2_invoice, 'prodlot' :  product_2_prodlot},
+                           'prodlot': {'invoice' :  prodlot_2_invoice, 'product' :  prodlot_2_product}})
 
+        id['invoice_ids'] = [i for i in res_ids['invoice']]
+        find_ids(cr, uid,{'invoice_ids': {'partner' : invoice_2_partner, 'product' : invoice_2_product, 'prodlot' : invoice_2_prodlot}})
+
+        for key in res_ids:
+            res_ids[key] = [i for i in res_ids[key]]
 
         #result are transformed in domain and value filter
-        if not partner_id:
-            parent[uid]['partner'] = {'invoice' : invoice_id, 'product' : product_id, 'prodlot' : prodlot_id}
-            filter['domain']['partner_id']= "[('id','in', %s)]" % partner_ids
-            if len(partner_ids)==1:
-                filter['value']['partner_id'] = partner_ids[0]
-            else:
-                filter['value']['partner_id'] = False
-            
-        if not invoice_id:
-            parent[uid]['invoice'] = {'partner' : partner_id, 'product' : product_id, 'prodlot' : prodlot_id}
-            filter['domain']['invoice_id']= "[('id','in', %s)]" % invoice_ids
-            if len(invoice_ids)==1:
-                filter['value']['invoice_id'] = invoice_ids[0]
-            else:
-                filter['value']['invoice_id'] = False
-
-        if not product_id:
-            parent[uid]['product'] = {'partner' : partner_id, 'invoice' : invoice_id, 'prodlot' : prodlot_id}
-            filter['domain']['product_id']= "[('id','in', %s)]" % product_ids
-            if len(product_ids)==1:
-                filter['value']['product_id'] = product_ids[0]
-            else:
-                filter['value']['product_id'] = False
-                
-        if not prodlot_id:
-            parent[uid]['prodlot'] = {'partner' : partner_id, 'invoice' : invoice_id, 'product' : product_id}
-            filter['domain']['prodlot_id']= "[('id','in', %s)]" % prodlot_ids
-            if len(prodlot_ids)==1:
-                filter['value']['prodlot_id'] = prodlot_ids[0]
-            else:
-                filter['value']['prodlot_id'] = False
+        for key in res_ids:
+            if not id[key]:
+                parent[uid][key] = id
+                filter['domain'][key + '_id']= "[('id','in', %s)]" % res_ids[key]
+                if len(res_ids[key])==1:
+                    filter['value'][key + '_id'] = res_ids[key][0]
+                else:
+                    filter['value'][key + '_id'] = False
 
         return filter
 
