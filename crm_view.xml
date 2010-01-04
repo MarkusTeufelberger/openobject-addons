@@ -20,17 +20,17 @@
 					<group col="6" colspan="6">
 						<group col="2" colspan="2">
 							<group col="3" colspan="3">
-								<field name="incoming_picking_id" mode="form" domain="[('type','=','in')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'customer','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="incoming_picking_id" mode="form" domain="[('type','=','in')]" context="{'location_id': %(stock.stock_location_customers)d, 'location_dest_id': %(rma_in)d, 'partner_id':partner_id,'view':'rma','location_id_usage':'customer','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
 								<field name="related_incoming_picking_state" nolabel="1"/>
 							</group>
 							<group col="3" colspan="3">
-								<field name="outgoing_picking_id" domain="[('type','=','out')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'customer','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="outgoing_picking_id" domain="[('type','=','out')]" context="{'location_id': %(rma_out)d, 'location_dest_id': %(stock.stock_location_customers)d, 'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'customer','product_id':product_id,'prodlot_id':prodlot_id}" />
 								<field name="related_outgoing_picking_state" nolabel="1"/>
 							</group>
 						</group>
 						<group col="2" colspan="2">
-								<field name="in_supplier_picking_id" domain="[('type','=','out')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'supplier','product_id':product_id,'prodlot_id':prodlot_id}" />
-								<field name="out_supplier_picking_id" domain="[('type','=','in')]" context="{'partner_id':partner_id,'view':'rma','location_id_usage':'supplier','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="in_supplier_picking_id" domain="[('type','=','out')]" context="{'location_dest_id': %(rma_supplier)d, 'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'supplier','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="out_supplier_picking_id" domain="[('type','=','in')]" context="{'location_id': %(rma_supplier)d, 'partner_id':partner_id,'view':'rma','location_id_usage':'supplier','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
 						</group>
 					</group>
 					<separator string="Qualification" />
