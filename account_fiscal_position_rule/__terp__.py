@@ -22,7 +22,7 @@
 
 
 {
-    'name': 'Account Fiscal Position',
+    'name': 'Account Fiscal Position Rule',
     'version': '1.1',
     'category': 'Generic Modules/Accounting',
     'description': """Include a rule to decide the correct fiscal position""",

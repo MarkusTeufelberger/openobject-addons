@@ -25,14 +25,29 @@ from osv import fields, osv
 class account_fiscal_position_rule(osv.osv):
     _name = "account.fiscal.position.rule"
     _columns = {
-	'name': fields.char('Name', size=64, required=True),
-	'description': fields.char('Description', size=128),
-	'from_country': fields.many2one('res.country','Country Form'),
-	'from_state': fields.many2one('res.country.state', 'State To'),
-	'to_country': fields.many2one('res.country', 'Country Form'),
-	'to_state': fields.many2one('res.country.state', 'State To'),
-	'fiscal_postition_id': fields.many2one('account.fiscal.position.template', 'Fiscal Postion'),
+    	'name': fields.char('Name', size=64, required=True),
+    	'description': fields.char('Description', size=128),
+    	'from_country': fields.many2one('res.country','Country Form'),
+    	'from_state': fields.many2one('res.country.state', 'State To', domain="[('country_id','=',from_country)]"),
+    	'to_country': fields.many2one('res.country', 'Country To'),
+    	'to_state': fields.many2one('res.country.state', 'State To', domain="[('country_id','=',to_country)]"),
+    	'fiscal_postition_id': fields.many2one('account.fiscal.position', 'Fiscal Postion'),
         'use_sale' : fields.boolean('Use in sales order'),
-	'use_invoice' : fields.boolean('Use in Invoices'),
+        'use_invoice' : fields.boolean('Use in Invoices'),
     }
 account_fiscal_position_rule()
+
+class account_fiscal_position_rule_template(osv.osv):
+    _name = "account.fiscal.position.rule.template"
+    _columns = {
+        'name': fields.char('Name', size=64, required=True),
+        'description': fields.char('Description', size=128),
+        'from_country': fields.many2one('res.country','Country Form'),
+        'from_state': fields.many2one('res.country.state', 'State From', domain="[('country_id','=',from_country)]"),
+        'to_country': fields.many2one('res.country', 'Country To'),
+        'to_state': fields.many2one('res.country.state', 'State To', domain="[('country_id','=',to_country)]"),
+        'fiscal_postition_id': fields.many2one('account.fiscal.position.template', 'Fiscal Postion'),
+        'use_sale' : fields.boolean('Use in sales order'),
+        'use_invoice' : fields.boolean('Use in Invoices'),
+    }
+account_fiscal_position_rule_template()
