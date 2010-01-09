@@ -34,9 +34,8 @@ class account_voucher(osv.osv):
     _columns = {
         'voucher_line_ids':fields.one2many('account.voucher.line','voucher_id','Voucher Lines', readonly=False, states={'proforma':[('readonly',True)]}),
     }
-        
+    
     def action_move_line_create(self, cr, uid, ids, *args):
-        
         for inv in self.browse(cr, uid, ids):
             if inv.move_id:
                 continue
@@ -136,8 +135,8 @@ class account_voucher(osv.osv):
                 move_line['credit'] = inv.amount * (-1)
             self.pool.get('account.move.line').create(cr, uid, move_line)
             id_mapping_dict = {}
+            mline_ids = []
             for line in inv.voucher_line_ids:
-                
                 move_line = {
                     'name':line.name,
                     'invoice' : iml[0]['invoice'],
@@ -159,14 +158,13 @@ class account_voucher(osv.osv):
                     move_line['credit'] = line.amount or False
                     amount=line.amount * (-1)
                 ml_id=self.pool.get('account.move.line').create(cr, uid, move_line)
+                
                 id_mapping_dict[line.id] = ml_id
-                mline_ids = []
                 total = 0.0
                 mline = self.pool.get('account.move.line')
                 if line.invoice_id.id:
                     invoice = self.pool.get('account.invoice').browse(cr, uid, line.invoice_id.id)
                     src_account_id = invoice.account_id.id
-#                cr.execute('select id from account_move_line where move_id in ('+str(move_id)+','+str(invoice.move_id.id)+')')
                     cr.execute('select id from account_move_line where move_id in ('+str(invoice.move_id.id)+')')
                     temp_ids = map(lambda x: x[0], cr.fetchall())
                     temp_ids.append(ml_id)
@@ -175,8 +173,7 @@ class account_voucher(osv.osv):
                         if ml.account_id.id==src_account_id:
                             mline_ids.append(ml.id)
                             total += (ml.debit or 0.0) - (ml.credit or 0.0)
-                    self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
-                #end if line.invoice_id.id:
+
                 if inv.narration:
                     line.name=inv.narration
                 else:
@@ -194,7 +191,8 @@ class account_voucher(osv.osv):
                          'ref':ref
                      }
                     self.pool.get('account.analytic.line').create(cr,uid,an_line)
-                        
+            
+            self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
             self.write(cr, uid, [inv.id], {'move_id': move_id})
             obj=self.pool.get('account.move').browse(cr, uid, move_id)
             
@@ -217,25 +215,31 @@ class VoucherLine(osv.osv):
         'invoice_id' : fields.many2one('account.invoice','Invoice'),
     }
 
-    
     def move_line_get_item(self, cr, uid, line, context={}):
         res = super(VoucherLine, self).move_line_get_item(cr, uid, line, context)
         res['invoice'] = line.invoice_id or False
         return res 
     
     def onchange_invoice_id(self, cr, uid, ids, invoice_id, context={}):
+        res = {}
         lines = []
         if 'lines' in self.voucher_context:
             lines = [x[2] for x in self.voucher_context['lines']]
+        
         if not invoice_id:
-            return {'value':{}}
+            res = {
+                'value':{ }
+            }
         else:
             invoice_obj = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
             residual = invoice_obj.residual
             same_invoice_amounts = [x['amount'] for x in lines if x['invoice_id']==invoice_id]
             residual -= sum(same_invoice_amounts)
-            return {'value' : {'amount':residual}}  
-    
+            res = {
+                'value' : {'amount':residual}
+            }
+        return res
+        
     def onchange_line_account(self, cr, uid, ids, account_id, type, type1):
         if not account_id:
             return {'value' : {'account_id' : False, 'type' : False ,'amount':False}}
