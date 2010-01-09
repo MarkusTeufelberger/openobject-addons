@@ -31,7 +31,7 @@ class account_move_line(osv.osv):
     def _invoice(self, cr, uid, ids, name, arg, context=None):
         return super(account_move_line, self)._invoice(cr, uid, ids, name, arg, context)
 
-    def _invoice_search(self, cr, uid, obj, name, args):
+    def _invoice_search(self, cr, uid, obj, name, args, context={}):
         """ Redefinition for searching account move lines without any invoice related ('invoice.id','=',False)"""
         for x in args:
             if (x[2] is False) and (x[1] == '=') and (x[0] == 'invoice'):
@@ -67,7 +67,7 @@ class account_move_line(osv.osv):
         r=dict(cr.fetchall())
         return r
 
-    def _to_pay_search(self, cr, uid, obj, name, args):
+    def _to_pay_search(self, cr, uid, obj, name, args, context={}):
         if not len(args):
             return []
         line_obj = self.pool.get('account.move.line')
