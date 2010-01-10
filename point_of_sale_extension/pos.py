@@ -91,6 +91,8 @@ class pos_order(osv.osv):
             else:
                 if not prices_tax_include:
                     res[order.id] = cur_obj.round(cr, uid, cur, val) + order.amount_tax
+            # Must be rounded, otherwise amount_total and amount_paid could be different and _test_paid() test could fail
+            res[order.id] = round(res[order.id] , int(config['price_accuracy']))
         return res
 
 
