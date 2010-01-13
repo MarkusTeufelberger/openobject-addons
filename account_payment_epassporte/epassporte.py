@@ -165,13 +165,6 @@ class account_bank_statement(osv.osv):
             if row['Description'][:7] not in ['b2p Fee', 'b2b Fee']:
                 ref_payment = row['Description']
 
-            # Filter repeated ePassporte lines (check the same DESCRIPTION + AMOUNT + DATE)
-            cr.execute("SELECT l.id FROM account_bank_statement_line l JOIN account_bank_statement s ON l.statement_id=s.id WHERE l.ref = '%s' AND l.amount = '%s' AND l.date = '%s' AND s.journal_id=%s" % (ref_payment, amount_payment, date_transaction, st.journal_id.id,))
-            if cr.fetchone() != None:
-                warnings += _("\nWARNING: ePassporte payment with Transaction ID %s is repeated,") % (ref_payment)
-                count_noupdate += 1
-                continue
-
             if row['Description'][:7] in ['b2p Fee', 'b2b Fee']:
                 credit_payment += amount_payment
                 values = {
@@ -187,6 +180,13 @@ class account_bank_statement(osv.osv):
                 values.update(self.epassporte_fee_line_fields(row)) # Adds additional fields or updates fields
                 if config.activate_insert:
                     statement_line_obj.create(cr, uid, values, context=context)
+                continue
+
+            # Filter repeated ePassporte lines (check the same DESCRIPTION + AMOUNT + DATE)
+            cr.execute("SELECT l.id FROM account_bank_statement_line l JOIN account_bank_statement s ON l.statement_id=s.id WHERE l.ref = '%s' AND l.amount = '%s' AND l.date = '%s' AND s.journal_id=%s" % (ref_payment, amount_payment, date_transaction, st.journal_id.id,))
+            if cr.fetchone() != None:
+                warnings += _("\nWARNING: ePassporte payment with Transaction ID %s is repeated (Amount: %s, Date: %s),") % (ref_payment, amount_payment, date_transaction)
+                count_noupdate += 1
                 continue
 
             if amount_payment > 0:
