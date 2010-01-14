@@ -490,6 +490,42 @@ class pos_order_line(osv.osv):
         'price_subtotal_vat': fields.function(_amount_vat, method=True, string='Subtotal+Tax', multi='vat'),
     }
 
+
+    def onchange_product_id(self, cr, uid, ids, pricelist, product_id, qty=0, partner_id=False, lang=False):
+        """ This method is redefined to compute discounts in point of sale order lines
+            if product_visible_discount module is installed and
+            visible discount field in price list is checked"""
+        res = super(pos_order_line, self).onchange_product_id(cr, uid, ids, pricelist, product_id, qty, partner_id)
+
+        context = {'lang': lang, 'partner_id': partner_id}
+        result = res['value']
+        pricelist_obj = self.pool.get('product.pricelist')
+        product_obj = self.pool.get('product.product')
+
+        cr.execute('select * from ir_module_module where name=%s and state=%s', ('product_visible_discount','installed'))
+        if cr.fetchone() and product_id:
+            if result.get('price_unit',False):
+                price = result['price_unit']
+            else:
+                return res
+
+            product = product_obj.browse(cr, uid, product_id, context)
+            product_tmpl_id = product.product_tmpl_id.id
+            pricetype_id = pricelist_obj.browse(cr, uid, pricelist).version_id[0].items_id[0].base
+            field_name = 'list_price'
+            product_read = self.pool.get('product.template').read(cr, uid, product_tmpl_id, [field_name], context)
+            list_price = product_read[field_name]
+
+            pricelists=pricelist_obj.read(cr,uid,[pricelist],['visible_discount'])
+            if(len(pricelists)>0 and pricelists[0]['visible_discount'] and list_price != 0):
+                discount=(list_price-price) / list_price * 100
+                result['price_unit'] = list_price
+                result['discount'] = discount
+            else:
+                result['price_unit'] = price
+                result['discount'] = 0.0
+        return res
+
     def unlink(self, cr, uid, ids, context={}):
         """Allows delete pos orders in draft and cancel states"""
         for rec in self.browse(cr, uid, ids, context=context):

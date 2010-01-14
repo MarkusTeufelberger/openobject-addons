@@ -45,6 +45,7 @@
     - There is not enough virtual stock in any of the products.
   These two warnings can be activated/desactivated (in the configuration tab of the company).
 * List and search POS order lines by number of order, partner and state.
+* If product_visible_discount module is installed and visible discount field in price list is checked, computes discounts in point of sale order lines.
 """,
     "depends" : ["point_of_sale"],
     "init_xml" : [],
