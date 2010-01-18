@@ -64,8 +64,8 @@ class ServerAction(osv.osv):
                     logger.notifyChannel('email', netsvc.LOG_INFO, 'Partner Email address not Specified!')
                     continue
 
-                subject = self.merge_message(cr, uid, str(action.subject), action, context)
-                body = self.merge_message(cr, uid, str(action.message), action, context)
+                subject = self.merge_message(cr, uid, action.subject, action, context)
+                body = self.merge_message(cr, uid, action.message, action, context)
                 smtp_pool = self.pool.get('email.smtpclient')
                 
                 reports = []
