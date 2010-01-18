@@ -30,7 +30,7 @@
 	"version" : "1.0",
 	"author" : "Camptocamp",
 	"category" : "Generic Modules/Human Resources",
-	"module":
+	"description":
 """
                 Add a wizard into timesheet allowing people to complete a long period of time with the given values.
                 This is mainly useful to handle a long period of time like holidays.
