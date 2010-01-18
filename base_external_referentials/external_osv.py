@@ -244,8 +244,6 @@ class external_osv(osv.osv):
         logger = netsvc.Logger()
         write_ids = []  #Will record ids of records modified, not sure if will be used
         create_ids = [] #Will record ids of newly created records, not sure if will be used
-        if not ids:
-            ids = self.search(cr, uid, [])
         for record_data in self.read(cr, uid, ids, [], context):
             #If no external_ref_ids are mentioned, then take all ext_ref_this item has
             if not external_referential_ids:
