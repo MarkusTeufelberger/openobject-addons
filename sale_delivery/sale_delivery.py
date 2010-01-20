@@ -204,9 +204,12 @@ class sale_order_line(osv.osv):
     def _get_planned_deliveries(self, cr, uid, ids, field_name, arg, context):
         res = {}
         for val in self.browse(cr, uid, ids):
-            cr.execute('select sum(product_qty) from sale_delivery_line where order_id = %s and product_id = %s',(val.order_id.id,val.product_id.id))
-            product_qty = cr.fetchall()[0][0]
-            res[val.id] = product_qty
+            if val.product_id:
+                cr.execute('select sum(product_qty) from sale_delivery_line where order_id = %s and product_id = %s',(val.order_id.id,val.product_id.id))
+                product_qty = cr.fetchall()[0][0]
+                res[val.id] = product_qty
+            else:
+                res[val.id] = False
         return res
 
     _columns = {
