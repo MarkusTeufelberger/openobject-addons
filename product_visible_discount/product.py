@@ -24,6 +24,7 @@ import pooler
 from tools import config
 import time
 from osv.osv import except_osv
+from tools.translate import _
 
 class product_pricelist(osv.osv):
     _name = 'product.pricelist'
