@@ -42,7 +42,7 @@ class account_move_line(osv.osv):
                 if not len(res):
                     return [('id', '=', '0')]
                 return [('id', 'in', [x[0] for x in res])]
-        return super(account_move_line, self)._invoice_search(cr, uid, obj, name, args)
+        return super(account_move_line, self)._invoice_search(cr, uid, obj, name, args, context=context)
 
     def amount_to_pay(self, cr, uid, ids, name, arg={}, context={}):
         """ Return the amount still to pay regarding all the payment orders
