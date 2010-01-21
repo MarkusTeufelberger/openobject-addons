@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 Gábor Dukai
+#    Copyright (C) 2009-2010 Gábor Dukai
 #    Parts of this module are based on product_listprice_upgrade
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,11 +19,11 @@
 #
 ##############################################################################
 {
-    "name":"Product price update",
-    "version":"1.05",
-    "author":"Gábor Dukai",
+    "name": "Product price update",
+    "version": "1.1",
+    "author": "Gábor Dukai",
     "website" : "http://exploringopenerp.blogspot.com",
-    "category":"Generic Modules/Inventory Control",
+    "category": "Generic Modules/Inventory Control",
     "description": """
     You can think of this module as product_listprice_upgrade v2.
 
@@ -34,15 +34,15 @@
 
     Compatibility: tested with OpenERP v5.0
     """,
-    "depends":["product"],
-    "demo_xml":[],
-    "update_xml":[
+    "depends": ["product", "product_pricelist_discount_and_tax", ],
+    "demo_xml": [],
+    "update_xml": [
         'security/ir.model.access.csv',
         'pricelist_view.xml',
         'pricelist_data.xml'],
     "license": "GPL-3",
-    "active":False,
-    "installable":True,
+    "active": False,
+    "installable": True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

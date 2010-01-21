@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 Gábor Dukai
+#    Copyright (C) 2009-2010 Gábor Dukai
 #    Parts of this module are based on product_listprice_upgrade
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -62,8 +62,9 @@ class product_price_update_wizard(osv.osv_memory):
                 prod_ids = prod_obj.search(cr, uid, [('categ_id', '=', categ_id),])
                 for prod in prod_obj.browse(cr, uid, prod_ids):
                     price_old = getattr(prod, wiz.price_type_id.field)
-                    price_new = pricelist_obj.price_get(cr, uid, \
-                        [wiz.pricelist_id.id], prod.id, 1)[wiz.pricelist_id.id]
+                    price_new = pricelist_obj.price_get_improved(cr, uid, \
+                        [wiz.pricelist_id.id], prod.id, 1)[wiz.pricelist_id.id]\
+                        ['price']
                     roundstr = '%.' + config['price_accuracy'] + 'f'
                     if roundstr % price_old != roundstr % price_new:
                         prod_obj.write(cr, uid, [prod.id], {
