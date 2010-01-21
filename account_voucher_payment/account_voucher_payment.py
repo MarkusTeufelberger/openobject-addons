@@ -181,20 +181,23 @@ class account_voucher(osv.osv):
                     line.name=line.name
                 
                 if line.account_analytic_id:
-                    an_line = {
-                         'name':line.name,
-                         'date':inv.date,
-                         'amount':amount,
-                         'account_id':line.account_analytic_id.id or False,
-                         'move_id':ml_id,
-                         'journal_id':an_journal_id ,
-                         'general_account_id':line.account_id.id,
-                         'ref':ref
-                     }
-                    self.pool.get('account.analytic.line').create(cr,uid,an_line)
+                    if ml_id and an_journal_id:
+                        an_line = {
+                             'name':line.name,
+                             'date':inv.date,
+                             'amount':amount,
+                             'account_id':line.account_analytic_id.id or False,
+                             'move_id':ml_id,
+                             'journal_id':an_journal_id ,
+                             'general_account_id':line.account_id.id,
+                             'ref':ref
+                         }
+                        self.pool.get('account.analytic.line').create(cr,uid,an_line)
+
+                if line.invoice_id:
+                    self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
+                    self.write(cr, uid, [inv.id], {'move_id': move_id})
             
-            self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
-            self.write(cr, uid, [inv.id], {'move_id': move_id})
             obj=self.pool.get('account.move').browse(cr, uid, move_id)
             
             for line in obj.line_id :
@@ -225,7 +228,7 @@ class VoucherLine(osv.osv):
         res = {}
         lines = []
         if 'lines' in self.voucher_context:
-            lines = [x[2] for x in self.voucher_context['lines']]
+            lines = [x[2] for x in self.voucher_context['lines'] if x[2]]
         
         if not invoice_id:
             res = {
