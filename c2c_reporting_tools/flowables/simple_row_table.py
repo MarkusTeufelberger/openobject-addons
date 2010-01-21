@@ -42,6 +42,7 @@ from reportlab.platypus import *
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib import colors
 from c2c_reporting_tools.core.table_elements import *
+from tools.translate import _
                     
     
 

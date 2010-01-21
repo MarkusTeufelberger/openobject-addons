@@ -22,6 +22,8 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 from osv import osv, fields
 from mx import DateTime
+from tools.translate import _
+
 class sale_order(osv.osv):
     """Override sale.order in order to add a date field"""
     _inherit = "sale.order"

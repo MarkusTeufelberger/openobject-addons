@@ -14,6 +14,7 @@ from turbogears import config
 import cherrypy
 import rpc
 import pkg_resources
+from tools.translate import _
 
 @expose()
 def _login(target, dblist=None, db= None, user=None, action=None, message=None, origArgs={}):

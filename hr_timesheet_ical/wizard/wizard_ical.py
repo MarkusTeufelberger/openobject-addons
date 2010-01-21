@@ -26,6 +26,7 @@ from schoolbell.calendar import icalendar
 
 import wizard
 import pooler
+from tools.translate import _
 
 CALENDAR_URL = 'http://127.0.0.1:7180'
 

@@ -31,6 +31,7 @@ import time
 import mx.DateTime
 from report import report_sxw
 from generalize_account_report.report import report_generalize_horizontal
+from tools.translate import _
 
 class report_generalize_vertical(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):

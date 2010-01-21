@@ -21,6 +21,7 @@
 ##############################################################################
 
 from osv import osv, fields
+from tools.translate import _
 
 class comparison_user(osv.osv):
     _name = 'comparison.user'

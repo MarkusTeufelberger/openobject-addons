@@ -22,6 +22,7 @@
 ##############################################################################
 
 from osv import fields, osv
+from tools.translate import _
 
 class hr_expense_expense(osv.osv):
     _inherit = 'hr.expense.expense'

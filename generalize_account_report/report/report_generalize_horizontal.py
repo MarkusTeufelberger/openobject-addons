@@ -30,6 +30,7 @@ import rml_parse
 import pooler
 import wizard
 from report import report_sxw
+from tools.translate import _
 
 class report_generalize_horizontal(rml_parse.rml_parse):
     def __init__(self, cr, uid, name, context):

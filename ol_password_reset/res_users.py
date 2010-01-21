@@ -21,6 +21,7 @@
 #########################################################################
 from osv import osv,fields
 import string,random
+from tools.translate import _
 
 class res_users(osv.osv):
     _inherit = "res.users"

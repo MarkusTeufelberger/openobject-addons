@@ -29,6 +29,7 @@ from gtk import glade
 
 import interface
 import os
+from tools.translate import _
 
 
 

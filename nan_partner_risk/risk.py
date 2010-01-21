@@ -21,6 +21,7 @@
 
 from osv import osv, fields
 from mx.DateTime import now
+from tools.translate import _
 
 class sale_order_line(osv.osv):
     _name = 'sale.order.line'

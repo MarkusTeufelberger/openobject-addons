@@ -21,6 +21,7 @@
 ##############################################################################
 
 from osv import osv, fields
+from tools.translate import _
 
 class ir_attachment(osv.osv):
     _inherit = 'ir.attachment'
