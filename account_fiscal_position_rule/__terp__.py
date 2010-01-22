@@ -28,9 +28,9 @@
     'description': """Include a rule to decide the correct fiscal position""",
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['account'],
+    'depends': ['account', 'sale'],
     'init_xml': [],
-    'update_xml': ['account_fiscal_position_view.xml'],
+    'update_xml': ['account_fiscal_position_view.xml','sale_view.xml'],
     'demo_xml': [],
     'installable': True,
 }
