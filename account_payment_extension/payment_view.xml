@@ -335,12 +335,14 @@
         <field name="type">tree</field>
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
-            <tree string="Payments" editable="top">
+            <tree string="Payments" editable="top"
+                        colors="grey:reconcile_id!=0;blue:amount_to_pay==0;">
                 <field name="invoice" readonly="1"/>
                 <field name="partner_id" readonly="1"/>
                 <field name="account_id" readonly="1"/>
                 <field name="debit" readonly="1"/>
                 <field name="credit" readonly="1"/>
+                <field name="amount_to_pay" readonly="1"/>
                 <field name="payment_type" readonly="1"/>
                 <field name="partner_bank" domain="[('partner_id','=',partner_id)]"/>
                 <field name="received_check"/>
