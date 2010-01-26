@@ -56,20 +56,19 @@ class sale_order(osv.osv):
         
         return result
         
-    def onchange_partner_invoice_id(self, cr, uid, ids, part):
-        return false
-
-    def onchage_user_id(self, cr, uid, ids, usr_id, ptn_id, ptn_invoice_id):
-
+        
+    def onchange_partner_invoice_id(self, cr, uid, ids, ptn_invoice_id, ptn_id, usr_id):
+        
         result = {'value': {'fiscal_position': False}}
 
-        if not usr_id or not ptn_id or not ptn_invoice_id:
+        if not usr_id or not ptn_invoice_id or not ptn_id:
             return result
-
+  
         partner = self.pool.get('res.partner').browse(cr, uid, ptn_id)
         fiscal_position = partner.property_account_position and partner.property_account_position.id or False
 
         if fiscal_position:
+            result['value']['fiscal_position'] = fiscal_position
             return result
 
         user_partner_id = self.pool.get('res.users').browse(cr, uid, usr_id).company_id.partner_id
@@ -80,10 +79,43 @@ class sale_order(osv.osv):
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
         
-        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [ptn_invoice_id])[0]
+        partner_addr_invoice = self.pool.get('res.partner.address').browse(cr, uid, [ptn_invoice_id])[0]
         
-        to_country = partner_addr_default.country_id.id
-        to_state = partner_addr_default.state_id.id
+        to_country = partner_addr_invoice.country_id.id
+        to_state = partner_addr_invoice.state_id.id
+        
+        fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True)])
+        if fsc_pos_id:
+            result['value']['fiscal_position'] = fsc_pos_id[0]
+
+        return result
+
+    def onchange_user_id(self, cr, uid, ids, usr_id, ptn_id, ptn_invoice_id):
+
+        result = {'value': {'fiscal_position': False}}
+
+        if not usr_id or not ptn_id or not ptn_invoice_id:
+            return result
+
+        partner = self.pool.get('res.partner').browse(cr, uid, ptn_id)
+        fiscal_position = partner.property_account_position and partner.property_account_position.id or False
+
+        if fiscal_position:
+            result['value']['fiscal_position'] = fiscal_position
+            return result
+
+        user_partner_id = self.pool.get('res.users').browse(cr, uid, usr_id).company_id.partner_id
+
+        company_addr = self.pool.get('res.partner').address_get(cr, uid, [user_partner_id.id], ['default'])
+        company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
+
+        from_country = company_addr_default.country_id.id
+        from_state = company_addr_default.state_id.id
+        
+        partner_addr_invoice = self.pool.get('res.partner.address').browse(cr, uid, [ptn_invoice_id])[0]
+        
+        to_country = partner_addr_invoice.country_id.id
+        to_state = partner_addr_invoice.state_id.id
         
         fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_sale','=',True)])
         if fsc_pos_id:

@@ -30,7 +30,7 @@
     'website': 'http://www.akretion.com',
     'depends': ['account', 'sale'],
     'init_xml': [],
-    'update_xml': ['account_fiscal_position_view.xml','sale_view.xml'],
+    'update_xml': ['account_fiscal_position_view.xml','sale_view.xml','account_invoice.xml'],
     'demo_xml': [],
     'installable': True,
 }
