@@ -36,7 +36,6 @@ class account_invoice(osv.osv):
         if result['value']['fiscal_position']:
             return result
 
-        #Use the current user to get the company_id
         obj_company = self.pool.get('res.company').browse(cr, uid, [company_id])[0]
 
         company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_company.partner_id.id], ['default'])
@@ -45,16 +44,19 @@ class account_invoice(osv.osv):
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
 
-        partner_invoice_addr = self.pool.get('res.partner').address_get(cr, uid, [partner_id], ['invoice'])
-        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_invoice_addr['invoice']])[0]
+        if result['value']['address_invoice_id']:
+            ptn_invoice_id = result['value']['address_invoice_id']
+
+        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [ptn_invoice_id])[0]
 
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
 
         fsc_pos_id = self.pool.get('account.fiscal.position.rule').search(cr, uid, [('from_country','=',from_country),('from_state','=',from_state),('to_country','=',to_country),('to_state','=',to_state),('use_invoice','=',True)])
-        if fsc_pos_id: 
+        
+        if fsc_pos_id:
             result['value']['fiscal_position'] = fsc_pos_id[0]
-       
+
         return result
     
     def onchange_company_id(self, cr, uid, ids, cpy_id, ptn_id, ptn_invoice_id):

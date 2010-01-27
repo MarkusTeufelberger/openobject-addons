@@ -31,7 +31,8 @@ class account_fiscal_position_rule(osv.osv):
     	'from_state': fields.many2one('res.country.state', 'State To', domain="[('country_id','=',from_country)]"),
     	'to_country': fields.many2one('res.country', 'Country To'),
     	'to_state': fields.many2one('res.country.state', 'State To', domain="[('country_id','=',to_country)]"),
-    	'fiscal_position_id': fields.many2one('account.fiscal.position', 'Fiscal Position'),
+        'company_id': fields.many2one('res.company', 'Company', required=True),
+    	'fiscal_position_id': fields.many2one('account.fiscal.position', 'Fiscal Position', domain="[('company_id','=',company_id)]", required=True),
         'use_sale' : fields.boolean('Use in sales order'),
         'use_invoice' : fields.boolean('Use in Invoices'),
     }
@@ -46,7 +47,8 @@ class account_fiscal_position_rule_template(osv.osv):
         'from_state': fields.many2one('res.country.state', 'State From', domain="[('country_id','=',from_country)]"),
         'to_country': fields.many2one('res.country', 'Country To'),
         'to_state': fields.many2one('res.country.state', 'State To', domain="[('country_id','=',to_country)]"),
-        'fiscal_position_id': fields.many2one('account.fiscal.position.template', 'Fiscal Position'),
+        'company_id': fields.many2one('res.company', 'Company', required=True),
+        'fiscal_position_id': fields.many2one('account.fiscal.position.template', 'Fiscal Position', domain="[('company_id','=',company_id)]", required=True),
         'use_sale' : fields.boolean('Use in sales order'),
         'use_invoice' : fields.boolean('Use in Invoices'),
     }

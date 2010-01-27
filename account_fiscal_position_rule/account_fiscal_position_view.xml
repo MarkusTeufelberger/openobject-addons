@@ -21,6 +21,7 @@
 		    		<field name="to_country"/>
                     <field name="to_state"/>
                     <separator string="Configuration" colspan="4"/>
+                    <field name="company_id"/>
 		    		<field name="fiscal_position_id"/>
 		    		<newline/>
                     <field name="use_sale"/>
@@ -35,7 +36,9 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Fiscal Position Rule Template">
+                    <field name="company_id"/>
                     <field name="name"/>
+                    <field name="company_id"/>
                     <field name="from_country"/>
                     <field name="from_state"/>
 		    		<field name="to_country"/>
@@ -73,6 +76,7 @@
 		    		<field name="to_country"/>
                     <field name="to_state"/>
                     <separator string="Configuration" colspan="4"/>
+                    <field name="company_id"/>
 		    		<field name="fiscal_position_id"/>
 		    		<newline/>
                     <field name="use_sale"/>
@@ -87,6 +91,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Fiscal Position Rule">
+                    <field name="company_id"/>
                     <field name="name"/>
                     <field name="from_country"/>
                     <field name="from_state"/>

@@ -43,10 +43,12 @@ class sale_order(osv.osv):
         
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
-        
-        partner_invoice_addr = self.pool.get('res.partner').address_get(cr, uid, [part], ['invoice'])
-        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [partner_invoice_addr['invoice']])[0]
-        
+
+        if result['value']['partner_invoice_id']:
+            ptn_invoice_id = result['value']['partner_invoice_id']
+
+        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [ptn_invoice_id])[0]
+
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
         
