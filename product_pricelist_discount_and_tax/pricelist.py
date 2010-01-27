@@ -159,13 +159,12 @@ class product_pricelist(osv.osv):
                 else:
                     price_type = price_type_obj.browse(cr, uid, int(res['base']))
                     #dukai - price_tax_included
-                    ctx = context.copy()
-                    ctx['price_tax_included'] = res['price_tax_included']
                     price = currency_obj.compute(cr, uid,
                             price_type.currency_id.id, res['currency_id'],
                             product_obj.price_get(cr, uid, [prod_id],
-                            price_type.field, ctx)
-                            [prod_id], round=False)
+                            price_type.field, 
+                            {'price_tax_included': res['price_tax_included']})
+                            [prod_id], round=False, context=context)
 
                 price_limit = price
 
