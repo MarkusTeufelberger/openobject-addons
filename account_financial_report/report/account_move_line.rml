@@ -30,23 +30,30 @@
     <blockTableStyle id="Tabla">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
+      <blockBottomPadding length="0.0"/>
     </blockTableStyle>
 
     <blockTableStyle id="TablaS">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
+      <blockTopPadding length="0.0"/>
+      <blockBottomPadding length="0.0"/>
       <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0"/>
     </blockTableStyle>
 
     <blockTableStyle id="SubTabla">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
+      <blockTopPadding length="2.0"/>
+      <blockBottomPadding length="0.0"/>
     </blockTableStyle>
 
     <blockTableStyle id="SubTablaS">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
       <lineStyle kind="LINEBELOW" colorName="#444444" start="0,0"/>
+      <blockTopPadding length="0.0"/>
+      <blockBottomPadding length="-0.5"/>
     </blockTableStyle>
 
     <initialize>
@@ -91,7 +98,7 @@
     <!--
     Tabla de datos
     -->
-    <blockTable colWidths="1.5cm,1.5cm,7cm,2cm,2cm,5cm" rowHeights="0.4cm" style="Tabla">
+    <blockTable colWidths="1.5cm,1.5cm,7cm,2cm,2cm,5cm" style="Tabla">
         <!--
         Descripción de los datos
         -->
@@ -118,7 +125,7 @@
       </tr>
     </blockTable>
 
-    <blockTable colWidths="1.5cm,1.5cm,5.5cm,5.5cm,5cm" rowHeights="0.6cm" style="TablaS">
+    <blockTable colWidths="1.5cm,1.5cm,5.5cm,5.5cm,5cm" style="TablaS">
       <!-- Segunda Línea -->
       <tr>
         <td>
@@ -142,7 +149,7 @@
     -->
     <section>
         [[repeatIn(objects,'o')]]
-        <blockTable colWidths="1.5cm,1.5cm,7cm,2cm,2cm,5cm" rowHeights="0.5cm" style="SubTabla">
+        <blockTable colWidths="1.5cm,1.5cm,7cm,2cm,2cm,5cm" style="SubTabla">
             <tr>
                 <td>
                     <para style="DetailCenter">[[o.move_id.name]]</para>
@@ -164,7 +171,7 @@
                 </td>
             </tr>
          </blockTable>
-         <blockTable colWidths="1.5cm,1.5cm,5.5cm,5.5cm,5cm" rowHeights="0.6cm" style="SubTablaS">
+         <blockTable colWidths="1.5cm,1.5cm,5.5cm,5.5cm,5cm" style="SubTablaS">
             <tr>
                 <td>
                     <para style="DetailCenterItalic">[[o.ref]]</para>

@@ -36,11 +36,15 @@
     <blockTableStyle id="tbl_header">
       <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="-1,0"/>
       <blockValign value="TOP"/>
+      <blockTopPadding length="2.0"/>
+      <blockBottomPadding length="0.0"/>
     </blockTableStyle>
 
     <blockTableStyle id="tbl_content">
       <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,1" stop="-1,-1"/>
       <blockValign value="TOP"/>
+      <blockTopPadding length="2.0"/>
+      <blockBottomPadding length="0.0"/>
     </blockTableStyle>
 
     <blockTableStyle id="Table5">

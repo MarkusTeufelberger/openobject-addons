@@ -40,6 +40,8 @@
       <blockValign value="TOP"/>
       <lineStyle kind="LINEABOVE" colorName="#444444" start="0,0" stop="10,0"/>
       <lineStyle kind="LINEBELOW" colorName="#aaaaaa" start="0,0" stop="10,0"/>
+      <blockTopPadding length="2.0"/>
+      <blockBottomPadding length="-0.5"/>
     </blockTableStyle>
     <initialize>
       <paraStyle name="all" alignment="justify"/>
