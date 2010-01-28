@@ -56,6 +56,8 @@ period_form = '''<?xml version="1.0"?>
             <field name="periods" colspan="4" nolabel="1"/>
         </group>
     </group>
+    <separator string="Options" colspan="4"/>
+    <field name="detailed_taxes" required="False"/>
 </form>'''
 
 period_fields = {
@@ -69,6 +71,7 @@ period_fields = {
     'open': {'string':'Open', 'type':'boolean', 'default': lambda *a: True},
     'paid': {'string':'Done', 'type':'boolean', 'default': lambda *a: True},
     'cancel': {'string':'Cancelled', 'type':'boolean',},
+    'detailed_taxes': {'string':'Detailed taxes', 'type':'boolean',},
     'state':{
         'string':"Date/Period Filter",
         'type':'selection',

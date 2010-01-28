@@ -58,6 +58,7 @@ class print_invoice_list(rml_parse.rml_parse):
             'in_refunds': self.in_refunds,
             'out_invoices': self.out_invoices,
             'out_refunds': self.out_refunds,
+            'detailed_taxes': False,
         })
 
 
@@ -98,6 +99,10 @@ class print_invoice_list(rml_parse.rml_parse):
             #print where
             ids = invoice_obj.search(self.cr, self.uid, where)
             objects = invoice_obj.browse(self.cr, self.uid, ids)
+
+            self.localcontext.update({
+                'detailed_taxes': data['form'].get('detailed_taxes'),
+            })
 
         if not ids :
             return super(print_invoice_list, self).set_context(objects, data, ids, report_type)

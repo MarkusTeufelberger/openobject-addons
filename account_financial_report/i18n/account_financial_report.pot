@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-11-27 09:56:30+0000\n"
-"PO-Revision-Date: 2009-11-27 09:56:30+0000\n"
+"POT-Creation-Date: 2010-01-28 18:20:44+0000\n"
+"PO-Revision-Date: 2010-01-28 19:14+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -75,6 +75,17 @@ msgstr ""
 #. module: account_financial_report
 #: wizard_view:account.invoice.list.report,init:0
 msgid "Filter by date"
+msgstr ""
+
+#. module: account_financial_report
+#: wizard_view:account.invoice.list.report,init:0
+msgid "Options"
+msgstr ""
+
+#. module: account_financial_report
+#: wizard_view:account.invoice.list.report,init:0
+#: wizard_field:account.invoice.list.report,init,detailed_taxes:0
+msgid "Detailed taxes"
 msgstr ""
 
 #. module: account_financial_report

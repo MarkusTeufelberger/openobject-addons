@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-11-27 09:56:30+0000\n"
-"PO-Revision-Date: 2009-11-27 12:38+0100\n"
-"Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
+"POT-Creation-Date: 2010-01-28 18:20:44+0000\n"
+"PO-Revision-Date: 2010-01-28 19:14+0100\n"
+"Last-Translator: Borja L.S. (Pexego) <borjals@pexego.es>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +34,7 @@ msgstr "Código cuenta"
 #. module: account_financial_report
 #: rml:account.invoice.list.report:0
 msgid "Customer Refund Invoices"
-msgstr "Abonos de Cliente"
+msgstr "Facturas rectificativas de Cliente (Abonos)"
 
 #. module: account_financial_report
 #: wizard_field:account.general.ledger.cumulative.report,checktype,initial_balance:0
@@ -76,6 +76,17 @@ msgstr "Nombre cuenta"
 #: wizard_view:account.invoice.list.report,init:0
 msgid "Filter by date"
 msgstr "Filtrar por fecha"
+
+#. module: account_financial_report
+#: wizard_view:account.invoice.list.report,init:0
+msgid "Options"
+msgstr "Opciones"
+
+#. module: account_financial_report
+#: wizard_view:account.invoice.list.report,init:0
+#: wizard_field:account.invoice.list.report,init,detailed_taxes:0
+msgid "Detailed taxes"
+msgstr "Impuestos detallados"
 
 #. module: account_financial_report
 #: rml:account.move.line.report:0
@@ -356,7 +367,7 @@ msgstr "1cm 27.9cm 20cm 27.9cm"
 #. module: account_financial_report
 #: wizard_field:account.invoice.list.report,init,out_refund:0
 msgid "Customer refunds"
-msgstr "Abonos cliente"
+msgstr "Facturas rectificativas de Cliente (Abonos)"
 
 #. module: account_financial_report
 #: rml:account.general.ledger.cumulative.landscape:0
@@ -501,7 +512,7 @@ msgstr "Imprimir diario"
 #. module: account_financial_report
 #: wizard_field:account.invoice.list.report,init,in_refund:0
 msgid "Supplier refunds"
-msgstr "Abonos proveedor"
+msgstr "Facturas rectificativas de Proveedor (Abonos)"
 
 #. module: account_financial_report
 #: help:account.balance.full.report,checktype,fiscalyear:0
@@ -667,7 +678,7 @@ msgstr "Mostrar divisa"
 #. module: account_financial_report
 #: rml:account.invoice.list.report:0
 msgid "Supplier Refund Invoices"
-msgstr "Abonos de Proveedor"
+msgstr "Facturas rectificativas de Proveedor (Abonos)"
 
 #. module: account_financial_report
 #: rml:account.move.line.report:0
