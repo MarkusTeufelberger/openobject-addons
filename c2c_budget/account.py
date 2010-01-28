@@ -137,7 +137,7 @@ class account_period(osv.osv):
             
             #get version's periods
             version_obj = self.pool.get('c2c_budget.version')
-            vesion = version_obj.browse(
+            version = version_obj.browse(
                                             cr, 
                                             user, 
                                             context['version_id'], 

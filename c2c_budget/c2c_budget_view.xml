@@ -97,7 +97,7 @@
 					</group>
 					<notebook colspan="4">
 						<page string="Budget Lines">
-							<field name="budget_line_ids" nolabel="1" mode="tree" select="1" default_get="currency_id=currency_id, budget_id=budget_id, version_id=id" >
+							<field name="budget_line_ids" nolabel="1" mode="tree" select="1" default_get="{'currency_id':currency_id, 'budget_id':budget_id, 'version_id':id}" >
 								<tree string="Budget Lines" editable="top">	
 									<field name="period_id" context="budget_id=parent.budget_id, version_id=parent.id" />
 									<field name="budget_item_id" context="budget_id=parent.budget_id, version_id=parent.id" />
@@ -109,7 +109,7 @@
 								</tree>							
 								<form>	
 									<field name="period_id" context="budget_id=parent.budget_id, version_id=parent.id" />
-									<field name="budget_item_id" context="budget_id=parent.budget_id, version_id=.parent.id" />
+									<field name="budget_item_id" context="budget_id=parent.budget_id, version_id=parent.id" />
 									<field name="name" />
 									<field name="analytic_account_id"/>
 									<field name="amount" />

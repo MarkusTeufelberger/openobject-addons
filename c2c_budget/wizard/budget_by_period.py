@@ -186,7 +186,7 @@ class wiz_budget_by_period(wizard.interface):
                     start_period = version_obj.get_period(cr, uid, v, data['form']['from_date'], context)
                     
                     #for each version find its periods
-                    periods = v.get_next_periods(cr, uid, v, start_period, data['form']['periods_nbr'], context)
+                    periods = version_obj.get_next_periods(cr, uid, v, start_period, data['form']['periods_nbr'], context)
                     if len(periods) > 0:
                         end_period = periods[-1]
                         #amongst all version's period, find the latest
