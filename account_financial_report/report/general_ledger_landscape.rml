@@ -152,8 +152,8 @@
 			<td><para style="P2_content">[[ line['ref'] ]]</para></td>
 			<td><para style="P3_content">[[ line['name'] ]]</para></td>
 			<td><para style="P3_content">[[ strip_name(line['line_corresp'],15) ]]</para></td>
-			<td><para style="P4_content">[[ formatLang(line['debit']) ]]</para></td>
-			<td><para style="P4_content">[[ formatLang(line['credit']) ]]</para></td>
+			<td><para style="P4_content">[[ line['debit'] and formatLang(line['debit']) or '' ]]</para></td>
+			<td><para style="P4_content">[[ line['credit'] and formatLang(line['credit']) or '' ]]</para></td>
 			<td><para style="P4_content">[[ formatLang(line['progress']) ]]</para></td>
 			<td><para style="P4_content">[[ formatLang(line['amount_currency'] or 0.00)]] [[ line['currency_code'] ]]</para></td>
 		</tr>
@@ -234,8 +234,8 @@
 				<td><para style="P2_content">[[ line['ref'] ]]</para></td>
 				<td><para style="P3_content">[[ line['name'] ]]</para></td>
 				<td><para style="P3_content">[[ strip_name(line['line_corresp'],15) ]]</para></td>
-				<td><para style="P4_content">[[ formatLang(line['debit']) ]]</para></td>
-				<td><para style="P4_content">[[ formatLang(line['credit']) ]]</para></td>
+				<td><para style="P4_content">[[ line['debit'] and formatLang(line['debit']) or '' ]]</para></td>
+				<td><para style="P4_content">[[ line['credit'] and formatLang(line['credit']) or '' ]]</para></td>
 				<td><para style="P4_content">[[ formatLang(line['progress']) ]]</para></td>
 			</tr>
         	<tr>
