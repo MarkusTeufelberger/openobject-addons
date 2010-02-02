@@ -286,7 +286,7 @@ class esale_oscom_web(osv.osv):
             categories = server.get_categories_parent(osc_langs)
             for category in categories:
                 # Search in intermediate esale.oscom.category object that maps OScommerce and OpenERP categories
-                #print category
+                ##print category
                 cat_oscom_id = esale_category_obj.search(cr, uid, [('web_id','=',website.id), ('esale_oscom_id','=',category[0])])
                 if cat_oscom_id:
                     cat_oscom = esale_category_obj.browse(cr, uid, cat_oscom_id)[0]
@@ -323,7 +323,7 @@ class esale_oscom_web(osv.osv):
 
                 # Updates translations
                 for trans, lang in zip(category[2:], oerp_langs):
-                    #print trans, lang.code
+                    ##print trans, lang.code
                     category_obj.write(cr, uid, cat_id, {'name': trans}, {'lang': lang.code})
 
             cr.commit()
@@ -346,6 +346,9 @@ class esale_oscom_web(osv.osv):
         }
         return vals
 
+    def variant_create(self, info_prod):
+
+        return True
 
     def product_extra_info(self, cr, uid, website, prod_id, prod_data):
         """If you want create additonal information in OpenERP objects related to product you can redefine this method in your own module"""
@@ -398,7 +401,7 @@ class esale_oscom_web(osv.osv):
             continuar = True
             transaccional = server.isTransactional()
             from_date = website.date_download_from
-            print "from_date", from_date
+            #print "from_date", from_date
 
             while (continuar):
                 products_osc = server.get_products(osc_langs, oscom_id, bloque, from_date)
@@ -474,20 +477,24 @@ class esale_oscom_web(osv.osv):
                     # Creates or updates product.product and esale.oscom.product objects
                     if not esale_product_ids or not esale_product.product_id: # OpenERP product does not exist
                         prod_id = super(osv.osv, product_obj).create(cr, uid, value)
+                        #print "creando producto Open: ", prod_id
                         created += 1
                         value_esale_product = {
                                 'name': name_prod,
                                 'esale_oscom_id': info_prod['products_id'],
                                 'web_id': website.id,
                                 'product_id': prod_id,
-                        }
+                        }                        
                         if not esale_product_ids:
                             esale_product_id = esale_product_obj.create(cr, uid, value_esale_product)
+                            #print "creando producto osc: ", esale_product_id
                         else:
                             esale_product_obj.write(cr, uid, [esale_product_ids[0]], value_esale_product)
+                            #print "Modificando producto osc: ", esale_product_id
                     else: # OpenERP product exists
                         prod_id = esale_product.product_id.id
                         super(osv.osv, product_obj).write(cr, uid, [prod_id], value)
+                        #print "Actualizando producto Open: ", prod_id
                         updated += 1
 
                     # Updates translations
@@ -499,11 +506,41 @@ class esale_oscom_web(osv.osv):
                             'product_url': trans['products_url'],
                         }
                         value_trans.update(self.product_trans_fields(trans)) # Adds additional fields
-                        # print "==========trans========="
+                        #print "==========trans - Init========="
                         #print value_trans
                         super(osv.osv, product_obj).write(cr, uid, [prod_id], value_trans, {'lang': oerp_langs[trans['language_id']].code})
 
-                        self.product_extra_info(cr, uid, website, prod_id, product) # Creates additonal information in OpenERP objects related to product
+                        self.product_extra_info(cr, uid, website, prod_id, product) 
+                        #print "==========trans - Fin========="
+
+                        # Creates additonal information in OpenERP objects related to product
+                    #Duplicates product for each osc attribute, associating with same OSC object
+                    #print "==========Variantes =========", product['variants']
+
+                    for variant in product['variants']:
+                        #print "==========Inicio tratamiento variantes ========="
+                        #print "==========Variant =========", variant
+
+                        var_products_ids = product_obj.search(cr, uid, [('default_code','=',variant['composed_code']), ('variants','=',variant['variants_value'])])
+                        value_variant =  {
+                            'variants': variant['variants_value'],
+                            'default_code':variant['composed_code'],
+                        } 
+                        #print "Variante: " , value_variant
+
+                        if not var_products_ids:
+                            #print "En Variante"
+                            var_prod_id = product_obj.copy(cr, uid, prod_id, value_variant)
+                
+                            #print "Variante a crear: "  , value_variant
+       
+                        else: # OpenERP product + variant exists                          
+                            #print "Actualizando producto Variante Open: ", var_products_ids
+                            #print "Actualizando producto Variante valor: ", value
+                            product_obj.write(cr, uid, var_products_ids, value)
+                            product_obj.write(cr, uid, var_products_ids, value_variant)
+
+
                     #Creates inventory_line
                     value_inventory_line = {
                         'inventory_id': stock_init_id,
@@ -512,6 +549,7 @@ class esale_oscom_web(osv.osv):
                         'product_uom' : 1,
                         'product_qty' : info_prod['products_quantity']
                     }
+                    #print "==========Inicio Inventario ========="
                     stock_inventory_line_id = stock_inventory_line_obj.create(cr, uid, value_inventory_line)
                     if transaccional:
                         server.setSyncronizedFlag(info_prod['products_id'])
@@ -527,6 +565,8 @@ class esale_oscom_web(osv.osv):
         """If you want create additonal information in OpenERP objects related to customer you can redefine this method in your own module"""
         return True
 
+    def sale_order_code(self, order_id_obj):
+        return order_id_obj.name + "-" + str(order_id_obj.esale_oscom_id) + "-" + order_id_obj.partner_id.name
 
     def saleorder_import(self, cr, uid, website_id, context):
         """Imports sale orders from OSCommerce"""
@@ -604,9 +644,9 @@ class esale_oscom_web(osv.osv):
             saleorders = server.get_saleorders(0, statuses_ids)
         no_of_so = 0
         for saleorder in saleorders:
-            # print "==========*********NEW**************==========="
-            # print "== Oscommerce Sale Order Number :", saleorder['id']
-            # print "PEDIDO VENTA: " , saleorder
+            #print "==========*********NEW**************==========="
+            #print "== Oscommerce Sale Order Number :", saleorder['id']
+            #print "PEDIDO VENTA: " , saleorder
             if len(saleorder['partner']) > 0 :
                 oscom_partner = saleorder['partner'][0]
                 #print "== Sale order partner:", saleorder['partner'][0]
@@ -624,21 +664,24 @@ class esale_oscom_web(osv.osv):
 
             # Default address is right on Website so we create the order.
             if len(saleorder['address']) > 0 :
-                # print "===Sale order address:",saleorder['address'][0]
+                #print ""
+                #print "===Sale order default address:",saleorder['address'][0]
                 default_address = saleorder['address'][0]
                 del saleorder['address']
                 default_address['type'] = 'default'
                 default_address_id = _add_address(self, cr, uid, default_address.copy(), partner_id, context)
                 shipping_address = []
                 if len(saleorder['delivery']) > 0 :
-                    # print "===Sale order Delivery:",saleorder['delivery'][0]
+                    #print ""
+                    #print "===Sale order Delivery:",saleorder['delivery'][0]
                     shipping_address = saleorder['delivery'][0]
                     del saleorder['delivery']
                     shipping_address['type'] = 'delivery'
                     shipping_address_id = _add_address(self, cr, uid, shipping_address.copy(), partner_id, context)
                 billing_address = []
                 if len(saleorder['billing']) > 0 :
-                    # print "===Sale order Billing:",saleorder['billing'][0]
+                    #print ""
+                    #print "===Sale order Billing:",saleorder['billing'][0]
                     billing_address = saleorder['billing'][0]
                     del saleorder['billing']
                     billing_address['type'] = 'invoice'
@@ -693,22 +736,28 @@ class esale_oscom_web(osv.osv):
                     value['partner_invoice_id'] =  default_address_id
                 order_id = saleorder_obj.create(cr, uid, value)
                 order_id_obj = saleorder_obj.browse(cr, uid, order_id)
-                concat_cod = order_id_obj.name + "-" + str(saleorder['id']) + "-" + oscom_partner['name']
+                concat_cod = self.sale_order_code(order_id_obj)
                 saleorder_obj.write(cr, uid, order_id, {'name':concat_cod})
  
                 for orderline in saleorder['lines']:
                     ids = esale_product_obj.search(cr, uid, [('esale_oscom_id', '=', orderline['product_id']), ('web_id', '=', website.id)])
-
                     if len(ids):
                         oscom_product_id = ids[0]
                         oscom_product = esale_product_obj.browse(cr, uid, oscom_product_id)
-                        product_id = oscom_product.product_id.id
-                        print "id producto linea producto", product_id
+                        product_id = oscom_product.product_id.id                        
+                        #print "producto oscommerce encontrado:", product_id
                     else:
-                    # if not exists a product_id on OpenERP products to be matched with Osc product. The order line will be generated 
-                    # with generic Shipping Cost product created by the module.  
                         product_id = product_obj.search(cr, uid, [('name','=','Shipping Cost')])[0]                            
-                    # print "id product Generic", product_id
+                    # if product comes with attributes, we will try to find the exact product variant
+                    #print "tratando linea" , orderline
+                    attributes = (orderline.has_key('attributes') and orderline['attributes']) or False
+                    if attributes:
+                        #print orderline['attributes']
+                        #print "codigo producto", attributes['composed_code']
+                        ids = product_obj.search(cr, uid, [('default_code', '=', attributes['composed_code']),('variants', '=', attributes['products_options_values'])])
+                        if len(ids):
+                            #print "producto con atributos encontrado:", ids
+                            product_id = ids[0]
 
                     linevalue = {
                         'product_id'     : product_id,
@@ -719,11 +768,12 @@ class esale_oscom_web(osv.osv):
                     onchange_product_sol['tax_id'] = False
                     if orderline['tax_rate'] > 0.0000:
                         tax_rate_search_ids = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',orderline['tax_rate']/100), ('type_tax_use', '=','sale')])
-                        if tax_rate_search_ids:
-                            onchange_product_sol['tax_id'] = tax_rate_search_ids
+                    else:
+                        tax_rate_search_ids = tax_obj.search(cr, uid, [('tax_group','=','vat'),('amount','=',0), ('type_tax_use', '=','sale')])
+                    if tax_rate_search_ids:
+                        onchange_product_sol['tax_id'] = tax_rate_search_ids
                     price = orderline['price']
                     name = orderline['name']                      
-                    attributes = (orderline.has_key('attributes') and orderline['attributes']) or False
                     if saleorder['price_type'] == 'tax_excluded' and attributes:
                         # print "EVALUANDO PRECIOS ATRIBUTOS: ", str(price)
                         # print "prefix: ", attributes['price_prefix']
@@ -807,7 +857,7 @@ class esale_oscom_web(osv.osv):
                     pass
             cr.commit()
         for saleorder in saleorders:
-            print "website.intermediate: " , intermediate
+            #print "website.intermediate: " , intermediate
             server.update_order_status(saleorder['id'], intermediate, '',0,0)
 
         ###################### look for open orders in site that are 'done' in TinyERP ###################
@@ -845,16 +895,17 @@ class esale_oscom_saleorder(osv.osv):
         'shipping_title': fields.char('Shipping', size=255),
         'shipping_agency': fields.many2one('res.partner', 'Carrier Partner',help=" Include Carrier to delivery order with" ),
         'tracking_number': fields.char('Num tracking', size=32, help="Include order trucking number given by carrier"),
-        'orders_status': fields.char('Osc Status Inic', size=255),
-        'orders_status_id': fields.many2one('esale.oscom.status','Osc Status Actual'),
-        'status_comment': fields.char('Status Comment', size=256, help="Write a comment to include on order"), 
-        'update_comment': fields.boolean('Update Comment', help="Update comments on order"),  
-        'send_web_email': fields.boolean('Send web E-mail', help="Send comments to customer"), 
+        'number_of_packages': fields.char('Num pack', size=32, help="Include number of packages to send"),
+        'volume': fields.char('Volum', size=32, help="Include volume of packages to send"),
+        'additional_info': fields.text('Aditional Info', help="Include any additional info you need internaly include on order"),
+        'orders_status': fields.char('Osc Status Inic', size=32,help="Indicates the initial status of order on Osc Web"),
+        'orders_status_id': fields.many2one('esale.oscom.status','Osc Status Actual',help="Indicates the actual status of order on Osc Web"),
+        'status_comment': fields.text('Status Comment', help="Write a comment to include on Osc order. It will be uploaded to Osc Web on changing actual osc status"), 
+        'update_comment': fields.boolean('Update Comment', help="Click if you want to Update comments on order"),  
+        'send_web_email': fields.boolean('Send web E-mail', help="Click if you want Sending comments to customer from web. Requires modifying .php procedure"), 
     }
     _defaults = {
         'esale_oscom_id': lambda *a: False,
-        'update_comment': lambda *a: False,
-        'send_web_email': lambda *a: False,
     }
 
     def onchange_esale_oscom_web(self, cr, uid, ids, esale_oscom_web):
@@ -877,13 +928,30 @@ class esale_oscom_saleorder(osv.osv):
             osc_int = esale_status_obj.read(cr, uid, orders_status_id, ['esale_oscom_id'])
             ostatus_id = osc_int['esale_oscom_id'] 
             status_comment_tn =   status_comment 
-            if tracking_number != "":
-                status_comment_tn = "Tracking: " + tracking_number + "\n " + status_comment
+            if not tracking_number: 
+                tracking_number=""
+            if not status_comment:
+                status_comment=""
+            if not update_comment:
+                update_comment=0
+            else:
+                update_comment=1
+            if not send_web_email:
+                send_web_email=0
+            else:
+                send_web_email=1
             #print "id pedido: ", esale_oscom_id
             #print "orig status_id: ", orders_status_id
             #print "final status_id: ", ostatus_id
             #print "update_comment: ", update_comment
-            print "status_comment: ", status_comment_tn
+            #print "status_comment: ", status_comment
+            #print "tracking_number: ", tracking_number
+
+            if tracking_number != " " and tracking_number != "":
+                status_comment_tn = "Tracking: " + tracking_number + "\n " + status_comment
+            else:
+                status_comment_tn = status_comment
+
             updated_status = server.update_order_status(esale_oscom_id, ostatus_id, status_comment_tn, update_comment, send_web_email)
 
         return {'value':updated_status}

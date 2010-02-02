@@ -25,6 +25,7 @@ from osv import fields,osv,orm
 import xmlrpclib
 from tools.translate import _
 
+
 class esale_oscom_product_manufacturer(osv.osv):
     _name = 'product.manufacturer'
     _description = 'Product Manufacturer that produces the product'
@@ -406,9 +407,7 @@ class esale_oscom_product_inherit(osv.osv):
 ##                    VAT = product.taxes_id[0].amount
 ##                gr_pr = list_price *(1 + VAT)
 ##            else:
-##                raise osv.except_osv(
-##                                                'Could not change the price!',
-##                                                'You must first save the record and then enter price.')
+##                raise osv.except_osv(_('Could not change the price!'), _('You must first save the record and then enter price.'))
 ##                gr_pr = 0
 ##        else:
 ##            gr_pr = 0
@@ -426,9 +425,7 @@ class esale_oscom_product_inherit(osv.osv):
 ##                    VAT = product.taxes_id[0].amount
 ##                l_pr = gross_price / (1 + VAT)
 ##            else:
-##                raise osv.except_osv(
-##                                                'Could not change the price!',
-##                                                'You must first save the record and then enter price.')
+##                raise osv.except_osv(_('Could not change the price!'), _('You must first save the record and then enter price.'))
 ##                l_pr = 1
 ##        else:
 ##            l_pr = 1

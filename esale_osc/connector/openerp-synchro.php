@@ -3,7 +3,8 @@
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (c) 2008 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
-#                       Jordi Esteve <jesteve@zikzakmedia.com>
+#                       Jordi Esteve <jesteve@zikzakmedia.com> 
+#                       Ana Juaristi <ajuaristio@gmail.com>
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,7 +23,7 @@
 ##############################################################################*/
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////                                                                               ////////////////////
+/////////////////   On windows servers line 65 use return utf8_encode($text);                   ////////////////////
 /////////////////      PLEASE CONFIGURE THE RIGHT INCLUDES AND DEFINES FOR YOUR CONFIGURATION   ////////////////////
 
 include("xmlrpcutils/xmlrpc.inc");
@@ -290,12 +291,43 @@ function get_products($languages, $osCodIni, $block, $last_date) {
                 //"date_status_change" => new xmlrpcval($rowesp[4],"string"),
                 "status" => new xmlrpcval($rowesp[5],"int")), "struct");
         }
+        // Get product attributes
+        debug('Inicio atributos: ' . $row_product[0]);
+        debug("Query: SELECT p.products_id, op.products_options_name , opv.products_options_values_name
+                                     FROM products p, products_attributes pa, products_options op, products_options_values opv
+                                     WHERE p.products_id = pa.products_id
+                                     AND pa.options_id = op.products_options_id
+                                     AND pa.options_values_id = opv.products_options_values_id 
+                                     and p.products_id =". $row_product[0]);
+
+        $prod_atrib = array();// If product has not attributes
+        
+        $result_atrib = mysql_query("SELECT p.products_id, op.products_options_name , opv.products_options_values_name
+                                     FROM products p, products_attributes pa, products_options op, products_options_values opv
+                                     WHERE p.products_id = pa.products_id
+                                     AND pa.options_id = op.products_options_id
+                                     AND pa.options_values_id = opv.products_options_values_id 
+                                     and p.products_id =". $row_product[0] . ";");
+        if ($result_atrib) while ($rowatr = mysql_fetch_row($result_atrib)) {
+
+            $num_atrib =  explode("-", clean_special_chars($rowatr[2])); 
+            $auxi_model = clean_special_chars($row_product[2]) . '-' . $num_atrib[0];
+
+            debug('Product atributes: ' . $rowatr[0] . " " . $rowatr[1]. " " . $rowatr[2] . 'Codigo prod: ' .  $auxi_model);
+            $prod_atrib[] = new xmlrpcval(array(
+                "variants_name" => new xmlrpcval(clean_special_chars($rowatr[1]),"string"),
+                "variants_value" => new xmlrpcval(clean_special_chars($rowatr[2]),"string"),
+                "composed_code" => new xmlrpcval($auxi_model,"string"),
+                                          ), "struct");
+        }
+
 
         $products[] = new xmlrpcval(array(
             'product' => $prod,
             'product_description' => new xmlrpcval($prod_desc, "array"),
             'product_special' => $prod_spec,
             'manufacturers_url' => new xmlrpcval($manuf_url, "array"),
+            'variants' => new xmlrpcval($prod_atrib, "array"),
             ), "struct");
     }
     //debug('END-IF-WHILE-get_products');
@@ -456,6 +488,7 @@ function set_product_spe($tiny_product) {
     $id_exist = 0;
 
     ////////Check for existance of product_id ///////////
+    debug("localizando producto Oferta: select products_id from products where products_model='".$tiny_product['model']."'");
     $result = mysql_query("select products_id from products where (products_id=".$tiny_product['product_id'].");");
     if ($result && $row=mysql_fetch_row($result)) {
         $id_exist = 1;
@@ -490,6 +523,12 @@ function set_product_spe($tiny_product) {
             values (".$oscom_id.", ".$lang.", '".$values['name']."', '".$values['description']."', '".$values['url']."');");
         }
     } else {
+        debug("localizando producto Modelo existe: select products_id from products where products_id=".$tiny_product['product_id']);
+        $result = mysql_query("select products_id from products where (products_id=".$tiny_product['product_id'].");");
+        if ($result && $row=mysql_fetch_row($result)) {
+            $id_exist = 1;
+        }
+        if ($id_exist){
         $oscom_id = $tiny_product['product_id'];
         foreach (array('quantity', 'price', 'weight', 'tax_class_id', 'status', 'date_available') as $key) {
             if ($key == 'date_available' and $tiny_product[$key] != 'NULL') {
@@ -517,6 +556,7 @@ function set_product_spe($tiny_product) {
                          " where products_id=".$oscom_id." and language_id=".$lang.";");           
         }
     }
+    }
 
     $cpt = 0;
     if ($tiny_product['haspic']==1) {
@@ -543,7 +583,7 @@ function set_product_classical($tiny_product) {
     $lang_id = 1;
     $id_exist = 0;
 
-    ////////Check for existance of product_id ///////////
+    ////////Check for existance of product ///////////
     $result = mysql_query("select products_id from products where (products_id=".$tiny_product['product_id'].");");
     if ($result && $row=mysql_fetch_row($result)) {
         $id_exist = 1;
@@ -573,6 +613,13 @@ function set_product_classical($tiny_product) {
             values (".$oscom_id.", ".$lang.", '".$values['name']."', '".$values['description']."', '".$values['url']."');");
         }
     } else {
+        debug("localizando producto Modelo existe: select products_id from products where products_id=".$tiny_product['product_id']);
+        $result = mysql_query("select products_id from products where (products_id=".$tiny_product['product_id'].");");
+        if ($result && $row=mysql_fetch_row($result)) {
+            $id_exist = 1;
+        }
+        if ($id_exist){
+        
         $oscom_id = $tiny_product['product_id'];
         foreach (array('quantity', 'price', 'weight', 'tax_class_id', 'status', 'date_available') as $key) {
             if ($key == 'date_available' and $tiny_product[$key] != 'NULL') {
@@ -595,7 +642,7 @@ function set_product_classical($tiny_product) {
                          " where products_id=".$oscom_id." and language_id=".$lang.";");           
         }
     }
-
+    }
     $cpt = 0;
     if ($tiny_product['haspic']==1) {
         if (file_exists('../../images/'.$cpt.'-'.$tiny_product['fname'])) {
@@ -616,6 +663,68 @@ function set_product_classical($tiny_product) {
     }
     return new xmlrpcresp(new xmlrpcval($oscom_id, "int"));
 }
+
+
+function get_order_address($address_condition, $oscom_id, $name, $street, $street2, $zip, $city, $state, $zone, $country, $email="", $phone="", $fax="") {
+    $addresses = array();
+    $num_rows = 0; 
+    $query = "SELECT address_book_id,CONCAT(entry_firstname,' ',entry_lastname) as name, entry_street_address, entry_suburb, entry_postcode, entry_city, entry_state, entry_country_id, entry_zone_id FROM address_book";
+    //debug("Init address controll:". $name . "-zip: ". $zip . "-city" . $city . "-state" . $state . "-country" . $country);
+
+    if (is_array($address_condition)) {
+        $where = " where ";
+        $flag = true;
+        foreach($address_condition as $key=>$values) {
+            if ($flag) {
+                if (!is_numeric($values)) {
+                    $where.= "(" . $key."='".str_replace("'", "''", $values)."'" . " or isnull(" . $key . "))" ;
+                } else {
+                    $where.=$key."=".$values;
+                }
+                $flag=false;
+            } else {
+                if (!is_numeric($values)) {
+                    $where.=" and "."(" . $key."='".str_replace("'", "''", $values)."'" . " or isnull(" . $key . "))" ;
+                } else {
+                    $where.=" and ".$key."=".$values;
+                }
+            }
+        }
+        $result = mysql_query($query.$where);
+        $num_rows = mysql_num_rows($result);
+   }
+    if ($num_rows>0) {
+        return get_partner_address($address_condition,$email, $phone, $fax);
+    }
+    else {
+
+        $addresses = array();
+        $country_data = get_country_detail($country);
+        if ($state != '') {
+            $state_name = $state;
+        } else {
+            $state_name = $zone;
+        }
+        $state_data = get_state_detail($country,$state_name);
+        $ret_address = array(
+            "esale_oscom_id" => new xmlrpcval($oscom_id,"int"),
+            "name" => new xmlrpcval(clean_special_chars($name),"string"),
+            "street" => new xmlrpcval(clean_special_chars($street),"string"),
+            "street2" => new xmlrpcval(clean_special_chars($street2),"string"),
+            "zip" => new xmlrpcval(clean_special_chars($zip),"string"),
+            "city" => new xmlrpcval(clean_special_chars($city),"string"),
+            "state" => $state_data,
+            "country" => $country_data,
+            "email" => new xmlrpcval(clean_special_chars($email),"string"),
+            "phone" => new xmlrpcval(clean_special_chars($phone),"string"),
+            "fax" => new xmlrpcval(clean_special_chars($fax),"string")
+        );
+
+        $addresses[] = new xmlrpcval($ret_address,"struct");
+    }
+    return new xmlrpcval($addresses,"array");
+}
+
 
 
 function get_partner_address($address_condition, $email="", $phone="", $fax="") {
@@ -695,7 +804,7 @@ function get_customer($cust_id) {
                             where c.customers_id = " . $row_cust['customers_id'] . " and a.address_book_id = c.customers_default_address_id;";
         $result_company = mysql_query($query_company);
             if ($result_company) while ($row_nif=mysql_fetch_array($result_company, MYSQL_ASSOC)) {                        
-                $cif_nif = substr_replace(substr_replace(strtoupper($row_nif['entry_nif']), '-', ''), ' ', '');
+                $cif_nif = str_replace(' ', '',str_replace('-', '',strtoupper($row_nif['entry_nif'])));
                 fwrite($f, "TRATANDO NIF: " .  $cif_nif . " -- Longitud: " . strlen($cif_nif) );        
 
             if (strlen($cif_nif)== 9) {
@@ -814,35 +923,73 @@ function get_saleorders($last_so, $statuses_ids) {
                         "entry_city"=>$row[3],
                         "entry_postcode"=>$row[4]
                         );
-            $default_address = get_partner_address($default_condition, $email, $phone, $fax);
+            $oscom_id = 9990;
+            $name= $row[1];
+            $street = $row[2];
+            $street2 = $row[29];
+            $city = $row[3];
+            $zip = $row[4];
+            $state = $row[5];
+            $country = $row[6];
+            $email = $row[7];
+            $phone = $row[8];
+
+            $default_address =get_order_address($default_condition, $oscom_id, $name, $street, $street2, $zip, $city, $state, $zone, $country, $email, $phone, $fax);
+
+            //$default_address = get_partner_address($default_condition, $email, $phone, $fax);
+
             $delivery_condition = array("customers_id"=>$row[25],
-                        "entry_company"=>$row[27],
+                        "entry_company"=>$row[26],
                         "CONCAT(entry_firstname,' ',entry_lastname)"=>$row[9],
                         "entry_street_address"=>$row[10],
                         "entry_city"=>$row[11],
                         "entry_postcode"=>$row[12]
                         );
-            $delivery_address = get_partner_address($delivery_condition, $email, $phone, $fax);
+            $oscom_id = 9991;
+            $name= $row[9];
+            $street = $row[10];
+            $street2 = $row[30];
+            $city = $row[11];
+            $zip = $row[12];
+            $state = $row[13];
+            $country = $row[14];
+
+            $delivery_address  =get_order_address($delivery_condition, $oscom_id, $name, $street, $street2, $zip, $city, $state, $zone, $country, $email, $phone, $fax);
+            //$delivery_address = get_partner_address($delivery_condition, $email, $phone, $fax);
+
             $billing_condition = array("customers_id"=>$row[25],
-                        "entry_company"=>$row[28],
+                        "entry_company"=>$row[26],
                         "CONCAT(entry_firstname,' ',entry_lastname)"=>$row[15],
                         "entry_street_address"=>$row[16],
                         "entry_city"=>$row[17],
                         "entry_postcode"=>$row[18]
                         );
-            $billing_address = get_partner_address($billing_condition, $email, $phone, $fax);
+            $oscom_id = 9992;
+            $name= $row[15];
+            $street = $row[16];
+            $street2 = $row[31];
+            $city = $row[17];
+            $zip = $row[18];
+            $state = $row[19];
+            $country = $row[20];
+
+            $billing_address  =get_order_address($billing_condition, $oscom_id, $name, $street, $street2, $zip, $city, $state, $zone, $country, $email, $phone, $fax);
+            //$billing_address = get_partner_address($billing_condition, $email, $phone, $fax);
+
             $result_status = mysql_query("select orders_status_name from orders_status where orders_status_id = " . $row[22].";");
             if ($result_status && $row_status=mysql_fetch_row($result_status)) {
                             $status = $row_status[0];
             }
             $orderlines = array();
-            $resultb = mysql_query("select products_id, products_quantity, products_price, products_tax, products_name, orders_products_id from orders_products where orders_id=".$row[0]." UNION select 0, 1, value, '16.0000', title, 0 from orders_total where class not in('ot_subtotal', 'ot_total', 'ot_tax') and orders_id=".$row[0].";");
+            $resultb = mysql_query("select products_id, products_quantity, products_price, products_tax, products_name, orders_products_id, products_model  from orders_products where orders_id=".$row[0]." UNION select 999999, 1, value, '16.0000', title, 0,'' from orders_total where class not in('ot_subtotal', 'ot_total', 'ot_tax') and orders_id=".$row[0].";");
+            debug("query lineas pedidos:". $resultb); 
             if ($resultb){
                 while ($rowb = mysql_fetch_row($resultb)) {
                     $values_array = array("product_id" => new xmlrpcval($rowb[0], "int"),
                         "product_qty" => new xmlrpcval($rowb[1], "int"),
                         "price" => new xmlrpcval($rowb[2], "double"),
                         "tax_rate" => new xmlrpcval($rowb[3],"double"),
+                        "products_model" => new xmlrpcval(html_entity_decode(clean_special_chars($rowb[6])),"string"),
                         "name" => new xmlrpcval(html_entity_decode(clean_special_chars($rowb[4])),"string"));
                     $result_orders_product_attributes = mysql_query("select products_options, products_options_values, options_values_price, price_prefix from orders_products_attributes where orders_id=".$row[0]." and orders_products_id=".$rowb[5].";");
                     if($result_orders_product_attributes && $row_orders_product_attributes= mysql_fetch_row($result_orders_product_attributes)) {
@@ -850,11 +997,14 @@ function get_saleorders($last_so, $statuses_ids) {
                     if ($row_orders_product_attributes[3] !== '+' and $row_orders_product_attributes[3] !== '-'){$row_orders_product_attributes[3]='+';}
 
                         //debug("En atributos línea prefijo :" . $row_orders_product_attributes[3]); 
+                        $num_atrib =  explode("-", clean_special_chars($row_orders_product_attributes[1])); 
+                        $auxi_model = clean_special_chars($rowb[6]) . '-' . $num_atrib[0];
 
                         $orders_product_attributes = new xmlrpcval( array(
                             "products_options" => new xmlrpcval(clean_special_chars($row_orders_product_attributes[0]),"string"),
                             "products_options_values" => new xmlrpcval(clean_special_chars($row_orders_product_attributes[1]),"string"),
                             "options_values_price" => new xmlrpcval($row_orders_product_attributes[2],"double"),
+                            "composed_code" => new xmlrpcval($auxi_model,"string"),
                             "price_prefix" => new xmlrpcval(clean_special_chars($row_orders_product_attributes[3]),"string")), "struct");
                         $values_array["attributes"] = $orders_product_attributes;
                     }
@@ -944,19 +1094,31 @@ function update_order_status($order_id, $order_status_id, $status_comment, $upda
       $oID = $order_id;
     
       mysql_query("update orders set orders_status = '" . $order_status_id . "', last_modified = now() where orders_id = '" . (int)$oID . "'");
-      $customer_notified = '0';
+      $customer_notified = $send_web_email;
 
     if ($update_comment){
           debug("ACTUALIZAR COMENTARIOS insert into orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$oID . "', '" . $order_status_id . "', now(), '1', '" . $status_comment  . "')");
-          mysql_query("insert into orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$oID . "', '" . $order_status_id . "', now(), '1', '" . $status_comment  . "')");
+          mysql_query("insert into orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$oID . "', '" . $order_status_id . "', now(), '". $customer_notified . "', '" . $status_comment  . "')");
     }else {
           debug("NO ACTUALIZAR COMENTARIOS insert into orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$oID . "', '" . $order_status_id . "', now(), '1', '')");
-         mysql_query("insert into orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$oID . "', '" . $order_status_id . "', now(), '1', '')");
+         mysql_query("insert into orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$oID . "', '" . $order_status_id . "', now(), '". $customer_notified . "', '')");
     }
 
     if ($send_web_email) {
-        //require('../..includes/modules/email_invoice/email_invoice.php');
+          $check_status_query = mysql_query("select customers_name, customers_email_address, orders_status, date_purchased 
+                                             from orders where orders_id = '" . (int)$oID . "'");
+
+    if ($check_status_query && $check_status=mysql_fetch_row($check_status_query)) {
+        debug("ONCHANGEORDER1: en envio e-mail;");
+        $email = $status_comment ;
+
+        debug("ONCHANGEORDER2: " . $email);
+    //    $headers = "From: \r\n";
+    //  mail($check_status['customers_email_address'],'Subject', $email, $headers );
+ 
+
         debug("ONCHANGEORDER: en envio e-mail;");
+      }
     } else {
         debug("ONCHANGEORDER: en NO envio e-mail;");
     }
