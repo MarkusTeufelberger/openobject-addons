@@ -266,7 +266,6 @@ class external_osv(osv.osv):
                     if mapping_lines:
                         #if mapping lines exist find the data conversion for each row in inward data
                         exp_data = self.extdata_from_oevals(cr, uid, ext_ref_id, record_data, mapping_lines, defaults, context)
-                
                         #Check if export for this referential demands a create or update
                         rec_check_ids = self.pool.get('ir.model.data').search(cr, uid, [('model', '=', self._name), ('res_id', '=', record_data['id']), ('module', '=', 'base_external_referentials_keep'), ('external_referential_id', '=', ext_ref_id)])
                         #rec_check_ids will indicate if the product already has a mapping record with ext system

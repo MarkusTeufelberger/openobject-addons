@@ -82,7 +82,7 @@ class sale_shop(external_osv.external_osv):
             all_categories = []
             for category in root_categories:
                 all_categories += [category.id for category in category.recursive_childen_ids]
-            product_ids = self.pool.get("product.product").search(cr, uid, [('categ_id','in', all_categories)]) #TODO deal with product_m2mactegories module
+            product_ids = self.pool.get("product.product").search(cr, uid, [('categ_id', 'in', all_categories)]) #TODO deal with product_m2mactegories module
             res[shop.id] = product_ids
         return res
 
@@ -92,6 +92,7 @@ class sale_shop(external_osv.external_osv):
         'exportable_product_ids': fields.function(_get_exportable_product_ids, method=True, type='one2many', relation="product.product", string='Exportable Products'),
         'shop_group_id': fields.many2one('external.shop.group', 'Shop Group', ondelete='cascade'),
         'last_inventory_export_date': fields.datetime('Last Inventory Export Time'),
+        'last_images_export_date': fields.datetime('Last Images Export Time'),
         'last_update_order_export_date' : fields.datetime('Last Order Update  Time'),
         'referential_id': fields.related('shop_group_id', 'referential_id', type='many2one', relation='external.referential', string='External Referential'),
         'is_tax_included': fields.boolean('Prices Include Tax?', help="Requires sale_tax_include module to be installed"),
@@ -113,12 +114,12 @@ class sale_shop(external_osv.external_osv):
     }
     
     _defaults = {
-        'payment_default_id': lambda *a: 1, #required field that would cause trouble if not set when importing
-        'picking_policy': lambda *a: 'direct',
-        'order_policy': lambda *a: 'manual',
-        'invoice_quantity': lambda *a: 'order',
-        'invoice_generation_policy': lambda *a: 'draft',
-        'picking_generation_policy': lambda *a: 'draft',
+        'payment_default_id': lambda * a: 1, #required field that would cause trouble if not set when importing
+        'picking_policy': lambda * a: 'direct',
+        'order_policy': lambda * a: 'manual',
+        'invoice_quantity': lambda * a: 'order',
+        'invoice_generation_policy': lambda * a: 'draft',
+        'picking_generation_policy': lambda * a: 'draft',
     }
 
     def _get_pricelist(self, cr, uid, shop):
@@ -138,7 +139,7 @@ class sale_shop(external_osv.external_osv):
         self.pool.get('product.category').ext_export(cr, uid, [categ_id for categ_id in categories], [shop.referential_id.id], {}, ctx)
        
     def export_products_collection(self, cr, uid, shop, products, ctx):
-        self.pool.get('product.product').ext_export(cr, uid, [product.id for product in shop.exportable_product_ids] ,[shop.referential_id.id], {}, ctx)
+        self.pool.get('product.product').ext_export(cr, uid, [product.id for product in shop.exportable_product_ids] , [shop.referential_id.id], {}, ctx)
 
     def export_products(self, cr, uid, shop, ctx):
         self.export_products_collection(cr, uid, shop, shop.exportable_product_ids, ctx)
@@ -163,8 +164,8 @@ class sale_shop(external_osv.external_osv):
             product_ids = [move.product_id.id for move in self.pool.get('stock.move').browse(cr, uid, recent_move_ids)]
             res = self.pool.get('product.product').export_inventory(cr, uid, product_ids, '', ctx)
             self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_inventory_export_date': datetime.now()})
-            return res
-        
+        return res
+    
     def import_catalog(self, cr, uid, ids, ctx):
         #TODO import categories, then products
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
@@ -210,7 +211,7 @@ class sale_shop(external_osv.external_osv):
                     order = self.pool.get('sale.order').browse(cr, uid, id, ctx)            
                     order_ext_id = result[1].split('sale.order_')[1]
                     self.update_shop_orders(cr, uid, order, order_ext_id, ctx)
-                    logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully updated order with OpenERP id %s and ext id %s in external sale system" %(id, order_ext_id))
+                    logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully updated order with OpenERP id %s and ext id %s in external sale system" % (id, order_ext_id))
             self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_update_order_export_date': datetime.now()})
 
         

@@ -14,16 +14,23 @@
 						<page string="Actions">
 							<group col="4" colspan="4">
 								<separator string="Catalog" colspan="4" />
-								<button name="export_catalog" string="Export Catalog" colspan="2" type="object" />
+								<button name="export_catalog" string="Export Catalog"
+									colspan="2" type="object" />
 								<group col="4" colspan="4">
-									<button name="export_inventory" string="Export Stock Levels Only" type="object" />
+									<button name="export_inventory" string="Export Stock Levels Only"
+										type="object" />
 									<field name="last_inventory_export_date" />
 								</group>
-								<!--									<button name="import_catalog" string="Import Catalog" colspan="2" type="object" />-->
+								<!--
+									<button name="import_catalog" string="Import Catalog"
+									colspan="2" type="object" />
+								-->
 								<separator string="Orders" colspan="4" />
-								<button name="import_orders" string="Import Orders" colspan="2" type="object" />
+								<button name="import_orders" string="Import Orders"
+									colspan="2" type="object" />
 								<group col="4" colspan="4">
-									<button name="update_orders" string="Update Orders Status" colspan="2" type="object" />
+									<button name="update_orders" string="Update Orders Status"
+										colspan="2" type="object" />
 									<field name="last_update_order_export_date" />
 								</group>
 							</group>
@@ -35,11 +42,11 @@
 								<field name="exportable_root_category_ids" />
 							</group>
 						</page>
-							
+
 						<page string="Exportable Products">
 							<field name="exportable_product_ids" nolabel="1" colspan="4" />
 						</page>
-						
+
 						<page string="Order Generation">
 							<group col="4" colspan="4">
 								<field name="is_tax_included" />
@@ -54,19 +61,19 @@
 				</form>
 			</field>
 		</record>
-		
-		
-        <record id="simple_pos_view_account_journal_form" model="ir.ui.view">
-            <field name="name">simple_pos_view_account_journal_form</field>
-            <field name="model">account.journal</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="account.view_account_journal_form" />
-            <field name="arch" type="xml">
-    			<field name="type" position="after">
-					<field name="external_payment_codes" /> 
+
+
+		<record id="simple_pos_view_account_journal_form" model="ir.ui.view">
+			<field name="name">simple_pos_view_account_journal_form</field>
+			<field name="model">account.journal</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account.view_account_journal_form" />
+			<field name="arch" type="xml">
+				<field name="type" position="after">
+					<field name="external_payment_codes" />
 				</field>
-            </field>
-        </record>
+			</field>
+		</record>
 
 	</data>
 </openerp>
