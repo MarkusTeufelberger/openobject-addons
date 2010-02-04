@@ -251,6 +251,7 @@ class sale_order(osv.osv):
         statement_line_id = self.pool.get('account.bank.statement.line').create(cr, uid, statement_line_vals, ctx)
         if should_validate:
             self.pool.get('account.bank.statement').button_confirm(cr, uid, [statement_id], ctx)
+        return True
 
 sale_order()
 
