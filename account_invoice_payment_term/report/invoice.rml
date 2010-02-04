@@ -590,16 +590,13 @@
       <blockTable colWidths="128.0,402.0" style="Table2">
         <tr>
           <td>
-            <para style="terp_default_9">[[ line.date_maturity=='False' and removeParentNode('para') ]] [[ line.date_maturity ]]</para>
+            <para style="terp_default_9"><font>[[ line.date_maturity=='False' and removeParentNode('font') ]] [[ line.date_maturity ]]</font></para>
           </td>
           <td>
-            <para style="terp_default_9">[[line.amount_currency or line.debit ]] [[ (line.account_id.id == o.account_id.id) and o.currency_id.code ]]</para>
+            <para style="terp_default_9">[[ line.debit==0.00 and removeParentNode('blockTable') ]] [[line.amount_currency or line.debit ]] [[ (line.account_id.id == o.account_id.id) and o.currency_id.code ]]</para>
           </td>
         </tr>
       </blockTable>
-      <para style="terp_default_2">
-        <font color="white"> </font>
-      </para>
     </section>
     <para style="terp_default_8">
       <font color="white"> </font>
