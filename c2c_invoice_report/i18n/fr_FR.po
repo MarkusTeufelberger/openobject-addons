@@ -1,13 +1,13 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* c2c_invoice_report
+#	* account
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.0\n"
+"Project-Id-Version: OpenERP Server 5.0.7\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-05-06 10:47:15+0000\n"
-"PO-Revision-Date: 2009-05-06 10:47:15+0000\n"
+"POT-Creation-Date: 2010-02-02 14:28:41+0000\n"
+"PO-Revision-Date: 2010-02-02 14:28:41+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,88 +15,134 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: c2c_invoice_report
-#: model:ir.actions.act_window,name:c2c_invoice_report.action_invoice_condition
-#: model:ir.actions.act_window,name:c2c_invoice_report.action_invoice_condition_form
-msgid "account.condition_text"
-msgstr "Condition textuelle "
 
 #. module: c2c_invoice_report
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
-msgstr "XML non valide pour l'architecture de la vue"
+#: field:account.invoice,amount_tax:0
+#: rml:account.invoice_c2c:0
+#: field:account.move.line,account_tax_id:0
+msgid "Tax"
+msgstr "Impôts et taxes"
 
 #. module: c2c_invoice_report
-#: constraint:ir.model:0
-msgid "The Object name must start with x_ and not contain any special character !"
-msgstr "Le nom de l'objet doit commencer avec x_ et ne pas contenir de charactères spéciaux !"
+#: rml:account.invoice_c2c:0
+msgid "Disc. (%)"
+msgstr "Rab. (%)"
+
 
 #. module: c2c_invoice_report
-#: selection:account.condition_text,type:0
-#: field:account.invoice,note2:0
-#: field:account.invoice,text_condition2:0
-msgid "Footer"
-msgstr "Pied de page"
+#: rml:account.invoice_c2c:0
+msgid "Net Total:"
+msgstr "Total Net"
+
 
 #. module: c2c_invoice_report
-#: view:account.invoice:0
-msgid "Header and footer"
-msgstr "Entête et pied de page"
+#: rml:account.invoice_c2c:0
+msgid "Quantity"
+msgstr "Quantité"
 
 #. module: c2c_invoice_report
-#: view:account.condition_text:0
-#: model:ir.model,name:c2c_invoice_report.model_account_condition_text
-msgid "Invoice condition text"
-msgstr "Condition textuelle"
+#: field:account.invoice.line,price_unit:0
+#: rml:account.invoice_c2c:0
+msgid "Unit Price"
+msgstr "Prix unit."
 
 #. module: c2c_invoice_report
-#: view:res.partner.bank:0
-msgid "Selection information that you need to print on BVR"
-msgstr "Choisissez les information à imprimer dans le bvr"
+#: rml:account.invoice_c2c:0
+msgid "Tel. :"
+msgstr "Tél. :"
 
 #. module: c2c_invoice_report
-#: field:account.invoice,project:0
-msgid "Project"
-msgstr "Projet"
+#: rml:account.invoice_c2c:0
+msgid "Partner Ref."
+msgstr "Réf. partenaire"
 
 #. module: c2c_invoice_report
-#: selection:account.condition_text,type:0
-#: field:account.invoice,note1:0
-#: field:account.invoice,text_condition1:0
-msgid "Header"
-msgstr "Entête"
+#: rml:account.invoice_c2c:0
+msgid "Draft Invoice"
+msgstr "Facture Brouillon"
 
 #. module: c2c_invoice_report
-#: field:account.condition_text,type:0
-msgid "type"
-msgstr "type"
+#: rml:account.invoice_c2c:0
+msgid "VAT :"
+msgstr "TVA"
 
 #. module: c2c_invoice_report
-#: field:account.condition_text,name:0
-msgid "Methode"
-msgstr "Nom"
+#: rml:account.invoice_c2c:0
+msgid "Price"
+msgstr "Prix"
 
 #. module: c2c_invoice_report
-#: field:account.condition_text,text:0
-msgid "text"
-msgstr "texte"
+#: rml:account.invoice_c2c:0
+msgid "Document"
+msgstr "Document"
 
 #. module: c2c_invoice_report
-#: model:ir.ui.menu,name:c2c_invoice_report.menu_invoice_condition
-msgid "Edit Conditions"
-msgstr "Editer les conditions"
+#: rml:account.invoice_c2c:0
+msgid "Base"
+msgstr "Base de calcul"
 
 #. module: c2c_invoice_report
-#: constraint:ir.actions.act_window:0
-msgid "Invalid model name in the action definition."
+#: rml:account.invoice_c2c:0
+msgid "Taxes"
+msgstr "Taxes"
+
+#. module: c2c_invoice_report
+#: rml:account.invoice_c2c:0
+msgid "Fax :"
+msgstr "Fax :"
+
+#. module: c2c_invoice_report
+#: rml:account.invoice_c2c:0
+msgid "Invoice Date"
+msgstr "Date de facturation"
+
+#. module: c2c_invoice_report
+#: rml:account.invoice_c2c:0
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: c2c_invoice_report
+#: rml:account.invoice_c2c:0
+msgid "Taxes:"
 msgstr ""
 
 #. module: c2c_invoice_report
-#: model:ir.module.module,shortdesc:c2c_invoice_report.module_meta_information
-msgid "Invoice customisation"
-msgstr "Personnalisation de la facture"
+#: rml:account.invoice_c2c:0
+msgid "Canceled Invoice"
+msgstr "Facture Annulée"
 
 #. module: c2c_invoice_report
-#: model:ir.ui.menu,name:c2c_invoice_report.menu_invoice_condition_list
-msgid "Conditions"
-msgstr "Conditions"
+#: rml:account.invoice_c2c:0
+msgid "Total:"
+msgstr "Total :"
+
+#. module: c2c_invoice_report
+#: rml:account.invoice_c2c:0
+msgid "Supplier Invoice"
+msgstr "Facture fournisseur"
+
+#. module: c2c_invoice_report
+#: view:account.invoice:0
+#: rml:account.invoice_c2c:0
+msgid "PRO-FORMA"
+msgstr "PRO-FORMA"
+
+#. module: c2c_invoice_report
+#: rml:account.invoice_c2c:0
+msgid ":"
+msgstr ":"
+
+#. module: c2c_invoice_report
+#: rml:account.invoice_c2c:0
+msgid "Refund"
+msgstr "Note de crédit"
+
+#. module: c2c_invoice_report
+#: rml:account.invoice_c2c:0
+msgid "Description"
+msgstr "Description"
+
+#. module: c2c_invoice_report
+#: rml:account.invoice_c2c:0
+msgid "Supplier Refund"
+msgstr "Note de Crédit Fournisseur"

@@ -102,7 +102,7 @@ class account_invoice(osv.osv):
 	
 	def create(self, cr, uid, vals, context={}):
 		tmp_id = super(account_invoice,self).create(cr, uid, vals, context)
-		self.action_number(cr, uid, [tmp_id])
+		#self.action_number(cr, uid, [tmp_id])
 		return tmp_id
 		
 	_columns = {

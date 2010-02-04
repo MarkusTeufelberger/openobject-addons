@@ -31,54 +31,50 @@ from report import report_sxw
 import xml
 import pdb
 import tools
+import pooler
 
 
-#
-#
-#
-#class account_invoice(report_sxw.rml_parse):
-#    def __init__(self, cr, uid, name, context):
-#        super(account_invoice, self).__init__(cr, uid, name, context)
-#        self.localcontext.update({
-#            'time': time,
-#        })
-#report_sxw.report_sxw(
-#    'report.account.invoice',
-#    'account.invoice',
-#    'addons/account/report/invoice.rml',
-#    parser=account_invoice
-#)
+class Account_invoice_stdc2c(report_sxw.rml_parse):
+    _name = 'report.account.invoice_c2c'
 
-class account_invoice_stdc2c(report_sxw.rml_parse):
-    _name = 'report.account_invoice_stdc2c'
-    
+        
+    def get_trans(self, lang, source, name):
+        ids = self.pool.get('ir.translation').search(
+                                                        self.cr, 
+                                                        self.uid, 
+                                                        [
+                                                            ['name','=',name], 
+                                                            ['lang','=',lang], 
+                                                            ['src','=', source]
+                                                        ]
+                                                    )
+        
+        if not ids :
+            return source
+        else :
+            if not isinstance(ids, list) :
+                ids = [ids]
+            return self.pool.get('ir.translation').browse(self.cr, self.uid, ids[0]).value
+            
+   
+        
     def __init__(self, cr, uid, name, context=None):
+        super(Account_invoice_stdc2c, self).__init__( cr, uid, name, context)
+        self.grant = {}
         
-        # tools.debug(name)
-        
-        super(account_invoice_stdc2c, self).__init__( cr, uid, name, context)
+        self.pool = pooler.get_pool(self.cr.dbname)
         self.localcontext.update({
             'time': time,
-            'format_date': self._get_and_change_date_format_for_swiss,
+            'get_trans':self.get_trans,
         })
         
 
-    def _get_and_change_date_format_for_swiss (self,date_to_format):
-        tools.debug(date_to_format)
-        date_formatted=''
-        if date_to_format:
-            date_formatted = strptime (date_to_format,'%Y-%m-%d').strftime('%d.%m.%Y')
-        tools.debug(date_to_format)
-        return date_formatted
-        
-    # 
-    # def formatLang(self,*args,**kwargs):
-    #     tools.debug(args)
-    #     return super(account_invoice_stdc2c).formatLang(*args,**kwargs)
+
+
 
 report_sxw.report_sxw(
-                        'report.account.invoicec2c',
+                        'report.account.invoice_c2c',
                         'account.invoice',
                         'addons/c2c_invoice_report/report/invoice.rml',
-                        parser=account_invoice_stdc2c
+                        parser=Account_invoice_stdc2c
                     )

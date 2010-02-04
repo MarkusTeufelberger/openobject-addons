@@ -333,7 +333,7 @@ class general_ledger_landscape(rml_parse.rml_parse):
 
             # Cumulative balance update
             l['progress'] = sum
-            sum = sum - l['debit'] + l ['credit']
+            sum = sum - (l['debit'] or 0) + (l['credit'] or 0)
 
             # Modification of currency amount
             if (l['credit'] > 0):

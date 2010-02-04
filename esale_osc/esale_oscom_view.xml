@@ -269,13 +269,16 @@
 					<field name="orders_status" readonly="1"/>
 					<field name="shipping_agency"/>
 					<field name="tracking_number"/>
+					<field name="number_of_packages"/>
+					<field name="volume"/>
 				<separator string="Options selected will be applied on changing osc order status" colspan="4"/>
 					<group col="2" colspan="2">
 						<field name="update_comment"/>
 						<field name="send_web_email"/>
 					</group>
 				<field colspan="4" name="status_comment"/>
-				<field name="orders_status_id" on_change="onchange_esale_oscom_status(esale_oscom_web, esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email,tracking_number )" select="1"/>
+			    <field name="orders_status_id" on_change="onchange_esale_oscom_status(esale_oscom_web, esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email,tracking_number )" select="1"/>
+				<field colspan="4" name="additional_info"/>
 			</page>
 		</notebook>
 		</field>

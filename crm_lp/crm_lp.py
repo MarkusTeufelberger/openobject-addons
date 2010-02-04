@@ -419,21 +419,24 @@ class crm_case(osv.osv):
                     attachment = bug.bug.attachments[0]  
                     attachment_data = attachment.data
                     attachment_fd = attachment_data.open() 
-                    attach_id=self.pool.get('ir.attachment').create(cr, uid, {
-                                        'name': attachment_fd.filename.split('.')[0],
-                                        'datas': base64.encodestring(attachment_fd.read()),
-                                        'datas_fname':attachment_fd.filename,
-                                        'res_model': 'crm.case',
-                                        'res_id': bug_id,
-                                        }, context=context  )     
+                    ids = self.pool.get('ir.attachment').search(cr, uid, [('name','=',attachment_fd.filename.split('.')[0]),('res_model','=','crm.case'),])
+                    if not ids:                    
+                        attach_id=self.pool.get('ir.attachment').create(cr, uid, {
+                                            'name': attachment_fd.filename.split('.')[0],
+                                            'datas': base64.encodestring(attachment_fd.read()),
+                                            'datas_fname':attachment_fd.filename,
+                                            'res_model': 'crm.case',
+                                            'res_id': bug_id,
+                                            }, context=context  )     
                                   
-                    data = {
-                    'name': bug.status,
-                    'user_id': uid,
-                    'case_id': bug_id,
-                    'description':key['content'],
-                    'bug_owner_id':user_id,
-                    'filename':attach_id}        
+                        data = {
+                        'name': bug.status,
+                        'user_id': uid,
+                        'case_id': bug_id,
+                        'description':key['content'],
+                        'bug_owner_id':user_id,
+                        'filename':attach_id}   
+                        obj.create(cr, uid, data, context)                             
                 else:
                     data = {
                     'name': bug.status,
@@ -441,7 +444,7 @@ class crm_case(osv.osv):
                     'case_id': bug_id,
                     'description':key['content'],
                     'bug_owner_id':user_id}                    
-                obj.create(cr, uid, data, context)
+                    obj.create(cr, uid, data, context)
                 cr.commit()
         return True      
 crm_case()
