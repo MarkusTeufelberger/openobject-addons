@@ -224,7 +224,7 @@ class account_asset_property(osv.osv):
     _columns = {
         'name': fields.char('Method name', size=64, select=1),
         'type': fields.selection([('direct','Direct'),('indirect','Indirect')], 'Depr. method type', select=2, required=True),
-        'asset_id': fields.many2one('account.asset.asset', 'Asset', required=True),
+        'asset_id': fields.many2one('account.asset.asset', 'Asset', required=True, ondelete='cascade'),
         'account_asset_id': fields.many2one('account.account', 'Asset account', required=True),
         'account_actif_id': fields.many2one('account.account', 'Depreciation account', required=True),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True),
