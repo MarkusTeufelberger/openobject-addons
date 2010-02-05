@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-12-19 04:36+0000\n"
+"X-Launchpad-Export-Date: 2010-02-05 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: account_payment_extension
@@ -27,7 +27,7 @@ msgstr "Efectes pendents de pagament"
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_pay_payments
 msgid "Payable payment orders"
-msgstr "Ordres de pagament"
+msgstr "Ordres de pag. a pagar"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable_unreconciled
@@ -55,13 +55,13 @@ msgstr "Pagaments"
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_tree
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_form
 msgid "Rec. payment order"
-msgstr "Ordres de cobrament"
+msgstr "Ordre de pag. a cobrar"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_draft
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_draft
 msgid "Draft pay. payment order"
-msgstr "Ordres de pagament esborrany"
+msgstr "Ordre de pag. a pagar esborrany"
 
 #. module: account_payment_extension
 #: constraint:ir.actions.act_window:0
@@ -92,7 +92,7 @@ msgstr "Tipus"
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_open
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_open
 msgid "Rec. payment orders to validate"
-msgstr "Ordres de cobrament per validar"
+msgstr "Ordre de pag. a cobrar per validar"
 
 #. module: account_payment_extension
 #: wizard_button:populate_statement_ext,init,add:0
@@ -106,7 +106,6 @@ msgstr "A cobrar"
 
 #. module: account_payment_extension
 #: view:payment.type:0
-#: field:payment.type,note:0
 msgid "Description"
 msgstr "Descripció"
 
@@ -145,13 +144,13 @@ msgstr "Selecciona factures a pagar/cobrar"
 #: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_open
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_open
 msgid "Pay. payment orders to validate"
-msgstr "Ordres de pagament per validar"
+msgstr "Ordre de pag. a pagar per validar"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_tree_new
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_form_new
 msgid "New Pay. payment Order"
-msgstr "Nova ordre de pagament"
+msgstr "Nova ordre de pag. a pagar"
 
 #. module: account_payment_extension
 #: wizard_field:populate_payment_ext,search,entries:0
@@ -221,7 +220,7 @@ msgstr "_Afegir a l'ordre de pagament"
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_rec_payments
 msgid "Receivable payment orders"
-msgstr "Ordres de cobrament"
+msgstr "Ordres de pag. a cobrar"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable_unreconciled
@@ -234,14 +233,15 @@ msgid "Import payment lines"
 msgstr "Importa línies de pagament"
 
 #. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
 #: view:account.move.line:0
 msgid "Payments"
-msgstr "Efectes"
+msgstr "Pagaments"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_payments_payable
 msgid "Payable payments"
-msgstr "Pagaments"
+msgstr "Pagaments a pagar"
 
 #. module: account_payment_extension
 #: help:res.partner,payment_type_customer:0
@@ -252,7 +252,7 @@ msgstr "Tipus de pagament com a client."
 #: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_tree
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_form
 msgid "Pay. payment order"
-msgstr "Ordres de pagament"
+msgstr "Ordre de pag. a pagar"
 
 #. module: account_payment_extension
 #: model:ir.module.module,shortdesc:account_payment_extension.module_meta_information
@@ -270,10 +270,9 @@ msgid "All done receivable payments"
 msgstr "Tots els cobraments realitzats"
 
 #. module: account_payment_extension
-#: field:account.invoice,payment_type:0
+#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type_form
 #: field:account.move.line,payment_type:0
-#: field:res.partner,payment_type_customer:0
-#: field:res.partner,payment_type_supplier:0
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
 msgid "Payment type"
 msgstr "Tipus de pagament"
 
@@ -290,7 +289,7 @@ msgstr ""
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
 msgid "Receivable payments"
-msgstr "Cobraments"
+msgstr "Pagaments a cobrar"
 
 #. module: account_payment_extension
 #: help:payment.type,note:0
@@ -306,7 +305,7 @@ msgstr "Pagaments no conciliats"
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_draft
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_draft
 msgid "Draft rec. payment order"
-msgstr "Ordres de cobrament esborrany"
+msgstr "Ordre de pag. a cobrar esborrany"
 
 #. module: account_payment_extension
 #: help:res.partner,payment_type_supplier:0
@@ -328,7 +327,6 @@ msgstr ""
 #. module: account_payment_extension
 #: wizard_button:populate_payment_ext,init,end:0
 #: wizard_button:populate_payment_ext,search,end:0
-#: wizard_button:populate_statement_ext,init,end:0
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
@@ -336,7 +334,7 @@ msgstr "_Cancel·la"
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_tree_new
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_form_new
 msgid "New rec. payment order"
-msgstr "Nova ordre de cobrament"
+msgstr "Nova ordre de pag. a cobrar"
 
 #. module: account_payment_extension
 #: model:ir.module.module,description:account_payment_extension.module_meta_information
@@ -408,4 +406,4 @@ msgid "Received check"
 msgstr "Xec rebut"
 
 #~ msgid "Payments to pay"
-#~ msgstr "Efectes pendents de pagament"
+#~ msgstr "Pagaments a pagar"
