@@ -186,6 +186,7 @@ class account_bank_statement(osv.osv):
                 # Search invoice by name (ref payment)
                 name_payment = row['From Email Address']
                 invoice_ids = invoice_obj.search(cr, uid, [('state','=','open'),('name', 'like', '%'+ref_payment+'%')])
+                invoice_ids = [x for x in invoice_ids if x not in invoice_list]
                 invoice_id = invoice_ids and invoice_ids[0] or False
                 if invoice_id:
                     invoice = invoice_obj.browse(cr, uid, invoice_id)
@@ -200,6 +201,7 @@ class account_bank_statement(osv.osv):
             elif type_payment == 'supplier':
                 name_payment = row['To Email Address']
                 invoice_ids = invoice_obj.search(cr, uid, [('state','=','open'),('reference', '=', row['Reference Txn ID'][3:])])
+                invoice_ids = [x for x in invoice_ids if x not in invoice_list]
                 invoice_id = invoice_ids and invoice_ids[0] or False
                 if invoice_id:
                     invoice = invoice_obj.browse(cr, uid, invoice_id)

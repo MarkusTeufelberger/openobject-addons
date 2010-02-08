@@ -256,6 +256,7 @@ class account_bank_statement(osv.osv):
                     invoice_list.append(invoice_id)
                     invoice = invoice_obj.browse(cr, uid, invoice_id)
                     partner_id = invoice.partner_id.id
+                    account_id = invoice.account_id.id
                     if invoice.amount_total - invoice_amount:
                         warnings += _("\nWARNING: Invoice %s and its payment have a difference %f,") % (invoice.number, invoice.amount_total - invoice_amount)
                     if invoice.move_id:
