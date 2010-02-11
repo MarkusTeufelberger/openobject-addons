@@ -228,6 +228,7 @@ class sale_order(osv.osv):
         journal_ids = self.pool.get("account.journal").search(cr, uid, [('external_payment_codes', 'ilike', payment_code)])
         if journal_ids and len(journal_ids) > 0:
             return self.generate_payment_with_journal(cr, uid, journal_ids[0], partner_id, amount, payment_ref, entry_name, date, should_validate, ctx)
+        return False
         
     def generate_payment_with_journal(self, cr, uid, journal_id, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
         statement_vals = {
