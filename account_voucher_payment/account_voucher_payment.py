@@ -29,11 +29,22 @@ class account_move_line(osv.osv):
         'voucher_invoice': fields.many2one('account.invoice', 'Invoice', readonly=True),
     }
 account_move_line()
-
+'''
+We added a field called transaction_type to control with reports the managment and comparition with bank statements
+And not filter only by free reference!
+'''
 class account_voucher(osv.osv):
     _inherit = 'account.voucher'
     _columns = {
         'voucher_line_ids':fields.one2many('account.voucher.line','voucher_id','Voucher Lines', readonly=False, states={'proforma':[('readonly',True)]}),
+        'transaction_type': fields.selection([
+            ('deposit_in_cash','Deposit in Cash'),
+            ('deposit_in_check','Deposit in  Check'),
+            ('mix_deposit','Mix Deposit Check + Cash'),
+            ('wire_tranfer','Wire Tranfer'),
+            ('only_payment_check','Payment With Check'),
+            ('other','Other'),
+        ],'Type of Voucher', select=True, readonly=False),
     }
     
     def action_move_line_create(self, cr, uid, ids, *args):

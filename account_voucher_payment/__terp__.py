@@ -23,9 +23,12 @@
     "name" : "Invoice Payment/Receipt by Vouchers.",
     "version" : "1.0",
     "author" : 'Tiny & Axelor',
-    "description": """This module includes :
-    * It reconcile the invoice (supplier, customer) while paying through 
-    Accounting Vouchers
+    "description": """
+    This module includes :
+    * It reconcile the invoice (supplier, customer) while paying through Accounting Vouchers
+    A Voucher, is defined like some document that involve a banking transaction.
+    the Objective, is, one time the credit and collection people load some payment on the system, every voucher
+    Loaded on system should be reconcilied with a bank statment by Accounting people.
     """,
     "category" : "Generic Modules/Indian Accounting",
     "website" : "http://tinyerpindia.com",
