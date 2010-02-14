@@ -27,8 +27,8 @@ msgstr "Pago con Cheque"
 
 #. module: account_voucher_payment
 #: field:account.voucher,transaction_type:0
-msgid "Type of Voucher"
-msgstr "Tipo de Comprobante"
+msgid "Type of Transaction', "
+msgstr "Tipo de Transaction"
 
 #. module: account_voucher_payment
 #: selection:account.voucher,transaction_type:0
@@ -65,7 +65,7 @@ msgid "Other"
 msgstr "Otro"
 
 #. module: account_voucher_payment
-#: selection:account.voucher,transaction_type:0
+    #: selection:account.voucher,transaction_type:0
 msgid "Wire Tranfer"
 msgstr "Transferencia Bancaria"
 

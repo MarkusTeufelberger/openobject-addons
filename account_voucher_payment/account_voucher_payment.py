@@ -44,7 +44,7 @@ class account_voucher(osv.osv):
             ('wire_tranfer','Wire Tranfer'),
             ('only_payment_check','Payment With Check'),
             ('other','Other'),
-        ],'Type of Voucher', select=True, readonly=False),
+        ],'Type of Transaction', select=True, readonly=False),
     }
     
     def action_move_line_create(self, cr, uid, ids, *args):
