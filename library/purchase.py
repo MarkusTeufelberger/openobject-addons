@@ -81,7 +81,6 @@ class purchase_order(osv.osv):
 
                     if order_line.move_dest_id:
                         self.pool.get('stock.move').write(cr, uid, [order_line.move_dest_id.id], {'location_id':order.location_id.id})
-            self.write(cr,uid,[order.id],{'picking_id':picking_id})
             wf_service = netsvc.LocalService("workflow")
             wf_service.trg_validate(uid, 'stock.picking', picking_id, 'button_confirm', cr)
         return picking_id
