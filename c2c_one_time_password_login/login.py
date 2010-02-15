@@ -81,8 +81,8 @@ def auth(db, identifier, password, mode='login'):
             user_id = res[0]
         else:
             return False
-    import pdb
-    pdb.set_trace()
+    # import pdb
+    # pdb.set_trace()
     user = res_user_obj.browse(cr, user_id, user_id)
     if user.company_id.otp_active :
         handle_login_session(user, res_user_obj)
