@@ -8,7 +8,7 @@
                     <field name="type">form</field>
                     <field name="arch" type="xml">
                      <field name="password" password="True" position="after">
-                         <field name="otp_secret_key"  password="True"/>
+                         <field name="otp_key"  password="True"/>
                      </field>
                     </field>
                 </record>
