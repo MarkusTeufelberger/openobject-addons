@@ -257,8 +257,10 @@ class SmtpClient(osv.osv):
                 (result, format) = service.create(cr, uid, [id], {}, {})
                 report_file = '/tmp/'+ str(id) + '.pdf'
                 fp = open(report_file,'wb+')
-                fp.write(result);
-                fp.close();
+                try:
+                    fp.write(result);
+                finally:
+                    fp.close();
                 files += [report_file]    
                 #except Exception,e:
             return files
@@ -284,7 +286,12 @@ class SmtpClient(osv.osv):
                 
                 for file in attachments:
                     part = MIMEBase('application', "octet-stream")
-                    part.set_payload(open(file,"rb").read())
+                    f = open(file, "rb")
+                    try:
+                        payload = f.read()
+                    finally:
+                        f.close()
+                    part.set_payload( payload )
                     Encoders.encode_base64(part)
                     part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
                     msg.attach(part)
@@ -317,7 +324,12 @@ class SmtpClient(osv.osv):
             
             for file in attachments:
                 part = MIMEBase('application', "octet-stream")
-                part.set_payload(open(file,"rb").read())
+                f = open(file, "rb")
+                try:
+                    payload = f.read()
+                finally:
+                    f.close()
+                part.set_payload( payload )
                 Encoders.encode_base64(part)
                 part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
                 msg.attach(part)
