@@ -53,13 +53,16 @@ def geocode(address):
     mapsUrl = 'http://maps.google.com/maps/geo?q='
 
     # This joins the parts of the URL together into one string.
-    url = ''.join([mapsUrl,urllib.quote(address),'&output=csv&key=',mapsKey])
+    url = ''.join([mapsUrl,urllib.quote(address.encode('utf-8')),'&output=csv&key=',mapsKey])
 
     # This retrieves the URL from Google.
     coordinates = urllib.urlopen(url).read().split(',')
 
     # This parses out the longitude and latitude, and then combines them into a string.
-    coorText = '%s,%s' % (coordinates[3],coordinates[2])
+    try:
+        coorText = '%s,%s' % (coordinates[3],coordinates[2])
+    except:
+        coorText = '0,0'
     return coorText
 
 
@@ -105,19 +108,19 @@ def create_kml(self, cr, uid, data, context={}):
             address += '['
             if add.street:
                 address += '  '
-                address += str(add.street)
+                address += tools.ustr(add.street)
             if add.street2:
                 address += '  '
-                address += str(add.street2)
+                address += tools.ustr(add.street2)
             if add.city:
                 address += '  '
-                address += str(add.city)
+                address += tools.ustr(add.city)
             if add.state_id:
                 address += '  '
-                address += str(add.state_id.name)
+                address += tools.ustr(add.state_id.name)
             if add.country_id:
                 address += '  '
-                address += str(add.country_id.name)
+                address += tools.ustr(add.country_id.name)
             address += ']'
         styleElement = kmlDoc.createElement('Style')
         styleElement.setAttribute('id','randomColorIcon')
@@ -165,7 +168,7 @@ def create_kml(self, cr, uid, data, context={}):
 
 #    kmlFile.write(kmlDoc.toprettyxml(' '))
 #    kmlFile.close()
-    out = base64.encodestring(kmlDoc.toxml())
+    out = base64.encodestring(kmlDoc.toxml().encode('utf-8'))
     fname = 'turnover' + '.kml'
     return {'kml_file': out, 'name': fname}
 
