@@ -98,7 +98,7 @@ class sale_order(osv.osv):
                             'address_id': order.partner_shipping_id.id,
                             'note': order.note,
                             'invoice_state': (order.order_policy=='picking' and '2binvoiced') or 'none',
-                            'carrier_id': order.carrier_id.id,
+                            'carrier_id': order.carrier_id and order.carrier_id.id or False,
                         })
                     move_id = self.pool.get('stock.move').create(cr, uid, {
                         'name': 'SO:' + order.name,

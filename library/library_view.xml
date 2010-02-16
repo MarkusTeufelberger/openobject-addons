@@ -82,15 +82,9 @@
         <field name="type">ir.actions.act_window</field>
         <field name="view_type">form</field>
     </record>
-<!--     <menuitem name="Authors" id="menu_action_author_form" action="action_author_form" sequence="6" parent_id="product.menu_main_product"/> -->
-    <record model="ir.ui.menu" id="author_menu">
-        <field name="name">Authors</field>
-        <field name="parent_id" ref="product.menu_main_product"/>
-        <field name="icon">STOCK_INDENT</field>
-        <field name="sequence">6</field>
-        <field name="action" eval="'ir.actions.act_window,'+str(ref('action_author_form'))"/>
-    </record>
 
+	<menuitem name="Authors" id="menu_action_author_form" action="action_author_form" sequence="6" parent="product.menu_main_product"/>
+    
     <record model="ir.actions.act_window" id="action_author_new_form">
         <field name="name">New Author</field>
         <field name="res_model">library.author</field>
@@ -99,6 +93,7 @@
         <field name="view_mode">form,tree</field>
     </record>
 
+	<menuitem id="menu_action_author_form_new" action="action_author_new_form" parent="menu_action_author_form" sequence="7"/>
 
     <record model="ir.ui.view" id="view_product_book_tree">
         <field name="name">product.book.tree.view</field>
@@ -145,10 +140,16 @@
                                     <field name="author_id"/>
                                 </tree>
                              </field>
+                            <group col="2" colspan="2" name="lot">
+                            	<separator colspan="4" string="Lots"/>
+                            	<field name="track_production"/>
+                            	<field name="track_incoming"/>
+                            	<field name="track_outgoing"/>
+                            </group>	
                             <group colspan="2" col="2">
-                            <field name="list_price" select="2"/>
-                             <field name="virtual_available"/>
-                             <field name="qty_available"/>
+                            	<field name="list_price" select="2"/>
+                             	<field name="virtual_available"/>
+                            	<field name="qty_available"/>
                             </group>
                         </page>
                         <page string="Details">
@@ -218,16 +219,10 @@
         <field name="res_model">product.product</field>
         <field name="type">ir.actions.act_window</field>
         <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
     </record>
-<!--     <menuitem name="Books" parent_id= "product.menu_main_product" id="menu_action_book_form" action="action_product_book_form" sequence="7"/> -->
-
-    <record model="ir.ui.menu" id="menu_action_book_form">
-        <field name="name">Books</field>
-        <field name="parent_id" ref="product.menu_main_product"/>
-        <field name="icon">STOCK_JUSTIFY_FILL</field>
-        <field name="sequence">7</field>
-        <field name="action" eval="'ir.actions.act_window,'+str(ref('action_product_book_form'))"/>
-    </record>
+    
+	<menuitem name="Books" parent= "product.menu_main_product" id="menu_action_book_form" action="action_product_book_form" sequence="7"/>
 
     <record model="ir.actions.act_window" id="action_product_book_new_form">
         <field name="name">New Book</field>
@@ -236,8 +231,6 @@
         <field name="view_type">form</field>
         <field name="view_mode">form,tree</field>
     </record>
-
-
 
     <record model="ir.actions.act_window.view" id="action_view_book">
       <field name="sequence" eval="2"/>
@@ -254,7 +247,7 @@
 
 
     <record model="ir.actions.act_window" id="action_product_book_30days">
-        <field name="name">product.book.form.view</field>
+        <field name="name">Books to Return before 30 days</field>
         <field name="res_model">product.product</field>
         <field name="type">ir.actions.act_window</field>
         <field name="view_id" ref="view_product_book_tree"/>
@@ -264,17 +257,7 @@
 
     </record>
 
-<!--     <menuitem name="Books to return before 30 days" id="menu_action_book_30days" parent_id="menu_action_book_form" -->
-<!--     action="action_product_book_30days" sequence="7"/> -->
-
-    <record model="ir.ui.menu" id="boock_return_menu">
-        <field name="name">Books to return before 30 days</field>
-        <field name="parent_id" ref="menu_action_book_form"/>
-        <field name="icon">STOCK_INDENT</field>
-        <field name="sequence">7</field>
-        <field name="action" eval="'ir.actions.act_window,'+str(ref('action_product_book_30days'))"/>
-    </record>
-
+	<menuitem name="Books to return before 30 days" id="menu_action_book_30days" parent="menu_action_book_form" action="action_product_book_30days" sequence="7"/> 
 
     <record model="ir.ui.view" id="view_order_tree">
         <field name="name">sale.order.tree</field>
@@ -295,7 +278,7 @@
 
 
     <record model="ir.actions.act_window" id="action_order_today_tree">
-        <field name="name">sale.order</field>
+        <field name="name">Orders of the day</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sale.order</field>
         <field name="view_type">form</field>
@@ -303,10 +286,10 @@
         <field name="view_id" ref="view_order_tree"/>
         <field name="domain">[('date_order','=', time.strftime('%Y-%m-%d') )]</field>
     </record>
-    <menuitem name="Orders of the day" action="action_order_today_tree" id="sale_order_day" parent="sale.menu_sale_root" sequence="2"/>
+    <menuitem action="action_order_today_tree" id="sale_order_day" parent="sale.menu_sale_root" sequence="2"/>
 
     <record model="ir.actions.act_window" id="action_order_today_user_tree">
-        <field name="name">sale.order</field>
+        <field name="name">My orders of the day</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sale.order</field>
         <field name="view_type">form</field>
@@ -315,8 +298,7 @@
         <field name="domain">[('user_id','=', uid ),('date_order','=', time.strftime('%Y-%m-%d'))]</field>
     </record>
 
-    <menuitem name="My orders of the day" action="action_order_today_user_tree" id="order_today_user_Menuitem" parent="sale_order_day"/>
-
+    <menuitem action="action_order_today_user_tree" id="order_today_user_Menuitem" parent="sale_order_day"/>
 
 
     <record model="ir.ui.view" id="invoice_tree">
@@ -470,7 +452,6 @@
     </record>
 
 
-
     <record model="ir.ui.view" id="stock.view_move_tree">
         <field name="name">stock.move.tree</field>
         <field name="model">stock.move</field>
@@ -589,24 +570,9 @@
         res_model="stock.picking"
         src_model="sale.order"
         id="act_sale_picking"/>
-
-    <record model="ir.ui.menu" id="menu_action_book_form_new">
-        <field name="name">New Book</field>
-        <field name="parent_id" ref="menu_action_book_form"/>
-        <field name="icon">STOCK_JUSTIFY_FILL</field>
-        <field name="sequence">7</field>
-        <field name="action" eval="'ir.actions.act_window,'+str(ref('action_product_book_new_form'))"/>
-    </record>
-
-
-    <record model="ir.ui.menu" id="menu_action_book_form_new">
-        <field name="name">New Author</field>
-        <field name="parent_id" ref="author_menu"/>
-        <field name="icon">STOCK_JUSTIFY_FILL</field>
-        <field name="sequence">7</field>
-        <field name="action" eval="'ir.actions.act_window,'+str(ref('action_author_new_form'))"/>
-    </record>
-
+	
+	<menuitem id="menu_action_book_form_new" parent="menu_action_book_form" action="action_product_book_new_form" sequence="7"/>
+    
 
     <!--
     <menuitem name="Books/Configuration/Racks" id="rack_menu" action="action_book_rack"/>

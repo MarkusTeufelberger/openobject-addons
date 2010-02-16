@@ -43,7 +43,7 @@ email_send_form = '''<?xml version="1.0" encoding="utf-8"?>
 
 email_send_fields = {
     'to': {'string':"To", 'type':'char', 'size':512, 'required':True},
-    'subject': {'string':'Subject', 'type':'char', 'size':64, 'required':True},
+    'subject': {'string':'Subject', 'type':'char', 'size': 512, 'required':True},
     'text': {'string':'Message', 'type':'text_tag', 'required':True}
 }
 
@@ -105,11 +105,13 @@ def create_report(cr, uid, res_ids, report_name=False, file_name=False):
         return (False, Exception('Report name and Resources ids are required !!!'))
     try:
         ret_file_name = '/tmp/'+file_name+'.pdf'
-        service = netsvc.LocalService("report."+report_name);
-        (result, format) = service.create(cr, uid, res_ids, {'model': report_name}, {})
+        service = netsvc.LocalService("report."+report_name)
+        (result, format) = service.create(cr, uid, res_ids, {'model': 'sale.order'}, {})
         fp = open(ret_file_name, 'wb+');
-        fp.write(result);
-        fp.close();
+	try:
+		fp.write(result);
+	finally:
+		fp.close();
     except Exception,e:
         print 'Exception in create report:',e
         return (False, str(e))

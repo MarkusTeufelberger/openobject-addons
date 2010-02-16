@@ -123,12 +123,22 @@ class ResPartnerAddress(osv.osv):
     
         
     def init(self, cr):
+        logger = netsvc.Logger()
         try:
             cr.execute('ALTER TABLE res_partner_address RENAME column name to lastname ;')
+            logger.notifyChannel(
+                                    netsvc.LOG_INFO, 
+                                    'try to ALTER TABLE res_partner_address RENAME '+\
+                                    'column name to lastname ;'
+                                ) 
         except Exception, e:
             cr.rollback()
-            print 'Warning ! impossible to rename column name'+\
-                ' into lastname, this is probabely aleready done'
+            logger.notifyChannel(
+                                    'c2c_partner_Address init',
+                                    netsvc.LOG_INFO, msg,
+                                    'Warning ! impossible to rename column name'+\
+                                    ' into lastname, this is probabely aleready done'
+                                )
 
     # Gest the name (lastname + firstname), otherwise '' -> use in report
     # def _amount_total(self, cr, uid, ids, name, args, context={}):

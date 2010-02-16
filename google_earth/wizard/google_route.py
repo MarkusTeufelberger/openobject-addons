@@ -25,7 +25,10 @@ def geocode(address):
     mapsUrl = 'http://maps.google.com/maps/geo?q='
     url = ''.join([mapsUrl,urllib.quote(address),'&output=csv&key=',mapsKey])
     coordinates = urllib.urlopen(url).read().split(',')
-    coorText = '%s,%s' % (coordinates[3],coordinates[2])
+    try:
+        coorText = '%s,%s' % (coordinates[3],coordinates[2])
+    except:
+        coorText = '0,0'
     return coorText
 
 def get_directions(source,destination):
@@ -114,7 +117,7 @@ def _create_kml(self, cr, uid, data, context={}):
 
         placemarkElement = kmlDoc.createElement('Placemark')
         placemarknameElement = kmlDoc.createElement('name')
-        placemarknameText = kmlDoc.createTextNode(str(warehouse_city))
+        placemarknameText = kmlDoc.createTextNode(tools.ustr(warehouse_city))
         placemarkdescElement = kmlDoc.createElement('description')
         placemarkdescElement.appendChild(kmlDoc.createTextNode('Warehouse location: ' + warehouse_city + ',Customer Location: ' + customer_city + ',Planned Date: ' + plane_date + ' ,Sale order reference: ' + str(pack.origin or '') + ',Number of product sent: ' + str(total_qty)))
 

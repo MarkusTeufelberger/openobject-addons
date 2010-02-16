@@ -383,7 +383,9 @@ class document_file(osv.osv):
 				result[id] = d
 			elif m=='fs':
 				path = os.path.join(os.getcwd(),'filestore')
-				value = file(os.path.join(path,r), 'rb').read()
+				f = open(os.path.join(path,r), 'rb')
+				value = f.read()
+				f.close()
 				result[id] = base64.encodestring(value)
 			else:
 				result[id] = ''
@@ -407,8 +409,9 @@ class document_file(osv.osv):
 			flag = flag or create_directory(path)
 			filename = random_name()
 			fname = os.path.join(path, flag, filename)
-			fp = file(fname,'wb')
+			fp = open(fname,'wb')
 			fp.write(base64.decodestring(value))
+			fp.close()
 			filesize = os.stat(fname).st_size
 			cr.execute('update ir_attachment set store_fname=%s,store_method=%s,file_size=%d where id=%d', (os.path.join(flag,filename),'fs',filesize,id))
 		else:

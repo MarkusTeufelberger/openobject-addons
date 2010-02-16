@@ -53,11 +53,13 @@ class SmtpClient(osv.osv):
         'name' : fields.char('Server Name', size=256, required=True),
         'from_email' : fields.char('Email From', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
         'email' : fields.char('Email Address', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
-        'user' : fields.char('User Name', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
-        'password' : fields.char('Password', size=256, required=True, invisible=True, readonly=True, states={'new':[('readonly',False)]}),
+        'use_auth': fields.boolean("Use Authentication", readonly=True, states={'new': [('readonly',False)]}),
+        'user' : fields.char('User Name', size=256, required=False, readonly=True, states={'new':[('readonly',False)]}),
+        'password' : fields.char('Password', size=256, required=False, readonly=True, states={'new':[('readonly',False)]}),
         'server' : fields.char('SMTP Server', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
         'port' : fields.char('SMTP Port', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
         'ssl' : fields.boolean("Use SSL?", readonly=True, states={'new':[('readonly',False)]}),
+        'use_debug': fields.boolean("Show debugging information"),
         'users_id': fields.many2many('res.users', 'res_smtpserver_group_rel', 'sid', 'uid', 'Users Allowed'),
         'state': fields.selection([
             ('new','Not Verified'),
@@ -205,14 +207,14 @@ class SmtpClient(osv.osv):
         if self.server[serverid]:
             try:
                 self.smtpServer[serverid] = smtplib.SMTP()
-                self.smtpServer[serverid].debuglevel = 5
+                self.smtpServer[serverid].debuglevel = self.server[serverid]['use_debug']
                 self.smtpServer[serverid].connect(str(self.server[serverid]['server']),str(self.server[serverid]['port']))
                 if self.server[serverid]['ssl']:
                     self.smtpServer[serverid].ehlo()
                     self.smtpServer[serverid].starttls()
                     self.smtpServer[serverid].ehlo()
-                    
-                self.smtpServer[serverid].login(str(self.server[serverid]['user']),str(self.server[serverid]['password']))
+                if self.server[serverid]['use_auth']:
+                    self.smtpServer[serverid].login(str(self.server[serverid]['user']),str(self.server[serverid]['password']))
             except Exception, e:
                 raise osv.except_osv(_('SMTP Server Error!'), e)
             
@@ -257,8 +259,10 @@ class SmtpClient(osv.osv):
                 (result, format) = service.create(cr, uid, [id], {}, {})
                 report_file = '/tmp/'+ str(id) + '.pdf'
                 fp = open(report_file,'wb+')
-                fp.write(result);
-                fp.close();
+                try:
+                    fp.write(result);
+                finally:
+                    fp.close();
                 files += [report_file]    
                 #except Exception,e:
             return files
@@ -284,7 +288,12 @@ class SmtpClient(osv.osv):
                 
                 for file in attachments:
                     part = MIMEBase('application', "octet-stream")
-                    part.set_payload(open(file,"rb").read())
+                    f = open(file, "rb")
+                    try:
+                        payload = f.read()
+                    finally:
+                        f.close()
+                    part.set_payload( payload )
                     Encoders.encode_base64(part)
                     part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
                     msg.attach(part)
@@ -317,7 +326,12 @@ class SmtpClient(osv.osv):
             
             for file in attachments:
                 part = MIMEBase('application', "octet-stream")
-                part.set_payload(open(file,"rb").read())
+                f = open(file, "rb")
+                try:
+                    payload = f.read()
+                finally:
+                    f.close()
+                part.set_payload( payload )
                 Encoders.encode_base64(part)
                 part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
                 msg.attach(part)
