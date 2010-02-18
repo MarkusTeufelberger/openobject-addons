@@ -32,10 +32,10 @@
      "category" : "Generic Modules/Accounting",
      "description":
 """
-This is improve multi-company into OpenERP regarding to product costs in multi-company. It also improve
+This improve OpenERP multi-cost handling, overall for multi-company, regarding to product costs. It also improve
 the multi-currency handling into analytic accounting.
 
-This module (as all c2c_multicost*) is a port to current stable from our work merged in the trunk branch of OpenERP.
+This module (as all c2c_multicost*) is a backport to current stable from our work merged in the trunk branch of OpenERP.
 
 What has been done here:
 
@@ -61,7 +61,35 @@ This module change some functions signatures in some object. In order to have it
 you need to install every c2c_multicost_*, where * is the name of the already install module.
 
 Example : If you're using hr_expense, then don't forget to install c2c_multicost_expense.
+
+Please, also verify that one of your specifc modules on concerned methodes.
      
+How to setup:
+-------------
+
+This module won't change anything unless you assign a different price_type to your company. This price type has
+to point on one of the product.product "float" field as the costing value for this company. The currency used is the one
+define into the price type. It has to be the same than your company currency !
+
+Example 1 :
+
+Your company is in EUR. You can setup a different price type for your company. Let it point on a new product.product field,
+lets say "my_new_product_cost_price" (this field needs to be define in one of your specific module). Now this new field
+will be used as the new cost price for all product.
+
+Example 2 :
+
+You have two companies, one in CHF and the other in EUR. Assuming each of your company has its own price type pointing on
+their own float field, you can now have one product but a different cost for each company.
+
+Company 1 (EUR) -> price type "Cost EUR", pointing on "standard_price"
+
+Company 2 (CHF) -> price type "Cost CHF", pointing on "standard_price_chf"
+
+With this configuration, you can also easely update your costs price with a simple .csv import using one of the 
+client (GTK or Web).
+
+
 """,
      "website": "http://camptocamp.com",
      "depends" : ["account",

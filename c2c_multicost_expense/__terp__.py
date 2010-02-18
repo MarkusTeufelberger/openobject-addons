@@ -32,9 +32,10 @@
      "category" : "Generic Modules/Accounting",
      "description":
 """
-This is improve multi-company into OpenERP regarding to product costs in company.
+This is improve multi-company into OpenERP regarding to product costs in company. Refer
+to c2c_multicost_base description for more infos...
      
-It needed to be install if you install both hr_expense and c2c_multicost_base
+This module need to be install if you install both hr_expense and c2c_multicost_base.
 
 """,
      "website": "http://camptocamp.com",

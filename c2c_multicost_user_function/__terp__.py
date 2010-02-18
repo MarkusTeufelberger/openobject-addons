@@ -26,15 +26,16 @@
 ##############################################################################
 
 {
-     "name" : "Multi-currency analytic",
+     "name" : "Multi-Costs Handling in analytic_user_function",
      "version" : "1.0",
      "author" : "Camptocamp",
      "category" : "Generic Modules/Accounting",
      "description":
 """
-This is improve multi-company into OpenERP regarding to product costs in services company.
- 
-It needed to be install if you install both analytic_user_function and c2c_product_analytic_multicost.
+This is improve multi-company into OpenERP regarding to product costs in company. Refer
+to c2c_multicost_base description for more infos...
+     
+This module need to be install if you install both analytic_user_function and c2c_multicost_base.
 
 
 """,

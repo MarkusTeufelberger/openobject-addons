@@ -26,16 +26,16 @@
 ##############################################################################
 
 {
-     "name" : "Multi-currency and product cost in expense",
+     "name" : "Multi-Costs Handling in hr_timesheet_invoice",
      "version" : "1.0",
      "author" : "Camptocamp",
      "category" : "Generic Modules/Accounting",
      "description":
 """
-This is improve multi-company into OpenERP regarding to product costs in services company.
- 
-It needed to be install if you install both hr_timesheet_invoice and c2c_multicost_base.
-
+This is improve multi-company into OpenERP regarding to product costs in company. Refer
+to c2c_multicost_base description for more infos...
+     
+This module need to be install if you install both hr_timesheet_invoice and c2c_multicost_base.
 
 """,
      "website": "http://camptocamp.com",
