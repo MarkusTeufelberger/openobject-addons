@@ -1,0 +1,540 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* smtpclient
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.6\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-02-15 15:58:20+0000\n"
+"PO-Revision-Date: 2010-02-15 15:58:20+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: smtpclient
+#: field:email.smtpclient.queue,bcc:0
+msgid "BCC to"
+msgstr "BCC aan"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "__number__ for Invoice / Sales Number"
+msgstr "__number__ voor Factuur / Verkoopnummer"
+
+#. module: smtpclient
+#: field:email.smtpclient,ssl:0
+msgid "Use SSL?"
+msgstr "SSL gebruiken?"
+
+#. module: smtpclient
+#: model:ir.actions.wizard,name:smtpclient.wizard_email_verifycode
+msgid "Verify Server"
+msgstr "Server verifiëren"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "Authentication"
+msgstr "Authenticatie"
+
+#. module: smtpclient
+#: help:email.sendcode,init,emailto:0
+msgid "Enter the address Email where you want to get the Verification Code"
+msgstr "Geef het mailadres waarvoor u de verificatiecode wenst"
+
+#. module: smtpclient
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Ongeldige modelnaam in de actiedefinitie."
+
+#. module: smtpclient
+#: field:email.smtpclient.queue,to:0
+msgid "Mail to"
+msgstr "Mailen naar"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+#: field:email.smtpclient,test_email:0
+msgid "Test Message"
+msgstr "Testbericht"
+
+#. module: smtpclient
+#: wizard_button:email.testemail,init,send:0
+msgid "Send Email"
+msgstr "Mail verzenden"
+
+#. module: smtpclient
+#: field:res.company.address,company_id:0
+msgid "Company"
+msgstr "Bedrijf"
+
+#. module: smtpclient
+#: field:email.smtpclient,type:0
+msgid "Server Type"
+msgstr "Servertype"
+
+#. module: smtpclient
+#: field:email.smtpclient,from_email:0
+msgid "Email From"
+msgstr "Mail van"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "User Information"
+msgstr "Gebruikersinfo"
+
+#. module: smtpclient
+#: model:ir.model,name:smtpclient.model_report_smtp_server
+#: view:report.smtp.server:0
+msgid "Server Statistics"
+msgstr "Serverstatistieken"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "Verification Message"
+msgstr "Verificatiebericht"
+
+#. module: smtpclient
+#: selection:email.smtpclient,type:0
+#: selection:res.company.address,name:0
+msgid "Sale"
+msgstr "Verkoop"
+
+#. module: smtpclient
+#: model:ir.actions.act_window,name:smtpclient.act_mail_server_2_mail_history
+msgid "Email History"
+msgstr "Mailhistoriek"
+
+#. module: smtpclient
+#: view:email.smtpclient.history:0
+msgid "Server History"
+msgstr "Serverhistoriek"
+
+#. module: smtpclient
+#: field:report.smtp.server,server_id:0
+msgid "Server ID"
+msgstr "Server-ID"
+
+#. module: smtpclient
+#: field:report.smtp.server,no:0
+msgid "Total No."
+msgstr "Totaal aantal"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "__user__ for User Name"
+msgstr "__user__ voor gebruikersnaam"
+
+#. module: smtpclient
+#: field:email.smtpclient,date_create:0
+msgid "Date Create"
+msgstr "Datum gemaakt"
+
+#. module: smtpclient
+#: field:email.smtpclient.queue,error:0
+msgid "Last Error"
+msgstr "Laatste fout"
+
+#. module: smtpclient
+#: wizard_view:email.sendcode,init:0
+#: wizard_button:email.sendcode,init,send:0
+msgid "Send Code"
+msgstr "Code verzenden"
+
+#. module: smtpclient
+#: field:email.smtpclient.queue,name:0
+msgid "Subject"
+msgstr "Onderwerp"
+
+#. module: smtpclient
+#: field:email.smtpclient,server_statistics:0
+msgid "Statistics"
+msgstr "Statistieken"
+
+#. module: smtpclient
+#: wizard_view:email.testemail,init:0
+msgid "Test Email"
+msgstr "Testmail"
+
+#. module: smtpclient
+#: field:email.smtpclient.history,server_id:0
+msgid "Smtp Server"
+msgstr "SMTP-server"
+
+#. module: smtpclient
+#: field:res.company,addresses:0
+msgid "Email Addresses"
+msgstr "E-mailadressen"
+
+#. module: smtpclient
+#: model:ir.actions.act_window,name:smtpclient.action_email_smtpclient_history_tree
+#: model:ir.ui.menu,name:smtpclient.menu_smtpclient_administration_server_history
+msgid "Email Server History"
+msgstr "Mailserverhistoriek"
+
+#. module: smtpclient
+#: selection:email.smtpclient.queue,state:0
+msgid "Waiting"
+msgstr "Wachten"
+
+#. module: smtpclient
+#: help:email.testemail,init,emailto:0
+msgid "Enter the address Email where you want to get the Test Email"
+msgstr "Geef het mailadres waarop u de testmail wenst te ontvangen"
+
+#. module: smtpclient
+#: selection:email.smtpclient,state:0
+msgid "Not Verified"
+msgstr "Niet geverifieerd"
+
+#. module: smtpclient
+#: field:email.smtpclient.history,email:0
+msgid "Email"
+msgstr "E-mail"
+
+#. module: smtpclient
+#: selection:email.smtpclient.queue,state:0
+msgid "Sent"
+msgstr "Verzonden"
+
+#. module: smtpclient
+#: field:email.smtpclient.history,user_id:0
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+#. module: smtpclient
+#: field:res.company.address,name:0
+msgid "Address Type"
+msgstr "Adrestype"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "Permission"
+msgstr "Toelating"
+
+#. module: smtpclient
+#: view:email.smtpclient.queue:0
+msgid "Message with All Headers"
+msgstr "Bericht met alle hoofdingen"
+
+#. module: smtpclient
+#: field:ir.actions.server,report:0
+msgid "Report"
+msgstr "Rapport"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "Configuration"
+msgstr "Configuratie"
+
+#. module: smtpclient
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "Ongeldige XML voor Weergavearchitectuur."
+
+#. module: smtpclient
+#: model:ir.actions.wizard,name:smtpclient.wizard_email_testemail
+msgid "Send Test Email"
+msgstr "Testmail verzenden"
+
+#. module: smtpclient
+#: help:email.smtpclient,body:0
+msgid "The message text that will be send along with the email which is send through this server"
+msgstr "Dit bericht wordt verzonden met de mail via deze server"
+
+#. module: smtpclient
+#: field:report.smtp.server,name:0
+msgid "Server"
+msgstr "Server"
+
+#. module: smtpclient
+#: model:ir.model,name:smtpclient.model_email_smtpclient_queue
+msgid "Email Queue"
+msgstr "E-mailwachtrij"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "Server Information"
+msgstr "Serverinformatie"
+
+#. module: smtpclient
+#: help:email.verifycode,init,code:0
+msgid "Enter the verification code thay you get in your verification Email"
+msgstr "Geef de verificatiecode uit uw verificatiemail"
+
+#. module: smtpclient
+#: model:ir.model,name:smtpclient.model_email_smtpclient_history
+msgid "Email Client History"
+msgstr "Mailclienthistoriek"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+#: field:email.smtpclient,body:0
+#: view:email.smtpclient.queue:0
+#: field:email.smtpclient.queue,serialized_message:0
+msgid "Message"
+msgstr "Bericht"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+#: field:email.smtpclient,server:0
+#: field:email.smtpclient.queue,server_id:0
+#: model:ir.ui.menu,name:smtpclient.menu_smtpclient_administration_smtp_server
+msgid "SMTP Server"
+msgstr "SMTP-server"
+
+#. module: smtpclient
+#: selection:email.smtpclient,state:0
+msgid "Verified"
+msgstr "Geverifieerd"
+
+#. module: smtpclient
+#: field:email.smtpclient,name:0
+msgid "Server Name"
+msgstr "Servernaam"
+
+#. module: smtpclient
+#: field:email.smtpclient,port:0
+msgid "SMTP Port"
+msgstr "SMTP-poort"
+
+#. module: smtpclient
+#: field:email.smtpclient,state:0
+msgid "Server Status"
+msgstr "Serverstatus"
+
+#. module: smtpclient
+#: field:email.smtpclient,verify_email:0
+msgid "Verify Message"
+msgstr "Bericht verifiëren"
+
+#. module: smtpclient
+#: model:ir.model,name:smtpclient.model_email_smtpclient
+#: model:ir.module.module,shortdesc:smtpclient.module_meta_information
+msgid "Email Client"
+msgstr "Mailclient"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "__code__ for Verification Code"
+msgstr "__code__ voor verificatiecode"
+
+#. module: smtpclient
+#: field:email.smtpclient,user:0
+msgid "User Name"
+msgstr "Gebruikersnaam"
+
+#. module: smtpclient
+#: field:email.smtpclient.history,date_create:0
+#: field:email.smtpclient.queue,date_create:0
+msgid "Date"
+msgstr "Datum"
+
+#. module: smtpclient
+#: field:email.smtpclient.queue,cc:0
+msgid "CC to"
+msgstr "CC aan"
+
+#. module: smtpclient
+#: view:email.smtpclient.queue:0
+#: model:ir.actions.act_window,name:smtpclient.action_email_smtpclient_queue_tree
+#: model:ir.ui.menu,name:smtpclient.menu_smtpclient_administration_smtp_server_queue
+msgid "Message Queue"
+msgstr "Berichtenwachtrij"
+
+#. module: smtpclient
+#: selection:email.smtpclient,type:0
+#: selection:res.company.address,name:0
+msgid "Default"
+msgstr "Standaard"
+
+#. module: smtpclient
+#: field:email.smtpclient,active:0
+msgid "Active"
+msgstr "Actief"
+
+#. module: smtpclient
+#: view:email.smtpclient.queue:0
+#: selection:email.smtpclient.queue,state:0
+msgid "Error"
+msgstr "Fout"
+
+#. module: smtpclient
+#: selection:email.smtpclient.queue,state:0
+msgid "Queued"
+msgstr "In wachtrij"
+
+#. module: smtpclient
+#: field:email.smtpclient,history_line:0
+#: field:report.smtp.server,history:0
+msgid "History"
+msgstr "Historiek"
+
+#. module: smtpclient
+#: field:email.smtpclient,use_auth:0
+msgid "Use Authentication"
+msgstr "Authenticatie gebruiken"
+
+#. module: smtpclient
+#: view:email.smtpclient.queue:0
+msgid "General"
+msgstr "Algemeen"
+
+#. module: smtpclient
+#: field:email.smtpclient,use_debug:0
+msgid "Show debugging information"
+msgstr "Toon info over foutenopsporing"
+
+#. module: smtpclient
+#: selection:res.company.address,name:0
+msgid "Invoice"
+msgstr "Factuur"
+
+#. module: smtpclient
+#: wizard_view:email.verifycode,init:0
+#: wizard_button:email.verifycode,init,check:0
+msgid "Verify Code"
+msgstr "Code verifiëren"
+
+#. module: smtpclient
+#: wizard_button:email.sendcode,init,end:0
+#: wizard_button:email.testemail,init,end:0
+#: wizard_button:email.verifycode,init,end:0
+msgid "Cancel"
+msgstr "Annuleren"
+
+#. module: smtpclient
+#: field:email.smtpclient.history,resource_id:0
+msgid "Resource ID"
+msgstr "Resource-ID"
+
+#. module: smtpclient
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "De objectnaam moet beginnen met x_ en mag geen speciale karakters bevatten."
+
+#. module: smtpclient
+#: selection:email.smtpclient,type:0
+msgid "Account"
+msgstr "Account"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "Verification Information"
+msgstr "Verificatie-info"
+
+#. module: smtpclient
+#: model:ir.module.module,description:smtpclient.module_meta_information
+msgid "Email Client module that provides:\n"
+"    Sending Email\n"
+"    Use Multiple Server\n"
+"    Multi Threading\n"
+"    Multi Attachment\n"
+"    "
+msgstr "Mailclientmodule:\n"
+"    Mail verzenden\n"
+"    Meerdere servers gebruiken\n"
+"    Multi-threading\n"
+"    Meerdere bijlagen\n"
+"    "
+
+
+#. module: smtpclient
+#: selection:email.smtpclient,type:0
+msgid "Stock"
+msgstr "Voorraad"
+
+#. module: smtpclient
+#: field:email.smtpclient.history,name:0
+msgid "Description"
+msgstr "Omschrijving"
+
+#. module: smtpclient
+#: field:email.smtpclient,code:0
+#: wizard_field:email.verifycode,init,code:0
+msgid "Verification Code"
+msgstr "Verificatiecode"
+
+#. module: smtpclient
+#: field:email.smtpclient.queue,body:0
+msgid "Email Text"
+msgstr "E-mailtekst"
+
+#. module: smtpclient
+#: selection:res.company.address,name:0
+msgid "Delivery"
+msgstr "Levering"
+
+#. module: smtpclient
+#: view:email.smtpclient.queue:0
+msgid "Last Error occured"
+msgstr "Laatste fout"
+
+#. module: smtpclient
+#: selection:email.smtpclient,state:0
+msgid "Waiting for Verification"
+msgstr "Wachten op verificatie"
+
+#. module: smtpclient
+#: field:email.smtpclient,password:0
+msgid "Password"
+msgstr "Wachtwoord"
+
+#. module: smtpclient
+#: field:email.smtpclient,users_id:0
+msgid "Users Allowed"
+msgstr "Toegelaten gebruikers"
+
+#. module: smtpclient
+#: wizard_field:email.sendcode,init,emailto:0
+#: field:email.smtpclient,email:0
+#: wizard_field:email.testemail,init,emailto:0
+#: view:res.company:0
+#: field:res.company.address,email:0
+msgid "Email Address"
+msgstr "E-mailadres"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "Messages"
+msgstr "Berichten"
+
+#. module: smtpclient
+#: model:ir.ui.menu,name:smtpclient.menu_smtpclient_administration_server
+msgid "Email Servers"
+msgstr "Mailservers"
+
+#. module: smtpclient
+#: model:ir.actions.wizard,name:smtpclient.wizard_email_sendcode
+msgid "Send Verification Code"
+msgstr "Verificatiecode verzenden"
+
+#. module: smtpclient
+#: field:email.smtpclient.history,model:0
+msgid "Model"
+msgstr "Model"
+
+#. module: smtpclient
+#: model:ir.actions.act_window,name:smtpclient.action_email_smtpclient_tree
+#: field:ir.actions.server,email_server:0
+msgid "Email Server"
+msgstr "Mailserver"
+
+#. module: smtpclient
+#: view:email.smtpclient:0
+msgid "__name__ for Customer Name"
+msgstr "__name__ voor klant"
+
+#. module: smtpclient
+#: model:ir.model,name:smtpclient.model_res_company_address
+msgid "res.company.address"
+msgstr "res.company.address"
+
+#. module: smtpclient
+#: field:email.smtpclient.queue,state:0
+msgid "Message Status"
+msgstr "Berichtenstatus"
+
