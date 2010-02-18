@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Expenses -->
+
+        <record id="view_expenses_form_prod" model="ir.ui.view">
+            <field name="name">hr.expense.form</field>
+            <field name="type">form</field>
+            <field name="model">hr.expense.expense</field>
+               <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+            <field name="arch" type="xml">
+                <field name="product_id" on_change="onchange_product_id(product_id, uom_id)" select="2" position="replace">
+                       <field name="product_id" on_change="onchange_product_id(product_id, uom_id, parent.employee_id)" select="2"/>
+                              
+                 </field>
+            </field>
+        </record>
+
+
+     <record id="view_expenses_form_uom" model="ir.ui.view">
+        <field name="name">hr.expense.form</field>
+        <field name="type">form</field>
+        <field name="model">hr.expense.expense</field>
+          <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+        <field name="arch" type="xml">
+            <field name="uom_id" on_change="onchange_product_id(product_id, uom_id)" select="2" position="replace">
+                <field name="uom_id" on_change="onchange_product_id(product_id, uom_id, parent.employee_id)" select="2"/>
+             </field>
+        </field>
+    </record>
+    
+    </data>
+</openerp>

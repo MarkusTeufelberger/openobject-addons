@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+	
+      <record forcecreate="True" id="property_valuation_price_type" model="ir.property">
+            <field name="name">property_valuation_price_type</field>
+            <field name="fields_id" search="[('model','=','res.company'),('name','=','property_valuation_price_type')]"/>
+            <field eval="'product.price.type,'+str(ref('product.standard_price'))" name="value"/>
+        </record>
+        
+     </data>
+ </openerp>
