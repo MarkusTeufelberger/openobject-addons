@@ -34,7 +34,16 @@
 """
 This is improve multi-company into OpenERP regarding to product costs in company. Refer
 to c2c_multicost_base description for more infos...
-     
+
+What has been done here:
+
+ * Add price type on company as a property (with default value based on standard price)
+
+ * Stock accounting
+  * Use the price type currency and field for cost valuation
+  * Into stock move for standard price
+  * Into stock move for average price
+
 This module need to be install if you install both stock and c2c_multicost_base.
 
 """,
