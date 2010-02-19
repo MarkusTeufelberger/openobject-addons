@@ -80,6 +80,7 @@ class SmtpClient(osv.osv):
     _defaults = {
         'date_create': lambda *a: time.strftime('%Y-%m-%d'),
         'state': lambda *a: 'new',
+        'active':lambda *a: 1,
         'verify_email': lambda *a: _("Verification Message. This is the code\n\n__code__\n\nyou must copy in the OpenERP Email Server (Verify Server wizard).\n\nCreated by user __user__"),
     }
     server = {}
