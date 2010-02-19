@@ -161,7 +161,7 @@ class SmtpClient(osv.osv):
                 key = self.gen_private_key(cr, uid, serverid)
                 #md5(time.strftime('%Y-%m-%d %H:%M:%S') + toemail).hexdigest();
                 body = body.replace("__code__", key)
-                self.write(cr, uid, [serverid], {'state':'waiting', 'code':key})
+                self.write(cr, uid, [serverid], {'code':key})
                 
             user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid])[0]
             body = body.replace("__user__", user.name)
@@ -380,7 +380,11 @@ class SmtpClient(osv.osv):
                         'email':email.to
                     })
             sent.append(email.id)
-        queue.write(cr, uid, sent, {'state':'send'})
+            queue.write(cr, uid, sent, {'state':'send'})
+            queue_state = queue.read(cr, uid, [email.id], ['state'])
+            for state in queue_state:
+                if state['state'] == 'send':
+                    self.write(cr, uid, email.server_id.id, {'state':'waiting'})
         return True
 SmtpClient()
 
