@@ -28,7 +28,7 @@
     'category': 'Generic Modules/HR',
     'description': """
     Add supplier on expenses lines for generate invoice supplier
-    if the employe didn't paid the expenses but the society
+    if the employe didn't paid the expenses but the company
     """,
     'author': 'SYLEAM Info Services',
     'website': 'http://www.Syleam.fr',
