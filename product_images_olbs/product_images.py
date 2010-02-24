@@ -49,4 +49,8 @@ class product_images(osv.osv):
         'comments':fields.text('Comments'),
         'product_id':fields.many2one('product.product', 'Product')
     }
+
+    _defaults = {
+        'link': lambda *a: True,
+    }
 product_images()
