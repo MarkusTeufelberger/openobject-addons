@@ -96,8 +96,6 @@ class wizard_report(wizard.interface):
         #data['form']['periods'] = periods_obj.search(cr, uid, [('fiscalyear_id','=',data['form']['fiscalyear'])])
         #data['form']['display_account'] = 'bal_all'
         data['form']['context'] = context
-        if 'Account_list' in data['form'] and len(data['form']['Account_list'][0]) >= 3:
-            data['form']['Account_list'] = data['form']['Account_list'][0][2]
         return data['form']
 
 

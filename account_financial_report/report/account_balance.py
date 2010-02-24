@@ -174,7 +174,7 @@ class account_balance(report_sxw.rml_parse):
         if not done:
             done={}
         if form.has_key('Account_list') and form['Account_list']:
-            ids = form['Account_list']
+            ids = form['Account_list'][0][2]
             del form['Account_list']
         res={}
         result_acc=[]
