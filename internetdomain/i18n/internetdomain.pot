@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.7\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-02-24 18:39:40+0000\n"
-"PO-Revision-Date: 2010-02-24 18:39:40+0000\n"
+"POT-Creation-Date: 2010-02-25 14:39:34+0000\n"
+"PO-Revision-Date: 2010-02-25 14:39:34+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -145,6 +145,11 @@ msgid "Configuration"
 msgstr ""
 
 #. module: internetdomain
+#: constraint:ir.cron:0
+msgid "Invalid arguments"
+msgstr ""
+
+#. module: internetdomain
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
 msgstr ""
@@ -246,6 +251,7 @@ msgstr ""
 #. module: internetdomain
 #: view:internetdomain.domain:0
 #: field:internetdomain.domain,renewal_ids:0
+#: model:ir.actions.act_window,name:internetdomain.act_domain_2_renewals
 #: model:ir.model,name:internetdomain.model_internetdomain_renewal
 #: model:ir.ui.menu,name:internetdomain.menu_internetdomain_renewal
 msgid "Renewals"

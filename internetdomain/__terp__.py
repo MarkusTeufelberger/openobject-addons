@@ -34,12 +34,13 @@ Tools -> Domain
 * Invoice renewal domain
     """,
     "version" : "0.1",
-    "depends" : ["base","product","network","poweremail"],
+    "depends" : ["base","product","account","network","poweremail"],
     "init_xml" : [],
     "update_xml" : [
         "internetdomain_view.xml",
         "internetdomain_report.xml",
         "internetdomain_wizard.xml",
+        "internetdomain_data.xml",
         "company_view.xml",
         "security/internetdomain_security.xml",
         "security/ir.model.access.csv",

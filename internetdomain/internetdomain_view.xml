@@ -103,6 +103,13 @@
         <field name="res_model">internetdomain.renewal</field>
         <field name="view_mode">tree,form</field>
     </record>
+
+   <act_window name="Renewals"
+        domain="[('domain_id', '=', active_id)]"
+        context="{'domain_id': active_id}"
+        res_model="internetdomain.renewal"
+        src_model="internetdomain.domain"
+        id="act_domain_2_renewals"/>
         
     <menuitem name="Domain" parent="network.menu_tools" groups="internetdomain.group_internetdomain_user" id="menu_internetdomain"/>
 
