@@ -82,7 +82,13 @@ class sale_shop(external_osv.external_osv):
             all_categories = []
             for category in root_categories:
                 all_categories += [category.id for category in category.recursive_childen_ids]
-            product_ids = self.pool.get("product.product").search(cr, uid, [('categ_id', 'in', all_categories)]) #TODO deal with product_m2mactegories module
+
+            # If product_m2mcategories module is installed search in main category and extra categories. If not, only in main category
+            cr.execute('select * from ir_module_module where name=%s and state=%s', ('product_m2mcategories','installed'))
+            if cr.fetchone():
+                product_ids = self.pool.get("product.product").search(cr, uid, ['|',('categ_id', 'in', all_categories),('categ_ids', 'in', all_categories)])
+            else:
+                product_ids = self.pool.get("product.product").search(cr, uid, [('categ_id', 'in', all_categories)])
             res[shop.id] = product_ids
         return res
 
