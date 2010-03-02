@@ -422,7 +422,7 @@
                 <para style="terp_default_Bold_9">Net Total:</para>
               </td>
               <td>
-                <para style="terp_default_Right_9">[[ formatLang(o.amount_untaxed_wg) ]]</para>
+                <para style="terp_default_Right_9">[[ formatLang(o.amount_untaxed) ]]</para>
               </td>
               <td>
                 <para style="terp_default_Right_9">[[ o.currency_id.code ]]</para>
