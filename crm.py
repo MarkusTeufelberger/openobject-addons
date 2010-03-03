@@ -24,7 +24,8 @@ from osv import fields, osv
 import tools
 import ir
 import pooler
-from mx import DateTime
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 class crm_case(osv.osv):
     _inherit = "crm.case"
@@ -39,7 +40,10 @@ class crm_case(osv.osv):
         'prodlot_id': fields.many2one('stock.production.lot', 'Serial / Lot Number'),
         'product_id': fields.many2one('product.product', 'Product'),
         'invoice_id': fields.many2one('account.invoice', 'Invoice'),
-        'new_invoice_id': fields.many2one('account.invoice', 'Invoice')
+        'new_invoice_id': fields.many2one('account.invoice', 'Invoice'),
+        'warning': fields.char('Warning', size=64, select=1, readonly=True),
+        'guarantee_limit': fields.date('Warranty limit', help="The warranty limit is computed as: invoice date + warranty defined on selected product.", readonly=True),
+         #IT WILL BE BETTER TO USE warranty_limit THEN guarantee_limit BUT WE CHOOSE THIS NAME IN ORDER TO BE COMPATIBLE WITH THE MODULE MRP_REPAIR
     }
     
     _defaults = {
@@ -127,7 +131,7 @@ class crm_case(osv.osv):
             return
         
         res_ids={'partner':[], 'invoice':[], 'product':[], 'prodlot':[]}
-        filter = {'value':{}, 'domain':{}}
+        filter = {'value':{'guarantee_limit' : False, 'warning' : False }, 'domain':{}}
 
         #removes fields which have for parent the field which launch the on change and convert each field to a table
         id = {'partner':partner_id, 'invoice':invoice_id, 'product':product_id, 'prodlot':prodlot_id}
@@ -158,6 +162,14 @@ class crm_case(osv.osv):
                     filter['value'][key + '_id'] = res_ids[key][0]
                 else:
                     filter['value'][key + '_id'] = False
+        
+        if len(res_ids['invoice'])==1 and len(res_ids['product'])==1:
+            invoice_date = self.pool.get('account.invoice').read(cr, uid,res_ids['invoice'],['date_invoice'])[0]['date_invoice']
+            product_warranty = self.pool.get('product.product').read(cr, uid,res_ids['product'],['warranty'])[0]['warranty']
+            end_warranty = (datetime.strptime(invoice_date, '%Y-%m-%d') + relativedelta(months=int(product_warranty)))
+            filter['value']['guarantee_limit'] = end_warranty.strftime('%Y-%m-%d')
+            if end_warranty < datetime.now():
+                filter['value']['warning'] = 'Warning the warranty is expired ! ! !'
 
         return filter
 
