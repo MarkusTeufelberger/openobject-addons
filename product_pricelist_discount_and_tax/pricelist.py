@@ -132,9 +132,9 @@ class product_pricelist(osv.osv):
                     if not res['base_pricelist_id']:
                         price = 0.0
                     else:
-                        price_tmp = self.price_get(cr, uid,
+                        price_tmp = self.price_get_improved(cr, uid,
                                 [res['base_pricelist_id']], prod_id,
-                                qty)[res['base_pricelist_id']]
+                                qty)[res['base_pricelist_id']]['price']
                         ptype_src = self.browse(cr, uid,
                                 res['base_pricelist_id']).currency_id.id
                         price = currency_obj.compute(cr, uid, ptype_src,
