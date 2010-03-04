@@ -2,8 +2,8 @@
 ##############################################################################
 #
 # Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
-# 
+#                Programed By: Javier Duran <javier.duran@netquatro.com>
+#                Designed By: Nhomar Hernandez <nhomar.hernandez@netquatro.com>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -34,13 +34,13 @@
 	"author" : "Netquatro",
 	"category" : "Generic Modules/Others",
 	"website": "http://wiki.openerp.org.ve/",
-    "description": """Personalizacion del reporte de pagos atrasados
+    "description": """Report for payment out of date, 
+You can see the link to print on Partner Views
     """,
 	"depends" : ["base", "account"],
 	"init_xml" : [],
 	"update_xml" : [
 		"l10n_ve_pagos_atrs_report.xml",
-
 	],
 	"active": False,
 	"installable": True
