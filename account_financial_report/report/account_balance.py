@@ -199,29 +199,39 @@ class account_balance(report_sxw.rml_parse):
         # Amounts in period or date
         accounts = account_obj.read(self.cr, self.uid, ids, ['type','code','name','debit','credit','balance','parent_id'], self.ctx)
         # Amounts from the date start / first period of the fiscal year
-        accounts_fy = account_obj.read(self.cr, self.uid, ids, ['balance'], self.ctxfy)
+        balance_fy = {}
+        for acc in account_obj.read(self.cr, self.uid, ids, ['balance'], self.ctxfy):
+            balance_fy[acc['id']] = acc['balance']
         # Amounts in all fiscal year
-        accounts_allfy = account_obj.read(self.cr, self.uid, ids, ['balance'], ctx_allfy)
+        balance_allfy = {}
+        for acc in account_obj.read(self.cr, self.uid, ids, ['balance'], ctx_allfy):
+            balance_allfy[acc['id']] = acc['balance']
         # Amounts in all fiscal year without special periods
-        accounts_allfy_nos = account_obj.read(self.cr, self.uid, ids, ['debit','credit'], ctx_allfy_nospecial)
-        for account, account_fy, account_allfy, account_allfy_nos in zip(accounts, accounts_fy, accounts_allfy, accounts_allfy_nos):
-            if account['id'] in done:
+        debit_allfy_nos = {}
+        credit_allfy_nos = {}
+        for acc in account_obj.read(self.cr, self.uid, ids, ['debit','credit'], ctx_allfy_nospecial):
+            debit_allfy_nos[acc['id']] = acc['debit']
+            credit_allfy_nos[acc['id']] = acc['credit']
+
+        for account in accounts:
+            account_id = account['id']
+            if account_id in done:
                 continue
-            done[account['id']] = 1
+            done[account_id] = 1
             res = {
-                    'id' : account['id'],
+                    'id' : account_id,
                     'type' : account['type'],
                     'code': account['code'],
                     'name': account['name'],
                     'level': level,
                     'debit': account['debit'],
                     'credit': account['credit'],
-                    'balance': account_fy['balance'],
-                    'balanceinit': round(account_fy['balance']-account['debit']+account['credit'], int(config['price_accuracy'])),
-                    'debit_fy': account_allfy_nos['debit'],
-                    'credit_fy': account_allfy_nos['credit'],
-                    'balance_fy': account_allfy['balance'],
-                    'balanceinit_fy': round(account_allfy['balance']-account_allfy_nos['debit']+account_allfy_nos['credit'], int(config['price_accuracy'])),
+                    'balance': balance_fy[account_id],
+                    'balanceinit': round(balance_fy[account_id]-account['debit']+account['credit'], int(config['price_accuracy'])),
+                    'debit_fy': debit_allfy_nos[account_id],
+                    'credit_fy': credit_allfy_nos[account_id],
+                    'balance_fy': balance_allfy[account_id],
+                    'balanceinit_fy': round(balance_allfy[account_id]-debit_allfy_nos[account_id]+credit_allfy_nos[account_id], int(config['price_accuracy'])),
                    # 'leef': not bool(account['child_id']),
                     'parent_id':account['parent_id'],
                     'bal_type':'',
@@ -232,10 +242,10 @@ class account_balance(report_sxw.rml_parse):
                 res['balanceinit_fy'] = 0
             self.sum_debit += account['debit']
             self.sum_credit += account['credit']
-            self.sum_balance += account_fy['balance']
-            self.sum_debit_fy += account_allfy_nos['debit']
-            self.sum_credit_fy += account_allfy_nos['credit']
-            self.sum_balance_fy += account_allfy['balance']
+            self.sum_balance += balance_fy[account_id]
+            self.sum_debit_fy += debit_allfy_nos[account_id]
+            self.sum_credit_fy += credit_allfy_nos[account_id]
+            self.sum_balance_fy += balance_allfy[account_id]
 #                if account.child_id:
 #                    def _check_rec(account):
 #                        if not account.child_id:
