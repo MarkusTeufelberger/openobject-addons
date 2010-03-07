@@ -3,7 +3,7 @@
 	"name" : "Partner Risk Insurance",
 	"version" : "0.1",
 	"description" : """This module adds a new tab in the partner form to introduce risk insurance information.""",
-	"author" : "NaN",
+	"author" : "NaN for Guinama (www.guinama.com)",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 
 		'base', 
