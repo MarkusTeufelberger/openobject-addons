@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <wizard
+            string="Create ean13 barcode"
+            model="product.product"
+            name="product_ean13.create_ean13"
+            menu="True"
+            id="id_create_ean13"/>
+    </data>
+</openerp>
