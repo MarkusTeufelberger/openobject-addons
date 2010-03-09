@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            auto="False" 
+            id="account.account_general_ledger"
+            menu="False" 
+            model="account.account"
+            name="account.general.ledger_cumulated"
+            rml="addons/c2c_cumulated_finance_report/report/general_ledger.rml"
+            string="General Ledger"
+        />
+        
+        
+        <report 
+            auto="False" 
+            id="account.account_3rdparty_ledger" 
+            menu="False" 
+            model="res.partner"
+            name="account.third_party_ledger_cumulated"
+            rml="addons/c2c_cumulated_finance_report/report/third_party_ledger.rml"
+            string="Partner Ledger"
+        />
+
+    </data>
+</openerp>

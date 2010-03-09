@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-#  c2c_scan_bvr
+#  c2c_report_invoice
 #
 #  Created by Nicolas Bessi and Vincent Renaville 
 #
