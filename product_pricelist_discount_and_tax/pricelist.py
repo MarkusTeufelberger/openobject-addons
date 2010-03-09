@@ -169,6 +169,20 @@ class product_pricelist(osv.osv):
                     #dukai
                     base_price_tax_included = price_type.price_tax_included
 
+                #dukai
+                if res['price_tax_included'] and not base_price_tax_included:
+                    tax_obj = self.pool.get('account.tax')
+                    prod = product_obj.browse(cr, uid, prod_id)
+                    for tax in tax_obj.compute(cr, uid, prod.taxes_id,
+                        price, 1):
+                        price += tax['amount']
+                if not res['price_tax_included'] and base_price_tax_included:
+                    tax_obj = self.pool.get('account.tax')
+                    prod = product_obj.browse(cr, uid, prod_id)
+                    for tax in tax_obj.compute_inv(cr, uid, prod.taxes_id,
+                        price, 1):
+                        price -= tax['amount']
+
                 price_limit = price
 
                 price = price * (1.0+(res['price_discount'] or 0.0))
@@ -182,19 +196,6 @@ class product_pricelist(osv.osv):
                 # False means no valid line found ! But we may not raise an
                 # exception here because it breaks the search
                 price = False
-            #dukai
-            if price:
-                tax_obj = self.pool.get('account.tax')
-                if res['price_tax_included'] and not base_price_tax_included:
-                    prod = product_obj.browse(cr, uid, prod_id)
-                    for tax in tax_obj.compute(cr, uid, prod.taxes_id,
-                        price, 1):
-                        price += tax['amount']
-                if not res['price_tax_included'] and base_price_tax_included:
-                    prod = product_obj.browse(cr, uid, prod_id)
-                    for tax in tax_obj.compute_inv(cr, uid, prod.taxes_id,
-                        price, 1):
-                        price -= tax['amount']
             result[id] = {
                 'price': price,
                 'price_tax_included': res['price_tax_included'],
