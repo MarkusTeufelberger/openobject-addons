@@ -119,6 +119,7 @@ class account_voucher(osv.osv):
                 'journal_id': journal_id, 
                 'voucher_type':inv.type,
                 'narration' : inv.narration,
+                'date':date,
             }
             if inv.period_id:
                 move['period_id'] = inv.period_id.id
@@ -139,7 +140,7 @@ class account_voucher(osv.osv):
                 'period_id':inv.period_id.id,
                 'partner_id': False,
                 'ref': ref, 
-                'date': inv.date
+                'date': date
             }
             if inv.type in ('rec_voucher', 'bank_rec_voucher', 'journal_pur_voucher', 'journal_voucher'):
                 move_line['debit'] = inv.amount
@@ -160,7 +161,7 @@ class account_voucher(osv.osv):
                     'period_id':inv.period_id.id,
                     'partner_id':line.partner_id.id or False,
                     'ref':ref, 
-                    'date':inv.date
+                    'date':date
                  }
                 
                 if line.type == 'dr':
@@ -195,7 +196,7 @@ class account_voucher(osv.osv):
                     if ml_id and an_journal_id:
                         an_line = {
                              'name':line.name,
-                             'date':inv.date,
+                             'date':date,
                              'amount':amount,
                              'account_id':line.account_analytic_id.id or False,
                              'move_id':ml_id,
