@@ -128,6 +128,8 @@ class product_pricelist(osv.osv):
                 (tmpl_id, prod_id, plversion['id'], qty))
             res = cr.dictfetchone()
             if res:
+                #dukai
+                base_price_tax_included = False
                 if res['base'] == -1:
                     if not res['base_pricelist_id']:
                         price = 0.0
