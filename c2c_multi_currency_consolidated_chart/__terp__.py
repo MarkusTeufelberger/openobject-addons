@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #  __terp__.py
-#  c2c_cumulated_finance_report
+#  c2c_multi_currency_consolidated_chart
 #  Created by Camptocamp
 #  Copyright (c) 2010 CamptoCamp. All rights reserved.
 ####################################################################
@@ -22,8 +22,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 {
-    "name" : "c2c_cumulated_finance_report",
-    "description" : "Modifiy the general ledger and the partner ledger in order to have the cumulated amount",
+    "name" : "c2c_multi_currency_consolidated_chart",
+    "description" : """Modifiy the account chart 
+        __compute function in order to have amount in the right currency in multi-currencies consolidated chart.
+        The module also add a new date field in the account chart wizzard
+        """,
     "version" : "1.0",
     "depends" : [
                     "base",
@@ -31,9 +34,7 @@
                 ],
     "author" : "Camptocamp SA",
     "init_xml" : [],
-    "update_xml": [
-                        "report.xml",
-                   ],
+    "update_xml": ['wizard.xml'],
     "installable" : True,
     "active" : False,
 }

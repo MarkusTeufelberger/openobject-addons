@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
-#  __terp__.py
-#  c2c_cumulated_finance_report
-#  Created by Camptocamp
+#  __init__.py
+#  c2c_multi_currency_consolidated_chart
+#  Created by Nicolas Bessi
 #  Copyright (c) 2010 CamptoCamp. All rights reserved.
 ####################################################################
 # WARNING: This program as such is intended to be used by professional
@@ -21,19 +21,5 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-{
-    "name" : "c2c_cumulated_finance_report",
-    "description" : "Modifiy the general ledger and the partner ledger in order to have the cumulated amount",
-    "version" : "1.0",
-    "depends" : [
-                    "base",
-                    "account",
-                ],
-    "author" : "Camptocamp SA",
-    "init_xml" : [],
-    "update_xml": [
-                        "report.xml",
-                   ],
-    "installable" : True,
-    "active" : False,
-}
+import wizard
+import account
