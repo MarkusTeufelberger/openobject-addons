@@ -13,5 +13,7 @@
                 </field>
             </field>
         </record>
+
+	<act_window domain="[('product_id','=',product_id)]" id="action_purchase_order_line_procurement" name="Procurements" res_model="mrp.procurement" src_model="purchase.order.line"/>
     </data>
 </openerp>
