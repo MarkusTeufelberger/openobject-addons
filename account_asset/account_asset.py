@@ -100,10 +100,22 @@ class account_asset_asset(osv.osv):
         if (len(property.entry_asset_ids or [])/2)>=property.method_delay:
             return False
         if len(property.entry_asset_ids):
-            cp = property.entry_asset_ids[-1].period_id
-            cpid = self.pool.get('account.period').next(cr, uid, cp, property.method_period, context)
-            current_period = self.pool.get('account.period').browse(cr, uid, cpid, context)
-
+                                                                                            # GG fix begin
+            cr.execute("SELECT m.id, m.period_id \
+                        FROM account_move_line AS m \
+                            LEFT JOIN account_move_asset_entry_rel AS r \
+                            ON m.id = r.move_id \
+                                LEFT JOIN account_asset_property AS p \
+                                ON p.asset_id = r.asset_property_id \
+                            WHERE p.asset_id = %s \
+                            ORDER BY id DESC", (property.asset_id.id,)) 
+            pid = cr.fetchone()[1]
+            periods_obj = self.pool.get('account.period')
+            cp = periods_obj.browse(cr, uid, pid, context)
+            cpid = periods_obj.next(cr, uid, cp, property.method_period, context)
+            if not cpid:                                                                   
+                raise osv.except_osv(_('Error !'), _('Next periods not defined yet !'))     
+            current_period = periods_obj.browse(cr, uid, cpid, context)                              # GG fix end
         else:
             current_period = property.asset_id.period_id
         return current_period
@@ -116,7 +128,7 @@ class account_asset_asset(osv.osv):
         for move in property.entry_asset_ids:
             if move.account_id == property.account_asset_id:
                 total += move.debit-move.credit
-        periods = (len(property.entry_asset_ids)/2) - property.method_delay
+        periods = property.method_delay - (len(property.entry_asset_ids)/2) # GG fix
         if periods==1:
             amount = total
         else:
@@ -136,8 +148,8 @@ class account_asset_asset(osv.osv):
             'name': property.name or property.asset_id.name,
             'move_id': move_id,
             'account_id': property.account_asset_id.id,
-            'debit': amount>0 and amount or 0.0,
-            'credit': amount<0 and -amount or 0.0,
+            'credit': amount>0 and amount or 0.0,       # GG fix
+            'debit': amount<0 and -amount or 0.0,       # GG fix
             'ref': property.asset_id.code,
             'period_id': period.id,
             'journal_id': property.journal_id.id,
@@ -148,8 +160,8 @@ class account_asset_asset(osv.osv):
             'name': property.name or property.asset_id.name,
             'move_id': move_id,
             'account_id': property.account_actif_id.id,
-            'credit': amount>0 and amount or 0.0,
-            'debit': amount<0 and -amount or 0.0,
+            'debit': amount>0 and amount or 0.0,            # GG fix
+            'credit': amount<0 and -amount or 0.0,          # GG fix
             'ref': property.asset_id.code,
             'period_id': period.id,
             'journal_id': property.journal_id.id,
@@ -200,7 +212,7 @@ class account_asset_property(osv.osv):
                 r.asset_property_id IN ("""+id_set+") GROUP BY r.asset_property_id ")
         res=dict(cr.fetchall())
         for prop in self.browse(cr, uid, ids, context):
-            res[prop.id] = prop.value_total - res.get(prop.id, 0.0)
+            res[prop.id] = prop.value_total - res.get(prop.id, 0.0)/2  # GG fix - '/2'
         for id in ids:
             res.setdefault(id, 0.0)
         return res
