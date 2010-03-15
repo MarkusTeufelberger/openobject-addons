@@ -27,7 +27,7 @@
     "description": """Return Material Authorization
     """,
     'website': 'http://www.akretion.com',
-    'depends': ["stock", "crm", "crm_configuration"],
+    'depends': ["stock", "crm", "crm_configuration", "sale"],
     'init_xml': [],
     'update_xml': ['stock_data.xml', 'crm_view.xml', 'crm_sequence.xml', 'stock_view.xml'],
     'demo_xml': [],
