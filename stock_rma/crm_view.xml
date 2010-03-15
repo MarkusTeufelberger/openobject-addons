@@ -3,8 +3,8 @@
 	<data>
 
 		<record model="ir.ui.view" id="view_crm_case_form_rma">
-			<field name="name">crm.case.form.rma</field>
-			<field name="model">crm.case</field>
+			<field name="name">crm.rma.form.rma</field>
+			<field name="model">crm.rma</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 
@@ -135,8 +135,8 @@
 
 
 		<record model="ir.ui.view" id="view_crm_case_tree_rma">
-			<field name="name">crm.case.tree.rma</field>
-			<field name="model">crm.case</field>
+			<field name="name">crm.rma.tree.rma</field>
+			<field name="model">crm.rma</field>
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree>
@@ -154,9 +154,8 @@
 		<record id="rma_action" model="ir.actions.act_window">
 			<field name="name">All RMA</field>
 			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">crm.case</field>
+			<field name="res_model">crm.rma</field>
 			<field name="view_type">form</field>
-			<field name="domain">[('prodlot_id','!=',False)]</field>
 			<field name="view_mode">tree,form,calendar</field>
 		</record>
 
@@ -182,7 +181,7 @@
 		<record id="rma_action_new" model="ir.actions.act_window">
 			<field name="name">New RMA</field>
 			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">crm.case</field>
+			<field name="res_model">crm.rma</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">form,tree</field>
 		</record>

@@ -27,9 +27,11 @@ import pooler
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-class crm_case(osv.osv):
-    _inherit = "crm.case"
+class crm_rma(osv.osv):
+    _inherits = {'crm.case': 'crm_id'}
+    _name = "crm.rma"
     _columns = {
+        'crm_id': fields.many2one('crm.case', 'CRM case', required=True),
         'rma_ref': fields.char('Incident Ref', size=64, required=True, select=1),
         'incoming_picking_id': fields.many2one('stock.picking', 'Incoming Picking', required=False, select=1),
         'outgoing_picking_id': fields.many2one('stock.picking', 'Outgoing Picking', required=False, select=True),
@@ -49,6 +51,12 @@ class crm_case(osv.osv):
     _defaults = {
         'rma_ref': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'rma'),
     }
+    
+    def onchange_partner_address_id(self, cr, uid, ids, part, email=False):
+        return self.pool.get('crm.case').onchange_partner_address_id(cr, uid, ids, part, email)
+    
+    def onchange_categ_id(self, cr, uid, ids, categ, context={}):
+        return self.pool.get('crm.case').onchange_categ_id(cr, uid, ids, categ, context)
 
     global parent
     parent = {}
@@ -173,4 +181,4 @@ class crm_case(osv.osv):
 
         return filter
 
-crm_case()
+crm_rma()
