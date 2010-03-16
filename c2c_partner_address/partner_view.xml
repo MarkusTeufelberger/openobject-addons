@@ -123,6 +123,7 @@
                         <field domain="[('domain', '=', 'partner')]" name="title"/>
                         <field name="lang" select="2"/>
                         <field name="supplier" select="2"/>
+                        <field name="active" select="2" />
                     </group>
                     <notebook colspan="4">
                         <page string="General">
