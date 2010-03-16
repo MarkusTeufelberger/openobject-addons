@@ -197,7 +197,6 @@
                         <page string="Sales &amp; Purchases">
                             <separator string="General Information" colspan="4"/>
                             <field name="user_id" select="2"/>
-                            <field name="active" select="2"/>
                             <field name="website" widget="url"/>
                             <field name="date" select="2"/>
                             <field name="parent_id"/>
