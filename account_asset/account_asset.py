@@ -108,7 +108,7 @@ class account_asset_asset(osv.osv):
                                 LEFT JOIN account_asset_property AS p \
                                 ON p.asset_id = r.asset_property_id \
                             WHERE p.asset_id = %s \
-                            ORDER BY id DESC", (property.asset_id.id,)) 
+                            ORDER BY m.id DESC", (property.asset_id.id,))
             pid = cr.fetchone()[1]
             periods_obj = self.pool.get('account.period')
             cp = periods_obj.browse(cr, uid, pid, context)
@@ -140,7 +140,7 @@ class account_asset_asset(osv.osv):
         move_id = self.pool.get('account.move').create(cr, uid, {
             'journal_id': property.journal_id.id,
             'period_id': period.id,
-            'name': property.name or property.asset_id.name,
+            'name': '/',                         # GG fix, was 'name': property.name or property.asset_id.name,
             'ref': property.asset_id.code
         })
         result = [move_id]
