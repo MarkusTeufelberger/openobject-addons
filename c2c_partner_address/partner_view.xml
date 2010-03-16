@@ -189,8 +189,6 @@
                             <field name="parent_id"/>
                             <field name="website" widget="url"/>
                             <field name="date" select="2"/>
-                            <field name="bank_ids" colspan="4" nolabel="1"
-                                context="address=address" />
                             <separator string="Notes" colspan="4"/>
                             <field name="comment" colspan="4" nolabel="1"/>
                         </page>
