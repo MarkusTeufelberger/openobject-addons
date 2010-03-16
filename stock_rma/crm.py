@@ -51,12 +51,47 @@ class crm_rma(osv.osv):
     _defaults = {
         'rma_ref': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'rma'),
     }
-    
+
+
+    #here we decorate the crm.case actions/methods. It sucks that OpenObject doesn't do it by default when using _inherits
+
     def onchange_partner_address_id(self, cr, uid, ids, part, email=False):
+        ids = [self.pool.get('crm.rma').browse(cr, uid, id).crm_id.id for id in ids]
         return self.pool.get('crm.case').onchange_partner_address_id(cr, uid, ids, part, email)
     
     def onchange_categ_id(self, cr, uid, ids, categ, context={}):
+        ids = [self.pool.get('crm.rma').browse(cr, uid, id).crm_id.id for id in ids]
         return self.pool.get('crm.case').onchange_categ_id(cr, uid, ids, categ, context)
+    
+    def case_close(self, cr, uid, ids, *args):
+        ids = [self.pool.get('crm.rma').browse(cr, uid, id).crm_id.id for id in ids]
+        return self.pool.get('crm.case').case_close(cr, uid, ids, *args)
+
+    def case_escalate(self, cr, uid, ids, *args):
+        ids = [self.pool.get('crm.rma').browse(cr, uid, id).crm_id.id for id in ids]
+        return self.pool.get('crm.case').case_escalate(cr, uid, ids, *args)
+    
+    def case_open(self, cr, uid, ids, *args):
+        ids = [self.pool.get('crm.rma').browse(cr, uid, id).crm_id.id for id in ids]
+        return self.pool.get('crm.case').case_open(cr, uid, ids, *args)
+    
+    def case_cancel(self, cr, uid, ids, *args):
+        ids = [self.pool.get('crm.rma').browse(cr, uid, id).crm_id.id for id in ids]
+        return self.pool.get('crm.case').case_cancel(cr, uid, ids, *args)
+    
+    def case_pending(self, cr, uid, ids, *args):
+        ids = [self.pool.get('crm.rma').browse(cr, uid, id).crm_id.id for id in ids]
+        return self.pool.get('crm.case').case_pending(cr, uid, ids, *args)
+    
+    def case_reset(self, cr, uid, ids, *args):
+        ids = [self.pool.get('crm.rma').browse(cr, uid, id).crm_id.id for id in ids]
+        return self.pool.get('crm.case').case_reset(cr, uid, ids, *args)
+    
+    def stage_next(self, cr, uid, ids, context={}):
+        ids = [self.pool.get('crm.rma').browse(cr, uid, id).crm_id.id for id in ids]
+        return self.pool.get('crm.case').stage_next(cr, uid, ids, context)
+
+
 
     global parent
     parent = {}
