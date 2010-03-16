@@ -1,0 +1,46 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="header_img">
+            <field name="name">res.company.header.img</field>
+            <field name="model">c2c.header_img</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="name"/>
+                    <field name="img" widget="image"/>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="header_rml">
+            <field name="name">res.company.header.rml</field>
+            <field name="model">c2c.header_rml</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="name"/>
+                    <field name="rml"/>
+                </form>
+                
+            </field>
+        </record>
+        
+        <record id="action_header_img" model="ir.actions.act_window">
+            <field name="name">Header IMG</field>
+            <field name="res_model">c2c.header_img</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="action_header_img" id="menu_header_img" parent="base.menu_action_res_company_tree" sequence="14"/>
+        
+        <record id="action_header_rml" model="ir.actions.act_window">
+            <field name="name">Header RML</field>
+            <field name="res_model">c2c.header_rml</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="action_header_rml" id="menu_header_rml" parent="base.menu_action_res_company_tree" sequence="14"/>
+        
+        
+    </data>
+</openerp>
