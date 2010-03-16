@@ -127,6 +127,9 @@
 							<field name="planned_revenue" string="RMA Revenue" />
 							<field name="new_invoice_id" string="New Invoice" domain = "[('partner_id','=', partner_id)]"/>
 						</page>
+						<page string="Notes">
+							<field name="note" nolabel="1"/>
+						</page>
 					</notebook>
 				</form>
 
