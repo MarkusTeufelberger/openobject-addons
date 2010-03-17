@@ -349,6 +349,7 @@
                 <field name="date_maturity"/>
                 <field name="move_id" readonly="1"/>
                 <field name="reconcile_id" readonly="1"/>
+                <field name="reconcile_partial_id" readonly="1"/>
             </tree>
         </field>
     </record>
