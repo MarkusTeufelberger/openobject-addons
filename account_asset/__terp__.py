@@ -28,7 +28,11 @@
     Allows to define
     * Asset category. 
     * Assets.
-    *Asset usage period and property.
+    * Asset usage period and property.
+    * Depreciation methods:
+        - Linear
+        - Progressive
+        - Degressive
     """,
     "website" : "http://www.openerp.com",
     "category" : "Generic Modules/Accounting",

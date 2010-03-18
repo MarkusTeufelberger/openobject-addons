@@ -22,6 +22,9 @@
 
 from osv import osv, fields
 import time
+import mx.DateTime
+#from mx.DateTime import RelativeDateTime, now, DateTime, localtime
+
 class account_asset_category(osv.osv):
     _name = 'account.asset.category'
     _description = 'Asset category'
@@ -125,18 +128,42 @@ class account_asset_asset(osv.osv):
         total = 0.0
         for move in property.asset_id.entry_ids:
             total += move.debit-move.credit
+        gross = total                                       # GG fix needed for degressive
         for move in property.entry_asset_ids:
             if move.account_id == property.account_asset_id:
                 total += move.debit-move.credit
-        periods = property.method_delay - (len(property.entry_asset_ids)/2) # GG fix
+        entries_made = (len(property.entry_asset_ids)/2)   # GG fix needed for degressive
+        periods = property.method_delay - entries_made     # GG fix
         if periods==1:
             amount = total
         else:
             if property.method == 'linear':
                 amount = total / periods
-            else:
+            elif property.method == 'progressive':                          # GG fix begin 
                 amount = total * property.method_progress_factor
+            elif property.method == 'degressive':
+                period_begin = mx.DateTime.strptime(period.date_start, '%Y-%m-%d')
+                period_end = mx.DateTime.strptime(period.date_stop, '%Y-%m-%d')
+                period_duration = period_end.month - period_begin.month + 1 
+                intervals_per_year = 12 / period_duration / property.method_period
+                if (entries_made % intervals_per_year) == 0:
+                    amount = total * property.method_progress_factor / intervals_per_year
+                    if amount < (gross / property.method_delay):        # In degressive when amount less than amount for linear it changes to linear
+                        amount = gross / property.method_delay
+                        if total < amount:
+                            amount = total
+                else:
+                    cr.execute("SELECT m.id, m.debit \
+                                FROM account_move_line AS m \
+                                    LEFT JOIN account_move_asset_entry_rel AS r \
+                                    ON m.id = r.move_id \
+                                        LEFT JOIN account_asset_property AS p \
+                                        ON p.asset_id = r.asset_property_id \
+                                    WHERE p.asset_id = %s \
+                                    ORDER BY m.id DESC", (property.asset_id.id,))
+                    amount = cr.fetchone()[1]
 
+                                                                             # GG fix end
         move_id = self.pool.get('account.move').create(cr, uid, {
             'journal_id': property.journal_id.id,
             'period_id': period.id,
@@ -171,7 +198,7 @@ class account_asset_asset(osv.osv):
         self.pool.get('account.asset.property').write(cr, uid, [property.id], {
             'entry_asset_ids': [(4, id2, False),(4,id,False)]
         })
-        if property.method_delay - (len(property.entry_asset_ids)/2)<=1:
+        if (property.method_delay - (len(property.entry_asset_ids)/2)<=1) or (total == amount):  # GG fix for Degressive
             self.pool.get('account.asset.property')._close(cr, uid, property, context)
             return result
         return result
@@ -243,7 +270,7 @@ class account_asset_property(osv.osv):
         'journal_analytic_id': fields.many2one('account.analytic.journal', 'Analytic journal'),
         'account_analytic_id': fields.many2one('account.analytic.account', 'Analytic account'),
 
-        'method': fields.selection([('linear','Linear'),('progressif','Progressive')], 'Computation method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'method': fields.selection([('linear','Linear'),('progressive','Progressive'), ('degressive','Degressive')], 'Computation method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'method_progress_factor': fields.float('Progressif factor', readonly=True, states={'draft':[('readonly',False)]}),
         'method_time': fields.selection([('delay','Delay'),('end','Ending period')], 'Time method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'method_delay': fields.integer('Number of interval', readonly=True, states={'draft':[('readonly',False)]}),
