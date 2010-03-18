@@ -51,7 +51,7 @@ class external_osv(osv.osv):
         return False
     
     def oeid_to_extid(self, cr, uid, id, external_referential_id, context={}):
-        model_data_ids = self.pool.get('ir.model.data').search(cr, uid, [('model', '=', self._name), ('res_id', '=', id), ('module', '=', 'base_external_referentials_keep'), ('external_referential_id', '=', external_referential_id)])
+        model_data_ids = self.pool.get('ir.model.data').search(cr, uid, [('model', '=', self._name), ('res_id', '=', id), ('external_referential_id', '=', external_referential_id)])
         if model_data_ids and len(model_data_ids) > 0:
             prefixed_id = self.pool.get('ir.model.data').read(cr, uid, model_data_ids[0], ['name'])['name']
             ext_id = int(self.id_from_prefixed_id(prefixed_id))
@@ -180,11 +180,11 @@ class external_osv(osv.osv):
                             crid = self.oe_create(cr, uid, vals, each_row, external_referential_id, defaults, context)
                             create_ids.append(crid)
                             ir_model_data_vals = {
-                                                    'name':self.prefixed_id(external_id),
-                                                    'model':self._name,
-                                                    'res_id':crid,
-                                                    'external_referential_id':external_referential_id,
-                                                    'module':'base_external_referentials_keep'
+                                                    'name': self.prefixed_id(external_id),
+                                                    'model': self._name,
+                                                    'res_id': crid,
+                                                    'external_referential_id': external_referential_id,
+                                                    'module': 'extref.' + self.pool.get('external.referential').read(cr, uid, external_referential_id, ['name'])['name']
                                                   }
                             self.pool.get('ir.model.data').create(cr, uid, ir_model_data_vals)
                             logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Created in OpenERP %s from External Ref with external_id %s and OpenERP id %s successfully" %(self._name, external_id, crid))
@@ -247,7 +247,7 @@ class external_osv(osv.osv):
         for record_data in self.read(cr, uid, ids, [], context):
             #If no external_ref_ids are mentioned, then take all ext_ref_this item has
             if not external_referential_ids:
-                ir_model_data_recids = self.pool.get('ir.model.data').search(cr, uid, [('model', '=', self._name), ('res_id', '=', id), ('module', '=', 'base_external_referentials_keep')])
+                ir_model_data_recids = self.pool.get('ir.model.data').search(cr, uid, [('model', '=', self._name), ('res_id', '=', id), ('module', 'ilike', 'extref')])
                 if ir_model_data_recids:
                     for each_model_rec in self.pool.get('ir.model.data').read(cr, uid, ir_model_data_recids, ['external_referential_id']):
                         if each_model_rec['external_referential_id']:
@@ -267,7 +267,7 @@ class external_osv(osv.osv):
                         #if mapping lines exist find the data conversion for each row in inward data
                         exp_data = self.extdata_from_oevals(cr, uid, ext_ref_id, record_data, mapping_lines, defaults, context)
                         #Check if export for this referential demands a create or update
-                        rec_check_ids = self.pool.get('ir.model.data').search(cr, uid, [('model', '=', self._name), ('res_id', '=', record_data['id']), ('module', '=', 'base_external_referentials_keep'), ('external_referential_id', '=', ext_ref_id)])
+                        rec_check_ids = self.pool.get('ir.model.data').search(cr, uid, [('model', '=', self._name), ('res_id', '=', record_data['id']), ('module', 'ilike', 'extref'), ('external_referential_id', '=', ext_ref_id)])
                         #rec_check_ids will indicate if the product already has a mapping record with ext system
                         mapping_id = self.pool.get('external.mapping').search(cr, uid, [('model', '=', self._name), ('referential_id', '=', ext_ref_id)])
                         if mapping_id and len(mapping_id) == 1:
