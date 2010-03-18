@@ -100,6 +100,7 @@ class sale_shop(external_osv.external_osv):
         'last_inventory_export_date': fields.datetime('Last Inventory Export Time'),
         'last_images_export_date': fields.datetime('Last Images Export Time'),
         'last_update_order_export_date' : fields.datetime('Last Order Update  Time'),
+        'last_products_export_date' : fields.datetime('Last Product Export  Time'),
         'referential_id': fields.related('shop_group_id', 'referential_id', type='many2one', relation='external.referential', string='External Referential'),
         'is_tax_included': fields.boolean('Prices Include Tax?', help="Requires sale_tax_include module to be installed"),
         'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')],
