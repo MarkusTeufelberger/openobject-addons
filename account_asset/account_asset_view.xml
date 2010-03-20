@@ -65,36 +65,43 @@
             <form string="Asset">
                 <notebook colspan="4">
                 <page string="General info">
-                    <field name="name" select="1"/>
-                    <field name="code" select="1"/>
-                    <field name="period_id" select="2"/>
-                    <field name="category_id" select="1"/>
+		    <group colspan = "4" col = "6" >
+                    	<field name="name" select="1" colspan = "4"/>
+                    	<field name="code" select="1"/>
+                    	<field name="category_id" select="1"/>
+                    	<field name="period_id" select="2"/>
+		    	<field name="value_salvage"/>
+		    </group>
                     <field name="property_ids" colspan="4" nolabel="1" mode="form,tree">
                         <form string="Depreciation methods">
                             <field name="name" select="1" colspan="4"/>
                             <separator string="Methods" colspan="4"/>
                             <notebook colspan="4">
                             <page string="Depreciation">
-                                <separator string="Accounts information" colspan="4"/>
-                                <field name="account_asset_id"/>
-                                <field name="account_actif_id"/>
-                                <field name="journal_id"/>
-                                <field name="type"/>
-                                <field name="account_analytic_id"/>
-                                <field name="journal_analytic_id"/>
-                                <separator string="Depreciation duration" colspan="4"/>
-                                <field name="method"/>
-                                <field name="method_progress_factor"/>
-                                <field name="method_time"/>
-                                <field name="method_delay"/>
-                                <field name="method_period"/>
-                                <button 
-                                    name="%(wizard_asset_modify)d" 
-                                    states="open" 
-                                    string="Change duration" 
-                                    type="action" 
-                                    colspan="2"/>
-                                <!-- <field name="method_end"/> -->
+				<group colspan = "3" col="2">
+	                               <separator string="Accounts information" colspan ="2"/>
+	       	                        <field name="account_asset_id"/>
+        	                        <field name="account_actif_id"/>
+        	                        <field name="journal_id"/>
+        	                        <field name="journal_analytic_id"/>
+        	                        <field name="account_analytic_id"/>
+                                	<!-- <field name="type"/>   Not used -->
+				</group>
+				<group colspan = "1" col="2">
+	                                <separator string="Depreciation duration" colspan ="2"/>
+        	                        <field name="method"/>
+        	                        <field name="method_delay"/>
+        	                        <field name="method_period"/>
+        	                        <field name="method_progress_factor"/>
+        	                        <!-- <field name="method_time"/>   Not used -->
+                                	<button 
+                                  	 name="%(wizard_asset_modify)d" 
+                                   	 states="open" 
+                                   	 string="Change duration" 
+                                   	 type="action" 
+                                   	 colspan="2"/>
+                                	<!-- <field name="method_end"/> -->
+				</group>
                             </page>
                             <page string="Depreciation entries">
                                 <field name="entry_asset_ids" colspan="4" nolabel="1" readonly="1"/>

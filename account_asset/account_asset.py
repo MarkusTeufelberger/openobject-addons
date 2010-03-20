@@ -84,13 +84,14 @@ class account_asset_asset(osv.osv):
         'parent_id': fields.many2one('account.asset.asset', 'Parent asset'),
         'child_ids': fields.one2many('account.asset.asset', 'parent_id', 'Childs asset'),
         'date': fields.date('Date', required=True),
-        'period_id': fields.many2one('account.period', 'Period', required=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'period_id': fields.many2one('account.period', 'Period', required=True, readonly=True, states={'draft':[('readonly',False)]}, help = "Select period when depreciation should be started"),
         'state': fields.selection([('view','View'),('draft','Draft'),('normal','Normal'),('close','Close')], 'Global state', required=True),
         'active': fields.boolean('Active', select=2),
         'partner_id': fields.many2one('res.partner', 'Partner'),
         'entry_ids': fields.one2many('account.move.line', 'asset_id', 'Entries', readonly=True, states={'draft':[('readonly',False)]}),
         'property_ids': fields.one2many('account.asset.property', 'asset_id', 'Asset method name', readonly=True, states={'draft':[('readonly',False)]}),
         'value_total': fields.function(_amount_total, method=True, digits=(16,2),string='Total value'),
+        'value_salvage': fields.float('Salvage Value', readonly=True, states={'draft':[('readonly',False)]}, help = "Value planned to be residual after full depreciation process")
     }
     _defaults = {
         'code': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'account.asset.code'),
@@ -128,6 +129,7 @@ class account_asset_asset(osv.osv):
         total = 0.0
         for move in property.asset_id.entry_ids:
             total += move.debit-move.credit
+        total -= property.asset_id.value_salvage
         gross = total                                       # GG fix needed for declining-balance
         for move in property.entry_asset_ids:
             if move.account_id == property.account_asset_id:
@@ -184,6 +186,7 @@ class account_asset_asset(osv.osv):
             'journal_id': property.journal_id.id,
             'partner_id': property.asset_id.partner_id.id,
             'date': time.strftime('%Y-%m-%d'),
+    #            'asset_id': property.asset_id.id      # Probably should be added but some other querries should be changed
         })
         id2 = self.pool.get('account.move.line').create(cr, uid, {
             'name': property.name or property.asset_id.name,
@@ -196,6 +199,7 @@ class account_asset_asset(osv.osv):
             'journal_id': property.journal_id.id,
             'partner_id': property.asset_id.partner_id.id,
             'date': time.strftime('%Y-%m-%d'),
+    #            'asset_id': property.asset_id.id      # Probably should be added but some other querries should be changed
         })
         self.pool.get('account.asset.property').write(cr, uid, [property.id], {
             'entry_asset_ids': [(4, id2, False),(4,id,False)]
@@ -273,9 +277,9 @@ class account_asset_property(osv.osv):
         'account_analytic_id': fields.many2one('account.analytic.account', 'Analytic account'),
 
         'method': fields.selection([('linear','Linear'),('progressive','Progressive'), ('decbalance','Declining-Balance')], 'Computation method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-        'method_progress_factor': fields.float('Progressif factor', readonly=True, states={'draft':[('readonly',False)]}),
+        'method_progress_factor': fields.float('Progressive factor', readonly=True, states={'draft':[('readonly',False)]}),
         'method_time': fields.selection([('delay','Delay'),('end','Ending period')], 'Time method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-        'method_delay': fields.integer('Number of interval', readonly=True, states={'draft':[('readonly',False)]}),
+        'method_delay': fields.integer('Number of intervals', readonly=True, states={'draft':[('readonly',False)]}),
         'method_period': fields.integer('Period per interval', readonly=True, states={'draft':[('readonly',False)]}),
         'method_end': fields.date('Ending date'),
 

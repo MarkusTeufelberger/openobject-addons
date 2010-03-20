@@ -26,22 +26,50 @@ import pooler
 asset_end_arch = '''<?xml version="1.0"?>
 <form string="Close asset">
     <separator string="General information" colspan="4"/>
+    <field name="name" colspan="4"/>
+    <separator string="Notes" colspan="4"/>
+    <field name="note" nolabel="1" colspan="4"/>
 </form>'''
 
 asset_end_fields = {
+    'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
+    'note': {'string':'Notes', 'type':'text'},
+
 }
+
+def _asset_default(self, cr, uid, data, context={}):
+    pool = pooler.get_pool(cr.dbname)
+    prop = pool.get('account.asset.property').browse(cr, uid, data['id'], context)
+    return {
+        'name': "Closing "+prop.name,
+    }
+
+
+def _asset_close(self, cr, uid, data, context={}):
+    pool = pooler.get_pool(cr.dbname)
+    prop_obj = pool.get('account.asset.property')
+    prop = prop_obj.browse(cr, uid, data['id'], context)
+    pool.get('account.asset.property.history').create(cr, uid, {
+        'asset_property_id': data['id'],
+        'name': data['form']['name'],
+        'note': data['form']['note'],
+    }, context)
+
+    prop_obj._close(cr, uid, prop, context)
+    return {}
+
 
 class wizard_asset_close(wizard.interface):
     states = {
         'init': {
-            'actions': [],
+            'actions': [_asset_default],
             'result': {'type':'form', 'arch':asset_end_arch, 'fields':asset_end_fields, 'state':[
                 ('end','Cancel'),
                 ('asset_close','End of asset')
             ]}
         },
         'asset_close': {
-            'actions': [],
+            'actions': [_asset_close],
             'result': {'type' : 'state', 'state': 'end'}
         }
     }

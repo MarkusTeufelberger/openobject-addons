@@ -23,7 +23,7 @@
     "name" : "Asset management",
     "version" : "1.0",
     "depends" : ["account", "account_simulation"],
-    "author" : "Tiny",
+    "author" : "Tiny, Cirrus",
     "description": """Financial and accounting asset management.
     Allows to define
     * Asset category. 
@@ -32,7 +32,7 @@
     * Depreciation methods:
         - Linear
         - Progressive
-        - Degressive
+        - Declining-Balance
     """,
     "website" : "http://www.openerp.com",
     "category" : "Generic Modules/Accounting",

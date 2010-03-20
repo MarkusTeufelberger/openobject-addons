@@ -44,7 +44,7 @@ def _asset_default(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
     prop = pool.get('account.asset.property').browse(cr, uid, data['id'], context)
     return {
-        'name': prop.name,
+        'name': "Modifying "+prop.name,
         'method_delay': prop.method_delay,
         'method_period': prop.method_period
     }
@@ -54,13 +54,13 @@ def _asset_modif(self, cr, uid, data, context={}):
     prop = pool.get('account.asset.property').browse(cr, uid, data['id'], context)
     pool.get('account.asset.property.history').create(cr, uid, {
         'asset_property_id': data['id'],
-        'name': prop.name,
+        'name': data['form']['name'],
         'method_delay': prop.method_delay,
         'method_period': prop.method_period,
         'note': data['form']['note'],
     }, context)
     pool.get('account.asset.property').write(cr, uid, [data['id']], {
-        'name': data['form']['name'],
+#        'name': data['form']['name'],
         'method_delay': data['form']['method_delay'],
         'method_period': data['form']['method_period'],
     }, context)
