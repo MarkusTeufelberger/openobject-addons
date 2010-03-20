@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+	<!-- stock.sample.library -->
+	<record id="seq_type_sample_library" model="ir.sequence.type">
+		<field name="name">Production Lot Sample Library</field>
+		<field name="code">stock.sample.library</field>
+	</record>
+	<record id="seq_sample_library" model="ir.sequence">
+		<field name="name">Production Lot Sample Library</field>
+		<field name="code">stock.sample.library</field>
+		<field name="padding">8</field>
+	</record>
+</data>
+</openerp>
