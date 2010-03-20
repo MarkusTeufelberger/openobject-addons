@@ -38,16 +38,22 @@ asset_end_fields = {
 asset_ask_form = '''<?xml version="1.0"?>
 <form string="Compute assets">
     <field name="period_id"/>
+    <newline/>
+    <field name="category_id"/>
 </form>'''
 
 asset_ask_fields = {
     'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True},
+    'category_id': {'string': 'Asset Category', 'type': 'many2one', 'relation':'account.asset.category', 'required':False, 'help': "If empty all assets will be calculated."},
 }
 
 def _asset_compute(self, cr, uid, data, context):
     pool = pooler.get_pool(cr.dbname)
     ass_obj = pool.get('account.asset.asset')
-    ids = ass_obj.search(cr, uid, [('state','=','normal')], context=context)
+    if data['form']['category_id']:
+        ids = ass_obj.search(cr, uid, [('state','=','normal'),['category_id','=',data['form']['category_id']]], context=context)
+    else:
+        ids = ass_obj.search(cr, uid, [('state','=','normal')], context=context)
     ids_create = []
     for asset in ass_obj.browse(cr, uid, ids, context):
         ids_create += ass_obj._compute_entries(cr, uid, asset, data['form']['period_id'], context)
