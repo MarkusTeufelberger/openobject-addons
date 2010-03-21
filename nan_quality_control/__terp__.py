@@ -32,7 +32,7 @@
     "version": "0.1",
     "author": "NaN for Guinama (www.guinama.com)",
     "category": "Generic Modules/Others",
-    "description": "This module provides a generic infrastructure for quality tests. The idea is that it can be later be reused for doing quality tests in production lots but also in any other areas a company may desire."
+    "description": "This module provides a generic infrastructure for quality tests. The idea is that it can be later be reused for doing quality tests in production lots but also in any other areas a company may desire.",
     "depends": [
         'product'
     ],
