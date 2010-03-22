@@ -45,6 +45,7 @@ class crm_rma(osv.osv):
         'new_invoice_id': fields.many2one('account.invoice', 'Invoice'),
         'warning': fields.char('Warning', size=64, select=1, readonly=True),
         'guarantee_limit': fields.date('Warranty limit', help="The warranty limit is computed as: invoice date + warranty defined on selected product.", readonly=True),
+        'extra_note': fields.text('Note'),
          #IT WILL BE BETTER TO USE warranty_limit THEN guarantee_limit BUT WE CHOOSE THIS NAME IN ORDER TO BE COMPATIBLE WITH THE MODULE MRP_REPAIR
     }
     
