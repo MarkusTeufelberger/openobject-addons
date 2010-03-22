@@ -79,6 +79,7 @@
 								<button name="case_open" states="draft,pending" string="Open" type="object" />
 								<button name="case_cancel" states="draft,open,pending" string="Cancel" type="object" />
 								<button name="case_pending" states="draft,open" string="Pending" type="object" />
+								<button name="case_escalate" states="open,draft,pending" string="Escalate" type="object"/>
 								<button name="case_reset" states="done,cancel" string="Reset to Draft" type="object" />
 							</group>
 						</page>
