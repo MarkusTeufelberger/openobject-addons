@@ -22,6 +22,7 @@ class crm_case(osv.osv):
         'out_supplier_picking_id': fields.many2one('stock.picking', 'Return From Supplier Picking', required = False),
         'prodlot_id': fields.many2one('stock.production.lot', 'Serial Number', required = False),
         'product_id': fields.related('prodlot_id', 'product_id', type='many2one', relation='product.product', string='Related Product'),
+        'extra_note': fields.text('Note'),
     }
     
     def default_incident_date(self, cr, uid, context={}):

@@ -127,7 +127,7 @@
 							<field name="planned_revenue" string="Incident Revenue" />
 						</page>
 						<page string="Notes">
-							<field name="note" nolabel="1" />
+							<field name="extra_note" nolabel="1" />
 						</page>
 					</notebook>
 				</form>
