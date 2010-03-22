@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	<!-- mrp.production -->
+	<wizard 
+		id="mrp_production_split" 
+		model="mrp.production" 
+		string="Split" 
+		name="mrp.production.split"
+		/>
+</data>
+</openerp>

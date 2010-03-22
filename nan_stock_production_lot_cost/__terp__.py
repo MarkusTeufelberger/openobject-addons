@@ -2,7 +2,7 @@
 	"name" : "Production Lot Cost",
 	"version" : "0.1",
 	"description" : """This module adds cost information to production lots.""",
-	"author" : "NaN for Guinama (www.guinama.com)",
+	"author" : "NaN for Trod y Avia, S.L.",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 
 		'stock',

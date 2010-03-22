@@ -21,7 +21,7 @@
 {
     "name" : "Product Sequence",
     "version" : "1.0",
-    "author" : "NaN for Guinama (www.guinama.com)",
+    "author" : "NaN for Trod y Avia, S.L.",
     "category" : "Generic Modules/Base",
     "website": "http://www.NaN-tic.com",
     "depends" : ['product'],
