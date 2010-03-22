@@ -10,6 +10,7 @@
 			<field name="arch" type="xml">
 				<form string="Packing list">
 					<group colspan="4" col="6">
+						<field name="address_id" />
 						<field name="type" />
 						<field name="name" readonly="1" />
 						<field name="date" />

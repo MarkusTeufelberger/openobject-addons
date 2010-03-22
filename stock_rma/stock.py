@@ -29,6 +29,13 @@ class stock_picking(osv.osv):
         if view_type == 'form' and context.get('view', False) == 'rma':
             view_id = self.pool.get('ir.ui.view').search(cr,uid,[('name','=','stock.picking.rma.form')])[0]
         return  super(stock_picking, self).fields_view_get(cr, uid, view_id, view_type, context, toolbar)
+    
+    def _default_address_id(self, cr, uid, context={}):
+        return context.get('partner_id', False) and self.pool.get('res.partner').address_get(cr, uid, [context['partner_id']], ['delivery'])['delivery']
+
+    _defaults = {
+        'address_id': _default_address_id,
+    }
 
 stock_picking()
 
