@@ -168,23 +168,26 @@ class crm_rma(osv.osv):
                             else:
                                 res_ids[key] = dico[field_2_convert][key](cr, uid, id[field_2_convert])
             return
-        
-        #creates the dictionary for each user
-        if not partner_id and not invoice_id and not product_id and not prodlot_id:
+
+        id = {'partner':partner_id, 'invoice':invoice_id, 'product':product_id, 'prodlot':prodlot_id}
+
+        #removes fields which have for parent the field which launch the on change and convert each field to a table
+        if parent:
+            for key in id:
+                if action in parent[uid][key] or not id[key]:
+                    id[key] = []
+                else:
+                    id[key] = [id[key]]
+                
+        #Init the onchange
+        if not parent or not id['partner'] and not id['invoice'] and not id['product'] and not id['prodlot']:
             parent[uid]={'partner' : {}, 'invoice' : {}, 'product' : {}, 'prodlot':{}}
-            return
+            return {'value':{'partner_id' : False, 'invoice_id' : False, 'product_id':False, 'prodlot_id' : False, 'guarantee_limit' : False, 'warning' : False },
+                     'domain':{'partner_id': '[]', 'invoice_id':'[]', 'product_id':'[]', 'prodlot_id':'[]'}}
         
         res_ids={'partner':[], 'invoice':[], 'product':[], 'prodlot':[]}
         filter = {'value':{'guarantee_limit' : False, 'warning' : False }, 'domain':{}}
 
-        #removes fields which have for parent the field which launch the on change and convert each field to a table
-        id = {'partner':partner_id, 'invoice':invoice_id, 'product':product_id, 'prodlot':prodlot_id}
-        for key in id:
-            if parent[uid][key].get(action, False) or not id[key]:
-                id[key] = []
-            else:
-                id[key] = [id[key]]
-                
         # starts to find all of ids in function of the existing field
         find_ids(cr, uid, {'partner': {'invoice' : partner_2_invoice},
                            'invoice': {'partner' : invoice_2_partner, 'product' : invoice_2_product, 'prodlot' : invoice_2_prodlot},
@@ -200,7 +203,7 @@ class crm_rma(osv.osv):
         #result are transformed in domain and value filter
         for key in res_ids:
             if not id[key]:
-                parent[uid][key] = id
+                parent[uid][key] = [ x for x in id if id.get(x,False) and x != 'invoice_ids']
                 filter['domain'][key + '_id']= "[('id','in', %s)]" % res_ids[key]
                 if len(res_ids[key])==1:
                     filter['value'][key + '_id'] = res_ids[key][0]
