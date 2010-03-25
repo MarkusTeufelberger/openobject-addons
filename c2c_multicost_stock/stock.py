@@ -60,8 +60,13 @@ class stock_location(osv.osv):
                for r in result:
                    c = (context or {}).copy()
                    c['location'] = id
-                   product = self.pool.get('product.product').read(cr, uid, r['product_id'], [field_to_read, pricetype.field], context=c)
-                   final_value += (product[field_to_read] * product[pricetype.field])
+                   product = self.pool.get('product.product').read(cr, uid, r['product_id'], [field_to_read], context=c)
+                   # Compute the amount_unit in right currency
+                   
+                   context['currency_id']=self.pool.get('res.users').browse(cr,uid,uid).company_id.currency_id.id
+                   amount_unit=self.pool.get('product.product').browse(cr,uid,r['product_id']).price_get(pricetype.field, context)[r['product_id']]
+                   
+                   final_value += (product[field_to_read] * amount_unit)
         return final_value
 
     def _product_get_report(self, cr, uid, ids, product_ids=False,
@@ -72,7 +77,8 @@ class stock_location(osv.osv):
         # Take the user company and pricetype
         price_type_id=self.pool.get('res.users').browse(cr,uid,uid).company_id.property_valuation_price_type.id
         pricetype=self.pool.get('product.price.type').browse(cr,uid,price_type_id)
-          
+        context['currency_id']=self.pool.get('res.users').browse(cr,uid,uid).company_id.currency_id.id
+        
         if not product_ids:
             product_ids = product_obj.search(cr, uid, [])
 
@@ -148,7 +154,8 @@ class stock_picking(osv.osv):
         if type in ('in_invoice', 'in_refund'):
             # Take the user company and pricetype
             price_type_id=self.pool.get('res.users').browse(cr,uid,uid).company_id.property_valuation_price_type.id
-            pricetype=self.pool.get('product.price.type').browse(cr,uid,price_type_id)            
+            pricetype=self.pool.get('product.price.type').browse(cr,uid,price_type_id)    
+            context['currency_id']=self.pool.get('res.users').browse(cr,uid,uid).company_id.currency_id.id        
             amount_unit=move_line.product_id.price_get(pricetype.field, context)[move_line.product_id.id] 
             return amount_unit
         else:
@@ -238,6 +245,7 @@ class stock_move(osv.osv):
                         # Base computation on valuation price type
                     else:
                          company=move.company_id and move.company_id or self.pool.get('res.users').browse(cr,uid,uid).company_id
+                         context['currency_id']=company.currency_id.id
                          pricetype=self.pool.get('product.price.type').browse(cr,uid,company.property_valuation_price_type.id)
                          amount_unit=move.product_id.price_get(pricetype.field, context)[move.product_id.id]
                          amount=amount_unit * q or 1.0

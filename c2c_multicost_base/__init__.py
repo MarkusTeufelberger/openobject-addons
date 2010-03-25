@@ -31,3 +31,4 @@ import account_analytic_line
 import analytic
 import analytic_analysis
 import company
+import product

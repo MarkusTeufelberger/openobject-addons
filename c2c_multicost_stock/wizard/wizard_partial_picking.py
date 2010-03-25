@@ -116,7 +116,7 @@ def _do_split(self, cr, uid, data, context):
     pick = pick_obj.browse(cr, uid, [data['id']])[0]
     new_picking = None
     new_moves = []
-
+    
     complete, too_many, too_few = [], [], []
     pool = pooler.get_pool(cr.dbname)
     for move in move_obj.browse(cr, uid, data['form'].get('moves',[])):
@@ -136,7 +136,7 @@ def _do_split(self, cr, uid, data, context):
 
             product = product_obj.browse(cr, uid, [move.product_id.id])[0]
             user = users_obj.browse(cr, uid, [uid])[0]
-
+            context['currency_id']=user.company_id.currency_id.id
             qty = data['form']['move%s' % move.id]
             uom = data['form']['uom%s' % move.id]
             price = data['form']['price%s' % move.id]
