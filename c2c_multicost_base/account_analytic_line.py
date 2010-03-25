@@ -91,10 +91,11 @@ class account_analytic_line(osv.osv):
     _defaults = {
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
     }
-   
+
     # Compute the cost based on the price type define into company
-    # property_valuation_price_type property
-    def on_change_unit_amount(self, cr, uid, id, prod_id, unit_amount,company_id, unit=False, context=None):
+    # property_valuation_price_type property
+    def on_change_unit_amount(self, cr, uid, id, prod_id, unit_amount,company_id,
+            unit=False, context=None):
         if context==None:
             context={}
         uom_obj = self.pool.get('product.uom')
@@ -112,13 +113,13 @@ class account_analytic_line(osv.osv):
                                 (prod.name, prod.id,))
             if not company_id:
                 company_id=company_obj._company_default_get(cr, uid, 'account.analytic.line', context)
-      
+
             # Compute based on pricetype
             pricetype=self.pool.get('product.price.type').browse(cr,uid,company_obj.browse(cr,uid,company_id).property_valuation_price_type.id)
+            # Take the company currency as the reference one
+            context['currency_id']=company_obj.browse(cr,uid,company_id).currency_id.id
             amount_unit=prod.price_get(pricetype.field, context)[prod.id]
-
             amount=amount_unit*unit_amount or 1.0
-
             return {'value': {
                 'amount': - round(amount, 2),
                 'general_account_id': a,
