@@ -24,7 +24,8 @@ from base_external_referentials import external_osv
 from sets import Set
 import netsvc
 from tools.translate import _
-from datetime import datetime
+#from datetime import datetime
+import time
 
 
 class external_shop_group(external_osv.external_osv):
@@ -170,7 +171,7 @@ class sale_shop(external_osv.external_osv):
                 recent_move_ids = self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
             product_ids = [move.product_id.id for move in self.pool.get('stock.move').browse(cr, uid, recent_move_ids)]
             res = self.pool.get('product.product').export_inventory(cr, uid, product_ids, '', ctx)
-            self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_inventory_export_date': datetime.now()})
+            self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_inventory_export_date': time.strftime('%Y-%m-%d %H:%M:%S')})
         return res
     
     def import_catalog(self, cr, uid, ids, ctx):
@@ -219,7 +220,7 @@ class sale_shop(external_osv.external_osv):
                     order_ext_id = result[1].split('sale.order_')[1]
                     self.update_shop_orders(cr, uid, order, order_ext_id, ctx)
                     logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully updated order with OpenERP id %s and ext id %s in external sale system" % (id, order_ext_id))
-            self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_update_order_export_date': datetime.now()})
+            self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_update_order_export_date': time.strftime('%Y-%m-%d %H:%M:%S')})
 
         
     def update_shop_orders(self, cr, uid, order, ext_id, ctx):
