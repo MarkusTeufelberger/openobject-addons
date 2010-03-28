@@ -1,9 +1,9 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    base_partner_surname module for OpenERP, add firstname and lastname in partner
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
+#    Copyright (C) 2009 SYLEAM (<http://www.Syleam.fr>) Sebastien LANGE
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,49 +20,49 @@
 #
 ##############################################################################
 from osv import fields,osv
-from mx import DateTime
-import tools
-import ir
-import pooler
-import time
 
 class res_partner_address(osv.osv):
-    _name = 'res.partner.address'
     _inherit ='res.partner.address'
+
+    def _get_name_calc(self, cr, uid, ids, field_name, unknow_none, context):
+        """
+        This is for overriding object 'name' property 
+        """
+        ar_ctc = self.read(cr,uid,ids, ['id', 'first_name', 'last_name'], context)
+        res={}
+        for record in ar_ctc:
+            _name = "%s %s" % (record['first_name'] or '', record['last_name'] or '')
+            res[record['id']] = _name
+        return res
+
+
     _columns = {
-        'first_name' : fields.char('First Name', size=128),
-        'last_name' : fields.char('Last Name', size=128),
-        'name' : fields.char('Name', size=128,readonly=True),
+        'first_name': fields.char('First Name', size=63),
+        'last_name': fields.char('Last Name', size=64),
+        'name': fields.function(_get_name_calc, type='char', size=128, method=True, string='Name'),
     }
-    def write(self, cr, uid, ids, vals, context={}):
-        first_name=''
-        last_name=''
-        if 'first_name' in vals and vals['first_name']:
-            first_name=vals['first_name']
-        if 'last_name' in vals and vals['last_name']:
-            last_name=vals['last_name']
 
-        vals['name']= first_name + ' ' + last_name
-        return super(res_partner_address, self).write(cr, uid, ids, vals, context)
 
-    def create(self, cr, uid, vals, context={}):
-        first_name=''
-        last_name=''
-        if 'first_name' in vals and vals['first_name']:
-            first_name=vals['first_name']
-        if 'last_name' in vals and vals['last_name']:
-            last_name=vals['last_name']
+    def _name_get(self, cr, uid, ids, context=None):
+        """
+        This is for overriding relation use
+        """
+        if not context: context={}
+        if not len(ids):
+            return []
+        reads = self.read(cr, uid, ids, ['first_name', 'last_name'], context)
+        res = []
+        for record in reads:
+            _name = "%s %s" % (record['first_name'] or '', record['last_name'] or '')
+            res.append((record['id'], _name))
+        return res
 
-        vals['name']= first_name + ' ' + last_name
-        return super(res_partner_address, self).create(cr, uid, vals, context)
 
-    def onchange_name(self, cr, uid, id, first_name,last_name,context={}):
-        if not first_name:
-            first_name=''
-        if not last_name:
-            last_name=''
-        return {'value': {'name': first_name + ' ' + last_name}}
+    def name_get(self, cr, uid, ids, context=None):
+        if not context: context={}
+        return self._name_get(cr, uid, ids, context)
 
 res_partner_address()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
