@@ -11,13 +11,18 @@ min_maintenance_months = 6 #TODO make this a parameter!
 class account_invoice(osv.osv):
    _inherit = "account.invoice"
 
-   def _refund_cleanup_lines(self, cr, uid, lines):
+# FIXME
+#   def _refund_cleanup_lines(self, cr, uid, lines):
+   def _refund_cleanup_lines(self, lines):
+
        for line in lines:
            if 'fleet_id' in line:
                line['fleet_id'] = line.get('fleet_id', False) and line['fleet_id'][0]
            if 'account_analytic_lines' in line:
                line['account_analytic_lines'] = [(6,0, line.get('account_analytic_lines', [])) ]
-       return super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
+# FIXME
+#       return super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
+       return super(account_invoice, self)._refund_cleanup_lines(lines)
 
 account_invoice()
 
