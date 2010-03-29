@@ -39,7 +39,7 @@
                             <field name="street2"/>
                             <field name="zip" select="2"/>
                             <field name="city" select="2"/>
-                            <field name="country_id" select="2"/>
+                            <field name="country_id" completion="1" select="2"/>
                             <field name="state_id" select="2"/>
                         </group>
                         <group colspan="2" col="2">
