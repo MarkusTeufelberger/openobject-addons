@@ -135,7 +135,7 @@ class ResPartnerAddress(osv.osv):
             cr.rollback()
             logger.notifyChannel(
                                     'c2c_partner_Address init',
-                                    netsvc.LOG_INFO, msg,
+                                    netsvc.LOG_INFO,
                                     'Warning ! impossible to rename column name'+\
                                     ' into lastname, this is probabely aleready done'
                                 )

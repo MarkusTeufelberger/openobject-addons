@@ -120,7 +120,6 @@ class AccountAccount(osv.osv):
         null_result = dict((fn, 0.0) for fn in field_names)
         for id in ids:
             res[id] = sums.get(id, null_result)
-        print res
         return res
 
         #algo trouver toutes les lignes enfants les sorter par currency
