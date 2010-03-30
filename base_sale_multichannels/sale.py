@@ -159,6 +159,7 @@ class sale_shop(external_osv.external_osv):
             self.export_categories(cr, uid, shop, ctx)
             self.export_products(cr, uid, shop, ctx)
         self.export_inventory(cr, uid, ids, ctx)
+        return False
             
     def export_inventory(self, cr, uid, ids, ctx):
         for shop in self.browse(cr, uid, ids):
@@ -193,6 +194,7 @@ class sale_shop(external_osv.external_osv):
                 defaults.update({'price_type': 'tax_included'})
 
             self.import_shop_orders(cr, uid, shop, defaults, ctx)
+        return False
             
     def import_shop_orders(self, cr, uid, shop, defaults, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
@@ -221,6 +223,7 @@ class sale_shop(external_osv.external_osv):
                     self.update_shop_orders(cr, uid, order, order_ext_id, ctx)
                     logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully updated order with OpenERP id %s and ext id %s in external sale system" % (id, order_ext_id))
             self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_update_order_export_date': time.strftime('%Y-%m-%d %H:%M:%S')})
+        return False
 
         
     def update_shop_orders(self, cr, uid, order, ext_id, ctx):
