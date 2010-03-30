@@ -127,6 +127,7 @@ class ResPartnerAddress(osv.osv):
         try:
             cr.execute('ALTER TABLE res_partner_address RENAME column name to lastname ;')
             logger.notifyChannel(
+                                    'c2c_partner_address init',
                                     netsvc.LOG_INFO, 
                                     'try to ALTER TABLE res_partner_address RENAME '+\
                                     'column name to lastname ;'
@@ -134,7 +135,7 @@ class ResPartnerAddress(osv.osv):
         except Exception, e:
             cr.rollback()
             logger.notifyChannel(
-                                    'c2c_partner_Address init',
+                                    'c2c_partner_address init',
                                     netsvc.LOG_INFO,
                                     'Warning ! impossible to rename column name'+\
                                     ' into lastname, this is probabely aleready done'
