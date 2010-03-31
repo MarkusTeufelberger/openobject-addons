@@ -207,12 +207,13 @@ class crm_rma(osv.osv):
                 filter['domain'][key + '_id']= "[('id','in', %s)]" % res_ids[key]
                 if len(res_ids[key])==1:
                     filter['value'][key + '_id'] = res_ids[key][0]
+                    id[key] = res_ids[key]
                 else:
                     filter['value'][key + '_id'] = False
         
-        if len(res_ids['invoice'])==1 and len(res_ids['product'])==1:
-            invoice_date = self.pool.get('account.invoice').read(cr, uid,res_ids['invoice'],['date_invoice'])[0]['date_invoice']
-            product_warranty = self.pool.get('product.product').read(cr, uid,res_ids['product'],['warranty'])[0]['warranty']
+        if id['invoice'] and id['product']:
+            invoice_date = self.pool.get('account.invoice').read(cr, uid, id['invoice'],['date_invoice'])[0]['date_invoice']
+            product_warranty = self.pool.get('product.product').read(cr, uid, id['product'],['warranty'])[0]['warranty']
             end_warranty = (datetime.strptime(invoice_date, '%Y-%m-%d') + relativedelta(months=int(product_warranty)))
             filter['value']['guarantee_limit'] = end_warranty.strftime('%Y-%m-%d')
             if end_warranty < datetime.now():

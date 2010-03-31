@@ -17,7 +17,7 @@
 						<field name="prodlot_id" on_change="onchange_form('prodlot', partner_id, invoice_id, product_id, prodlot_id)"/>
 						<field name="guarantee_limit"/>
 						<group col="4" colspan="10" attrs="{'invisible':[('warning','=',False)]}">
-							<field name="warning" nolabel='1'/>
+							<field name="warning" nolabel='1' select="2"/>
 						</group>
 					</group>
 					<separator string="Moves" />
