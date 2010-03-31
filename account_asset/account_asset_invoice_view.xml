@@ -13,7 +13,7 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <field name="price_subtotal" position="after">
-                <field name="asset_id" context="name=name"/>
+                <field name="asset_id" context="name=name" on_change="asset_id_change(asset_id)"/>
             </field>
         </field>
     </record>

@@ -74,6 +74,7 @@ class account_asset_asset(osv.osv):
         for id in ids:
             res.setdefault(id, 0.0)
         return res
+
     _columns = {
         'name': fields.char('Asset', size=64, required=True, select=1),
         'code': fields.char('Asset code', size=16, select=1),
@@ -178,7 +179,7 @@ class account_asset_asset(osv.osv):
         id = self.pool.get('account.move.line').create(cr, uid, {
             'name': property.name or property.asset_id.name,
             'move_id': move_id,
-            'account_id': property.account_asset_id.id,
+            'account_id': property.account_expense_id.id,
             'credit': amount>0 and amount or 0.0,       # GG fix
             'debit': amount<0 and -amount or 0.0,       # GG fix
             'ref': property.asset_id.code,
@@ -221,13 +222,15 @@ class account_asset_asset(osv.osv):
 account_asset_asset()
 
 class account_asset_property(osv.osv):
-    def _amount_total(self, cr, uid, ids, name, args, context={}):
+    def _amount_property_total(self, cr, uid, ids, name, args, context={}):
         id_set=",".join(map(str,ids))
-        cr.execute("""SELECT l.asset_id,abs(SUM(l.debit-l.credit)) AS amount FROM 
+        # FIXME sql query below "sometimes" doesn't work - returns 0.0 - cannot guess why
+        # Usualy stop to work after module updating.
+        cr.execute("""SELECT p.asset_id, SUM(abs(l.debit-l.credit)) AS amount FROM 
                 account_asset_property p
             left join
                 account_move_line l on (p.asset_id=l.asset_id)
-            WHERE p.id IN ("""+id_set+") GROUP BY l.asset_id ")
+            WHERE p.id IN ("""+id_set+") GROUP BY p.asset_id ")
         res=dict(cr.fetchall())
         for id in ids:
             res.setdefault(id, 0.0)
@@ -268,19 +271,20 @@ class account_asset_property(osv.osv):
     _description = 'Asset property'
     _columns = {
         'name': fields.char('Method name', size=64, select=1),
-        'type': fields.selection([('direct','Direct'),('indirect','Indirect')], 'Depr. method type', select=2, required=True),
+#        'type': fields.selection([('direct','Direct'),('indirect','Indirect')], 'Depr. method type', select=2, required=True),
         'asset_id': fields.many2one('account.asset.asset', 'Asset', required=True, ondelete='cascade'),
-        'account_asset_id': fields.many2one('account.account', 'Asset account', required=True),
-        'account_actif_id': fields.many2one('account.account', 'Depreciation account', required=True),
+        'account_asset_id': fields.many2one('account.account', 'Asset account', required=True, help = "Select account used as cost basis of asset. It will be applied into invoice line when you select this asset in invoice line."),
+        'account_expense_id': fields.many2one('account.account', 'Depr. Expense account', required=True, help = "Select account used as depreciation expense (write-off). If you use direct method of depreciation this account should be the same as Asset Account."),
+        'account_actif_id': fields.many2one('account.account', 'Depreciation account', required=True, help = "Select account used as depreciation amount."),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True),
         'journal_analytic_id': fields.many2one('account.analytic.journal', 'Analytic journal'),
         'account_analytic_id': fields.many2one('account.analytic.account', 'Analytic account'),
 
         'method': fields.selection([('linear','Linear'),('progressive','Progressive'), ('decbalance','Declining-Balance')], 'Computation method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-        'method_progress_factor': fields.float('Progressive factor', readonly=True, states={'draft':[('readonly',False)]}),
-        'method_time': fields.selection([('delay','Delay'),('end','Ending period')], 'Time method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'method_progress_factor': fields.float('Progressive factor', readonly=True, states={'draft':[('readonly',False)]}, help = "Specify the factor of progression in depreciation. It is not used in Linear method. When linear depreciation is 20% per year, and you want apply Double-Declining Balance you should choose Declining-Balance method and enter 0,40 (40%) as Progressive factor."),
+        'method_time': fields.selection([('interval','Interval'),('endofyear','End of Year')], 'Time method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'method_delay': fields.integer('Number of intervals', readonly=True, states={'draft':[('readonly',False)]}),
-        'method_period': fields.integer('Period per interval', readonly=True, states={'draft':[('readonly',False)]}),
+        'method_period': fields.integer('Periods per interval', readonly=True, states={'draft':[('readonly',False)]}),
         'method_end': fields.date('Ending date'),
 
         'date': fields.date('Date created'),
@@ -288,16 +292,16 @@ class account_asset_property(osv.osv):
         'entry_asset_ids': fields.many2many('account.move.line', 'account_move_asset_entry_rel', 'asset_property_id', 'move_id', 'Asset Entries'),
         'board_ids': fields.one2many('account.asset.board', 'asset_id', 'Asset board'),
 
-        'value_total': fields.function(_amount_total, method=True, digits=(16,2),string='Gross value'),
+        'value_property_total': fields.function(_amount_property_total, method=True, digits=(16,2),string='Gross value'),
         'value_residual': fields.function(_amount_residual, method=True, digits=(16,2), string='Residual value'),
         'state': fields.selection([('draft','Draft'), ('open','Open'), ('close','Close')], 'State', required=True),
         'history_ids': fields.one2many('account.asset.property.history', 'asset_property_id', 'History', readonly=True)
     }
     _defaults = {
-        'type': lambda obj, cr, uid, context: 'direct',
+#        'type': lambda obj, cr, uid, context: 'direct',
         'state': lambda obj, cr, uid, context: 'draft',
         'method': lambda obj, cr, uid, context: 'linear',
-        'method_time': lambda obj, cr, uid, context: 'delay',
+        'method_time': lambda obj, cr, uid, context: 'interval',
         'method_progress_factor': lambda obj, cr, uid, context: 0.3,
         'method_delay': lambda obj, cr, uid, context: 5,
         'method_period': lambda obj, cr, uid, context: 12,

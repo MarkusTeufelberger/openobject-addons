@@ -21,9 +21,9 @@
 ##############################################################################
 {
     "name" : "Asset management",
-    "version" : "1.0",
+    "version" : "1.1",
     "depends" : ["account", "account_simulation"],
-    "author" : "Tiny, Cirrus",
+    "author" : "Tiny, Grzegorz Grzelak (Cirrus.pl)",
     "description": """Financial and accounting asset management.
     Allows to define
     * Asset category. 

@@ -34,7 +34,7 @@ account_invoice()
 class account_invoice_line(osv.osv):
     _inherit = 'account.invoice.line'
     _columns = {
-        'asset_id': fields.many2one('account.asset.asset', 'Asset'),
+        'asset_id': fields.many2one('account.asset.property', 'Asset', help = "Select the asset if you wish to assign the purchase invoice line to fixed asset. After selecting the asset the invoice line account should change according to asset settings but please check it before creating the invoice."),
     }
     def move_line_get_item(self, cr, uid, line, context={}):
         res = super(account_invoice_line, self).move_line_get_item(cr, uid, line, context)
@@ -42,6 +42,17 @@ class account_invoice_line(osv.osv):
         if line.asset_id.id and (line.asset_id.state=='draft'):
             self.pool.get('account.asset.asset').validate(cr, uid, [line.asset_id.id], context)
         return res
+
+    def asset_id_change(self, cr, uid, ids, asset_id,context={}):
+        result = {}
+        if asset_id:
+            asset_property_obj = self.pool.get('account.asset.property')
+            prop_id = asset_property_obj.search(cr,uid,[('asset_id','=',asset_id)])
+            property_id = prop_id[0]
+            asset_prop = asset_property_obj.browse(cr, uid, property_id,{})
+            result['account_id'] = asset_prop.account_asset_id.id
+        return {'value': result}
+        
 account_invoice_line()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
