@@ -2,15 +2,19 @@
 <openerp>
 <data>
 
-    <menuitem id="menu_finance_config_Assets" name="Assets" parent="account.menu_finance_configuration"/>
+    <menuitem id="menu_finance_config_Assets" name="Assets" parent="account.menu_finance_configuration" sequence="30"/>
+
+# Asset Category
+
     <record model="ir.ui.view" id="view_account_asset_category_form">
         <field name="name">account.asset.category.form</field>
         <field name="model">account.asset.category</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Asset category">
-                <field name="name" select="1"/>
                 <field name="code" select="1"/>
+                <field name="parent_id"/>
+                <field name="name" select="1" colspan = "4"/>
                 <field name="note" colspan="4"/>
             </form>
         </field>
@@ -33,29 +37,147 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
+
     <menuitem 
         parent="menu_finance_config_Assets"
         id="menu_action_account_asset_category_form"
-        action="action_account_asset_category_form"/>
+        action="action_account_asset_category_form" sequence="10"/>
+
+        <record id="asset_category_tree_view" model="ir.ui.view">
+            <field name="name">asset.category.tree</field>
+            <field name="model">account.asset.category</field>
+            <field name="type">tree</field>
+            <field name="field_parent">child_ids</field>
+            <field name="arch" type="xml">
+                <tree string="Asset Categories">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="asset_category_action" model="ir.actions.act_window">
+            <field name="name">Assets Category Structure</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.asset.category</field>
+            <field name="domain">[('parent_id','=',False)]</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="asset_category_tree_view"/>
+        </record>
+        <menuitem action="asset_category_action" id="menu_asset_category_action" parent="menu_finance_config_Assets" sequence="20"/>
 
 
-    <record model="ir.ui.view" id="view_account_asset_property_tree">
-        <field name="name">account.asset.property.tree</field>
-        <field name="model">account.asset.property</field>
+# Method Type
+
+    <record model="ir.ui.view" id="view_account_asset_method_type_form">
+        <field name="name">account.asset.method.type.form</field>
+        <field name="model">account.asset.method.type</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Asset Method Type">
+                <field name="code" select="1"/>
+                <field name="name" select="1"/>
+                <field name="note" colspan="4"/>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_asset_method_type_tree">
+        <field name="name">account.asset.method.type.tree</field>
+        <field name="model">account.asset.method.type</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Asset Method Type">
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_account_asset_method_type_form">
+        <field name="name">Asset Method Type</field>
+        <field name="res_model">account.asset.method.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem 
+        parent="menu_finance_config_Assets"
+        id="menu_action_account_asset_method_type_form"
+        action="action_account_asset_method_type_form" sequence="30"/>
+
+# Method Defaults
+
+    <record model="ir.ui.view" id="view_account_asset_method_defaults_form">
+        <field name="name">account.asset.method.defaults.form</field>
+        <field name="model">account.asset.method.defaults</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Asset Method Defaults">
+                <field name='method_type' select="1"/>
+                <field name='asset_category' select="1"/>
+		<group colspan = "2" col = "2" >
+	                <field name='account_asset_id'/>
+	                <field name="account_expense_id"/>
+	                <field name="account_actif_id"/>
+	                <field name="journal_id"/>
+	                <field name="journal_analytic_id"/>
+	                <field name="account_analytic_id"/>
+		</group>
+		<group colspan = "2" col = "2" >
+	                <field name="method"/>
+	                <field name="method_progress_factor"/>
+	                <field name="method_time"/>
+	                <field name="method_delay"/>
+	                <field name="method_period"/>
+		</group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_asset_method_defaults_tree">
+        <field name="name">account.asset.method.defaults.tree</field>
+        <field name="model">account.asset.method.defaults</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Asset Method Defaults">
+                <field name='method_type' select="1"/>
+                <field name='asset_category' select="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_account_asset_method_defaults_form">
+        <field name="name">Asset Method Defaults</field>
+        <field name="res_model">account.asset.method.defaults</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem 
+        parent="menu_finance_config_Assets"
+        id="menu_action_account_asset_method_defaults_form"
+        action="action_account_asset_method_defaults_form" sequence="40"/>
+
+
+# Asset method
+
+    <record model="ir.ui.view" id="view_account_asset_method_tree">
+        <field name="name">account.asset.method.tree</field>
+        <field name="model">account.asset.method</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Assets methods">
-                <field name="asset_id"/>
+<!--                <field name="asset_id"/>   -->
                 <field name="name"/>
-                <field name="journal_id"/>
-                <field name="value_property_total"/>
+                <field name="method_type"/>
+                <field name="value_total"/>
                 <field name="value_residual"/>
                 <field name="state"/>
             </tree>
         </field>
     </record>
 
-
+# Asset
 
     <record model="ir.ui.view" id="view_account_asset_asset_form">
         <field name="name">account.asset.asset.form</field>
@@ -65,22 +187,46 @@
             <form string="Asset">
                 <notebook colspan="4">
                 <page string="General info">
-		    <group colspan = "4" col = "6" >
+		    <group colspan = "4" col = "8" >
                     	<field name="name" select="1" colspan = "4"/>
                     	<field name="code" select="1"/>
-		    </group>
-		    <group colspan = "4" col = "8" >
                     	<field name="category_id" select="1"/>
-                    	<field name="period_id" select="2"/>
-			<field name="value_total" />
-		    	<field name="value_salvage"/>
 		    </group>
-                    <field name="property_ids" colspan="4" nolabel="1" mode="form,tree">
-                        <form string="Depreciation methods">
-                            <field name="name" select="1" colspan="4"/>
+                    <field name="method_ids" colspan="4" nolabel="1" mode="form,tree">
+                        <form string="Depreciation Methods">
+			    <group colspan = "4" col = "6" >
+                            	<field name="method_type" select="1" colspan = "2" on_change = "onchange_take_defaults(method_type, name, parent.code, parent.name, parent.category_id )"/>
+                            	<field name="name" select="1" colspan = "3"/>
+			    	<field name="value_total"/>
+	                    	<field name="value_residual"/>
+	                        <field name="state" readonly="1"/>
+			    </group>
                             <!--  <separator string="Methods" colspan="4"/>  -->
                             <notebook colspan="4">
-                            <page string="Depreciation">
+                            <page string="Depreciation board">
+				<group colspan = "1" col="2">
+	                                <separator string="Depreciation duration" colspan ="2"/>
+                    			<field name="period_id"/>
+        	                        <field name="method"/>
+        	                        <field name="method_delay"/>
+        	                        <field name="method_period"/>
+        	                        <field name="method_progress_factor"/>
+        	                        <field name="method_time"/>
+        	                        <field name="method_salvage"/>
+                                	<!-- <field name="method_end"/> -->
+				</group>
+				<group colspan = "1" col="2">
+                                	<button 
+                                  	 name="%(wizard_asset_modify)d" 
+                                   	 states="open" 
+                                   	 string="Change duration" 
+                                   	 type="action" 
+                                   	 colspan="2"/>
+
+				</group>
+                            </page>
+
+                            <page string="Accounts">
 				<group colspan = "3" col="2">
 	                               <separator string="Accounts information" colspan ="2"/>
 	       	                        <field name="account_asset_id"/>
@@ -91,49 +237,32 @@
         	                        <field name="account_analytic_id"/>
                                 	<!-- <field name="type"/>   Not used -->
 				</group>
-				<group colspan = "1" col="2">
-	                                <separator string="Depreciation duration" colspan ="2"/>
-        	                        <field name="method"/>
-        	                        <field name="method_delay"/>
-        	                        <field name="method_period"/>
-        	                        <field name="method_progress_factor"/>
-        	                        <field name="method_time"/>  
-                                	<button 
-                                  	 name="%(wizard_asset_modify)d" 
-                                   	 states="open" 
-                                   	 string="Change duration" 
-                                   	 type="action" 
-                                   	 colspan="2"/>
-                                	<!-- <field name="method_end"/> -->
-				</group>
-                            </page>
-                            <page string="Depreciation entries">
-                                <field name="entry_asset_ids" colspan="4" nolabel="1" readonly="1"/>
+                           </page>
+                            <page string="Entries">
+                                <field name="entry_ids" colspan="4" nolabel="1"/>
                             </page>
                             <page string="Change history">
                                 <field name="history_ids" colspan="4" nolabel="1" readonly="1"/>
                             </page>
-                            <page string="Depreciation board">
-                                <field name="value_property_total"/>
-                                <field name="value_residual"/>
-                            </page>
                             </notebook>
-                            <field name="state" readonly="1"/>
-                                <button name="%(wizard_asset_close)d" states="open" string="Close method" type="action"/>
+                                <button name="%(wizard_asset_close)d" states="open" string="Close Method" type="action"/>
+                                <button name="validate" states="draft" string="Confirm Method" type="object"/>
                         </form>
                     </field>
-                    <field name="state" readonly="1"/>
-                    <group colspan="2" col="2">
+                    <group colspan="4">
+                        <field name="state" readonly="1"/>
                         <button name="validate" states="draft" string="Confirm asset" type="object"/>
                     </group>
-                </page><page string="Entries">
+
+<!--                </page><page string="Entries">
                     <field name="entry_ids" colspan="4" nolabel="1"/>
+-->
                 </page><page string="Other information">
                     <field name="date" select="2"/>
                     <field name="sequence"/>
                     <field name="partner_id" select="2"/>
                     <field name="localisation" select="2"/>
-                    <field name="parent_id" select="2"/>
+<!--                    <field name="parent_id" select="2"/>   -->
                     <field name="note" colspan="4" nolabel="1"/>
                 </page>
                 </notebook>
@@ -141,9 +270,9 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_account_asset_property_history_form">
-        <field name="name">account.asset.property.history.form</field>
-        <field name="model">account.asset.property.history</field>
+    <record model="ir.ui.view" id="view_account_asset_method_history_form">
+        <field name="name">account.asset.method.history.form</field>
+        <field name="model">account.asset.method.history</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Asset history">
@@ -159,9 +288,9 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_account_asset_property_history_tree">
-        <field name="name">account.asset.property.history.tree</field>
-        <field name="model">account.asset.property.history</field>
+    <record model="ir.ui.view" id="view_account_asset_method_history_tree">
+        <field name="name">account.asset.method.history.tree</field>
+        <field name="model">account.asset.method.history</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Asset history">
@@ -175,10 +304,7 @@
         </field>
     </record>
 
-
-
-
-
+<!--
     <record model="ir.ui.view" id="view_account_asset_board_form">
         <field name="name">account.asset.board.form</field>
         <field name="model">account.asset.board</field>
@@ -209,22 +335,8 @@
             </tree>
         </field>
     </record>
+-->
 
-    <record model="ir.ui.view" id="view_account_asset_asset_tree">
-        <field name="name">account.asset.asset.tree</field>
-        <field name="model">account.asset.asset</field>
-        <field name="type">tree</field>
-        <field name="field_parent">child_ids</field>
-        <field name="arch" type="xml">
-            <tree string="Assets">
-                <field name="name"/>
-                <field name="code"/>
-                <field name="value_total"/>
-                <field name="date"/>
-                <field name="state"/>
-            </tree>
-        </field>
-    </record>
     <record model="ir.actions.act_window" id="action_account_asset_asset_form">
         <field name="name">Asset</field>
         <field name="res_model">account.asset.asset</field>
@@ -233,8 +345,27 @@
     <menuitem 
         parent="menu_finance_config_Assets" 
         id="menu_action_account_asset_asset_form"
-        action="action_account_asset_asset_form"/>
+        action="action_account_asset_asset_form" sequence="50"/>
 
+    <menuitem id="menu_finance_Assets" name="Assets" parent="account.menu_finance"/>
+
+
+    <record model="ir.ui.view" id="view_account_asset_asset_tree">
+        <field name="name">account.asset.asset.tree</field>
+        <field name="model">account.asset.asset</field>
+        <field name="type">tree</field>
+<!--        <field name="field_parent">child_ids</field>  -->
+        <field name="arch" type="xml">
+            <tree string="Assets">
+                <field name="name"/>
+                <field name="code"/>
+<!--                <field name="value_total"/>    -->
+                <field name="date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+<!--
     <record model="ir.actions.act_window" id="action_account_asset_asset_tree">
         <field name="name">Asset Hierarchy</field>
         <field name="res_model">account.asset.asset</field>
@@ -242,12 +373,12 @@
         <field name="domain">[('parent_id','=',False)]</field>
         <field name="view_id" ref="view_account_asset_asset_tree"/>
     </record>
-    <menuitem id="menu_finance_Assets" name="Assets" parent="account.menu_finance"/>
+
     <menuitem
         parent="menu_finance_Assets"
         id="menu_action_account_asset_asset_tree"
         action="action_account_asset_asset_tree"/>
-
+-->
     <record model="ir.actions.act_window" id="action_account_asset_asset_list">
         <field name="name">Assets</field>
         <field name="res_model">account.asset.asset</field>

@@ -42,7 +42,7 @@ asset_end_fields = {
 
 def _asset_default(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    prop = pool.get('account.asset.property').browse(cr, uid, data['id'], context)
+    prop = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
     return {
         'name': "Modifying "+prop.name,
         'method_delay': prop.method_delay,
@@ -51,15 +51,15 @@ def _asset_default(self, cr, uid, data, context={}):
 
 def _asset_modif(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    prop = pool.get('account.asset.property').browse(cr, uid, data['id'], context)
-    pool.get('account.asset.property.history').create(cr, uid, {
-        'asset_property_id': data['id'],
+    prop = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
+    pool.get('account.asset.method.history').create(cr, uid, {
+        'asset_method_id': data['id'],
         'name': data['form']['name'],
         'method_delay': prop.method_delay,
         'method_period': prop.method_period,
         'note': data['form']['note'],
     }, context)
-    pool.get('account.asset.property').write(cr, uid, [data['id']], {
+    pool.get('account.asset.method').write(cr, uid, [data['id']], {
 #        'name': data['form']['name'],
         'method_delay': data['form']['method_delay'],
         'method_period': data['form']['method_period'],

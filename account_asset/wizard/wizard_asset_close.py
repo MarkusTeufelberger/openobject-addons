@@ -39,7 +39,7 @@ asset_end_fields = {
 
 def _asset_default(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    prop = pool.get('account.asset.property').browse(cr, uid, data['id'], context)
+    prop = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
     return {
         'name': "Closing "+prop.name,
     }
@@ -47,10 +47,10 @@ def _asset_default(self, cr, uid, data, context={}):
 
 def _asset_close(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    prop_obj = pool.get('account.asset.property')
+    prop_obj = pool.get('account.asset.method')
     prop = prop_obj.browse(cr, uid, data['id'], context)
-    pool.get('account.asset.property.history').create(cr, uid, {
-        'asset_property_id': data['id'],
+    pool.get('account.asset.method.history').create(cr, uid, {
+        'asset_method_id': data['id'],
         'name': data['form']['name'],
         'note': data['form']['note'],
     }, context)

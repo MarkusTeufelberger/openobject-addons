@@ -40,23 +40,31 @@ asset_ask_form = '''<?xml version="1.0"?>
     <field name="period_id"/>
     <newline/>
     <field name="category_id"/>
+    <newline/>
+    <field name="method_type_id"/>
 </form>'''
 
 asset_ask_fields = {
     'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True},
-    'category_id': {'string': 'Asset Category', 'type': 'many2one', 'relation':'account.asset.category', 'required':False, 'help': "If empty all assets will be calculated."},
+    'category_id': {'string': 'Asset Category', 'type': 'many2one', 'relation':'account.asset.category', 'required':False, 'help': "If empty all categories assets will be calculated."},
+    'method_type_id' : {'string': 'Asset Method Type', 'type': 'many2one', 'relation':'account.asset.method.type', 'required':False, 'help': "If empty all method types will be calculated for assets."}, 
 }
 
 def _asset_compute(self, cr, uid, data, context):
     pool = pooler.get_pool(cr.dbname)
-    ass_obj = pool.get('account.asset.asset')
+    method_obj = pool.get('account.asset.method')
+    asset_obj = pool.get('account.asset.asset')
     if data['form']['category_id']:
-        ids = ass_obj.search(cr, uid, [('state','=','normal'),['category_id','=',data['form']['category_id']]], context=context)
+        asset_ids = asset_obj.search(cr, uid, [('state','=','normal'),['category_id','child_of',data['form']['category_id']]], context=context)
     else:
-        ids = ass_obj.search(cr, uid, [('state','=','normal')], context=context)
+        asset_ids = asset_obj.search(cr, uid, [('state','=','normal')], context=context)
+    if data['form']['method_type_id_id']:
+        method_ids = method_obj.search(cr, uid, [('state','=','open'),('method_type','=',data['form']['method_type_id']),('asset_id','in',asset_ids)], context=context)
+    else:
+        method_ids = method_obj.search(cr, uid, [('state','=','open'),('asset_id','in',asset_ids)], context=context)
     ids_create = []
-    for asset in ass_obj.browse(cr, uid, ids, context):
-        ids_create += ass_obj._compute_entries(cr, uid, asset, data['form']['period_id'], context)
+    for method in method_obj.browse(cr, uid, method_ids, context):
+        ids_create += method_obj._compute_entries(cr, uid, method, data['form']['period_id'], context)
     self.move_ids = ids_create
     return {'move_ids': ids_create}
 

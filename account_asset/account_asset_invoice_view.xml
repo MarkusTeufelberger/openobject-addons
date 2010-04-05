@@ -2,10 +2,6 @@
 <openerp>
 <data>
 
-    #---------------------------------------------------------
-    # Fiscal Year
-    #---------------------------------------------------------
-
     <record model="ir.ui.view" id="view_account_invoice_asset_form">
         <field name="name">account.invoice.line.form</field>
         <field name="model">account.invoice.line</field>
@@ -13,7 +9,7 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <field name="price_subtotal" position="after">
-                <field name="asset_id" context="name=name" on_change="asset_id_change(asset_id)"/>
+                <field name="asset_method_id" context="name=name" on_change="asset_method_id_change(asset_method_id)"/>
             </field>
         </field>
     </record>
