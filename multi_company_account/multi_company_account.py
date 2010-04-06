@@ -359,8 +359,16 @@ class account_invoice(osv.osv):
                         else:
                             continue
         if company_id:
-            val['journal_id']=False
-            journal_ids=self.pool.get('account.journal').search(cr,uid,[('company_id','=',company_id)])
+            if type in ('out_invoice','out_refund'):
+                journal_type = 'sale'
+            else:
+                journal_type = 'purchase'
+            journal_ids=self.pool.get('account.journal').search(cr,uid,[('company_id','=',company_id),('type','=',journal_type)])
+            if journal_ids:
+                val['journal_id'] = journal_ids[0]
+            else:
+                raise osv.except_osv(_('Configration Error !'),
+                                _('Can not find account journal for this company in invoice, Please Create journal.'))
             dom={'journal_id':  [('id','in',journal_ids)]}
         else:
             journal_ids=self.pool.get('account.journal').search(cr,uid,[])
