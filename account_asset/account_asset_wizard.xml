@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <openerp>
 	<data>
+    		<menuitem id="menu_finance_periodical_assets" name="Assets Calculation" parent="account.menu_finance_periodical_processing"/>
 
 		<wizard
 			string="Compute assets"
-			model="account.asset.asset"
+			model="account.asset.method"
 			name="account.asset.compute"
 			keyword="tree_but_action"
 			id="wizard_asset_compute"/>
 		<menuitem
-			parent="account.menu_finance_periodical_processing"
+			parent="menu_finance_periodical_assets"
 			action="wizard_asset_compute"
 			type="wizard"
 			id="menu_wizard_asset_compute"/>
@@ -17,13 +18,13 @@
 
 		<wizard
 			string="Modify asset"
-			model="account.asset.asset"
+			model="account.asset.method"
 			name="account.asset.modify"
 			id="wizard_asset_modify"
 			menu="False"/>
 		<wizard
 			string="Close asset"
-			model="account.asset.asset"
+			model="account.asset.method"
 			name="account.asset.close"
 			id="wizard_asset_close"
 			menu="False"/>

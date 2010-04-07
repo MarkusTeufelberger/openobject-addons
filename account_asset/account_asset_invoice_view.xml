@@ -14,5 +14,30 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="view_account_move_line_form">
+        <field name="name">account.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <field name="analytic_account_id" position="after">
+                <field name="asset_method_id" context="name=name"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_move_form">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <field name="quantity" position="after">
+                <field name="asset_method_id" context="name=name"/>
+            </field>
+        </field>
+    </record>
+
+
 </data>
 </openerp>

@@ -38,18 +38,25 @@ class account_invoice_line(osv.osv):
     }
     def move_line_get_item(self, cr, uid, line, context={}):
         res = super(account_invoice_line, self).move_line_get_item(cr, uid, line, context)
-        res['asset_method_id'] = line.asset_method_id.id or False
-        if line.asset_method_id.id and (line.asset_method_id.asset_id.state=='draft'):
-            self.pool.get('account.asset.asset').validate(cr, uid, [line.asset_method_id.asset_id.id], context)
+        if line.asset_method_id:
+            res['asset_method_id'] = line.asset_method_id.id
+            if line.asset_method_id.state=='draft':
+                self.pool.get('account.asset.method').validate(cr, uid, [line.asset_method_id.id], context)
+            self.pool.get('account.asset.history').create(cr, uid, {
+                'asset_method_id': line.asset_method_id.id,
+                'asset_id' : line.asset_method_id.asset_id.id,
+                'name': "Buying asset",
+                'partner_id': line.invoice_id.partner_id.id,
+                'invoice_id': line.invoice_id.id,
+#                'note': "Invoice no " + line.invoice_id.number,
+                }, context)
+        else:
+            res['asset_method_id'] = False
         return res
 
     def asset_method_id_change(self, cr, uid, ids, asset_method_id,context={}):
         result = {}
         if asset_method_id:
-#            asset_method_obj = self.pool.get('account.asset.method').browse(cr, uid, asset_method_id,{}).account_asset_id.id
-#            prop_id = asset_method_obj.search(cr,uid,[('asset_id','=',asset_id)])
-#            method_id = prop_id[0]
-#            asset_prop = asset_method_obj.browse(cr, uid, method_id,{})
             result['account_id'] = self.pool.get('account.asset.method').browse(cr, uid, asset_method_id,{}).account_asset_id.id
         return {'value': result}
         

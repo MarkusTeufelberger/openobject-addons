@@ -46,7 +46,7 @@ asset_ask_form = '''<?xml version="1.0"?>
 
 asset_ask_fields = {
     'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True},
-    'category_id': {'string': 'Asset Category', 'type': 'many2one', 'relation':'account.asset.category', 'required':False, 'help': "If empty all categories assets will be calculated."},
+    'category_id': {'string': 'Asset Category', 'type': 'many2one', 'relation':'account.asset.category', 'required':False, 'help': "If empty all categories assets will be calculated. If you use hierarchical categories all children categories assets will be calculated."},
     'method_type_id' : {'string': 'Asset Method Type', 'type': 'many2one', 'relation':'account.asset.method.type', 'required':False, 'help': "If empty all method types will be calculated for assets."}, 
 }
 
@@ -58,7 +58,7 @@ def _asset_compute(self, cr, uid, data, context):
         asset_ids = asset_obj.search(cr, uid, [('state','=','normal'),['category_id','child_of',data['form']['category_id']]], context=context)
     else:
         asset_ids = asset_obj.search(cr, uid, [('state','=','normal')], context=context)
-    if data['form']['method_type_id_id']:
+    if data['form']['method_type_id']:
         method_ids = method_obj.search(cr, uid, [('state','=','open'),('method_type','=',data['form']['method_type_id']),('asset_id','in',asset_ids)], context=context)
     else:
         method_ids = method_obj.search(cr, uid, [('state','=','open'),('asset_id','in',asset_ids)], context=context)

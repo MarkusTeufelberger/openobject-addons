@@ -52,8 +52,9 @@ def _asset_default(self, cr, uid, data, context={}):
 def _asset_modif(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
     prop = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
-    pool.get('account.asset.method.history').create(cr, uid, {
+    pool.get('account.asset.history').create(cr, uid, {
         'asset_method_id': data['id'],
+        'asset_id' : prop.asset_id.id,
         'name': data['form']['name'],
         'method_delay': prop.method_delay,
         'method_period': prop.method_period,
