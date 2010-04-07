@@ -358,7 +358,7 @@ class account_invoice(osv.osv):
                                 _('invoice line account company is not match with invoice company.'))
                         else:
                             continue
-        if company_id:
+        if company_id and type:
             if type in ('out_invoice','out_refund'):
                 journal_type = 'sale'
             else:
@@ -372,7 +372,6 @@ class account_invoice(osv.osv):
             dom={'journal_id':  [('id','in',journal_ids)]}
         else:
             journal_ids=self.pool.get('account.journal').search(cr,uid,[])
-            dom={'journal_id':  [('id','in',journal_ids)]}
         return {'value' : val, 'domain': dom }
 account_invoice()
 
