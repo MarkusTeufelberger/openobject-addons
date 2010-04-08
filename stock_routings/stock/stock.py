@@ -539,30 +539,31 @@ class stock_routing(osv.osv):
               }
     
     def create(self, cr, user, vals, context=None):
-      incoming_loc=vals['port_of_loading']
-      seg_ids=vals['segment_sequence_ids']
-      counter=0
-      flag=0
-      for segments in seg_ids:    
-          segment=segments[2]
-          if counter==0:
-              if segment['port_of_loading']<>incoming_loc:
-                  flag=1
-              else:
-                  prev_dest=segment['port_of_destination']
-                  counter=counter+1
-          else:
-              if segment['port_of_loading']<>prev_dest:
-                  flag=1
-              else:
-                  prev_dest=segment['port_of_destination']
-                  counter=counter+1
-      if flag==1:
-          raise osv.except_osv(_('Error !'), _('Routing Is Not Well Defined'))
-    
-      cr_id=super(osv.osv,self).create(cr,user,vals,context)
-      context.setdefault('id',cr_id)
-      return cr_id
+          incoming_loc=vals['port_of_loading']
+          if vals.has_key('segment_sequence_ids'):
+              seg_ids=vals['segment_sequence_ids']
+              counter=0
+              flag=0
+              for segments in seg_ids:    
+                  segment=segments[2]
+                  if counter==0:
+                      if segment['port_of_loading']<>incoming_loc:
+                          flag=1
+                      else:
+                          prev_dest=segment['port_of_destination']
+                          counter=counter+1
+                  else:
+                      if segment['port_of_loading']<>prev_dest:
+                          flag=1
+                      else:
+                          prev_dest=segment['port_of_destination']
+                          counter=counter+1
+              if flag==1:
+                  raise osv.except_osv(_('Error !'), _('Routing Is Not Well Defined'))
+        
+          cr_id=super(osv.osv,self).create(cr,user,vals,context)
+          context.setdefault('id',cr_id)
+          return cr_id
   
     def write(self,cr,uid,ids,vals,context=None):
         routing_data=self.read(cr,uid,ids,['port_of_loading','segment_sequence_ids'])
@@ -591,7 +592,7 @@ class stock_routing(osv.osv):
             for segments in seg_seq_obj:
                 segment=segments
                 if counter==0:
-                    if vals['segment_sequence_ids'] and segment['id']==vals['segment_sequence_ids'][0][1]:
+                    if vals.__contains__('segment_sequence_ids') and vals['segment_sequence_ids'] and segment['id']==vals['segment_sequence_ids'][0][1]:
                         if port_loading<>vals['segment_sequence_ids'][0][2]['port_of_loading']:
                             flag=1
                         else:
@@ -604,7 +605,7 @@ class stock_routing(osv.osv):
                             prev_dest=segment['port_of_destination'][0]
                             counter=counter+1
                 else:
-                    if vals['segment_sequence_ids'] and segment['id']==vals['segment_sequence_ids'][0][1]:
+                    if vals.__contains__('segment_sequence_ids') and vals['segment_sequence_ids'] and segment['id']==vals['segment_sequence_ids'][0][1]:
                          if vals['segment_sequence_ids'][0][2]['port_of_loading']<>prev_dest:
                             flag=1
                          else:
