@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 #
-#  c2c_scan_bvr
-#
 #  Created by Nicolas Bessi and Vincent Renaville 
 #
 #  Copyright (c) 2009 CamptoCamp. All rights reserved.

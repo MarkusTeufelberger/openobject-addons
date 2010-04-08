@@ -128,17 +128,21 @@ class product_pricelist(osv.osv):
                 (tmpl_id, prod_id, plversion['id'], qty))
             res = cr.dictfetchone()
             if res:
+                #dukai
+                base_price_tax_included = False
                 if res['base'] == -1:
                     if not res['base_pricelist_id']:
                         price = 0.0
                     else:
-                        price_tmp = self.price_get(cr, uid,
+                        #dukai
+                        res2 = self.price_get_improved(cr, uid,
                                 [res['base_pricelist_id']], prod_id,
                                 qty)[res['base_pricelist_id']]
                         ptype_src = self.browse(cr, uid,
                                 res['base_pricelist_id']).currency_id.id
                         price = currency_obj.compute(cr, uid, ptype_src,
-                                res['currency_id'], price_tmp, round=False)
+                                res['currency_id'], res2['price'], round=False)
+                        base_price_tax_included = res2['price_tax_included']
                 elif res['base'] == -2:
                     where = []
                     if partner:
@@ -156,15 +160,30 @@ class product_pricelist(osv.osv):
                         res2 = cr.dictfetchone()
                         if res2:
                             price = res2['price']
+                            #dukai
+                            base_price_tax_included = False
                 else:
                     price_type = price_type_obj.browse(cr, uid, int(res['base']))
-                    #dukai - price_tax_included
                     price = currency_obj.compute(cr, uid,
                             price_type.currency_id.id, res['currency_id'],
                             product_obj.price_get(cr, uid, [prod_id],
-                            price_type.field, 
-                            {'price_tax_included': res['price_tax_included']})
-                            [prod_id], round=False, context=context)
+                                price_type.field)[prod_id], round=False, context=context)
+                    #dukai
+                    base_price_tax_included = price_type.price_tax_included
+
+                #dukai
+                if res['price_tax_included'] and not base_price_tax_included:
+                    tax_obj = self.pool.get('account.tax')
+                    prod = product_obj.browse(cr, uid, prod_id)
+                    for tax in tax_obj.compute(cr, uid, prod.taxes_id,
+                        price, 1):
+                        price += tax['amount']
+                if not res['price_tax_included'] and base_price_tax_included:
+                    tax_obj = self.pool.get('account.tax')
+                    prod = product_obj.browse(cr, uid, prod_id)
+                    for tax in tax_obj.compute_inv(cr, uid, prod.taxes_id,
+                        price, 1):
+                        price -= tax['amount']
 
                 price_limit = price
 
@@ -179,13 +198,15 @@ class product_pricelist(osv.osv):
                 # False means no valid line found ! But we may not raise an
                 # exception here because it breaks the search
                 price = False
-            #dukai
-            result[id] = {'price': price}
-            if price and res['visible_discount']:
-                result[id] = {
-                    'price': price_limit,
-                    'discount': (price_limit - price) / price_limit * 100
+            result[id] = {
+                'price': price,
+                'price_tax_included': res['price_tax_included'],
                 }
+            if price and res['visible_discount']:
+                result[id].update({
+                    'price': price_limit,
+                    'discount': (price_limit - price) / price_limit * 100,
+                })
             if context and ('uom' in context):
                 product = product_obj.browse(cr, uid, prod_id)
                 uom = product.uos_id or product.uom_id

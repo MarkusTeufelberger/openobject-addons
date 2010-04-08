@@ -24,7 +24,8 @@ from base_external_referentials import external_osv
 from sets import Set
 import netsvc
 from tools.translate import _
-from datetime import datetime
+#from datetime import datetime
+import time
 
 
 class external_shop_group(external_osv.external_osv):
@@ -82,7 +83,13 @@ class sale_shop(external_osv.external_osv):
             all_categories = []
             for category in root_categories:
                 all_categories += [category.id for category in category.recursive_childen_ids]
-            product_ids = self.pool.get("product.product").search(cr, uid, [('categ_id', 'in', all_categories)]) #TODO deal with product_m2mactegories module
+
+            # If product_m2mcategories module is installed search in main category and extra categories. If not, only in main category
+            cr.execute('select * from ir_module_module where name=%s and state=%s', ('product_m2mcategories','installed'))
+            if cr.fetchone():
+                product_ids = self.pool.get("product.product").search(cr, uid, ['|',('categ_id', 'in', all_categories),('categ_ids', 'in', all_categories)])
+            else:
+                product_ids = self.pool.get("product.product").search(cr, uid, [('categ_id', 'in', all_categories)])
             res[shop.id] = product_ids
         return res
 
@@ -94,6 +101,7 @@ class sale_shop(external_osv.external_osv):
         'last_inventory_export_date': fields.datetime('Last Inventory Export Time'),
         'last_images_export_date': fields.datetime('Last Images Export Time'),
         'last_update_order_export_date' : fields.datetime('Last Order Update  Time'),
+        'last_products_export_date' : fields.datetime('Last Product Export  Time'),
         'referential_id': fields.related('shop_group_id', 'referential_id', type='many2one', relation='external.referential', string='External Referential'),
         'is_tax_included': fields.boolean('Prices Include Tax?', help="Requires sale_tax_include module to be installed"),
         'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')],
@@ -151,6 +159,7 @@ class sale_shop(external_osv.external_osv):
             self.export_categories(cr, uid, shop, ctx)
             self.export_products(cr, uid, shop, ctx)
         self.export_inventory(cr, uid, ids, ctx)
+        return False
             
     def export_inventory(self, cr, uid, ids, ctx):
         for shop in self.browse(cr, uid, ids):
@@ -163,7 +172,7 @@ class sale_shop(external_osv.external_osv):
                 recent_move_ids = self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
             product_ids = [move.product_id.id for move in self.pool.get('stock.move').browse(cr, uid, recent_move_ids)]
             res = self.pool.get('product.product').export_inventory(cr, uid, product_ids, '', ctx)
-            self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_inventory_export_date': datetime.now()})
+            self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_inventory_export_date': time.strftime('%Y-%m-%d %H:%M:%S')})
         return res
     
     def import_catalog(self, cr, uid, ids, ctx):
@@ -185,6 +194,7 @@ class sale_shop(external_osv.external_osv):
                 defaults.update({'price_type': 'tax_included'})
 
             self.import_shop_orders(cr, uid, shop, defaults, ctx)
+        return False
             
     def import_shop_orders(self, cr, uid, shop, defaults, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
@@ -212,7 +222,8 @@ class sale_shop(external_osv.external_osv):
                     order_ext_id = result[1].split('sale.order_')[1]
                     self.update_shop_orders(cr, uid, order, order_ext_id, ctx)
                     logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully updated order with OpenERP id %s and ext id %s in external sale system" % (id, order_ext_id))
-            self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_update_order_export_date': datetime.now()})
+            self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_update_order_export_date': time.strftime('%Y-%m-%d %H:%M:%S')})
+        return False
 
         
     def update_shop_orders(self, cr, uid, order, ext_id, ctx):
@@ -252,6 +263,7 @@ class sale_order(osv.osv):
         statement_line_id = self.pool.get('account.bank.statement.line').create(cr, uid, statement_line_vals, ctx)
         if should_validate:
             self.pool.get('account.bank.statement').button_confirm(cr, uid, [statement_id], ctx)
+            self.pool.get('account.move.line').write(cr, uid, [statement.move_line_ids[0].id], {'date': date})
         return True
 
 sale_order()

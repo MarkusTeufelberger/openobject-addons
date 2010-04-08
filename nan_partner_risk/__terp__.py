@@ -6,7 +6,7 @@
 It reports current information regarding amount of debt in invoices, orders, etc.
 
 It also modifies the workflow of sale orders by adding a new step when partner's risk is exceeded.""",
-	"author" : "NaN",
+	"author" : "NaN for Trod y Avia, S.L.",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 
 		'base', 

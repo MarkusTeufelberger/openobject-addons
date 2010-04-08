@@ -151,10 +151,12 @@ class esale_oscom_web(osv.osv):
         'price_type': fields.selection([('0', 'Untaxed price'), ('1', 'Taxed price')], 'Price type', required=True),
         'date_download_from':fields.date('Date Download From', help="Specify date since you want to download modified or new products"),
         'intermediate': fields.many2one('esale.oscom.status', 'Intermediate Status', help="Select intermediate status for Osc downloaded Orders"), 
+        'download_number': fields.integer('Download number', help="Osc product number to download by block. You should find the optimum block to download for your shop"),
     }
     _defaults = {
         'active': lambda *a: 1,
-        'price_type': lambda *a:'0',
+        'price_type': lambda *a:'0',  
+        'download_number': lambda *a:30,
     }
 
     def add_all_products(self, cr, uid, ids, *args):
@@ -397,7 +399,7 @@ class esale_oscom_web(osv.osv):
             stock_init_id =  stock_inventory_obj.create(cr, uid, value_stock_inv)
 
             oscom_id = 0
-            bloque = 30
+            bloque = website.download_number
             continuar = True
             transaccional = server.isTransactional()
             from_date = website.date_download_from

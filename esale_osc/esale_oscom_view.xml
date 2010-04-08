@@ -22,6 +22,7 @@
 						<newline/>
 						<label string="Proceed with the mappings before adding products!" colspan="2"/>
 						<field name="date_download_from"/>
+						<field name="download_number"/>
 						<button name="product_import_create" string="Import all products from OSCommerce" colspan="2" type="object"/>
 						<separator string="Active Products" colspan="4"/>
 						<field name="product_ids" colspan="4" widget="one2many_list" nolabel="1" readonly="1"/>

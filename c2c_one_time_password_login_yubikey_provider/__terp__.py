@@ -7,8 +7,12 @@
 {
     "name" : "c2c_one_time_password_login_yubikey_provider",
     "version" : "1.0",
-    "description":""" Generic OTP login module that provide basic 
-    session and mechanisme for OTP for Yubico product
+    "description":""" Yubico OTP login module is a module that provide basic 
+    session and mechanism for Yubico OTP product. It is based on the 
+    c2c_one_time_password_login that provides generic OTP behavior.
+    OTP main configuration is done on the company view. Please see the help defined in the form .
+    You can find a modified version of the client on :
+    lp:~c2c/openobject-client/5.0-c2c-otp
         """,
     "category" : "security",
 

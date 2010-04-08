@@ -1,0 +1,210 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_crm_case_form_rma">
+			<field name="name">crm.rma.form.rma</field>
+			<field name="model">crm.rma</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+
+				<form string="RMA">
+					<separator string="Identification" />
+					<group col="10" colspan="4">
+						<field name="partner_id" on_change="onchange_form('partner', partner_id, invoice_id, product_id, prodlot_id)"/>
+						<field name="invoice_id" on_change="onchange_form('invoice', partner_id, invoice_id, product_id, prodlot_id)"/>
+						<field name="product_id" on_change="onchange_form('product', partner_id, invoice_id, product_id, prodlot_id)"/>
+						<field name="prodlot_id" on_change="onchange_form('prodlot', partner_id, invoice_id, product_id, prodlot_id)"/>
+						<field name="guarantee_limit"/>
+						<group col="4" colspan="10" attrs="{'invisible':[('warning','=',False)]}">
+							<field name="warning" nolabel='1' select="2"/>
+						</group>
+					</group>
+					<separator string="Moves" />
+					<group col="6" colspan="6">
+						<group col="2" colspan="2">
+							<group col="3" colspan="3">
+								<field name="incoming_picking_id" mode="form" domain="[('type','=','in')]" context="{'location_id': %(stock.stock_location_customers)d, 'location_dest_id': %(rma_in)d, 'partner_id':partner_id,'view':'rma','location_id_usage':'customer','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="related_incoming_picking_state" nolabel="1"/>
+							</group>
+							<group col="3" colspan="3">
+								<field name="outgoing_picking_id" domain="[('type','=','out')]" context="{'location_id': %(rma_out)d, 'location_dest_id': %(stock.stock_location_customers)d, 'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'customer','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="related_outgoing_picking_state" nolabel="1"/>
+							</group>
+						</group>
+						<group col="2" colspan="2">
+								<field name="in_supplier_picking_id" domain="[('type','=','out')]" context="{'location_dest_id': %(rma_supplier)d, 'partner_id':partner_id,'view':'rma','location_id_usage':'internal','location_dest_id_usage':'supplier','product_id':product_id,'prodlot_id':prodlot_id}" />
+								<field name="out_supplier_picking_id" domain="[('type','=','in')]" context="{'location_id': %(rma_supplier)d, 'partner_id':partner_id,'view':'rma','location_id_usage':'supplier','location_dest_id_usage':'internal','product_id':product_id,'prodlot_id':prodlot_id}" />
+						</group>
+					</group>
+					<separator string="Qualification" />
+					<group col="6" colspan="4">
+						<field name="rma_ref" />
+						<field name="name" string="Description" />
+						<field name="user_id" select="2" string="Responsible" />
+						<field name="section_id" />
+						<field name="create_date" string="RMA date" />
+						<field name="categ_id" on_change="onchange_categ_id(categ_id)" select="1" string="Type of RMA" />
+					</group>
+					<notebook>
+						<page string="RMA Info">
+							<group col="10" colspan="4">
+								<field name="partner_address_id" on_change="onchange_partner_address_id(partner_address_id, email_from)"
+									string="Contact" />
+								<field name="email_from" />
+								<field name="partner_phone" />
+								<field name="partner_mobile" />				
+							</group>
+
+							<group col="2" colspan="2">
+								<separator colspan="2" string="Claim Description" />
+								<field colspan="2" name="note" nolabel="1" />
+							</group>
+							<group col="2" colspan="2">
+								<separator colspan="2" string="Action Description" />
+								<field name="category2_id" select="1" colspan="2" string="Type of Action" />
+								<field colspan="2" name="description" nolabel="1" />
+							</group>
+							
+							<separator colspan="4" string="Status" />
+							<group col="8" colspan="4">
+								<field name="priority" />
+								<label align="1.0" string="Stage: " />
+								<field name="stage_id" nolabel="1" select="1" />
+								<button icon="gtk-go-forward" name="stage_next" string="" type="object" />
+							</group>
+							<group col="8" colspan="4">
+								<field name="state" select="1" />
+								<button name="case_close" states="open,draft,pending" string="Done" type="object" />
+								<button name="case_open" states="draft,pending" string="Open" type="object" />
+								<button name="case_cancel" states="draft,open,pending" string="Cancel" type="object" />
+								<button name="case_pending" states="draft,open" string="Pending" type="object" />
+								<button name="case_escalate" states="open,draft,pending" string="Escalate" type="object"/>
+								<button name="case_reset" states="done,cancel" string="Reset to Draft" type="object" />
+							</group>
+						</page>
+						<page groups="base.group_extended" string="Extra Info">
+							<field name="id" />
+							<field name="active" />
+							<field name="email_cc" />
+							<field name="canal_id" />
+							<separator colspan="4" string="Dates" />
+							<field name="date_closed" />
+							<field name="date_action_last" />
+							<field name="date_action_next" />
+							<field name="som" />
+							<separator colspan="4" string="History" />
+							<field colspan="4" mode="tree,form" name="history_line" nolabel="1">
+								<form string="Communication history">
+									<group col="6" colspan="4">
+										<field name="date" />
+										<field name="email" />
+										<field name="canal_id" />
+									</group>
+									<newline />
+									<field colspan="4" name="description" nolabel="1" />
+								</form>
+								<tree string="Communication history">
+									<field name="description" />
+									<field name="email" />
+									<field name="date" />
+								</tree>
+							</field>
+						</page>
+						<page string="History">
+							<field colspan="4" name="log_ids" nolabel="1">
+								<form string="Actions">
+									<separator colspan="4" string="Action Information" />
+									<field colspan="4" name="name" />
+									<field name="date" />
+									<field name="user_id" />
+									<field name="som" />
+									<field name="canal_id" />
+								</form>
+							</field>
+						</page>
+						<page string="Money">
+							<field name="planned_cost" string="RMA Cost" />
+							<field name="planned_revenue" string="RMA Revenue" />
+							<field name="new_invoice_id" string="New Invoice" domain = "[('partner_id','=', partner_id)]"/>
+						</page>
+						<page string="Notes">
+							<field name="extra_note" nolabel="1"/>
+						</page>
+					</notebook>
+				</form>
+
+			</field>
+		</record>
+
+
+		<record model="ir.ui.view" id="view_crm_case_tree_rma">
+			<field name="name">crm.rma.tree.rma</field>
+			<field name="model">crm.rma</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="rma_ref" />
+					<field name="partner_id" select="1"/>
+					<field name="prodlot_id" />
+					<field name="section_id" />
+					<field name="state" />
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="rma_action" model="ir.actions.act_window">
+			<field name="name">All RMA</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">crm.rma</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+		</record>
+
+		<menuitem icon="terp-crm" id="menu_rmas" name="RMA" parent="crm.menu_crm" />
+		<menuitem icon="STOCK_JUSTIFY_FILL" action="rma_action" id="all_rmas" name="All RMA" parent="menu_rmas" />
+
+		<record id="ir_actions_act_window_view_crm_incident_form" model="ir.actions.act_window.view">
+			<field name="act_window_id" ref="rma_action" />
+			<field eval="1" name="sequence" />
+			<field name="view_id" ref="view_crm_case_form_rma" />
+			<field eval="&quot;&quot;&quot;form&quot;&quot;&quot;" name="view_mode" />
+		</record>
+
+		<record id="ir_actions_act_window_view_crm_incident_tree" model="ir.actions.act_window.view">
+			<field name="act_window_id" ref="rma_action" />
+			<field eval="0" name="sequence" />
+			<field name="view_id" ref="view_crm_case_tree_rma" />
+			<field eval="&quot;&quot;&quot;tree&quot;&quot;&quot;" name="view_mode" />
+		</record>
+
+
+
+		<record id="rma_action_new" model="ir.actions.act_window">
+			<field name="name">New RMA</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">crm.rma</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+		</record>
+
+		<menuitem action="rma_action_new" id="new_rma" name="New RMA" parent="menu_rmas" />
+
+		<record id="ir_actions_act_window_view_crm_incident_new_form" model="ir.actions.act_window.view">
+			<field name="act_window_id" ref="rma_action_new" />
+			<field eval="1" name="multi" />
+			<field name="view_id" ref="view_crm_case_form_rma" />
+			<field eval="&quot;&quot;&quot;form&quot;&quot;&quot;" name="view_mode" />
+		</record>
+
+		<record id="ir_actions_act_window_view_crm_incident_new_tree" model="ir.actions.act_window.view">
+			<field name="act_window_id" ref="rma_action_new" />
+			<field eval="1" name="multi" />
+			<field name="view_id" ref="view_crm_case_tree_rma" />
+			<field eval="&quot;&quot;&quot;tree&quot;&quot;&quot;" name="view_mode" />
+		</record>
+
+	</data>
+</openerp>

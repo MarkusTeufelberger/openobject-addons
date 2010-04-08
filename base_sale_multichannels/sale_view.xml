@@ -14,8 +14,10 @@
 						<page string="Actions">
 							<group col="4" colspan="4">
 								<separator string="Catalog" colspan="4" />
-								<button name="export_catalog" string="Export Catalog"
-									colspan="2" type="object" />
+                                <group col="4" colspan="4">
+                                    <button name="export_catalog" string="Export Catalog" type="object" />
+                                    <field name="last_products_export_date" />
+                                </group>
 								<group col="4" colspan="4">
 									<button name="export_inventory" string="Export Stock Levels Only"
 										type="object" />

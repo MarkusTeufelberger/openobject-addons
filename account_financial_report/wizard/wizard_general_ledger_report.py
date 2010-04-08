@@ -106,8 +106,6 @@ class wizard_report(wizard.interface):
         #data['form']['landscape']=True
         #data['form']['amount_currency'] = True
         data['form']['context'] = context
-        if 'Account_list' in data['form'] and len(data['form']['Account_list'][0]) >= 3:
-            data['form']['Account_list'] = data['form']['Account_list'][0][2]
         return data['form']
 
 

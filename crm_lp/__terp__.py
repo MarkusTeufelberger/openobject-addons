@@ -22,11 +22,11 @@
 
 
 {
-    'name': 'Customer Relationship Management',
+    'name': 'Launchpad-CRM Synchronization',
     'version': '1.0',
     'category': 'Generic Modules/CRM & SRM',
     'description': """
-        This module provide  synchronize  between lp bugs with openobject cases
+        This module provides synchronization  between Launchpad Bugs and OpenObject cases
     """,
     'author': 'Tiny',
     'website': 'http://www.openerp.com',
@@ -40,6 +40,5 @@
     'demo_xml': [],
     'installable': True,
     'active': False,
-    'certificate': '',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -131,14 +131,24 @@ class stock_production_lot(osv.osv):
     _inherit = "stock.production.lot"
 
     def _last_location_id(self, cr, uid, ids, field_name, arg, context={}):
+        """Retrieves the last location where the product with given serial is.
+        Instead of using dates we assume the product is in the location having the
+        highest number of products with the given serial (should be 1 if no mistake). This
+        is better than using move dates because moves can easily be encoded at with wrong dates."""
         res = {}
+        
         for prodlot_id in ids:
-            cr.execute("select location_dest_id from stock_move where stock_move.prodlot_id = %s and stock_move.state='done' order by stock_move.date_planned DESC LIMIT 1" % prodlot_id)
+            cr.execute("select location_dest_id from stock_move inner join stock_report_prodlots \
+            on stock_report_prodlots.location_id = location_dest_id and stock_report_prodlots.prodlot_id = %s\
+            where stock_move.prodlot_id = %s and stock_move.state='done' \
+            order by stock_report_prodlots.name DESC" % (prodlot_id, prodlot_id))
             results = cr.fetchone()
+
             if results and len(results) > 0:
                 res[prodlot_id] = results[0]#TODO return tuple to avoid name_get being requested by the GTK client
             else:
                 res[prodlot_id] = False
+
         return res
     
     _columns = {

@@ -21,8 +21,7 @@
 ##############################################################################
 
 import sys
-if sys.version_info[:1] >= (2, 4):
-    import wizard_ical.py
+import wizard_ical
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

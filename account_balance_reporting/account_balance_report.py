@@ -369,14 +369,12 @@ class account_balance_report_line(osv.osv):
                                 'fiscalyear': line.report_id.previous_fiscalyear_id.id,
                                 'periods': [p.id for p in line.report_id.previous_period_ids],
                             }
-                        #
+
                         # Get the mode of balance calculation from the template
-                        #
                         balance_mode = line.template_line_id.report_id.balance_mode
 
                         # Get the balance 
-                        dcb = line._get_account_debit_credit_and_balance(template_value, balance_mode, ctx)
-                        value = dcb[2]
+                        value = line._get_account_balance(template_value, balance_mode, ctx)
 
                     elif re.match(r'^[\+\-0-9a-zA-Z_\*]*$', template_value):
                         #
@@ -428,21 +426,27 @@ class account_balance_report_line(osv.osv):
         return True
 
 
-    def _get_account_debit_credit_and_balance(self, cr, uid, ids, code, balance_mode=0, context=None):
+    def _get_account_balance(self, cr, uid, ids, code, balance_mode=0, context=None):
         """
         It returns the (debit, credit, balance*) tuple for a account with the
         given code, or the sum of those values for a set of accounts
         when the code is in the form "400,300,(323)"
+
         Depending on the balance_mode, the balance is calculated as follows:
           Mode 0: debit-credit for all accounts (default);
           Mode 1: debit-credit, credit-debit for accounts in brackets;
           Mode 2: credit-debit for all accounts;
           Mode 3: credit-debit, debit-credit for accounts in brackets.
+
+        Also the user may specify to use only the debit or credit of the account
+        instead of the balance writing "debit(551)" or "credit(551)".
         """
         acc_facade = self.pool.get('account.account')
-        res = [0.0, 0.0, 0.0]
+        res = 0.0
         line = self.browse(cr, uid, ids)[0]
-        
+
+        assert balance_mode in ('0','1','2','3'), "balance_mode should be in [0..3]"
+
         # We iterate over the accounts listed in "code", so code can be
         # a string like "430+431+432-438"; accounts split by "+" will be added,
         # accounts split by "-" will be substracted.
@@ -451,53 +455,75 @@ class account_balance_report_line(osv.osv):
         #   Mode 0: credit-debit for all accounts
         #   Mode 1: debit-credit, credit-debit for accounts in brackets
         #   Mode 2: credit-debit, debit-credit for accounts in brackets
+        #   Mode 3: credit-debit, debit-credit for accounts in brackets.
         #
-        for account_code in re.findall('(-?\(?[0-9a-zA-Z_]*\)?)', code):
-            # Check the sign of the code (substraction)
-            if account_code.startswith('-'):
-                sign = -1.0
-            else:
-                sign = 1.0
-            
-            # Strip the debit/substraction sign (if it has one)
-            account_code = account_code.strip('-')
-
-            # Check the balance mode
-            assert balance_mode in ('0','1','2','3'), "balance_mode should be in [0..3]"
-            if balance_mode == '1':
-                # We use debit-credit as default balance,
-                # but for accounts in brackets we use credit-debit
-                if account_code.startswith('('):
-                    sign = -1.0 * sign
-            elif balance_mode == '2':
-                # We use credit-debit as the balance,
-                sign = -1.0 * sign
-            elif balance_mode == '3':
-                # We use credit-debit as default balance,
-                # but for accounts in brackets we use debit-credit
-                if not account_code.startswith('('):
-                    sign = -1.0 * sign
-
-            # Strip the brackets (if it has) so we get just the number
-            account_code = account_code.strip('()')
-
+        # And let the user get just the credit or debit if he specifies so.
+        #
+        for account_code in re.findall('(-?\w*\(?[0-9a-zA-Z_]*\)?)', code):
             # Check if the code is valid (findall might return empty strings)
             if len(account_code) > 0:
+                #
+                # Check the sign of the code (substraction)
+                #
+                if account_code.startswith('-'):
+                    sign = -1.0
+                    account_code = account_code[1:] # Strip the sign
+                else:
+                    sign = 1.0
+
+
+                if re.match(r'^debit\(.*\)$', account_code):
+                    # Use debit instead of balance
+                    mode = 'debit'
+                    account_code = account_code[6:-1] # Strip debit()
+                elif re.match(r'^credit\(.*\)$', account_code):
+                    # Use credit instead of balance
+                    mode = 'credit'
+                    account_code = account_code[7:-1] # Strip credit()
+                else:
+                    mode = 'balance'
+                    #
+                    # Calculate the balance, as given by the balance mode
+                    #
+                    if balance_mode == '1':
+                        # We use debit-credit as default balance,
+                        # but for accounts in brackets we use credit-debit
+                        if account_code.startswith('(') and account_code.endswith(')'):
+                            sign = -1.0 * sign
+                    elif balance_mode == '2':
+                        # We use credit-debit as the balance,
+                        sign = -1.0 * sign
+                    elif balance_mode == '3':
+                        # We use credit-debit as default balance,
+                        # but for accounts in brackets we use debit-credit
+                        if not account_code.startswith('(') and account_code.endswith(')'):
+                            sign = -1.0 * sign
+                    # Strip the brackets (if there are brackets)
+                    if account_code.startswith('(') and account_code.endswith(')'):
+                        account_code = account_code[1:-1]
+
                 # Search for the account (perfect match)
                 account_ids = acc_facade.search(cr, uid, [
                         ('code', '=', account_code),
                         ('company_id','=', line.report_id.company_id.id)
                     ], context=context)
-                if len(account_ids) == 0:
+                if not account_ids:
                     # We didn't find the account, search for a subaccount ending with '0'
                     account_ids = acc_facade.search(cr, uid, [
                             ('code', '=like', '%s%%0' % account_code),
                             ('company_id','=', line.report_id.company_id.id)
                         ], context=context)
+
                 if len(account_ids) > 0:
-                    res[0] += acc_facade.browse(cr, uid, account_ids, context)[0].debit * sign
-                    res[1] += acc_facade.browse(cr, uid, account_ids, context)[0].credit * sign
-                    res[2] += acc_facade.browse(cr, uid, account_ids, context)[0].balance * sign
+                    if mode == 'debit':
+                        res += acc_facade.browse(cr, uid, account_ids, context)[0].debit
+                    elif mode == 'credit':
+                        res += acc_facade.browse(cr, uid, account_ids, context)[0].credit
+                    else:
+                        res += acc_facade.browse(cr, uid, account_ids, context)[0].balance * sign
+                else:
+                    netsvc.Logger().notifyChannel('account_balance_report', netsvc.LOG_WARNING, "Account with code '%s' not found!" % account_code)
+
         return res
 
 
