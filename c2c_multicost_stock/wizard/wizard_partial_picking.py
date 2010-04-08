@@ -146,21 +146,30 @@ def _do_split(self, cr, uid, data, context):
             pricetype=pool.get('product.price.type').browse(cr,uid,user.company_id.property_valuation_price_type.id)
             
             if (qty > 0):
+                # Compute price for account move
                 new_price = currency_obj.compute(cr, uid, currency,
                         user.company_id.currency_id.id, price)
                 new_price = uom_obj._compute_price(cr, uid, uom, new_price,
                         product.uom_id.id)
+                
+                # Compute cost price in pricetype field currency
+                new_price_for_pricetype = currency_obj.compute(cr, uid, currency,
+                                        pricetype.currency_id.id, price)
+                new_price_for_pricetype = uom_obj._compute_price(cr, uid, uom, new_price_for_pricetype,
+                                        product.uom_id.id)
                 if product.qty_available<=0:
-                    new_std_price = new_price
+                    new_std_price = new_price_for_pricetype
                 else:
                     # Get the standard price
                     amount_unit=product.price_get(pricetype.field, context)[product.id]
                     new_std_price = ((amount_unit * product.qty_available)\
-                        + (new_price * qty))/(product.qty_available + qty)
+                        + (new_price_for_pricetype * qty))/(product.qty_available + qty)
                     
                 # Write the field according to price type field
+                # Must take care of the price field currency
                 product_obj.write(cr, uid, [product.id],
                         {pricetype.field: new_std_price})
+                # Write the amount for account move
                 move_obj.write(cr, uid, [move.id], {'price_unit': new_price})
 
     for move in too_few:
