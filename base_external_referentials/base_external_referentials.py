@@ -114,7 +114,7 @@ class external_referential(osv.osv):
                         'out_function': each_mapping_line_rec['out_function'],
                         }
                     mapping_line_obj.create(cr, uid, vals)
-        return False
+        return True
             
                 
     _columns = {
