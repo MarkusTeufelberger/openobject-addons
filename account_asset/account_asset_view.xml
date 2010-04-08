@@ -45,7 +45,7 @@
         action="action_account_asset_category_form" sequence="10"/>
 
         <record id="asset_category_tree_view" model="ir.ui.view">
-            <field name="name">asset.category.tree</field>
+            <field name="name">account.asset.category.tree</field>
             <field name="model">account.asset.category</field>
             <field name="type">tree</field>
             <field name="field_parent">child_ids</field>
@@ -159,25 +159,6 @@
         id="menu_action_account_asset_method_defaults_form"
         action="action_account_asset_method_defaults_form" sequence="40"/>
 
-
-# Asset method
-
-    <record model="ir.ui.view" id="view_account_asset_method_tree">
-        <field name="name">account.asset.method.tree</field>
-        <field name="model">account.asset.method</field>
-        <field name="type">tree</field>
-        <field name="arch" type="xml">
-            <tree string="Assets Methods">
-<!--                <field name="asset_id"/>   -->
-                <field name="name"/>
-                <field name="method_type"/>
-                <field name="value_total"/>
-                <field name="value_residual"/>
-                <field name="state"/>
-            </tree>
-        </field>
-    </record>
-
 # Asset History
 
     <record model="ir.ui.view" id="view_account_asset_history_form">
@@ -206,7 +187,7 @@
         <field name="model">account.asset.history</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Method history">
+            <tree string="Asset History">
                 <field name="date" select="1"/>
                 <field name="user_id" select="1"/>
                 <field name="name" select="1"/>
@@ -219,6 +200,51 @@
             </tree>
         </field>
     </record>
+
+# Method Usage
+
+    <record model="ir.ui.view" id="view_account_asset_method_usage_form">
+        <field name="name">account.asset.method.usage.form</field>
+        <field name="model">account.asset.method.usage</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Method Usage">
+                <field name="period_id" select="1"/>
+                <field name="usage"/>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_asset_method_usage_tree">
+        <field name="name">account.asset.method.usage.tree</field>
+        <field name="model">account.asset.method.usage</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Method usage">
+                <field name="period_id" select="1"/>
+                <field name="usage"/>
+            </tree>
+        </field>
+    </record>
+
+# Asset method
+
+    <record model="ir.ui.view" id="view_account_asset_method_tree">
+        <field name="name">account.asset.method.tree</field>
+        <field name="model">account.asset.method</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Assets Methods">
+<!--                <field name="asset_id"/>   -->
+                <field name="name"/>
+                <field name="method_type"/>
+                <field name="value_total"/>
+                <field name="value_residual"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
 
 
 # Asset
@@ -247,9 +273,9 @@
 			    </group>
                             <!--  <separator string="Methods" colspan="4"/>  -->
                             <notebook colspan="4">
-                            <page string="Depreciation board">
+                            <page string="Depreciation Board">
 				<group colspan = "1" col="2">
-	                                <separator string="Depreciation duration" colspan ="2"/>
+<!--	                                <separator string="Depreciation duration" colspan ="2"/>      -->
                     			<field name="period_id"/>
         	                        <field name="method"/>
         	                        <field name="method_delay"/>
@@ -260,45 +286,46 @@
                                 	<!-- <field name="method_end"/> -->
 				</group>
 				<group colspan = "1" col="2">
-                                	<button 
-                                  	 name="%(wizard_asset_modify)d" 
-                                   	 states="open" 
-                                   	 string="Change duration" 
-                                   	 type="action" 
-                                   	 colspan="2"/>
-
+                                	<button name="%(wizard_asset_modify)d" states="open" string="Change Duration" type="action" />
+	                                <button name="%(wizard_asset_close)d" states="open" string="Close Method" type="action"/>
+	                                <button name="validate" states="draft" string="Confirm Method" type="object"/>
 				</group>
                             </page>
-
                             <page string="Accounts">
-				<group colspan = "3" col="2">
-	                               <separator string="Accounts information" colspan ="2"/>
+				<group colspan = "2" col="2">
+<!--	                               <separator string="Accounts information" colspan ="2"/>    -->
 	       	                        <field name="account_asset_id"/>
 	       	                        <field name="account_expense_id"/>
         	                        <field name="account_actif_id"/>
         	                        <field name="journal_id"/>
+        	                        <field name="account_residual_id"/>
+				</group>
+				<group colspan = "2" col="2">
         	                        <field name="journal_analytic_id"/>
         	                        <field name="account_analytic_id"/>
                                 	<!-- <field name="type"/>   Not used -->
 				</group>
-                           </page>
+                            </page>
                             <page string="Entries">
                                 <field name="entry_ids" colspan="4" nolabel="1"/>
                             </page>
+                            <page string="Usage" attrs="{'readonly':[('method','!=','uop')]}">
+                                <field name="usage_ids" colspan="4" nolabel="1"/>
+                            </page>
+
                             </notebook>
-                                <button name="%(wizard_asset_close)d" states="open" string="Close Method" type="action"/>
-                                <button name="validate" states="draft" string="Confirm Method" type="object"/>
                         </form>
                     </field>
                     <group colspan="4">
                         <field name="state" readonly="1"/>
-                        <button name="validate" states="draft" string="Confirm asset" type="object"/>
+                        <button name="validate" states="draft" string="Confirm Asset" type="object"/>
                     </group>
 
 <!--                </page><page string="Entries">
                     <field name="entry_ids" colspan="4" nolabel="1"/>
 -->
-                </page><page string="Other information">
+                </page>
+		<page string="Other Information">
                     <field name="date" select="2"/>
                     <field name="sequence"/>
                     <field name="partner_id" select="2"/>
@@ -306,9 +333,9 @@
 <!--                    <field name="parent_id" select="2"/>   -->
                     <field name="note" colspan="4" nolabel="1"/>
                 </page>
-                    <page string="Asset history">
+		<page string="Asset History">
                        <field name="history_ids" colspan="4" nolabel="1" readonly="1"/>
-                    </page>
+                </page>
                 </notebook>
             </form>
         </field>

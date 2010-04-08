@@ -38,15 +38,16 @@ asset_end_fields = {
 asset_ask_form = '''<?xml version="1.0"?>
 <form string="Compute assets">
     <field name="period_id"/>
+    <field name="date"/>
     <newline/>
     <field name="category_id"/>
-    <newline/>
     <field name="method_type_id"/>
 </form>'''
 
 asset_ask_fields = {
+    'date': {'string': 'Date', 'type': 'date', 'help':"Efective date for accounting moves. It has to be within period. If empty current date will be applied."},
     'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True},
-    'category_id': {'string': 'Asset Category', 'type': 'many2one', 'relation':'account.asset.category', 'required':False, 'help': "If empty all categories assets will be calculated. If you use hierarchical categories all children categories assets will be calculated."},
+    'category_id': {'string': 'Asset Category', 'type': 'many2one', 'relation':'account.asset.category', 'required':False, 'help': "If empty all categories assets will be calculated. If you use hierarchical categories all children of selected category be calculated."},
     'method_type_id' : {'string': 'Asset Method Type', 'type': 'many2one', 'relation':'account.asset.method.type', 'required':False, 'help': "If empty all method types will be calculated for assets."}, 
 }
 
@@ -64,7 +65,7 @@ def _asset_compute(self, cr, uid, data, context):
         method_ids = method_obj.search(cr, uid, [('state','=','open'),('asset_id','in',asset_ids)], context=context)
     ids_create = []
     for method in method_obj.browse(cr, uid, method_ids, context):
-        ids_create += method_obj._compute_entries(cr, uid, method, data['form']['period_id'], context)
+        ids_create += method_obj._compute_entries(cr, uid, method, data['form']['period_id'], data['form']['date'], context)
     self.move_ids = ids_create
     return {'move_ids': ids_create}
 

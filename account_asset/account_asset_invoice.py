@@ -29,6 +29,17 @@ class account_invoice(osv.osv):
         res = super(account_invoice, self).line_get_convert(cr, uid, x, part, date, context)
         res['asset_method_id'] = x.get('asset_method_id', False)
         return res
+
+    def _refund_cleanup_lines(self, cr, uid, lines):
+        for line in lines:
+#            raise osv.except_osv('Error !', 'method id %s %s %s %s'%line[0],line[1], line[2], line[5]) 
+            if 'asset_method_id' in line:
+#                raise osv.except_osv('Error !', 'method id %s'%line[asset_method_id]) 
+                line['asset_method_id'] = line.get('asset_method_id', False) and line['asset_method_id'][0]
+        res = super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
+        return res
+
+
 account_invoice()
 
 class account_invoice_line(osv.osv):
@@ -36,6 +47,7 @@ class account_invoice_line(osv.osv):
     _columns = {
         'asset_method_id': fields.many2one('account.asset.method', 'Asset Method', help = "Select the asset depreciation method if you wish to assign the purchase invoice line to fixed asset. If method doesn't exists yet you will have to create it and probably the asset itself too. After selecting the asset method the invoice line account should change according to the asset method settings but please check it before creating the invoice."),
     }
+
     def move_line_get_item(self, cr, uid, line, context={}):
         res = super(account_invoice_line, self).move_line_get_item(cr, uid, line, context)
         if line.asset_method_id:
