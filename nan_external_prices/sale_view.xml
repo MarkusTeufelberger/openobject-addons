@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	<record model="ir.ui.view" id="view_order_form_use_external_prices">
+		<field name="name">sale.order.form.use_external_prices</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_order_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<field name="fiscal_position" position="after">
+				<field name="use_external_prices"/>
+			</field>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="view_order_form_external_prices">
+		<field name="name">sale.order.form.external_prices</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_order_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<field name="address_allotment_id" position="after">
+				<field name="external_tax_amount"/>
+				<field name="external_base_amount"/>
+			</field>
+		</field>
+	</record>
+</data>
+</openerp>
