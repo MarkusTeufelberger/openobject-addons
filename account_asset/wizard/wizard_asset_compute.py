@@ -22,6 +22,7 @@
 
 import wizard
 import pooler
+import time
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
@@ -45,7 +46,7 @@ asset_ask_form = '''<?xml version="1.0"?>
 </form>'''
 
 asset_ask_fields = {
-    'date': {'string': 'Date', 'type': 'date', 'help':"Efective date for accounting moves. It has to be within period. If empty current date will be applied."},
+    'date': {'string': 'Date', 'type': 'date', 'required':True, 'help':"Efective date for accounting moves. It has to be within period. If empty current date will be applied."},
     'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True},
     'category_id': {'string': 'Asset Category', 'type': 'many2one', 'relation':'account.asset.category', 'required':False, 'help': "If empty all categories assets will be calculated. If you use hierarchical categories all children of selected category be calculated."},
     'method_type_id' : {'string': 'Asset Method Type', 'type': 'many2one', 'relation':'account.asset.method.type', 'required':False, 'help': "If empty all method types will be calculated for assets."}, 
@@ -53,6 +54,12 @@ asset_ask_fields = {
 
 def _asset_compute(self, cr, uid, data, context):
     pool = pooler.get_pool(cr.dbname)
+    period_obj = pool.get('account.period')
+    period = period_obj.browse(cr, uid, data['form']['period_id'], context)
+    if period.state == 'done':
+            raise wizard.except_wizard(_('Error !'), _('Cannot post in closed period !'))
+    if (period.date_start > data['form']['date']) or (period.date_stop < data['form']['date']):
+            raise wizard.except_wizard(_('Error !'), _('Date must be in the period !'))
     method_obj = pool.get('account.asset.method')
     asset_obj = pool.get('account.asset.asset')
     if data['form']['category_id']:
@@ -90,7 +97,7 @@ def _get_period(self, cr, uid, data, context={}):
     period_id = False
     if len(ids):
         period_id = ids[0]
-    return {'period_id': period_id}
+    return {'period_id': period_id, 'date': time.strftime('%Y-%m-%d')}
 
 class wizard_asset_compute(wizard.interface):
     states = {

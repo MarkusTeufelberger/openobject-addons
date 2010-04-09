@@ -4,6 +4,7 @@
 
     <menuitem id="menu_finance_config_Assets" name="Assets" parent="account.menu_finance_configuration" sequence="30"/>
 
+    <menuitem id="menu_finance_periodical_assets" name="Assets Calculation" parent="account.menu_finance_periodical_processing"/>
 
 # Asset Category
 
@@ -227,6 +228,45 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="view_account_asset_method_usage_entryform">
+        <field name="name">account.asset.method.usage.entryform</field>
+        <field name="model">account.asset.method.usage</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <tree string="Method usage">
+                <field name="period_id" select="1" readonly="1"/>
+                <field name="asset_method_id" readonly="1"/>
+                <field name="usage"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_asset_method_usage_entrytree">
+        <field name="name">account.asset.method.usage.entrytree</field>
+        <field name="model">account.asset.method.usage</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Method usage" editable = "top">
+                <field name="period_id" select="1" readonly="1"/>
+                <field name="asset_method_id" readonly="1"/>
+                <field name="usage" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="action_account_asset_method_usage_periodical_entry">
+        <field name="name">Method Usage</field>
+        <field name="res_model">account.asset.method.usage</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+<!--        <field name="domain">[('state','=','normal')]</field>  -->
+            <field name="view_id" ref="view_account_asset_method_usage_entrytree"/>
+    </record>
+
+	<menuitem id="menu_asset_method_usage" parent="menu_finance_periodical_assets" action="action_account_asset_method_usage_periodical_entry" />
+
+
 # Asset method
 
     <record model="ir.ui.view" id="view_account_asset_method_tree">
@@ -280,9 +320,10 @@
         	                        <field name="method"/>
         	                        <field name="method_delay"/>
         	                        <field name="method_period"/>
-        	                        <field name="method_progress_factor"/>
+        	                        <field name="method_progress_factor"/> <!-- attrs="{'readonly':[('method','!=','decbalance')]}"/>  -->
         	                        <field name="method_time"/>
         	                        <field name="method_salvage"/>
+        	                        <field name="life"/>  <!--attrs="{'readonly':[('method','!=','uop')]}"/>    -->
                                 	<!-- <field name="method_end"/> -->
 				</group>
 				<group colspan = "1" col="2">
