@@ -35,6 +35,7 @@ import atom
 import wizard
 import pooler
 from osv import fields, osv
+from tools.translate import _
 
 _google_form =  '''<?xml version="1.0"?>
         <form string="Export">
@@ -150,6 +151,8 @@ class google_calendar_wizard(wizard.interface):
             self.calendar_service.max_results = 500 # to be check
             self.calendar_service.ProgrammaticLogin()
             tiny_events = obj_event.search(cr, uid, [])
+            if not google_auth_details.company_id.partner_id.address:
+                raise wizard.except_wizard(_('Warning'), _('The Partner of the Main Company does not have any address defined!'))
             city = google_auth_details.company_id.partner_id.address[0].city or ''
             street =  google_auth_details.company_id.partner_id.address[0].street or ''
             street2 = google_auth_details.company_id.partner_id.address[0].street2 or ''
@@ -254,6 +257,8 @@ class google_calendar_wizard(wizard.interface):
 
             return {}
         except Exception, e:
+            if isinstance(e,wizard.except_wizard):
+                raise osv.except_osv(e[0], e[1])
             raise osv.except_osv('Error !', e )
         
     states = {
