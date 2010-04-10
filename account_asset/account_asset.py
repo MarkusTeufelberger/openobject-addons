@@ -347,70 +347,90 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             result['name'] = as_name + " (" + as_code + ")" + ' - ' + type_code 
         return {'value': result}
 
-    def _compute_period(self, cr, uid, method, period, context={}):
-        if (period.date_start < method.period_id.date_start) or \
-                ((mx.DateTime.strptime(period.date_stop, '%Y-%m-%d').month % (12 / method.method_period)) != 0):
-            return False
+    def _compute_last_calculated(self, cr, uid, method, period, context={}):
         cr.execute("SELECT m.id, m.period_id \
                         FROM account_move_line AS m \
                             WHERE m.asset_method_id = %s AND m.account_id = %s \
-                            ORDER BY m.id DESC", (method.id, method.account_expense_id.id,))
+                            ORDER BY m.id DESC", (method.id, method.account_actif_id.id,))
         pid = cr.fetchone()
         if pid:
             periods_obj = self.pool.get('account.period')
-            last_calculated = periods_obj.browse(cr, uid, pid[1], context)
-            if last_calculated.date_start >= period.date_start:
-                return False
+            last_period = periods_obj.browse(cr, uid, pid[1], context)
+            if last_period.date_start < period.date_start:
+                ml_obj = self.pool.get('account.move.line')
+                last_move_line = ml_obj.browse(cr, uid, pid[0], context)
+                return last_move_line, True
+            else:
+                return False, False
+        return False, True
+
+    def _compute_period(self, cr, uid, method, period, context={}):
+        if (period.date_start < method.period_id.date_start) \
+                or ((mx.DateTime.strptime(period.date_stop, '%Y-%m-%d').month % (12 / method.method_period)) != 0):
+            return False
         return True
 
-    def _compute_move(self, cr, uid, method, period, date, context={}):
+    def _compute_move(self, cr, uid, method, period, date, usage_id, last_move_line, context={}):
         result = []
-        total = 0.0
-        depr_entries_made = 0
-        for move in method.entry_ids:
-            if move.account_id == method.account_asset_id:
-                total += move.debit - move.credit
-            if move.account_id == method.account_expense_id:
-                total -= move.credit
-                depr_entries_made += 1 
-        total -= method.value_salvage
-        gross = total                                       # GG fix needed for declining-balance
+        gross = method.value_total - method.value_salvage
+        to_writeoff = method.value_residual - method.value_salvage 
+        if usage_id:                # Units of Production method
+            amount = gross * self.pool.get('account.asset.method.usage').browse(cr, uid, usage_id, context).usage / method.life
+            if amount > to_writeoff:
+                amount = to_writeoff
+        else:
+#            total = 0.0
+            depr_entries_made = 0
+            for move in method.entry_ids:
+#            if move.account_id == method.account_asset_id:
+#                total += move.debit - move.credit
+                if move.account_id == method.account_actif_id:
+#                    to_writeoff -= move.debit
+                    depr_entries_made += 1 
+#            total -= method.value_salvage
+    
 #        for move in method.entry_asset_ids:
 #            if move.account_id == method.account_expense_id:
 #                total += move.debit-move.credit
 #        entries_made = (len(method.entry_asset_ids)/2)   # GG fix needed for declining-balance
-        intervals = method.method_delay - depr_entries_made     # GG fix
-        if intervals==1:
-            amount = total
-        else:
-            if method.method == 'linear':
-                amount = total / intervals
-            elif method.method == 'progressive':                          # GG fix begin 
-                amount = total * method.method_progress_factor
-            elif method.method == 'decbalance':
-                period_begin = mx.DateTime.strptime(period.date_start, '%Y-%m-%d')
-                period_end = mx.DateTime.strptime(period.date_stop, '%Y-%m-%d')
-                period_duration = period_end.month - period_begin.month + 1 
-                intervals_per_year = 12 / period_duration / method.method_period
-                if entries_made == 0:                              # First year
-                    remaining_intervals = 1 + abs((12 - period_end.month) / period_duration / method.method_period)
-                    amount = (total * method.method_progress_factor * remaining_intervals / intervals_per_year) / remaining_intervals
-                elif (12 / period_end.month) >= intervals_per_year:                      # Beginning of the year
-                    amount = total * method.method_progress_factor / intervals_per_year
-                    if amount < (gross / method.method_delay):   # In declining-balance when amount less than amount for linear it switches to linear
-                        amount = gross / method.method_delay
-                else:                                              # In other cases repeat last entry
-                    cr.execute("SELECT m.id, m.debit \
-                                FROM account_move_line AS m \
-                                    LEFT JOIN account_move_asset_entry_rel AS r \
-                                    ON m.id = r.move_id \
-                                        LEFT JOIN account_asset_method AS p \
-                                        ON p.asset_id = r.asset_method_id \
-                                    WHERE p.asset_id = %s \
-                                    ORDER BY m.id DESC", (method.asset_id.id,))
-                    amount = cr.fetchone()[1]
-                if total < amount:
-                    amount = total
+            intervals = method.method_delay - depr_entries_made     # GG fix
+            if intervals == 1:
+                amount = to_writeoff
+            else:
+                if method.method == 'linear':
+                    amount = to_writeoff / intervals
+                elif method.method == 'progressive':                          # GG fix begin 
+                    amount = to_writeoff * method.method_progress_factor
+                elif method.method == 'decbalance':
+#                    period_begin = mx.DateTime.strptime(period.date_start, '%Y-%m-%d')
+                    period_end = mx.DateTime.strptime(period.date_stop, '%Y-%m-%d')
+#                    period_duration = period_end.month - period_begin.month + 1 
+#                    intervals_per_year = 12 / period_duration / method.method_period
+                    if depr_entries_made == 0:                              # First year
+#                        remaining_intervals = abs((12 - period_end.month) / 12 / method.method_period)
+                        amount = to_writeoff * method.method_progress_factor / method.method_period 
+#* remaining_intervals / method.method_period) / remaining_intervals
+                    elif (12 / period_end.month) == method.method_period:                      # Beginning of the year
+                        amount = to_writeoff * method.method_progress_factor / method.method_period
+                        if amount < (gross / method.method_delay):   # In declining-balance when amount less than amount for linear it switches to linear
+                            amount = gross / method.method_delay
+                    else:                                              # In other cases repeat last entry
+#                        cr.execute("SELECT m.id, m.debit \
+#                                    FROM account_move_line AS m \
+#                                        LEFT JOIN account_move_asset_entry_rel AS r \
+#                                        ON m.id = r.move_id \
+#                                            LEFT JOIN account_asset_method AS p \
+#                                            ON p.asset_id = r.asset_method_id \
+#                                        WHERE p.asset_id = %s \
+#                                        ORDER BY m.id DESC", (method.asset_id.id,))
+#                        amount = cr.fetchone()[1]
+#                        raise osv.except_osv('Error !', 'last %s'%last_move_line.debit) 
+                        amount = last_move_line.debit
+                    if to_writeoff < amount:
+                        amount = to_writeoff
+                elif method.method == 'syd':
+                    pass
+
                                                                              # GG fix end
         move_id = self.pool.get('account.move').create(cr, uid, {
             'journal_id': method.journal_id.id,
@@ -429,7 +449,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             'ref': method.asset_id.code,
             'period_id': period.id,
             'journal_id': method.journal_id.id,
-            'partner_id': method.asset_id.partner_id.id,
+#            'partner_id': method.asset_id.partner_id.id,
             'date': date,
             'asset_method_id': method.id      
         })
@@ -442,14 +462,14 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             'ref': method.asset_id.code,
             'period_id': period.id,
             'journal_id': method.journal_id.id,
-            'partner_id': method.asset_id.partner_id.id,
+#            'partner_id': method.asset_id.partner_id.id,
             'date': date,
-            'asset_method_id': method.id      # Probably should be added but some other querries should be changed
+            'asset_method_id': method.id     
         })
         self.pool.get('account.asset.method').write(cr, uid, [method.id], {
             'entry_ids': [(4, id2, False),(4,id,False)]
         })
-        if (method.method_delay - (len(method.entry_ids)/2)<=1) or (total == amount):  # GG fix for declining-balance
+        if (to_writeoff == amount): 
             self.pool.get('account.asset.method')._close(cr, uid, method, context)
             return result
         return result
@@ -458,9 +478,16 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         if method.state=='open':
             period = self.pool.get('account.period').browse(cr, uid, period_id, context)
             result = []
-            period_ok = self._compute_period(cr, uid, method, period, context)
-            if period_ok:
-                result += self._compute_move(cr, uid, method, period, date, context)
+            usage_id = False
+            period_ok = False
+            last_move_line, compute_period = self._compute_last_calculated(cr, uid, method, period, context)
+            if method.method == 'uop':
+                usage_ids = self.pool.get('account.asset.method.usage').search(cr, uid, [('period_id','=',period_id),('asset_method_id','=',method.id)])
+                usage_id = usage_ids and usage_ids[0] or False
+            else:
+                period_ok = self._compute_period(cr, uid, method, period, context)
+            if (period_ok or usage_id) and compute_period:
+                result += self._compute_move(cr, uid, method, period, date, usage_id, last_move_line, context)
         return result
 
     '''

@@ -320,10 +320,10 @@
         	                        <field name="method"/>
         	                        <field name="method_delay"/>
         	                        <field name="method_period"/>
-        	                        <field name="method_progress_factor"/> <!-- attrs="{'readonly':[('method','!=','decbalance')]}"/>  -->
+        	                        <field name="method_progress_factor" attrs="{'readonly':[('method','!=','decbalance')]}"/>
         	                        <field name="method_time"/>
         	                        <field name="method_salvage"/>
-        	                        <field name="life"/>  <!--attrs="{'readonly':[('method','!=','uop')]}"/>    -->
+        	                        <field name="life" attrs="{'readonly':[('method','!=','uop')]}"/>
                                 	<!-- <field name="method_end"/> -->
 				</group>
 				<group colspan = "1" col="2">
