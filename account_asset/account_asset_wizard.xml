@@ -2,6 +2,7 @@
 <openerp>
 	<data>
 
+    <menuitem id="menu_finance_periodical_assets" name="Assets Calculation" parent="account.menu_finance_periodical_processing"/>
 
 		<wizard
 			string="Compute assets"
@@ -10,7 +11,7 @@
 			keyword="tree_but_action"
 			id="wizard_asset_compute"/>
 		<menuitem
-			parent="account_asset.menu_finance_periodical_assets"
+			parent="menu_finance_periodical_assets"
 			action="wizard_asset_compute"
 			type="wizard"
 			id="menu_wizard_asset_compute"/>

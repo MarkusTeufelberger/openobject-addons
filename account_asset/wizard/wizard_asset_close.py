@@ -22,6 +22,8 @@
 
 import wizard
 import pooler
+import time
+from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
 <form string="Close asset">
@@ -39,23 +41,26 @@ asset_end_fields = {
 
 def _asset_default(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    prop = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
+    method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
     return {
-        'name': "Closing "+prop.name,
+        'name': _("Closing "),
     }
 
 
 def _asset_close(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    prop_obj = pool.get('account.asset.method')
-    prop = prop_obj.browse(cr, uid, data['id'], context)
-    pool.get('account.asset.method.history').create(cr, uid, {
+    method_obj = pool.get('account.asset.method')
+    method = method_obj.browse(cr, uid, data['id'], context)
+    pool.get('account.asset.history').create(cr, uid, {
+        'type': "close",
         'asset_method_id': data['id'],
         'name': data['form']['name'],
         'note': data['form']['note'],
+        'method_end': time.strftime('%Y-%m-%d'),
+        'asset_id': method.asset_id.id
     }, context)
 
-    prop_obj._close(cr, uid, prop, context)
+    method_obj._close(cr, uid, method, context)
     return {}
 
 

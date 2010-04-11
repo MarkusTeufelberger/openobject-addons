@@ -50,17 +50,29 @@ class account_invoice_line(osv.osv):
 
     def move_line_get_item(self, cr, uid, line, context={}):
         res = super(account_invoice_line, self).move_line_get_item(cr, uid, line, context)
+        if line.invoice_id.type == "in_invoice":
+            type = "purchase"
+        elif line.invoice_id.type == "in_refund":
+            type = "refund"
+        elif line.invoice_id.type == "out_invoice":
+            type = "sale"
         if line.asset_method_id:
             res['asset_method_id'] = line.asset_method_id.id
+            if not line.asset_method_id.asset_id.date:
+                self.pool.get('account.asset.asset').write(cr, uid, [line.asset_method_id.asset_id.id], {
+                    'date': line.invoice_id.date_invoice,
+                    'partner_id': line.invoice_id.partner_id.id,
+                }, context)                    
             if line.asset_method_id.state=='draft':
                 self.pool.get('account.asset.method').validate(cr, uid, [line.asset_method_id.id], context)
             self.pool.get('account.asset.history').create(cr, uid, {
+                'type': type,
                 'asset_method_id': line.asset_method_id.id,
                 'asset_id' : line.asset_method_id.asset_id.id,
-                'name': "Buying asset",
+#                'name': "Buying asset",
                 'partner_id': line.invoice_id.partner_id.id,
                 'invoice_id': line.invoice_id.id,
-#                'note': "Invoice no " + line.invoice_id.number,
+                'note': "Product name: " + line.product_id.name + ' ['+line.product_id.code+"]\nInvoice date: "+line.invoice_id.date_invoice,
                 }, context)
         else:
             res['asset_method_id'] = False

@@ -4,7 +4,7 @@
 
     <menuitem id="menu_finance_config_Assets" name="Assets" parent="account.menu_finance_configuration" sequence="30"/>
 
-    <menuitem id="menu_finance_periodical_assets" name="Assets Calculation" parent="account.menu_finance_periodical_processing"/>
+
 
 # Asset Category
 
@@ -168,14 +168,15 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Asset history">
+                <field name="type" select="1"/>
                 <field name="name" select="1"/>
                 <field name="date" select="1"/>
                 <field name="user_id" select="1"/>
 		<field name="asset_method_id" select="1"/>
 		<field name="partner_id" select="1"/>
 		<field name="invoice_id"/>
-                <field name="method_delay"/>
-                <field name="method_period"/>
+<!--                <field name="method_delay"/>
+                <field name="method_period"/>   -->
                 <field name="method_end"/>
                 <separator string="Notes" colspan="4"/>
                 <field name="note" colspan="4" nolabel="1"/>
@@ -190,13 +191,14 @@
         <field name="arch" type="xml">
             <tree string="Asset History">
                 <field name="date" select="1"/>
+                <field name="type" select="1"/>
                 <field name="user_id" select="1"/>
                 <field name="name" select="1"/>
 		<field name="asset_method_id" select="1"/>
 		<field name="partner_id" select="1"/>
 		<field name="invoice_id"/>
-                <field name="method_delay"/>
-                <field name="method_period"/>
+<!--                <field name="method_delay"/>
+                <field name="method_period"/>     -->
                 <field name="method_end"/>
             </tree>
         </field>
@@ -264,7 +266,7 @@
             <field name="view_id" ref="view_account_asset_method_usage_entrytree"/>
     </record>
 
-	<menuitem id="menu_asset_method_usage" parent="menu_finance_periodical_assets" action="action_account_asset_method_usage_periodical_entry" />
+	<menuitem id="menu_asset_method_usage" parent="menu_finance_periodical_assets" action="action_account_asset_method_usage_periodical_entry"/>
 
 
 # Asset method
@@ -320,14 +322,14 @@
         	                        <field name="method"/>
         	                        <field name="method_delay"/>
         	                        <field name="method_period"/>
-        	                        <field name="method_progress_factor" attrs="{'readonly':[('method','!=','decbalance')]}"/>
+        	                        <field name="method_progress_factor" attrs="{'readonly':[('method','in',('linear','syd','uop'))]}"/>
         	                        <field name="method_time"/>
         	                        <field name="method_salvage"/>
         	                        <field name="life" attrs="{'readonly':[('method','!=','uop')]}"/>
                                 	<!-- <field name="method_end"/> -->
 				</group>
 				<group colspan = "1" col="2">
-                                	<button name="%(wizard_asset_modify)d" states="open" string="Change Duration" type="action" />
+                                	<button name="%(wizard_asset_modify)d" states="open" string="Change Parameters" type="action" />
 	                                <button name="%(wizard_asset_close)d" states="open" string="Close Method" type="action"/>
 	                                <button name="validate" states="draft" string="Confirm Method" type="object"/>
 				</group>
