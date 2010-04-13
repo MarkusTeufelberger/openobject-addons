@@ -158,10 +158,10 @@
           <para style="P6">[[line.notes]]</para>
         </td>
         <td>
-          <para style="P2">[[line.current_value]]</para>
+          <para style="P2">[[formatLang(line.current_value)]]</para>
         </td>
         <td>
-          <para style="P2">[[report.previous_fiscalyear_id and line.previous_value]]</para>
+          <para style="P2">[[report.previous_fiscalyear_id and formatLang(line.previous_value)]]</para>
         </td>
       </tr>
     </blockTable>
