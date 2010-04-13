@@ -108,7 +108,7 @@
           <td>
             <blockTable colWidths="404.0,375.0,69.0,72.0,64.0,59.00" style="Table5">
               <tr>
-                <td><para style="Standard">[[helper.reset_total('bal_amount')]][[ o.code ]] [[ o.name ]]</para></td>
+                <td><para style="Standard">[[helper.reset_total('bal_amount')]][[helper.reset_total('bal_curr_amount')]][[ o.code ]] [[ o.name ]]</para></td>
                 <td><para style="Standard"></para></td>
                 <td alignment="right"><para style="P9b"><u>[[ formatLang(sum_debit_account(o, data['form'])) ]]</u></para></td>
                 <td alignment="right"><para style="P9b"><u>[[ formatLang(sum_credit_account(o, data['form'])) ]]</u></para></td>
@@ -139,7 +139,8 @@
           <td><para style="P4_content">[[ formatLang(line['debit']) ]]</para></td>
           <td><para style="P4_content">[[ formatLang(line['credit']) ]]</para></td>
           <td><para style="P4_content">[[helper.incr_total('bal_amount',line['progress'])]][[ formatLang(helper.get_total('bal_amount')) ]]</para></td>
-          <td><para style="P4_content">[[ formatLang(line['amount_currency'] or 0.00)]] [[ line['currency_code'] ]]</para></td>
+          <td><para style="P4_content">[[o.currency_id and removeParentNode('td') or '']][[ formatLang(line['amount_currency'] or 0.00)]] [[ line['currency_code'] ]]</para></td>
+          <td><para style="P4_content">[[(o.currency_id or removeParentNode('td')) and '']][[helper.incr_total('bal_curr_amount',line['amount_currency'])]][[ formatLang(helper.get_total('bal_curr_amount'))]] [[ line['currency_code'] ]]</para></td>
         </tr>
       </blockTable>
       

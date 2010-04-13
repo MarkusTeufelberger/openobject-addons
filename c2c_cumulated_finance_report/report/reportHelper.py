@@ -53,7 +53,7 @@ class ReportHelper(object):
         
     def get_total(self, column) :
         "return the total in the total store by his key"
-        return self.totdict[column]
+        return self.totdict[column] or 0.0
 ## Memoizer helpers      
     def memoize(self, key, val):
         """Put a value in the store indentified by his key"""

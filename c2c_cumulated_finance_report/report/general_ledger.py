@@ -386,7 +386,7 @@ class GeneralLedger(report_sxw.rml_parse):
         total = self.cr.fetchone()
 
         if self.account_currency:
-            return_field = str(total[0]) + self.account_currency
+            return_field = float(total[0])
             return return_field
         else:
             currency_total = self.tot_currency = 0.0
