@@ -39,10 +39,12 @@ from tools.translate import _
 
 _google_form =  '''<?xml version="1.0"?>
         <form string="Export">
-        <separator string="This wizard synchronize events between tiny and google calendar" colspan="4"/>
+        <separator string="This Wizard Synchronize events between OpenERP and Google Calendar" colspan="4"/>
+         <field name="product_id"/>
         </form> '''
 
 _google_fields = {
+      'product_id': {'string':'Select Product', 'relation':'product.product', 'type':'many2one', 'required':True, 'help':'Product will be used in creating events from Google to Openerp'},
         }
 
 _timezone_form =  '''<?xml version="1.0"?>
@@ -132,7 +134,7 @@ class google_calendar_wizard(wizard.interface):
 #            4. delete events
 
         obj_user = pooler.get_pool(cr.dbname).get('res.users')
-        product = pooler.get_pool(cr.dbname).get('product.product').search(cr, uid, [('name', 'like', 'Calendar Product')])
+        product = data['form']['product_id']
         google_auth_details = obj_user.browse(cr, uid, uid)
         obj_event = pooler.get_pool(cr.dbname).get('event.event')
         if not google_auth_details.google_email or not google_auth_details.google_password:
@@ -142,7 +144,7 @@ class google_calendar_wizard(wizard.interface):
             time_zone = context['tz']
         else:
             time_zone = data['form']['timezone_select']
-        au_tz = timezone(time_zone)
+        au_tz = timezone(str(time_zone))
         try :
             self.calendar_service = gdata.calendar.service.CalendarService()
             self.calendar_service.email = google_auth_details.google_email
@@ -252,7 +254,7 @@ class google_calendar_wizard(wizard.interface):
                            'name': name_event,
                            'date_begin': timestring,
                            'date_end': timestring_end,
-                           'product_id': product[0],
+                           'product_id': product,
                            'google_event_id': an_event.id.text,
                            'event_modify_date': timestring_update
                             }
