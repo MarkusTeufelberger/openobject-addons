@@ -9,7 +9,7 @@ min_maintenance_months = 6 #TODO make this a parameter!
 
 
 class account_invoice(osv.osv):
-   _inherit = "account.invoice"
+    _inherit = "account.invoice"
 
 # FIXME
 #   def _refund_cleanup_lines(self, cr, uid, lines):
