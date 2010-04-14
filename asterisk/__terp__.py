@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "Asterisk",
+    "name" : "Asterisk - Manage Asterisk servers and IP phones.",
     "version" : "0.1proto2",
     "author" : "Tiny",
     "category" : "Enterprise Specific Modules/Electronic Industries",

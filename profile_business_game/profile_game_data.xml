@@ -19,7 +19,8 @@
             <field name="name">Logistic Manager</field>
             <field name="login">logistic</field>
             <field name="password">logistic</field>
-            <field name="groups_id" eval="[(6,0,[ref('stock.group_stock_manager'),ref('stock.group_stock_user'),ref('base.group_user')])]"/>
+            <field name="groups_id" eval="[(6,0,[ref('stock.group_stock_manager'),ref('stock.group_stock_user'),ref('base.group_user'),ref('account.group_account_invoice')])]"/>
+            <field name="roles_id" eval="[(6,0,[ref('account.res_roles_invoice0')])]"/>
         </record>
         <record id="sale.user_sales" model="res.users">
             <field name="name">Sales Manager</field>

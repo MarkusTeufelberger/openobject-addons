@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "Import Export",
+    "name" : "Module for Import Export Business Management",
     "version" : "1.0",
     "author" : "Axelor",
     "category" : "Generic Modules/Accounting",

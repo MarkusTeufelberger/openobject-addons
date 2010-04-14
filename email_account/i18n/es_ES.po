@@ -1,19 +1,21 @@
 # Translation of OpenERP Server.
 # This file containt the translation of the following modules:
-#	* email_account
+# 	* email_account
 #
+# Albert Cervera i Areny <albert@nan-tic.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.0-alpha\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2008-11-24 17:06:47+0000\n"
-"PO-Revision-Date: 2008-11-24 18:23+0100\n"
-"Last-Translator: Jordi Esteve <jesteve@zikzakmedia.com>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2010-01-10 19:51:58+0000\n"
+"PO-Revision-Date: 2010-01-10 21:04+0100\n"
+"Last-Translator: Albert Cervera i Areny <albert@nan-tic.com>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Lokalize 1.0\n"
 
 #. module: email_account
 #: code:addons/email_account/wizard/wizard_send_email.py:0
@@ -61,6 +63,15 @@ msgstr ""
 "Mensaje:\n"
 
 #. module: email_account
+#: model:ir.module.module,shortdesc:email_account.module_meta_information
+msgid ""
+"Email Invoice - Use to Send Customers or Suppliers the selected invoices "
+"attachment by Email."
+msgstr ""
+"Factura por correo - Utilicenlo para mandar facturas como adjuntos de "
+"correos electrónicos a clientes y proveedores."
+
+#. module: email_account
 #: code:addons/email_account/wizard/wizard_send_email.py:0
 #, python-format
 msgid "Please check the Server Configuration!"
@@ -78,6 +89,20 @@ msgid "Send Email"
 msgstr "Enviar Email"
 
 #. module: email_account
+#: model:ir.module.module,description:email_account.module_meta_information
+msgid ""
+"Use Email client module to send to customers or suppliers\n"
+"the selected invoices attached by Email.\n"
+"\n"
+"  * The sale order, invoice and shipping emails addresses are proposed\n"
+"  * An email subject and text with the user signature are proposed\n"
+"  * Later, the emails addresses, subject and text can be modified\n"
+"  * A partner event is created with information of the email (partner,\n"
+"    description, channel, document, user)\n"
+"  * Historical and statistical data is recorded in the smtpclient module\n"
+msgstr ""
+
+#. module: email_account
 #: code:addons/email_account/wizard/wizard_send_email.py:0
 #, python-format
 msgid "To: "
@@ -86,14 +111,8 @@ msgstr "A:"
 #. module: email_account
 #: code:addons/email_account/wizard/wizard_send_email.py:0
 #, python-format
-msgid ". Num."
-msgstr ". Núm."
-
-#. module: email_account
-#: code:addons/email_account/wizard/wizard_send_email.py:0
-#, python-format
-msgid "Warning"
-msgstr "Aviso"
+msgid "Error sending email"
+msgstr "Error al enviar Email"
 
 #. module: email_account
 #: wizard_field:account.invoice.email_send_2,send,email_sent:0
@@ -114,14 +133,20 @@ msgstr "Error"
 #. module: email_account
 #: code:addons/email_account/wizard/wizard_send_email.py:0
 #, python-format
+msgid ". Invoice Num."
+msgstr ". Núm. factura:"
+
+#. module: email_account
+#: code:addons/email_account/wizard/wizard_send_email.py:0
+#, python-format
 msgid "Email sent through invoice wizard"
 msgstr "Correo enviado desde asistente de facturas"
 
 #. module: email_account
 #: code:addons/email_account/wizard/wizard_send_email.py:0
 #, python-format
-msgid "Error sending email"
-msgstr "Error al enviar Email"
+msgid "Warning"
+msgstr "Aviso"
 
 #. module: email_account
 #: code:addons/email_account/wizard/wizard_send_email.py:0
@@ -150,3 +175,5 @@ msgstr "Mensaje"
 msgid "Subject"
 msgstr "Asunto"
 
+#~ msgid ". Num."
+#~ msgstr ". Núm."

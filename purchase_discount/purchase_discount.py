@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -53,7 +53,7 @@ purchase_order_line()
 class purchase_order(osv.osv):
     _name = "purchase.order"
     _inherit = "purchase.order"
-    
+
     def _amount_all(self, cr, uid, ids, field_name, arg, context):
         res = {}
         cur_obj = self.pool.get('res.currency')
@@ -73,12 +73,37 @@ class purchase_order(osv.osv):
             res[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
             res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
         return res
-    
+
+    def _get_order(self, cr, uid, ids, context={}):
+        """Copied from purchase/purchase.py"""
+        result = {}
+        for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
+            result[line.order_id.id] = True
+        return result.keys()
+
+    #The fields using _amount_all() have to be copied here from purchase/purchase.py
+    #because openerp stores the method's memory address not the name.
+    #This means the old method would be called otherwise.
+    _columns = {
+        'amount_untaxed': fields.function(_amount_all, method=True, string='Untaxed Amount',
+            store={
+                'purchase.order.line': (_get_order, None, 10),
+            }, multi="sums"),
+        'amount_tax': fields.function(_amount_all, method=True, string='Taxes',
+            store={
+                'purchase.order.line': (_get_order, None, 10),
+            }, multi="sums"),
+        'amount_total': fields.function(_amount_all, method=True, string='Total',
+            store={
+                'purchase.order.line': (_get_order, None, 10),
+            }, multi="sums"),
+    }
+
     def inv_line_create(self, cr, uid, a, ol):
         res = super(purchase_order,self).inv_line_create(cr, uid, a, ol)
         res[2].update({'discount': ol.discount,})
         return res
-    
+
 purchase_order()
 
 class stock_picking(osv.osv):

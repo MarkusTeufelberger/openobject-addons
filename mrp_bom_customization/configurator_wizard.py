@@ -20,6 +20,7 @@
 #
 ##############################################################################
 from osv import fields, osv
+from tools.translate import _
 
 class sale_product_multistep_configurator_configurator_step(osv.osv):
     _inherit = "sale_product_multistep_configurator.configurator.step"
@@ -148,7 +149,7 @@ class mrp_bom_customization_configurator(osv.osv_memory):
         
         req = """ SELECT DISTINCT mrp_bom_customization_key_id
                     FROM mrp_bom_mrp_bom_customizations_keys_rel
-                    WHERE bom_id IN %s """ % str(tuple(bom_ids))
+                    WHERE bom_id IN %s """ % ("("+",".join(map(str,bom_ids))+")")
         cr.execute(req)
         keys = cr.fetchall()
         

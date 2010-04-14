@@ -45,17 +45,26 @@ class account_account(osv.osv):
 
         #build a dictionnary {parent_id -> [children_ids]}
         children_ids =  {}
-        query = """SELECT rel.child_id, rel.parent_id
-           FROM account_account_rel rel, 
-           account_account aa, account_account aa2
-           WHERE rel.parent_id = aa.id
-           AND rel.child_id = aa2.id
-           AND aa.company_id = %s
-           AND aa2.company_id = %s
-           AND aa.active 
-           AND aa2.active
-            %s """ % (company_id, company_id, sql_filter)
-           
+        
+        query="""SELECT aa.id,aa.parent_id
+        FROM account_account aa
+        WHERE
+           aa.company_id = %s
+           AND aa.active
+           %s
+        """ % (company_id, sql_filter)
+        # 
+        # query = """SELECT rel.child_id, rel.parent_id
+        #    FROM account_account_rel rel, 
+        #    account_account aa, account_account aa2
+        #    WHERE rel.parent_id = aa.id
+        #    AND rel.child_id = aa2.id
+        #    AND aa.company_id = %s
+        #    AND aa2.company_id = %s
+        #    AND aa.active 
+        #    AND aa2.active
+        #     %s """ % (company_id, company_id, sql_filter)
+        
         cr.execute(query)
         for i in cr.fetchall():
             if i[1] not in children_ids:
@@ -128,7 +137,7 @@ class account_period(osv.osv):
             
             #get version's periods
             version_obj = self.pool.get('c2c_budget.version')
-            vesion = version_obj.browse(
+            version = version_obj.browse(
                                             cr, 
                                             user, 
                                             context['version_id'], 

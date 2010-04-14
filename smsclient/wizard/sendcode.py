@@ -23,6 +23,7 @@
 import wizard
 import pooler
 from osv import osv
+from tools.translate import _
 
 import time
 import sys

@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "segmentation management",
+    "name" : "Segmentation Management",
     "version" : "1.3",
     "depends" : ["base", 'crm_profiling'],
     "author" : "Tiny",

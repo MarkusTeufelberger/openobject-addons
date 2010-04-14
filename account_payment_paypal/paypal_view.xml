@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="action_account_payment_paypal_import_config" model="ir.actions.act_window">
+			<field name="name">Paypal Payment Import Configuration</field>
+			<field name="res_model">account.payment.paypal.import.config</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_account_payment_paypal_import_config_tree">
+			<field name="name">account.payment.paypal.import.config</field>
+			<field name="model">account.payment.paypal.import.config</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<tree string="Paypal Configuration">
+					<field name="name"/>
+					<field name="account_expenditure_id"/>
+					<field name="active"/>
+					<field name="activate_insert"/>
+					<field name="status_completed"/>
+                    <field name="invoice_reconcile"/>
+                    <field name="invoice_amount_accuracy"/>
+                    <field name="invoice_date_accuracy"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_account_payment_paypal_import_config_form">
+			<field name="name">account.payment.paypal.import.config</field>
+			<field name="model">account.payment.paypal.import.config</field>
+			<field name="type">form</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<form string="Paypal Configuration">
+					<field name="name"/>
+					<field name="account_expenditure_id"/>
+					<field name="active"/>
+					<field name="activate_insert"/>
+					<field name="status_completed"/>
+					<separator string="Reconcile Paypal payments with invoices" colspan="4"/>
+                    <field name="invoice_reconcile"/>
+                    <newline/>
+                    <field name="invoice_amount_accuracy" attrs="{'required':[('invoice_reconcile','==',True)]}"/>
+                    <field name="invoice_date_accuracy" attrs="{'required':[('invoice_reconcile','==',True)]}"/>
+				</form>
+			</field>
+		</record>
+		<menuitem action="action_account_payment_paypal_import_config" id="menu_account_payment_paypal_import_config" parent="account.menu_finance_configuration"/>
+	</data>
+</openerp>

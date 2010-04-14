@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	<record id="view_invoice_form_prices" model="ir.ui.view">
+		<field name="name">account.invoice.form.use_external_prices</field>
+		<field name="model">account.invoice</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="account.invoice_form"/>
+		<field name="arch" type="xml">
+			<separator string="Additionnal Information" position="before">
+				<field name="use_external_prices"/>
+			</separator>
+		</field>
+	</record>
+	<record id="view_invoice_line_form_prices" model="ir.ui.view">
+		<field name="name">account.invoice.line.form.external_prices</field>
+		<field name="model">account.invoice.line</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="account.view_invoice_line_form"/>
+		<field name="arch" type="xml">
+			<page string="Line" position="after">
+				<page string="External Prices">
+					<field name="external_tax_amount"/>
+					<field name="external_base_amount"/>
+				</page>
+			</page>
+		</field>
+	</record>
+</data>
+</openerp>

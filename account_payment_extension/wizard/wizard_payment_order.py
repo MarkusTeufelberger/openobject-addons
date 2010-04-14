@@ -58,7 +58,7 @@ def search_entries(self, cr, uid, data, context):
     domain = [('reconcile_id', '=', False),('account_id.type', '=', payment.type),('amount_to_pay', '<>', 0)]
     domain = domain + ['|',('date_maturity','<',search_due_date),('date_maturity','=',False)]
     if payment.mode:
-        domain = [('payment_type','=',payment.mode.type.name)] + domain
+        domain = [('payment_type','=',payment.mode.type.id)] + domain
     line_ids = line_obj.search(cr, uid, domain, context=context)
     FORM.string = '''<?xml version="1.0" encoding="utf-8"?>
 <form string="Populate Payment:">

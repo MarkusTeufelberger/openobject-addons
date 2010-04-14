@@ -21,6 +21,8 @@
 						<field name="esale_account_id"/>
 						<newline/>
 						<label string="Proceed with the mappings before adding products!" colspan="2"/>
+						<field name="date_download_from"/>
+						<field name="download_number"/>
 						<button name="product_import_create" string="Import all products from OSCommerce" colspan="2" type="object"/>
 						<separator string="Active Products" colspan="4"/>
 						<field name="product_ids" colspan="4" widget="one2many_list" nolabel="1" readonly="1"/>
@@ -41,6 +43,12 @@
 					<page string="Payment types Mapping">
 						<button type="object" string="Import Payment Methods" name="get_payment_methods"/>
 						<field colspan="4" name="pay_typ_ids" widget="one2many_list" nolabel="1"/>
+					</page>
+					<page string="Oscommerce Status Mapping">
+						<button type="object" string="Import Oscommerce Status" name="status_import" colspan="4"/>
+						<separator string="Status" colspan="4"/>
+						<field name="intermediate"/>
+						<field colspan="4" name="status_ids" widget="one2many_list" nolabel="1"/>
 					</page>
 				</notebook>
 			</form>
@@ -148,6 +156,35 @@
 			</tree>
 		</field>
 	</record>
+<!-- ####################################################################################### -->
+	<record model="ir.ui.view" id="esale_oscom_status_form">
+		<field name="name">esale.oscom.status.form</field>
+		<field name="model">esale.oscom.status</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Osc status">
+				<separator colspan="4" string="Oscommerce Status mapping"/>
+				<field colspan="4" name="name" select="1" required="1"/>
+				<field name="language_id" select="1"/>
+				<field name="esale_oscom_id" readonly="1" select="1"/>
+				<field name="download" select="1"/>
+			</form>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="esale_oscom_status_tree">
+		<field name="name">esale.oscom.status.tree</field>
+		<field name="model">esale.oscom.status</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree string="Payment types">
+				<field name="name" />
+				<field name="language_id" />
+				<field name="esale_oscom_id" />
+				<field name="download" />
+ 			</tree>
+		</field>
+	</record>
+
 
 <!-- ####################################################################################### -->
 	<record model="ir.ui.view" id="esale_oscom_category_web_form">
@@ -197,18 +234,19 @@
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<tree string="Sales Orders">
-				<field name="esale_oscom_web"/>
-				<field name="esale_oscom_id"/>
-				<field name="shipping_title"/>
-				<field name="pay_met_title"/>
-				<field name="orders_status"/>
-				<field name="name"/>
-				<field name="shipped"/>
-				<field name="invoiced"/>
-				<field name="date_order"/>
+                <field name="date_order"/>
+                <field name="name" string="Reference"/>
+				<field name="state"/>
 				<field name="partner_id"/>
 				<field name="partner_shipping_id"/>
+				<field name="esale_oscom_web"/>
+				<field name="esale_oscom_id"/>
+				<field name="shipped"/>
+				<field name="invoiced"/>
+				<field name="orders_status"/>
 				<field name="amount_untaxed"/>
+				<field name="shipping_title"/>
+				<field name="pay_met_title"/>
 			</tree>
 		</field>
 	</record>
@@ -216,75 +254,36 @@
 		<field name="name">esale.oscom.saleorder.form</field>
 		<field name="model">sale.order</field>
 		<field name="type">form</field>
+		<field name="inherit_id" ref="sale.view_order_form" />
 		<field name="arch" type="xml">
-			<form string="Sales Order">
-				<notebook>
-					<page string="Order Line">
-						<field name="name" select="1"/>
-						<group col="4" colspan="2">
-							<field name="shipped" select="1"/>
-							<field name="invoiced" select="1"/>
-						</group>
-						<newline/>
-						<field name="esale_oscom_id" select="1"/>
+		<notebook>
+			<page string="Os Commerce Information" position="inside">
+				<separator string="OsCommerce" colspan="4"/>
+					<group col="2" colspan="2">
+						<field name="esale_oscom_id" readonly="1" select="1"/>
 						<field name="esale_oscom_web" on_change="onchange_esale_oscom_web(esale_oscom_web)" select="1"/>
-						<field name="date_order" select="1"/>
-						<field name="shop_id" on_change="onchange_shop_id(shop_id)" select="1"/>
-						<field name="partner_id" on_change="onchange_partner_id(partner_id)" required="1" select="1"/>
-						<field domain="[('partner_id','=',partner_id)]" name="partner_order_id"/>
-						<field domain="[('partner_id','=',partner_id)]" name="partner_invoice_id"/>
-						<field domain="[('partner_id','=',partner_id)]" name="partner_shipping_id"/>
-						<field domain="[('type','=','sale')]" name="pricelist_id"/>
-						<field name="project_id" select="1"/>
-						<field name="shipping_title"/>
-						<field name="pay_met_title"/>
-						<field name="orders_status"/>
-						<newline/>
-						<field colspan="4" name="order_line" nolabel="1" widget="one2many_list"/>
-						<newline/>
-						<group col="7" colspan="4">
-							<field name="amount_untaxed"/>
-							<field name="amount_tax"/>
-							<field name="amount_total"/>
-							<button name="button_dummy" states="draft" string="Compute" type="object"/>
-						</group>
-						<group col="13" colspan="4">
-							<field name="state" select="1"/>
-							<button name="order_confirm" states="draft" string="Confirm Order"/>
-							<button name="oscom_action_cancel" states="manual,progress" string="Cancel Order" type="object"/>
-							<button name="cancel" states="draft" string="Cancel Order"/>
-							<button name="invoice_cancel" states="invoice_except" string="Cancel Order"/>
-							<button name="invoice_recreate" states="invoice_except" string="Recreate Invoice"/>
-							<button name="invoice_corrected" states="invoice_except" string="Invoice Corrected"/>
-							<button name="ship_cancel" states="shipping_except" string="Cancel Order"/>
-							<button name="ship_recreate" states="shipping_except" string="Recreate Procurement"/>
-							<button name="ship_corrected" states="shipping_except" string="Procurement Corrected"/>
-							<button name="action_cancel_draft" states="cancel" string="Set to Draft" type="object"/>
-							<button name="manual_invoice" states="manual" string="Create Invoice"/>
-						</group>
-					</page>
-					<page string="Other data">
-						<field name="incoterm"/>
-						<field name="picking_policy" required="True"/>
-						<field name="user_id"/>
-						<field name="order_policy"/>
-						<field name="origin"/>
-						<field name="invoice_quantity"/>
-						<field name="client_order_ref"/>
-						<separator colspan="4" string="Notes"/>
-						<field colspan="4" name="note" nolabel="1"/>
-					</page>
-					<page string="History">
-						<separator colspan="4" string="Generated Invoices"/>
-						<field colspan="4" name="invoice_ids" nolabel="1"/>
-						<separator colspan="4" string="Generated Pickings"/>
-						<field colspan="4" name="picking_ids" nolabel="1"/>
-					</page>
-				</notebook>
-			</form>
+					</group>
+					<group col="2" colspan="2">
+						<field name="pay_met_title" readonly="1"/>
+						<field name="shipping_title" readonly="1"/>
+					</group>
+					<field name="orders_status" readonly="1"/>
+					<field name="shipping_agency"/>
+					<field name="tracking_number"/>
+					<field name="number_of_packages"/>
+					<field name="volume"/>
+				<separator string="Options selected will be applied on changing osc order status" colspan="4"/>
+					<group col="2" colspan="2">
+						<field name="update_comment"/>
+						<field name="send_web_email"/>
+					</group>
+				<field colspan="4" name="status_comment"/>
+			    <field name="orders_status_id" on_change="onchange_esale_oscom_status(esale_oscom_web, esale_oscom_id, orders_status_id, status_comment, update_comment, send_web_email,tracking_number )" select="1"/>
+				<field colspan="4" name="additional_info"/>
+			</page>
+		</notebook>
 		</field>
 	</record>
-
 	<record model="ir.actions.act_window" id="action_saleorder_tree">
 		<field name="type">ir.actions.act_window</field>
 		<field name="res_model">sale.order</field>

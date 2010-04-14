@@ -21,6 +21,7 @@
 ##############################################################################
 
 from osv import fields, osv
+from tools.translate import _
 
 class account_move_line(osv.osv):
     _inherit = "account.move.line"
@@ -28,15 +29,25 @@ class account_move_line(osv.osv):
         'voucher_invoice': fields.many2one('account.invoice', 'Invoice', readonly=True),
     }
 account_move_line()
-
+'''
+We added a field called transaction_type to control with reports the managment and comparition with bank statements
+And not filter only by free reference!
+'''
 class account_voucher(osv.osv):
     _inherit = 'account.voucher'
     _columns = {
         'voucher_line_ids':fields.one2many('account.voucher.line','voucher_id','Voucher Lines', readonly=False, states={'proforma':[('readonly',True)]}),
+        'transaction_type': fields.selection([
+            ('deposit_in_cash','Deposit in Cash'),
+            ('deposit_in_check','Deposit in  Check'),
+            ('mix_deposit','Mix Deposit Check + Cash'),
+            ('wire_tranfer','Wire Tranfer'),
+            ('only_payment_check','Payment With Check'),
+            ('other','Other'),
+        ],'Type of Transaction', select=True, readonly=False),
     }
-        
+    
     def action_move_line_create(self, cr, uid, ids, *args):
-        
         for inv in self.browse(cr, uid, ids):
             if inv.move_id:
                 continue
@@ -50,13 +61,13 @@ class account_voucher(osv.osv):
             diff_currency_p = inv.currency_id.id <> company_currency
 
             total = 0
-            if inv.type in ('pay_voucher', 'journal_voucher', 'rec_voucher','cont_voucher','bank_pay_voucher','bank_rec_voucher','journal_sale_voucher','journal_pur_voucher'):
+            if inv.type in ('pay_voucher', 'journal_voucher', 'rec_voucher','cont_voucher','bank_pay_voucher','bank_rec_voucher','journal_sale_vou','journal_pur_voucher'):
                 ref = inv.reference
             else:
                 ref = self._convert_ref(cr, uid, inv.number)
-                
             date = inv.date
             total_currency = 0
+            acc_id = False
             for i in iml:
                 partner_id=i['partner_id']
                 acc_id = i['account_id']    
@@ -76,7 +87,9 @@ class account_voucher(osv.osv):
 
             name = inv['name'] or '/'
             totlines = False
-
+            if not acc_id:
+                raise osv.except_osv(_('Error !'), _('No Account found for Moves!'))
+            
             iml.append({
                 'type': 'dest',
                 'name': name,
@@ -105,9 +118,9 @@ class account_voucher(osv.osv):
                 'name': name, 
                 'journal_id': journal_id, 
                 'voucher_type':inv.type,
-                'narration' : inv.narration
+                'narration' : inv.narration,
+                'date':date,
             }
-            
             if inv.period_id:
                 move['period_id'] = inv.period_id.id
                 for i in line:
@@ -127,7 +140,7 @@ class account_voucher(osv.osv):
                 'period_id':inv.period_id.id,
                 'partner_id': False,
                 'ref': ref, 
-                'date': inv.date
+                'date': date
             }
             if inv.type in ('rec_voucher', 'bank_rec_voucher', 'journal_pur_voucher', 'journal_voucher'):
                 move_line['debit'] = inv.amount
@@ -135,8 +148,8 @@ class account_voucher(osv.osv):
                 move_line['credit'] = inv.amount * (-1)
             self.pool.get('account.move.line').create(cr, uid, move_line)
             id_mapping_dict = {}
+            mline_ids = []
             for line in inv.voucher_line_ids:
-                
                 move_line = {
                     'name':line.name,
                     'invoice' : iml[0]['invoice'],
@@ -148,7 +161,7 @@ class account_voucher(osv.osv):
                     'period_id':inv.period_id.id,
                     'partner_id':line.partner_id.id or False,
                     'ref':ref, 
-                    'date':inv.date
+                    'date':date
                  }
                 
                 if line.type == 'dr':
@@ -158,14 +171,13 @@ class account_voucher(osv.osv):
                     move_line['credit'] = line.amount or False
                     amount=line.amount * (-1)
                 ml_id=self.pool.get('account.move.line').create(cr, uid, move_line)
+                
                 id_mapping_dict[line.id] = ml_id
-                mline_ids = []
                 total = 0.0
                 mline = self.pool.get('account.move.line')
                 if line.invoice_id.id:
                     invoice = self.pool.get('account.invoice').browse(cr, uid, line.invoice_id.id)
                     src_account_id = invoice.account_id.id
-#                cr.execute('select id from account_move_line where move_id in ('+str(move_id)+','+str(invoice.move_id.id)+')')
                     cr.execute('select id from account_move_line where move_id in ('+str(invoice.move_id.id)+')')
                     temp_ids = map(lambda x: x[0], cr.fetchall())
                     temp_ids.append(ml_id)
@@ -174,27 +186,30 @@ class account_voucher(osv.osv):
                         if ml.account_id.id==src_account_id:
                             mline_ids.append(ml.id)
                             total += (ml.debit or 0.0) - (ml.credit or 0.0)
-                    self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
-                #end if line.invoice_id.id:
+
                 if inv.narration:
                     line.name=inv.narration
                 else:
                     line.name=line.name
                 
                 if line.account_analytic_id:
-                    an_line = {
-                         'name':line.name,
-                         'date':inv.date,
-                         'amount':amount,
-                         'account_id':line.account_analytic_id.id or False,
-                         'move_id':ml_id,
-                         'journal_id':an_journal_id ,
-                         'general_account_id':line.account_id.id,
-                         'ref':ref
-                     }
-                    self.pool.get('account.analytic.line').create(cr,uid,an_line)
-                        
-            self.write(cr, uid, [inv.id], {'move_id': move_id})
+                    if ml_id and an_journal_id:
+                        an_line = {
+                             'name':line.name,
+                             'date':date,
+                             'amount':amount,
+                             'account_id':line.account_analytic_id.id or False,
+                             'move_id':ml_id,
+                             'journal_id':an_journal_id ,
+                             'general_account_id':line.account_id.id,
+                             'ref':ref
+                         }
+                        self.pool.get('account.analytic.line').create(cr,uid,an_line)
+
+                if line.invoice_id:
+                    self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
+                    self.write(cr, uid, [inv.id], {'move_id': move_id})
+            
             obj=self.pool.get('account.move').browse(cr, uid, move_id)
             
             for line in obj.line_id :
@@ -216,25 +231,31 @@ class VoucherLine(osv.osv):
         'invoice_id' : fields.many2one('account.invoice','Invoice'),
     }
 
-    
     def move_line_get_item(self, cr, uid, line, context={}):
         res = super(VoucherLine, self).move_line_get_item(cr, uid, line, context)
         res['invoice'] = line.invoice_id or False
         return res 
     
     def onchange_invoice_id(self, cr, uid, ids, invoice_id, context={}):
+        res = {}
         lines = []
         if 'lines' in self.voucher_context:
-            lines = [x[2] for x in self.voucher_context['lines']]
+            lines = [x[2] for x in self.voucher_context['lines'] if x[2]]
+        
         if not invoice_id:
-            return {'value':{}}
+            res = {
+                'value':{ }
+            }
         else:
             invoice_obj = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
             residual = invoice_obj.residual
             same_invoice_amounts = [x['amount'] for x in lines if x['invoice_id']==invoice_id]
             residual -= sum(same_invoice_amounts)
-            return {'value' : {'amount':residual}}  
-    
+            res = {
+                'value' : {'amount':residual}
+            }
+        return res
+        
     def onchange_line_account(self, cr, uid, ids, account_id, type, type1):
         if not account_id:
             return {'value' : {'account_id' : False, 'type' : False ,'amount':False}}

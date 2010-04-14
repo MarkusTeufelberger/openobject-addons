@@ -42,6 +42,7 @@
 
 import inspect
 import tools
+from tools.translate import _
 
 class GettextAlias_42(object):
     """provide a replacement method _() to use "code" translations 
@@ -59,7 +60,7 @@ class GettextAlias_42(object):
         if not (lang and cr):
             result = source
         else:
-            result = tools.translate(cr, None, filename, 'code', lang, source) or source
+            result = tools.translate(cr, None, 'code', lang, source) or source
         return result
         
 

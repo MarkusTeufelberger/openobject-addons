@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    'name' : 'Document Lock',
+    'name' : 'Document Lock-To lock Attachment',
     'author' : 'Tiny SPRL',
     'version' : '0.0.2',
     'website' : 'http://www.openerp.com',

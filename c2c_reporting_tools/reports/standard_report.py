@@ -136,9 +136,9 @@ class PythonReport(report_int):
             Because cr and context['lang'] are not available in local context (but in object properties) you can not use c2c_reporting_tools.translation._() in reports
             Use self._() insead
         """
-        frame = inspect.stack()[1][0]        
-        filename= frame.f_code.co_filename
-        result = tools.translate(self.cr, self.uid, filename, 'code', self.lang, source) or source 
+        # frame = inspect.stack()[1][0]        
+        # filename= frame.f_code.co_filename
+        result = tools.translate(self.cr, self.uid,'code', self.lang, source) or source 
         return result
 
 

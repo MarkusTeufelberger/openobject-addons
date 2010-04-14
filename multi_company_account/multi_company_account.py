@@ -21,12 +21,13 @@
 ##############################################################################
 
 from osv import osv, fields
+from tools.translate import _
 
 class account_move_line(osv.osv):
     _name = 'account.move.line'
     _inherit = 'account.move.line'
     _columns = {
-        'company_id': fields.many2one('res.company', 'Company', required=True),
+        'company_id': fields.many2one('res.company', 'Company', required=True,select=2),
     }
     _defaults = {
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
@@ -50,7 +51,7 @@ class account_journal(osv.osv):
     _name = "account.journal"
     _inherit = "account.journal"
     _columns = {
-        'company_id': fields.many2one('res.company', 'Company', required=True),
+        'company_id': fields.many2one('res.company', 'Company', required=True,select=1),
     }
     _defaults = {
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
@@ -313,6 +314,7 @@ class account_invoice(osv.osv):
     
     def onchange_company_id(self, cr, uid, ids, company_id, part_id, type, invoice_line):
         val={}
+        dom={}
         if company_id and part_id and type:
             acc_id = False
             partner_obj = self.pool.get('res.partner').browse(cr,uid,part_id)
@@ -356,7 +358,21 @@ class account_invoice(osv.osv):
                                 _('invoice line account company is not match with invoice company.'))
                         else:
                             continue
-        return {'value' : val }
+        if company_id and type:
+            if type in ('out_invoice','out_refund'):
+                journal_type = 'sale'
+            else:
+                journal_type = 'purchase'
+            journal_ids=self.pool.get('account.journal').search(cr,uid,[('company_id','=',company_id),('type','=',journal_type)])
+            if journal_ids:
+                val['journal_id'] = journal_ids[0]
+            else:
+                raise osv.except_osv(_('Configration Error !'),
+                                _('Can not find account journal for this company in invoice, Please Create journal.'))
+            dom={'journal_id':  [('id','in',journal_ids)]}
+        else:
+            journal_ids=self.pool.get('account.journal').search(cr,uid,[])
+        return {'value' : val, 'domain': dom }
 account_invoice()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -1,5 +1,5 @@
 {
-    "name" : "olap_extract",
+    "name" : "Module to  extracts the schema structure",
     "version" : "0.1",
     "author" : "Tiny",
     "website" : "http://www.openerp.com",

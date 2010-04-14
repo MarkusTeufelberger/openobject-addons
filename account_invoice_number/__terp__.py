@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "account_invoice_number",
+    "name" : "Allow to Change defination of the name field of invoice",
     "version" : "1.0",
     "depends" : ["account"],
     "author" : "Tiny",

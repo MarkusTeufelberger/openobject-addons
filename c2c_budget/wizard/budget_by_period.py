@@ -54,7 +54,7 @@ _form_footer = """
 _fields = {
     'compare_item': {'string':'Ref. For % Comparing: ', 'type':'many2one', 'relation':'c2c_budget.item'},
     'from_date': {'string':'Starting From:', 'type':'date', 'required':True },
-    'periods_nbr': {'string':'Nb Periods', 'type':'selection', 'selection':[(i,i) for i in range(0, 13)], 'default':lambda *a: 12},
+    'periods_nbr': {'string':'Nb Periods', 'type':'selection', 'selection':[(str(i),str(i)) for i in range(0, 13)], 'default':lambda *a: 12},
     'display_previous': {'string':'Display Previous', 'type':'boolean', 'default':lambda *a:True},
     'display_next': {'string':'Display Next', 'type':'boolean', 'default':lambda *a:True},
 }
@@ -186,7 +186,7 @@ class wiz_budget_by_period(wizard.interface):
                     start_period = version_obj.get_period(cr, uid, v, data['form']['from_date'], context)
                     
                     #for each version find its periods
-                    periods = v.get_next_periods(cr, uid, v, start_period, data['form']['periods_nbr'], context)
+                    periods = version_obj.get_next_periods(cr, uid, v, start_period, data['form']['periods_nbr'], context)
                     if len(periods) > 0:
                         end_period = periods[-1]
                         #amongst all version's period, find the latest

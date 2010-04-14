@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+		<record id="reset_template" model="poweremail.templates">
+			<field name="name">Password Reset Mail</field>
+			<field name="object_name" ref="base.model_res_users" />
+			<field name="model_int_name">res.users</field>
+			<field name="def_to">${object.address_id.email or ' '}</field>
+			<field name="def_subject">Your password has been reset</field>
+			<field name="def_body_text">
+Dear ${object.name or 'User'},
+Your password has been reset by an administrator.
+Your new password is ${object.password}.
+Keep the password confidential and change it yourself in your first
+login.
+
+Administrator
+			</field>
+			<field name="def_body_html">
+Dear ${object.name or 'User'},
+Your password has been reset by an administrator.
+Your new password is ${object.password}.
+Keep the password confidential and change it yourself in your first
+login.
+
+Administrator
+			</field>
+		</record>
+		<record id="send_template" model="poweremail.templates">
+			<field name="name">Password Send Mail</field>
+			<field name="object_name" ref="base.model_res_users" />
+			<field name="model_int_name">res.users</field>
+			<field name="def_to">${object.address_id.email or ' '}</field>
+			<field name="def_subject">Your credentials are here</field>
+			<field name="def_body_text">
+Dear ${object.name or 'User'},
+Your password has been sent to you by an administrator.
+Your password is ${object.password}.
+Keep the password confidential and change it for security.
+
+Administrator
+			</field>
+			<field name="def_body_html">
+Dear ${object.name or 'User'},
+Your password has been sent to you by an administrator.
+Your password is ${object.password}.
+Keep the password confidential and change it for security.
+
+Administrator
+			</field>
+		</record>
+	</data>
+</openerp>

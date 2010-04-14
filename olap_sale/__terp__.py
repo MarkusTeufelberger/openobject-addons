@@ -1,5 +1,5 @@
 {
-    "name" : "olap_sale",
+    "name" : "Load Sale Module data in Olap Tables",
     "version" : "0.1",
     "author" : "Tiny",
     "website" : "http://www.openerp.com",

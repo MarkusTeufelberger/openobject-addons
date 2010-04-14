@@ -35,13 +35,16 @@ import atom
 import wizard
 import pooler
 from osv import fields, osv
+from tools.translate import _
 
 _google_form =  '''<?xml version="1.0"?>
         <form string="Export">
-        <separator string="This wizard synchronize events between tiny and google calendar" colspan="4"/>
+        <separator string="This Wizard Synchronize events between OpenERP and Google Calendar" colspan="4"/>
+         <field name="product_id"/>
         </form> '''
 
 _google_fields = {
+      'product_id': {'string':'Select Product', 'relation':'product.product', 'type':'many2one', 'required':True, 'help':'Product will be used in creating events from Google to Openerp'},
         }
 
 _timezone_form =  '''<?xml version="1.0"?>
@@ -131,7 +134,7 @@ class google_calendar_wizard(wizard.interface):
 #            4. delete events
 
         obj_user = pooler.get_pool(cr.dbname).get('res.users')
-        product = pooler.get_pool(cr.dbname).get('product.product').search(cr, uid, [('name', 'like', 'Calendar Product')])
+        product = data['form']['product_id']
         google_auth_details = obj_user.browse(cr, uid, uid)
         obj_event = pooler.get_pool(cr.dbname).get('event.event')
         if not google_auth_details.google_email or not google_auth_details.google_password:
@@ -141,7 +144,7 @@ class google_calendar_wizard(wizard.interface):
             time_zone = context['tz']
         else:
             time_zone = data['form']['timezone_select']
-        au_tz = timezone(time_zone)
+        au_tz = timezone(str(time_zone))
         try :
             self.calendar_service = gdata.calendar.service.CalendarService()
             self.calendar_service.email = google_auth_details.google_email
@@ -150,6 +153,8 @@ class google_calendar_wizard(wizard.interface):
             self.calendar_service.max_results = 500 # to be check
             self.calendar_service.ProgrammaticLogin()
             tiny_events = obj_event.search(cr, uid, [])
+            if not google_auth_details.company_id.partner_id.address:
+                raise wizard.except_wizard(_('Warning'), _('The Partner of the Main Company does not have any address defined!'))
             city = google_auth_details.company_id.partner_id.address[0].city or ''
             street =  google_auth_details.company_id.partner_id.address[0].street or ''
             street2 = google_auth_details.company_id.partner_id.address[0].street2 or ''
@@ -191,8 +196,9 @@ class google_calendar_wizard(wizard.interface):
                         timestring_end = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.mktime(time.strptime(event.date_end, "%Y-%m-%d %H:%M:%S"))))
                         endtime = time.strptime(timestring_end, time_format)
                         end_time = time.strftime('%Y-%m-%dT%H:%M:%S.000Z', endtime)
-                        an_event.when[0].start_time = start_time
-                        an_event.when[0].end_time = end_time
+                        if an_event.when:
+                            an_event.when[0].start_time = start_time
+                            an_event.when[0].end_time = end_time
                         update_event = self.calendar_service.UpdateEvent(an_event.GetEditLink().href, an_event)
 
                     elif event.write_date < google_up:
@@ -201,11 +207,42 @@ class google_calendar_wizard(wizard.interface):
                         au_dt = au_tz.normalize(utime.astimezone(au_tz))
                         timestring_update = datetime.datetime(*au_dt.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
                         name_event = an_event.title.text or ''
+                        if an_event.when:
+                            stime = an_event.when[0].start_time
+                            etime = an_event.when[0].end_time
+                            stime = dateutil.parser.parse(stime)
+                            etime = dateutil.parser.parse(etime)
+                            try:
+                                au_dt = au_tz.normalize(stime.astimezone(au_tz))
+                                timestring = datetime.datetime(*au_dt.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
+                                au_dt = au_tz.normalize(etime.astimezone(au_tz))
+                                timestring_end = datetime.datetime(*au_dt.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
+                            except :
+                                timestring = datetime.datetime(*stime.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
+                                timestring_end = datetime.datetime(*etime.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
+                            val = {
+                               'name': name_event,
+                               'date_begin': timestring,
+                               'date_end': timestring_end,
+                               'event_modify_date': timestring_update
+                               }
+                            obj_event.write(cr, uid, [event.id], val)
+
+                    elif event.write_date == google_up:
+                        pass
+
+                else:
+                    google_id = an_event.id.text
+                    utime = dateutil.parser.parse(an_event.updated.text)
+                    au_dt = au_tz.normalize(utime.astimezone(au_tz))
+                    timestring_update = datetime.datetime(*au_dt.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
+                    name_event = an_event.title.text or ''
+                    if an_event.when:
                         stime = an_event.when[0].start_time
                         etime = an_event.when[0].end_time
                         stime = dateutil.parser.parse(stime)
                         etime = dateutil.parser.parse(etime)
-                        try:
+                        try :
                             au_dt = au_tz.normalize(stime.astimezone(au_tz))
                             timestring = datetime.datetime(*au_dt.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
                             au_dt = au_tz.normalize(etime.astimezone(au_tz))
@@ -217,51 +254,24 @@ class google_calendar_wizard(wizard.interface):
                            'name': name_event,
                            'date_begin': timestring,
                            'date_end': timestring_end,
+                           'product_id': product,
+                           'google_event_id': an_event.id.text,
                            'event_modify_date': timestring_update
-                           }
-                        obj_event.write(cr, uid, [event.id], val)
-
-                    elif event.write_date == google_up:
-                        pass
-
-                else:
-                    google_id = an_event.id.text
-                    utime = dateutil.parser.parse(an_event.updated.text)
-                    au_dt = au_tz.normalize(utime.astimezone(au_tz))
-                    timestring_update = datetime.datetime(*au_dt.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
-                    name_event = an_event.title.text or ''
-                    stime = an_event.when[0].start_time
-                    etime = an_event.when[0].end_time
-                    stime = dateutil.parser.parse(stime)
-                    etime = dateutil.parser.parse(etime)
-                    try :
-                        au_dt = au_tz.normalize(stime.astimezone(au_tz))
-                        timestring = datetime.datetime(*au_dt.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
-                        au_dt = au_tz.normalize(etime.astimezone(au_tz))
-                        timestring_end = datetime.datetime(*au_dt.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
-                    except :
-                        timestring = datetime.datetime(*stime.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
-                        timestring_end = datetime.datetime(*etime.timetuple()[:6]).strftime('%Y-%m-%d %H:%M:%S')
-                    val = {
-                       'name': name_event,
-                       'date_begin': timestring,
-                       'date_end': timestring_end,
-                       'product_id': product[0],
-                       'google_event_id': an_event.id.text,
-                       'event_modify_date': timestring_update
-                        }
-                    obj_event.create(cr, uid, val)
+                            }
+                        obj_event.create(cr, uid, val)
 
             return {}
         except Exception, e:
+            if isinstance(e,wizard.except_wizard):
+                raise osv.except_osv(e[0], e[1])
             raise osv.except_osv('Error !', e )
-        
+
     states = {
         'init': {
             'actions': [],
             'result': {'type': 'form', 'arch': _google_form, 'fields': _google_fields, 'state': [('end', 'Cancel'),('tz', 'Synchronize')]}
         },
-        
+
         'tz': {
             'actions': [],
             'result': {'type': 'choice', 'next_state': _tz_get }

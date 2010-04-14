@@ -24,6 +24,7 @@ import pooler
 from tools import config
 import time
 from osv.osv import except_osv
+from tools.translate import _
 
 class product_pricelist(osv.osv):
     _name = 'product.pricelist'
@@ -67,9 +68,13 @@ class sale_order_line(osv.osv):
 
 
             pricelists=pricelist_obj.read(cr,uid,[pricelist],['visible_discount'])
+
+            old_uom = product.uos_id or product.uom_id
+            new_list_price = self.pool.get('product.uom')._compute_price(cr,
+                        uid, old_uom.id, list_price, uom)
             if(len(pricelists)>0 and pricelists[0]['visible_discount'] and list_price != 0):
-                discount=(list_price-price) / list_price * 100
-                result['price_unit']=list_price
+                discount=(new_list_price-price) / new_list_price * 100
+                result['price_unit']=new_list_price
                 result['discount']=discount
             else:
                 result['discount']=0.0
@@ -90,7 +95,7 @@ class account_invoice_line(osv.osv):
         def get_real_price(pricelist_id, product_id):
             product_tmpl_id = self.pool.get('product.product').browse(cr, uid, product_id, context).product_tmpl_id.id
             version_id = self.pool.get('product.pricelist').browse(cr, uid, pricelist_id).version_id
-            version_id =  version_id and version_id[0] or False
+            version_id = version_id and version_id[0] or False
             
             if not version_id:
                 raise osv.except_osv(_('No Pricelist Version Found !'),_("You must first define Pricelist Version to the Partner Pricelist!"))
@@ -110,11 +115,12 @@ class account_invoice_line(osv.osv):
             product_read = self.pool.get('product.template').read(cr, uid, product_tmpl_id, [field_name], context)
             return product_read[field_name]
 
-
+        
         if product:
             product = self.pool.get('product.product').browse(cr, uid, product, context=context)
             result=res['value']
             pricelist = False
+            real_price = 0.00
             if type in ('in_invoice', 'in_refund'):
                 if not price_unit and partner_id:
                     pricelist = self.pool.get('res.partner').browse(cr, uid, partner_id).property_product_pricelist_purchase.id
@@ -129,7 +135,6 @@ class account_invoice_line(osv.osv):
                         raise osv.except_osv(_('No Sale Pricelist Found '),_("You must first define a pricelist for Customer !"))
                     price_unit = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist], product.id, qty or 1.0, partner_id, {'uom': uom})[pricelist]
                     real_price=get_real_price(pricelist, product.id)
-
             if pricelist:
                 pricelists=self.pool.get('product.pricelist').read(cr,uid,[pricelist],['visible_discount'])
                 if(len(pricelists)>0 and pricelists[0]['visible_discount'] and real_price != 0):

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		    <record id="rma_in" model="stock.location">
+		        <field name="name">RMA_INPUT</field>
+		        <field name="location_id" ref="stock.stock_location_company"/>
+		        <field name="usage">internal</field>
+		    </record>
+
+		    <record id="rma_out" model="stock.location">
+		        <field name="name">RMA_OUTPUT</field>
+		        <field name="location_id" ref="stock.stock_location_company"/>
+		        <field name="usage">internal</field>
+		    </record>
+		    
+		    <record id="rma_supplier" model="stock.location">
+		        <field name="name">RMA_SUPPLIER</field>
+		        <field name="location_id" ref="stock.stock_location_suppliers"/>
+		        <field name="usage">internal</field>
+		    </record>
+		</data>
+</openerp>

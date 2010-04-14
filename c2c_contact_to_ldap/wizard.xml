@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <menuitem name="Financial Management" icon="terp-account"/>
+        <wizard
+            string="Export addresses to company LDAP"
+            model="res.company"
+            name="ldap.import_adresses"
+            id="ldap_import_adresses"/>
+</data>
+</openerp>

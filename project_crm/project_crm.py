@@ -22,6 +22,7 @@
 
 from osv import fields, osv
 import pooler
+from tools.translate import _
 
 class project_task(osv.osv):
     _inherit = "project.task"

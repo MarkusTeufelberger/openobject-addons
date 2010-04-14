@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	<!-- mrp.production -->
+	<wizard 
+		id="mrp_production_merge" 
+		model="mrp.production" 
+		string="Merge" 
+		name="mrp.production.merge"
+		/>
+</data>
+</openerp>

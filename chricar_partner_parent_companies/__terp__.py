@@ -13,7 +13,8 @@
 	"depends" : ["base"],
 	"init_xml" : [],
 	"demo_xml" : ["partner_parent_companies_demo.xml"],
-	"update_xml" : ["partner_parent_companies_view.xml"],
+	"update_xml" : ["partner_parent_companies_view.xml",
+                    "security/ir.model.access.csv"],
 	"active": False,
 	"installable": True
 }

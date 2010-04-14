@@ -22,6 +22,7 @@
 
 import wizard
 import pooler
+from tools.translate import _
 
 _info_form = '''<?xml version="1.0"?>
 <form string="Unreconciliation">

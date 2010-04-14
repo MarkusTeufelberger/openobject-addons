@@ -58,10 +58,10 @@ class product_product(osv.osv):
     _inherit = 'product.product'
     _name = 'product.product'
     _columns = {
-        'life_time': fields.integer('Product lifetime'),
-        'use_time': fields.integer('Product usetime'),
-        'removal_time': fields.integer('Product removal time'),
-        'alert_time': fields.integer('Product alert time'),
+        'life_time': fields.integer('Product lifetime', help="Product's lifetime in days."),
+        'use_time': fields.integer('Product usetime', help="Product's use time in days."),
+        'removal_time': fields.integer('Product removal time', help="Product's removal time in days."),
+        'alert_time': fields.integer('Product alert time', help="Product's alert time in days."),
     }
 product_product()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

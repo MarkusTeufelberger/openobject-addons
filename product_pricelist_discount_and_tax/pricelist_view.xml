@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="product_price_type_view" model="ir.ui.view">
+            <field name="name">product.price.type.form.pricelist_tax_include</field>
+            <field name="model">product.price.type</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_price_type_view"/>
+            <field name="arch" type="xml">
+                <field name="currency_id" position="after">
+					<field name="price_tax_included"/>
+                </field>
+            </field>
+        </record>
+        
+		<record model="ir.ui.view" id="product_pricelist_view_tree">
+			<field name="name">product.pricelist.tree.pricelist_tax_include</field>
+			<field name="model">product.pricelist</field>
+			<field name="inherit_id" ref="product.product_pricelist_view_tree"/>
+			<field name="arch" type="xml">
+				<field name="currency_id" position="before">
+					<field name="visible_discount"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="product_pricelist_view_form_inherit1">
+			<field name="name">product.pricelist.form.pricelist_tax_include1</field>
+			<field name="model">product.pricelist</field>
+			<field name="inherit_id" ref="product.product_pricelist_view"/>
+			<field name="arch" type="xml">
+				<field name="currency_id" position="before">
+					<field name="visible_discount"/>
+				</field>
+			</field>
+		</record>        
+        
+		<record model="ir.ui.view" id="product_pricelist_view_form_inherit2">
+			<field name="name">product.pricelist.form.pricelist_tax_include2</field>
+			<field name="model">product.pricelist</field>
+			<field name="inherit_id" ref="product.product_pricelist_view"/>
+			<field name="arch" type="xml">
+				<field name="currency_id" position="after">
+					<field name="price_tax_included"/>
+				</field>
+			</field>
+		</record>        
+    </data>
+</openerp>

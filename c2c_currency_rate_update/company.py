@@ -1,10 +1,7 @@
 # -*- encoding: utf-8 -*-
-#
 #  company.py
-#  l10n_ch
-#
-#  Created by Nicolas Bessi based on Credric Krier contribution
-#
+#  c2c_currency_update
+# @author Nicolas Bessi 
 #  Copyright (c) 2009 CamptoCamp. All rights reserved.
 ##############################################################################
 #

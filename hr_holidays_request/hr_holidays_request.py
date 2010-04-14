@@ -105,7 +105,7 @@ class hr_holidays(osv.osv):
         'date_to' : fields.datetime('Vacation end day'),
         'date_from1' : fields.date('From', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'date_to1' : fields.date('To', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-        'employee_id' : fields.many2one('hr.employee', 'Employee', select=True, readonly=True, required=True),
+        'employee_id' : fields.many2one('hr.employee', 'Employee', select=True, required=True),
         'user_id':fields.many2one('res.users', 'User_id', states={'draft':[('readonly',False)],'draft1':[('readonly',False)]}, select=True, readonly=True),
         'manager_id' : fields.many2one('hr.employee', 'Holiday manager', invisible=False, readonly=True),
         'notes' : fields.text('Notes', readonly=True,states={'draft':[('readonly',False)],'draft1':[('readonly',False)]}),
@@ -174,7 +174,7 @@ class hr_holidays(osv.osv):
             fd=1
             pd=0
             while (temp<=b):
-                searchobject=self.pool.get('days.holidays.days').search(cr,uid,[('date1','like', temp.strftime("%Y-%m-%d")),('user_id',"=",uid)])
+                searchobject=self.pool.get('days.holidays.days').search(cr,uid,[('date1','=', temp.strftime("%Y-%m-%d")),('user_id',"=",uid)])
                 
                 for s1 in  searchobject:
                     if self.days_chaeck(cr, uid, ids, s1):

@@ -25,6 +25,7 @@ import wizard
 import pooler
 import tools
 
+from tools.translate import _
 from osv import fields,osv
 import time
 import netsvc
@@ -42,7 +43,7 @@ email_send_form = '''<?xml version="1.0" encoding="utf-8"?>
 
 email_send_fields = {
     'to': {'string':"To", 'type':'char', 'size':512, 'required':True},
-    'subject': {'string':'Subject', 'type':'char', 'size':64, 'required':True},
+    'subject': {'string':'Subject', 'type':'char', 'size': 512, 'required':True},
     'text': {'string':'Message', 'type':'text_tag', 'required':True}
 }
 
@@ -59,10 +60,19 @@ email_done_fields = {
 def _get_defaults(self, cr, uid, data, context):
     p = pooler.get_pool(cr.dbname)
     user = p.get('res.users').browse(cr, uid, uid, context)
+    orders = p.get(data['model']).browse(cr, uid, data['ids'], context)
+
+    # Calculate 'subject'
+    # Ensure subject is tranlated into partner's language.
+    current_lang = context.get('lang')
+    context['lang'] = orders[0].partner_id.lang or current_lang
     subject = user.company_id.name+_('. Sale Num.')
+    context['lang'] = current_lang
+
+    # Calculate 'text'
     text = '\n--\n' + user.signature
 
-    orders = p.get(data['model']).browse(cr, uid, data['ids'], context)
+    # Calculate 'to'
     adr_ids = []
     partner_id = orders[0].partner_id.id
     for o in orders:
@@ -86,6 +96,7 @@ def _get_defaults(self, cr, uid, data, context):
             # The adr.email field can contain several email addresses separated by ,
             to.extend(['%s <%s>' % (name, email) for email in adr.email.split(',')])
     to = ','.join(to)
+
     return {'to': to, 'subject': subject, 'text': text}
 
 
@@ -94,11 +105,13 @@ def create_report(cr, uid, res_ids, report_name=False, file_name=False):
         return (False, Exception('Report name and Resources ids are required !!!'))
     try:
         ret_file_name = '/tmp/'+file_name+'.pdf'
-        service = netsvc.LocalService("report."+report_name);
-        (result, format) = service.create(cr, uid, res_ids, {}, {})
+        service = netsvc.LocalService("report."+report_name)
+        (result, format) = service.create(cr, uid, res_ids, {'model': 'sale.order'}, {})
         fp = open(ret_file_name, 'wb+');
-        fp.write(result);
-        fp.close();
+	try:
+		fp.write(result);
+	finally:
+		fp.close();
     except Exception,e:
         print 'Exception in create report:',e
         return (False, str(e))

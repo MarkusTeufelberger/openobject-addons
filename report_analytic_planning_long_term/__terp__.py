@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "report_analytic_planning_long_term",
+    "name" : "Analytic Planning - Basic Planning Module Improvements",
     "version" : "1.0",
     "depends" : ["report_analytic_planning"],
     "author" : "Tiny",

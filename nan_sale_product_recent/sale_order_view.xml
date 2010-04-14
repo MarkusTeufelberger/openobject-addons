@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	<record model="ir.ui.view" id="sale_order_form_recent_product">
+		<field name="name">sale.view_order_form.recent_product</field>
+		<field name="model">sale.order</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="sale.view_order_form" />
+		<field name="arch" type="xml">
+			<field name="product_id" position="before">
+				<field name="recent_product_id" context="sale_partner_filter=parent.partner_id" on_change="recent_product_id_change(parent.pricelist_id,recent_product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, True, parent.date_order, product_packaging, parent.fiscal_position, False, context)" colspan="4"/>	      
+				
+			</field>
+		</field>
+	</record>
+</data>
+</openerp>
+

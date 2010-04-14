@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "Library",
+    "name" : "Library Management",
     "version" : "1.0",
     "author" : "Tiny",
     "category" : "Generic Modules/Sales & Purchases",
@@ -28,7 +28,7 @@
     Books Information,
     Publisher and Author Information,
     Book Rack Tracking etc...""",
-    "depends" : ["point_of_sale","report_intrastat", "mrp"],
+    "depends" : ["point_of_sale","report_intrastat", "mrp","delivery"],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : ["security/ir.model.access.csv","library_view.xml","library_wizard.xml","library_data.xml"],

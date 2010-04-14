@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sale_margin_sale_order">
+            <field name="name">sale.order.margin.view.form</field>
+            <field name="type">form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <button name="button_dummy" position="after">
+                    <field name="margin"/>
+                </button>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="sale_margin_sale_order_tree">
+            <field name="name">sale.order.margin.view.tree</field>
+            <field name="type">tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="margin"/>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sale_margin_sale_order_form">
+            <field name="name">sale.order.margin.view.form</field>
+            <field name="type">form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <field name="product_id" position="replace">
+                    <field colspan="4"
+                        context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom"
+                        name="product_id"
+                        on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], True, parent.date_order, product_packaging, parent.fiscal_position,False,discount)"
+                        select="1"/>
+                    <field name="margin"/>
+                    <field name="marginpourcent"/>
+                    <field name="purchase_price"/>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sale_margin_sale_order_form2">
+            <field name="name">sale.order.margin.view.form2</field>
+            <field name="type">form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <field name="product_uom_qty" position="replace">
+                    <field
+                        context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom"
+                        name="product_uom_qty"
+                        on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], False, parent.date_order, product_packaging, parent.fiscal_position, True,discount,price_unit)"
+                        select="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_margin_sale_order_form3">
+            <field name="name">sale.order.margin.view.form3</field>
+            <field name="type">form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <field name="price_unit" position="replace">
+                    <field
+                        context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom"
+                        name="price_unit"
+                        on_change="price_unit_change(purchase_price,product_uom_qty,product_uos_qty,price_unit,product_id,discount)"
+                        select="1"/>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sale_margin_sale_order_form4">
+            <field name="name">sale.order.margin.view.form4</field>
+            <field name="type">form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <field name="discount" position="replace">
+                    <field
+                        name="discount"
+                        on_change="discount_change(purchase_price,product_uom_qty,product_uos_qty,price_unit,product_id,discount)"/>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sale_margin_sale_order_line_tree">
+            <field name="name">sale.order.margin.line.view.tree</field>
+            <field name="type">tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_tree" />
+            <field name="arch" type="xml">
+                <field name="price_subtotal" position="after">
+                    <field name="margin"/>
+                </field>
+            </field>
+        </record>	
+
+        <wizard id="wizard_picking_invoice_create" model="stock.picking" name="stock.invoice_onshipping" string="Create invoice"/>
+
+        <record model="ir.ui.view" id="view_picking_margin_out_form">
+            <field name="name">picking.margin.view.form</field>
+            <field name="type">form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form" />
+            <field name="arch" type="xml">
+                <notebook colspan="4">
+                    <page string="Supplier Invoices">
+                        <separator string="Invoices" colspan="4"/>
+                        <field colspan="4" name="invoice_ids" nolabel="1"/>
+                        <group col="10" colspan="4">
+                            <label colspan="6"/>
+                            <button name="create_invoice" string="Create Invoice" type="object"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

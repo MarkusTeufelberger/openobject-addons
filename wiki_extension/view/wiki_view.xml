@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        ##############################################################################
+        #
+        #    wiki_extension module for OpenERP, Add new features in wiki module
+        #    Copyright (C) 2009 SYLEAM Info Services ([http://www.Syleam.fr/]) Sebastien LANGE
+        #
+        #    This file is a part of wiki_extension
+        #
+        #    wiki_extension is free software: you can redistribute it and/or modify
+        #    it under the terms of the GNU General Public License as published by
+        #    the Free Software Foundation, either version 3 of the License, or
+        #    (at your option) any later version.
+        #
+        #    wiki_extension is distributed in the hope that it will be useful,
+        #    but WITHOUT ANY WARRANTY; without even the implied warranty of
+        #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        #    GNU General Public License for more details.
+        #
+        #    You should have received a copy of the GNU General Public License
+        #    along with this program.  If not, see [http://www.gnu.org/licenses/].
+        #
+        ##############################################################################
+
+        <record model="ir.ui.view" id="wiki_group_form_extension">
+            <field name="name">wiki.groups.form.extension</field>
+            <field name="model">wiki.groups</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="wiki.wiki_group_form"/>
+            <field name="arch" type="xml">
+                <page string="Configuration" position="after">
+                    <page string="Members">
+                        <field name="member_ids" colspan="4" nolabel="1"/>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_wiki_form_extension">
+            <field name="name">wiki.wiki.form.extension text_area</field>
+            <field name="model">wiki.wiki</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="wiki.view_wiki_form"/>
+            <field name="arch" type="xml">
+                <field name="text_area" position="replace">
+                    <field name="text_area"
+                        nolabel="1"
+                        colspan="4"
+                        select="1"
+                        widget="text_wiki"
+                        attrs="{'readonly':[('state','in',['cancel', 'done'])]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_wiki_form_extension1">
+            <field name="name">wiki.wiki.form.extension state</field>
+            <field name="model">wiki.wiki</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="wiki.view_wiki_form"/>
+            <field name="arch" type="xml">
+                <field name="tags" position="after">
+                    <field name="state" colspan="3" groups="base.group_extended"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_wiki_extension">
+            <field name="name">Wiki Pages</field>
+            <field name="res_model">wiki.wiki</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('group_id','child_of',[active_id])]</field>
+            <field name="context">{'section':'1','group_id':active_id}</field>
+        </record>
+
+
+        <record id="wiki.ir_open_wiki_pages" model="ir.values">
+            <field eval="'tree_but_open'" name="key2"/>
+            <field eval="'wiki.groups'" name="model"/>
+            <field name="name">Wiki Pages</field>
+            <field eval="'ir.actions.act_window,%d'%action_wiki_extension" name="value"/>
+            <field eval="True" name="object"/>
+        </record>
+
+    </data>
+</openerp>

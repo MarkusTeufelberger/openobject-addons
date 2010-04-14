@@ -14,10 +14,21 @@
 						<button name="proforma_voucher" string="Create" states="proforma"/>
 						<button name="recheck_voucher" string="Validate" states="recheck"/>
 						<button name="cancel_voucher" string="Cancel" states="draft,proforma,recheck" type="object"/>
-						<button name="action_cancel_draft" states="cancel" string="Set to Draft"/>
+						<button name="action_cancel_draft" states="cancel" string="Set to Draft" type="object"/>
 					</group>
 				</group>
 			</field>
 		</record>
+		<record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="max_amount" search="1"/>
+                </field>
+            </field>
+        </record>
 	</data>
 </openerp>

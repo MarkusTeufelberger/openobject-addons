@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<wizard id="wizard_reset_password" keyword="client_action_multi"
+			model="res.users" name="res.users.reset" multi="True" string="Reset Password" />
+		<menuitem name="Reset Password" id="menu_reset_password" action="wizard_reset_password" type="wizard" parent="base.menu_administration"/>
+		
+		<wizard id="wizard_send_password" keyword="client_action_multi"
+			model="res.users" name="res.users.send" multi="True" string="Send Password" />
+		<menuitem name="Send Password" id="menu_send_password" action="wizard_send_password" type="wizard" parent="base.menu_administration"/>
+	</data>
+</openerp>

@@ -23,6 +23,7 @@
 from osv import osv, fields
 import netsvc
 import time
+from tools.translate import _
 
 class training_course_category(osv.osv):
     _name = 'training.course_category'

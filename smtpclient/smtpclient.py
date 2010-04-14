@@ -40,6 +40,7 @@ import random
 import sys
 import tools
 import re
+from tools.translate import _
 #if sys.version[0:3] > '2.4':
 #    from hashlib import md5
 #else:
@@ -52,11 +53,13 @@ class SmtpClient(osv.osv):
         'name' : fields.char('Server Name', size=256, required=True),
         'from_email' : fields.char('Email From', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
         'email' : fields.char('Email Address', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
-        'user' : fields.char('User Name', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
-        'password' : fields.char('Password', size=256, required=True, invisible=True, readonly=True, states={'new':[('readonly',False)]}),
+        'use_auth': fields.boolean("Use Authentication", readonly=True, states={'new': [('readonly',False)]}),
+        'user' : fields.char('User Name', size=256, required=False, readonly=True, states={'new':[('readonly',False)]}),
+        'password' : fields.char('Password', size=256, required=False, readonly=True, states={'new':[('readonly',False)]}),
         'server' : fields.char('SMTP Server', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
         'port' : fields.char('SMTP Port', size=256, required=True, readonly=True, states={'new':[('readonly',False)]}),
         'ssl' : fields.boolean("Use SSL?", readonly=True, states={'new':[('readonly',False)]}),
+        'use_debug': fields.boolean("Show debugging information"),
         'users_id': fields.many2many('res.users', 'res_smtpserver_group_rel', 'sid', 'uid', 'Users Allowed'),
         'state': fields.selection([
             ('new','Not Verified'),
@@ -77,6 +80,7 @@ class SmtpClient(osv.osv):
     _defaults = {
         'date_create': lambda *a: time.strftime('%Y-%m-%d'),
         'state': lambda *a: 'new',
+        'active':lambda *a: 1,
         'verify_email': lambda *a: _("Verification Message. This is the code\n\n__code__\n\nyou must copy in the OpenERP Email Server (Verify Server wizard).\n\nCreated by user __user__"),
     }
     server = {}
@@ -92,7 +96,23 @@ class SmtpClient(osv.osv):
 #        result = super(SmtpClient, self).read(cr, uid, ids, fields, context, load)
 #        result = override_password(result)
 #        return result
-        
+    
+    def write(self, cr, user, ids, vals, context=None):
+        flag = False
+        if vals.get('password', False) != False:
+            for pass_char in vals.get('password'):
+                if pass_char != '*':
+                    flag= True
+                    break
+
+            if flag:    
+                vals['password'] = base64.b64encode(vals.get('password'))
+            else:
+                del vals['password']    
+            
+        res = super(SmtpClient, self).write(cr, user, ids, vals, context)
+        return res
+            
     def change_email(self, cr, uid, ids, email):
         ptrn = re.compile('(\w+@\w+(?:\.\w+)+)')
         result=ptrn.search(email)
@@ -141,7 +161,7 @@ class SmtpClient(osv.osv):
                 key = self.gen_private_key(cr, uid, serverid)
                 #md5(time.strftime('%Y-%m-%d %H:%M:%S') + toemail).hexdigest();
                 body = body.replace("__code__", key)
-                self.write(cr, uid, [serverid], {'state':'waiting', 'code':key})
+                self.write(cr, uid, [serverid], {'code':key})
                 
             user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid])[0]
             body = body.replace("__user__", user.name)
@@ -188,14 +208,14 @@ class SmtpClient(osv.osv):
         if self.server[serverid]:
             try:
                 self.smtpServer[serverid] = smtplib.SMTP()
-                self.smtpServer[serverid].debuglevel = 5
+                self.smtpServer[serverid].debuglevel = self.server[serverid]['use_debug']
                 self.smtpServer[serverid].connect(str(self.server[serverid]['server']),str(self.server[serverid]['port']))
                 if self.server[serverid]['ssl']:
                     self.smtpServer[serverid].ehlo()
                     self.smtpServer[serverid].starttls()
                     self.smtpServer[serverid].ehlo()
-                    
-                self.smtpServer[serverid].login(str(self.server[serverid]['user']),str(self.server[serverid]['password']))
+                if self.server[serverid]['use_auth']:
+                    self.smtpServer[serverid].login(str(self.server[serverid]['user']),str(self.server[serverid]['password']))
             except Exception, e:
                 raise osv.except_osv(_('SMTP Server Error!'), e)
             
@@ -240,8 +260,10 @@ class SmtpClient(osv.osv):
                 (result, format) = service.create(cr, uid, [id], {}, {})
                 report_file = '/tmp/'+ str(id) + '.pdf'
                 fp = open(report_file,'wb+')
-                fp.write(result);
-                fp.close();
+                try:
+                    fp.write(result);
+                finally:
+                    fp.close();
                 files += [report_file]    
                 #except Exception,e:
             return files
@@ -253,10 +275,13 @@ class SmtpClient(osv.osv):
         if type(emailto) == type([]):
             for to in emailto:
                 msg = MIMEMultipart()
-                msg['Subject'] = subject 
+                msg['Subject'] = tools.ustr(subject) 
                 msg['To'] =  to
                 msg['From'] = smtp_server.from_email
-                msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))
+                try:
+                    msg.attach(MIMEText(body.encode('utf8') or '', _charset='utf-8', _subtype="html"))
+                except:
+                    msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))
                 
                 for rpt in reports:
                     rpt_file = createReport(cr, uid, rpt[0], rpt[1])
@@ -264,7 +289,12 @@ class SmtpClient(osv.osv):
                 
                 for file in attachments:
                     part = MIMEBase('application', "octet-stream")
-                    part.set_payload(open(file,"rb").read())
+                    f = open(file, "rb")
+                    try:
+                        payload = f.read()
+                    finally:
+                        f.close()
+                    part.set_payload( payload )
                     Encoders.encode_base64(part)
                     part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
                     msg.attach(part)
@@ -283,10 +313,13 @@ class SmtpClient(osv.osv):
                     })
         else:
             msg = MIMEMultipart()
-            msg['Subject'] = subject 
+            msg['Subject'] = tools.ustr(subject) 
             msg['To'] =  emailto
             msg['From'] = smtp_server.from_email
-            msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))
+            try:
+                msg.attach(MIMEText(body.encode('utf8') or '', _charset='utf-8', _subtype="html"))
+            except:
+                msg.attach(MIMEText(body or '', _charset='utf-8', _subtype="html"))    
             
             for rpt in reports:
                 rpt_file = createReport(cr, uid, rpt[0], rpt[1])
@@ -294,7 +327,12 @@ class SmtpClient(osv.osv):
             
             for file in attachments:
                 part = MIMEBase('application', "octet-stream")
-                part.set_payload(open(file,"rb").read())
+                f = open(file, "rb")
+                try:
+                    payload = f.read()
+                finally:
+                    f.close()
+                part.set_payload( payload )
                 Encoders.encode_base64(part)
                 part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
                 msg.attach(part)
@@ -342,7 +380,11 @@ class SmtpClient(osv.osv):
                         'email':email.to
                     })
             sent.append(email.id)
-        queue.write(cr, uid, sent, {'state':'send'})
+            queue.write(cr, uid, sent, {'state':'send'})
+            queue_state = queue.read(cr, uid, [email.id], ['state'])
+            for state in queue_state:
+                if state['state'] == 'send':
+                    self.write(cr, uid, email.server_id.id, {'state':'waiting'})
         return True
 SmtpClient()
 

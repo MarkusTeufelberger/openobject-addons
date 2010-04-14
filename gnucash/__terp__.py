@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-	"name" : "gnucash",
+	"name" : "Module for Import from file",
 	"version" : "0.1",
 	"author" : "P. Christeas",
 	"category" : "Generic Modules/Base",

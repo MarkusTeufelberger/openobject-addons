@@ -56,13 +56,16 @@ def geocode(address):
     mapsUrl = 'http://maps.google.com/maps/geo?q='
 
     # This joins the parts of the URL together into one string.
-    url = ''.join([mapsUrl,urllib.quote(address),'&output=csv&key=',mapsKey])
+    url = ''.join([mapsUrl,urllib.quote(address.encode('utf-8')),'&output=csv&key=',mapsKey])
 
     # This retrieves the URL from Google.
     coordinates = urllib.urlopen(url).read().split(',')
 
     # This parses out the longitude and latitude, and then combines them into a string.
-    coorText = '%s,%s' % (coordinates[3],coordinates[2])
+    try:
+        coorText = '%s,%s' % (coordinates[3],coordinates[2])
+    except:
+        coorText = '0,0'
     return coorText
 
 def create_kml(self, cr, uid, data, context={}):
@@ -153,19 +156,19 @@ def create_kml(self, cr, uid, data, context={}):
         add = address_obj.browse(cr, uid, part.address and part.address[0].id, context) # Todo: should be work for multiple address
         if add:
             if add.street:
-                address += str(add.street)
+                address += tools.ustr(add.street)
             if add.street2:
                 address += ', '
-                address += str(add.street2)
+                address += tools.ustr(add.street2)
             if add.city:
                 address += ', '
-                address += str(add.city)
+                address += tools.ustr(add.city)
             if add.state_id:
                 address += ', '
-                address += str(add.state_id.name)
+                address += tools.ustr(add.state_id.name)
             if add.country_id:
                 address += ', '
-                address += str(add.country_id.name)
+                address += tools.ustr(add.country_id.name)
 
         desc_text = address + ' , turnover of partner : ' + str(res[part.id])
         placemarkElement = kmlDoc.createElement('Placemark')
@@ -250,7 +253,7 @@ def create_kml(self, cr, uid, data, context={}):
 #    kmlFile.write(kmlDoc.toxml())
 #    kmlFile.close()
 #    return {}
-    out = base64.encodestring(kmlDoc.toxml())
+    out = base64.encodestring(kmlDoc.toxml().encode('utf-8'))
     fname = 'region' + '.kml'
     return {'kml_file': out, 'name': fname}
 

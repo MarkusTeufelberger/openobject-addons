@@ -1,0 +1,13 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_crm_case_work_user","crm.case.work User","crm_timesheet.model_crm_case_work","crm.group_crm_user",1,1,1,1
+"access_res_partner_crm_analytic_user","res.partner.crm.analytic User","crm_timesheet.model_res_partner_crm_analytic","crm.group_crm_user",1,0,0,0
+"access_res_partner_crm_analytic_manager","res.partner.crm.analytic Manager","crm_timesheet.model_res_partner_crm_analytic","base.group_partner_manager",1,1,1,1
+"access_account_analytic_account_user","account.analytic.account User","account.model_account_analytic_account","crm.group_crm_user",1,1,1,0
+"access_account_analytic_journal_user","account.analytic.journal User","account.model_account_analytic_journal","crm.group_crm_user",1,0,0,0
+"access_account_analytic_line_user","account.analytic.line User","account.model_account_analytic_line","crm.group_crm_user",1,1,1,1
+"access_hr_department_user","hr.department User","hr.model_hr_department","crm.group_crm_user",1,0,0,0
+"access_hr_employee_user","hr.employee User","hr.model_hr_employee","crm.group_crm_user",1,0,0,0
+"access_hr_employee_category_user","hr.employee.category User","hr.model_hr_employee_category","crm.group_crm_user",1,0,0,0
+"access_hr_timesheet_user","hr.timesheet User","hr.model_hr_timesheet","crm.group_crm_user",1,1,1,1
+"access_hr_timesheet_group_user","hr.timesheet.group User","hr.model_hr_timesheet_group","crm.group_crm_user",1,0,0,0
+"access_hr_analytic_timesheet_user","hr.analytic.timesheet User","hr_timesheet.model_hr_analytic_timesheet","crm.group_crm_user",1,1,1,1

@@ -1,0 +1,11 @@
+<openerp>
+  <data>
+    <wizard 
+      id="account.wizard_account_chart"
+      menu="False"
+      model="account.account" 
+      name="account.chart_conso"
+      string="Chart of Accounts"
+    />
+  </data>
+</openerp>

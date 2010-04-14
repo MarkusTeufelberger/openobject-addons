@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <wizard
+            string="Import epassporte payments"
+            model="account.bank.statement"
+            name="account_payment_epassporte.import_epassporte"
+            id="wizard_account_payment_epassporte_import"/>
+            <!--menu="False"-->
+    </data>
+</openerp>

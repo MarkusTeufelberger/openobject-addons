@@ -44,34 +44,48 @@
             <field name="act_to" ref="act_proforma"/>
             <field name="signal">open_voucher</field>
         </record>
-        
         <record id="t2" model="workflow.transition">
             <field name="act_from" ref="act_proforma"/>
             <field name="act_to" ref="act_done"/>
             <field name="signal">proforma_voucher</field>
-            <field name="condition">amount &lt; 500</field>
+            <field name="condition">amount &lt;= journal_id.max_amount</field>
         </record>
-        
         <record id="t3" model="workflow.transition">
+            <field name="act_from" ref="act_proforma"/>
+            <field name="act_to" ref="act_done"/>
+            <field name="signal">proforma_voucher</field>
+            <field name="condition">type=='bank_rec_voucher'</field>
+        </record>
+        <record id="t4" model="workflow.transition">
+            <field name="act_from" ref="act_proforma"/>
+            <field name="act_to" ref="act_done"/>
+            <field name="signal">proforma_voucher</field>
+            <field name="condition">type=='rec_voucher'</field>
+        </record>
+        <record id="t4" model="workflow.transition">
+            <field name="act_from" ref="act_proforma"/>
+            <field name="act_to" ref="act_done"/>
+            <field name="signal">proforma_voucher</field>
+            <field name="condition">journal_id.max_amount==0</field>
+        </record>
+        <record id="t5" model="workflow.transition">
             <field name="act_from" ref="act_proforma"/>
             <field name="act_to" ref="act_recheck"/>
             <field name="signal">proforma_voucher</field>
-            <field name="condition">amount &gt;= 500</field>
+            <field name="condition">amount &gt; journal_id.max_amount</field>
         </record>
-        
-        <record id="t4" model="workflow.transition">
+        <record id="t6" model="workflow.transition">
             <field name="act_from" ref="act_recheck"/>
             <field name="act_to" ref="act_done"/>
             <field name="signal">recheck_voucher</field>
         </record>
-        
-		<record id="t5" model="workflow.transition">
+		<record id="t7" model="workflow.transition">
 			<field name="act_from" ref="act_recheck"/>
 			<field name="act_to" ref="act_draft"/>
 			<field name="signal">action_cancel_draft</field>
 		</record>
 		
-		<record id="t6" model="workflow.transition">
+		<record id="t8" model="workflow.transition">
 			<field name="act_from" ref="act_proforma"/>
 			<field name="act_to" ref="act_draft"/>
 			<field name="signal">action_cancel_draft</field>

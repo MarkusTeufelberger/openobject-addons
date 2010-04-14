@@ -33,10 +33,11 @@ class sale_forecast(osv.osv):
         amount = 0
         avg = 0
         for forecast in self.browse(cr, uid, ids, context=context):
-            for line in forecast.line_ids:
-                amount += line.forecast_rate
-                avg += 1
-            res[forecast.id] = (amount/avg)
+            if forecast.line_ids:
+                for line in forecast.line_ids:
+                    amount += line.forecast_rate
+                    avg += 1
+                res[forecast.id] = (amount/avg or 1.00)
         return res
     _columns = {
         'name': fields.char('Sales Forecast', size=32, required=True),
@@ -65,7 +66,7 @@ class sale_forecast_line(osv.osv):
     _rec_name = 'user_id'
 
     def _final_evolution(self, cr, uid, ids, name, args, context={}):
-        forecast_line =  self.browse(cr, uid, ids)
+        forecast_line =  self.browse(cr, uid, ids, context=context)
         result={}
         for line in forecast_line:
             state_dict = {
@@ -139,7 +140,7 @@ class sale_forecast_line(osv.osv):
                 res[line.id] = 0
         return res
     _columns = {
-        'forecast_id': fields.many2one('sale.forecast', 'Forecast',ondelete='cascade',required =True),
+        'forecast_id': fields.many2one('sale.forecast', 'Forecast',ondelete='cascade', select=True),
         'user_id': fields.many2one('res.users', 'Salesman',required=True),
         'computation_type' : fields.selection([('invoice_fix','Number of Invoice'),('amount_invoiced','Amount Invoiced'),('cases','No of Cases'),('number_of_sale_order','Number of sale order'),('amount_sales','Amount Sales'),],'Computation Base On',required=True),
         'state_draft' : fields.boolean('Draft'),
@@ -153,7 +154,7 @@ class sale_forecast_line(osv.osv):
         'note':fields.text('Note', size=64),
         'amount': fields.float('Value Forecasted'),
         'computed_amount': fields.function(_final_evolution, string='Real Value',method=True, store=True,),
-        'final_evolution' : fields.selection([('bad','Bad'),('to_be_improved','To Be Improved'),('normal','Noraml'),('good','Good'),('very_good','Very Good')],'Performance',),
+        'final_evolution' : fields.selection([('bad','Bad'),('to_be_improved','To Be Improved'),('normal','Normal'),('good','Good'),('very_good','Very Good')],'Performance',),
         'feedback' : fields.text('Feedback Comment'),
         'forecast_rate' : fields.function(_forecast_rate, method=True, string='Progress (%)',)
     }

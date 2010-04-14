@@ -13,7 +13,7 @@ class account_invoice(osv.osv):
 
 # FIXME
 #   def _refund_cleanup_lines(self, cr, uid, lines):
-   def _refund_cleanup_lines(self, lines):
+    def _refund_cleanup_lines(self, lines):
 
        for line in lines:
            if 'fleet_id' in line:
@@ -24,11 +24,29 @@ class account_invoice(osv.osv):
 #       return super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
        return super(account_invoice, self)._refund_cleanup_lines(lines)
 
+    def inv_line_characteristic_hashcode(self, invoice, invoice_line):
+        code = super(account_invoice, self).inv_line_characteristic_hashcode(invoice, invoice_line)
+        code += '-'+str(invoice_line.get('maintenance_start_date',"False"))
+        code += '-'+str(invoice_line.get('maintenance_end_date',"False"))
+        return code
+
+    def line_get_convert(self, cr, uid, x, part, date, context=None):
+        result = super(account_invoice, self).line_get_convert(cr, uid, x, part, date, context)
+        result['maintenance_start_date'] = x.get('maintenance_start_date', False)
+        result['maintenance_end_date'] = x.get('maintenance_end_date', False)
+        return result
+
 account_invoice()
 
 
 class account_invoice_line(osv.osv):
     _inherit = "account.invoice.line"
+
+    def move_line_get_item(self, cr, uid, line, context=None):
+        result = super(account_invoice_line, self).move_line_get_item(cr, uid, line, context)
+        result['maintenance_start_date'] = line.maintenance_start_date
+        result['maintenance_end_date'] = line.maintenance_end_date
+        return result
     
     def create(self, cr, uid, vals, context={}):
         """Prevents the ORM from trying to write the is_maintenance product fields view fields related.

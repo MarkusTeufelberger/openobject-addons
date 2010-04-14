@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id","perm_read","perm_write","perm_create","perm_unlink"
+"access_account_period_sum","account.account_period_sum","model_account_period_sum","Finance / Accountant",0,0,0,0
+"access_account_fy_period_sum","account.account_fy_period_sum","model_account_fy_period_sum","Finance / Accountant",0,0,0,0
+"access_account_fiscalyear_sum","account.account_fiscalyear_sum","model_account_fiscalyear_sum","Finance / Accountant",0,0,0,0
+"access_account_account_with_postings","account.account_with_postings","model_account_with_postings","Finance / Accountant",0,0,0,0

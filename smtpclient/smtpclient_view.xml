@@ -84,14 +84,19 @@
 							<field name="email" select="1"
 								on_change="change_email(email)" />
 							<newline />
-							<field name="user" select="1" />
-							<field name="password" select="2" />
+							<separator string="Authentication"
+								colspan="4"/>
+							<field name="use_auth" colspan="2"/>
+							<newline />
+							<field name="user" attrs="{'required': [('use_auth','=',True)]}" select="1" />
+							<field name="password" attrs="{'required': [('use_auth','=',True)]}" password="True" select="2" />
 							<newline />
 							<separator string="Server Information"
 								colspan="4" />
 							<field name="server" select="1" />
 							<field name="port" select="1" />
 							<field name="ssl" select="1" />
+							<field name="use_debug" />
 							<separator string="Verification Information"
 								colspan="4" />
 							<field name="state" select="1" />

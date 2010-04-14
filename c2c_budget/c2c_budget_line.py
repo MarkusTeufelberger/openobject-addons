@@ -333,14 +333,14 @@ class c2c_budget_line(osv.osv):
                                                         )    
 
         #get versions the user can see, from versions, get periods then filter lines by those periods
-        if lines_ids:
+        if lines_ids and not count:
             version_obj = self.pool.get('c2c_budget.version')
             versions_ids = version_obj.search(cr, user, [], context=context)
             versions = version_obj.browse(cr, user, versions_ids, context=context)
             
             periods = []
             for v in versions:
-                periods = periods + version_obj.get_periods (cr, user, v, context=context)
+                periods = periods + version_obj.get_periods(cr, user, v, context=context)
             lines = self.browse(cr, user, lines_ids, context=context)
             lines = self.filter_by_period(cr, user, lines, [p.id for p in periods], context)
             lines_ids = [l.id for l in lines]

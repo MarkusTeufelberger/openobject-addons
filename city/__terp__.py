@@ -21,7 +21,7 @@
 #
 ##############################################################################
 {
-	"name" : "City",
+	"name" : "City-Helps to keep Homogenous address data in the Database",
 	"version" : "1.0",
 	"author" : "Pablo Rocandio",
 	"category" : "Generic Modules/Base",

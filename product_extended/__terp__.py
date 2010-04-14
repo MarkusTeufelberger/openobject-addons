@@ -34,7 +34,12 @@ Product extension. This module adds:
 """,
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ["product_extended_view.xml","product_extended_wizard.xml","mrp_view.xml"],
+    "update_xml" : [
+        "security/ir.model.access.csv",
+        "product_extended_view.xml",
+        "product_extended_wizard.xml",
+        "mrp_view.xml"
+    ],
     "active": False,
     "installable": True
 }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	<!-- product.product -->
+	<record model="ir.ui.view" id="qc_product_test_quality">
+		<field name="name">product.product.form.quality</field>
+		<field name="model">product.product</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_normal_stock_property_form" />
+		<field name="arch" type="xml">
+			<field name="track_production" position="before">
+				<field name="prodlot_test_template_id" context="{'reference_model': 'product.product', 'reference_id': active_id}"/>
+			</field>
+		</field>     
+	</record> 
+
+	<!-- stock.production.lot -->
+	<record model="ir.ui.view" id="view_production_lot_form">
+		<field name="name">stock.production.lot.form.workflow</field>
+		<field name="model">stock.production.lot</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_production_lot_form" />
+		<field name="arch" type="xml">
+			<form position="inside">
+				<field name="generic_quality_test_id"/>
+				<field name="specific_quality_test_id"/>
+				<group col="4" colspan="4">
+					<field name="state"/>
+					<button string="Sample Done" states="sample-library" type="object" name="action_sample_library" icon="gtk-ok"/>
+				</group>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_prodlot_test">
+		<field name="name">Production Lot Tests</field>
+		<field name="res_model">qc.test</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('object_id','like','stock.production.lot,')]</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_prodlot_test_draft">
+		<field name="name">Draft Production Lot Tests</field>
+		<field name="res_model">qc.test</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('object_id','like','stock.production.lot,'),('state','=','draft')]</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_prodlot_test_waiting">
+		<field name="name">Confirmed Production Lot Tests</field>
+		<field name="res_model">qc.test</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('object_id','like','stock.production.lot,'),('state','=','waiting')]</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_prodlot_test_success">
+		<field name="name">Valid Production Lot Tests</field>
+		<field name="res_model">qc.test</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('object_id','like','stock.production.lot,'),('state','=','success')]</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_prodlot_test_failed">
+		<field name="name">Invalid Production Lot Tests</field>
+		<field name="res_model">qc.test</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('object_id','like','stock.production.lot,'),('state','=','failed')]</field>
+	</record>
+
+
+	<menuitem 
+		name="Production Lot Tests" 
+		parent="nan_quality_control.qc_menu"
+		id="qc_prodlot_menu" 
+		action="action_prodlot_test"
+		/>
+	<menuitem 
+		name="Draft Tests" 
+		parent="qc_prodlot_menu"
+		id="qc_prodlot_test_draft_menu" 
+		action="action_prodlot_test_draft"
+		/>
+	<menuitem 
+		name="Confirmed Tests" 
+		parent="qc_prodlot_menu"
+		id="qc_prodlot_test_waiting_menu" 
+		action="action_prodlot_test_waiting"
+		/>
+	<menuitem 
+		name="Valid Tests" 
+		parent="qc_prodlot_menu"
+		id="qc_prodlot_test_success_menu" 
+		action="action_prodlot_test_success"
+		/>
+	<menuitem 
+		name="Invalid Tests" 
+		parent="qc_prodlot_menu"
+		id="qc_prodlot_test_failed_menu" 
+		action="action_prodlot_test_failed"
+		/>
+</data>
+</openerp>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_crm_section_analytic_form">
+            <field name="name">crm.case.section.analytic.form</field>
+            <field name="model">crm.case.section</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="crm.crm_case_section_view_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Analytic">
+                        <field name="account_id" colspan="4"/>
+                        <field name="req_partner" colspan="4"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

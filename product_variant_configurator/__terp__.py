@@ -26,6 +26,13 @@ For each product template dimension a dimension value is asked. Then the matchin
 are proposed for selection.
 Should be used along with the product_variant_multi module.
 Might not work well in the web-client due to web-client current limitations.
+
+Please notice that the product configurator user interface could me more user friendly
+if some OpenObject framework enhancements were implemented, especially:
+- allow select box widget to select dimension values instead of many2one popups:
+https://blueprints.launchpad.net/openobject-server/+spec/dynamic-domain-on-selection-widget
+- automatically select the product variant if unique once dimensions are set:
+https://blueprints.launchpad.net/openobject-server/+spec/form-parent-field-update-on-change
 """,
     "version" : "0.5",
     "author" : "Smile.fr",

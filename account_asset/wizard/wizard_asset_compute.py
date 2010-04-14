@@ -22,6 +22,7 @@
 
 import wizard
 import pooler
+from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
 <form string="Compute assets">
@@ -55,7 +56,7 @@ def _asset_compute(self, cr, uid, data, context):
 
 def _asset_open(self, cr, uid, data, context):
     value = {
-        'name': 'Created moves',
+        'name': _('Created moves'),
         'view_type': 'form',
         'view_mode': 'tree,form',
         'res_model': 'account.move',

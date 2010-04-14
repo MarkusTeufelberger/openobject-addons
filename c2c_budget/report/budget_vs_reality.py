@@ -123,7 +123,7 @@ class budget_vs_reality(StandardReport):
                     if budget_values[id] == 'error' or real_values[id] == 'error':
                         balance[id] = 'error'
                     else:
-                        balance[id] = budget_values[id] - real_values[id]
+                        balance[id] = real_values[id] - budget_values[id]
                      
                    
                 #

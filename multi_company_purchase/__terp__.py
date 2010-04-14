@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 {
-    "name" : "MultiCompany Purchase",
+    "name" : "MultiCompany Purchase Order",
     "version" : "1.1",
     "depends" : [
                   'base',

@@ -7,6 +7,8 @@
 #       All Rights Reserved, Jordi Esteve <jesteve@zikzakmedia.com>
 #    Copyright (c) 2009 SYLEAM (http://syleam.fr) 
 #       All Rights Reserved, Christophe Chauvet <christophe.chauvet@syleam.fr>
+#    Copyright (c) 2009 SYLEAM (http://syleam.fr) 
+#       All Rights Reserved, Sebastien LANGE <sebastien.lange@syleam.fr>
 #
 #    This file is a part of point_of_sale_extension
 #
@@ -27,6 +29,7 @@
 
 from osv import fields
 from osv import osv
+from tools import config
 
 import netsvc
 import time
@@ -35,6 +38,7 @@ from tools.translate import _
 
 class pos_order(osv.osv):
     _inherit = 'pos.order'
+    _order = "date_order desc, create_date desc"
 
     def _amount_tax(self, cr, uid, ids, field_name, arg, context):
         """This method is redefined to deal with prices with/without taxes included depending on company configuration"""
@@ -46,51 +50,49 @@ class pos_order(osv.osv):
 
         for order in self.browse(cr, uid, ids):
             val = 0.0
+            cur_obj = self.pool.get('res.currency')
+            cur = order.pricelist_id.currency_id
             for line in order.lines:
                 if prices_tax_include:
-                    val = reduce(lambda x, y: x+round(y['amount'], 2),
+                    val = reduce(lambda x, y: x + y['amount'],
                         tax_obj.compute_inv(cr, uid, line.product_id.taxes_id,
                             line.price_unit * \
                             (1-(line.discount or 0.0)/100.0), line.qty),
                             val)
                 else:
-                    val = reduce(lambda x, y: x+round(y['amount'], 2),
+                    val = reduce(lambda x, y: x + y['amount'],
                         tax_obj.compute(cr, uid, line.product_id.taxes_id,
                             line.price_unit * \
                             (1-(line.discount or 0.0)/100.0), line.qty),
                             val)
 
-            res[order.id] = val
+            res[order.id] = cur_obj.round(cr, uid, cur, val)
         return res
 
 
     def _amount_total(self, cr, uid, ids, field_name, arg, context):
         """This method is redefined to deal with prices with/without taxes included depending on company configuration"""
-        id_set = ",".join(map(str, ids))
-        cr.execute("""
-        SELECT
-            p.id,
-            COALESCE(SUM(
-                l.price_unit*l.qty*(1-(l.discount/100.0)))::decimal(16,2), 0
-                ) AS amount
-        FROM pos_order p
-            LEFT OUTER JOIN pos_order_line l ON (p.id=l.order_id)
-        WHERE p.id IN (""" + id_set  +""") GROUP BY p.id """)
-        res = dict(cr.fetchall())
-
+        res = {}
         users_obj = self.pool.get('res.users')
         user = users_obj.browse(cr, uid, uid, context)
         prices_tax_include = user.company_id.pos_prices_tax_include
-
-        for rec in self.browse(cr, uid, ids, context):
-            if rec.partner_id \
-               and rec.partner_id.property_account_position \
-               and rec.partner_id.property_account_position.tax_ids:
+        cur_obj = self.pool.get('res.currency')
+        for order in self.browse(cr, uid, ids):
+            cur = order.pricelist_id.currency_id
+            val = 0.0
+            for line in order.lines:
+                val += line.price_subtotal
+            res[order.id] = cur_obj.round(cr, uid, cur, val)
+            if order.partner_id \
+               and order.partner_id.property_account_position \
+               and order.partner_id.property_account_position.tax_ids:
                 if prices_tax_include:
-                    res[rec.id] = res[rec.id] - rec.amount_tax
+                    res[order.id] = cur_obj.round(cr, uid, cur, val) - order.amount_tax
             else:
                 if not prices_tax_include:
-                    res[rec.id] = res[rec.id] + rec.amount_tax
+                    res[order.id] = cur_obj.round(cr, uid, cur, val) + order.amount_tax
+            # Must be rounded, otherwise amount_total and amount_paid could be different and _test_paid() test could fail
+            res[order.id] = round(res[order.id] , int(config['price_accuracy']))
         return res
 
 
@@ -171,8 +173,10 @@ class pos_order(osv.osv):
         users_obj = self.pool.get('res.users')
         user = users_obj.browse(cr, uid, uid, context)
         prices_tax_include = user.company_id.pos_prices_tax_include
+        cur_obj = self.pool.get('res.currency')
 
         for order in self.browse(cr, uid, ids, context=context):
+            cur = order.pricelist_id.currency_id
 
             if order.amount_total == 0:
                 continue
@@ -201,15 +205,15 @@ class pos_order(osv.osv):
                     computed_taxes = account_tax_obj.compute(cr, uid, line.product_id.taxes_id, line.price_unit * (1-(line.discount or 0.0)/100.0), line.qty)
 
                 for tax in computed_taxes:
-                    tax_amount += round(tax['amount'], 2)
+                    tax_amount += cur_obj.round(cr, uid, cur, tax['amount'])
                     group_key = (tax['tax_code_id'],
                                 tax['base_code_id'],
                                 tax['account_collected_id'])
 
                     if group_key in group_tax:
-                        group_tax[group_key] += round(tax['amount'], 2)
+                        group_tax[group_key] +=  tax['amount']
                     else:
-                        group_tax[group_key] = round(tax['amount'], 2)
+                        group_tax[group_key] = tax['amount']
 
                 amount = line.price_subtotal
                 if prices_tax_include:
@@ -290,18 +294,19 @@ class pos_order(osv.osv):
             # Create a move for each tax group
             (tax_code_pos, base_code_pos, account_pos)= (0, 1, 2)
             for key, amount in group_tax.items():
+                tax_amount = cur_obj.round(cr, uid, cur, amount)
                 account_move_line_obj.create(cr, uid, {
                     'name': order.name,
                     'date': order.date_order,
                     'ref': order.name,
                     'move_id': move_id,
                     'account_id': key[account_pos],
-                    'credit': ((amount>0) and amount) or 0.0,
-                    'debit': ((amount<0) and -amount) or 0.0,
+                    'credit': ((tax_amount>0) and tax_amount) or 0.0,
+                    'debit': ((tax_amount<0) and -tax_amount) or 0.0,
                     'journal_id': order.sale_journal.id,
                     'period_id': period,
                     'tax_code_id': key[tax_code_pos],
-                    'tax_amount': amount,
+                    'tax_amount': tax_amount,
                     'partner_id': order.partner_id and order.partner_id.id or False
                 }, context=context)
 
@@ -436,53 +441,90 @@ class pos_order_line(osv.osv):
     _inherit = 'pos.order.line'
     _order = "create_date desc"
 
-    def _price_unit_vat(self, cr, uid, ids, field_name, arg, context):
-        """This method is defined to show unit prices minus discount plus taxes on order line"""
+    def _amount_line(self, cr, uid, ids, field_name, arg, context):
+        """This method is defined to compute subtotal prices on order lines"""
+        res = {}
+        cur_obj = self.pool.get('res.currency')
+        for line in self.browse(cr, uid, ids):
+            cur = line.order_id.pricelist_id.currency_id
+            res[line.id] = cur_obj.round(cr, uid, cur, (line.price_unit * line.qty * (1 - (line.discount or 0.0) / 100.0)))
+        return res
+
+    def _amount_vat(self, cr, uid, ids, name, args, context=None):
+        """This method is defined to compute on order lines:
+            * unit prices minus discount plus taxes
+            * subtotal prices plus taxes"""
         res = {}
         tax_obj = self.pool.get('account.tax')
         users_obj = self.pool.get('res.users')
         user = users_obj.browse(cr, uid, uid, context)
         prices_tax_include = user.company_id.pos_prices_tax_include
+        cur_obj = self.pool.get('res.currency')
 
         for line in self.browse(cr, uid, ids):
-            val = 0.0
+            res[line.id] = {}
+            val1, valt = 0.0, 0.0
+            cur = line.order_id.pricelist_id.currency_id
             if not prices_tax_include:
-                val = reduce(lambda x, y: x+round(y['amount'], 2),
+                val1 = reduce(lambda x, y: x+cur_obj.round(cr, uid, cur, y['amount']),
                     tax_obj.compute(cr, uid, line.product_id.taxes_id,
                         line.price_unit * \
                         (1-(line.discount or 0.0)/100.0), 1),
-                        val)
-            res[line.id] = val + line.price_unit * (1-(line.discount or 0.0)/100.0)
-        return res
-
-
-    def _price_subtotal_vat(self, cr, uid, ids, field_name, arg, context):
-        """This method is defined to show subtotal prices plus taxes on order line"""
-        res = {}
-        tax_obj = self.pool.get('account.tax')
-        users_obj = self.pool.get('res.users')
-        user = users_obj.browse(cr, uid, uid, context)
-        prices_tax_include = user.company_id.pos_prices_tax_include
-
-        for line in self.browse(cr, uid, ids):
-            val = 0.0
-            if not prices_tax_include:
-                val = reduce(lambda x, y: x+round(y['amount'], 2),
+                        val1)
+                valt = reduce(lambda x, y: x+cur_obj.round(cr, uid, cur, y['amount']),
                     tax_obj.compute(cr, uid, line.product_id.taxes_id,
                         line.price_unit * \
                         (1-(line.discount or 0.0)/100.0), line.qty),
-                        val)
-            res[line.id] = val + (line.price_unit * (1-(line.discount or 0.0)/100.0) * line.qty)
+                        valt)
+            res[line.id]['price_unit_vat'] = cur_obj.round(cr, uid, cur, (val1 + line.price_unit * (1-(line.discount or 0.0)/100.0)))
+            res[line.id]['price_subtotal_vat'] = cur_obj.round(cr, uid, cur, (valt + (line.price_unit * (1-(line.discount or 0.0)/100.0) * line.qty)))
         return res
-
 
     _columns = {
         'partner_id':fields.related('order_id', 'partner_id', type='many2one', relation='res.partner', string='Partner'),
         'state':fields.related('order_id', 'state', type='selection', selection=[('cancel', 'Cancel'), ('draft', 'Draft'),
             ('paid', 'Paid'), ('done', 'Done'), ('invoiced', 'Invoiced')], string='State'),
-        'price_unit_vat': fields.function(_price_unit_vat, method=True, string='Total Unit'),
-        'price_subtotal_vat': fields.function(_price_subtotal_vat, method=True, string='Subtotal+Tax'),
+        'price_unit': fields.float('Unit Price', required=True, digits=(16, int(config['price_accuracy']))),
+        'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal'),
+        'price_unit_vat': fields.function(_amount_vat, method=True, string='Total Unit', digits=(16, int(config['price_accuracy'])), multi='vat'),
+        'price_subtotal_vat': fields.function(_amount_vat, method=True, string='Subtotal+Tax', multi='vat'),
     }
+
+
+    def onchange_product_id(self, cr, uid, ids, pricelist, product_id, qty=0, partner_id=False, lang=False):
+        """ This method is redefined to compute discounts in point of sale order lines
+            if product_visible_discount module is installed and
+            visible discount field in price list is checked"""
+        res = super(pos_order_line, self).onchange_product_id(cr, uid, ids, pricelist, product_id, qty, partner_id)
+
+        context = {'lang': lang, 'partner_id': partner_id}
+        result = res['value']
+        pricelist_obj = self.pool.get('product.pricelist')
+        product_obj = self.pool.get('product.product')
+
+        cr.execute('select * from ir_module_module where name=%s and state=%s', ('product_visible_discount','installed'))
+        if cr.fetchone() and product_id:
+            if result.get('price_unit',False):
+                price = result['price_unit']
+            else:
+                return res
+
+            product = product_obj.browse(cr, uid, product_id, context)
+            product_tmpl_id = product.product_tmpl_id.id
+            pricetype_id = pricelist_obj.browse(cr, uid, pricelist).version_id[0].items_id[0].base
+            field_name = 'list_price'
+            product_read = self.pool.get('product.template').read(cr, uid, product_tmpl_id, [field_name], context)
+            list_price = product_read[field_name]
+
+            pricelists=pricelist_obj.read(cr,uid,[pricelist],['visible_discount'])
+            if(len(pricelists)>0 and pricelists[0]['visible_discount'] and list_price != 0):
+                discount=(list_price-price) / list_price * 100
+                result['price_unit'] = list_price
+                result['discount'] = discount
+            else:
+                result['price_unit'] = price
+                result['discount'] = 0.0
+        return res
 
     def unlink(self, cr, uid, ids, context={}):
         """Allows delete pos orders in draft and cancel states"""

@@ -1,0 +1,87 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_voucher_payment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.7\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-02-14 00:14:09+0000\n"
+"PO-Revision-Date: 2010-02-14 00:14:09+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_voucher_payment
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: account_voucher_payment
+#: selection:account.voucher,transaction_type:0
+msgid "Payment With Check"
+msgstr "Pago con Cheque"
+
+#. module: account_voucher_payment
+#: field:account.voucher,transaction_type:0
+msgid "Type of Transaction', "
+msgstr "Tipo de Transaction"
+
+#. module: account_voucher_payment
+#: selection:account.voucher,transaction_type:0
+msgid "Mix Deposit Check + Cash"
+msgstr "Depósito Mixto Cheque + Efectivo"
+
+#. module: account_voucher_payment
+#: selection:account.voucher,transaction_type:0
+msgid "Deposit in  Check"
+msgstr "Depósito en Cheque"
+
+#. module: account_voucher_payment
+#: view:account.voucher:0
+#: field:account.voucher,voucher_line_ids:0
+msgid "Voucher Lines"
+msgstr "Líneas de comprobante"
+
+#. module: account_voucher_payment
+#: model:ir.module.module,description:account_voucher_payment.module_meta_information
+msgid "\n"
+"    This module includes :\n"
+"    * It reconcile the invoice (supplier, customer) while paying through Accounting Vouchers\n"
+"    A Voucher, is defined like some document that involve a banking transaction.\n"
+"    the Objective, is, one time the credit and collection people load some payment on the system, every voucher"
+"    Loaded on system should be reconcilied with a bank statment by Accounting people."
+msgstr "Este módulo incluye : \n"
+"reconciliacion de las faturas (Clientes y proveedores) mientras se paga a través de un comprobante contable"
+"Un Comprobante es definido como cualquier documento que involucra una transacción bancaria"
+"El objetivo principal es que cada pago cargado en el sistema por la gente de crédito y cobranza "
+"pueda ser reconciliado con los extractos bancarios por la gente de contablidad"
+#. module: account_voucher_payment
+#: selection:account.voucher,transaction_type:0
+msgid "Other"
+msgstr "Otro"
+
+#. module: account_voucher_payment
+    #: selection:account.voucher,transaction_type:0
+msgid "Wire Tranfer"
+msgstr "Transferencia Bancaria"
+
+#. module: account_voucher_payment
+#: field:account.move.line,voucher_invoice:0
+#: field:account.voucher.line,invoice_id:0
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: account_voucher_payment
+#: model:ir.module.module,shortdesc:account_voucher_payment.module_meta_information
+msgid "Invoice Payment/Receipt by Vouchers."
+msgstr "Facturas pagadas/recibidas por comprobantes"
+
+#. module: account_voucher_payment
+#: selection:account.voucher,transaction_type:0
+msgid "Deposit in Cash"
+msgstr "Depósito en Efectivo"
+

@@ -82,7 +82,7 @@ class wiz_validate_budget_structure(wizard.interface):
         self.cr = cr
         
         sql_filters =     self._get_sql_filters(data['form']['company'], data['form']['account_type'][0][2])
-        sql_filters_aa2 = self._get_sql_filters(data['form']['company'], data['form']['account_type'][0][2], 'aa2')
+        sql_filters_aa2 = self._get_sql_filters(data['form']['company'], data['form']['account_type'][0][2], 'aa')
         
         root_id = data['ids'][0]
         
@@ -214,10 +214,8 @@ class wiz_validate_budget_structure(wizard.interface):
         """ return all account that do not have parents """
         
         query = """ SELECT distinct(aa.id)
-                    FROM account_account aa LEFT OUTER JOIN account_account_rel rel ON (aa.id = rel.child_id)
-                    WHERE rel.child_id IS NULL
-                    AND aa.active
-                    %s """ % sql_filters
+                    FROM account_account aa 
+                    WHERE aa.active %s """ % sql_filters
         self.cr.execute(query)
         
         result = map(lambda x: x[0], self.cr.fetchall())
@@ -235,12 +233,8 @@ class wiz_validate_budget_structure(wizard.interface):
 
         #build a dictionnary {parent_id -> [children_ids]}
         children_ids =  {}
-        query = """SELECT rel.child_id, rel.parent_id
-           FROM account_account_rel rel, account_account aa, account_account aa2
-           WHERE rel.parent_id = aa.id
-           AND rel.child_id = aa2.id
-           AND aa.active 
-           AND aa2.active %s """ % (sql_filter)
+        query = """SELECT aa.id, aa.parent_id
+           FROM account_account aa WHERE aa.active %s """ % (sql_filter)    
            
         self.cr.execute(query)
         for i in self.cr.fetchall():

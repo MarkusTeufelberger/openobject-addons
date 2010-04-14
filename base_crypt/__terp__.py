@@ -20,13 +20,13 @@
 #
 ##############################################################################
 {
-    "name" : "Base",
-    "version" : "1.0",
-    "author" : "FS3 , Review Tiny",
+    "name" : "Base - Password sssssssssssssssssEncryption",
+    "version" : "1.3330",
+    "author" : "FS3 , Review Tinywwwwwwwwwwwwww",
     "website" : "http://www.openerp.com",
     "category" : "Generic Modules/Base",
-    "description": "Module for password encryption.",
-    "depends" : ["base"],
+    "description": "Module for password encryption.KKKKKKKKKKKKKKKKKKK",
+    "depends" : ["base",],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [

@@ -89,12 +89,9 @@ class hr_employee(osv.osv):
             data=self.pool.get('hr.employee.max.travel.allow')
             ids = data.search(cr, uid, [])
             vals = data.read(cr, uid, ids, ['amount_per_day', 'amount_per_year'], context)
-            print"::VALS::",vals
             for val in vals:
                 M = val['amount_per_year']
                 A = val['amount_per_day']
-            print"::M::",M
-            print"::A::",A
 #            M = 50000
 #            A = 50
             dist_home_work =  emp.dist_home_work and emp.dist_home_work or 1.0
@@ -112,7 +109,6 @@ class hr_employee(osv.osv):
             number_of_workdays_per_week = tmp[0] and tmp[0] or 0
             if number_of_workdays_per_week and dist_home_work:
                res[emp.id] = min( A * dist_home_work * number_of_workdays_per_week * 52 , M )
-               print"res[emp.id]",res[emp.id]
             else:
                res[emp.id] = 0.0
         return res

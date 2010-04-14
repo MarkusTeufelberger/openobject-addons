@@ -26,6 +26,7 @@ from copy import deepcopy
 from mx import DateTime
 import time
 import datetime
+from tools.translate import _
 
 class hr_holidays_note(osv.osv):
     _name='hr.holidays.note'

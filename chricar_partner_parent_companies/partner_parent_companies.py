@@ -13,6 +13,15 @@ import pooler
 
 class res_partner_parent_company(osv.osv):
      _name = "res.partner.parent_company"
+
+     def _children_ids(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for line in self.browse(cr, uid, ids, context=context):
+           if line.partner_id.participation_ids:
+             for participation in line.partner_id.participation_ids:
+               res += participation.id
+        return res
+
      _columns = {
        'name'               : fields.float   ('Share',digits=(16,2),required=True),
        'percentage'         : fields.float   ('Percentage',digits=(9,6)),
@@ -28,6 +37,8 @@ class res_partner_parent_company(osv.osv):
        'comment'            : fields.text    ('Notes'),
        'active'             : fields.boolean ('Active'),
        'state'              : fields.char    ('State', size=16),
+       'children_ids'       : fields.function(_children_ids, method=True, string='Children'),
+       #'children_ids'       :fields.one2many('res.partner.parent_company','parent_id','Children Items'),
      }
      _defaults = {
        'active': lambda *a: True,

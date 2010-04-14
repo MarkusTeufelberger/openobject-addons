@@ -23,6 +23,8 @@
 
 import pooler
 import wizard
+from tools.translate import _
+
 
 _import_done_form = '''<?xml version="1.0" encoding="utf-8"?>
 <form title="Sale orders import">

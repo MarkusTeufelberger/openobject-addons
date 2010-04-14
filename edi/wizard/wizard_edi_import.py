@@ -216,9 +216,9 @@ class sale_order:
             self.partner_invoice_id = self.partner_id
         if not hasattr(self, 'partner_shipping_id'):
             self.partner_shipping_id = self.partner_invoice_id
-        partner = pooler.get_pool(cr.dbname).get('res.partner').browse(self.cr, self.uid, self.partner)
+        partner = pooler.get_pool(self.cr.dbname).get('res.partner').browse(self.cr, self.uid, self.partner)
         # Fiscal position for partner is added at the time if sale.order create, should be check..
-        order_id = pooler.get_pool(cr.dbname).get('sale.order').create(self.cr, self.uid, { 'partner_id': self.partner_id,
+        order_id = pooler.get_pool(self.cr.dbname).get('sale.order').create(self.cr, self.uid, { 'partner_id': self.partner_id,
                                                                                 'partner_order_id': self.partner_order_id,
                                                                                 'partner_invoice_id': self.partner_invoice_id,
                                                                                 'partner_shipping_id': self.partner_shipping_id,
@@ -246,13 +246,13 @@ class sale_order:
         self.timestamp_edi="%s%s" % (line_content["date"], line_content["time"])
         self.sr['sender'] = line_content['sender']
 
-        partners=pooler.get_pool(cr.dbname).get('res.partner').search(self.cr, self.uid, [('ean13','=',line_content["receiver"]),])
+        partners=pooler.get_pool(self.cr.dbname).get('res.partner').search(self.cr, self.uid, [('ean13','=',line_content["receiver"]),])
         if len(partners) != 1:
             status.add_error("unknown receiver: %s" % line_content["receiver"], self.ordernum, self.timestamp_edi, self.sr['sender'])
         else:
             self.sr['receiver']=partners[0]
-            thisadd=pooler.get_pool(cr.dbname).get('res.users').read(self.cr, self.uid, [self.uid], ['address_id'])[0]['address_id'][0]
-            partner=pooler.get_pool(cr.dbname).get('res.partner.address').read(self.cr, self.uid, [thisadd], ['partner_id'])[0]['partner_id'][0]
+            thisadd=pooler.get_pool(self.cr.dbname).get('res.users').read(self.cr, self.uid, [self.uid], ['address_id'])[0]['address_id'][0]
+            partner=pooler.get_pool(self.cr.dbname).get('res.partner.address').read(self.cr, self.uid, [thisadd], ['partner_id'])[0]['partner_id'][0]
             if not partner or partner!=self.sr['receiver']:
                 status.add_error("This message is not for us (%s)" % line_content["receiver"], self.ordernum, self.timestamp_edi, self.sr['sender'])
 
@@ -271,50 +271,50 @@ class sale_order:
             status.add_error("%s (order date) is after %s (delivery date)" % (self.orderdate,self.deliverdate), self.ordernum, self.timestamp_edi, self.sr['sender'])
 
     def _parse_HPTY(self, line_content, status):
-        partner_table = pooler.get_pool(cr.dbname).get('res.partner')
+        partner_table = pooler.get_pool(self.cr.dbname).get('res.partner')
 
         partners = partner_table.search(self.cr, self.uid, [('ean13', '=', line_content['partner-code'])])
         if partners and len(partners) == 1:
-            default_addresses = pooler.get_pool(cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id', '=', partners[0]), ('type', 'ilike', 'default')])
+            default_addresses = pooler.get_pool(self.cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id', '=', partners[0]), ('type', 'ilike', 'default')])
             if not default_addresses:
-                default_addresses = pooler.get_pool(cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id', '=', partners[0]), ('type', 'ilike', '')])
+                default_addresses = pooler.get_pool(self.cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id', '=', partners[0]), ('type', 'ilike', '')])
             if not default_addresses:
-                default_addresses = pooler.get_pool(cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id', '=', partners[0])])
+                default_addresses = pooler.get_pool(self.cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id', '=', partners[0])])
             self.hpty_dispatchers[line_content['partner-type']](self, partners[0], default_addresses, line_content, status)
         else:
             status.add_error("unknown %s: %s" % (line_content["partner-type"], line_content["partner-code"]), self.ordernum, self.timestamp_edi, self.sr['sender'])
 
     def _parse_HPTYBY(self, partner, default_addresses, line_content, status):
-        partner_table = pooler.get_pool(cr.dbname).get('res.partner')
+        partner_table = pooler.get_pool(self.cr.dbname).get('res.partner')
 
         self.sr['sender'] = partner
         self.partner_id = partner
         self.partner_order_id = default_addresses[0]
         self.pricelist_id = ir.ir_get(self.cr, self.uid, 'meta', 'product.pricelist', [('res.partner', self.partner_id)])[0][2]
-        orders=pooler.get_pool(cr.dbname).get("sale.order").search(self.cr, self.uid, [('client_order_ref', 'ilike', self.ordernum), ('partner_order_id',"=",self.partner_order_id)])
+        orders=pooler.get_pool(self.cr.dbname).get("sale.order").search(self.cr, self.uid, [('client_order_ref', 'ilike', self.ordernum), ('partner_order_id',"=",self.partner_order_id)])
         if orders and len(orders)>0:
             status.add_warning("This client order reference (%s) already exists for this client" % self.ordernum, self.ordernum, self.timestamp_edi, self.sr['sender'])
 
     def _parse_HPTYSU(self, partner, default_addresses, line_content, status):
-        partner_table = pooler.get_pool(cr.dbname).get('res.partner')
+        partner_table = pooler.get_pool(self.cr.dbname).get('res.partner')
         if not (partner_table._is_related_to(self.cr, self.uid, [partner], self.sr['receiver'])[0] or self.sr['receiver'] == partner):
             status.add_error("unknown %s: %s" % (line_content["partner-type"], line_content["partner-code"]), self.ordernum, self.timestamp_edi, self.sr['sender'])
 
     def _parse_HPTYDP(self, partner, default_addresses, line_content, status):
-        shipping_addresses=pooler.get_pool(cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id','=',partner), ('type', 'ilike', 'delivery')])
+        shipping_addresses=pooler.get_pool(self.cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id','=',partner), ('type', 'ilike', 'delivery')])
         if len(shipping_addresses) < 1:
             self.partner_shipping_id=default_addresses[0]
         else:
             self.partner_shipping_id=shipping_addresses[0]
 
-        invoice_addresses=pooler.get_pool(cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id','=',partner), ('type', 'ilike', 'invoice')])
+        invoice_addresses=pooler.get_pool(self.cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id','=',partner), ('type', 'ilike', 'invoice')])
         if len(invoice_addresses) < 1:
             self.partner_invoice_id=default_addresses[0]
         else:
             self.partner_invoice_id=invoice_addresses[0]
 
     def _parse_HPTYIV(self, partner, default_addresses, line_content, status):
-        invoice_addresses=pooler.get_pool(cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id','=',partner), ('type', 'ilike', 'invoice')])
+        invoice_addresses=pooler.get_pool(self.cr.dbname).get('res.partner.address').search(self.cr, self.uid, [('partner_id','=',partner), ('type', 'ilike', 'invoice')])
         if len(invoice_addresses) < 1:
             self.partner_invoice_id=default_addresses[0]
         else:
@@ -326,7 +326,7 @@ class sale_order:
         self.note+=line_content['text']+'\n'
 
     def _parse_DART(self, line_content, status):
-        products=pooler.get_pool(cr.dbname).get('product.product').search(self.cr, self.uid, [('ean13','=',line_content["barcode"]),])
+        products=pooler.get_pool(self.cr.dbname).get('product.product').search(self.cr, self.uid, [('ean13','=',line_content["barcode"]),])
         #sale_order_line_o=sale_order_line(self.cr, self.uid, self.deliverdate, self.partner_invoice_id, status)
         sale_order_line_o=sale_order_line(self.cr, self.uid, self, self.deliverdate)
         if len(products) != 1:
@@ -338,7 +338,7 @@ class sale_order:
         if (line_content["unit21"]==''):
             status.add_warning("Using default Unit Of Measure", self.ordernum, self.timestamp_edi, self.sr['sender'])
         else:
-            uoms=pooler.get_pool(cr.dbname).get('product.uom').search(self.cr, self.uid, [('name', 'ilike', line_content["unit21"]),])
+            uoms=pooler.get_pool(self.cr.dbname).get('product.uom').search(self.cr, self.uid, [('name', 'ilike', line_content["unit21"]),])
             if len(uoms) != 1:
                 status.add_error("unknown uom: %s" % line_content["unit21"], self.ordernum, self.timestamp_edi, self.sr['sender'])
                 return
@@ -354,11 +354,11 @@ class sale_order:
         else:
             partner=sale_order_line_o.partner
         pricelist_id = ir.ir_get(self.cr, self.uid, 'meta', 'product.pricelist', [('res.partner', partner)])[0][2]
-        sale_order_line_o.price = pooler.get_pool(cr.dbname).get('product.pricelist').price_get(self.cr, self.uid, [pricelist_id], sale_order_line_o.product, sale_order_line_o.quantity)[pricelist_id]
+        sale_order_line_o.price = pooler.get_pool(self.cr.dbname).get('product.pricelist').price_get(self.cr, self.uid, [pricelist_id], sale_order_line_o.product, sale_order_line_o.quantity)[pricelist_id]
         sale_order_line_o.pricelist_id=pricelist_id
         if float(line_content["price"])!=sale_order_line_o.price:
             status.add_warning("Price from EDI (%s) different from what we have (%s) for product %s" % (str(float(line_content["price"])), sale_order_line_o.price, line_content["barcode"]), self.ordernum, self.timestamp_edi, self.sr['sender'])
-        product_infos = pooler.get_pool(cr.dbname).get('product.product').read(self.cr, self.uid, [sale_order_line_o.product])[0]
+        product_infos = pooler.get_pool(self.cr.dbname).get('product.product').read(self.cr, self.uid, [sale_order_line_o.product])[0]
         if line_content['price-unit']=="":
             status.add_warning("Blank Unit Of Price for product %s should be %s" % (line_content['barcode'], product_infos['uos_id'][1]), self.ordernum, self.timestamp_edi, self.sr['sender'])
             sale_order_line_o.price_unit= product_infos['uos_id'][0]
@@ -379,7 +379,7 @@ class sale_order:
             status.add_error("no DART line parsed before this DPTY line", self.ordernum, self.timestamp_edi, self.sr['sender'])
         else:
             sale_order_line_o = self.order_lines[len(self.order_lines)-1]
-            partners=pooler.get_pool(cr.dbname).get('res.partner').search(self.cr, self.uid, [('ean13','=',line_content["shop-barcode"]),])
+            partners=pooler.get_pool(self.cr.dbname).get('res.partner').search(self.cr, self.uid, [('ean13','=',line_content["shop-barcode"]),])
             if len(partners) != 1:
                 status.add_error("unknown address: %s" % line_content["shop-barcode"], self.ordernum, self.timestamp_edi, self.sr['sender'])
             elif not _child_of_partner(self.cr, self.uid, partners[0], self.sr['sender']):
@@ -432,7 +432,7 @@ class sale_order_line:
 
         #print "PriceList: %s, product: %s, quantity: %s " % (self.pricelist_id, self.product, self.quantity)
         try:
-            dico=pooler.get_pool(cr.dbname).get('sale.order.line').product_id_change(self.cr, self.uid, [], self.pricelist_id, self.product, int(float(self.quantity)))
+            dico=pooler.get_pool(self.cr.dbname).get('sale.order.line').product_id_change(self.cr, self.uid, [], self.pricelist_id, self.product, int(float(self.quantity)))
             self.insertdict.update({'product_uos_qty': dico['value']['product_uos_qty'], 'product_uos': dico['value']['product_uos'][0], 'price_unit': dico['value']['price_unit']})
         except:
             status.add_error('No price defined for product %s, line ommited !' % (self.product_ean,), self.sale_order.ordernum, self.sale_order.timestamp_edi, self.sale_order.sr['sender'])
@@ -463,10 +463,10 @@ class sale_order_line:
         if hasattr(self, 'uom'):
             insertdict['product_uom'] = self.uom
         else:
-            insertdict['product_uom'], desc = pooler.get_pool(cr.dbname).get('product.product').read(self.cr, self.uid, [self.product], ['uom_id'])[0]['uom_id']
+            insertdict['product_uom'], desc = pooler.get_pool(self.cr.dbname).get('product.product').read(self.cr, self.uid, [self.product], ['uom_id'])[0]['uom_id']
         if hasattr(self, 'deliv_date'):
             insertdict['date_planned'] = self.deliv_date
-        id=pooler.get_pool(cr.dbname).get('sale.order.line').create(self.cr, self.uid, insertdict)
+        id=pooler.get_pool(self.cr.dbname).get('sale.order.line').create(self.cr, self.uid, insertdict)
         return id
 
 class edi_status:
