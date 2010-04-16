@@ -121,6 +121,9 @@
 	                <field name='account_asset_id'/>
 	                <field name="account_expense_id"/>
 	                <field name="account_actif_id"/>
+	                <field name="account_residual_id"/>
+	                <field name="account_impairment_id"/>
+	                <field name="account_abandon_id"/>
 	                <field name="journal_id"/>
 	                <field name="journal_analytic_id"/>
 	                <field name="account_analytic_id"/>
@@ -306,12 +309,10 @@
 		    </group>
                     <field name="method_ids" colspan="4" nolabel="1" mode="form,tree">
                         <form string="Depreciation Methods">
-			    <group colspan = "4" col = "6" >
-                            	<field name="method_type" select="1" colspan = "2" on_change = "onchange_take_defaults(method_type, name, parent.code, parent.name, parent.category_id )"/>
-                            	<field name="name" select="1" colspan = "3"/>
-			    	<field name="value_total"/>
-	                    	<field name="value_residual"/>
-	                        <field name="state" readonly="1"/>
+			    <group colspan = "4" col = "8" >
+                            	<field name="method_type" select="1" on_change = "onchange_take_defaults(method_type, name, parent.code, parent.name, parent.category_id )"/>
+                            	<field name="name" select="1" colspan = "4"/>
+	                        <field name="state" readonly="1" />
 			    </group>
                             <!--  <separator string="Methods" colspan="4"/>  -->
                             <notebook colspan="4">
@@ -329,8 +330,13 @@
                                 	<!-- <field name="method_end"/> -->
 				</group>
 				<group colspan = "1" col="2">
+				    	<field name="value_total"/>
+		                    	<field name="value_residual"/>
+
                                 	<button name="%(wizard_asset_modify)d" states="open" string="Change Parameters" type="action" />
 	                                <button name="%(wizard_asset_close)d" states="open" string="Close Method" type="action"/>
+	                                <button name="%(wizard_asset_reval)d" states="open" string="Revaluate Method" type="action"/>
+	                                <button name="%(wizard_asset_abandon)d" states="open" string="Abandon Method" type="action"/>
 	                                <button name="validate" states="draft" string="Confirm Method" type="object"/>
 				</group>
                             </page>
@@ -340,8 +346,8 @@
 	       	                        <field name="account_asset_id"/>
 	       	                        <field name="account_expense_id"/>
         	                        <field name="account_actif_id"/>
-        	                        <field name="journal_id"/>
         	                        <field name="account_residual_id"/>
+        	                        <field name="journal_id"/>
 				</group>
 				<group colspan = "2" col="2">
         	                        <field name="journal_analytic_id"/>
@@ -369,10 +375,15 @@
 -->
                 </page>
 		<page string="Other Information">
-                    <field name="date" select="2"/>
-                    <field name="sequence"/>
-                    <field name="partner_id" select="2"/>
-                    <field name="localisation" select="2"/>
+			<group colspan = "1" col="2">
+                	    	<field name="date" select="2"/>
+			    	<field name="sequence"/>
+			</group>
+			<group colspan = "1" col="2">
+                    		<field name="partner_id" select="2"/>
+                    		<field name="localisation" select="2"/>
+               	    		<button name="%(wizard_asset_localisation)d" states="normal" string="Change Localisation" type="action" colspan = "2" />
+			</group>
 <!--                    <field name="parent_id" select="2"/>   -->
                     <field name="note" colspan="4" nolabel="1"/>
                 </page>
@@ -438,6 +449,7 @@
 <!--        <field name="field_parent">child_ids</field>  -->
         <field name="arch" type="xml">
             <tree string="Assets">
+                <field name="sequence"/>
                 <field name="category_id"/>
                 <field name="date"/>
                 <field name="name"/>

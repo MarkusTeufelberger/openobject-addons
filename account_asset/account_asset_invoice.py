@@ -58,13 +58,18 @@ class account_invoice_line(osv.osv):
             type = "sale"
         if line.asset_method_id:
             res['asset_method_id'] = line.asset_method_id.id
-            if not line.asset_method_id.asset_id.date:
-                self.pool.get('account.asset.asset').write(cr, uid, [line.asset_method_id.asset_id.id], {
-                    'date': line.invoice_id.date_invoice,
-                    'partner_id': line.invoice_id.partner_id.id,
-                }, context)                    
-            if line.asset_method_id.state=='draft':
-                self.pool.get('account.asset.method').validate(cr, uid, [line.asset_method_id.id], context)
+            if type in ["purchase","refund"]:
+                if not line.asset_method_id.asset_id.date:
+                    self.pool.get('account.asset.asset').write(cr, uid, [line.asset_method_id.asset_id.id], {
+                        'date': line.invoice_id.date_invoice,
+                        'partner_id': line.invoice_id.partner_id.id,
+                    }, context)                    
+                if line.asset_method_id.state=='draft':
+                    self.pool.get('account.asset.method').validate(cr, uid, [line.asset_method_id.id], context)
+            elif type == "sale":
+                method_obj = self.pool.get('account.asset.method')
+                method_obj._close(cr, uid, [line.asset_method_id.id], context)
+                
             self.pool.get('account.asset.history').create(cr, uid, {
                 'type': type,
                 'asset_method_id': line.asset_method_id.id,
@@ -73,14 +78,16 @@ class account_invoice_line(osv.osv):
                 'partner_id': line.invoice_id.partner_id.id,
                 'invoice_id': line.invoice_id.id,
                 'note': "Product name: " + line.product_id.name + ' ['+line.product_id.code+"]\nInvoice date: "+line.invoice_id.date_invoice,
-                }, context)
+            }, context)
+
+                
         else:
             res['asset_method_id'] = False
         return res
 
-    def asset_method_id_change(self, cr, uid, ids, asset_method_id,context={}):
+    def asset_method_id_change(self, cr, uid, ids, asset_method_id, type, context={}):
         result = {}
-        if asset_method_id:
+        if asset_method_id and type in ["in_invoice","in_refund"]:
             result['account_id'] = self.pool.get('account.asset.method').browse(cr, uid, asset_method_id,{}).account_asset_id.id
         return {'value': result}
         

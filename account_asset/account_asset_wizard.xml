@@ -29,5 +29,24 @@
 			name="account.asset.close"
 			id="wizard_asset_close"
 			menu="False"/>
+		<wizard
+			string="Change Localisation"
+			model="account.asset.asset"
+			name="account.asset.localisation"
+			id="wizard_asset_localisation"
+			menu="False"/>
+		<wizard
+			string="Revaluate"
+			model="account.asset.method"
+			name="account.asset.reval"
+			id="wizard_asset_reval"
+			menu="False"/>
+		<wizard
+			string="Liquidate"
+			model="account.asset.method"
+			name="account.asset.abandon"
+			id="wizard_asset_abandon"
+			menu="False"/>
+
 	</data>
 </openerp>

@@ -23,5 +23,8 @@
 import wizard_asset_compute
 import wizard_asset_close
 import wizard_asset_modify
+import wizard_asset_localisation
+import wizard_asset_reval
+import wizard_asset_abandon
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
