@@ -84,7 +84,7 @@
   <story>
     <para>[[ repeatIn(objects, 'a') ]]</para>
     <section> [[ data['form']['amount_currency'] == True or removeParentNode('section') ]]
-      <blockTable colWidths="66.0,35.0,150.0, 90.0,60.0,335.0,50.0,69.0,72.0,64.0,58.0" style="tbl_header" repeatRows="1">
+      <blockTable colWidths="66.0,35.0,150.0,90.0,60.0,277.0,50.0,69.0,72.0,64.0,58.0,58.0" style="tbl_header" repeatRows="1">
         <tr>
           <td><para style="P12"><font color="white"> </font></para><para style="date">Date</para></td>
           <td><para style="P12"><font color="white"> </font></para><para style="P2">JNRL</para></td>
@@ -97,16 +97,17 @@
           <td><para style="P12"><font color="white"> </font></para><para style="P4">Credit</para></td>
           <td><para style="P12"><font color="white"> </font></para><para style="P4">Balance</para></td>
           <td><para style="P12"><font color="white"> </font></para><para style="P4">Currency</para></td>
+          <td><para style="P12"><font color="white"> </font></para><para style="P4">Cumul. Curr.</para></td>
         </tr>
       </blockTable>
       
       
       <para>[[ repeatIn(get_children_accounts(a,data['form']), 'o') ]]</para>
       
-      <blockTable colWidths="66.0,35.0,150.0, 90.0,60.0,335.0,50.0,69.0,72.0,64.0,58.0" style="tbl_content">
+      <blockTable colWidths="66.0,35.0,150.0, 90.0,60.0,277.0,50.0,69.0,72.0,64.0,58.0,58.0" style="tbl_content">
         <tr>
           <td>
-            <blockTable colWidths="404.0,375.0,69.0,72.0,64.0,59.00" style="Table5">
+            <blockTable colWidths="404.0,315.0,69.0,72.0,64.0,59.00,59.00" style="Table5">
               <tr>
                 <td><para style="Standard">[[helper.reset_total('bal_amount')]][[helper.reset_total('bal_curr_amount')]][[ o.code ]] [[ o.name ]]</para></td>
                 <td><para style="Standard"></para></td>
@@ -114,9 +115,11 @@
                 <td alignment="right"><para style="P9b"><u>[[ formatLang(sum_credit_account(o, data['form'])) ]]</u></para></td>
                 <td><para style="P9b"><u>[[ formatLang(sum_solde_account(o, data['form'])) ]]</u></para></td>
                 <td><para style="P9b"><u> [[ formatLang(sum_currency_amount_account(o, data['form'])) ]]</u></para></td>
+                <td><para style="P9b"><u> [[ formatLang(sum_currency_amount_account(o, data['form'])) ]]</u></para></td>
               </tr>
             </blockTable>
           </td>
+          <td><para style="Standard"></para></td>
           <td><para style="Standard"></para></td>
           <td><para style="Standard"></para></td>
           <td><para style="Standard"></para></td>
@@ -139,6 +142,7 @@
           <td><para style="P4_content">[[ formatLang(line['debit']) ]]</para></td>
           <td><para style="P4_content">[[ formatLang(line['credit']) ]]</para></td>
           <td><para style="P4_content">[[helper.incr_total('bal_amount',line['progress'])]][[ formatLang(helper.get_total('bal_amount')) ]]</para></td>
+          <td><para style="P4_content">[[ formatLang(line['amount_currency'] or 0.00)]] [[ line['currency_code'] ]]</para></td>
           <td><para style="P4_content">[[o.currency_id and removeParentNode('td') or '']][[ formatLang(line['amount_currency'] or 0.00)]] [[ line['currency_code'] ]]</para></td>
           <td><para style="P4_content">[[(o.currency_id or removeParentNode('td')) and '']][[helper.incr_total('bal_curr_amount',line['amount_currency'])]][[ formatLang(helper.get_total('bal_curr_amount'))]] [[ line['currency_code'] ]]</para></td>
         </tr>
