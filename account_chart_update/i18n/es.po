@@ -1,0 +1,369 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* account_chart_update
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.7\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-03-26 12:06+0000\n"
+"PO-Revision-Date: 2010-04-15 10:28+0000\n"
+"Last-Translator: Jordi Esteve - http://www.zikzakmedia.com "
+"<jesteve@zikzakmedia.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-04-16 04:03+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: account_chart_update
+#: constraint:ir.model:0
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+"¡El objeto debe empezar con  x_ y no puede contener ningún carácter especial!"
+
+#. module: account_chart_update
+#: model:ir.module.module,description:account_chart_update.module_meta_information
+msgid ""
+"\n"
+"Adds a wizard to update a company account chart from a template:\n"
+"  * Generates the new accounts from the template and assigns them to the "
+"right company\n"
+"  * Generates the new taxes and tax codes, changing account assignations\n"
+"  * Generates the new fiscal positions, changing account and taxes "
+"assignations\n"
+"\n"
+"Before creating the new accounts, taxes, tax codes and fiscal positions, the "
+"user can select\n"
+"which ones must be created.\n"
+"\n"
+"The user can also choose to update the existing accounts, taxes, tax codes "
+"and fiscal positions\n"
+"from a template.\n"
+"\n"
+"The problems occurred during the creation/updating of the account chart are "
+"shown in the last step.\n"
+"\n"
+"It is useful when the account law has changed and you want to transfer the "
+"new accounts, taxes and\n"
+"fiscal positions included in the account chart template to an existing "
+"company account chart.\n"
+"\n"
+"Note: Due to the memory limitation of the osv_memory OpenERP objects, only a "
+"maximum number of \n"
+"objects can be created each time. If a lot of new accounts, taxes, tax codes "
+"or fiscal positions\n"
+"must be created, the wizard should be run several times.\n"
+msgstr ""
+"\n"
+"Añade un asistente para actualizar el plan contable de una compañía a partir "
+"de una plantilla:\n"
+" * Genera nuevas cuentas contables a partir de la plantilla asignándoles la "
+"compañía correspondiente.\n"
+" * Genera nuevos impuestos y códigos de impuesto, cambiando las asignaciones "
+"de cuentas contables.\n"
+" * Genera nuevas posiciones fiscales, cambiando las asignaciones de cuentas "
+"contables e impuestos.\n"
+"\n"
+"Antes de crear las nuevas cuentas, impuestos y códigos de impuestos, el "
+"usuario puede seleccionar\n"
+"cuáles serán creados.\n"
+"\n"
+"El usuario puede seleccionar la actualización de las cuentas, impuestos, "
+"códigos de impuesto y\n"
+"posiciones fiscales existentes a partir de la plantilla.\n"
+"\n"
+"Los problemas que aparezcan durante la creación y actualización del plan "
+"contable se muestran en el último paso.\n"
+"\n"
+"Este módulo es útil cuando la ley fiscal ha cambiado y quiere transferir las "
+"nuevas cuentas, impuestos y\n"
+"posiciones fiscales incluidas en la plantilla de plan contable hacia un plan "
+"contable existente de una compañía.\n"
+"\n"
+"Nota: Debido la limitación de memoria de los objetos osv_memory de OpenERP, "
+"sólo un nombre máximo\n"
+"de objetos pueden ser creados cada vez. Si debe crear un nombre elevado de "
+"cuentas, impuestos, códigos\n"
+"de impuesto y posiciones fiscales, deberá ejecutar este asistente varias "
+"veces.\n"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,update_tax_code:0
+msgid "Update tax codes"
+msgstr "Actualizar códigos de impuestos"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid "Create/Update"
+msgstr "Crear/Actualizar"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid "Next"
+msgstr "Siguiente"
+
+#. module: account_chart_update
+#: model:ir.actions.act_window,name:account_chart_update.action_wizard_update_chart
+#: model:ir.ui.menu,name:account_chart_update.menu_wizard
+#: view:wizard.update.charts.accounts:0
+msgid "Update Chart of Accounts from a Chart Template"
+msgstr "Actualizar plan contable a partir de una plantilla de plan contable"
+
+#. module: account_chart_update
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo inválido en la definición de acción."
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,chart_template_id:0
+msgid "Chart Template"
+msgstr "Plantilla plan contable"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid "Update of account chart objects"
+msgstr "Actualización de entidades del plan contable"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+#: field:wizard.update.charts.accounts,tax_code_ids:0
+#: field:wizard.update.charts.accounts.tax.code,tax_code_id:0
+msgid "Tax codes"
+msgstr "Códigos de impuestos"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,state:0
+msgid "Status"
+msgstr "Estado"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid "Existing records are updated? (by default only new ones are created)"
+msgstr ""
+"¿Los registros existentes se actualizarán? (por defecto sólo los nuevos se "
+"crearán)"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid "Creation of account chart objects"
+msgstr "Creación de entidades del plan contable"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,new_tax_code:0
+msgid "Create - Tax codes"
+msgstr "Crear - Códigos de impuestos"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid "Generate Chart of Accounts from a Chart Template"
+msgstr "Generar cuentas contables a partir de una plantilla de plan contable"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: account_chart_update
+#: help:wizard.update.charts.accounts,code_digits:0
+msgid ""
+"No. of Digits to use for account code. Make sure it is the same number as "
+"existing accounts."
+msgstr ""
+"Número de dígitos para utilizar en el código de cuenta. Asegúrese que sea el "
+"mismo número de dígitos que el de las cuentas existentes."
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,new_fp:0
+msgid "Create - Fiscal positions"
+msgstr "Crear - Posiciones fiscales"
+
+#. module: account_chart_update
+#: selection:wizard.update.charts.accounts,state:0
+msgid "Step 1"
+msgstr "Paso 1"
+
+#. module: account_chart_update
+#: help:wizard.update.charts.accounts,update_account:0
+msgid "Existing accounts are updated. Accounts are searched by code."
+msgstr ""
+"Las cuentas contables existentes serán actualizadas. Las cuentas se buscarán "
+"por código."
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,updated_account:0
+msgid "Update - Accounts"
+msgstr "Actualizar - Cuentas"
+
+#. module: account_chart_update
+#: help:wizard.update.charts.accounts,update_fiscal_position:0
+msgid ""
+"Existing fiscal positions are updated. Fiscal positions are searched by name."
+msgstr ""
+"Las posiciones fiscales existentes serán actualizadas. Las posiciones "
+"fiscales se buscarán por nombre."
+
+#. module: account_chart_update
+#: selection:wizard.update.charts.accounts,state:0
+msgid "Step 2"
+msgstr "Paso 2"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,update_tax:0
+msgid "Update taxes"
+msgstr "Actualizar impuestos"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,new_account:0
+msgid "Create - Accounts"
+msgstr "Crear - Cuentas"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,new_tax:0
+msgid "Create - Taxes"
+msgstr "Crear - Impuestos"
+
+#. module: account_chart_update
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la estructura de la vista!"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,updated_tax:0
+msgid "Update - Taxes"
+msgstr "Actualizar - Impuestos"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid "Ok"
+msgstr "Aceptar"
+
+#. module: account_chart_update
+#: model:ir.model,name:account_chart_update.model_wizard_update_charts_accounts_tax_code
+msgid "wizard.update.charts.accounts.tax.code"
+msgstr "wizard.update.charts.accounts.tax.code"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts.account,update_chart_wizard_id:0
+#: field:wizard.update.charts.accounts.fiscal.position,update_chart_wizard_id:0
+#: field:wizard.update.charts.accounts.tax,update_chart_wizard_id:0
+#: field:wizard.update.charts.accounts.tax.code,update_chart_wizard_id:0
+msgid "Update chart wizard"
+msgstr "Asistente para actualizar el plan contable"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,updated_fp:0
+msgid "Update - Fiscal positions"
+msgstr "Actualizar - Posiciones fiscales"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+#: field:wizard.update.charts.accounts,tax_ids:0
+#: field:wizard.update.charts.accounts.tax,tax_id:0
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,code_digits:0
+msgid "# of Digits"
+msgstr "Núm. de dígitos"
+
+#. module: account_chart_update
+#: selection:wizard.update.charts.accounts,state:0
+msgid "Wizard Complete"
+msgstr "Asistente completado"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,update_account:0
+msgid "Update accounts"
+msgstr "Actualizar cuentas"
+
+#. module: account_chart_update
+#: model:ir.module.module,shortdesc:account_chart_update.module_meta_information
+msgid "Update account chart from template"
+msgstr "Actualizar plan contable a partir de una plantilla"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid ""
+"This will automatically updates your chart of accounts, taxes and fiscal "
+"positions according to the selected template"
+msgstr ""
+"Actualizará automáticamente sus cuentas contables, impuestos y posiciones "
+"fiscales a partir de la plantilla seleccionada."
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,update_fiscal_position:0
+msgid "Update fiscal positions"
+msgstr "Actualizar posiciones fiscales"
+
+#. module: account_chart_update
+#: model:ir.model,name:account_chart_update.model_wizard_update_charts_accounts_fiscal_position
+msgid "wizard.update.charts.accounts.fiscal.position"
+msgstr "wizard.update.charts.accounts.fiscal.position"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+#: field:wizard.update.charts.accounts,logs:0
+msgid "Logs"
+msgstr "Incidencias"
+
+#. module: account_chart_update
+#: field:wizard.update.charts.accounts,updated_tax_code:0
+msgid "Update - Tax codes"
+msgstr "Actualizar - Códigos de impuestos"
+
+#. module: account_chart_update
+#: model:ir.model,name:account_chart_update.model_wizard_update_charts_accounts
+msgid "wizard.update.charts.accounts"
+msgstr "wizard.update.charts.accounts"
+
+#. module: account_chart_update
+#: model:ir.model,name:account_chart_update.model_wizard_update_charts_accounts_tax
+msgid "wizard.update.charts.accounts.tax"
+msgstr "wizard.update.charts.accounts.tax"
+
+#. module: account_chart_update
+#: model:ir.model,name:account_chart_update.model_wizard_update_charts_accounts_account
+msgid "wizard.update.charts.accounts.account"
+msgstr "wizard.update.charts.accounts.account"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+#: field:wizard.update.charts.accounts,fiscal_position_ids:0
+#: field:wizard.update.charts.accounts.fiscal.position,fiscal_position_id:0
+msgid "Fiscal positions"
+msgstr "Posiciones fiscales"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+#: field:wizard.update.charts.accounts,account_ids:0
+#: field:wizard.update.charts.accounts.account,account_id:0
+msgid "Accounts"
+msgstr "Cuentas"
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: account_chart_update
+#: help:wizard.update.charts.accounts,update_tax_code:0
+msgid "Existing tax codes are updated. Tax codes are searched by name."
+msgstr ""
+"Los códigos de impuestos existentes serán actualizados. Los códigos de "
+"impuestos se buscarán por nombre."
+
+#. module: account_chart_update
+#: help:wizard.update.charts.accounts,update_tax:0
+msgid "Existing taxes are updated. Taxes are searched by name."
+msgstr ""
+"Los impuestos existentes serán actualizados. Los impuestos se buscarán por "
+"nombre."
+
+#. module: account_chart_update
+#: view:wizard.update.charts.accounts:0
+msgid "Previous"
+msgstr "Anterior"
