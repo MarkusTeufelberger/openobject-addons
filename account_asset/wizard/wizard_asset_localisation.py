@@ -25,7 +25,7 @@ import pooler
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="New Localisation">
+<form string="Localisation Changing">
     <separator string="Set New Localisation" colspan="4"/>
     <field name="localisation" colspan="4"/>
     <separator string="Notes" colspan="4"/>

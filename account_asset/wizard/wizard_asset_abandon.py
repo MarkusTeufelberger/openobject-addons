@@ -25,18 +25,18 @@ import pooler
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Abandon method">
-    <separator string="Abandonment" colspan="4"/>
+<form string="Abandonment">
+    <separator string="Abandon Method" colspan="4"/>
     <field name="name" colspan="4"/>
+    <field name="acc_abandon" colspan = "4"/>
     <field name="whole_asset"/>
-    <field name="acc_abandon"/>
     <separator string="Notes" colspan="4"/>
     <field name="note" nolabel="1" colspan="4"/>
 </form>'''
 
 asset_end_fields = {
     'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
-    'whole_asset': {'string':'All Methods', 'type':'boolean'},
+    'whole_asset': {'string':'All Methods', 'type':'boolean', 'help':"Abandon all methods of this asset."},
     'acc_abandon': {'string':'Abandon Account', 'type': 'many2one', 'relation':'account.account', 'required':True, 'help':"Account for asset loss amount."},
     'note': {'string':'Notes', 'type':'text'},
 }

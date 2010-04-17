@@ -26,24 +26,26 @@ import time
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Close asset">
+<form string="Asset Closing">
     <separator string="General information" colspan="4"/>
     <field name="name" colspan="4"/>
+    <field name="whole asset" colspan="4"/>    
     <separator string="Notes" colspan="4"/>
     <field name="note" nolabel="1" colspan="4"/>
 </form>'''
 
 asset_end_fields = {
     'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
+    'whole_asset': {'string':'All Methods', 'type':'boolean'},
     'note': {'string':'Notes', 'type':'text'},
 
 }
 
 def _asset_default(self, cr, uid, data, context={}):
-    pool = pooler.get_pool(cr.dbname)
-    method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
+#    pool = pooler.get_pool(cr.dbname)
+#    method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
     return {
-        'name': _("Closing "),
+        'name': _("Closed because: "),
     }
 
 

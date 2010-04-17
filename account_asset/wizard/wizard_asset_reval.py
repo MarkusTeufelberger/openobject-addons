@@ -25,23 +25,23 @@ import pooler
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Revaluate">
+<form string="Revaluation">
     <separator string="Revaluation entry" colspan="4"/>
     <field name="name" colspan="4"/>
-    <field name="whole_asset"/>
-    <field name="acc_impairment"/>
-    <field name="multiply"/>
+    <field name="acc_impairment" colspan="4"/>
     <field name="value"/>
+    <field name="expense_value"/>
+    <field name="multiply_value"/>
     <separator string="Notes" colspan="4"/>
     <field name="note" nolabel="1" colspan="4"/>
 </form>'''
 
 asset_end_fields = {
     'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
-    'whole_asset': {'string':'All methods', 'type':'boolean'},
+    'value': {'string':'Increasing Base Value', 'type':'float', 'help':"Value to be added to method base value. In Direct method it is increasing of book value. In Indirect method it is increasing of cost basis. Negative value means decreasing."},
+    'expense_value': {'string':'Increasing Expense Value', 'type':'float', 'help':"Value to be added to asset expenses. Used only in indirect method. In direct method ignored."},
+    'multiply_value': {'string':'Multiply Value', 'type':'float', 'help':"Value used as increasing factor for base Value and Expense Value. If you want to increase value by 20% enter 0,2 here. This value can be negative. This field works only if base and expense value are 0."},
     'acc_impairment': {'string':'Impairment Account', 'type': 'many2one', 'relation':'account.account', 'required':True, 'help':"Account for impairment loss amount."},
-    'multiply': {'string':'Multiply by Value', 'type':'boolean'},
-    'value': {'string':'New Value', 'type':'float'},
     'note': {'string':'Notes', 'type':'text'},
 }
 
@@ -91,7 +91,7 @@ class wizard_asset_reval(wizard.interface):
             'actions': [_asset_default],
             'result': {'type':'form', 'arch':asset_end_arch, 'fields':asset_end_fields, 'state':[
                 ('end','Cancel'),
-                ('asset_modify','Revaluate')
+                ('asset_reval','Revaluate')
             ]}
         },
         'asset_reval': {

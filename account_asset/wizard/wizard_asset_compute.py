@@ -26,7 +26,7 @@ import time
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Compute assets">
+<form string="Asset Computation">
     <separator string="Generated entries" colspan="4"/>
     <field name="move_ids" readonly="1" nolabel="1"/>
 </form>'''
@@ -37,7 +37,7 @@ asset_end_fields = {
 
 
 asset_ask_form = '''<?xml version="1.0"?>
-<form string="Compute assets">
+<form string="Asset Computation">
     <field name="period_id"/>
     <field name="date"/>
     <newline/>

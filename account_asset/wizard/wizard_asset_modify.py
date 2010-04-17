@@ -25,7 +25,7 @@ import pooler
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Modify method">
+<form string="Method Modyfying">
     <separator string="Method parameters to modify" colspan="4"/>
     <field name="name" colspan="4"/>
     <field name="method_delay"/>
