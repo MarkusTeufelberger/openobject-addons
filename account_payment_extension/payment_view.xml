@@ -208,7 +208,7 @@
                 <newline/>
                 <field name="payment_type_name" invisible="1"/>
                 <field name="type"/>
-                <button colspan="2" name="%(wizard_populate_payment_ext)d" string="Select invoices to pay/receive payment" type="action"/>
+                <button colspan="2" name="%(wizard_populate_payment_ext)d" string="Select invoices to pay/receive payment" type="action" attrs="{'invisible':[('state','=','done')]}"/>
             </button>
         </field>
     </record>
