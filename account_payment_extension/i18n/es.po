@@ -2,70 +2,45 @@
 # This file containt the translation of the following modules:
 # 	* account_payment_extension
 #
-# Albert Cervera i Areny <albert@nan-tic.com>, 2009.
+# Albert Cervera i Areny <albert@nan-tic.com>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.0-rc1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-12-06 20:14+0000\n"
-"PO-Revision-Date: 2010-01-25 05:45+0000\n"
-"Last-Translator: Borja López Soilán (Pexego) <borjals@pexego.es>\n"
+"POT-Creation-Date: 2010-04-19 22:26+0000\n"
+"PO-Revision-Date: 2010-04-19 23:09+0000\n"
+"Last-Translator: Albert Cervera i Areny - http://www.NaN-tic.com <albert@nan-"
+"tic.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-09 04:01+0000\n"
+"X-Launchpad-Export-Date: 2010-04-20 03:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_to_pay
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_to_pay
-msgid "Invoice payments to pay"
-msgstr "Efectos pendientes a pagar"
+#: selection:payment.order,type:0
+msgid "Receivable"
+msgstr "A cobrar"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_pay_payments
 msgid "Payable payment orders"
-msgstr "Órdenes de pago a pagar"
-
-#. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable_unreconciled
-msgid "Done payable payments unreconciled"
-msgstr "Pagos realizados no conciliados"
-
-#. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_receivable
-msgid "All received and to receive invoice payments"
-msgstr "Todos los efectos a cobrar"
+msgstr "Órdenes de pago"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_payment_type_form
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
 #: view:payment.type:0
 msgid "Payment Type"
-msgstr "Método de pago"
+msgstr "Tipo de pago"
 
 #. module: account_payment_extension
-#: wizard_field:populate_statement_ext,init,lines:0
-msgid "Payment Lines"
-msgstr "Líneas para pago"
-
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_tree
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_form
-msgid "Rec. payment order"
-msgstr "Orden de pago a cobrar"
-
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_draft
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_draft
-msgid "Draft pay. payment order"
-msgstr "Orden de pago a pagar borrador"
-
-#. module: account_payment_extension
-#: constraint:ir.actions.act_window:0
-msgid "Invalid model name in the action definition."
-msgstr "Nombre de modelo no válido en la definición de la acción."
+#: code:addons/account_payment_extension/payment.py:0
+#, python-format
+msgid ""
+"You cannot delete payment order(s) which are already confirmed or done!"
+msgstr ""
 
 #. module: account_payment_extension
 #: model:ir.actions.wizard,name:account_payment_extension.wizard_populate_statement_ext
@@ -73,14 +48,37 @@ msgid "Populate Statement with Payment lines"
 msgstr "Rellenar extracto con líneas de pago"
 
 #. module: account_payment_extension
+#: wizard_field:populate_statement_ext,init,lines:0
+msgid "Payment Lines"
+msgstr "Pagos"
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_tree
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_form
+msgid "Rec. payment order"
+msgstr "Órdenes de cobro"
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_draft
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_draft
+msgid "Draft pay. payment order"
+msgstr "Órdenes de pago borrador"
+
+#. module: account_payment_extension
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo no válido en la definición de la acción."
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_to_pay
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_to_pay
+msgid "Payments to pay"
+msgstr "Efectos pendientes de pago"
+
+#. module: account_payment_extension
 #: wizard_field:populate_payment_ext,search,communication2:0
 msgid "Communication 2"
 msgstr "Comunicación 2"
-
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_receivable
-msgid "Receivable invoice payments"
-msgstr "Pagos por facturas por recibir"
 
 #. module: account_payment_extension
 #: field:payment.order,type:0
@@ -91,7 +89,7 @@ msgstr "Tipo"
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_open
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_open
 msgid "Rec. payment orders to validate"
-msgstr "Orden de pago a cobrar a validar"
+msgstr "Órdenes de cobro a validar"
 
 #. module: account_payment_extension
 #: wizard_button:populate_statement_ext,init,add:0
@@ -99,19 +97,20 @@ msgid "_Add"
 msgstr "_Añadir"
 
 #. module: account_payment_extension
-#: selection:payment.order,type:0
-msgid "Receivable"
-msgstr "A cobrar"
+#: model:ir.ui.menu,name:account_payment_extension.menu_rec_payments
+msgid "Receivable payment orders"
+msgstr "Órdenes de cobro"
 
 #. module: account_payment_extension
 #: view:payment.type:0
+#: field:payment.type,note:0
 msgid "Description"
 msgstr "Descripción"
 
 #. module: account_payment_extension
-#: selection:payment.order,type:0
-msgid "Payable"
-msgstr "A pagar"
+#: wizard_button:populate_payment_ext,init,search:0
+msgid "_Search"
+msgstr "_Buscar"
 
 #. module: account_payment_extension
 #: field:payment.order,payment_type_name:0
@@ -119,15 +118,9 @@ msgid "Payment type name"
 msgstr "Nombre tipo de pago"
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_payable
-msgid "All paid and to pay invoice payments"
-msgstr "Todos los efectos a pagar"
-
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_to_receive
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_to_receive
-msgid "Invoice payments to receive"
-msgstr "Efectos pendientes a cobrar"
+#: selection:payment.order,type:0
+msgid "Payable"
+msgstr "A pagar"
 
 #. module: account_payment_extension
 #: model:ir.actions.wizard,name:account_payment_extension.wizard_populate_payment_ext
@@ -143,13 +136,13 @@ msgstr "Seleccionar facturas a pagar/cobrar"
 #: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_open
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_open
 msgid "Pay. payment orders to validate"
-msgstr "Orden de pago a pagar a validar"
+msgstr "Órdenes de pago a validar"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_tree_new
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_form_new
 msgid "New Pay. payment Order"
-msgstr "Nueva orden de pago a pagar"
+msgstr "Nueva orden de pago"
 
 #. module: account_payment_extension
 #: wizard_field:populate_payment_ext,search,entries:0
@@ -167,19 +160,9 @@ msgid "The successor message of payment communication."
 msgstr "El siguiente mensaje del comunicado del pago/cobro."
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
-msgid "Done payments"
-msgstr "Pagos/cobros realizados"
-
-#. module: account_payment_extension
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
 msgstr "¡XML inválido para la definición de la vista!"
-
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable_unreconciled
-msgid "Receivable payments unreconciled"
-msgstr "Cobros no conciliados"
 
 #. module: account_payment_extension
 #: field:payment.order,name:0
@@ -192,24 +175,9 @@ msgid "Due Date"
 msgstr "Fecha vencimiento"
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable
-msgid "All done payable payments"
-msgstr "Todos los pagos realizados"
-
-#. module: account_payment_extension
 #: field:res.partner.bank,default_bank:0
 msgid "Default"
 msgstr "Por defecto"
-
-#. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,search:0
-msgid "_Search"
-msgstr "_Buscar"
-
-#. module: account_payment_extension
-#: field:account.move.line,partner_bank:0
-msgid "Bank Account"
-msgstr "Cuenta bancaria"
 
 #. module: account_payment_extension
 #: wizard_button:populate_payment_ext,search,create:0
@@ -217,14 +185,25 @@ msgid "_Add to payment order"
 msgstr "_Añadir a la orden de pago"
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_rec_payments
-msgid "Receivable payment orders"
-msgstr "Órdenes de pago a cobrar"
+#: field:account.move.line,partner_bank:0
+msgid "Bank Account"
+msgstr "Cuenta bancaria"
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable_unreconciled
-msgid "Done receivable payments unreconciled"
-msgstr "Cobros realizados no conciliados"
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable
+msgid "All paid and to pay payments"
+msgstr "Todos los efectos de pago"
+
+#. module: account_payment_extension
+#: code:addons/account_payment_extension/payment.py:0
+#, python-format
+msgid "Invalid action!"
+msgstr "Acción no válida!"
+
+#. module: account_payment_extension
+#: wizard_field:populate_payment_ext,init,amount:0
+msgid "Amount"
+msgstr "Importe"
 
 #. module: account_payment_extension
 #: view:account.bank.statement:0
@@ -232,15 +211,15 @@ msgid "Import payment lines"
 msgstr "Importar líneas de pago"
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
 #: view:account.move.line:0
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
 msgid "Payments"
-msgstr "Pagos"
+msgstr "Efectos"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_payments_payable
 msgid "Payable payments"
-msgstr "Pagos a pagar"
+msgstr "Pagos"
 
 #. module: account_payment_extension
 #: help:res.partner,payment_type_customer:0
@@ -251,7 +230,7 @@ msgstr "Tipo de pago como cliente."
 #: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_tree
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_form
 msgid "Pay. payment order"
-msgstr "Orden de pago a pagar"
+msgstr "Órdenes de pago"
 
 #. module: account_payment_extension
 #: model:ir.module.module,shortdesc:account_payment_extension.module_meta_information
@@ -259,19 +238,22 @@ msgid "Account Payment Extension"
 msgstr "Extensión de pagos contables (Tesorería)"
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_finance_invoice_payments
-msgid "Invoice payments"
-msgstr "Efectos"
+#: help:populate_payment_ext,init,amount:0
+msgid "Next step will automatically select payments up to this amount."
+msgstr ""
+"El siguiente paso seleccionará automáticamente pagos hasta llegar a este "
+"importe."
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable
-msgid "All done receivable payments"
-msgstr "Todos los cobros realizados"
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
+msgid "Receivable payments"
+msgstr "Cobros"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type_form
+#: field:account.invoice,payment_type:0
 #: field:account.move.line,payment_type:0
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
+#: field:res.partner,payment_type_customer:0
+#: field:res.partner,payment_type_supplier:0
 msgid "Payment type"
 msgstr "Tipo de pago"
 
@@ -281,30 +263,15 @@ msgid "Bank Details"
 msgstr "Detalles del banco"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_payable
-msgid "Payable invoice payments"
-msgstr "Facturas que se pueden pagar"
-
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
-msgid "Receivable payments"
-msgstr "Pagos a cobrar"
-
-#. module: account_payment_extension
 #: help:payment.type,note:0
 msgid "Description of the payment type that will be shown in the invoices"
 msgstr "Descripción del tipo de pago que se mostrará en las facturas."
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_payable_unreconciled
-msgid "Payable payments unreconciled"
-msgstr "Pagos no conciliados"
-
-#. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_draft
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_draft
 msgid "Draft rec. payment order"
-msgstr "Orden de pago a cobrar borrador"
+msgstr "Órdenes de cobro borrador"
 
 #. module: account_payment_extension
 #: help:res.partner,payment_type_supplier:0
@@ -327,14 +294,26 @@ msgstr ""
 #. module: account_payment_extension
 #: wizard_button:populate_payment_ext,init,end:0
 #: wizard_button:populate_payment_ext,search,end:0
+#: wizard_button:populate_statement_ext,init,end:0
 msgid "_Cancel"
 msgstr "_Cancelar"
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_to_receive
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_to_receive
+msgid "Payments to receive"
+msgstr "Efectos pendientes de cobro"
+
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable
+msgid "All received and to receive payments"
+msgstr "Todos los efectos de cobro"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_tree_new
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_form_new
 msgid "New rec. payment order"
-msgstr "Nueva orden de pago a cobrar"
+msgstr "Nueva orden de cobro"
 
 #. module: account_payment_extension
 #: model:ir.module.module,description:account_payment_extension.module_meta_information
@@ -406,5 +385,35 @@ msgstr ""
 msgid "Received check"
 msgstr "Cheque recibido"
 
-#~ msgid "Payments to pay"
-#~ msgstr "Pagos a pagar"
+#~ msgid "Invoice payments to pay"
+#~ msgstr "Efectos pendientes de pago"
+
+#~ msgid "Done payable payments unreconciled"
+#~ msgstr "Pagos realizados no conciliados"
+
+#~ msgid "Done payments"
+#~ msgstr "Pagos/cobros realizados"
+
+#~ msgid "Receivable payments unreconciled"
+#~ msgstr "Cobros no conciliados"
+
+#~ msgid "All done payable payments"
+#~ msgstr "Todos los pagos realizados"
+
+#~ msgid "Done receivable payments unreconciled"
+#~ msgstr "Cobros realizados no conciliados"
+
+#~ msgid "Invoice payments"
+#~ msgstr "Efectos"
+
+#~ msgid "All done receivable payments"
+#~ msgstr "Todos los cobros realizados"
+
+#~ msgid "Payable payments unreconciled"
+#~ msgstr "Pagos no conciliados"
+
+#~ msgid "Payable invoice payments"
+#~ msgstr "Facturas que se pueden pagar"
+
+#~ msgid "Receivable invoice payments"
+#~ msgstr "Pagos por facturas por recibir"
