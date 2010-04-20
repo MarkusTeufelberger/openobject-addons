@@ -16,6 +16,7 @@
     'update_xml': [
                 
         'product_view.xml',
+        'security/ir.model.access.csv',
 
     ],
     'demo_xml': [],
