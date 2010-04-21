@@ -65,42 +65,36 @@ def _do_export(self, cr, uid, data, context):
         taxes_ids=self.pool.get('account.tax').search(cr, uid, [])
 
         def _add_taxes(tax):
+            esale_joomla_id2 = self.pool.get('esale_joomla.tax').search(cr, uid, [('web_id','=',website.id),('tax_id','=',tax.id)])
+            esale_joomla_id = 0
+            if esale_joomla_id2:
+                esale_joomla_id = self.pool.get('esale_joomla.tax').browse(cr, uid, esale_joomla_id2[0]).esale_joomla_id
 
-                esale_joomla_id2 = self.pool.get('esale_joomla.tax').search(cr, uid, [('web_id','=',website.id),('tax_id','=',tax.id)])
-                esale_joomla_id = 0
-                if esale_joomla_id2:
-                    esale_joomla_id = self.pool.get('esale_joomla.tax').browse(cr, uid, esale_joomla_id2[0]).esale_joomla_id
+            webtax={
+                'esale_joomla_id': esale_joomla_id,
+                'name': tax.name,
+                'type': tax.type,
+                'rate': tax.amount,
+                'include_base_amount':tax.include_base_amount,
+                'sequence':tax.sequence,
 
+            }
+            if tax.company_id and len(tax.company_id.partner_id.address)>0:
+                if tax.company_id.partner_id.address[0].country_id :
+                    webtax['country']=tax.company_id.partner_id.address[0].country_id.name
+                if tax.company_id.partner_id.address[0].state_id :
+                    webtax['state']=tax.company_id.partner_id.address[0].state_id.name
 
-
-                webtax={
-                    'esale_joomla_id': esale_joomla_id,
-                    'name': tax.name,
-                    'type': tax.type,
-                    'rate': tax.amount,
-                    'include_base_amount':tax.include_base_amount,
-                    'sequence':tax.sequence,
-
-                }
-                if tax.company_id and len(tax.company_id.partner_id.address)>0:
-                    if tax.company_id.partner_id.address[0].country_id :
-                        webtax['country']=tax.company_id.partner_id.address[0].country_id.name
-                    if tax.company_id.partner_id.address[0].state_id :
-                        webtax['state']=tax.company_id.partner_id.address[0].state_id.name
-
-
-
-
-                osc_id=server.set_tax(webtax)
-                if osc_id!=esale_joomla_id:
-                    if esale_joomla_id:
-                        self.pool.get('esale_joomla.tax').write(cr, uid, [esale_joomla_id], {'esale_joomla_id': osc_id})
-                        self.tax_update += 1
-                    else:
-                        self.pool.get('esale_joomla.tax').create(cr, uid, {'tax_id': tax.id, 'web_id': website.id, 'esale_joomla_id': osc_id, 'name': tax.name })
-                        self.tax_new += 1
-                else:
+            osc_id=server.set_tax(webtax)
+            if osc_id!=esale_joomla_id:
+                if esale_joomla_id:
+                    self.pool.get('esale_joomla.tax').write(cr, uid, [esale_joomla_id], {'esale_joomla_id': osc_id})
                     self.tax_update += 1
+                else:
+                    self.pool.get('esale_joomla.tax').create(cr, uid, {'tax_id': tax.id, 'web_id': website.id, 'esale_joomla_id': osc_id, 'name': tax.name })
+                    self.tax_new += 1
+            else:
+                self.tax_update += 1
 
         for tax in self.pool.get('account.tax').browse(cr, uid, taxes_ids, context=context):
            _add_taxes(tax)

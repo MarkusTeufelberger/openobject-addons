@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
+#    Copyright (C) 2004-2010 BCIM SPRL & Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,21 +19,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
     "name" : "eSale Interface - Joomla",
     "version" : "1.0",
-    "author" : "Tiny",
+    "author" : "BCIM & Tiny",
     "category" : "Interfaces/CMS & eCommerce",
     "website" : "http://www.openerp.com",
     "depends" : ["product", "stock", "sale", "account", "account_tax_include",],
     "description": """Joomla (Virtuemart) eCommerce interface synchronisation.
-Users can order on the website, orders are automatically imported in Tiny
-ERP.
+Users can order on the website. Orders can be imported in OpenERP.
 
-You can export products, product's categories, account taxes,  stock level and create links between
+You can export products, product's categories, account taxes, stock level and create links between
 categories of products, taxes and languages.
-
-If you product has an image attched, it send the image to the Joomla website.""",
+""",
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [
@@ -45,5 +44,4 @@ If you product has an image attched, it send the image to the Joomla website."""
     "active": False,
     "installable": True
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
