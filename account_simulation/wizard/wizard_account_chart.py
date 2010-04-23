@@ -61,6 +61,8 @@ class wizard_account_chart(wizard.interface):
             for a in sim_obj.read(cr, uid, data['form']['states'][0][2], ['code'], context):
                 ctx['journal_state'].append(a['code'])
         result['context'] = str(ctx)
+        if data['form']['fiscalyear']:
+            result['name']+=': '+pooler.get_pool(cr.dbname).get('account.fiscalyear').read(cr,uid,[data['form']['fiscalyear']])[0]['code']
         return result
 
     states = {
