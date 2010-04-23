@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.7\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-03-20 23:03+0000\n"
-"PO-Revision-Date: 2010-04-21 05:03+0000\n"
+"PO-Revision-Date: 2010-04-22 09:17+0000\n"
 "Last-Translator: Jonay <jonay.santana@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-22 03:49+0000\n"
+"X-Launchpad-Export-Date: 2010-04-23 03:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: nan_purchase_product_recent
@@ -42,6 +42,9 @@ msgid ""
 "This module adds a new field in purchase order lines to allow choosing only "
 "the products we have ordered to that partner sometime in the past."
 msgstr ""
+"Este módulo añade un nuevo campo en las líneas de órdenes de compras para "
+"permitir elegir sólo los productos que ya hemos pedido a ese proveedor en "
+"algún momento del pasado."
 
 #. module: nan_purchase_product_recent
 #: field:purchase.order.line,recent_product_id:0
