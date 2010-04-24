@@ -42,7 +42,7 @@
 			id="wizard_asset_reval"
 			menu="False"/>
 		<wizard
-			string="Liquidate"
+			string="Abandon"
 			model="account.asset.method"
 			name="account.asset.abandon"
 			id="wizard_asset_abandon"

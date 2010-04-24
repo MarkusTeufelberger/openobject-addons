@@ -29,7 +29,7 @@ asset_end_arch = '''<?xml version="1.0"?>
 <form string="Asset Closing">
     <separator string="General information" colspan="4"/>
     <field name="name" colspan="4"/>
-    <field name="whole asset" colspan="4"/>    
+    <field name="whole_asset" colspan="4"/>    
     <separator string="Notes" colspan="4"/>
     <field name="note" nolabel="1" colspan="4"/>
 </form>'''
@@ -42,8 +42,8 @@ asset_end_fields = {
 }
 
 def _asset_default(self, cr, uid, data, context={}):
-#    pool = pooler.get_pool(cr.dbname)
-#    method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
+    pool = pooler.get_pool(cr.dbname)
+    method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
     return {
         'name': _("Closed because: "),
     }
@@ -54,12 +54,12 @@ def _asset_close(self, cr, uid, data, context={}):
     method_obj = pool.get('account.asset.method')
     method = method_obj.browse(cr, uid, data['id'], context)
     pool.get('account.asset.history').create(cr, uid, {
-        'type': "close",
+        'type': "closing",
         'asset_method_id': data['id'],
         'name': data['form']['name'],
         'note': data['form']['note'],
         'method_end': time.strftime('%Y-%m-%d'),
-        'asset_id': method.asset_id.id
+        'asset_id': method.asset_id.id,
     }, context)
 
     method_obj._close(cr, uid, method, context)
@@ -72,7 +72,7 @@ class wizard_asset_close(wizard.interface):
             'actions': [_asset_default],
             'result': {'type':'form', 'arch':asset_end_arch, 'fields':asset_end_fields, 'state':[
                 ('end','Cancel'),
-                ('asset_close','End of asset')
+                ('asset_close','End of Depreciation')
             ]}
         },
         'asset_close': {

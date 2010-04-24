@@ -22,6 +22,7 @@
 
 from osv import osv, fields
 import time
+from tools.translate import _
 
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
@@ -39,6 +40,44 @@ class account_invoice(osv.osv):
         res = super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
         return res
 
+    def action_move_create(self, cr, uid, ids, *args):
+        res = super(account_invoice, self).action_move_create(cr, uid, ids, *args)
+        for inv in self.browse(cr, uid, ids):
+            for line in inv.invoice_line:
+                if not line.asset_method_id:
+                    continue
+                if line.invoice_id.type == "in_invoice":
+                    type = "purchase"
+                elif line.invoice_id.type == "in_refund":
+                    type = "refund"
+                elif line.invoice_id.type == "out_invoice":
+                    type = "sale"
+                if type in ["purchase","refund"]:
+                    if not line.asset_method_id.asset_id.date:
+                        self.pool.get('account.asset.asset').write(cr, uid, [line.asset_method_id.asset_id.id], {
+                            'date': line.invoice_id.date_invoice,
+                            'partner_id': line.invoice_id.partner_id.id,
+                        })                    
+                    if line.asset_method_id.state=='draft':
+                        self.pool.get('account.asset.method').validate(cr, uid, [line.asset_method_id.id])
+                elif type == "sale":
+                    if not line.asset_method_id.account_residual_id:
+                        raise osv.except_osv(_('Error !'), _('Product "%s" is assigned to Asset Method "%s". But this method has no Sale Residual Account to make asset moves.')%(line.product_id.name, line.asset_method_id.name,)) 
+                    method_obj = self.pool.get('account.asset.method')
+                    method_obj._post_3lines_move(cr, uid, line.asset_method_id, line.invoice_id.period_id, line.invoice_id.date_invoice, line.asset_method_id.account_residual_id.id)
+                    method_obj._close(cr, uid, line.asset_method_id)
+                        
+                self.pool.get('account.asset.history').create(cr, uid, {
+                    'type': type,
+                    'asset_method_id': line.asset_method_id.id,
+                    'asset_id' : line.asset_method_id.asset_id.id,
+#                      'name': "Buying asset",
+                    'partner_id': line.invoice_id.partner_id.id,
+                    'invoice_id': line.invoice_id.id,
+                    'note': "Product name: " + line.product_id.name + ' ['+line.product_id.code+"]\nInvoice date: "+line.invoice_id.date_invoice,
+                })
+        
+
 
 account_invoice()
 
@@ -50,39 +89,7 @@ class account_invoice_line(osv.osv):
 
     def move_line_get_item(self, cr, uid, line, context={}):
         res = super(account_invoice_line, self).move_line_get_item(cr, uid, line, context)
-        if line.invoice_id.type == "in_invoice":
-            type = "purchase"
-        elif line.invoice_id.type == "in_refund":
-            type = "refund"
-        elif line.invoice_id.type == "out_invoice":
-            type = "sale"
-        if line.asset_method_id:
-            res['asset_method_id'] = line.asset_method_id.id
-            if type in ["purchase","refund"]:
-                if not line.asset_method_id.asset_id.date:
-                    self.pool.get('account.asset.asset').write(cr, uid, [line.asset_method_id.asset_id.id], {
-                        'date': line.invoice_id.date_invoice,
-                        'partner_id': line.invoice_id.partner_id.id,
-                    }, context)                    
-                if line.asset_method_id.state=='draft':
-                    self.pool.get('account.asset.method').validate(cr, uid, [line.asset_method_id.id], context)
-            elif type == "sale":
-                method_obj = self.pool.get('account.asset.method')
-                method_obj._close(cr, uid, [line.asset_method_id.id], context)
-                
-            self.pool.get('account.asset.history').create(cr, uid, {
-                'type': type,
-                'asset_method_id': line.asset_method_id.id,
-                'asset_id' : line.asset_method_id.asset_id.id,
-#                'name': "Buying asset",
-                'partner_id': line.invoice_id.partner_id.id,
-                'invoice_id': line.invoice_id.id,
-                'note': "Product name: " + line.product_id.name + ' ['+line.product_id.code+"]\nInvoice date: "+line.invoice_id.date_invoice,
-            }, context)
-
-                
-        else:
-            res['asset_method_id'] = False
+        res['asset_method_id'] = line.asset_method_id and line.asset_method_id.id or False
         return res
 
     def asset_method_id_change(self, cr, uid, ids, asset_method_id, type, context={}):
