@@ -72,5 +72,30 @@
                 </field>
             </field>
         </record>
+        <record id="base.view_partner_address_tree" model="ir.ui.view">
+            <field name="name">res.partner.address.tree</field>
+            <field name="model">res.partner.address</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Partner Addresses">
+                    <field name="partner_id"/>
+                    <field name="title"/>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="function"/>
+                    <field name="phone"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="fax"/>
+                    <field name="type"/>
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                </tree>
+            </field>
+        </record>
     </data>
 </openerp>
