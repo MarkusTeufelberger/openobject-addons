@@ -47,6 +47,12 @@
 			name="account.asset.abandon"
 			id="wizard_asset_abandon"
 			menu="False"/>
+		<wizard
+			string="Initial"
+			model="account.asset.method"
+			name="account.asset.initial"
+			id="wizard_asset_initial"
+			menu="False"/>
 
 	</data>
 </openerp>

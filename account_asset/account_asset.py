@@ -357,7 +357,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         return {'value': result}
 
 # Method is used to post Asset sale, revaluation and abandon
-    def _post_3lines_move(self, cr, uid, method, period, date, acc_third_id, base=0.0, depr=0.0, context={}):
+    def _post_3lines_move(self, cr, uid, method, period, date, acc_third_id, base=0.0, expense=0.0, initial=False, context={}):
         move_id = self.pool.get('account.move').create(cr, uid, {
             'journal_id': method.journal_id.id,
             'period_id': period.id,
@@ -367,19 +367,20 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         })
         result = [move_id]
         entries =[]
-        if method.account_asset_id.id == method.account_expense_id.id:
+        if method.account_asset_id.id == method.account_expense_id.id or initial:
             total = base or -method.value_residual
             residual = - total
         else:
-            depreciation = depr and -depr or method.value_total - method.value_residual
+            expense = expense or method.value_total - method.value_residual
             total = base or method.value_total
-            residual = base and base - depr or method.value_residual
+            residual = base and base - expense or method.value_residual
+        if expense:
             id = self.pool.get('account.move.line').create(cr, uid, {
                 'name': method.name or method.asset_id.name,
                 'move_id': move_id,
                 'account_id': method.account_expense_id.id,
-                'debit': depreciation > 0 and depreciation or 0.0, 
-                'credit': depreciation < 0 and -depreciation or 0.0,
+                'debit': expense < 0 and -expense or 0.0, 
+                'credit': expense > 0 and expense or 0.0,
                 'ref': method.asset_id.code,
                 'period_id': period.id,
                 'journal_id': method.journal_id.id,
@@ -388,6 +389,22 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
                 'asset_method_id': method.id      
             })
             entries.append((4,id,False),)
+            if initial:
+                id_depr = self.pool.get('account.move.line').create(cr, uid, {
+                    'name': method.name or method.asset_id.name,
+                    'move_id': move_id,
+                    'account_id': method.account_actif_id.id,
+                    'debit': expense > 0 and expense or 0.0, 
+                    'credit': expense < 0 and -expense or 0.0,
+                    'ref': method.asset_id.code,
+                    'period_id': period.id,
+                    'journal_id': method.journal_id.id,
+    #                'partner_id': method.asset_id.partner_id.id,
+                    'date': date,
+                    'asset_method_id': method.id      
+                })
+                entries.append((4,id_depr,False),)
+
         id2 = self.pool.get('account.move.line').create(cr, uid, {
             'name': method.name or method.asset_id.name,
             'move_id': move_id,
@@ -589,6 +606,7 @@ class account_asset_history(osv.osv):
                 ('purchase','Purchase'), 
                 ('refund','Purchase Refund'), 
                 ('reval', 'Revaluation'),  
+                ('initial', 'Initial Value'),  
                 ('sale','Sale'), 
                 ('closing','Closing'), 
                 ('abandon','Abandonment'), 

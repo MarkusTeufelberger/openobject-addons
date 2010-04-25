@@ -337,6 +337,7 @@
 	                                <button name="%(wizard_asset_close)d" states="open" string="Close Method" type="action"/>
 	                                <button name="%(wizard_asset_reval)d" states="open" string="Revaluate Method" type="action"/>
 	                                <button name="%(wizard_asset_abandon)d" states="open" string="Abandon Method" type="action"/>
+	                                <button name="%(wizard_asset_initial)d" states="open" string="Initial Values" type="action"/>
 	                                <button name="validate" states="draft" string="Confirm Method" type="object"/>
 				</group>
                             </page>
