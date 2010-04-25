@@ -34,6 +34,7 @@ from osv import fields,osv
 
 from tools.translate import _
 import time
+import math
 
 def rounding(f, r, mode='rounding'):
     if not r:
