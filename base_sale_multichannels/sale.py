@@ -277,3 +277,24 @@ class account_journal(osv.osv):
     
 account_journal()
 
+
+
+class base_sale_payment_type(magerp_osv.magerp_osv):
+    _name = "base.sale.payment.type"
+    _description = "Base Sale Payment Type"
+
+    _columns = {
+                #TODO statement status, status invoice, picking, sale order,....
+        'payment_type': fields.char('Name', size=64, required=True), # TODO multi payment name separed by ";"
+        'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')], 'Packing Policy'),
+        'order_policy': fields.selection([
+            ('prepaid', 'Payment Before Delivery'),
+            ('manual', 'Shipping & Manual Invoice'),
+            ('postpaid', 'Invoice on Order After Delivery'),
+            ('picking', 'Invoice from the Packing'),
+        ], 'Shipping Policy'),
+        'invoice_quantity': fields.selection([('order', 'Ordered Quantities'), ('procurement', 'Shipped Quantities')], 'Invoice on'),
+        'is_auto_reconcile': fields.boolean('Auto-reconcile?', help="if true will try to reconcile the order payment statement and the open invoice"),
+    }
+
+base_sale_payment_type()
