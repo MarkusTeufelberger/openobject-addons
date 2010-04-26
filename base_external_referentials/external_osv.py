@@ -313,7 +313,7 @@ class external_osv(osv.osv):
                                                             'model': self._name,
                                                             'res_id': record_data['id'],
                                                             'external_referential_id': ext_ref_id,
-                                                            'module': 'base_external_referentials_keep'
+                                                            'module': 'extref.' + self.pool.get('external.referential').read(cr, uid, ext_ref_id, ['name'])['name']
                                                           }
                                     self.pool.get('ir.model.data').create(cr, uid, ir_model_data_vals)
                                     logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Created in External Ref %s from OpenERP with external_id %s and OpenERP id %s successfully" %(self._name, crid, record_data['id']))
