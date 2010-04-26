@@ -235,10 +235,15 @@ sale_shop()
 class sale_order(osv.osv):
     _inherit = "sale.order"
 
+
+    def payment_code_to_payment_settings(self, cr, uid, payment_code, ctx):
+        payment_setting_id = self.pool.get('base.sale.payment.type').search(cr, uid, [['name', 'ilike', payment_code]])[0]
+        payment_setting_id and self.pool.get('base.sale.payment.type').browse(cr, uid, payment_setting_id, ctx) or False
+
     def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
-        journal_ids = self.pool.get("account.journal").search(cr, uid, [('external_payment_codes', 'ilike', payment_code)])
-        if journal_ids and len(journal_ids) > 0:
-            return self.generate_payment_with_journal(cr, uid, journal_ids[0], partner_id, amount, payment_ref, entry_name, date, should_validate, ctx)
+        payment_settings = self.payment_code_to_payment_settings(cr, uid, payment_code, ctx)
+        if payment_settings:
+            return self.generate_payment_with_journal(cr, uid, payment_settings.journal_id.id, partner_id, amount, payment_ref, entry_name, date, should_validate and payment_settings.validate_payment, ctx)
         return False
         
     def generate_payment_with_journal(self, cr, uid, journal_id, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
@@ -268,6 +273,7 @@ class sale_order(osv.osv):
 
 sale_order()
 
+#TODO deprecated remove!
 class account_journal(osv.osv):
     _inherit = "account.journal"
     
@@ -279,7 +285,7 @@ account_journal()
 
 
 
-class base_sale_payment_type(magerp_osv.magerp_osv):
+class base_sale_payment_type(osv.osv):
     _name = "base.sale.payment.type"
     _description = "Base Sale Payment Type"
 
@@ -295,6 +301,8 @@ class base_sale_payment_type(magerp_osv.magerp_osv):
         ], 'Shipping Policy'),
         'invoice_quantity': fields.selection([('order', 'Ordered Quantities'), ('procurement', 'Shipped Quantities')], 'Invoice on'),
         'is_auto_reconcile': fields.boolean('Auto-reconcile?', help="if true will try to reconcile the order payment statement and the open invoice"),
+        'validate_payment': fields.boolean('Validate Payment?'),
+        'journal_id': fields.many2one('account.journal','Paiment Journal',required=True)
     }
 
 base_sale_payment_type()
