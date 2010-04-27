@@ -28,6 +28,7 @@ from tools.translate import _
 asset_end_arch = '''<?xml version="1.0"?>
 <form string="Initial Values">
     <separator string="Initial entry" colspan="4"/>
+    <label string = "This wizard is to create initial values in case of continuing depreciation performed in other system before. Can be used for other purposes. But if you want to buy asset don't make initial value but assign invoice line to this method before invoice creation." colspan="4"/>
     <field name="period_id"/>
     <field name="date"/>
     <newline/>
@@ -43,7 +44,7 @@ asset_end_arch = '''<?xml version="1.0"?>
 asset_end_fields = {
     'date': {'string': 'Date', 'type': 'date', 'required':True, 'help':"Efective date for posting."},
     'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True, 'help':"Period for posting. Consider which period to use for this posting. It should be probably some additional period before current depreciation start."},
-    'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
+    'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
     'value': {'string':'Base Value', 'type':'float', 'help':"Initial Base Value of method."},
     'expense_value': {'string':'Expense Value', 'type':'float', 'help':"Initial Value of method expenses. There are sum of depreciations made before this system asset management."},
     'residual_intervals': {'string':'Residual Intervals', 'type':'float', 'help':"Intervals left to the end of asset depreciation. Number of intervals this system should calculate. Leave empty if you set proper value Number of Intervals."},
@@ -86,11 +87,14 @@ def _asset_initial(self, cr, uid, data, context={}):
         'note': _("Initial Values:") + \
                 _('\nTotal: ')+ str(data['form']['value'])+ \
                 _('\nResidual: ')+ str(data['form']['expense_value']) +\
-                data['form']['note'],
+                "\n" + str(data['form']['note']),
     }, context)
     method_obj._post_3lines_move(cr, uid, method=method, period = period, date = data['form']['date'], \
                 acc_third_id = data['form']['acc_impairment'], base = data['form']['value'], \
-                expense = data['form']['expense_value'], initial = True, context = context)
+                expense = data['form']['expense_value'], method_initial = True, context = context)
+    method_obj.validate(cr, uid, [method.id], context)
+    if data['form']['residual_intervals']:
+        method_obj.write(cr, uid, [method.id], {'method_delay':data['form']['residual_intervals']}, context)
     return {}
 
 

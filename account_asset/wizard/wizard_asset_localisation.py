@@ -27,13 +27,13 @@ from tools.translate import _
 asset_end_arch = '''<?xml version="1.0"?>
 <form string="Localisation Changing">
     <separator string="Set New Localisation" colspan="4"/>
+    <field name="note" colspan="4"/>
     <field name="localisation" colspan="4"/>
     <separator string="Notes" colspan="4"/>
-    <field name="note" nolabel="1" colspan="4"/>
 </form>'''
 
 asset_end_fields = {
-#    'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
+    'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
     'localisation': {'string':'Enter New localisation', 'type':'char', 'size':32, 'required':True},
     'note': {'string':'Notes', 'type':'text'},
 }
@@ -50,7 +50,7 @@ def _asset_localisation(self, cr, uid, data, context={}):
         'type': "transfer",
 #        'asset_method_id': data['id'],
         'asset_id' : data['id'],
-#        'name': data['form']['name'],
+        'name': data['form']['name'],
 #        'method_delay': method.method_delay,
 #        'method_period': method.method_period,
         'note': _("Asset transfered to: ") + str(data['form']['localisation'])+ 

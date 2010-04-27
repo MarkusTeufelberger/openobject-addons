@@ -26,7 +26,7 @@ import time
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Asset Closing">
+<form string="Method Suppression">
     <separator string="General information" colspan="4"/>
     <field name="name" colspan="4"/>
     <field name="whole_asset" colspan="4"/>    
@@ -35,7 +35,7 @@ asset_end_arch = '''<?xml version="1.0"?>
 </form>'''
 
 asset_end_fields = {
-    'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
+    'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
     'whole_asset': {'string':'All Methods', 'type':'boolean'},
     'note': {'string':'Notes', 'type':'text'},
 
@@ -45,24 +45,32 @@ def _asset_default(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
     method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
     return {
-        'name': _("Closed because: "),
+        'note': _("Suppressed because: "),
     }
 
 
-def _asset_close(self, cr, uid, data, context={}):
+def _asset_suppress(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
     method_obj = pool.get('account.asset.method')
-    method = method_obj.browse(cr, uid, data['id'], context)
-    pool.get('account.asset.history').create(cr, uid, {
-        'type': "closing",
-        'asset_method_id': data['id'],
-        'name': data['form']['name'],
-        'note': data['form']['note'],
-        'method_end': time.strftime('%Y-%m-%d'),
-        'asset_id': method.asset_id.id,
-    }, context)
+    met = method_obj.browse(cr, uid, data['id'], context)
+    methods = data['form']['whole_asset'] and method_obj.browse(cr, uid, met.asset_id.method_ids, context) or [met]
+#        asset_obj = pool.get('account.asset')
+#        asset_ids = asset_obj.browse cr, uid, method.id.context)
+#         = method_obj.browse(cr, uid, method.asset_id.method_ids, context)
+    for method in methods:
+        pool.get('account.asset.history').create(cr, uid, {
+            'type': "suppression",
+            'asset_method_id': data['id'],
+            'name': data['form']['name'],
+#            'method_end': time.strftime('%Y-%m-%d'),
+            'asset_id': method.asset_id.id,
+            'note': _("Method Suppresion. Last values:") + \
+                    _('\nTotal: ')+ str(method.value_total)+ \
+                    _('\nResidual: ')+ str(method.value_residual) + \
+                    "\n" + str(data['form']['note']),
+        }, context)
 
-    method_obj._close(cr, uid, method, context)
+        method_obj._suppress(cr, uid, method, context)
     return {}
 
 
@@ -72,11 +80,11 @@ class wizard_asset_close(wizard.interface):
             'actions': [_asset_default],
             'result': {'type':'form', 'arch':asset_end_arch, 'fields':asset_end_fields, 'state':[
                 ('end','Cancel'),
-                ('asset_close','End of Depreciation')
+                ('asset_suppress','Suppress Depreciation')
             ]}
         },
-        'asset_close': {
-            'actions': [_asset_close],
+        'asset_suppress': {
+            'actions': [_asset_suppress],
             'result': {'type' : 'state', 'state': 'end'}
         }
     }

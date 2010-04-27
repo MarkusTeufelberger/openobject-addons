@@ -38,7 +38,7 @@ asset_end_arch = '''<?xml version="1.0"?>
 </form>'''
 
 asset_end_fields = {
-    'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
+    'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
     'method_delay': {'string':'Number of Intervals', 'type':'float'},
     'method_period': {'string':'Intervals per Year', 'type':'float'},
     'method_progress_factor': {'string':'Progressive Factor', 'type':'float'},

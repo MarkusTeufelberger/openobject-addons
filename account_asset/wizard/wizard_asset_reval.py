@@ -43,7 +43,7 @@ asset_end_arch = '''<?xml version="1.0"?>
 asset_end_fields = {
     'date': {'string': 'Date', 'type': 'date', 'required':True, 'help':"Efective date for accounting move."},
     'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True, 'help':"Calculated period and period for posting."},
-    'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
+    'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
     'value': {'string':'Increasing Base Value', 'type':'float', 'help':"Value to be added to method base value. In Direct method it is increasing of book value. In Indirect method it is increasing of cost basis. Negative value means decreasing."},
     'expense_value': {'string':'Increasing Expense Value', 'type':'float', 'help':"Value to be added to asset expenses. Used only in indirect method. In direct method ignored."},
     'multiply_value': {'string':'Multiply Value', 'type':'float', 'help':"Value used as increasing factor for base Value and Expense Value. If you want to increase value by 20% enter 0,2 here. This value can be negative. This field works only if base and expense value are 0."},
@@ -85,9 +85,10 @@ def _asset_reval(self, cr, uid, data, context={}):
 #        'method_period': method.method_period,
         'note': _("Method Revaluation. Last values:") + \
                 _('\nTotal: ')+ str(method.value_total)+ \
-                _('\nResidual: ')+ str(method.value_residual),
+                _('\nResidual: ')+ str(method.value_residual) + \
+                "\n" + str(data['form']['note']),
     }, context)
-    method_obj._post_3lines_move(cr, uid, method, period, data['form']['date'], data['form']['acc_impairment'], data['form']['value'], data['form']['expense_value'], context)
+    method_obj._post_3lines_move(cr, uid, method = method, period = period, date = data['form']['date'], acc_third_id = data['form']['acc_impairment'], base = data['form']['value'], expense = data['form']['expense_value'], method_initial = False, context = context)
     return {}
 
 

@@ -30,6 +30,12 @@
 			id="wizard_asset_close"
 			menu="False"/>
 		<wizard
+			string="Resume asset"
+			model="account.asset.method"
+			name="account.asset.resume"
+			id="wizard_asset_resume"
+			menu="False"/>
+		<wizard
 			string="Change Localisation"
 			model="account.asset.asset"
 			name="account.asset.localisation"
@@ -52,6 +58,12 @@
 			model="account.asset.method"
 			name="account.asset.initial"
 			id="wizard_asset_initial"
+			menu="False"/>
+		<wizard
+			string="Usage Lines"
+			model="account.asset.method"
+			name="account.asset.usage.createlines"
+			id="wizard_asset_usage_createlines"
 			menu="False"/>
 
 	</data>

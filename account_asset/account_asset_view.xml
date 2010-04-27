@@ -324,7 +324,7 @@
         	                        <field name="method_delay"/>
         	                        <field name="method_period"/>
         	                        <field name="method_progress_factor" attrs="{'readonly':[('method','in',('linear','syd','uop'))]}"/>
-        	                        <field name="method_time"/>
+<!--        	                        <field name="method_time"/>   -->
         	                        <field name="method_salvage"/>
         	                        <field name="life" attrs="{'readonly':[('method','!=','uop')]}"/>
                                 	<!-- <field name="method_end"/> -->
@@ -332,13 +332,14 @@
 				<group colspan = "1" col="2">
 				    	<field name="value_total"/>
 		                    	<field name="value_residual"/>
+	                                <button name="%(wizard_asset_initial)d" states="open,draft,suppressed" string="Initial Values" type="action" colspan="2"/>
+	                                <button name="%(wizard_asset_reval)d" states="open,suppressed" string="Revaluate Method" type="action" colspan="2"/>
+	                                <button name="%(wizard_asset_abandon)d" states="open,suppressed" string="Abandon Method" type="action" colspan="2"/>
 
-                                	<button name="%(wizard_asset_modify)d" states="open" string="Change Parameters" type="action" />
-	                                <button name="%(wizard_asset_close)d" states="open" string="Close Method" type="action"/>
-	                                <button name="%(wizard_asset_reval)d" states="open" string="Revaluate Method" type="action"/>
-	                                <button name="%(wizard_asset_abandon)d" states="open" string="Abandon Method" type="action"/>
-	                                <button name="%(wizard_asset_initial)d" states="open" string="Initial Values" type="action"/>
-	                                <button name="validate" states="draft" string="Confirm Method" type="object"/>
+                                	<button name="%(wizard_asset_modify)d" states="open,suppressed" string="Change Parameters" type="action" colspan="2"/>
+	                                <button name="%(wizard_asset_close)d" states="open" string="Suppress Method" type="action" colspan="2"/>
+	                                <button name="%(wizard_asset_resume)d" states="suppressed" string="Resume Method" type="action" colspan="2"/>
+<!--	                                <button name="validate" states="draft" string="Confirm Method" type="object"/>   -->
 				</group>
                             </page>
                             <page string="Accounts">
@@ -361,14 +362,15 @@
                             </page>
                             <page string="Usage" attrs="{'readonly':[('method','!=','uop')]}">
                                 <field name="usage_ids" colspan="4" nolabel="1"/>
+                                <button name="%(wizard_asset_usage_createlines)d" string="Create Usage Lines" type="action" colspan ="1"/>
                             </page>
 
                             </notebook>
                         </form>
                     </field>
                     <group colspan="4">
-                        <field name="state" readonly="1"/>
-                        <button name="validate" states="draft" string="Confirm Asset" type="object"/>
+                        <field name="state" readonly="1" colspan = "1"/>
+<!--                        <button name="validate" states="draft" string="Confirm Asset" type="object"/>  -->
                     </group>
 
 <!--                </page><page string="Entries">

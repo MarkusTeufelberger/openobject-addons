@@ -41,7 +41,7 @@ asset_end_arch = '''<?xml version="1.0"?>
 asset_end_fields = {
     'date': {'string': 'Date', 'type': 'date', 'required':True, 'help':"Efective date for accounting move."},
     'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True, 'help':"Calculated period and period for posting."},
-    'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
+    'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
     'whole_asset': {'string':'All Methods', 'type':'boolean', 'help':"Abandon all methods of this asset."},
     'acc_abandon': {'string':'Abandon Account', 'type': 'many2one', 'relation':'account.account', 'required':True, 'help':"Account for asset loss amount."},
     'note': {'string':'Notes', 'type':'text'},
@@ -82,12 +82,12 @@ def _asset_abandon(self, cr, uid, data, context={}):
 #        'method_period': method.method_period,
         'note': _("Method abandonment. Last values:") +
                 _('\nTotal: ')+ str(method.value_total)+ 
-                _('\nResidual: ')+ str(method.value_residual), 
+                _('\nResidual: ')+ str(method.value_residual)+ 
 #                _('\nProgressive Factor: ') + str(data['form']['method_progress_factor'])+
 #                _('\nSalvage Value: ') + str(data['form']['method_salvage'])+ 
-#                _('\nLife Quantity: ') + str(data['form']['life'])+ "\n" + str(data['form']['note']),
+                "\n" + str(data['form']['note']),
     }, context)
-    method_obj._post_3lines_move(cr, uid, method, period, data['form']['date'], data['form']['acc_abandon'], context)
+    method_obj._post_3lines_move(cr, uid, method = method, period = period, date = data['form']['date'], acc_third_id = data['form']['acc_abandon'], method_initial = False, context = context)
     method_obj._close(cr, uid, method, context)
 #    pool.get('account.asset.method').write(cr, uid, [data['id']], {
 #        'name': data['form']['name'],

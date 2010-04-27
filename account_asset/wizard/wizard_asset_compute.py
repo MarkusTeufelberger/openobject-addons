@@ -56,12 +56,8 @@ def _asset_compute(self, cr, uid, data, context):
     pool = pooler.get_pool(cr.dbname)
     period_obj = pool.get('account.period')
     period = period_obj.browse(cr, uid, data['form']['period_id'], context)
-#    period_post = period_obj.find(cr, uid, data['form']['date'], context=context)
-    if (period.date_start > data['form']['date']) or (period.date_stop < data['form']['date']):
-            raise wizard.except_wizard(_('Error !'), _('Date must be in the period !'))
-    if period.state == 'done':
-            raise wizard.except_wizard(_('Error !'), _('Cannot post in closed period !'))
     method_obj = pool.get('account.asset.method')
+    method_obj._check_date(cr, uid, period, data['form']['date'], context)
     asset_obj = pool.get('account.asset.asset')
     if data['form']['category_id']:
         asset_ids = asset_obj.search(cr, uid, [('state','=','normal'),['category_id','child_of',data['form']['category_id']]], context=context)
