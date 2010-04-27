@@ -175,7 +175,7 @@ class ResPartnerAddress(osv.osv):
         return super(ResPartnerAddress,self).search(cr, user, args, offset, limit,
                 order, context=context, count=count)
     
-    def name_search(self, cr, user, obj, name, args,context={}):
+    def name_search(self, cr, user, obj, name, args, context={}, limit=None):
         res = []
         whereclause = ''
         logger = netsvc.Logger()
