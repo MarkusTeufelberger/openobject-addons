@@ -64,7 +64,7 @@ def _asset_default(self, cr, uid, data, context={}):
     if len(ids):
         period_id = ids[0]
     return {
-#        'note': _("Inital values for asset: "),
+        'note': _("Inital values for asset: "),
 #        'acc_impairment': acc_impairment, 
         'date': time.strftime('%Y-%m-%d'),
         'period_id': period_id,
@@ -75,8 +75,14 @@ def _asset_initial(self, cr, uid, data, context={}):
     period_obj = pool.get('account.period')
     period = period_obj.browse(cr, uid, data['form']['period_id'], context)
     method_obj = pool.get('account.asset.method')
-    method_obj._check_date(cr, uid, period, data['form']['date'], context)
+    date = data['form']['date']
+    method_obj._check_date(cr, uid, period, date, context)
     method = method_obj.browse(cr, uid, data['id'], context)
+    base = data['form']['value'] or 0.0
+    expense = data['form']['expense_value'] or 0.0
+    method_obj._post_3lines_move(cr, uid, method=method, period = period, date = date, \
+                acc_third_id = data['form']['acc_impairment'], base = base, \
+                expense = expense, method_initial = True, context = context)
     pool.get('account.asset.history').create(cr, uid, {
         'type': "initial",
         'asset_method_id': data['id'],
@@ -84,15 +90,19 @@ def _asset_initial(self, cr, uid, data, context={}):
         'name': data['form']['name'],
 #        'method_delay': method.method_delay,
 #        'method_period': method.method_period,
-        'note': _("Initial Values:") + \
-                _('\nTotal: ')+ str(data['form']['value'])+ \
-                _('\nResidual: ')+ str(data['form']['expense_value']) +\
+        'note': _("Initial Method Values:") + \
+                _('\n   Total: ')+ str(base)+ \
+                _('\n   Residual: ')+ str(expense) +\
+                _("\nMethod Values after Initial valuation:") + \
+                _('\n   Total: ')+ str(method.value_total)+ \
+                _('\n   Residual: ')+ str(method.value_residual) + \
                 "\n" + str(data['form']['note']),
     }, context)
-    method_obj._post_3lines_move(cr, uid, method=method, period = period, date = data['form']['date'], \
-                acc_third_id = data['form']['acc_impairment'], base = data['form']['value'], \
-                expense = data['form']['expense_value'], method_initial = True, context = context)
     method_obj.validate(cr, uid, [method.id], context)
+    if not method.asset_id.date:
+        pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {
+                        'date': date,
+                     })
     if data['form']['residual_intervals']:
         method_obj.write(cr, uid, [method.id], {'method_delay':data['form']['residual_intervals']}, context)
     return {}

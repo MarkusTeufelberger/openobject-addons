@@ -381,9 +381,11 @@
 			<group colspan = "1" col="2">
                 	    	<field name="date" select="2"/>
 			    	<field name="sequence"/>
+                    		<field name="partner_id" select="2"/>
 			</group>
 			<group colspan = "1" col="2">
-                    		<field name="partner_id" select="2"/>
+                    		<field name="amount_total"/>
+                    		<field name="amount_residual"/>
                     		<field name="localisation" select="2"/>
                	    		<button name="%(wizard_asset_localisation)d" states="normal" string="Change Localisation" type="action" colspan = "2" />
 			</group>
@@ -436,14 +438,15 @@
         <field name="name">Assets</field>
         <field name="res_model">account.asset.asset</field>
         <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
     </record>
+
     <menuitem 
         parent="menu_finance_config_Assets" 
         id="menu_action_account_asset_asset_form"
         action="action_account_asset_asset_form" sequence="50"/>
 
     <menuitem id="menu_finance_Assets" name="Assets" parent="account.menu_finance"/>
-
 
     <record model="ir.ui.view" id="view_account_asset_asset_tree">
         <field name="name">account.asset.asset.tree</field>
@@ -452,13 +455,15 @@
 <!--        <field name="field_parent">child_ids</field>  -->
         <field name="arch" type="xml">
             <tree string="Assets">
-                <field name="sequence"/>
-                <field name="category_id"/>
-                <field name="date"/>
-                <field name="name"/>
-                <field name="code"/>
+<!--                <field name="sequence" select="1"/>    -->
+                <field name="category_id" select="1"/>
+                <field name="date" select="1"/>
+                <field name="name" select="1"/>
+                <field name="code" select="1"/>
+                <field name="amount_total"/>
+                <field name="amount_residual"/>
 <!--                <field name="value_total"/>    -->
-                <field name="state"/>
+                <field name="state" select="1"/>
             </tree>
         </field>
     </record>

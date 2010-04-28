@@ -35,11 +35,93 @@
         - Straight-Line
         - Declining-Balance
         - Sum of Year Digits
-        - Units of Production
+        - Units of Production - this method can be used for individual depreciation schedule.
         - Progressive
-    * Time methods:
-        - Interval
-        - End of Year
+    * Method Parameters:
+	- Starting period
+	- Number of depreciation intervals
+	- Number of intervals per year
+	- Progressive factor Declining-Balance method
+	- Salvage Value
+	- Life Quantity for Unit of Production method
+    * Functionality:
+	- Defining the asset in invoice when purchasing
+	- Adjusting the asset value in purchasing Refund
+	- Periodical units of production entering
+	- Periodical asset calculation
+	- Sale invoice stops the depreciation and make final postings
+    * Wizards:
+	- Initial Values for continuing depreciation of previous system
+	- Revaluation
+	- Abandonment
+	- Method parameters changing
+	- Suppresing and Resuming depreciation
+	- Localisation changing
+
+This module is based on original Tiny module account_asset version 1.0 of the same name "Financial and accounting asset management".
+
+Purpose of the module is to aid fixed assets management and integrate this management into the accounting system.
+
+Terms used in the module:
+- Asset - product which exists in company, is used internally for longer time and must be taken into asset register.
+- Asset Category - Term for grouping assets into hierarchical structure.
+- Asset Method - Method of calculation of depreciation. Asset can have few methods. Fe. one for cost basis depreciation and second for tax depreciation.
+- Method Type - Used for differentiation of method types and for default settings. 
+- Method Defaults - Settings assigned to method types (and categories) simplifying creation of asset settings.
+
+Usage of the module:
+====================
+Introduction settings:
+1. Create Asset categories (optional)
+2. Create Method Types (optional)
+3. Set Method Defaults (optional)
+
+Usual activities:
+4. Create Asset
+5. Assign invoice line to asset method
+6. Make periodical asset calculation
+
+Rare activities:
+7. Sale of asset
+8. Revaluation of asset
+9. Asset abandonment
+10. Suppressing and resuming the depreciation
+11. Changing a localisation
+
+============================
+1. Create Asset categories in menu "Financial Management - Configuration - Assets - Asset Categories". Categories can be hierarchical. Read farther how hierarchy works for Method Defaults and for Periodical Calculation. You can check hierarchy of categories in menu "Financial Management - Configuration - Assets - Category Structure"
+
+2. Create Method types in menu "Financial Management - Configuration - Assets - Asset Method Types". You should create method type for every kind of depreciation. Fe. you use fast depreciation for computer equipment and slow depreciation for buildings. You can also create different types for cost depreciation and for tax depreciation (if you use tax depreciation).
+
+3. Create Method Defaults in menu "Financial Management - Configuration - Assets - Asset Method Defaults". You can create default settings for method type only or for pairs of method type and asset category. It is suggested to accounting manager to design asset categories hierarchy and assign defaults to categories and method types before system start. If it will be well designed accountants will have simplified and more error-proof job later on. All accounts, calculation methods and other parameters will be entered automatically during asset creation. Note that as Categories are hierarchical the defaults will work also hierarchical for all children categories. It means that if there are no defaults for certain pair of Method Type and Category system look for pairs of Method Type and parent Category. It looks for such pair till root of Category.
+
+4. Create asset in menu "Financial Management - Configuration - Assets - Assets" or in "Financial Management - Assets - Assets". In Asset form you should enter the name of asset, asset code (abbreviation or numerical symbol which can be set in Sequence settings). Then you select Asset category. It is optional step but it would be used to enter method defaults. 
+
+Then you go to methods creation. Asset can have many methods. They can be used when asset is the set of several elements. Fe. Computer set consisting PC, Screen and printer. When they have the same depreciation rule they can be in one method (invoice lines assigned to the same method). If they have different depreciation rules thay have to be in different methods. 
+
+As a first step in creation of method select Method Type. After Method Type selection many fields can be filled automatically. First system creates the method Name from Method Type Code, Asset name and Asset Code. It would simplify Method selection in invoice line. Then system fills other fields according to method defaults. There are accounts, calculation methods and other values. You can change Method name and other default settings before asset saving but when you select Method type again (even to the same type) these fields will reverted back to defaults.
+
+5. As buying is the most common way to possess the asset you usually have to assign the created asset method to supplier invoice line. So when you create the draft supplier invoice you have to open the invoice line and select the created asset method. Note that after asset method selection the invoice line account would be changed to Asset Account which was set in Asset method. Then when you create the invoice the asset state changes to Normal and Asset method state changes to open and method is ready for depreciation.
+
+When asset purchase is subject of refund and asset should change the value according to that you should assign Refund line to asset method again. Method value will be reflected to the refund value. 
+
+6. To make asset calculation choose "Financial Management - Periodical Processing - Assets Calculation - Compute Assets". You have to select period of calculation and date of postings. Selected period is also used as posting period so Date must be in Period. The you can select Asset Category and Method Type which you would like to compute. Remember that Categories are hierarchical. 
+
+7. When asset is to be sold you can assign appropriate method to the Customer invoice line. System make needed postings and stop the asset method.
+
+8. If you wish to revaluate the method you can use Revaluate Method button. Select parameters for postings and for asset history.
+
+9. If you wish to abandon the asset you can use Abandon Method button. Parameters in wizard are described in labels.
+
+10. You can wish suppress or resume the depreciation. You can use Suppress and Resume buttons for that. If method has state different than "Open" it is not calculated.
+
+11. Some local rules require to trace the asset localisation. You can use for that button "Change Localisation" on asset tab "Other Information". Wizard will change localisation text and make proper entry in asset history.
+
+Remarks:
+- All wizard actions are traced in Asset history.
+- If you make mistake in depreciations or in wizard actions you can delete created accounting moves usual way in Financial menu. They are in draft state after creation. You can recreate depreciation moves in Compute Asset wizard. Deleting the moves created by wizards doesn't delete asset history entries.
+- You can also manually create account moves for special actions not covered by this module functionality. When creating such move you should assign asset method to move lines. You can use this possibility to add tax depreciation. Create special method type for tax. Then tax method for asset and create manually account move with account move lines assigned to method and with proper accounts.
+- If you are not satisfyied with calculation methods functionality or you wish to have individual depreciation schedule for method you can adopt Unit of Production calculation method for that. Enter 100 in Life Quantity and then you can use percentage values in method usage.
     """,
     "website" : "http://www.openerp.com",
     "category" : "Generic Modules/Accounting",

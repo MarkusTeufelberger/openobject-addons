@@ -87,7 +87,7 @@ def _asset_abandon(self, cr, uid, data, context={}):
 #                _('\nSalvage Value: ') + str(data['form']['method_salvage'])+ 
                 "\n" + str(data['form']['note']),
     }, context)
-    method_obj._post_3lines_move(cr, uid, method = method, period = period, date = data['form']['date'], acc_third_id = data['form']['acc_abandon'], method_initial = False, context = context)
+    method_obj._post_3lines_move(cr, uid, method = method, period = period, date = data['form']['date'], acc_third_id = data['form']['acc_abandon'], context = context)
     method_obj._close(cr, uid, method, context)
 #    pool.get('account.asset.method').write(cr, uid, [data['id']], {
 #        'name': data['form']['name'],

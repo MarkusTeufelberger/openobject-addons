@@ -64,7 +64,8 @@ class account_invoice(osv.osv):
                     if not line.asset_method_id.account_residual_id:
                         raise osv.except_osv(_('Error !'), _('Product "%s" is assigned to Asset Method "%s". But this method has no Sale Residual Account to make asset moves.')%(line.product_id.name, line.asset_method_id.name,)) 
                     method_obj = self.pool.get('account.asset.method')
-                    method_obj._post_3lines_move(cr, uid, line.asset_method_id, line.invoice_id.period_id, line.invoice_id.date_invoice, line.asset_method_id.account_residual_id.id)
+                    method_obj._post_3lines_move(cr, uid, method= line.asset_method_id, period=line.invoice_id.period_id, \
+                            date = line.invoice_id.date_invoice, acc_third_id = line.asset_method_id.account_residual_id.id)
                     method_obj._close(cr, uid, line.asset_method_id)
                         
                 self.pool.get('account.asset.history').create(cr, uid, {

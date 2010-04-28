@@ -77,6 +77,26 @@ class account_asset_asset(osv.osv):
             return False
     '''
 
+    def _amount_all(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for asset in self.browse(cr,uid,ids, context=context):
+            res[asset.id] = {
+                'amount_total': 0.0,
+                'amount_residual': 0.0,
+#                'amount_total': 0.0
+            }
+            for method in asset.method_ids:
+                res[asset.id]['amount_total'] += method.value_total
+                res[asset.id]['amount_residual'] += method.value_residual
+        return res
+
+
+    def _get_method(self, cr, uid, ids, context=None):
+        result = {}
+        for method in self.pool.get('account.asset.method').browse(cr, uid, ids, context=context):
+            result[method.asset_id.id] = True
+        return result.keys()
+
     def validate(self, cr, uid, ids, context={}):
         for asset in self.browse(cr, uid, ids, context):
             for prop in asset.method_ids:
@@ -101,6 +121,21 @@ class account_asset_asset(osv.osv):
     _columns = {
         'name': fields.char('Asset', size=64, required=True, select=1),
         'code': fields.char('Asset Code', size=16, select=1, required=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'amount_total': fields.function(_amount_all, method=True, string='Total',
+            store={
+                'account.asset.asset': (lambda self, cr, uid, ids, c={}: ids, ['method_ids'], 20),
+#                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.asset.method': (_get_method, ['value_total','value_residual','entry_ids'], 20),
+            },
+            multi='all'),
+        'amount_residual': fields.function(_amount_all, method=True, string='Residual',
+            store={
+                'account.asset.asset': (lambda self, cr, uid, ids, c={}: ids, ['method_ids'], 20),
+#                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.asset.method': (_get_method, ['value_total','value_residual','entry_ids'], 20),
+           },
+            multi='all'),
+
         'note': fields.text('Note'),
         'category_id': fields.many2one('account.asset.category', 'Asset Category', change_default=True),
         'localisation': fields.char('Localisation', size=32, select=2, readonly=True, states={'draft':[('readonly',False)]}, help = "Set this field before asset coonfirming. Later on you will have to use Change Localisation button."),
@@ -152,7 +187,7 @@ class account_asset_method_defaults(osv.osv):
         'journal_analytic_id': fields.many2one('account.analytic.journal', 'Analytic Journal'),
         'account_analytic_id': fields.many2one('account.analytic.account', 'Analytic Account'),
         'method': fields.selection([('linear','Linear'),('progressive','Progressive'), ('decbalance','Declining-Balance')], 'Computation Method'),
-        'method_progress_factor': fields.float('Progressive factor', help = "Specify the factor of progression in depreciation. It is not used in Linear method. When linear depreciation is 20% per year, and you want apply Double-Declining Balance you should choose Declining-Balance method and enter 0,40 (40%) as Progressive factor."),
+        'method_progress_factor': fields.float('Progressive factor', help = "Specify the factor of progression in depreciation. It is used in Declining-Balance method. When linear depreciation is 20% per year, and you want apply Double-Declining Balance you should choose Declining-Balance method and enter 0,40 (40%) as Progressive factor."),
         'method_time': fields.selection([('interval','Interval'),('endofyear','End of Year')], 'Time Method'),
         'method_delay': fields.integer('Number of Intervals'),
         'method_period': fields.integer('Periods per Interval'),
@@ -172,34 +207,57 @@ account_asset_method_defaults()
 
 class account_asset_method(osv.osv):              # Asset method = Asset Method
     def _amount_total(self, cr, uid, ids, name, args, context={}):
-
         if not ids:
             return {}
-        id_set=",".join(map(str,ids))
+#        id_set=",".join(map(str,ids))
         res = {}
+#        cr.execute("SELECT p.id, SUM(l.debit-l.credit) AS residual \
+#                            FROM account_asset_method p \
+#                                ON (p.id=l.asset_method_id) \
+#                            WHERE p.id IN ("+id_set+") AND l.account_id = p.account_expense_id \
+#                            GROUP BY p.id ")
+#            asset_acc_vals = cr.fetchall()
         for id in ids: #
-            res[id] = {'value_total': 0.0 , 'value_residual': 0.0}
-        cr.execute("SELECT p.id, SUM(l.debit-l.credit) AS residual \
+#            res[id] = {'value_total': 0.0 , 'value_residual': 0.0}
+            res[id] = {}
+
+            method = self.browse(cr, uid, id, context)
+            cr.execute("SELECT SUM(l.debit-l.credit) AS asset_acc_vals \
                             FROM account_asset_method p \
                             LEFT JOIN account_move_line l \
                                 ON (p.id=l.asset_method_id) \
-                            WHERE p.id IN ("+id_set+") AND l.account_id IN  (p.account_asset_id, p.account_expense_id) \
-                            GROUP BY p.id ")
+                            WHERE p.id = %s AND l.account_id = p.account_asset_id" % (id, ))
+#            f = cr.fetchone()
+            asset_acc_val = cr.fetchone()[0] or 0.0
+
+            if method.account_asset_id.id == method.account_expense_id.id:         # Direct method
+                cr.execute("SELECT p.id, SUM(l.debit) AS writeoff \
+                            FROM account_asset_method p \
+                            LEFT JOIN account_move_line l \
+                                ON (p.id=l.asset_method_id) \
+                            WHERE p.id = %s AND p.account_actif_id = l.account_id" % (id, ))
+#                f = cr.fetchone()
+                write_off = cr.fetchone()[0] or 0.0
+                res[id]['value_total'] = asset_acc_val + write_off
+                res[id]['value_residual'] = asset_acc_val
+            else:                                                       # Indirect method
+                cr.execute("SELECT SUM(l.debit-l.credit) AS expense_acc_vals \
+                            FROM account_asset_method p \
+                            LEFT JOIN account_move_line l \
+                                ON (p.id=l.asset_method_id) \
+                            WHERE p.id = %s AND l.account_id = p.account_expense_id" % (id, ))
+
 #(p.account_asset_id = l.account_id) OR 
-        residuals = cr.fetchall()
-        cr.execute("SELECT p.id, SUM(l.debit) AS writeoff \
-                            FROM account_asset_method p \
-                            LEFT JOIN account_move_line l \
-                                ON (p.id=l.asset_method_id) \
-                            WHERE p.id IN ("+id_set+") AND p.account_actif_id = l.account_id \
-                            GROUP BY p.id ")
-        write_offs = cr.fetchall()
+#                f = cr.fetchone()
+                expense_acc_val = cr.fetchone()[0] or 0.0
+                res[id]['value_total'] = asset_acc_val
+                res[id]['value_residual'] = asset_acc_val + expense_acc_val
  
-        for id, dt1 in residuals:
-            res[id]['value_total'] = dt1
-            res[id]['value_residual'] = dt1
-        for id, dt2 in write_offs:
-            res[id]['value_total'] = res[id]['value_total'] + dt2
+#        for id, dt1 in residuals:
+#            res[id]['value_total'] = dt1
+#            res[id]['value_residual'] = dt1
+#        for id, dt2 in write_offs:
+#            res[id]['value_total'] = res[id]['value_total'] + dt2
 #            for id in ids:
 #                res.setdefault(id, (0.0, 0.0))
 #            res['residual'].setdefault(id, 0.0)
@@ -222,18 +280,23 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
     '''
 
     def _close(self, cr, uid, method, context={}):
+        method_obj = self.pool.get('account.asset.method')
         if method.state<>'close':
-            self.pool.get('account.asset.method').write(cr, uid, [method.id], {
+            method_obj.write(cr, uid, [method.id], {
                 'state': 'close'
             })
             method.state='close'
-        ok = method.asset_id.state=='normal'
-        for met in method.asset_id.method_ids:
-            ok = ok and met.state=='close'
-        if ok:
+        ok = (method.asset_id.state == 'normal')
+        any_open = method_obj.search(cr, uid, [('asset_id','=',method.asset_id.id),('state','<>','close')])
+#        for met in method.asset_id.method_ids:
+#            raise osv.except_osv('Error !', 'You mus OK %s'%met.state)  
+#            ok = ok and (met.state == 'close')
+#        raise osv.except_osv('Error !', 'You mus OK %s'%ok)  
+        if ok and not any_open:
             self.pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {
                 'state': 'close'
             }, context)
+            method.asset_id.state='close'
         return True
 
     def _suppress(self, cr, uid, method, context={}):
@@ -301,18 +364,25 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         'method_period': fields.integer('Intervals per Year', readonly=True, states={'draft':[('readonly',False)]}, help = "Specify the number of depreciations to be made in year. This number cannot be less then number of periods in year."),
         'method_salvage': fields.float('Salvage Value', readonly=True, states={'draft':[('readonly',False)]}, help = "Value planned to be residual after full depreciation process"),
         'method_end': fields.date('Ending Date'),
-
         'date': fields.date('Date Created'),
         'entry_ids': fields.one2many('account.move.line', 'asset_method_id', 'Entries', readonly=True, states={'draft':[('readonly',False)]}),
         'life': fields.float('Life Quantity', readonly=True, states={'draft':[('readonly',False)]}, help = "Quantity of production which make the asset method used up. This is used in Units Of Production computation method."),
         'usage_ids': fields.one2many('account.asset.method.usage', 'asset_method_id', 'Usage'),
+        'value_total': fields.function(_amount_total, method=True, digits=(16,2),string='Gross Value',
+            store={
+                'account.asset.method': (lambda self, cr, uid, ids, c={}: ids, ['entry_ids'], 20),
+            },
+            multi='all'),
+        'value_residual': fields.function(_amount_total, method=True, digits=(16,2), string='Residual Value', 
+            store={
+                'account.asset.method': (lambda self, cr, uid, ids, c={}: ids, ['entry_ids'], 20),
+            },
+            multi='all'),
+        'state': fields.selection([('draft','Draft'), ('open','Open'), ('suppressed','Suppressed'), ('close','Closed')], 'Method State', required=True),
 
 #        'entry_asset_ids': fields.many2many('account.move.line', 'account_move_asset_entry_rel', 'asset_method_id', 'move_id', 'Asset Entries'),
 #        'board_ids': fields.one2many('account.asset.board', 'asset_id', 'Asset board'),
 
-        'value_total': fields.function(_amount_total, method=True, digits=(16,2),string='Gross Value', multi = "total"),
-        'value_residual': fields.function(_amount_total, method=True, digits=(16,2), string='Residual Value', multi = "total"),
-        'state': fields.selection([('draft','Draft'), ('open','Open'), ('suppressed','Suppressed'), ('close','Closed')], 'Method State', required=True),
 
     }
     _defaults = {
@@ -343,6 +413,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
 #            if method.asset_id.state=='draft':
         method = self.browse(cr, uid, ids[0], context)
         self.pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {'state':'normal'}, context)
+        method.asset_id.state =  'normal'
         return True
 
     def get_defaults(self, cr, uid, method_type_id, asset_category_id, context={}):
@@ -390,7 +461,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         return {'value': result}
 
 # Method is used to post Asset sale, revaluation and abandon
-    def _post_3lines_move(self, cr, uid, method, period, date, acc_third_id, base=0.0, expense=0.0, method_initial=False, context={}):
+    def _post_3lines_move(self, cr, uid, method, period, date, acc_third_id, base=0.0, expense=0.0, method_initial=False, reval=False, context={}):
         move_id = self.pool.get('account.move').create(cr, uid, {
             'journal_id': method.journal_id.id,
             'period_id': period.id,
@@ -401,13 +472,21 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         result = [move_id]
         entries =[]
         expense = - expense
-        if (method.account_asset_id.id == method.account_expense_id.id) or method_initial:
-            total = base or -method.value_residual
+        if method_initial:
+            total = base
             residual = - total
+        elif reval:
+            total = base
+            residual = -(base + expense)  # expense is already negative
+        elif method.account_asset_id.id == method.account_expense_id.id:
+            total = -method.value_residual
+            residual = - total
+            expense = False
         else:
-            expense = expense or (method.value_total - method.value_residual)
-            total = base or -method.value_total
-            residual = base and -(base + expense) or method.value_residual  # expense is already negative
+            expense = method.value_total - method.value_residual
+            total = -method.value_total
+            residual =  method.value_residual
+
         if expense:
             id = self.pool.get('account.move.line').create(cr, uid, {
                 'name': method.name or method.asset_id.name,
@@ -423,7 +502,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
                 'asset_method_id': method.id      
             })
             entries.append((4,id,False),)
-            if method_initial:
+            if method_initial:                          # Only for initial values
 #                raise osv.except_osv(_('Error !'), _('Initial %s !')%method_initial)
                 id_depr = self.pool.get('account.move.line').create(cr, uid, {
                     'name': method.name or method.asset_id.name,
@@ -634,6 +713,19 @@ account_move_line()
 class account_asset_history(osv.osv):
     _name = 'account.asset.history'
     _description = 'Asset history'
+
+#    def _get_total(self, cr, uid, context={}):
+#        total = 0.0
+#        for method in self.pool.get('account.asset.method').browse(cr, uid, self.asset_id.method_ids, context):
+#            total += method.value_total
+#        return total#
+#
+#    def _get_residual(self, cr, uid, context={}):
+#        residual = 0.0
+#        for method in self.pool.get('account.asset.method').browse(cr, uid, self.asset_id.method_ids, context):
+#            residual += method.value_residual
+#        return residual
+
     _columns = {
         'name': fields.char('History name', size=64, select=1),
         'type': fields.selection([
@@ -657,12 +749,18 @@ class account_asset_history(osv.osv):
         'invoice_id': fields.many2one('account.invoice', 'Invoice'),
 #        'method_delay': fields.integer('Number of Interval'),
 #        'method_period': fields.integer('Period per Interval'),
+        'asset_total': fields.integer('Asset Total'),
+        'asset_residual': fields.integer('Asset Residual'),
+
         'method_end': fields.date('Ending Date'),
         'note': fields.text('Note'),
     }
     _defaults = {
         'date': lambda *args: time.strftime('%Y-%m-%d'),
-        'user_id': lambda self,cr, uid,ctx: uid
+        'user_id': lambda self,cr, uid,ctx: uid,
+#        'asset_total': _get_total,
+#        'asset_residual': _get_residual,
+
     }
 account_asset_history()
 
