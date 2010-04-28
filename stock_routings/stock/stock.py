@@ -449,8 +449,7 @@ class stock_move(osv.osv):
         
         for mv_id in move_ids:
             move_dt=self.read(cr,uid,mv_id,['date_planned','picking_id','move_dest_id'])
-            
-            if not all_pick_ids.__contains__(move_dt['picking_id'][0]) :
+            if all_pick_ids and move_dt['picking_id'] and not all_pick_ids.__contains__(move_dt['picking_id'][0]) :
                 
                 if move_dt['picking_id'][0]!=move_dates[0]['picking_id'][0]:
                     all_pick_ids.append(move_dt['picking_id'][0])
@@ -519,7 +518,10 @@ class stock_move(osv.osv):
                     stock_obj.write(cr,uid,r['id'],{'min_date':r['min_date']}) 
              
         self.write(cr, uid, ids, {'state': 'done','picking_date':first_pick_date})
-        stock_obj.write(cr,uid,move_dates[0]['picking_id'][0],{'system_date': time.strftime('%Y-%m-%d %H:%M:%S')})
+        
+        if move_dates and move_dates[0]['picking_id']:
+            stock_obj.write(cr,uid,move_dates[0]['picking_id'][0],{'system_date': time.strftime('%Y-%m-%d %H:%M:%S')})
+            
         wf_service = netsvc.LocalService("workflow")
         for id in ids:
             wf_service.trg_trigger(uid, 'stock.move', id, cr)
