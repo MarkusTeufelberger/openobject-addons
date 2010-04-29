@@ -67,36 +67,11 @@ def _asset_default(self, cr, uid, data, context={}):
 
 def _asset_abandon(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    period_obj = pool.get('account.period')
-    period = period_obj.browse(cr, uid, data['form']['period_id'], context)
-#    period_post = period_obj.find(cr, uid, data['form']['date'], context=context)
     method_obj = pool.get('account.asset.method')
-    method_obj._check_date(cr, uid, period, data['form']['date'], context)
-    method = method_obj.browse(cr, uid, data['id'], context)
-    pool.get('account.asset.history').create(cr, uid, {
-        'type': "abandon",
-        'asset_method_id': data['id'],
-        'asset_id' : method.asset_id.id,
-        'name': data['form']['name'],
-#        'method_delay': method.method_delay,
-#        'method_period': method.method_period,
-        'note': _("Method abandonment. Last values:") +
-                _('\nTotal: ')+ str(method.value_total)+ 
-                _('\nResidual: ')+ str(method.value_residual)+ 
-#                _('\nProgressive Factor: ') + str(data['form']['method_progress_factor'])+
-#                _('\nSalvage Value: ') + str(data['form']['method_salvage'])+ 
-                "\n" + str(data['form']['note']),
-    }, context)
-    method_obj._post_3lines_move(cr, uid, method = method, period = period, date = data['form']['date'], acc_third_id = data['form']['acc_abandon'], context = context)
-    method_obj._close(cr, uid, method, context)
-#    pool.get('account.asset.method').write(cr, uid, [data['id']], {
-#        'name': data['form']['name'],
-#        'method_delay': data['form']['method_delay'],
-#        'method_period': data['form']['method_period'],
-#        'method_progress_factor': data['form']['method_progress_factor'],
-#        'method_salvage': data['form']['method_salvage'],
-#        'life': data['form']['life'],
-#    }, context)
+    met = method_obj.browse(cr, uid, data['id'], context)
+    methods = data['form']['whole_asset'] and met.asset_id.method_ids or [met]
+    method_obj._abandon(cr, uid, methods, data['form']['period_id'], data['form']['date'], data['form']['acc_abandon'], \
+                data['form']['name'], data['form']['note'], context)
     return {}
 
 

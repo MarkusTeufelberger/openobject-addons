@@ -176,11 +176,13 @@
                 <field name="date" select="1"/>
                 <field name="user_id" select="1"/>
 		<field name="asset_method_id" select="1"/>
-		<field name="partner_id" select="1"/>
+		<field name="asset_total"/>
+		<field name="asset_residual"/>
+		<field name="partner_id"/>
 		<field name="invoice_id"/>
 <!--                <field name="method_delay"/>
                 <field name="method_period"/>   -->
-                <field name="method_end"/>
+<!--                <field name="method_end"/>    -->
                 <separator string="Notes" colspan="4"/>
                 <field name="note" colspan="4" nolabel="1"/>
             </form>
@@ -200,6 +202,8 @@
 		<field name="asset_method_id" select="1"/>
 		<field name="partner_id" select="1"/>
 		<field name="invoice_id"/>
+		<field name="asset_total"/>
+		<field name="asset_residual"/>
 <!--                <field name="method_delay"/>
                 <field name="method_period"/>     -->
                 <field name="method_end"/>
@@ -333,8 +337,8 @@
 				    	<field name="value_total"/>
 		                    	<field name="value_residual"/>
 	                                <button name="%(wizard_asset_initial)d" states="open,draft,suppressed" string="Initial Values" type="action" colspan="2"/>
-	                                <button name="%(wizard_asset_reval)d" states="open,suppressed" string="Revaluate Method" type="action" colspan="2"/>
-	                                <button name="%(wizard_asset_abandon)d" states="open,suppressed" string="Abandon Method" type="action" colspan="2"/>
+	                                <button name="%(wizard_asset_reval)d" states="open,suppressed" string="Revalue Method" type="action" colspan="2"/>
+	                                <button name="%(wizard_asset_abandon)d" states="open,suppressed,depreciated" string="Abandon Method" type="action" colspan="2"/>
 
                                 	<button name="%(wizard_asset_modify)d" states="open,suppressed" string="Change Parameters" type="action" colspan="2"/>
 	                                <button name="%(wizard_asset_close)d" states="open" string="Suppress Method" type="action" colspan="2"/>

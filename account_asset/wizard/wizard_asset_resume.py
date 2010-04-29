@@ -53,24 +53,8 @@ def _asset_resume(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
     method_obj = pool.get('account.asset.method')
     met = method_obj.browse(cr, uid, data['id'], context)
-    methods = data['form']['whole_asset'] and method_obj.browse(cr, uid, met.asset_id.method_ids, context) or [met]
-#        asset_obj = pool.get('account.asset')
-#        asset_ids = asset_obj.browse cr, uid, method.id.context)
-#         = method_obj.browse(cr, uid, method.asset_id.method_ids, context)
-    for method in methods:
-        pool.get('account.asset.history').create(cr, uid, {
-            'type': "resuming",
-            'asset_method_id': data['id'],
-            'name': data['form']['name'],
-#            'method_end': time.strftime('%Y-%m-%d'),
-            'asset_id': method.asset_id.id,
-            'note': _("Method Resuming. Last values:") + \
-                    _('\nTotal: ')+ str(method.value_total)+ \
-                    _('\nResidual: ')+ str(method.value_residual) + \
-                    "\n" + str(data['form']['note']),
-        }, context)
-
-        method_obj._resume(cr, uid, method, context)
+    methods = data['form']['whole_asset'] and met.asset_id.method_ids or [met]
+    method_obj._resume(cr, uid, methods, data['form']['name'], data['form']['note'], context)
     return {}
 
 

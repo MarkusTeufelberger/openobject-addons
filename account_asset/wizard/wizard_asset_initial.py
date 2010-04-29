@@ -28,7 +28,8 @@ from tools.translate import _
 asset_end_arch = '''<?xml version="1.0"?>
 <form string="Initial Values">
     <separator string="Initial entry" colspan="4"/>
-    <label string = "This wizard is to create initial values in case of continuing depreciation performed in other system before. Can be used for other purposes. But if you want to buy asset don't make initial value but assign invoice line to this method before invoice creation." colspan="4"/>
+    <label string = "Wizard for depreciation continuation or starting depreciation of asset comming from production or investment." colspan="4"/>
+    <label string = "For purchased assets use invoice line assignment." colspan="4"/>
     <field name="period_id"/>
     <field name="date"/>
     <newline/>
@@ -72,39 +73,10 @@ def _asset_default(self, cr, uid, data, context={}):
 
 def _asset_initial(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    period_obj = pool.get('account.period')
-    period = period_obj.browse(cr, uid, data['form']['period_id'], context)
     method_obj = pool.get('account.asset.method')
-    date = data['form']['date']
-    method_obj._check_date(cr, uid, period, date, context)
     method = method_obj.browse(cr, uid, data['id'], context)
-    base = data['form']['value'] or 0.0
-    expense = data['form']['expense_value'] or 0.0
-    method_obj._post_3lines_move(cr, uid, method=method, period = period, date = date, \
-                acc_third_id = data['form']['acc_impairment'], base = base, \
-                expense = expense, method_initial = True, context = context)
-    pool.get('account.asset.history').create(cr, uid, {
-        'type': "initial",
-        'asset_method_id': data['id'],
-        'asset_id' : method.asset_id.id,
-        'name': data['form']['name'],
-#        'method_delay': method.method_delay,
-#        'method_period': method.method_period,
-        'note': _("Initial Method Values:") + \
-                _('\n   Total: ')+ str(base)+ \
-                _('\n   Residual: ')+ str(expense) +\
-                _("\nMethod Values after Initial valuation:") + \
-                _('\n   Total: ')+ str(method.value_total)+ \
-                _('\n   Residual: ')+ str(method.value_residual) + \
-                "\n" + str(data['form']['note']),
-    }, context)
-    method_obj.validate(cr, uid, [method.id], context)
-    if not method.asset_id.date:
-        pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {
-                        'date': date,
-                     })
-    if data['form']['residual_intervals']:
-        method_obj.write(cr, uid, [method.id], {'method_delay':data['form']['residual_intervals']}, context)
+    method_obj._initial(cr, uid, method, data['form']['period_id'], data['form']['date'], data['form']['value'], data['form']['expense_value'], \
+            data['form']['acc_impairment'], data['form']['residual_intervals'], data['form']['name'], data['form']['note'], context)
     return {}
 
 

@@ -45,22 +45,7 @@ def _asset_default(self, cr, uid, data, context={}):
 
 def _asset_localisation(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-#    asset = pool.get('account.asset.asset').browse(cr, uid, data['id'], context)
-    pool.get('account.asset.history').create(cr, uid, {
-        'type': "transfer",
-#        'asset_method_id': data['id'],
-        'asset_id' : data['id'],
-        'name': data['form']['name'],
-#        'method_delay': method.method_delay,
-#        'method_period': method.method_period,
-        'note': _("Asset transfered to: ") + str(data['form']['localisation'])+ 
-                "\n" + str(data['form']['note']),
-    }, context)
-    pool.get('account.asset.asset').write(cr, uid, [data['id']], {
-#        'name': data['form']['name'],
-        'localisation': data['form']['localisation'],
-
-    }, context)
+    pool.get('account.asset.asset')._localisation(cr, uid, data['id'], data['form']['localisation'], data['form']['name'], data['form']['note'], context)
     return {}
 
 

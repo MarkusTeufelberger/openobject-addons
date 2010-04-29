@@ -63,7 +63,7 @@ def _asset_default(self, cr, uid, data, context={}):
     if len(ids):
         period_id = ids[0]
     return {
-        'note': _("Asset revaluated because: "),
+        'note': _("Asset revalued because: "),
         'acc_impairment': acc_impairment, 
         'date': time.strftime('%Y-%m-%d'),
         'period_id': period_id,
@@ -71,36 +71,11 @@ def _asset_default(self, cr, uid, data, context={}):
 
 def _asset_reval(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    period_obj = pool.get('account.period')
-    period = period_obj.browse(cr, uid, data['form']['period_id'], context)
     method_obj = pool.get('account.asset.method')
-    method_obj._check_date(cr, uid, period, data['form']['date'], context)
     method = method_obj.browse(cr, uid, data['id'], context)
-    total = 5 #method.value_total
-    residual = 2 #method.value_residual
-    base = data['form']['value'] or 0.0
-    expense = data['form']['expense_value'] or 0.0
-    method_obj._post_3lines_move(cr, uid, method = method, period = period, date = data['form']['date'], acc_third_id = data['form']['acc_impairment'], base = base, expense = expense, reval=True, context = context)
-    pool.get('account.asset.history').create(cr, uid, {
-        'type': "reval",
-        'asset_method_id': data['id'],
-        'asset_id' : method.asset_id.id,
-        'name': data['form']['name'],
-#        'method_delay': method.method_delay,
-#        'method_period': method.method_period,
-        'note': _("Method Revaluation:") + \
-#                _('\n   Total: ')+ str(total) + \
-#                _('\n   Residual: ')+ str(residual) + \
-                _("\nIncreasing values:") + \
-                _('\n   Total: ')+ str(base)+ \
-                _('\n   Expense: ')+ str(expense) + \
+    method_obj._reval(cr, uid, method, data['form']['period_id'], data['form']['date'], data['form']['value'], data['form']['expense_value'],\
+            data['form']['acc_impairment'], data['form']['name'], data['form']['note'], context)
 
-                _("\nMethod Values after revaluation:") + \
-                _('\n   Total: ')+ str(method.value_total)+ \
-                _('\n   Residual: ')+ str(method.value_residual) + \
-
-                "\n" + str(data['form']['note'] or ""),
-    }, context)
     return {}
 
 
@@ -110,7 +85,7 @@ class wizard_asset_reval(wizard.interface):
             'actions': [_asset_default],
             'result': {'type':'form', 'arch':asset_end_arch, 'fields':asset_end_fields, 'state':[
                 ('end','Cancel'),
-                ('asset_reval','Revaluate')
+                ('asset_reval','Revalue')
             ]}
         },
         'asset_reval': {

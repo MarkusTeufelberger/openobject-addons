@@ -143,7 +143,7 @@ class account_asset_asset(osv.osv):
 #        'parent_id': fields.many2one('account.asset.asset', 'Parent asset'),
 #        'child_ids': fields.one2many('account.asset.asset', 'parent_id', 'Childs asset'),
         'date': fields.date('Date',readonly=True, states={'draft':[('readonly',False)]}, help = "Set this date or leave it empty to allow system set the first purchase date."),
-        'state': fields.selection([('view','View'),('draft','Draft'),('normal','Normal'),('close','Closed')], 'Asset State', required=True),
+        'state': fields.selection([('view','View'),('draft','Draft'),('normal','Normal'),('close','Closed')], 'Asset State', required=True, help = "Normal - Asset contains active methods (opened, suppressed or depreciated).\nClosed - Asset doesn't exist. All methods are sold or abandoned."),
         'active': fields.boolean('Active', select=2),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, states={'draft':[('readonly',False)]}, help = "If Date field is empty this field will be filled by first purchase."),
 #        'entry_ids': fields.one2many('account.move.line', 'asset_id', 'Entries', readonly=True, states={'draft':[('readonly',False)]}),
@@ -159,6 +159,20 @@ class account_asset_asset(osv.osv):
         'state': lambda obj, cr, uid, context: 'draft',
 #        'period_id': _get_period,
     }
+
+    def _localisation(self, cr, uid, asset_id, localisation, name, note, context={}):
+        self.pool.get('account.asset.history').create(cr, uid, {
+            'type': "transfer",
+            'asset_id' : asset_id,
+            'name': name,
+            'note': _("Asset transfered to: ") + str(localisation)+ 
+                    "\n" + str(note or ""),
+        }, context)
+        pool.get('account.asset.asset').write(cr, uid, [asset_id], {
+            'localisation': localisation,
+        }, context)
+        return True
+
 account_asset_asset()
 
 class account_asset_method_type(osv.osv):
@@ -278,6 +292,14 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             res.setdefault(id, 0.0)
         return res
     '''
+    def _finish_depreciation(self, cr, uid, method, context={}):
+        if method.state == 'open':
+            method_obj = self.pool.get('account.asset.method')
+            method_obj.write(cr, uid, [method.id], {
+                'state': 'depreciated'
+            })
+            method.state='depreciated'
+        return True
 
     def _close(self, cr, uid, method, context={}):
         method_obj = self.pool.get('account.asset.method')
@@ -288,10 +310,6 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             method.state='close'
         ok = (method.asset_id.state == 'normal')
         any_open = method_obj.search(cr, uid, [('asset_id','=',method.asset_id.id),('state','<>','close')])
-#        for met in method.asset_id.method_ids:
-#            raise osv.except_osv('Error !', 'You mus OK %s'%met.state)  
-#            ok = ok and (met.state == 'close')
-#        raise osv.except_osv('Error !', 'You mus OK %s'%ok)  
         if ok and not any_open:
             self.pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {
                 'state': 'close'
@@ -299,34 +317,144 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             method.asset_id.state='close'
         return True
 
-    def _suppress(self, cr, uid, method, context={}):
-        if method.state == 'open':
-            self.pool.get('account.asset.method').write(cr, uid, [method.id], {
-                'state': 'suppressed'
+    def _initial(self, cr, uid, method, period_id, date, base, expense, acc_impairment, residual_intervals, name, note, context):
+        period = self._check_date(cr, uid, period_id, date, context)
+        self._post_3lines_move(cr, uid, method=method, period = period, date = date, \
+                    acc_third_id = acc_impairment, base = base, expense = expense, method_initial = True, context = context)
+        self.pool.get('account.asset.history').create(cr, uid, {
+            'type': "initial",
+            'asset_method_id': method.id,
+            'asset_id' : method.asset_id.id,
+            'name': name,
+            'asset_total': method.asset_id.amount_total,
+            'asset_residual': method.asset_id.amount_residual,
+            'note': _("Initial Method Values:") + \
+                    _('\n   Total: ')+ str(base or 0.0)+ \
+                    _('\n   Expense: ')+ str(expense or 0.0) +\
+                    "\n" + str(note or ""),
+        }, context)
+        self.validate(cr, uid, [method.id], context)
+        if not method.asset_id.date:
+            self.pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {
+                'date': date,
             })
-            method.state='suppressed'
-#        ok = method.asset_id.state=='normal'
-#        for met in method.asset_id.method_ids:
-#            ok = ok and met.state=='close'
-#        if ok:
-#            self.pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {
-#                'state': 'close'
-#            }, context)
+        if residual_intervals:
+            self.write(cr, uid, [method.id], {'method_delay': residual_intervals}, context)
         return True
 
-    def _resume(self, cr, uid, method, context={}):
-        if method.state == 'suppressed':
-            self.pool.get('account.asset.method').write(cr, uid, [method.id], {
-                'state': 'open'
-            })
-            method.state='open'
-#        ok = method.asset_id.state=='normal'
-#        for met in method.asset_id.method_ids:
-#            ok = ok and met.state=='close'
-#        if ok:
-#            self.pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {
-#                'state': 'close'
-#            }, context)
+
+    def _reval(self, cr, uid, method, period_id, date, base, expense, acc_impairment, name, note, context={}):
+        period = self._check_date(cr, uid, period_id, date, context)
+        self.pool.get('account.asset.history').create(cr, uid, {
+            'type': "reval",
+            'asset_method_id': method.id,
+            'asset_id' : method.asset_id.id,
+            'name': name,
+            'asset_total': method.asset_id.amount_total,
+            'asset_residual': method.asset_id.amount_residual,
+            'note': _("Method Revaluation at state:") + \
+                    _('\n   Total: ')+ str(method.value_total)+ \
+                    _('\n   Residual: ')+ str(method.value_residual) + \
+                    _("\nIncreasing values:") + \
+                    _('\n   Total: ')+ str(base or 0.0)+ \
+                    _('\n   Expense: ')+ str(expense or 0.0) + \
+                    "\n" + str(note or ""),
+        }, context) 
+        self._post_3lines_move(cr, uid, method = method, period = period, date = date, acc_third_id = acc_impairment, base = base, expense = expense, reval=True, context = context)
+        return True
+
+    def _abandon(self, cr, uid, methods, period_id, date, acc_abandon, name, note, context={}):
+        period = self._check_date(cr, uid, period_id, date, context)
+        for method in methods:
+            if method.state in ['open','suppressed']:
+                self.pool.get('account.asset.history').create(cr, uid, {
+                    'type': "abandon",
+                    'asset_method_id': method.id,
+                    'asset_id' : method.asset_id.id,
+                    'name': name,
+                    'asset_total': method.asset_id.amount_total,
+                    'asset_residual': method.asset_id.amount_residual,
+                    'note': _("Method abandonment. Last values:") +
+                            _('\n   Total: ')+ str(method.value_total)+ 
+                            _('\n   Residual: ')+ str(method.value_residual)+ 
+                            "\n" + str(note or ""),
+                }, context)
+                self._post_3lines_move(cr, uid, method = method, period = period, date = date, acc_third_id = acc_abandon, context = context)
+                self._close(cr, uid, method, context)
+            return True
+
+
+    def _modif(self, cr, uid, method, method_delay, method_period, method_progress_factor, method_salvage, life, name, note, context={}):
+        self.pool.get('account.asset.history').create(cr, uid, {
+            'type': "change",
+            'asset_method_id': method.id,
+            'asset_id' : method.asset_id.id,
+            'name': name,
+            'asset_total': method.asset_id.amount_total,
+            'asset_residual': method.asset_id.amount_residual,
+            'note': _("Method Last values:") + \
+                    _('\n   Total: ')+ str(method.value_total)+ \
+                    _('\n   Residual: ')+ str(method.value_residual) + \
+                    _("\nChanging of method parameters to:") +
+                    _('\n   Number of Intervals: ')+ str(method_delay) + 
+                    _('\n   Intervals per Year: ')+ str(method_period) + 
+                    _('\n   Progressive Factor: ') + str(method_progress_factor) +
+                    _('\n   Salvage Value: ') + str(method_salvage or 0.0)+ 
+                    _('\n   Life Quantity: ') + str(life or 0.0)+ \
+                    "\n" + str(note or ""),
+        }, context)
+        self.write(cr, uid, [method.id], {
+            'method_delay': method_delay,
+            'method_period': method_period,
+            'method_progress_factor': method_progress_factor,
+            'method_salvage': method_salvage,
+            'life': life,
+        }, context)
+        return True
+
+
+    def _suppress(self, cr, uid, methods, name, note, context={}):
+        for method in methods:
+            if method.state == 'open':
+                self.pool.get('account.asset.history').create(cr, uid, {
+                    'type': "suppression",
+                    'asset_method_id': method.id,
+                    'name': name,
+                    'asset_total': method.asset_id.amount_total,
+                    'asset_residual': method.asset_id.amount_residual,
+#                    'method_end': time.strftime('%Y-%m-%d'),
+                    'asset_id': method.asset_id.id,
+                    'note': _("Method Suppresion. Last values:") + \
+                            _('\nTotal: ')+ str(method.value_total)+ \
+                            _('\nResidual: ')+ str(method.value_residual) + \
+                            "\n" + str(note or ""),
+                }, context)
+                self.write(cr, uid, [method.id], {
+                    'state': 'suppressed'
+                })
+                method.state='suppressed'
+        return True
+
+    def _resume(self, cr, uid, methods, name, note, context={}):
+        for method in methods:
+            if method.state == 'suppressed':
+                self.pool.get('account.asset.history').create(cr, uid, {
+                    'type': "resuming",
+                    'asset_method_id': method.id,
+                    'name': name,
+                    'asset_total': method.asset_id.amount_total,
+                    'asset_residual': method.asset_id.amount_residual,
+    #                'method_end': time.strftime('%Y-%m-%d'),
+                    'asset_id': method.asset_id.id,
+                    'note': _("Method Resuming. Last values:") + \
+                            _('\nTotal: ')+ str(method.value_total)+ \
+                            _('\nResidual: ')+ str(method.value_residual) + \
+                            "\n" + str(note or ""),
+                }, context)
+                self.write(cr, uid, [method.id], {
+                    'state': 'open'
+                })
+                method.state='open'
         return True
 
 
@@ -378,7 +506,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
                 'account.asset.method': (lambda self, cr, uid, ids, c={}: ids, ['entry_ids'], 20),
             },
             multi='all'),
-        'state': fields.selection([('draft','Draft'), ('open','Open'), ('suppressed','Suppressed'), ('close','Closed')], 'Method State', required=True),
+        'state': fields.selection([('draft','Draft'), ('open','Open'), ('suppressed','Suppressed'),('depreciated','Depreciated'), ('close','Closed')], 'Method State', required=True, help = "Open - ready for depreciation.\nSuppressed - not calculated.\nDepreciated - depreciation finished but method exists (can be sold or abandoned).\nClosed - Asset method doesn't exist (sold or abandoned)."),
 
 #        'entry_asset_ids': fields.many2many('account.move.line', 'account_move_asset_entry_rel', 'asset_method_id', 'move_id', 'Asset Entries'),
 #        'board_ids': fields.one2many('account.asset.board', 'asset_id', 'Asset board'),
@@ -637,7 +765,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         result = self._post_move(cr, uid, method, period, date, amount, context)
 
         if (to_writeoff == amount): 
-            self.pool.get('account.asset.method')._close(cr, uid, method, context)
+            self.pool.get('account.asset.method')._finish_depreciation(cr, uid, method, context)
             return result
         return result
 
@@ -683,12 +811,14 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
                 result += self._compute_move(cr, uid, method, period, date, usage_id, last_move_line, context)
         return result
 
-    def _check_date(self, cr, uid, period, date, context={}):
+    def _check_date(self, cr, uid, period_id, date, context={}):
+        period_obj = self.pool.get('account.period')
+        period = period_obj.browse(cr, uid, period_id, context)
         if (period.date_start > date) or (period.date_stop < date):
             raise osv.except_osv(_('Error !'), _('Date must be in the period !'))
         if period.state == 'done':
             raise osv.except_osv(_('Error !'), _('Cannot post in closed period !'))
-        return True
+        return period
 
     '''
     def _compute_entries(self, cr, uid, method, period_id, date, context={}):
@@ -716,10 +846,10 @@ class account_asset_history(osv.osv):
 
 #    def _get_total(self, cr, uid, context={}):
 #        total = 0.0
-#        for method in self.pool.get('account.asset.method').browse(cr, uid, self.asset_id.method_ids, context):
+#        total = self.pool.get('account.asset.asset').browse(cr, uid, self.asset_id.id, context).amount_total
 #            total += method.value_total
 #        return total#
-#
+
 #    def _get_residual(self, cr, uid, context={}):
 #        residual = 0.0
 #        for method in self.pool.get('account.asset.method').browse(cr, uid, self.asset_id.method_ids, context):

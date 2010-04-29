@@ -62,32 +62,11 @@ def _asset_default(self, cr, uid, data, context={}):
 
 def _asset_modif(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
-    pool.get('account.asset.history').create(cr, uid, {
-        'type': "change",
-        'asset_method_id': data['id'],
-        'asset_id' : method.asset_id.id,
-        'name': data['form']['name'],
-#        'method_delay': method.method_delay,
-#        'method_period': method.method_period,
-        'note': _("Change of method parameters to:") +
-                _('\nNumber of Intervals: ')+ str(data['form']['method_delay'])+ 
-                _('\nIntervals per Year: ')+ str(data['form']['method_period'])+ 
-                _('\nProgressive Factor: ') + str(data['form']['method_progress_factor'])+
-                _('\nSalvage Value: ') + str(data['form']['method_salvage'])+ 
-                _('\nLife Quantity: ') + str(data['form']['life'])+ "\n" + str(data['form']['note']),
-    }, context)
-    pool.get('account.asset.method').write(cr, uid, [data['id']], {
-#        'name': data['form']['name'],
-        'method_delay': data['form']['method_delay'],
-        'method_period': data['form']['method_period'],
-        'method_progress_factor': data['form']['method_progress_factor'],
-        'method_salvage': data['form']['method_salvage'],
-        'life': data['form']['life'],
-
-    }, context)
+    method_obj = pool.get('account.asset.method')
+    method = method_obj.browse(cr, uid, data['id'], context)
+    method_obj._modif(cr, uid, method, data['form']['method_delay'], data['form']['method_period'], data['form']['method_progress_factor'], \
+                data['form']['method_salvage'], data['form']['life'], data['form']['name'], data['form']['note'], context)
     return {}
-
 
 class wizard_asset_modify(wizard.interface):
     states = {

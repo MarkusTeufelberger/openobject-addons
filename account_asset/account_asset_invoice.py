@@ -53,16 +53,20 @@ class account_invoice(osv.osv):
                 elif line.invoice_id.type == "out_invoice":
                     type = "sale"
                 if type in ["purchase","refund"]:
+                    if line.asset_method_id.state=='draft':
+                        self.pool.get('account.asset.method').validate(cr, uid, [line.asset_method_id.id])
+                    elif line.asset_method_id.state in ["depreciated","closed"]:
+                        raise osv.except_osv(_('Error !'), _('You cannot assign Product "%s" to Asset Method "%s". This method is already depreciated or is inactive (sold or abandoned).')%(line.product_id.name, line.asset_method_id.name,)) 
                     if not line.asset_method_id.asset_id.date:
                         self.pool.get('account.asset.asset').write(cr, uid, [line.asset_method_id.asset_id.id], {
                             'date': line.invoice_id.date_invoice,
                             'partner_id': line.invoice_id.partner_id.id,
                         })                    
-                    if line.asset_method_id.state=='draft':
-                        self.pool.get('account.asset.method').validate(cr, uid, [line.asset_method_id.id])
                 elif type == "sale":
                     if not line.asset_method_id.account_residual_id:
                         raise osv.except_osv(_('Error !'), _('Product "%s" is assigned to Asset Method "%s". But this method has no Sale Residual Account to make asset moves.')%(line.product_id.name, line.asset_method_id.name,)) 
+                    elif line.asset_method_id.state in ["closed","draft"]:
+                        raise osv.except_osv(_('Error !'), _('You cannot assign Product "%s" to Asset Method "%s". This method is in Draft state or is inactive (sold or abandoned).')%(line.product_id.name, line.asset_method_id.name,)) 
                     method_obj = self.pool.get('account.asset.method')
                     method_obj._post_3lines_move(cr, uid, method= line.asset_method_id, period=line.invoice_id.period_id, \
                             date = line.invoice_id.date_invoice, acc_third_id = line.asset_method_id.account_residual_id.id)
@@ -75,11 +79,12 @@ class account_invoice(osv.osv):
 #                      'name': "Buying asset",
                     'partner_id': line.invoice_id.partner_id.id,
                     'invoice_id': line.invoice_id.id,
-                    'note': "Product name: " + line.product_id.name + ' ['+line.product_id.code+"]\nInvoice date: "+line.invoice_id.date_invoice,
+                    'asset_total': line.asset_method_id.asset_id.amount_total,
+                    'asset_residual': line.asset_method_id.asset_id.amount_residual,
+                    'note': "Product name: " + line.product_id.name + ' ['+line.product_id.code+ \
+                        "]\nInvoice date: "+line.invoice_id.date_invoice + \
+                        "\nPrice: " +line.subtotal,
                 })
-        
-
-
 account_invoice()
 
 class account_invoice_line(osv.osv):
