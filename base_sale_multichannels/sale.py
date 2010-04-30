@@ -244,7 +244,7 @@ class sale_order(osv.osv):
 
     def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
         payment_settings = self.payment_code_to_payment_settings(cr, uid, payment_code, ctx)
-        if payment_settings:
+        if payment_settings and payment_settings.journal_id:
             return self.generate_payment_with_journal(cr, uid, payment_settings.journal_id.id, partner_id, amount, payment_ref, entry_name, date, should_validate and payment_settings.validate_payment, ctx)
         return False
         
@@ -293,7 +293,7 @@ class base_sale_payment_type(osv.osv):
 
     _columns = {
         'name': fields.char('Payment Codes', help="List of Payment Codes separated by ;", size=256, required=True),
-        'journal_id': fields.many2one('account.journal','Payment Journal',required=True),
+        'journal_id': fields.many2one('account.journal','Payment Journal'),
         'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')], 'Packing Policy'),
         'order_policy': fields.selection([
             ('prepaid', 'Payment Before Delivery'),
