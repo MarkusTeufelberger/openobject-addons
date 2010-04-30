@@ -292,7 +292,7 @@ class base_sale_payment_type(osv.osv):
     _description = "Base Sale Payment Type"
 
     _columns = {
-        'name': fields.char('Payment Codes', help="List of Payment Codes separated by ;", size=64, required=True),
+        'name': fields.char('Payment Codes', help="List of Payment Codes separated by ;", size=256, required=True),
         'journal_id': fields.many2one('account.journal','Payment Journal',required=True),
         'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')], 'Packing Policy'),
         'order_policy': fields.selection([
@@ -306,6 +306,16 @@ class base_sale_payment_type(osv.osv):
         'validate_payment': fields.boolean('Validate Payment?'),
         'validate_invoice': fields.boolean('Validate Invoice?'),
         'validate_picking': fields.boolean('Validate Picking?')
+    }
+    
+    _defaults = {
+        'picking_policy': lambda *a: 'direct',
+        'order_policy': lambda *a: 'manual',
+        'invoice_quantity': lambda *a: 'order',
+        'is_auto_reconcile': lambda *a: False,
+        'validate_payment': lambda *a: False,
+        'validate_invoice': lambda *a: False,
+        'validate_picking': lambda *a: False,
     }
 
 base_sale_payment_type()
