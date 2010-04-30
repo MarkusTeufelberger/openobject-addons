@@ -104,6 +104,8 @@ class sale_shop(external_osv.external_osv):
         'last_products_export_date' : fields.datetime('Last Product Export  Time'),
         'referential_id': fields.related('shop_group_id', 'referential_id', type='many2one', relation='external.referential', string='External Referential'),
         'is_tax_included': fields.boolean('Prices Include Tax?', help="Requires sale_tax_include module to be installed"),
+        
+        #TODO all the following settings are deprecated and replaced by the finer grained base.sale.payment.type settings!
         'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')],
                                            'Packing Policy', help="""If you don't have enough stock available to deliver all at once, do you accept partial shipments or not?"""),
         'order_policy': fields.selection([
@@ -290,8 +292,8 @@ class base_sale_payment_type(osv.osv):
     _description = "Base Sale Payment Type"
 
     _columns = {
-                #TODO statement status, status invoice, picking, sale order,....
-        'payment_type': fields.char('Name', size=64, required=True), # TODO multi payment name separed by ";"
+        'name': fields.char('Payment Codes', help="List of Payment Codes separated by ;", size=64, required=True),
+        'journal_id': fields.many2one('account.journal','Payment Journal',required=True),
         'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')], 'Packing Policy'),
         'order_policy': fields.selection([
             ('prepaid', 'Payment Before Delivery'),
@@ -302,7 +304,8 @@ class base_sale_payment_type(osv.osv):
         'invoice_quantity': fields.selection([('order', 'Ordered Quantities'), ('procurement', 'Shipped Quantities')], 'Invoice on'),
         'is_auto_reconcile': fields.boolean('Auto-reconcile?', help="if true will try to reconcile the order payment statement and the open invoice"),
         'validate_payment': fields.boolean('Validate Payment?'),
-        'journal_id': fields.many2one('account.journal','Paiment Journal',required=True)
+        'validate_invoice': fields.boolean('Validate Invoice?'),
+        'validate_picking': fields.boolean('Validate Picking?')
     }
 
 base_sale_payment_type()
