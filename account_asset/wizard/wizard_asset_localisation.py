@@ -27,9 +27,10 @@ from tools.translate import _
 asset_end_arch = '''<?xml version="1.0"?>
 <form string="Localisation Changing">
     <separator string="Set New Localisation" colspan="4"/>
-    <field name="note" colspan="4"/>
+    <field name="name" colspan="4"/>
     <field name="localisation" colspan="4"/>
     <separator string="Notes" colspan="4"/>
+    <field name="note" nolabel="1" colspan="4"/>
 </form>'''
 
 asset_end_fields = {

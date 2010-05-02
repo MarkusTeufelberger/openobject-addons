@@ -28,8 +28,8 @@ from tools.translate import _
 asset_end_arch = '''<?xml version="1.0"?>
 <form string="Initial Values">
     <separator string="Initial entry" colspan="4"/>
-    <label string = "Wizard for depreciation continuation or starting depreciation of asset comming from production or investment." colspan="4"/>
-    <label string = "For purchased assets use invoice line assignment." colspan="4"/>
+    <label string = "Wizard for starting values of asset comming from production or investment. Use it also when you continue asset management from another system." colspan="4"/>
+    <label string = "But for purchased assets use invoice line assignment." colspan="4"/>
     <field name="period_id"/>
     <field name="date"/>
     <newline/>

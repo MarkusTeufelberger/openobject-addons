@@ -131,7 +131,7 @@
 		<group colspan = "2" col = "2" >
 	                <field name="method"/>
 	                <field name="method_progress_factor"/>
-	                <field name="method_time"/>
+<!--	                <field name="method_time"/>   -->
 	                <field name="method_delay"/>
 	                <field name="method_period"/>
 		</group>
@@ -171,15 +171,19 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Asset history">
-                <field name="type" select="1"/>
-                <field name="name" select="1"/>
                 <field name="date" select="1"/>
-                <field name="user_id" select="1"/>
+                <field name="name" select="1"/>
+                <field name="type" select="1"/>
 		<field name="asset_method_id" select="1"/>
+		<field name="change_total"/>
+		<field name="change_expense"/>
+<!--		<field name="method_total"/>
+		<field name="method_residual"/>
 		<field name="asset_total"/>
-		<field name="asset_residual"/>
+		<field name="asset_residual"/>  -->
 		<field name="partner_id"/>
 		<field name="invoice_id"/>
+                <field name="user_id" select="1"/>
 <!--                <field name="method_delay"/>
                 <field name="method_period"/>   -->
 <!--                <field name="method_end"/>    -->
@@ -197,16 +201,20 @@
             <tree string="Asset History">
                 <field name="date" select="1"/>
                 <field name="type" select="1"/>
-                <field name="user_id" select="1"/>
                 <field name="name" select="1"/>
 		<field name="asset_method_id" select="1"/>
-		<field name="partner_id" select="1"/>
-		<field name="invoice_id"/>
+		<field name="change_total"/>
+		<field name="change_expense"/>
+<!--		<field name="method_total"/>
+		<field name="method_residual"/>
 		<field name="asset_total"/>
-		<field name="asset_residual"/>
+		<field name="asset_residual"/>   -->
+		<field name="invoice_id"/>
+ 		<field name="partner_id" select="1"/>
+                <field name="user_id" select="1"/>
 <!--                <field name="method_delay"/>
-                <field name="method_period"/>     -->
-                <field name="method_end"/>
+                <field name="method_period"/>    
+                <field name="method_end"/>   -->
             </tree>
         </field>
     </record>
@@ -230,7 +238,7 @@
         <field name="model">account.asset.method.usage</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Method usage">
+            <tree string="Method Usage">
                 <field name="period_id" select="1"/>
                 <field name="usage"/>
             </tree>
@@ -242,7 +250,7 @@
         <field name="model">account.asset.method.usage</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <tree string="Method usage">
+            <tree string="Method Usage">
                 <field name="period_id" select="1" readonly="1"/>
                 <field name="asset_method_id" readonly="1"/>
                 <field name="usage"/>
@@ -374,12 +382,9 @@
                     </field>
                     <group colspan="4">
                         <field name="state" readonly="1" colspan = "1"/>
-<!--                        <button name="validate" states="draft" string="Confirm Asset" type="object"/>  -->
+                        <button name="clear" states="normal" string="Clear Draft Methods and Close" type="object"/>
                     </group>
 
-<!--                </page><page string="Entries">
-                    <field name="entry_ids" colspan="4" nolabel="1"/>
--->
                 </page>
 		<page string="Other Information">
 			<group colspan = "1" col="2">
@@ -393,11 +398,11 @@
                     		<field name="localisation" select="2"/>
                	    		<button name="%(wizard_asset_localisation)d" states="normal" string="Change Localisation" type="action" colspan = "2" />
 			</group>
-<!--                    <field name="parent_id" select="2"/>   -->
+    		    <separator string="Asset Description" colspan="4"/>
                     <field name="note" colspan="4" nolabel="1"/>
                 </page>
 		<page string="Asset History">
-                       <field name="history_ids" colspan="4" nolabel="1" readonly="1"/>
+                    <field name="history_ids" colspan="4" nolabel="1" readonly="1"/>
                 </page>
                 </notebook>
             </form>

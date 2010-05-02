@@ -22,7 +22,7 @@
 {
     "name" : "Asset management",
     "version" : "1.1",
-    "depends" : ["account", "account_simulation"],
+    "depends" : ["account"],
     "author" : "Tiny, Grzegorz Grzelak (Cirrus.pl)",
     "description": """Financial and accounting asset management.
     Allows to define

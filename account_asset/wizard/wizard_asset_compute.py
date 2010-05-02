@@ -54,13 +54,11 @@ asset_ask_fields = {
 
 def _asset_compute(self, cr, uid, data, context):
     pool = pooler.get_pool(cr.dbname)
-    period_obj = pool.get('account.period')
-    period = period_obj.browse(cr, uid, data['form']['period_id'], context)
     method_obj = pool.get('account.asset.method')
-    method_obj._check_date(cr, uid, period, data['form']['date'], context)
+    period = method_obj._check_date(cr, uid, data['form']['period_id'], data['form']['date'], context)
     asset_obj = pool.get('account.asset.asset')
     if data['form']['category_id']:
-        asset_ids = asset_obj.search(cr, uid, [('state','=','normal'),['category_id','child_of',data['form']['category_id']]], context=context)
+        asset_ids = asset_obj.search(cr, uid, [('state','=','normal'),('category_id','child_of',[data['form']['category_id']])], context=context)
     else:
         asset_ids = asset_obj.search(cr, uid, [('state','=','normal')], context=context)
     if data['form']['method_type_id']:

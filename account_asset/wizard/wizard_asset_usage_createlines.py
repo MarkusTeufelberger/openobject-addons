@@ -67,11 +67,12 @@ def _asset_createlines(self, cr, uid, data, context={}):
     year = pool.get('account.fiscalyear').browse(cr, uid, data['form']['fiscal_year'],context)
     usage_obj = pool.get('account.asset.method.usage')
     step = 12 / data['form']['interval']
+    method_id = data['id']
     for period in year.period_ids:
-        if not usage_obj.search(cr, uid, [('period_id','=',period.id)]) and \
+        if not usage_obj.search(cr, uid, [('period_id','=',period.id),('asset_method_id','=',method_id)]) and \
                 ((mx.DateTime.strptime(period.date_stop, '%Y-%m-%d').month % step ) == 0):
             usage_obj.create(cr, uid, {
-                'asset_method_id': data['id'],
+                'asset_method_id': method_id,
                 'period_id': period.id,
                 'usage': data['form']['value'],
             })

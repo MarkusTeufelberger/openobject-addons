@@ -55,7 +55,7 @@ def _asset_default(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
     method_obj = pool.get('account.asset.method')
     method = method_obj.browse(cr, uid, data['id'], context)
-    asset_category_id = method.asset_id.asset_category and method.asset_id.asset_category.id or False
+    asset_category_id = method.asset_id.category_id and method.asset_id.category_id.id or False
     defaults = method_obj.get_defaults(cr, uid, method.method_type.id, asset_category_id, context)
     acc_impairment = defaults and defaults.account_impairment_id and defaults.account_impairment_id.id or False
     ids = pool.get('account.period').find(cr, uid, context=context)
