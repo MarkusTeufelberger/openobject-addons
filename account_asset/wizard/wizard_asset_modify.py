@@ -39,8 +39,8 @@ asset_end_arch = '''<?xml version="1.0"?>
 
 asset_end_fields = {
     'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
-    'method_delay': {'string':'Number of Intervals', 'type':'float'},
-    'method_period': {'string':'Intervals per Year', 'type':'float'},
+    'method_delay': {'string':'Number of Intervals', 'type':'integer'},
+    'method_period': {'string':'Intervals per Year', 'type':'integer'},
     'method_progress_factor': {'string':'Progressive Factor', 'type':'float'},
     'method_salvage': {'string':'Salvage Value', 'type':'float'},
     'life': {'string':'Life Quantity', 'type':'float'},

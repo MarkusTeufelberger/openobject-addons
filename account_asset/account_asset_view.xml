@@ -340,11 +340,12 @@
         	                        <field name="method_salvage"/>
         	                        <field name="life" attrs="{'readonly':[('method','!=','uop')]}"/>
                                 	<!-- <field name="method_end"/> -->
+        	                        <field name="intervals_before"/>
 				</group>
 				<group colspan = "1" col="2">
 				    	<field name="value_total"/>
 		                    	<field name="value_residual"/>
-	                                <button name="%(wizard_asset_initial)d" states="open,draft,suppressed" string="Initial Values" type="action" colspan="2"/>
+	                                <button name="%(wizard_asset_initial)d" states="draft" string="Initial Values" type="action" colspan="2"/>
 	                                <button name="%(wizard_asset_reval)d" states="open,suppressed" string="Revalue Method" type="action" colspan="2"/>
 	                                <button name="%(wizard_asset_abandon)d" states="open,suppressed,depreciated" string="Abandon Method" type="action" colspan="2"/>
 
@@ -382,7 +383,7 @@
                     </field>
                     <group colspan="4">
                         <field name="state" readonly="1" colspan = "1"/>
-                        <button name="clear" states="normal" string="Clear Draft Methods and Close" type="object"/>
+                        <button name="clear" states="normal" string="Clear Draft and Close" type="object"/>
                     </group>
 
                 </page>

@@ -28,7 +28,7 @@ from tools.translate import _
 asset_end_arch = '''<?xml version="1.0"?>
 <form string="Initial Values">
     <separator string="Initial entry" colspan="4"/>
-    <label string = "Wizard for starting values of asset comming from production or investment. Use it also when you continue asset management from another system." colspan="4"/>
+    <label string = "Wizard for starting values of asset coming from production or investment. Use it also when you continue asset management from another system." colspan="4"/>
     <label string = "But for purchased assets use invoice line assignment." colspan="4"/>
     <field name="period_id"/>
     <field name="date"/>
@@ -37,7 +37,7 @@ asset_end_arch = '''<?xml version="1.0"?>
     <field name="acc_impairment" colspan="4"/>
     <field name="value"/>
     <field name="expense_value"/>
-    <field name="residual_intervals"/>
+    <field name="intervals_before"/>
     <separator string="Notes" colspan="4"/>
     <field name="note" nolabel="1" colspan="4"/>
 </form>'''
@@ -48,7 +48,7 @@ asset_end_fields = {
     'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
     'value': {'string':'Base Value', 'type':'float', 'help':"Initial Base Value of method."},
     'expense_value': {'string':'Expense Value', 'type':'float', 'help':"Initial Value of method expenses. There are sum of depreciations made before this system asset management."},
-    'residual_intervals': {'string':'Residual Intervals', 'type':'float', 'help':"Intervals left to the end of asset depreciation. Number of intervals this system should calculate. Leave empty if you set proper value Number of Intervals."},
+    'intervals_before': {'string':'Intervals Before', 'type':'integer', 'help':"Number of intervals calculated already before asset is managed in this system."},
     'acc_impairment': {'string':'Asset Counter Account', 'type': 'many2one', 'relation':'account.account', 'required':True, 'help':"Counter account for base value."},
     'note': {'string':'Notes', 'type':'text'},
 }
@@ -76,7 +76,7 @@ def _asset_initial(self, cr, uid, data, context={}):
     method_obj = pool.get('account.asset.method')
     method = method_obj.browse(cr, uid, data['id'], context)
     method_obj._initial(cr, uid, method, data['form']['period_id'], data['form']['date'], data['form']['value'], data['form']['expense_value'], \
-            data['form']['acc_impairment'], data['form']['residual_intervals'], data['form']['name'], data['form']['note'], context)
+            data['form']['acc_impairment'], data['form']['intervals_before'], data['form']['name'], data['form']['note'], context)
     return {}
 
 

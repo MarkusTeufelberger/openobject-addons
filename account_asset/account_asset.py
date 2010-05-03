@@ -86,15 +86,6 @@ class account_asset_asset(osv.osv):
                 result[mline.asset_method_id.asset_id.id] = True
         return result.keys()
 
-#    def validate(self, cr, uid, ids, context={}):
-#        for asset in self.browse(cr, uid, ids, context):
-#            for prop in asset.method_ids:
-#                if prop.state=='draft':
-#                    self.pool.get('account.asset.method').write(cr, uid, [prop.id], {'state':'open'}, context)
-#        return self.write(cr, uid, ids, {
-#            'state':'normal'
-#        }, context)
-
     def clear(self, cr, uid, ids, context={}):
         for asset in self.browse(cr, uid, ids, context):
             ok = True
@@ -103,9 +94,11 @@ class account_asset_asset(osv.osv):
                     self.pool.get('account.asset.method').unlink(cr, uid, [met.id], context)
                 elif met.state != 'close':
                     ok = False
-#                    raise osv.except_osv(_('Error !'), _('You can dalete assets only in Draft state !'))
             if ok:
                 self.write(cr, uid, [asset.id], {'state':'close'}, context)
+            else:
+                raise osv.except_osv(_('Warning !'), _('This wizard works only when asset have just Draft and Closed methods !'))
+
         return True 
 
     _columns = {
@@ -114,14 +107,14 @@ class account_asset_asset(osv.osv):
         'amount_total': fields.function(_amount_all, method=True, digits=(16, int(config['price_accuracy'])), string='Total',
             store={
                 'account.asset.asset': (lambda self, cr, uid, ids, c={}: ids, ['method_ids'], 20),
-                'account.asset.method': (_get_method, ['value_total','value_residual','entry_ids'], 20),
+                'account.asset.method': (_get_method, ['value_total','value_residual','entry_ids','state'], 20),
                 'account.move.line': (_get_move_line, ['debit','credit','account_id','asset_method_id'], 20),
             },
             multi='all'),
         'amount_residual': fields.function(_amount_all, method=True, digits=(16, int(config['price_accuracy'])), string='Residual',
             store={
                 'account.asset.asset': (lambda self, cr, uid, ids, c={}: ids, ['method_ids'], 20),
-                'account.asset.method': (_get_method, ['value_total','value_residual','entry_ids'], 20),
+                'account.asset.method': (_get_method, ['value_total','value_residual','entry_ids','state'], 20),
                 'account.move.line': (_get_move_line, ['debit','credit','account_id','asset_method_id'], 20),
            },
             multi='all'),
@@ -185,11 +178,11 @@ class account_asset_method_defaults(osv.osv):
     _columns = {
         'asset_category': fields.many2one('account.asset.category', 'Asset Category', help = "Select the asset category for this set of defaults. If no selection defined defaults will concern to all methods of selected type."),
         'method_type': fields.many2one('account.asset.method.type', 'Method Type', required = True, help ="Select method type for this set of defaults.", ondelete = "cascade"),
-        'account_asset_id': fields.many2one('account.account', 'Asset Account', help = "Select account used as cost basis of asset. It will be applied into invoice line when you select this asset in invoice line."),
+        'account_asset_id': fields.many2one('account.account', 'Asset Account', help = "Select account used for cost basis of asset. It will be applied into invoice line when you select this asset in invoice line."),
         'account_expense_id': fields.many2one('account.account', 'Depr. Expense Account', help = "Select account used for depreciation expense (write-off). If you use direct method of depreciation this account should be the same as Asset Account."),
         'account_actif_id': fields.many2one('account.account', 'Depreciation Account',  help = "Select account used for depreciation amount."),
         'account_residual_id': fields.many2one('account.account', 'Sale Residual Account',  help = "Select account used for sale residual."),
-        'account_impairment_id': fields.many2one('account.account', 'Impairment Account',  help = "Select account used for impairment amount."),
+        'account_impairment_id': fields.many2one('account.account', 'Impairment Account',  help = "Select account used for impairment amount. Used in revaluation."),
         'account_abandon_id': fields.many2one('account.account', 'Abandonment Account',  help = "Select account used for abandonment loss amount."),
         'journal_id': fields.many2one('account.journal', 'Journal', ),
         'journal_analytic_id': fields.many2one('account.analytic.journal', 'Analytic Journal'),
@@ -231,12 +224,15 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             asset_acc_val = cr.fetchone()[0] or 0.0
 
             if method.account_asset_id.id == method.account_expense_id.id:         # Direct method
-                cr.execute("SELECT SUM(l.debit) AS writeoff \
+                if (asset_acc_val == 0.0) and (method.state == 'close'):
+                    write_off = 0.0
+                else:
+                    cr.execute("SELECT SUM(l.debit) AS writeoff \
                             FROM account_asset_method p \
                             LEFT JOIN account_move_line l \
                                 ON (p.id=l.asset_method_id) \
                             WHERE p.id = %s AND p.account_actif_id = l.account_id" % (id, ))
-                write_off = cr.fetchone()[0] or 0.0
+                    write_off = cr.fetchone()[0] or 0.0
                 res[id]['value_total'] = asset_acc_val + write_off
                 res[id]['value_residual'] = asset_acc_val
             else:                                                       # Indirect method
@@ -274,7 +270,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             method.asset_id.state='close'
         return True
 
-    def _initial(self, cr, uid, method, period_id, date, base, expense, acc_impairment, residual_intervals, name, note, context):
+    def _initial(self, cr, uid, method, period_id, date, base, expense, acc_impairment, intervals_before, name, note, context):
         period = self._check_date(cr, uid, period_id, date, context)
         self._post_3lines_move(cr, uid, method=method, period = period, date = date, \
                     acc_third_id = acc_impairment, base = base, expense = expense, method_initial = True, context = context)
@@ -283,8 +279,8 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             self.pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {
                 'date': date,
             })
-        if residual_intervals:
-            self.write(cr, uid, [method.id], {'method_delay': residual_intervals}, context)
+        if intervals_before:
+            self.write(cr, uid, [method.id], {'intervals_before': intervals_before}, context)
         self.pool.get('account.asset.history')._history_line(cr, uid, "initial", method, name, \
                     base, expense, False, note, context)
         return True
@@ -379,39 +375,39 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
     _columns = {
         'name': fields.char('Method name', size=64, select=1, required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'method_type': fields.many2one('account.asset.method.type', 'Method Type', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-#        'type': fields.selection([('direct','Direct'),('indirect','Indirect')], 'Depr. method type', select=2, required=True),
         'asset_id': fields.many2one('account.asset.asset', 'Asset', required=True, ondelete='cascade'),
-        'account_asset_id': fields.many2one('account.account', 'Asset Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help = "Select account used as cost basis of asset. It will be applied into invoice line when you select this asset in invoice line."),
-        'account_expense_id': fields.many2one('account.account', 'Depr. Expense Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help = "Select account used as depreciation expense (write-off). If you use direct method of depreciation this account should be the same as Asset Account."),
-        'account_actif_id': fields.many2one('account.account', 'Depreciation Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help = "Select account used as depreciation amount."),
-        'account_residual_id': fields.many2one('account.account', 'Sale Residual Account', help = "Select account used as residual for method when asset is sold. You can change the account before operation."),
+        'account_asset_id': fields.many2one('account.account', 'Asset Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help = "Select account used for cost basis of asset. It will be applied into invoice line when you select this asset in invoice line."),
+        'account_expense_id': fields.many2one('account.account', 'Depr. Expense Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help = "Select account used for depreciation expense (write-off). If you use direct method of depreciation this account should be the same as Asset Account."),
+        'account_actif_id': fields.many2one('account.account', 'Depreciation Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help = "Select account used for depreciation amounts."),
+        'account_residual_id': fields.many2one('account.account', 'Sale Residual Account', help = "Select account used for residual when asset is sold. You can change the account before sale operation."),
 
         'journal_id': fields.many2one('account.journal', 'Journal', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'journal_analytic_id': fields.many2one('account.analytic.journal', 'Analytic Journal', help = "Not implemented yet."),
         'account_analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', help = "Not implemented yet."),
-        'period_id': fields.many2one('account.period', 'Period', required=True, readonly=True, states={'draft':[('readonly',False)]}, help = "Select last period of starting Interval."),
+        'period_id': fields.many2one('account.period', 'Period', required=True, readonly=True, states={'draft':[('readonly',False)]}, help = "Select period indicating first interval."),
         'method': fields.selection([('linear','Straight-Line'), ('decbalance','Declining-Balance'), ('syd', 'Sum of Years Digits'),  ('uop','Units of Production'), ('progressive','Progressive')], 'Computation Method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-        'method_progress_factor': fields.float('Progressive Factor', readonly=True, states={'draft':[('readonly',False)]}, help = "Specify the factor of progression in depreciation. It is not used in Linear method. When linear depreciation is 20% per year, and you want apply Double-Declining Balance you should choose Declining-Balance method and enter 0,40 (40%) as Progressive factor."),
+        'method_progress_factor': fields.float('Progressive Factor', readonly=True, states={'draft':[('readonly',False)]}, help = "Specify the factor of progression in depreciation. Used in Declining-Balance and Progressive method only. When linear depreciation is 20% per year, and you want apply Double-Declining Balance you should choose Declining-Balance method and enter 0,40 (40%) as Progressive factor."),
 # TODO You can implement depreciation calculation from fixed date. 
 #        'method_time': fields.selection([('interval','Interval'),('date','Start Date')], 'Time Method', required=True, readonly=True, states={'draft':[('readonly',False)]}),
 #        'date_start' : fields.date('Start Date',readonly=True, states={'draft':[('readonly',False)]}, help = "Date of depreciation calculation start."),
-        'method_delay': fields.integer('Number of Intervals', readonly=True, states={'draft':[('readonly',False)]}),
+        'method_delay': fields.integer('Number of Intervals', readonly=True, states={'draft':[('readonly',False)]}, help = "How many intervals this asset is to be calculated in its life. If asset was calculated in other system before specify Intervals Before too."),
+        'intervals_before' : fields.integer('Intervals Before', readonly=True, states={'draft':[('readonly',False)]}, help = "Number of intervals calculated before asset is managed in this system. Used with Initial Values wizard. If you start asset in this system keep zero."),
         'method_period': fields.integer('Intervals per Year', readonly=True, states={'draft':[('readonly',False)]}, help = "Specify the number of depreciations to be made in year. This number cannot be less then number of periods in year."),
         'method_salvage': fields.float('Salvage Value', readonly=True, states={'draft':[('readonly',False)]}, help = "Value planned to be residual after full depreciation process"),
         'method_end': fields.date('Ending Date'),
         'date': fields.date('Date Created'),
         'entry_ids': fields.one2many('account.move.line', 'asset_method_id', 'Entries', readonly=True, states={'draft':[('readonly',False)]}),
-        'life': fields.float('Life Quantity', readonly=True, states={'draft':[('readonly',False)]}, help = "Quantity of production which make the asset method used up. This is used in Units Of Production computation method."),
+        'life': fields.float('Life Quantity', readonly=True, states={'draft':[('readonly',False)]}, help = "Quantity of production which make the asset method used up. Used only in Units of Production computation method and cannot be zero in this case."),
         'usage_ids': fields.one2many('account.asset.method.usage', 'asset_method_id', 'Usage'),
         'value_total': fields.function(_amount_total, method=True, digits=(16, int(config['price_accuracy'])), string='Gross Value',
             store={
-                'account.asset.method': (lambda self, cr, uid, ids, c={}: ids, ['entry_ids'], 10),
+                'account.asset.method': (lambda self, cr, uid, ids, c={}: ids, ['entry_ids','state'], 10),
                 'account.move.line': (_get_line, ['debit','credit','account_id','asset_method_id'], 10),
             },
             multi='all'),
         'value_residual': fields.function(_amount_total, method=True, digits=(16, int(config['price_accuracy'])), string='Residual Value', 
             store={
-                'account.asset.method': (lambda self, cr, uid, ids, c={}: ids, ['entry_ids'], 10),
+                'account.asset.method': (lambda self, cr, uid, ids, c={}: ids, ['entry_ids','state'], 10),
                 'account.move.line': (_get_line, ['debit','credit','account_id','asset_method_id'], 10),
             },
             multi='all'),
@@ -437,20 +433,25 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
                 raise osv.except_osv(_('Error !'), _('You can dalete method only in Draft state !'))
         return super(account_asset_method, self).unlink(cr, uid, ids, context)
 
-    def _check_period(self, cr, uid, ids):
+#    def _check_period(self, cr, uid, ids):
+#        obj_self = self.browse(cr, uid, ids[0])
+#        if (mx.DateTime.strptime(obj_self.period_id.date_stop, '%Y-%m-%d').month % (12 / obj_self.method_period)) == 0:
+#            return True
+#        return False
+
+    def _check_method(self, cr, uid, ids):
         obj_self = self.browse(cr, uid, ids[0])
-        if (mx.DateTime.strptime(obj_self.period_id.date_stop, '%Y-%m-%d').month % (12 / obj_self.method_period)) == 0:
+        if (12 % obj_self.method_period) == 0:
             return True
         return False
 
     _constraints = [
-        (_check_period, _('Error ! Period must be as last in interval.'), ['period_id'])
+        (_check_method, _('Error ! Number of intervals per year must be 1, 2, 3, 4, 6 or 12.'), ['method_period']),
+#        (_check_period, _('Error ! Period must be as last in interval.'), ['period_id']),
     ]
 
     def validate(self, cr, uid, ids, context={}):
         self.write(cr, uid, ids, {'state':'open'}, context)
-#        for method in self.browse(cr, uid, ids, context):
-#            if method.asset_id.state=='draft':
         method = self.browse(cr, uid, ids[0], context)
         self.pool.get('account.asset.asset').write(cr, uid, [method.asset_id.id], {'state':'normal'}, context)
         method.asset_id.state =  'normal'
@@ -477,7 +478,6 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         if method_type_id:
             defaults = self.get_defaults(cr, uid, method_type_id, asset_category_id, context)
             if defaults:
-#                defaults = default_obj.browse(cr, uid, defaults_id[0],{})
                 result['account_expense_id'] = defaults.account_expense_id.id
                 result['account_actif_id'] = defaults.account_actif_id.id
                 result['account_asset_id'] = defaults.account_asset_id.id
@@ -505,7 +505,6 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             'name': '/',                         # GG fix, was 'name': method.name or method.asset_id.name,
             'ref': method.name
         })
-#        direct = (method.account_asset_id.id == method.account_expense_id.id)
         result = [move_id]
         entries =[]
         expense = expense and - expense or False 
@@ -532,7 +531,6 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             })
             entries.append((4,id,False),)
             if method_initial:                          # Only for initial values
-#                raise osv.except_osv(_('Error !'), _('Initial %s !')%method_initial)
                 id_depr = self.pool.get('account.move.line').create(cr, uid, {
                     'name': method.name or method.asset_id.name,
                     'move_id': move_id,
@@ -578,6 +576,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         self.pool.get('account.asset.method').write(cr, uid, [method.id], {
             'entry_ids': entries,
         })
+# TODO automatic move posting according to journal setting.
         return result
 
 
@@ -619,18 +618,17 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
         self.pool.get('account.asset.method').write(cr, uid, [method.id], {
             'entry_ids': [(4, id2, False),(4,id,False)]
         })
+# TODO automatic move posting according to journal setting.
         return result
 
-    def _compute_move(self, cr, uid, method, period, date, usage_id, last_move_line, context={}):
+    def _compute_move(self, cr, uid, method, period, date, usage, last_move_line, context={}):
         result = []
         gross = method.value_total - method.value_salvage
         to_writeoff = method.value_residual - method.value_salvage 
-        if usage_id:                # Units of Production method
-            amount = gross * self.pool.get('account.asset.method.usage').browse(cr, uid, usage_id, context).usage / method.life
-            if amount > to_writeoff:
-                amount = to_writeoff
+        if usage:                # Units of Production method
+            amount = gross * usage / method.life
         else:
-            depr_entries_made = 0
+            depr_entries_made = method.intervals_before
             for line in method.entry_ids:
                 if (line.account_id == method.account_actif_id) and (line.period_id.date_start >= method.period_id.date_start):
                     depr_entries_made += 1      # count depreciation already made
@@ -652,7 +650,7 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
                             amount = gross / method.method_delay
                     else:                                            # In other cases repeat last entry
                         amount = last_move_line.debit
-                elif method.method == 'syd':                         # Sum of Digits method
+                elif method.method == 'syd':                         # Sum of Year Digits method
                     years = method.method_delay / method.method_period
                     syd = years * (years + 1) / 2
                     year = years - math.floor(depr_entries_made / method.method_period)
@@ -660,8 +658,8 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
                         amount = gross * year / syd / method.method_period 
                     else:                                              # In other cases repeat last entry
                         amount = last_move_line.debit
-                if to_writeoff < amount:
-                    amount = to_writeoff
+        if amount > to_writeoff:
+            amount = to_writeoff
 
         result = self._post_move(cr, uid, method, period, date, amount, context)
 
@@ -681,25 +679,26 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
             if last_period.date_start < period.date_start:
                 ml_obj = self.pool.get('account.move.line')
                 last_move_line = ml_obj.browse(cr, uid, pid[0], context)
-                return last_move_line, True
+                return last_move_line, True                # last move line exists and do compute
             else:
-                return False, False
-        return False, True
+                return False, False        # last move line doesn't exists and don't compute
+        return False, True            # last move line doesn't exists but do compute
 
     def _compute_entries(self, cr, uid, method, period, date, context={}):
         result = []
         if (method.state=='open') and (period.date_start >= method.period_id.date_start):
-#            period = self.pool.get('account.period').browse(cr, uid, period_id, context)
-            usage_id = False
+            usage = False
             period_ok = False
             last_move_line, compute_period = self._compute_last_calculated(cr, uid, method, period, context)
-            if method.method == 'uop':
-                usage_ids = self.pool.get('account.asset.method.usage').search(cr, uid, [('period_id','=',period.id),('asset_method_id','=',method.id)])
-                usage_id = usage_ids and usage_ids[0] or False
-            else:
-                period_ok = ((mx.DateTime.strptime(period.date_stop, '%Y-%m-%d').month % (12 / method.method_period)) == 0)
-            if (period_ok or usage_id) and compute_period:
-                result += self._compute_move(cr, uid, method, period, date, usage_id, last_move_line, context)
+            if compute_period:          # it was no calculation for period yet
+                if method.method == 'uop':
+                    usage_obj = self.pool.get('account.asset.method.usage')
+                    usage_ids = usage_obj.search(cr, uid, [('period_id','=',period.id),('asset_method_id','=',method.id)])
+                    usage = usage_ids and usage_obj.browse(cr, uid, usage_ids[0], context).usage or False
+                else:
+                    period_ok = ((mx.DateTime.strptime(period.date_stop, '%Y-%m-%d').month % (12 / method.method_period)) == 0)
+                if (period_ok or usage):
+                    result += self._compute_move(cr, uid, method, period, date, usage, last_move_line, context)
         return result
 
     def _check_date(self, cr, uid, period_id, date, context={}):
@@ -724,18 +723,6 @@ class account_asset_history(osv.osv):
     _name = 'account.asset.history'
     _description = 'Asset history'
 
-#    def _get_total(self, cr, uid, context={}):
-#        total = 0.0
-#        total = self.pool.get('account.asset.asset').browse(cr, uid, self.asset_id.id, context).amount_total
-#            total += method.value_total
-#        return total#
-
-#    def _get_residual(self, cr, uid, context={}):
-#        residual = 0.0
-#        for method in self.pool.get('account.asset.method').browse(cr, uid, self.asset_id.method_ids, context):
-#            residual += method.value_residual
-#        return residual
-
     _columns = {
         'name': fields.char('History name', size=64, select=1),
         'type': fields.selection([
@@ -749,7 +736,7 @@ class account_asset_history(osv.osv):
                 ('abandon','Abandonment'), 
                 ('suppression','Depr. Suppression'), 
                 ('resuming','Depr. Resuming'),
-                ('summary','Summary'),          # Created after Summary on demand. Crreates Summary of all methods (not implemented yet)
+                ('summary','Summary'),          # Created after Summary on demand. Creates Summary of all methods (not implemented yet)
                 ('transfer','Transfer')],       # Creted after changing of localisation 
             'Entry Type', required=True, readonly=True),
         'user_id': fields.many2one('res.users', 'User', required=True),
@@ -758,27 +745,27 @@ class account_asset_history(osv.osv):
         'asset_method_id': fields.many2one('account.asset.method', 'Method', ),
         'partner_id': fields.many2one('res.partner', 'Partner'),
         'invoice_id': fields.many2one('account.invoice', 'Invoice'),
-#        'method_delay': fields.integer('Number of Interval'),
-#        'method_period': fields.integer('Period per Interval'),
         'change_total': fields.float('Total Change', digits=(16, int(config['price_accuracy']))),
         'change_expense': fields.float('Expense Change', digits=(16, int(config['price_accuracy']))),
-#        'method_total': fields.float('Method Total', digits=(16, int(config['price_accuracy']))),
-#        'method_residual': fields.float('Method Residual', digits=(16, int(config['price_accuracy']))),
-#        'asset_total': fields.float('Asset Total', digits=(16, int(config['price_accuracy']))),
-#        'asset_residual': fields.float('Asset Residual', digits=(16, int(config['price_accuracy']))),
-
-        'method_end': fields.date('Ending Date'),
+        'method_end': fields.date('Ending Date'),    # not used
         'note': fields.text('Note'),
     }
     _defaults = {
         'date': lambda *args: time.strftime('%Y-%m-%d'),
         'user_id': lambda self,cr, uid,ctx: uid,
-#        'asset_total': _get_total,
-#        'asset_residual': _get_residual,
-
     }
 
     def _history_line(self, cr, uid, type, method, name, total, expense, invoice, note, context={} ):
+        if type in ["purchase","initial"]:
+            note = _("Parameters set to:") + \
+                    _('\n   Number of Intervals: ')+ str(method.method_delay) + \
+                    _('\n   Intervals per Year: ')+ str(method.method_period) + \
+                    _('\n   Progressive Factor: ') + str(method.method_progress_factor) + \
+                    _('\n   Salvage Value: ') + str(method.method_salvage or 0.0)+ \
+                    _('\n   Life Quantity: ') + str(method.life or 0.0)+ \
+                    _('\n   Intervals Before: ') + str(method.intervals_before or 0.0)+ \
+                    "\n" + str(note or "")
+
         self.pool.get('account.asset.history').create(cr, uid, {
              'type': type,
              'asset_method_id': method.id,

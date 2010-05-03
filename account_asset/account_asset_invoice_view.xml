@@ -9,7 +9,7 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <field name="price_subtotal" position="after">
-                <field name="asset_method_id" context="name=name" on_change="asset_method_id_change(asset_method_id, parent.type)"/>
+                <field name="asset_method_id" context="name=name" domain ="[('state','in', ['draft','open','suppressed'])]" on_change="asset_method_id_change(asset_method_id, parent.type)"/>
             </field>
         </field>
     </record>
