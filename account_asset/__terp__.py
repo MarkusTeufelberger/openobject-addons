@@ -47,9 +47,9 @@
     * Functionality:
 	- Defining the asset in invoice when purchasing
 	- Adjusting the asset value in purchasing Refund
-	- Periodical units of production entering
+	- Periodical entering of units of production
 	- Periodical asset calculation
-	- Sale invoice stops the depreciation and make final postings
+	- Sales invoice stops the depreciation and make final postings
     * Wizards:
 	- Initial Values for continuing depreciation from previous system
 	- Revaluation
@@ -63,7 +63,7 @@ This module is based on original Tiny module account_asset version 1.0 of the sa
 Purpose of the module is to aid fixed assets management and integrate this management into the accounting system.
 
 Terms used in the module:
-- Asset - product or set of products which exist in company and are used internally for longer time and must be taken into asset registry.
+- Asset - product or set of products which are used internally in company for longer time and must be taken into asset registry.
 - Asset Category - Term for grouping assets into hierarchical structure.
 - Asset Method - Calculation rules of depreciation. Asset can have few methods. For each asset element or for each kind of depreciation (cost and tax).
 - Method Type - Used for differentiation of method types and for default settings. 
@@ -132,20 +132,23 @@ Remember that Wizards allows you to make note about previous depreciation in his
 
 Remarks:
 - All wizard actions are traced in Asset history. You can use Asset history as Asset registry.
+- Period in Method is used as indication of starting interval. If you have monthly periods, Intervals per Year is 4 (quarterly) and you set period July or August the calculation will start on September anyway. Depreciation is calculated always in last period of interval. If you set Intervals per Year to 1 (yearly depreciation) system calculates asset in 4th quarter or in December. In last case it calculates depreciation for whole year. If you wish to calculate different interval in first December than in following Decembers you can try to change method parameters using Change Parameters wizard at appropriate moment.
 - If you make mistake in depreciations or in wizard actions you can delete created accounting moves usual way in Financial menu. They are in draft state after creation so they can be deleted. You can recreate depreciation moves in Compute Asset wizard. Deleting the moves created by wizards doesn't delete asset history entries.
 - You can also manually create account moves for special postings not covered by this module functionality. In such case you have to assign move lines to asset method. You can use this possibility to add tax depreciation: 
     a. Create special method type for tax. 
     b. Create tax method for asset.
-    c. Create manually initial account move. (you can try to use Initial Vales wizard for that).
+    c. Create manually initial account move.
     d. Create account move lines with proper accounts for assets.
     e. Assign account move lines to asset method.
     f. Use periodical depreciation computing as usual.
+  You can try to use Initial Values wizard instead of points c, d, e.
 
 - Unit of Production method. If you are not satisfied with any calculation method functionality or you wish to have individual depreciation schedule for method you can adopt Unit of Production calculation method for that:
-    a. Enter 100 in Life Quantity in method.
-    b. On Usage tab use Create Usage Line wizard to create usage entries for the method.
-    c. Enter percentage values as usage entries.
-Usage values can entered in method tab Usage or in menu "Financial Management - Periodical Processing - Assets Calculation - Method Usage". Second method is recommended for use before every period computation.
+    a. Select Units of Production as Computation Method
+    b. Enter 100 in Life Quantity in method.
+    c. On Usage tab use Create Usage Line wizard to create usage entries for the method.
+    d. Enter percentage values as usage entries.
+Usage values can be entered in method tab Usage or in menu "Financial Management - Periodical Processing - Assets Calculation - Method Usage". Second method is recommended for use before every period computation.
     """,
     "website" : "http://www.openerp.com",
     "category" : "Generic Modules/Accounting",

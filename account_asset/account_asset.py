@@ -65,7 +65,6 @@ class account_asset_asset(osv.osv):
             res[asset.id] = {
                 'amount_total': 0.0,
                 'amount_residual': 0.0,
-#                'amount_total': 0.0
             }
             for method in asset.method_ids:
                 res[asset.id]['amount_total'] += method.value_total
@@ -433,12 +432,6 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
                 raise osv.except_osv(_('Error !'), _('You can dalete method only in Draft state !'))
         return super(account_asset_method, self).unlink(cr, uid, ids, context)
 
-#    def _check_period(self, cr, uid, ids):
-#        obj_self = self.browse(cr, uid, ids[0])
-#        if (mx.DateTime.strptime(obj_self.period_id.date_stop, '%Y-%m-%d').month % (12 / obj_self.method_period)) == 0:
-#            return True
-#        return False
-
     def _check_method(self, cr, uid, ids):
         obj_self = self.browse(cr, uid, ids[0])
         if (12 % obj_self.method_period) == 0:
@@ -447,7 +440,6 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
 
     _constraints = [
         (_check_method, _('Error ! Number of intervals per year must be 1, 2, 3, 4, 6 or 12.'), ['method_period']),
-#        (_check_period, _('Error ! Period must be as last in interval.'), ['period_id']),
     ]
 
     def validate(self, cr, uid, ids, context={}):
@@ -800,7 +792,6 @@ class account_asset_method_usage(osv.osv):
         'asset_method_id': fields.many2one('account.asset.method', 'Method',required=True,),
         'period_id': fields.many2one('account.period', 'Period', required=True, help = "Select period which usage concerns."),
         'usage': fields.float('Usage', help = "Specify usage quantity in selected period."),
-
     }
 
     _defaults = {
