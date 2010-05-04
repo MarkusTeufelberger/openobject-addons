@@ -235,20 +235,26 @@ sale_order_line()
 
 class sale_order(osv.osv):
     _inherit = "sale.order"
-    
+
     _columns = {
         'fleet_id': fields.many2one('stock.location', 'Default Sub Fleet'), #TODO call that sub_fleet_id ?
     }
 
     def action_ship_create(self, cr, uid, ids, *args):
+
         result = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
-        
+
         for order in self.browse(cr, uid, ids):
+            
             for order_line in order.order_line:
                 if order_line.fleet_id:
                     for move in order_line.move_ids:
-                        self.pool.get('stock.move').write(cr, uid, move.id, {'location_dest_id':order_line.fleet_id.id})
-        return result
-                    
-
+                        if order.shop_id.warehouse_id.lot_output_id.chained_auto_packing == 'transparent':
+                            if move.state not in ('cancel', 'done'):
+                                self.pool.get('stock.move').write(cr, uid, move.id, {'location_dest_id':order_line.fleet_id.id})
+                        else:
+                            if move.state in ('draft','waiting'):
+                                self.pool.get('stock.move').write(cr, uid, move.id, {'location_dest_id':order_line.fleet_id.id})
+        result
+      
 sale_order()
