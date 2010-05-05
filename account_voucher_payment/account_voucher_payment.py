@@ -205,9 +205,6 @@ class account_voucher(osv.osv):
                              'ref':ref
                          }
                         self.pool.get('account.analytic.line').create(cr,uid,an_line)
-                print "line>>>",line
-                print "line>>>",line.invoice_id
-                print "mline_ids>>>",mline_ids
                 if line.invoice_id:
                     self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
                     self.write(cr, uid, [inv.id], {'move_id': move_id})
