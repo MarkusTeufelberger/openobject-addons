@@ -615,8 +615,8 @@ class account_asset_method(osv.osv):              # Asset method = Asset Method
 
     def _compute_move(self, cr, uid, method, period, date, usage, last_move_line, context={}):
         result = []
-        gross = method.value_total - method.value_salvage
-        to_writeoff = method.value_residual - method.value_salvage 
+        gross = method.value_total - method.method_salvage
+        to_writeoff = method.value_residual - method.method_salvage 
         if usage:                # Units of Production method
             amount = gross * usage / method.life
         else:
