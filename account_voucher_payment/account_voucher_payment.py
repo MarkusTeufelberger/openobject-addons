@@ -131,7 +131,7 @@ class account_voucher(osv.osv):
             #create the first line our self
             move_line = {
                 'name': inv.name,
-                'voucher_invoice' : iml[0]['invoice'].id,
+                'voucher_invoice' : iml and iml[0]['invoice'] and iml[0]['invoice'].id or False,
                 'debit': False,
                 'credit':False,
                 'account_id': inv.account_id.id or False,
@@ -152,7 +152,7 @@ class account_voucher(osv.osv):
             for line in inv.voucher_line_ids:
                 move_line = {
                     'name':line.name,
-                    'voucher_invoice' : iml[0]['invoice'].id,
+                    'voucher_invoice' : iml and iml[0]['invoice'] and iml[0]['invoice'].id or False,
                     'debit':False,
                     'credit':False,
                     'move_id':move_id,                    
@@ -205,7 +205,9 @@ class account_voucher(osv.osv):
                              'ref':ref
                          }
                         self.pool.get('account.analytic.line').create(cr,uid,an_line)
-
+                print "line>>>",line
+                print "line>>>",line.invoice_id
+                print "mline_ids>>>",mline_ids
                 if line.invoice_id:
                     self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
                     self.write(cr, uid, [inv.id], {'move_id': move_id})
