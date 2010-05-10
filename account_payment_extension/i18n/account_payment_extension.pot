@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.9\n"
+"Project-Id-Version: OpenERP Server 5.0.10\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-04-19 22:26:09+0000\n"
-"PO-Revision-Date: 2010-04-19 22:26:09+0000\n"
+"POT-Creation-Date: 2010-05-10 14:44:25+0000\n"
+"PO-Revision-Date: 2010-05-10 14:44:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,9 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_payment_extension
-#: selection:payment.order,type:0
-msgid "Receivable"
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_to_pay
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_to_pay
+msgid "Invoice payments to pay"
 msgstr ""
 
 #. module: account_payment_extension
@@ -26,10 +27,13 @@ msgid "Payable payment orders"
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type_form
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
-#: view:payment.type:0
-msgid "Payment Type"
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable_unreconciled
+msgid "Done payable payments unreconciled"
+msgstr ""
+
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_receivable
+msgid "All received and to receive invoice payments"
 msgstr ""
 
 #. module: account_payment_extension
@@ -39,8 +43,10 @@ msgid "You cannot delete payment order(s) which are already confirmed or done!"
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.actions.wizard,name:account_payment_extension.wizard_populate_statement_ext
-msgid "Populate Statement with Payment lines"
+#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type_form
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
+#: view:payment.type:0
+msgid "Payment Type"
 msgstr ""
 
 #. module: account_payment_extension
@@ -66,14 +72,18 @@ msgid "Invalid model name in the action definition."
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_to_pay
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_to_pay
-msgid "Payments to pay"
+#: model:ir.actions.wizard,name:account_payment_extension.wizard_populate_statement_ext
+msgid "Populate Statement with Payment lines"
 msgstr ""
 
 #. module: account_payment_extension
 #: wizard_field:populate_payment_ext,search,communication2:0
 msgid "Communication 2"
+msgstr ""
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_receivable
+msgid "Receivable invoice payments"
 msgstr ""
 
 #. module: account_payment_extension
@@ -93,8 +103,8 @@ msgid "_Add"
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_rec_payments
-msgid "Receivable payment orders"
+#: selection:payment.order,type:0
+msgid "Receivable"
 msgstr ""
 
 #. module: account_payment_extension
@@ -104,8 +114,8 @@ msgid "Description"
 msgstr ""
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,search:0
-msgid "_Search"
+#: selection:payment.order,type:0
+msgid "Payable"
 msgstr ""
 
 #. module: account_payment_extension
@@ -114,8 +124,14 @@ msgid "Payment type name"
 msgstr ""
 
 #. module: account_payment_extension
-#: selection:payment.order,type:0
-msgid "Payable"
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_payable
+msgid "All paid and to pay invoice payments"
+msgstr ""
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_to_receive
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_to_receive
+msgid "Invoice payments to receive"
 msgstr ""
 
 #. module: account_payment_extension
@@ -156,8 +172,18 @@ msgid "The successor message of payment communication."
 msgstr ""
 
 #. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
+msgid "Done payments"
+msgstr ""
+
+#. module: account_payment_extension
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable_unreconciled
+msgid "Receivable payments unreconciled"
 msgstr ""
 
 #. module: account_payment_extension
@@ -171,13 +197,18 @@ msgid "Due Date"
 msgstr ""
 
 #. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable
+msgid "All done payable payments"
+msgstr ""
+
+#. module: account_payment_extension
 #: field:res.partner.bank,default_bank:0
 msgid "Default"
 msgstr ""
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,search,create:0
-msgid "_Add to payment order"
+#: wizard_button:populate_payment_ext,init,search:0
+msgid "_Search"
 msgstr ""
 
 #. module: account_payment_extension
@@ -186,14 +217,19 @@ msgid "Bank Account"
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable
-msgid "All paid and to pay payments"
+#: wizard_button:populate_payment_ext,search,create:0
+msgid "_Add to payment order"
 msgstr ""
 
 #. module: account_payment_extension
 #: code:addons/account_payment_extension/payment.py:0
 #, python-format
 msgid "Invalid action!"
+msgstr ""
+
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable_unreconciled
+msgid "Done receivable payments unreconciled"
 msgstr ""
 
 #. module: account_payment_extension
@@ -208,7 +244,6 @@ msgstr ""
 
 #. module: account_payment_extension
 #: view:account.move.line:0
-#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
 msgid "Payments"
 msgstr ""
 
@@ -234,13 +269,18 @@ msgid "Account Payment Extension"
 msgstr ""
 
 #. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_invoice_payments
+msgid "Invoice payments"
+msgstr ""
+
+#. module: account_payment_extension
 #: help:populate_payment_ext,init,amount:0
 msgid "Next step will automatically select payments up to this amount."
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
-msgid "Receivable payments"
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable
+msgid "All done receivable payments"
 msgstr ""
 
 #. module: account_payment_extension
@@ -257,8 +297,28 @@ msgid "Bank Details"
 msgstr ""
 
 #. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_rec_payments
+msgid "Receivable payment orders"
+msgstr ""
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_payable
+msgid "Payable invoice payments"
+msgstr ""
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
+msgid "Receivable payments"
+msgstr ""
+
+#. module: account_payment_extension
 #: help:payment.type,note:0
 msgid "Description of the payment type that will be shown in the invoices"
+msgstr ""
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_payable_unreconciled
+msgid "Payable payments unreconciled"
 msgstr ""
 
 #. module: account_payment_extension
@@ -287,17 +347,6 @@ msgstr ""
 #: wizard_button:populate_payment_ext,search,end:0
 #: wizard_button:populate_statement_ext,init,end:0
 msgid "_Cancel"
-msgstr ""
-
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_to_receive
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_to_receive
-msgid "Payments to receive"
-msgstr ""
-
-#. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable
-msgid "All received and to receive payments"
 msgstr ""
 
 #. module: account_payment_extension

@@ -379,36 +379,58 @@ msgstr ""
 msgid "Received check"
 msgstr "Xec rebut"
 
-#~ msgid "Invoice payments to pay"
-#~ msgstr "Efectes pendents de pagament"
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_to_pay
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_to_pay
+msgid "Invoice payments to pay"
+msgstr "Efectes pendents de pagament"
 
-#~ msgid "Done payable payments unreconciled"
-#~ msgstr "Pagaments realitzats no conciliats"
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable_unreconciled
+msgid "Done payable payments unreconciled"
+msgstr "Pagaments realitzats no conciliats"
 
-#~ msgid "Receivable invoice payments"
-#~ msgstr "Efectes de cobrament"
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_receivable
+msgid "Receivable invoice payments"
+msgstr "Efectes de cobrament"
 
-#~ msgid "Done payments"
-#~ msgstr "Pagaments/cobraments realitzats"
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
+msgid "Done payments"
+msgstr "Pagaments/cobraments realitzats"
 
-#~ msgid "Receivable payments unreconciled"
-#~ msgstr "Cobraments no conciliats"
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable_unreconciled
+msgid "Receivable payments unreconciled"
+msgstr "Cobraments no conciliats"
 
-#~ msgid "All done payable payments"
-#~ msgstr "Tots els pagaments realitzats"
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable
+msgid "All done payable payments"
+msgstr "Tots els pagaments realitzats"
 
-#~ msgid "Done receivable payments unreconciled"
-#~ msgstr "Cobraments realitzats no conciliats"
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable_unreconciled
+msgid "Done receivable payments unreconciled"
+msgstr "Cobraments realitzats no conciliats"
 
-#~ msgid "Invoice payments"
-#~ msgstr "Efectes"
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_invoice_payments
+msgid "Invoice payments"
+msgstr "Efectes"
 
-#~ msgid "All done receivable payments"
-#~ msgstr "Tots els cobraments realitzats"
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable
+msgid "All done receivable payments"
+msgstr "Tots els cobraments realitzats"
 
-#, fuzzy
-#~ msgid "Payable invoice payments"
-#~ msgstr "Efectes de pagament"
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_payable
+msgid "Payable invoice payments"
+msgstr "Efectes de pagament"
 
-#~ msgid "Payable payments unreconciled"
-#~ msgstr "Pagaments no conciliats"
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_payable_unreconciled
+msgid "Payable payments unreconciled"
+msgstr "Pagaments no conciliats"
