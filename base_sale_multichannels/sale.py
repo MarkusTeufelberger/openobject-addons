@@ -240,7 +240,7 @@ class sale_order(osv.osv):
 
     def payment_code_to_payment_settings(self, cr, uid, payment_code, ctx):
         payment_setting_id = self.pool.get('base.sale.payment.type').search(cr, uid, [['name', 'ilike', payment_code]])[0]
-        payment_setting_id and self.pool.get('base.sale.payment.type').browse(cr, uid, payment_setting_id, ctx) or False
+        return payment_setting_id and self.pool.get('base.sale.payment.type').browse(cr, uid, payment_setting_id, ctx) or False
 
     def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
         payment_settings = self.payment_code_to_payment_settings(cr, uid, payment_code, ctx)
@@ -258,7 +258,7 @@ class sale_order(osv.osv):
                         }
         statement_id = self.pool.get('account.bank.statement').create(cr, uid, statement_vals, ctx)
         statement = self.pool.get('account.bank.statement').browse(cr, uid, statement_id, ctx)
-        account_id = self.pool.get('account.bank.statement.line').onchange_partner_id(cr, uid, False, partner_id, "customer", statement.currency.id, ctx)['value']['account_id']
+        account_id = self.pool.get('account.bank.statement.line').onchange_partner_id(cr, uid, [], partner_id, "customer", statement.currency.id, ctx)['value']['account_id']
         statement_line_vals = {
                                 'statement_id': statement_id,
                                 'name': entry_name,
@@ -303,7 +303,9 @@ class base_sale_payment_type(osv.osv):
         ], 'Shipping Policy'),
         'invoice_quantity': fields.selection([('order', 'Ordered Quantities'), ('procurement', 'Shipped Quantities')], 'Invoice on'),
         'is_auto_reconcile': fields.boolean('Auto-reconcile?', help="if true will try to reconcile the order payment statement and the open invoice"),
+        'validate_order': fields.boolean('Validate Order?'),
         'validate_payment': fields.boolean('Validate Payment?'),
+        'create_invoice': fields.boolean('Create Invoice?'),
         'validate_invoice': fields.boolean('Validate Invoice?'),
         'validate_picking': fields.boolean('Validate Picking?')
     }
