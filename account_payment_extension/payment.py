@@ -25,6 +25,16 @@ import netsvc
 from osv import fields, osv
 from tools.translate import _
 
+class payment_mode(osv.osv):
+    _inherit = 'payment.mode'
+    _columns = {
+        'require_bank_account': fields.boolean('Require Bank Account', help='Ensure all lines in the payment order when proposing lines to be added in the payment order.'),
+    }
+    _defaults = {
+        'require_bank_account': lambda *a: False,
+    }
+payment_mode()
+
 class payment_type(osv.osv):
     _inherit='payment.type'
     _description='Payment types'
@@ -129,7 +139,6 @@ class payment_order(osv.osv):
             else:
                 raise osv.except_osv(_('Invalid action!'), _('You cannot delete payment order(s) which are already confirmed or done!'))
         result = super(payment_order, self).unlink(cr, uid, unlink_ids, context=context)
-#        osv.osv.unlink(self, cr, uid, unlink_ids)
         return result
 
 payment_order()
@@ -153,3 +162,5 @@ class payment_line(osv.osv):
         return res
 
 payment_line()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

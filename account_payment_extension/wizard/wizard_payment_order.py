@@ -73,8 +73,16 @@ def search_entries(self, cr, uid, data, context):
     selected_ids = []
     amount = data['form']['amount']
     if amount:
+        if payment.mode and payment.mode.require_bank_account:
+            line2bank = pool.get('account.move.line').line2bank(cr, uid, line_ids, payment.mode.id, context)
+        else:
+            line2bank = None
+        # If user specified an amount, search what moves match the criteria taking into account
+        # if payment mode allows bank account to be null.
         for line in pool.get('account.move.line').browse(cr, uid, line_ids, context):
             if abs(line.amount_to_pay) <= amount:
+                if line2bank and not line2bank.get(line.id):
+                    continue
                 amount -= abs(line.amount_to_pay)
                 selected_ids.append( line.id )
     return {

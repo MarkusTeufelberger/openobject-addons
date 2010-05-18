@@ -353,6 +353,21 @@
         </field>
     </record>
 
+    <!-- payment.mode -->
+	<record id="view_payment_mode_form_require_bank_account" model="ir.ui.view">
+		<field name="name">payment.mode.form.require_bank_account</field>
+		<field name="model">payment.mode</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
+		<field name="arch" type="xml">
+			<field name="bank_id" position="before">
+				<field name="require_bank_account"/>
+			</field>
+		</field>
+	</record>
+
+
+
     <!-- Invoice Payments -->
     <menuitem id="menu_finance_invoice_payments" name="Invoice payments" parent="account_payment.menu_main"/>
 
