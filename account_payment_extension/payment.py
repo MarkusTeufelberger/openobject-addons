@@ -28,7 +28,7 @@ from tools.translate import _
 class payment_mode(osv.osv):
     _inherit = 'payment.mode'
     _columns = {
-        'require_bank_account': fields.boolean('Require Bank Account', help='Ensure all lines in the payment order when proposing lines to be added in the payment order.'),
+        'require_bank_account': fields.boolean('Require Bank Account', help='Ensure all lines in the payment order have a bank account when proposing lines to be added in the payment order.'),
     }
     _defaults = {
         'require_bank_account': lambda *a: False,
