@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.10\n"
+"Project-Id-Version: OpenERP Server 5.0.9\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-05-10 14:44:25+0000\n"
-"PO-Revision-Date: 2010-05-10 14:44:25+0000\n"
+"POT-Creation-Date: 2010-05-18 17:17:21+0000\n"
+"PO-Revision-Date: 2010-05-18 17:17:21+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -47,6 +47,11 @@ msgstr ""
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
 #: view:payment.type:0
 msgid "Payment Type"
+msgstr ""
+
+#. module: account_payment_extension
+#: field:payment.mode,require_bank_account:0
+msgid "Require Bank Account"
 msgstr ""
 
 #. module: account_payment_extension
@@ -172,6 +177,11 @@ msgid "The successor message of payment communication."
 msgstr ""
 
 #. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable_unreconciled
+msgid "Receivable payments unreconciled"
+msgstr ""
+
+#. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
 msgid "Done payments"
 msgstr ""
@@ -182,8 +192,8 @@ msgid "Invalid XML for View Architecture!"
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable_unreconciled
-msgid "Receivable payments unreconciled"
+#: help:payment.mode,require_bank_account:0
+msgid "Ensure all lines in the payment order have a bank account when proposing lines to be added in the payment order."
 msgstr ""
 
 #. module: account_payment_extension
