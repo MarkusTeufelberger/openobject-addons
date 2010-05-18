@@ -41,6 +41,8 @@
                         <field name="vessel_name" />
                         <field name="voyage_number" />
                         <field name="shipping_company" />
+                        <field name="kind_transport" select="1" />
+	                    <field name="forwarder" select="1" />
                         <field name="departure_date" />
                         <field name="arrival_date" />
                         <field name="port_of_departure" />
@@ -180,6 +182,8 @@
                         <field name="vessel_name" />
                         <field name="voyage_number" />
                         <field name="shipping_company" />
+                        <field name="kind_transport" select="1" />
+	                    <field name="forwarder" select="1" />
                         <field name="departure_date" />
                         <field name="arrival_date" />
                         <field name="port_of_departure" />

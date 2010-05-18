@@ -81,7 +81,7 @@ class stock_picking(osv.osv):
                 'vessel_name' : fields.char('Vessel Name', size=128,),
                 'voyage_number' : fields.char('Voyage Number', size=64,),
                 'shipping_company' : fields.char('Shipping Company', size=128,),
-                'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Shipping Type',select=1),
+                'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Shipping Type'),
                 'forwarder' : fields.char('Forwarder', size=256),
                 'departure_date' : fields.char('Departure Date', size=64),
                 'arrival_date' : fields.char('Arrival Date', size=64),
@@ -116,7 +116,7 @@ class stock_picking(osv.osv):
             default = {}
         default = default.copy()
         default['stock_history_lines']=[]        
-        return super(stock_picking,self).copy(cr,uid,id,default,context)
+        return super(stock_picking,self).copy(cr,uid,id,default,context)    
     
 stock_picking()
 
@@ -181,6 +181,7 @@ class stock_move(osv.osv):
                         'invoice_state': 'none',
                         'port_of_departure': r_seq.port_of_loading.id,
                         'port_of_arrival': r_seq.port_of_destination.id,
+                        'kind_transport': r_seq.kind_transport
                     })
                     
                         new_moves=[]
@@ -233,6 +234,7 @@ class stock_move(osv.osv):
                         'invoice_state': 'none',
                         'port_of_departure': r_seq.port_of_loading.id,
                         'port_of_arrival': r_seq.port_of_destination.id,
+                        'kind_transport': r_seq.kind_transport
                     })
                     
                         new_moves=[]
@@ -290,6 +292,7 @@ class stock_move(osv.osv):
                             'invoice_state': 'none',
                             'port_of_departure': r_seq.port_of_loading.id,
                             'port_of_arrival': r_seq.port_of_destination.id,
+                            'kind_transport': r_seq.kind_transport
                         })
                         
                             new_moves=[]
