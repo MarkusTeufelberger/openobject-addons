@@ -81,7 +81,7 @@ class stock_picking(osv.osv):
                 'vessel_name' : fields.char('Vessel Name', size=128,),
                 'voyage_number' : fields.char('Voyage Number', size=64,),
                 'shipping_company' : fields.char('Shipping Company', size=128,),
-                'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Shipping Type'),
+                'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Transportation Type'),
                 'forwarder' : fields.char('Forwarder', size=256),
                 'departure_date' : fields.char('Departure Date', size=64),
                 'arrival_date' : fields.char('Arrival Date', size=64),
