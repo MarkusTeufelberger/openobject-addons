@@ -61,8 +61,9 @@ class account_move_line(osv.osv):
                         aml.date<%s OR 
                         (aml.date=%s AND aml.name<=%s AND am.name <> '/') OR 
                         (aml.date=%s AND aml.id<=%s AND am.name = '/') 
-                    )
-            """, (record[1],record[2],record[3],record[3],record[4],record[3],record[0]))
+                    ) AND
+                    aml.id <> %s -- AVOID ADDING CURRENT RECORD TWICE
+            """, (record[1],record[2],record[3],record[3],record[4],record[3],record[0],record[0]))
             balance = cr.fetchone()[0] or 0.0
             # Add/substract current debit and credit
             balance += record[5] - record[6]
