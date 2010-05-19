@@ -59,7 +59,7 @@ class account_move_line(osv.osv):
                     aml.partner_id=%s AND
                     (
                         aml.date<%s OR 
-                        (aml.date=%s AND aml.name<=%s AND am.name <> '/') OR 
+                        (aml.date=%s AND am.name<=%s AND am.name <> '/') OR 
                         (aml.date=%s AND aml.id<=%s AND am.name = '/') 
                     ) AND
                     aml.id <> %s -- AVOID ADDING CURRENT RECORD TWICE
@@ -83,7 +83,7 @@ class account_move_line(osv.osv):
         if context.get('statement_of_accounts') and ids:
             # If it's a statement_of_accounts, ignore order given
             ids = ','.join( [str(int(x)) for x in ids] )
-            cr.execute("SELECT aml.id FROM account_move_line aml, account_move am WHERE aml.move_id = am.id AND aml.id IN (%s) ORDER BY aml.date ASC, am.name" % ids)
+            cr.execute("SELECT aml.id FROM account_move_line aml, account_move am WHERE aml.move_id = am.id AND aml.id IN (%s) ORDER BY aml.date ASC, am.name, am.id" % ids)
             result = cr.fetchall()
             ids = [x[0] for x in result]
         return ids
