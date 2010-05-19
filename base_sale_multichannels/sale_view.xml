@@ -77,7 +77,18 @@
 			</field>
 		</record>
 		
-	
+		<record model="ir.ui.view" id="base_sale_multichannel_view_order_tree">
+			<field name="name">base_sale_multichannel_view_order_tree</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_tree" />
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<field name="state" position="after">
+					<field name="ext_payment_method" select="1" />
+				</field>
+			</field>
+		</record>
+		
 		<record id="view_base_sale_payment_type_form" model="ir.ui.view">
             <field name="name">base.sale.payment.type</field>
             <field name="model">base.sale.payment.type</field>

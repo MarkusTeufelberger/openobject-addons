@@ -237,6 +237,9 @@ sale_shop()
 class sale_order(osv.osv):
     _inherit = "sale.order"
 
+    _columns = {
+                'ext_payment_method': fields.char('External Payment Method', size=32, help = "Spree, Magento, Oscommerce... Payment Method"),
+    }
 
     def payment_code_to_payment_settings(self, cr, uid, payment_code, ctx):
         payment_setting_id = self.pool.get('base.sale.payment.type').search(cr, uid, [['name', 'ilike', payment_code]])[0]
