@@ -242,7 +242,7 @@ class sale_order(osv.osv):
         payment_setting_id = self.pool.get('base.sale.payment.type').search(cr, uid, [['name', 'ilike', payment_code]])[0]
         return payment_setting_id and self.pool.get('base.sale.payment.type').browse(cr, uid, payment_setting_id, ctx) or False
 
-    def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
+    def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx): #should_validate in option?? should_validad have to be prioritary? can be set in the context?
         payment_settings = self.payment_code_to_payment_settings(cr, uid, payment_code, ctx)
         if payment_settings and payment_settings.journal_id:
             return self.generate_payment_with_journal(cr, uid, payment_settings.journal_id.id, partner_id, amount, payment_ref, entry_name, date, should_validate and payment_settings.validate_payment, ctx)
@@ -307,7 +307,6 @@ class base_sale_payment_type(osv.osv):
         'validate_payment': fields.boolean('Validate Payment?'),
         'create_invoice': fields.boolean('Create Invoice?'),
         'validate_invoice': fields.boolean('Validate Invoice?'),
-        'validate_picking': fields.boolean('Validate Picking?')
     }
     
     _defaults = {
@@ -317,7 +316,6 @@ class base_sale_payment_type(osv.osv):
         'is_auto_reconcile': lambda *a: False,
         'validate_payment': lambda *a: False,
         'validate_invoice': lambda *a: False,
-        'validate_picking': lambda *a: False,
     }
 
 base_sale_payment_type()
