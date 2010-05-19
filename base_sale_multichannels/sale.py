@@ -276,6 +276,21 @@ class sale_order(osv.osv):
             self.pool.get('account.move.line').write(cr, uid, [statement.move_line_ids[0].id], {'date': date})
         return statement_line_id
 
+
+    def oe_status(self, cr, uid, order_id, context):
+        wf_service = netsvc.LocalService("workflow")
+        order = self.browse(cr, uid, order_id, context)
+        payment_settings = self.payment_code_to_payment_settings(cr, uid, order.ext_payment_method, context)
+        if payment_settings and payment_settings.validate_order:
+            wf_service.trg_validate(uid, 'sale.order', order.id, 'order_confirm', cr)
+            if order.order_policy == 'manual' and payment_settings.create_invoice:
+                wf_service.trg_validate(uid, 'sale.order', order.id, 'manual_invoice', cr)
+                if payment_settings.validate_invoice:
+                    pass #TODO validate the invoice!
+            elif order.order_policy == 'picking' and payment_settings.validate_picking:
+                pass #TODO validate the picking!
+
+
 sale_order()
 
 #TODO deprecated remove!
