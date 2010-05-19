@@ -283,12 +283,18 @@ class sale_order(osv.osv):
         payment_settings = self.payment_code_to_payment_settings(cr, uid, order.ext_payment_method, context)
         if payment_settings and payment_settings.validate_order:
             wf_service.trg_validate(uid, 'sale.order', order.id, 'order_confirm', cr)
-            if order.order_policy == 'manual' and payment_settings.create_invoice:
-                wf_service.trg_validate(uid, 'sale.order', order.id, 'manual_invoice', cr)
+            
+            if order.order_policy == 'prepaid':
                 if payment_settings.validate_invoice:
-                    pass #TODO validate the invoice!
-            elif order.order_policy == 'picking' and payment_settings.validate_picking:
-                pass #TODO validate the picking!
+                    for invoice in order.invoice_ids:
+                        wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
+
+            if order.order_policy == 'manual':
+                if payment_settings.create_invoice:
+                   invoice_id = self.pool.get('sale.order').action_invoice_create(cr, uid, [order_id])
+                   if payment_settings.validate_invoice:
+                       wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
+
 
 
 sale_order()
