@@ -104,9 +104,16 @@ class account_statement_accounts_wizard(osv.osv_memory):
     def action_open(self, cr, uid, ids, context=None):
         data = self.browse(cr, uid, ids[0], context)
 
+
+        name = data.partner_id and data.partner_id.name or data.account_id.name
+        title = '%s: %s' % (data.account_id.code, name[:10])
+        if len(name) > 10:
+            title += '...'
+
         domain = [('account_id', '=', data.account_id.id)]
         if data.partner_id:
             domain += [('partner_id', '=', data.partner_id.id)]
+
 
         model_data_ids = self.pool.get('ir.model.data').search(cr,uid, [
             ('model','=','ir.ui.view'),
@@ -122,6 +129,7 @@ class account_statement_accounts_wizard(osv.osv_memory):
             'domain': domain,
             'res_model': 'account.move.line',
             'type': 'ir.actions.act_window',
+            'name': title,
         }
 
 account_statement_accounts_wizard()
