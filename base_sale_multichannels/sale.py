@@ -237,8 +237,8 @@ class sale_order(osv.osv):
 
 
     def payment_code_to_payment_settings(self, cr, uid, payment_code, ctx):
-        payment_setting_id = self.pool.get('base.sale.payment.type').search(cr, uid, [['name', 'ilike', payment_code]])[0]
-        payment_setting_id and self.pool.get('base.sale.payment.type').browse(cr, uid, payment_setting_id, ctx) or False
+        payment_setting_ids = self.pool.get('base.sale.payment.type').search(cr, uid, [['name', 'ilike', payment_code]])
+        return payment_setting_ids and self.pool.get('base.sale.payment.type').browse(cr, uid, payment_setting_ids[0], ctx) or False
 
     def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
         payment_settings = self.payment_code_to_payment_settings(cr, uid, payment_code, ctx)
@@ -291,7 +291,7 @@ class base_sale_payment_type(osv.osv):
 
     _columns = {
                 #TODO statement status, status invoice, picking, sale order,....
-        'payment_type': fields.char('Name', size=64, required=True), # TODO multi payment name separed by ";"
+        'name': fields.char('Name', size=64, required=True), # TODO multi payment name separed by ";"
         'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')], 'Packing Policy'),
         'order_policy': fields.selection([
             ('prepaid', 'Payment Before Delivery'),
