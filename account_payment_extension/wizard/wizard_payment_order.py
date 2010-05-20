@@ -123,6 +123,7 @@ def create_payment(self, cr, uid, data, context):
             'communication2': data['form']['communication2'],
             'date': date_to_pay,
             'currency': line.invoice and line.invoice.currency_id.id or False,
+            'account_id': line.account_id.id,
             }, context=context)
     return {}
 
