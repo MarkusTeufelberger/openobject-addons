@@ -28,7 +28,9 @@
         "website" : "http://www.pexego.es",
         "category" : "Enterprise Specific Modules",
         "description": """
-Account Adminitration Tools: Accounting wizards for administrators:
+Pexego Account Adminitration Tools
+
+Accounting wizards for administrators:
 
 - Adds a wizard to import accounts from CSV files. This may be useful
     to import the initial accounts into OpenERP.
@@ -40,6 +42,10 @@ Account Adminitration Tools: Accounting wizards for administrators:
     in moves and invoices where a generic receivable/payable account
     was used instead.
 
+- Adds a wizard to revalidate confirmed account moves so their analytic
+    lines are regenerated. This may be used to fix the data after bugs like
+    https://bugs.launchpad.net/openobject-addons/+bug/582988
+    The wizard also lets you find account moves missing their analytic lines.
             """,
         "depends" : [
                         'base',
@@ -52,6 +58,7 @@ Account Adminitration Tools: Accounting wizards for administrators:
                         'account_importer_wizard.xml',
                         'account_move_importer_wizard.xml',
                         'move_partner_account_wizard.xml',
+                        'revalidate_moves_wizard.xml',
             ],
         "installable": True,
         'active': False

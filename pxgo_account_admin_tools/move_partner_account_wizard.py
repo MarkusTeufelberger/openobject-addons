@@ -68,7 +68,13 @@ class pxgo_move_partner_account_wizard(osv.osv_memory):
                 ])
         if property_ids:
             property = self.pool.get('ir.property').browse(cr, uid, property_ids[0])
-            res = int(property.value.split(',')[1])
+            if property:
+                try:
+                    # OpenERP 5.0 and 5.2/6.0 revno <= 2236
+                    res = int(property.value.split(',')[1])
+                except AttributeError:
+                    # OpenERP 6.0 revno >= 2236
+                    res = property.value_reference.id
         return res
 
     def _get_receivable_account_id(self, cr, uid, context=None):
@@ -83,7 +89,13 @@ class pxgo_move_partner_account_wizard(osv.osv_memory):
                 ])
         if property_ids:
             property = self.pool.get('ir.property').browse(cr, uid, property_ids[0])
-            res = int(property.value.split(',')[1])
+            if property:
+                try:
+                    # OpenERP 5.0 and 5.2/6.0 revno <= 2236
+                    res = int(property.value.split(',')[1])
+                except AttributeError:
+                    # OpenERP 6.0 revno >= 2236
+                    res = property.value_reference.id
         return res
     
     _defaults = {

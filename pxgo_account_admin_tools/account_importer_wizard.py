@@ -21,7 +21,9 @@ import netsvc
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
+"""
+Account Importer
+"""
 __author__ = "Borja López Soilán (Pexego)"
 
 import time
@@ -34,7 +36,19 @@ from tools.translate import _
 
 class pxgo_account_importer_wizard(osv.osv_memory):
     """
-    Account Move Importer
+    Account Importer
+
+    Creates accounts from a CSV file.
+
+    The CSV file lines are expected to have at least the code and name of the
+    account. 
+
+    The wizard will find the account brothers (or parent) having the same
+    account code sufix, and will autocomplete the rest of the account
+    parameters (account type, reconcile, parent account...).
+
+    The CSV file lines are tested to be valid account lines using the regular
+    expresion options of the wizard.
     """
     _name = "pxgo_account_importer_wizard"
     _description = "Account importation wizard"
@@ -110,6 +124,10 @@ class pxgo_account_importer_wizard(osv.osv_memory):
         return None
 
     def action_import(self, cr, uid, ids, context=None):
+        """
+        Imports the accounts from the CSV file using the options from the
+        wizard.
+        """
         # List of the imported accounts
         imported_account_ids = []
 

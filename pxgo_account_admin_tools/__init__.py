@@ -30,3 +30,4 @@ __author__ = "Borja López Soilán (Pexego)"
 import account_importer_wizard
 import account_move_importer_wizard
 import move_partner_account_wizard
+import revalidate_moves_wizard

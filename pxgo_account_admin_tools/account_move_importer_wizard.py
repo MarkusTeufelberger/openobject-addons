@@ -21,7 +21,9 @@ import netsvc
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
+"""
+Account Move Importer
+"""
 __author__ = "Borja López Soilán (Pexego)"
 
 import time
@@ -35,6 +37,14 @@ from tools.translate import _
 class pxgo_account_move_importer_wizard(osv.osv_memory):
     """
     Account Move Importer
+
+    Wizard that imports a CSV file into a new account move.
+
+    The CSV file is expected to have at least the account code, a reference
+    (description of the move line), the debit and the credit.
+
+    The lines of the CSV file are tested to be valid account move lines
+    using the regular expresions set on the wizard.
     """
     _name = "pxgo_account_move_importer_wizard"
     _description = "Account move importation wizard"
@@ -111,6 +121,10 @@ class pxgo_account_move_importer_wizard(osv.osv_memory):
 
 
     def action_import(self, cr, uid, ids, context=None):
+        """
+        Imports a CSV file into a new account move using the options from
+        the wizard.
+        """
         for wiz in self.browse(cr, uid, ids, context):
             if not wiz.input_file:
                 raise osv.except_osv(_('UserError'), _("You need to select a file!"))
