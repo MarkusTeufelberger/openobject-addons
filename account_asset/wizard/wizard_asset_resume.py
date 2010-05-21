@@ -22,67 +22,57 @@
 
 import wizard
 import pooler
+import time
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Method Modyfying">
-    <separator string="Method parameters to modify" colspan="4"/>
+<form string="Method Resuming">
+    <separator string="General information" colspan="4"/>
     <field name="name" colspan="4"/>
-    <field name="method_delay"/>
-    <field name="method_period"/>
-    <field name="method_progress_factor"/>
-    <field name="method_salvage"/>
-    <field name="life"/>
+    <field name="whole_asset" colspan="4"/>    
     <separator string="Notes" colspan="4"/>
     <field name="note" nolabel="1" colspan="4"/>
 </form>'''
 
 asset_end_fields = {
     'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
-    'method_delay': {'string':'Number of Intervals', 'type':'integer'},
-    'method_period': {'string':'Intervals per Year', 'type':'integer'},
-    'method_progress_factor': {'string':'Progressive Factor', 'type':'float'},
-    'method_salvage': {'string':'Salvage Value', 'type':'float'},
-    'life': {'string':'Life Quantity', 'type':'float'},
+    'whole_asset': {'string':'All Methods', 'type':'boolean'},
     'note': {'string':'Notes', 'type':'text'},
+
 }
 
 def _asset_default(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
     method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
     return {
-        'name': _("Modification of "),
-        'method_delay': method.method_delay,
-        'method_period': method.method_period,
-        'method_progress_factor': method.method_progress_factor,
-        'method_salvage': method.method_salvage,
-        'life': method.life,
-
+        'note': _("Resuming because: "),
     }
 
-def _asset_modif(self, cr, uid, data, context={}):
+
+def _asset_resume(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
     method_obj = pool.get('account.asset.method')
-    method = method_obj.browse(cr, uid, data['id'], context)
-    method_obj._modif(cr, uid, method, data['form']['method_delay'], data['form']['method_period'], data['form']['method_progress_factor'], \
-                data['form']['method_salvage'], data['form']['life'], data['form']['name'], data['form']['note'], context)
+    met = method_obj.browse(cr, uid, data['id'], context)
+    methods = data['form']['whole_asset'] and met.asset_id.method_ids or [met]
+    method_obj._resume(cr, uid, methods, data['form']['name'], data['form']['note'], context)
     return {}
 
-class wizard_asset_modify(wizard.interface):
+
+class wizard_asset_resume(wizard.interface):
     states = {
         'init': {
             'actions': [_asset_default],
             'result': {'type':'form', 'arch':asset_end_arch, 'fields':asset_end_fields, 'state':[
                 ('end','Cancel'),
-                ('asset_modify','Modify Method')
+                ('asset_resume','Resume Depreciation')
             ]}
         },
-        'asset_modify': {
-            'actions': [_asset_modif],
+        'asset_resume': {
+            'actions': [_asset_resume],
             'result': {'type' : 'state', 'state': 'end'}
         }
     }
-wizard_asset_modify('account.asset.modify')
+wizard_asset_resume('account.asset.resume')
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
