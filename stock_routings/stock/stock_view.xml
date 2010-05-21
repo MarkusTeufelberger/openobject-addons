@@ -47,7 +47,7 @@
                         <field name="arrival_date" />
                         <field name="port_of_departure" />
                         <field name="port_of_arrival" />
-                        <field name="container_id" />
+                        <field name="container_id" select="1" />
                         <newline/>
                         <field name="container_seal" />
                         <field name="loading_code" />
@@ -189,7 +189,7 @@
                         <field name="arrival_date" />
                         <field name="port_of_departure" />
                         <field name="port_of_arrival" />
-                        <field name="container_id" />
+                        <field name="container_id" select="1"/>
                         <newline/>
                         <field name="container_seal" />
                         <field name="loading_code" />
