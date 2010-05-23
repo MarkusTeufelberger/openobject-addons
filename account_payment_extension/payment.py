@@ -103,7 +103,16 @@ class payment_order(osv.osv):
         return ref
 
     def _get_period(self, cr, uid, context={}):
-        periods = self.pool.get('account.period').find(cr, uid)
+        try:
+            # find() function will throw an exception if no period can be found for
+            # current date. That should not be a problem because user would be notified
+            # but as this model inherits an existing one, once installed it will create 
+            # the new field and try to update existing records (even if there are no records yet)
+            # So we must ensure no exception is thrown, otherwise the module can only be installed
+            # once periods are created.
+            periods = self.pool.get('account.period').find(cr, uid)
+        except osv.except_osv, e:
+            periods = []
         if periods:
             return periods[0]
         else:
