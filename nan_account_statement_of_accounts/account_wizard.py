@@ -45,11 +45,45 @@ class account_move_line(osv.osv):
         result = {}
         ids = ','.join( [str(int(x)) for x in ids] )
 
-        cr.execute("SELECT aml.id, aml.account_id, aml.partner_id, aml.date, am.name, aml.debit, aml.credit FROM account_move_line aml, account_move am WHERE aml.move_id = am.id AND aml.id IN (%s)" % ids)
+        cr.execute("""
+            SELECT 
+                aml.id, 
+                aml.account_id, 
+                aml.partner_id, 
+                aml.date, 
+                am.name, 
+                aml.debit, 
+                aml.credit 
+            FROM 
+                account_move_line aml, 
+                account_move am 
+            WHERE 
+                aml.move_id = am.id AND 
+                aml.id IN (%s)
+            """ % ids)
         for record in cr.fetchall():
+            id = record[0]
+            account_id = record[1]
+            partner_id = record[2]
+            date = record[3]
+            name = record[4]
+            debit = record[5]
+            credit = record[6]
+
+            # Order is a bit complex. In theory move lines should be sorted by move_id.name
+            # but in some cases move_id will be in draft state and thus move_id.name will be '/'
+            # It can also happen that users made some mistakes and move_id.name may be recalculated
+            # at the end of the current period or year. So here we consider users want this sorted 
+            # by date. In the same date, then then move_id.name is considered and finally if they
+            # have the same value, they're sorted by account_move_line.id just to ensure balance
+            # is not overlapped.
+
+            # Of course, this filtering criteria must be the one used by the 'search()' function below,
+            # so remember to modify that if you want to change this calulation.
+
             cr.execute("""
                 SELECT 
-                    SUM(debit-credit) 
+                    SUM(debit-credit)
                 FROM 
                     account_move_line aml,
                     account_move am
@@ -57,17 +91,17 @@ class account_move_line(osv.osv):
                     aml.move_id = am.id AND
                     aml.account_id=%s AND 
                     aml.partner_id=%s AND
-                    (
-                        aml.date<%s OR 
-                        (aml.date=%s AND am.name<=%s AND am.name <> '/') OR 
-                        (aml.date=%s AND aml.id<=%s AND am.name = '/') 
-                    ) AND
-                    aml.id <> %s -- AVOID ADDING CURRENT RECORD TWICE
-            """, (record[1],record[2],record[3],record[3],record[4],record[3],record[0],record[0]))
+                    LPAD(EXTRACT(EPOCH FROM aml.date)::VARCHAR, 15, '0') || 
+                        LPAD(am.name,15,'0') || 
+                        LPAD(aml.id::VARCHAR,15,'0') < 
+                    LPAD(EXTRACT(EPOCH FROM %s::DATE)::VARCHAR, 15, '0') || 
+                        LPAD(%s,15,'0') || 
+                        LPAD(%s::VARCHAR,15,'0')
+            """, (account_id,partner_id,date,name,id) )
             balance = cr.fetchone()[0] or 0.0
             # Add/substract current debit and credit
-            balance += record[5] - record[6]
-            result[record[0]] = balance
+            balance += debit - credit
+            result[id] = balance
         return result
 
     _columns = {
@@ -75,6 +109,12 @@ class account_move_line(osv.osv):
     }
 
     def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
+        """
+        Override default search function so that if it's being called from the statement of accounts
+        tree view, the given order is ignored and a special one is used so it ensures consistency
+        between balance field value and account.move.line order.
+        """
+
         if context is None:
             context = {}
 
@@ -83,7 +123,23 @@ class account_move_line(osv.osv):
         if context.get('statement_of_accounts') and ids:
             # If it's a statement_of_accounts, ignore order given
             ids = ','.join( [str(int(x)) for x in ids] )
-            cr.execute("SELECT aml.id FROM account_move_line aml, account_move am WHERE aml.move_id = am.id AND aml.id IN (%s) ORDER BY aml.date ASC, am.name, am.id" % ids)
+
+            # This sorting criteria must be the one used by the 'balance' functional field above,
+            # so remember to modify that if you want to change the order.
+            cr.execute("""
+                SELECT 
+                    aml.id 
+                FROM 
+                    account_move_line aml, 
+                    account_move am 
+                WHERE 
+                    aml.move_id = am.id AND 
+                    aml.id IN (%s) 
+                ORDER BY 
+                    LPAD(EXTRACT(EPOCH FROM aml.date)::VARCHAR, 15, '0') || 
+                        LPAD(am.name,15,'0') || 
+                        LPAD(aml.id::VARCHAR,15,'0')
+            """ % ids)
             result = cr.fetchall()
             ids = [x[0] for x in result]
         return ids
