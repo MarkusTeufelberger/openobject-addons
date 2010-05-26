@@ -171,7 +171,8 @@ class payment_order(osv.osv):
             return result
 
 
-        # This process creates a simple account move with bank and line accounts and line's amount.
+        # This process creates a simple account move with bank and line accounts and line's amount. At the end
+        # it will reconcile or partial reconcile both entries if that is possible.
 
         move_id = self.pool.get('account.move').create(cr, uid, {
             'name': '/',
@@ -257,12 +258,29 @@ class payment_order(osv.osv):
                 if x.state <> 'valid':
                     raise osv.except_osv(_('Error !'), _('Account move line "%s" is not valid') % x.name)
 
-            if line.move_line_id:
-                # Reconcile debt and payment
-                self.pool.get('account.move.line').reconcile(cr, uid, [
-                    line.move_line_id.id,
+            if line.move_line_id and not line.move_line_id.reconcile_id:
+                # If payment line has a related move line, we try to reconcile it with the move we just created.
+                lines_to_reconcile = [
                     partner_line_id,
-                ], 'payment', context=context)
+                ]
+
+                # Check if payment line move is already partially reconciled and use those moves in that case.
+                if line.move_line_id.reconcile_partial_id:
+                    for rline in line.move_line_id.reconcile_partial_id.line_partial_ids:
+                        lines_to_reconcile.append( rline.id )
+                else:
+                    lines_to_reconcile.append( line.move_line_id.id )
+
+                amount = 0.0
+                for rline in self.pool.get('account.move.line').browse(cr, uid, lines_to_reconcile, context):
+                    amount += rline.debit - rline.credit
+
+                currency = self.pool.get('res.users').browse(cr, uid, uid, context).company_id.currency_id
+
+                if self.pool.get('res.currency').is_zero( cr, uid, currency, amount ):
+                    self.pool.get('account.move.line').reconcile(cr, uid, lines_to_reconcile, 'payment', context=context)
+                else:
+                    self.pool.get('account.move.line').reconcile_partial(cr, uid, lines_to_reconcile, 'payment', context)
 
             if order.mode.journal.entry_posted:
                 self.pool.get('account.move').write(cr, uid, [move_id], {
