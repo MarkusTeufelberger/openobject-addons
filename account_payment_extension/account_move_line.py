@@ -45,8 +45,11 @@ class account_move_line(osv.osv):
         return super(account_move_line, self)._invoice_search(cr, uid, obj, name, args, context=context)
 
     def amount_to_pay(self, cr, uid, ids, name, arg={}, context={}):
-        """ Return the amount still to pay regarding all the payment orders
-        (excepting cancelled orders). The amount to pay can be negative (Refund invoices)"""
+        """
+        Return amount pending to be paid taking into account payment lines and the reconciliation.
+        Note that the amount to pay can be due to negative supplier refund invoices or customer invoices.
+        """
+
         if not ids:
             return {}
         cr.execute("""SELECT ml.id,
@@ -55,48 +58,64 @@ class account_move_line(osv.osv):
                         WHEN ml.amount_currency > 0
                         THEN ml.amount_currency
                         ELSE ml.credit - ml.debit
-                    END -
+                    END AS debt,
                     (SELECT coalesce(sum(amount_currency),0)
                         FROM payment_line pl
                             INNER JOIN payment_order po
                                 ON (pl.order_id = po.id)
-                        WHERE move_line_id = ml.id
-                        AND po.state != 'cancel') as amount
+                        WHERE 
+                            pl.move_line_id = ml.id AND
+                            pl.payment_move_id IS NULL AND 
+                            po.state != 'cancel'
+                    ) AS paid,
+                    (
+                        SELECT
+                            COALESCE( SUM(COALESCE(amrl.credit,0) - COALESCE(amrl.debit,0)), 0 )
+                        FROM
+                            account_move_reconcile amr,
+                            account_move_line amrl
+                        WHERE
+                            amr.id = amrl.reconcile_partial_id AND
+                            amr.id = ml.reconcile_partial_id
+                    ) AS unreconciled,
+                    reconcile_id
                     FROM account_move_line ml
-                    WHERE id in (%s)""" % (",".join(map(str, ids))))
-        r=dict(cr.fetchall())
-        return r
+                    WHERE id in (%s)""" % (",".join([str(int(x)) for x in ids])))
+        result = {}
+        for record in cr.fetchall():
+            id = record[0]
+            debt = record[1]
+            paid = record[2]
+            unreconciled = record[3]
+            reconcile_id = record[4]
+            if reconcile_id:
+                debt = 0.0
+            else:
+                if not unreconciled:
+                    unreconciled = debt
+                if debt > 0:
+                    debt = min(debt - paid, max(0.0, unreconciled - paid))
+                else:
+                    debt = max(debt - paid, min(0.0, unreconciled - paid))
+            result[id] = debt
+        return result
 
     def _to_pay_search(self, cr, uid, obj, name, args, context={}):
         if not len(args):
             return []
-        line_obj = self.pool.get('account.move.line')
-        query = line_obj._query_get(cr, uid, context={})
-        where = ' and '.join(map(lambda x: '''(SELECT
-        CASE WHEN l.amount_currency < 0
-            THEN - l.amount_currency
-            WHEN l.amount_currency > 0
-            THEN l.amount_currency
-            ELSE l.credit - l.debit
-        END - coalesce(sum(pl.amount_currency), 0)
-        FROM payment_line pl
-        INNER JOIN payment_order po ON (pl.order_id = po.id)
-        WHERE move_line_id = l.id AND po.state != 'cancel')''' \
-        + x[1] + str(x[2])+' ',args))
+        currency = self.pool.get('res.users').browse(cr, uid, uid, context).company_id.currency_id
 
-        cr.execute(('''SELECT l.id
-            FROM account_move_line l
-            INNER JOIN account_invoice i ON (l.move_id = i.move_id)
-            WHERE l.account_id in (SELECT id
-                FROM account_account
-                WHERE type in %s AND active)
-            AND reconcile_id is null
-            AND i.id is not null
-            AND ''' + where + ' and ' + query), (('payable','receivable'),) )
-        res = cr.fetchall()
-        if not len(res):
-            return [('id','=','0')]
-        return [('id','in',map(lambda x:x[0], res))]
+        # For searching we first discard reconciled moves because the filter is fast and discards most records
+        # quickly.
+        ids = self.pool.get('account.move.line').search(cr, uid, [('reconcile_id','=',False)], context=context)
+        records = self.pool.get('account.move.line').read(cr, uid, ids, ['id', 'amount_to_pay'], context)
+        ids = []
+        for record in records:
+            if not self.pool.get('res.currency').is_zero( cr, uid, currency, record['amount_to_pay'] ):
+                ids.append( record['id'] )
+        if not ids:
+            return [('id','=',False)]
+        return [('id','in',ids)]
 
     def _payment_type_get(self, cr, uid, ids, field_name, arg, context={}):
         result = {}
@@ -150,3 +169,5 @@ class account_move_line(osv.osv):
         return super(account_move_line, self).write(cr, uid, ids, vals, context, check, update_check=False)
 
 account_move_line()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
