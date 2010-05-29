@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.7\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-03-26 12:06+0000\n"
-"PO-Revision-Date: 2010-04-15 10:41+0000\n"
-"Last-Translator: Jordi Esteve - http://www.zikzakmedia.com "
+"PO-Revision-Date: 2010-05-28 18:52+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-16 04:03+0000\n"
+"X-Launchpad-Export-Date: 2010-05-29 03:59+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: account_chart_update
@@ -115,7 +115,7 @@ msgstr "Actualitza pla comptable a partir d'una plantilla de pla comptable"
 #. module: account_chart_update
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr "Nom de model invàlid a la definició d'acció."
+msgstr "Nom de model no vàlid a la definició de l'acció."
 
 #. module: account_chart_update
 #: field:wizard.update.charts.accounts,chart_template_id:0
@@ -228,7 +228,7 @@ msgstr "Crea - Impostos"
 #. module: account_chart_update
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr "XML invàlid per a l'estructura de la vista!"
+msgstr "﻿XML invàlid per a la definició de la vista!"
 
 #. module: account_chart_update
 #: field:wizard.update.charts.accounts,updated_tax:0
