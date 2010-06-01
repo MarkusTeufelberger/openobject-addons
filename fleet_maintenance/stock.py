@@ -167,14 +167,10 @@ class stock_picking(osv.osv):
 
     def _default_address_id(self, cr, uid, context={}):
         address_return = False
-        if context.get('partner_id', False):
-            partner = self.pool.get('res.partner').browse(cr, uid, context.get('partner_id', False))
-            
-            for address in partner.address:
-                if not address_return and address.type == "default":
-                    address_return = address.id
-                if address.type == "delivery":
-                    address_return = address.id
+
+	if context.get('address_id', False):
+	    address_return = self.pool.get('res.partner.address').browse(cr, uid, context.get('address_id', False))
+	    return address_return.id
 
         return address_return
 
