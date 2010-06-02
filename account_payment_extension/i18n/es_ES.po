@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.10\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-05-20 17:23:37+0000\n"
-"PO-Revision-Date: 2010-05-20 20:09+0200\n"
+"POT-Creation-Date: 2010-06-02 08:55:17+0000\n"
+"PO-Revision-Date: 2010-06-02 12:44+0200\n"
 "Last-Translator: Albert Cervera i Areny <albert@nan-tic.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -35,6 +35,11 @@ msgid "Done payable payments unreconciled"
 msgstr "Pagos realizados no conciliados"
 
 #. module: account_payment_extension
+#: selection:payment.order,create_account_moves:0
+msgid "Direct Payment"
+msgstr "Por pago directo"
+
+#. module: account_payment_extension
 #: code:addons/account_payment_extension/payment.py:0
 #, python-format
 msgid ""
@@ -43,6 +48,11 @@ msgid ""
 msgstr ""
 "La orden de pago debe generar los asientos pero la línea con importe %.2f y "
 "empresa \"%s\" no tiene cuenta asignada."
+
+#. module: account_payment_extension
+#: wizard_button:populate_statement_ext,init,add:0
+msgid "_Add"
+msgstr "_Añadir"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_receivable
@@ -67,9 +77,15 @@ msgid "Period"
 msgstr "Período"
 
 #. module: account_payment_extension
-#: wizard_field:populate_statement_ext,init,lines:0
-msgid "Payment Lines"
-msgstr "Pagos"
+#: field:payment.mode,require_bank_account:0
+msgid "Require bank account"
+msgstr "Requerir cuenta bancaria"
+
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_draft
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_draft
+msgid "Draft rec. payment order"
+msgstr "Órdenes de cobro borrador"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_tree
@@ -109,15 +125,24 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: account_payment_extension
+#: wizard_field:populate_statement_ext,init,lines:0
+msgid "Payment Lines"
+msgstr "Pagos"
+
+#. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_open
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_open
 msgid "Rec. payment orders to validate"
 msgstr "Órdenes de cobro a validar"
 
 #. module: account_payment_extension
-#: wizard_button:populate_statement_ext,init,add:0
-msgid "_Add"
-msgstr "_Añadir"
+#: help:payment.mode,require_bank_account:0
+msgid ""
+"If your bank allows you to send orders without the bank account info, you "
+"may disable this option"
+msgstr ""
+"Si su banco admite enviar órdenes sin información de cuenta bancaria, puede "
+"deshabilitar esta opción."
 
 #. module: account_payment_extension
 #: selection:payment.order,type:0
@@ -214,6 +239,11 @@ msgstr "El siguiente mensaje del comunicado del pago/cobro."
 #, python-format
 msgid "You cannot delete payment order(s) which are already confirmed or done!"
 msgstr "¡No puede borrar ordenes de pago ya confirmadas o realizadas!"
+
+#. module: account_payment_extension
+#: field:payment.order,create_account_moves:0
+msgid "Create Account Moves"
+msgstr "Crear asientos contables"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
@@ -373,10 +403,9 @@ msgid "Payable payments unreconciled"
 msgstr "Pagos no conciliados"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_draft
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_rec_payment_order_draft
-msgid "Draft rec. payment order"
-msgstr "Órdenes de cobro borrador"
+#: selection:payment.order,create_account_moves:0
+msgid "Bank Statement"
+msgstr "Por extracto bancario"
 
 #. module: account_payment_extension
 #: help:res.partner,payment_type_supplier:0
@@ -402,6 +431,11 @@ msgstr ""
 #: wizard_button:populate_statement_ext,init,end:0
 msgid "_Cancel"
 msgstr "_Cancelar"
+
+#. module: account_payment_extension
+#: field:account.move.line,received_check:0
+msgid "Received check"
+msgstr "Cheque recibido"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_rec_payment_order_tree_new
@@ -475,12 +509,17 @@ msgstr ""
 "4.2).\n"
 
 #. module: account_payment_extension
-#: field:account.move.line,received_check:0
-msgid "Received check"
-msgstr "Cheque recibido"
-
-#~ msgid "Require Bank Account"
-#~ msgstr "Requerir cuenta bancaria"
+#: help:payment.order,create_account_moves:0
+msgid ""
+"Indicates when account moves should be created for order payment lines. "
+"\"Bank Statement\" will wait until user introduces those payments in bank a "
+"bank statement. \"Direct Payment\" will mark all payment lines as payied "
+"once the order is done."
+msgstr ""
+"Indica cuando se deben generar los asientos contables para las líneas de la "
+"orden de pago. \"Por extracto bancario\" esperará a que el usuario "
+"introduzca los pagos en el extracto bancario. \"Por pago directo\" marcará "
+"todas las líneas como pagadas cuando se realice la orden."
 
 #~ msgid ""
 #~ "Ensure all lines in the payment order have a bank account when proposing "
