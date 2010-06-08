@@ -18,6 +18,7 @@
                         <separator string="Filter for the moves to update" colspan="4"/>
                         <field name="period_ids" colspan="4"/>
                     </group>
+                    <separator string="" colspan="4"/>
                     <group colspan="4">
                         <button string="Cancel" special="cancel" icon="gtk-cancel"/>
                         <button string="Set partner accounts" name="action_set_partner_accounts_in_moves" type="object" icon="gtk-apply"/>
@@ -33,7 +34,7 @@
             <field name="arch" type="xml">
                 <form string="Set Partner Accounts in Moves">
                     <label string="The partner's receivable/payable accounts have been set succesfuly on the account moves!" colspan="4"/>
-                    <label string="" colspan="4"/>
+                    <separator string="" colspan="4"/>
                     <group colspan="4">
                         <button string="Done" special="cancel" icon="gtk-ok"/>
                     </group>

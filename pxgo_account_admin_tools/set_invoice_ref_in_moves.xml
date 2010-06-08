@@ -19,7 +19,7 @@
                         <newline/>
                         <button string="Search for moves" name="action_find_moves_with_wrong_invoice_ref" type="object" icon="gtk-ok" colspan="4"/>
                     </group>
-                    <label string="" colspan="4"/>
+                    <separator string="" colspan="4"/>
                     <group colspan="4">
                         <button string="Cancel" special="cancel" icon="gtk-cancel"/>
                         <button string="Skip" name="action_skip_new" type="object" icon="gtk-go-forward"/>
@@ -38,7 +38,7 @@
                     <label string="" colspan="4"/>
                     <separator string="Account moves to update" colspan="4"/>
                     <field name="move_ids" colspan="4" nolabel="1"/>
-                    <label string="" colspan="4"/>
+                    <separator string="" colspan="4"/>
                     <group colspan="4">
                         <button string="Cancel" special="cancel" icon="gtk-cancel"/>
                         <button string="Set invoice reference in moves" name="action_set_invoice_ref_in_moves" type="object" icon="gtk-apply"/>
@@ -57,7 +57,7 @@
                     <label string="" colspan="4"/>
                     <separator string="Updated account moves" colspan="4"/>
                     <field name="move_ids" colspan="4" nolabel="1" readonly="1"/>
-                    <label string="" colspan="4"/>
+                    <separator string="" colspan="4"/>
                     <group colspan="4">
                         <button string="Done" special="cancel" icon="gtk-ok"/>
                     </group>

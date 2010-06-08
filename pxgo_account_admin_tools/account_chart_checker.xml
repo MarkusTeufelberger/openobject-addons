@@ -12,7 +12,7 @@
                     <label string="- It will verify that the preordered tree of accounts, that OpenERP uses to calculate the amounts, matches the parent-children structure" colspan="4"/>
                     <label string="" colspan="4"/>
                     <label string="A list with the problems found (if any) will be shown afterwards." colspan="4"/>
-                    <label string="" colspan="4"/>
+                    <separator string="" colspan="4"/>
                     <group colspan="4">
                         <button string="Cancel" special="cancel" icon="gtk-cancel" states="new"/>
                         <button string="Check" name="action_check" type="object" icon="gtk-apply" states="new"/>
