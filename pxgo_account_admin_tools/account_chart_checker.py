@@ -37,6 +37,10 @@ class pxgo_account_chart_checker_problem(osv.osv_memory):
     _name = "pxgo_account_admin_tools.pxgo_account_chart_checker_problem"
     _description = "Account Chart Problem"
 
+    # We can find a lot of problems, so we need an higher limit for the objects
+    # in memory to let the wizard create all the items.
+    _max_count = 4096
+    
     _columns = {
         'wizard_id': fields.many2one('pxgo_account_admin_tools.pxgo_account_chart_checker', 'Wizard', required=True, readonly=True),
         'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True),
@@ -180,6 +184,7 @@ class pxgo_account_chart_checker(osv.osv_memory):
             })
 
 
+    # TODO: Implement an action_fix that uses self.pool.get('account.account')._parent_store_compute(cr)
 
 pxgo_account_chart_checker()
 
