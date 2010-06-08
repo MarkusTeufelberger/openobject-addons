@@ -555,6 +555,11 @@ wizard_update_charts_accounts_tax()
 
 class wizard_update_charts_accounts_account(osv.osv_memory):
     _name = 'wizard.update.charts.accounts.account'
+    
+    # The chart of accounts can have a lot of accounts, so we need an higher
+    # limit for the objects in memory to let the wizard create all the items
+    # at once.
+    _max_count = 4096
 
     _columns = {
         'account_id': fields.many2one('account.account.template', 'Accounts', required=True),

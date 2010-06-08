@@ -61,9 +61,6 @@ msgstr ""
 "Este módulo es útil cuando la ley fiscal ha cambiado y quiere transferir las nuevas cuentas, impuestos y\n"
 "posiciones fiscales incluidas en la plantilla de plan contable hacia un plan contable existente de una compañía.\n"
 "\n"
-"Nota: Debido la limitación de memoria de los objetos osv_memory de OpenERP, sólo un nombre máximo\n"
-"de objetos pueden ser creados cada vez. Si debe crear un nombre elevado de cuentas, impuestos, códigos\n"
-"de impuesto y posiciones fiscales, deberá ejecutar este asistente varias veces.\n"
 
 #. module: account_chart_update
 #: field:wizard.update.charts.accounts,update_tax_code:0
