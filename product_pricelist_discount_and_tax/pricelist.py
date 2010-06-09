@@ -200,7 +200,7 @@ class product_pricelist(osv.osv):
                 price = False
             result[id] = {
                 'price': price,
-                'price_tax_included': res['price_tax_included'],
+                'price_tax_included': res and res['price_tax_included'] or False,
                 }
             if price and res['visible_discount']:
                 result[id].update({

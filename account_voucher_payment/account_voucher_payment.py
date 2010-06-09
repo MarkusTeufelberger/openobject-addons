@@ -131,7 +131,7 @@ class account_voucher(osv.osv):
             #create the first line our self
             move_line = {
                 'name': inv.name,
-                'invoice' : iml[0]['invoice'],
+                'voucher_invoice' : iml and iml[0]['invoice'] and iml[0]['invoice'].id or False,
                 'debit': False,
                 'credit':False,
                 'account_id': inv.account_id.id or False,
@@ -152,7 +152,7 @@ class account_voucher(osv.osv):
             for line in inv.voucher_line_ids:
                 move_line = {
                     'name':line.name,
-                    'invoice' : iml[0]['invoice'],
+                    'voucher_invoice' : iml and iml[0]['invoice'] and iml[0]['invoice'].id or False,
                     'debit':False,
                     'credit':False,
                     'move_id':move_id,                    
@@ -175,8 +175,8 @@ class account_voucher(osv.osv):
                 id_mapping_dict[line.id] = ml_id
                 total = 0.0
                 mline = self.pool.get('account.move.line')
-                if line.invoice_id.id:
-                    invoice = self.pool.get('account.invoice').browse(cr, uid, line.invoice_id.id)
+                if line.invoice_id:
+                    invoice = line.invoice_id
                     src_account_id = invoice.account_id.id
                     cr.execute('select id from account_move_line where move_id in ('+str(invoice.move_id.id)+')')
                     temp_ids = map(lambda x: x[0], cr.fetchall())
@@ -206,9 +206,9 @@ class account_voucher(osv.osv):
                          }
                         self.pool.get('account.analytic.line').create(cr,uid,an_line)
 
-                if line.invoice_id:
+                if mline_ids:
                     self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
-                    self.write(cr, uid, [inv.id], {'move_id': move_id})
+                self.write(cr, uid, [inv.id], {'move_id': move_id})
             
             obj=self.pool.get('account.move').browse(cr, uid, move_id)
             

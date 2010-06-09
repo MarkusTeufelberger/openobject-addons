@@ -207,6 +207,10 @@
                 <newline/>
                 <field name="payment_type_name" invisible="1"/>
                 <field name="type"/>
+		<field name="create_account_moves"/>
+                <group colspan="2" col="1" attrs="{'invisible': [('create_account_moves', '=', 'bank-statement')]}">
+			<field name="period_id" required="True"/>
+		</group>
                 <button colspan="2" name="%(wizard_populate_payment_ext)d" string="Select invoices to pay/receive payment" type="action" attrs="{'invisible':[('state','=','done')]}"/>
             </button>
         </field>
@@ -219,7 +223,11 @@
         <field name="inherit_id" ref="account_payment.view_payment_order_form"/>
         <field name="arch" type="xml">
             <field name="move_line_id" position="replace">
-                <field name="move_line_id" on_change="onchange_move_line(move_line_id,parent.mode,parent.date_prefered,parent.date_planned,currency,company_currency,context)" select="1"/>
+		<group col="6" colspan="4">
+			<field name="move_line_id" on_change="onchange_move_line(move_line_id,parent.mode,parent.date_prefered,parent.date_planned,currency,company_currency,context)" select="1"/>
+			<field name="account_id"/>
+			<field name="payment_move_id"/>
+		</group>
             </field>
         </field>
     </record>
@@ -232,7 +240,11 @@
         <field name="arch" type="xml">
             <field name="move_line_id" position="replace">
                 <!--<field name="move_line_id" on_change="onchange_move_line(move_line_id,parent.mode,parent.date_prefered,parent.date_planned,currency,company_currency,context)" select="1"/>-->
-                <field name="move_line_id" on_change="onchange_move_line(move_line_id, False, currency, company_currency)" select="1"/>
+		<group col="6" colspan="4">
+			<field name="move_line_id" on_change="onchange_move_line(move_line_id, False, currency, company_currency)" select="1"/>
+			<field name="account_id"/>
+			<field name="payment_move_id"/>
+		</group>
             </field>
         </field>
     </record>
@@ -335,7 +347,7 @@
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <tree string="Payments" editable="top"
-                        colors="grey:reconcile_id!=0;blue:amount_to_pay==0;">
+                        colors="grey:reconcile_id!=0;blue:amount_to_pay==0;red:date_maturity&lt;time.strftime('%%Y-%%m-%%d')">
                 <field name="invoice" readonly="1"/>
                 <field name="partner_id" readonly="1"/>
                 <field name="account_id" readonly="1"/>
@@ -352,6 +364,21 @@
             </tree>
         </field>
     </record>
+
+    <!-- payment.mode -->
+	<record id="view_payment_mode_form_require_bank_account" model="ir.ui.view">
+		<field name="name">payment.mode.form.require_bank_account</field>
+		<field name="model">payment.mode</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
+		<field name="arch" type="xml">
+			<field name="bank_id" position="before">
+				<field name="require_bank_account"/>
+			</field>
+		</field>
+	</record>
+
+
 
     <!-- Invoice Payments -->
     <menuitem id="menu_finance_invoice_payments" name="Invoice payments" parent="account_payment.menu_main"/>

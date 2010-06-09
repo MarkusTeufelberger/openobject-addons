@@ -39,10 +39,6 @@ msgid "\n"
 "It is useful when the account law has changed and you want to transfer the new accounts, taxes and\n"
 "fiscal positions included in the account chart template to an existing company account chart.\n"
 "\n"
-"Note: Due to the memory limitation of the osv_memory OpenERP objects, only a maximum number of \n"
-"objects can be created each time. If a lot of new accounts, taxes, tax codes or fiscal positions\n"
-"must be created, the wizard should be run several times.\n"
-""
 msgstr ""
 
 #. module: account_chart_update

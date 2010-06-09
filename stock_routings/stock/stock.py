@@ -81,6 +81,8 @@ class stock_picking(osv.osv):
                 'vessel_name' : fields.char('Vessel Name', size=128,),
                 'voyage_number' : fields.char('Voyage Number', size=64,),
                 'shipping_company' : fields.char('Shipping Company', size=128,),
+                'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Transportation Type'),
+                'forwarder' : fields.char('Forwarder', size=256),
                 'departure_date' : fields.char('Departure Date', size=64),
                 'arrival_date' : fields.char('Arrival Date', size=64),
                 'port_of_departure' : fields.many2one('stock.location','Depart From'),
@@ -108,6 +110,14 @@ class stock_picking(osv.osv):
                 'picking_date' : fields.date('Picking Date', help="Date when actual picking is done by user.",states={'done':[('readonly',True)]}),
                 'system_date' : fields.datetime('System Date',readonly=True),
               }
+    
+    def copy(self, cr, uid, id, default=None, context={}):
+        if default is None:
+            default = {}
+        default = default.copy()
+        default['stock_history_lines']=[]        
+        return super(stock_picking,self).copy(cr,uid,id,default,context)    
+    
 stock_picking()
 
 def date_difference(cr,uid,old_date,new_date):
@@ -171,6 +181,7 @@ class stock_move(osv.osv):
                         'invoice_state': 'none',
                         'port_of_departure': r_seq.port_of_loading.id,
                         'port_of_arrival': r_seq.port_of_destination.id,
+                        'kind_transport': r_seq.kind_transport
                     })
                     
                         new_moves=[]
@@ -223,6 +234,7 @@ class stock_move(osv.osv):
                         'invoice_state': 'none',
                         'port_of_departure': r_seq.port_of_loading.id,
                         'port_of_arrival': r_seq.port_of_destination.id,
+                        'kind_transport': r_seq.kind_transport
                     })
                     
                         new_moves=[]
@@ -280,6 +292,7 @@ class stock_move(osv.osv):
                             'invoice_state': 'none',
                             'port_of_departure': r_seq.port_of_loading.id,
                             'port_of_arrival': r_seq.port_of_destination.id,
+                            'kind_transport': r_seq.kind_transport
                         })
                         
                             new_moves=[]
@@ -449,8 +462,7 @@ class stock_move(osv.osv):
         
         for mv_id in move_ids:
             move_dt=self.read(cr,uid,mv_id,['date_planned','picking_id','move_dest_id'])
-            
-            if not all_pick_ids.__contains__(move_dt['picking_id'][0]) :
+            if move_dt['picking_id'] and not all_pick_ids.__contains__(move_dt['picking_id'][0]) :
                 
                 if move_dt['picking_id'][0]!=move_dates[0]['picking_id'][0]:
                     all_pick_ids.append(move_dt['picking_id'][0])
@@ -519,7 +531,10 @@ class stock_move(osv.osv):
                     stock_obj.write(cr,uid,r['id'],{'min_date':r['min_date']}) 
              
         self.write(cr, uid, ids, {'state': 'done','picking_date':first_pick_date})
-        stock_obj.write(cr,uid,move_dates[0]['picking_id'][0],{'system_date': time.strftime('%Y-%m-%d %H:%M:%S')})
+        
+        if move_dates and move_dates[0]['picking_id']:
+            stock_obj.write(cr,uid,move_dates[0]['picking_id'][0],{'system_date': time.strftime('%Y-%m-%d %H:%M:%S')})
+            
         wf_service = netsvc.LocalService("workflow")
         for id in ids:
             wf_service.trg_trigger(uid, 'stock.move', id, cr)

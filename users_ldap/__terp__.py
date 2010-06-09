@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -21,21 +21,22 @@
 ##############################################################################
 {
     "name" : "Authenticate users with ldap server",
-    "version" : "0.1",
+    "version" : "0.2",
     "depends" : ["base"],
     "author" : "Tiny",
-    "description": """Add support for authentication by ldap server""",
+    "description": """Add support for authentication by ldap server
+If authentification succefull, it check if the user exists on the database, otherwise it is created
+
+    !!!WORK ONLY WITH LDAP NOT LDAPS !!! """,
     "website" : "http://www.openerp.com",
     "category" : "Generic Modules/Others",
-    "init_xml" : [
-    ],
-    "demo_xml" : [
-    ],
+    "init_xml" : [],
+    "demo_xml" : [],
     "update_xml" : [
         "users_ldap_view.xml",
     ],
     "active": False,
     "installable": True
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

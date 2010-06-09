@@ -128,10 +128,15 @@ class wizard_update_charts_accounts(osv.osv_memory):
         property_ids = property_obj.search(cr, uid, [('name','=','property_account_receivable' ), ('company_id','=',company_id), ('res_id','=',False), ('value','!=',False)])
         number_digits = 6
         if property_ids:
-            value = property_obj.read(cr, uid, property_ids[0], ['value'], context)['value']
-            if value:
-                # value is a reference field, tipically content is: account.account,519, where 519 is the id of the receivable account
-                account_id = int(value.partition(',')[2])
+            prop = property_obj.browse(cr, uid, property_ids[0], context=context)
+            try:
+                # OpenERP 5.0 and 5.2/6.0 revno <= 2236
+                account_id = int(prop.value.split(',')[1])
+            except AttributeError:
+                # OpenERP 6.0 revno >= 2236
+                account_id = prop.value_reference.id
+
+            if account_id:
                 code = account_obj.read(cr, uid, account_id, ['code'], context)['code']
                 number_digits = len(code)
         return number_digits
@@ -550,6 +555,11 @@ wizard_update_charts_accounts_tax()
 
 class wizard_update_charts_accounts_account(osv.osv_memory):
     _name = 'wizard.update.charts.accounts.account'
+    
+    # The chart of accounts can have a lot of accounts, so we need an higher
+    # limit for the objects in memory to let the wizard create all the items
+    # at once.
+    _max_count = 4096
 
     _columns = {
         'account_id': fields.many2one('account.account.template', 'Accounts', required=True),

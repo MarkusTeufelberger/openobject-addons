@@ -109,7 +109,7 @@ def change_plan_date(self,cr,uid,data,context={}):
                 old_pick_data=stock_obj.read(cr,uid,r['id'],['min_date','state'])
                 old_pick_date=old_pick_data['min_date']
                 state=old_pick_data['state']
-                if state<>'done':
+                if state<>'done' and str(old_pick_date) <> str(r['min_date']).split(' ')[0]:
                     vals={}
                     vals['date']=time.strftime('%Y-%m-%d')
                     vals['prev_plan_date']=old_pick_date

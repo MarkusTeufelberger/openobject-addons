@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2009-12-20 17:22:08+0000\n"
-"PO-Revision-Date: 2009-12-28 00:39+0100\n"
-"Last-Translator: Jordi Esteve <jesteve@zikzakmedia.com>\n"
+"PO-Revision-Date: 2010-03-02 13:00+0100\n"
+"Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +76,7 @@ msgstr ""
 #. module: base_sale_multichannels
 #: field:sale.shop,order_policy:0
 msgid "Shipping Policy"
-msgstr "Política de envío"
+msgstr "Política de facturación"
 
 #. module: base_sale_multichannels
 #: selection:sale.shop,invoice_generation_policy:0

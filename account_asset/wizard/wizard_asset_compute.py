@@ -22,10 +22,11 @@
 
 import wizard
 import pooler
+import time
 from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Compute assets">
+<form string="Asset Computation">
     <separator string="Generated entries" colspan="4"/>
     <field name="move_ids" readonly="1" nolabel="1"/>
 </form>'''
@@ -36,21 +37,37 @@ asset_end_fields = {
 
 
 asset_ask_form = '''<?xml version="1.0"?>
-<form string="Compute assets">
+<form string="Asset Computation">
     <field name="period_id"/>
+    <field name="date"/>
+    <newline/>
+    <field name="category_id"/>
+    <field name="method_type_id"/>
 </form>'''
 
 asset_ask_fields = {
-    'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True},
+    'date': {'string': 'Date', 'type': 'date', 'required':True, 'help':"Efective date for accounting move."},
+    'period_id': {'string': 'Period', 'type': 'many2one', 'relation':'account.period', 'required':True, 'help':"Calculated period and period for posting."},
+    'category_id': {'string': 'Asset Category', 'type': 'many2one', 'relation':'account.asset.category', 'required':False, 'help': "If empty all categories assets will be calculated. If you use hierarchical categories all children of selected category be calculated."},
+    'method_type_id' : {'string': 'Asset Method Type', 'type': 'many2one', 'relation':'account.asset.method.type', 'required':False, 'help': "If empty all method types will be calculated for assets."}, 
 }
 
 def _asset_compute(self, cr, uid, data, context):
     pool = pooler.get_pool(cr.dbname)
-    ass_obj = pool.get('account.asset.asset')
-    ids = ass_obj.search(cr, uid, [('state','=','normal')], context=context)
+    method_obj = pool.get('account.asset.method')
+    period = method_obj._check_date(cr, uid, data['form']['period_id'], data['form']['date'], context)
+    asset_obj = pool.get('account.asset.asset')
+    if data['form']['category_id']:
+        asset_ids = asset_obj.search(cr, uid, [('state','=','normal'),('category_id','child_of',[data['form']['category_id']])], context=context)
+    else:
+        asset_ids = asset_obj.search(cr, uid, [('state','=','normal')], context=context)
+    if data['form']['method_type_id']:
+        method_ids = method_obj.search(cr, uid, [('state','=','open'),('method_type','=',data['form']['method_type_id']),('asset_id','in',asset_ids)], context=context)
+    else:
+        method_ids = method_obj.search(cr, uid, [('state','=','open'),('asset_id','in',asset_ids)], context=context)
     ids_create = []
-    for asset in ass_obj.browse(cr, uid, ids, context):
-        ids_create += ass_obj._compute_entries(cr, uid, asset, data['form']['period_id'], context)
+    for method in method_obj.browse(cr, uid, method_ids, context):
+        ids_create += method_obj._compute_entries(cr, uid, method, period, data['form']['date'], context)
     self.move_ids = ids_create
     return {'move_ids': ids_create}
 
@@ -75,7 +92,7 @@ def _get_period(self, cr, uid, data, context={}):
     period_id = False
     if len(ids):
         period_id = ids[0]
-    return {'period_id': period_id}
+    return {'period_id': period_id, 'date': time.strftime('%Y-%m-%d')}
 
 class wizard_asset_compute(wizard.interface):
     states = {

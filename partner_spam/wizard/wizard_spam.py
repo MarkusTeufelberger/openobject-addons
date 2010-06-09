@@ -116,21 +116,6 @@ def attach_file(name, content):
     return name
 
 
-def conv_ascii(text):
-    """Convert accented vowels, ñ and ç to their equivalent ASCII characters and removes special chars"""
-    import string
-    old_chars = ['á','é','í','ó','ú','à','è','ì','ò','ù','ä','ë','ï','ö','ü','â','ê','î','ô','û','Á','É','Í','Ú','Ó','À','È','Ì','Ò','Ù','Ä','Ë','Ï','Ö','Ü','Â','Ê','Î','Ô','Û','ñ','Ñ','ç','Ç','ª','º',',',';',':']
-    new_chars = ['a','e','i','o','u','a','e','i','o','u','a','e','i','o','u','a','e','i','o','u','A','E','I','O','U','A','E','I','O','U','A','E','I','O','U','A','E','I','O','U','n','N','c','C','a','o','','','']
-    if type(text) is str:
-        text = unicode(text,'UTF-8')
-    for old, new in zip(old_chars, new_chars):
-        text = text.replace(unicode(old,'UTF-8'), new)
-
-    final_chars = string.letters + string.digits + " .$%&/='{}?-_|#"
-    text = ''.join([c for c in text if c in final_chars])
-    return text
-
-
 def _mass_mail_send(cr, uid, data, context, adr):
     import re
     # change the [[field]] tags with the partner address values
@@ -153,9 +138,7 @@ def _mass_mail_send(cr, uid, data, context, adr):
 
     # The adr.email field can contain several email addresses separated by ,
     name = adr.name or adr.partner_id.name
-    # Some emails smtp accounts has problems with non english characters in name
-    #to = ['%s <%s>' % (conv_ascii(name), email) for email in adr.email.split(',')]
-    to = ['%s <%s>' % (name, email) for email in adr.email.split(',')]
+    to = ['"%s" <%s>' % (name, email) for email in adr.email.split(',')]
     #print to
 
     # List of attached files: List of tuples with (file_name, file_content)
@@ -171,8 +154,6 @@ def _mass_mail_send(cr, uid, data, context, adr):
 
     email_server = pooler.get_pool(cr.dbname).get('email.smtpclient')
     email_server.send_email(cr, uid, data['form']['smtp_server'], to, unicode(data['form']['subject'],'UTF-8'), mail, f_attach)
-    # Bug in smtpclient module can not send non-english chars in email subject
-    #email_server.send_email(cr, uid, data['form']['smtp_server'], to, conv_ascii(data['form']['subject']), mail, f_attach)
 
     # Add a partner event
     c_id = pooler.get_pool(cr.dbname).get('res.partner.canal').search(cr ,uid, [('name','ilike','EMAIL'),('active','=',True)])
