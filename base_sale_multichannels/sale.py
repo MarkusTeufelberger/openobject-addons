@@ -245,10 +245,10 @@ class sale_order(osv.osv):
         payment_setting_id = self.pool.get('base.sale.payment.type').search(cr, uid, [['name', 'ilike', payment_code]])[0]
         return payment_setting_id and self.pool.get('base.sale.payment.type').browse(cr, uid, payment_setting_id, ctx) or False
 
-    def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx): #should_validate in option?? should_validad have to be prioritary? can be set in the context?
+    def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, paid, ctx):
         payment_settings = self.payment_code_to_payment_settings(cr, uid, payment_code, ctx)
-        if payment_settings and payment_settings.journal_id:
-            return self.generate_payment_with_journal(cr, uid, payment_settings.journal_id.id, partner_id, amount, payment_ref, entry_name, date, should_validate and payment_settings.validate_payment, ctx)
+        if payment_settings and payment_settings.journal_id and (payment_settings.check_if_paid and paid or not payment_settings.check_if_paid):
+            return self.generate_payment_with_journal(cr, uid, payment_settings.journal_id.id, partner_id, amount, payment_ref, entry_name, date, payment_settings.validate_payment, ctx)
         return False
         
     def generate_payment_with_journal(self, cr, uid, journal_id, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
@@ -277,31 +277,34 @@ class sale_order(osv.osv):
         return statement_line_id
 
 
-    def oe_status(self, cr, uid, order_id, context):
+    def oe_status(self, cr, uid, order_id, paid = True, context = None):
         wf_service = netsvc.LocalService("workflow")
         order = self.browse(cr, uid, order_id, context)
         payment_settings = self.payment_code_to_payment_settings(cr, uid, order.ext_payment_method, context)
-        if payment_settings and payment_settings.validate_order:
-            wf_service.trg_validate(uid, 'sale.order', order.id, 'order_confirm', cr)
-            
-            if order.order_policy == 'prepaid':
-                if payment_settings.validate_invoice:
-                    for invoice in order.invoice_ids:
-                        wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
-
-            if order.order_policy == 'manual':
-                if payment_settings.create_invoice:
-                   invoice_id = self.pool.get('sale.order').action_invoice_create(cr, uid, [order_id])
-                   if payment_settings.validate_invoice:
-                       wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
-
-            # IF postpaid DO NOTHING
-
-            if order.order_policy == 'picking':
-                if payment_settings.create_invoice:
-                   invoice_id = self.pool.get('stock.picking').action_invoice_create(cr, uid, order.picking_ids)
-                   if payment_settings.validate_invoice:
-                       wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
+        
+        if payment_settings and (payment_settings.check_if_paid and paid or not payment_settings.check_if_paid):
+        
+            if payment_settings.validate_order:
+                wf_service.trg_validate(uid, 'sale.order', order.id, 'order_confirm', cr)
+                
+                if order.order_policy == 'prepaid':
+                    if payment_settings.validate_invoice:
+                        for invoice in order.invoice_ids:
+                            wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
+    
+                if order.order_policy == 'manual':
+                    if payment_settings.create_invoice:
+                       invoice_id = self.pool.get('sale.order').action_invoice_create(cr, uid, [order_id])
+                       if payment_settings.validate_invoice:
+                           wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
+    
+                # IF postpaid DO NOTHING
+    
+                if order.order_policy == 'picking':
+                    if payment_settings.create_invoice:
+                       invoice_id = self.pool.get('stock.picking').action_invoice_create(cr, uid, order.picking_ids)
+                       if payment_settings.validate_invoice:
+                           wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
 
         return True
 sale_order()
@@ -338,6 +341,7 @@ class base_sale_payment_type(osv.osv):
         'validate_payment': fields.boolean('Validate Payment?'),
         'create_invoice': fields.boolean('Create Invoice?'),
         'validate_invoice': fields.boolean('Validate Invoice?'),
+        'check_if_paid': fields.boolean('Check if Paid?'),
     }
     
     _defaults = {
