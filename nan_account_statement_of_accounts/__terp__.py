@@ -33,10 +33,11 @@
     "author" : "NaN",
     "category" : "Accounting",
     "website": "http://www.nan-tic.com",
-    "description": "\
+    "description": """\
 This module adds a new menu entry to show statements of accounts.
 
-Unreconciled account move lines are shown in red and partially reconcilled ones are shown in blue.",
+Unreconciled account move lines are shown in red and partially reconcilled ones are shown in blue.
+""",
     "depends" : [
         'account',
 	],
