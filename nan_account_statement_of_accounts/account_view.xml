@@ -7,7 +7,7 @@
 		<field name="type">form</field>
 		<field name="priority">30</field>
 		<field name="arch" type="xml">
-			<tree string="Statement of Accounts" colors="red:reconcile_id==False">
+			<tree string="Statement of Accounts" colors="red:reconcile_id==False and reconcile_partial_id==False; blue:reconcile_partial_id!=False">
 				<field name="date"/>
 				<field name="period_id"/>
 				<field name="move_id"/>
