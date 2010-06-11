@@ -107,10 +107,15 @@ class partner(osv.osv):
     def _unpayed_amount(self, cr, uid, ids, name, arg, context=None):
         res = {}
         today = now().strftime('%Y-%m-%d')
-        for id in ids:
+        for partner in self.browse(cr, uid, ids, context):
+            accounts = []
+            if partner.property_account_receivable:
+                accounts.append( partner.property_account_receivable.id )
+            if partner.property_account_payable:
+                accounts.append( partner.property_account_payable.id )
             line_ids = self.pool.get('account.move.line').search( cr, uid, [
-                ('partner_id','=',id), 
-                ('account_id.type', 'in', ['receivable', 'payable']), 
+                ('partner_id','=',partner.id), 
+                ('account_id', 'in', accounts), 
                 ('reconcile_id','=',False), 
                 ('date_maturity','<',today),
             ], context=context) 
@@ -118,17 +123,23 @@ class partner(osv.osv):
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
             for line in self.pool.get('account.move.line').browse( cr, uid, line_ids, context ):
-                amount += -line.amount_to_pay
-            res[id] = amount
+                #amount += -line.amount_to_pay
+                amount += line.debit - line.credit
+            res[partner.id] = amount
         return res
 
     def _circulating_amount(self, cr, uid, ids, name, arg, context=None):
         res = {}
         today = now().strftime('%Y-%m-%d')
-        for id in ids:
+        for partner in self.browse(cr, uid, ids, context):
+            accounts = []
+            if partner.property_account_receivable:
+                accounts.append( partner.property_account_receivable.id )
+            if partner.property_account_payable:
+                accounts.append( partner.property_account_payable.id )
             line_ids = self.pool.get('account.move.line').search( cr, uid, [
-                ('partner_id','=',id), 
-                ('account_id.type', 'in', ['receivable', 'payable']), 
+                ('partner_id','=',partner.id), 
+                ('account_id', 'in', accounts), 
                 ('reconcile_id','=',False), 
                 '|', ('date_maturity','>=',today), ('date_maturity','=',False)
             ], context=context) 
@@ -136,17 +147,22 @@ class partner(osv.osv):
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
             for line in self.pool.get('account.move.line').browse( cr, uid, line_ids, context ):
-                amount += line.debit - line.credit + line.amount_to_pay
-            res[id] = amount
+                amount += line.debit - line.credit
+            res[partner.id] = amount
         return res
 
     def _pending_amount(self, cr, uid, ids, name, arg, context=None):
         res = {}
         today = now().strftime('%Y-%m-%d')
-        for id in ids:
+        for partner in self.browse(cr, uid, ids, context):
+            accounts = []
+            if partner.property_account_receivable:
+                accounts.append( partner.property_account_receivable.id )
+            if partner.property_account_payable:
+                accounts.append( partner.property_account_payable.id )
             line_ids = self.pool.get('account.move.line').search( cr, uid, [
-                ('partner_id','=',id), 
-                ('account_id.type', 'in', ['receivable', 'payable']), 
+                ('partner_id','=',partner.id), 
+                ('account_id', 'in', accounts), 
                 ('reconcile_id','=',False), 
                 '|', ('date_maturity','>=',today), ('date_maturity','=',False)
             ], context=context) 
@@ -154,15 +170,19 @@ class partner(osv.osv):
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
             for line in self.pool.get('account.move.line').browse( cr, uid, line_ids, context ):
-                amount += - line.amount_to_pay
-            res[id] = amount
+                amount += line.debit - line.credit
+            res[partner.id] = amount
         return res
 
     def _draft_invoices_amount(self, cr, uid, ids, name, arg, context=None):
         res = {}
         today = now().strftime('%Y-%m-%d')
         for id in ids:
-            invids = self.pool.get('account.invoice').search( cr, uid, [('partner_id','=',id), ('state','=','draft'), '|', ('date_due','>=',today), ('date_due','=',False)], context=context )
+            invids = self.pool.get('account.invoice').search( cr, uid, [
+                ('partner_id','=',id), 
+                ('state','=','draft'), 
+                '|', ('date_due','>=',today), ('date_due','=',False)
+            ], context=context )
             val = 0.0
             for invoice in self.pool.get('account.invoice').browse( cr, uid, invids, context ):
                 # Note that even if the invoice is in 'draft' state it can have an account.move because it 
@@ -180,7 +200,10 @@ class partner(osv.osv):
     def _pending_orders_amount(self, cr, uid, ids, name, arg, context=None):
         res = {}
         for id in ids:
-            sids = self.pool.get('sale.order').search( cr, uid, [('partner_id','=',id),('state','not in',['draft','cancel','wait_risk'])], context=context )
+            sids = self.pool.get('sale.order').search( cr, uid, [
+                ('partner_id','=',id),
+                ('state','not in',['draft','cancel','wait_risk'])
+            ], context=context )
             total = 0.0
             for order in self.pool.get('sale.order').browse(cr, uid, sids, context):
                 total += order.amount_total - order.amount_invoiced
@@ -207,10 +230,11 @@ class partner(osv.osv):
     def _total_risk_percent(self, cr, uid, ids, name, arg, context=None):
         res = {}
         for partner in self.browse( cr, uid, ids, context ):
+            limit = partner.credit_limit or 0.0
             if partner.credit_limit:
                 res[partner.id] = 100 * partner.total_debt / partner.credit_limit
             else:
-                res[partner.id] = 0
+                res[partner.id] = 100
         return res
 
     _columns = {
