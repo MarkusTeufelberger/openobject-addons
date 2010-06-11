@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (c) 2009 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
-#                       Jordi Esteve <jesteve@zikzakmedia.com>
-#    $Id$
+#    Copyright (c) 2010 Zikzakmedia S.L. (http://www.zikzakmedia.com)
+#    Copyright (c) 2010 Pexego Sistemas Informáticos S.L. (http://www.pexego.es)
+#    @authors: Jordi Esteve (Zikzakmedia), Borja López Soilán (Pexego)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,33 +20,39 @@
 #
 ##############################################################################
 {
-	"name" : "Update account chart from template",
+	"name" : "Detect changes and update the Account Chart from a template",
 	"version" : "1.0",
 	"author" : "Zikzakmedia SL",
 	"website" : "www.zikzakmedia.com",
-    "license" : "GPL-3",
+        "license" : "GPL-3",
 	"depends" : ["account"],
 	"category" : "Generic Modules/Accounting",
 	"description": """
-Adds a wizard to update a company account chart from a template:
-  * Generates the new accounts from the template and assigns them to the right company
-  * Generates the new taxes and tax codes, changing account assignations
-  * Generates the new fiscal positions, changing account and taxes assignations
+Adds a wizard to update a company account chart from a chart template.
 
-Before creating the new accounts, taxes, tax codes and fiscal positions, the user can select
-which ones must be created.
+This is a pretty useful tool to update OpenERP instalations after tax reforms
+on the oficial charts of accounts, or to apply fixes performed on the chart
+template.
 
-The user can also choose to update the existing accounts, taxes, tax codes and fiscal positions
-from a template.
+The wizard:
 
-The problems occurred during the creation/updating of the account chart are shown in the last step.
+- Allows the user to compare a chart and a template showing differences
+    on accounts, taxes, tax codes and fiscal positions.
+- It may create the new account, taxes, tax codes and fiscal positions detected
+    on the template.
+- It can also update (overwrite) the accounts, taxes, tax codes and fiscal
+    positions that got modified on the template.
 
-It is useful when the account law has changed and you want to transfer the new accounts, taxes and
-fiscal positions included in the account chart template to an existing company account chart.
+The wizard lets the user select what kind of objects must be checked/updated,
+and whether old records must be checked for changes and updated.
+It will display all the accounts to be created / updated with some information
+about the detected differences, and allow the user to exclude records
+individually.
+Any problem found while updating will be shown on the last step.
 
-Note: Due to the memory limitation of the osv_memory OpenERP objects, only a maximum number of 
-objects can be created each time. If a lot of new accounts, taxes, tax codes or fiscal positions
-must be created, the wizard should be run several times.
+Authors:
+    Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>
+    Borja López Soilán (Pexego) <borjals@pexego.es>
 """,
 	"init_xml" : [],
 	"demo_xml" : [],
