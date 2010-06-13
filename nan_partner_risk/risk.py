@@ -60,7 +60,6 @@ class sale_order(osv.osv):
         result = super(sale_order,self).onchange_partner_id(cr, uid, ids, part)
         if part:
             partner = self.pool.get('res.partner').browse(cr, uid, part)
-            risk = partner.available_risk
             if partner.available_risk < 0.0:
                 result['warning'] = {
                     'title': _('Credit Limit Exceeded'),
