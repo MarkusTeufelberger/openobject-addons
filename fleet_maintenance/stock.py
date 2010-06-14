@@ -174,9 +174,12 @@ class stock_picking(osv.osv):
 
         return address_return
 
+    def _default_origin(self, cr, uid, context={}):
+	return context.get('incident_ref', False)
 
     _defaults = {
         'address_id': _default_address_id,
+	'origin': _default_origin,
     }
     
 stock_picking()
