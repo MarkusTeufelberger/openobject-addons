@@ -2,7 +2,7 @@
 <openerp>
 	<data noupdate="1">
 
-        <record forcecreate="True" id="ir_cron_scheduler_action" model="ir.cron">
+        <record forcecreate="True" id="ir_cron_internetdomain_scheduler_action" model="ir.cron">
             <field name="name">Internet Domain scheduler</field>
             <field eval="False" name="active"/>
             <field name="user_id" ref="base.user_root"/>

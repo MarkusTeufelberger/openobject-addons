@@ -9,7 +9,7 @@
 		<field name="arch" type="xml">
 		<form string="domain">
 				<field name="name" select="1" colspan="4"/>
-		        <field name="partner_id"/>
+		        <field name="partner_id" on_change="onchange_partner_id(partner_id)"/>
 		        <field name="partner_address_id"/>
 		        <field name="registrator_id"/>
 		        <field name="registrator_website" widget="url"/>
