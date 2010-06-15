@@ -176,6 +176,9 @@ class wizard_update_charts_accounts(osv.osv_memory):
             user = self.pool.get('res.users').browse(cr, uid, uid, context)
             company_id = user.company_id.id
         property_ids = property_obj.search(cr, uid, [('name', '=', 'property_account_receivable' ), ('company_id', '=', company_id), ('res_id', '=', False), ('value', '!=', False)])
+        if not property_ids:
+            # Try to get a generic (no-company) property
+            property_ids = property_obj.search(cr, uid, [('name', '=', 'property_account_receivable' ), ('res_id', '=', False), ('value', '!=', False)])
         number_digits = 6
         if property_ids:
             prop = property_obj.browse(cr, uid, property_ids[0], context=context)
