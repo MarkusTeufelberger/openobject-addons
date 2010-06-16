@@ -227,7 +227,7 @@ class payment_order(osv.osv):
                     amount_cur = self.pool.get('res.currency').compute(cr, uid, company_currency_id, line.account_id.currency_id.id, amount, context=context, account=acc_cur)
                 val['amount_currency'] = amount_cur
 
-            partner_line_id = self.pool.get('account.move.line').create(cr, uid, val, context)
+            partner_line_id = self.pool.get('account.move.line').create(cr, uid, val, context, check=False)
 
             # Fill the secondary amount/currency
             # if currency is not the same than the company
