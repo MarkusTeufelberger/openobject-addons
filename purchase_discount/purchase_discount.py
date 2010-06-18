@@ -38,41 +38,28 @@ class purchase_order_line(osv.osv):
         cur_obj = self.pool.get('res.currency')
         for line in self.browse(cr, uid, ids):
             cur = line.order_id.pricelist_id.currency_id
-            res[line.id] = cur_obj.round(cr, uid, cur, line.price_unit * line.product_qty * (1 - (line.discount or 0.0) /100.0))
+            res[line.id] = cur_obj.round(cr, uid, cur, line.price_unit * line.product_qty )
         return res
 
     _columns = {
-        'discount': fields.float('Discount (%)', digits=(16,2)),
-        'price_subtotal': fields.function(_amount_line, method=True, string='Subtotal'),
+        'discount': fields.float('Discount (%)', digits=(16,2), help="If you chose apply a discount for this way you will overide the option of calculate based on Price Lists, you will need to change again the product to update based on pricelists, this value must be between 0-100"),
     }
     _defaults = {
         'discount': lambda *a: 0.0,
     }
+    
+    def discount_change(self, cr, uid, ids, product, discount):
+        if not product:
+            return {'value': {'price_unit': 0.0,}}
+        prod= self.pool.get('product.product').browse(cr, uid,product)
+        lang=False
+        res = {'value': {'price_unit': prod.standard_price*(1-discount/100),}}
+        return res
 purchase_order_line()
 
 class purchase_order(osv.osv):
     _name = "purchase.order"
     _inherit = "purchase.order"
-
-    def _amount_all(self, cr, uid, ids, field_name, arg, context):
-        res = {}
-        cur_obj = self.pool.get('res.currency')
-        for order in self.browse(cr, uid, ids):
-            res[order.id] = {
-                'amount_untaxed': 0.0,
-                'amount_tax': 0.0,
-                'amount_total': 0.0,
-            }
-            val = val1 = 0.0
-            cur = order.pricelist_id.currency_id
-            for line in order.order_line:
-                for c in self.pool.get('account.tax').compute(cr, uid, line.taxes_id, line.price_unit * (1-(line.discount or 0.0)/100.0), line.product_qty, order.partner_address_id.id, line.product_id, order.partner_id):
-                    val += c['amount']
-                val1 += line.price_subtotal
-            res[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
-            res[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
-            res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
-        return res
 
     def _get_order(self, cr, uid, ids, context={}):
         """Copied from purchase/purchase.py"""
@@ -80,29 +67,6 @@ class purchase_order(osv.osv):
         for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
             result[line.order_id.id] = True
         return result.keys()
-
-    #The fields using _amount_all() have to be copied here from purchase/purchase.py
-    #because openerp stores the method's memory address not the name.
-    #This means the old method would be called otherwise.
-    _columns = {
-        'amount_untaxed': fields.function(_amount_all, method=True, string='Untaxed Amount',
-            store={
-                'purchase.order.line': (_get_order, None, 10),
-            }, multi="sums"),
-        'amount_tax': fields.function(_amount_all, method=True, string='Taxes',
-            store={
-                'purchase.order.line': (_get_order, None, 10),
-            }, multi="sums"),
-        'amount_total': fields.function(_amount_all, method=True, string='Total',
-            store={
-                'purchase.order.line': (_get_order, None, 10),
-            }, multi="sums"),
-    }
-
-    def inv_line_create(self, cr, uid, a, ol):
-        res = super(purchase_order,self).inv_line_create(cr, uid, a, ol)
-        res[2].update({'discount': ol.discount,})
-        return res
 
 purchase_order()
 
