@@ -131,7 +131,7 @@ class account_voucher(osv.osv):
             #create the first line our self
             move_line = {
                 'name': inv.name,
-                'voucher_invoice' : iml and iml[0]['invoice'] and iml[0]['invoice'].id or False,
+                'voucher_invoice' : False,
                 'debit': False,
                 'credit':False,
                 'account_id': inv.account_id.id or False,
@@ -148,11 +148,12 @@ class account_voucher(osv.osv):
                 move_line['credit'] = inv.amount * (-1)
             self.pool.get('account.move.line').create(cr, uid, move_line)
             id_mapping_dict = {}
-            mline_ids = []
+            unrec_lines = {}
             for line in inv.voucher_line_ids:
+                mline_ids = []
                 move_line = {
                     'name':line.name,
-                    'voucher_invoice' : iml and iml[0]['invoice'] and iml[0]['invoice'].id or False,
+                    'voucher_invoice' : line.invoice_id and line.invoice_id.id or False,
                     'debit':False,
                     'credit':False,
                     'move_id':move_id,                    
@@ -171,7 +172,6 @@ class account_voucher(osv.osv):
                     move_line['credit'] = line.amount or False
                     amount=line.amount * (-1)
                 ml_id=self.pool.get('account.move.line').create(cr, uid, move_line)
-                
                 id_mapping_dict[line.id] = ml_id
                 total = 0.0
                 mline = self.pool.get('account.move.line')
@@ -185,6 +185,7 @@ class account_voucher(osv.osv):
                     for ml in mlines:
                         if ml.account_id.id==src_account_id:
                             mline_ids.append(ml.id)
+                            unrec_lines[line.id] = mline_ids
                             total += (ml.debit or 0.0) - (ml.credit or 0.0)
 
                 if inv.narration:
@@ -206,14 +207,16 @@ class account_voucher(osv.osv):
                          }
                         self.pool.get('account.analytic.line').create(cr,uid,an_line)
 
-                if mline_ids:
-                    self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
-                self.write(cr, uid, [inv.id], {'move_id': move_id})
-            
+#                if mline_ids:
+#                    self.pool.get('account.move.line').reconcile_partial(cr, uid, mline_ids, 'manual', context={})
+            self.write(cr, uid, [inv.id], {'move_id': move_id})
+            self.pool.get('account.move').post(cr, uid, [move_id])
+            for values in unrec_lines.values():
+                self.pool.get('account.move.line').reconcile_partial(cr, uid, values, 'manual', context={})
             obj=self.pool.get('account.move').browse(cr, uid, move_id)
             
             for line in obj.line_id :
-                cr.execute('insert into voucher_id (account_id,rel_account_move) values (%d, %d)',(int(ids[0]),int(line.id)))
+                cr.execute('insert into voucher_id (account_id,rel_account_move) values (%s, %s)',(int(ids[0]),int(line.id)))
                 
         return True
 
