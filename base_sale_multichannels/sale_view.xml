@@ -95,17 +95,21 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Payment Type">
+                    <separator string="Payment Code" colspan="4" />
                     <field name="name"/>
-                    <field name="journal_id"/>
+                    <separator string="Order Configuration" colspan="4" />
                     <field name="picking_policy"/>
                     <field name="order_policy"/>
                     <field name="invoice_quantity"/>
-                    <field name="is_auto_reconcile"/>
+                    <separator string="Worflow Option" colspan="4" />
                     <field name="validate_order"/>
-                    <field name="validate_payment"/>
                     <field name="create_invoice" />
                     <field name="validate_invoice"/>
+                    <separator string="Account Option" colspan="4" />
+                    <field name="journal_id"/>
                     <field name="check_if_paid"/>
+                    <field name="validate_payment"/>
+                    <field name="is_auto_reconcile"/>
                 </form>
             </field>
         </record>
@@ -126,6 +130,7 @@
                     <field name="validate_payment"/>
                     <field name="create_invoice"/>
                     <field name="validate_invoice"/>
+                    <field name="check_if_paid"/>
                 </tree>
             </field>
         </record>
