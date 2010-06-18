@@ -312,18 +312,13 @@ class sale_order(osv.osv):
     def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed', 'done', 'exception']):
         wf_service = netsvc.LocalService("workflow")
         res = super(sale_order, self).action_invoice_create(cr, uid, ids, grouped, states)
-        print 'vallliiiiid', res
         for order_id in ids:
             order = self.browse(cr, uid, order_id)
             if order.order_policy == 'postpaid':
-                print 'order oki'
                 payment_settings = self.payment_code_to_payment_settings(cr, uid, order.ext_payment_method)
                 if payment_settings and payment_settings.validate_invoice:
-                    print 'valid oki'
                     for invoice in order.invoice_ids:
-                        if True:
-                            print 'invoice in'
-                            wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
+                        wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
         return res
 
 sale_order()
