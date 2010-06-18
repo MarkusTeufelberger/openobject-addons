@@ -25,6 +25,7 @@
 
 {
     "name":"Margins (amount and pourcent) in Sale Orders",
+    "description" : " This module adds the facility of Margins (amount and pourcent) in Sale Orders",
     "version":"1.0",
     "author":"Everlibre & SYLEAM",
     "category" : "Generic Modules/Sales & Purchases",

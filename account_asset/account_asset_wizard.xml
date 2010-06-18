@@ -2,14 +2,16 @@
 <openerp>
 	<data>
 
+    <menuitem id="menu_finance_periodical_assets" name="Assets Calculation" parent="account.menu_finance_periodical_processing"/>
+
 		<wizard
 			string="Compute assets"
-			model="account.asset.asset"
+			model="account.asset.method"
 			name="account.asset.compute"
 			keyword="tree_but_action"
 			id="wizard_asset_compute"/>
 		<menuitem
-			parent="account.menu_finance_periodical_processing"
+			parent="menu_finance_periodical_assets"
 			action="wizard_asset_compute"
 			type="wizard"
 			id="menu_wizard_asset_compute"/>
@@ -17,15 +19,52 @@
 
 		<wizard
 			string="Modify asset"
-			model="account.asset.asset"
+			model="account.asset.method"
 			name="account.asset.modify"
 			id="wizard_asset_modify"
 			menu="False"/>
 		<wizard
 			string="Close asset"
-			model="account.asset.asset"
+			model="account.asset.method"
 			name="account.asset.close"
 			id="wizard_asset_close"
 			menu="False"/>
+		<wizard
+			string="Resume asset"
+			model="account.asset.method"
+			name="account.asset.resume"
+			id="wizard_asset_resume"
+			menu="False"/>
+		<wizard
+			string="Change Localisation"
+			model="account.asset.asset"
+			name="account.asset.localisation"
+			id="wizard_asset_localisation"
+			menu="False"/>
+		<wizard
+			string="Revaluate"
+			model="account.asset.method"
+			name="account.asset.reval"
+			id="wizard_asset_reval"
+			menu="False"/>
+		<wizard
+			string="Abandon"
+			model="account.asset.method"
+			name="account.asset.abandon"
+			id="wizard_asset_abandon"
+			menu="False"/>
+		<wizard
+			string="Initial"
+			model="account.asset.method"
+			name="account.asset.initial"
+			id="wizard_asset_initial"
+			menu="False"/>
+		<wizard
+			string="Usage Lines"
+			model="account.asset.method"
+			name="account.asset.usage.createlines"
+			id="wizard_asset_usage_createlines"
+			menu="False"/>
+
 	</data>
 </openerp>

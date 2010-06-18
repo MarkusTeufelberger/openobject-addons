@@ -359,7 +359,6 @@ class SmtpClient(osv.osv):
         history = self.pool.get('email.smtpclient.history')
         sids = queue.search(cr, uid, [('state','not in',['send','sending'])], limit=30)
         queue.write(cr, uid, sids, {'state':'sending'})
-        error = []
         sent = []
         open_server = []
         for email in queue.browse(cr, uid, sids):
@@ -381,10 +380,9 @@ class SmtpClient(osv.osv):
                     })
             sent.append(email.id)
             queue.write(cr, uid, sent, {'state':'send'})
-            queue_state = queue.read(cr, uid, [email.id], ['state'])
-            for state in queue_state:
-                if state['state'] == 'send':
-                    self.write(cr, uid, email.server_id.id, {'state':'waiting'})
+            smtpclient_state = self.read(cr, uid, [email.server_id.id], ['state'])
+            if smtpclient_state[0]['state'] == 'new':
+                self.write(cr, uid, email.server_id.id, {'state':'waiting'})
         return True
 SmtpClient()
 

@@ -8,7 +8,7 @@
        <field name="inherit_id" ref="purchase.purchase_order_line_form" />
        <field name="arch" type="xml">
            <field name="product_id" position="before">
-               <field name="recent_product_id" context="purchase_partner_filter=parent.partner_id" on_change="recent_product_id_change(parent.pricelist_id,recent_product_id,product_uom_qty,product_uom,parent.partner_id,parent.date_order,parent.fiscal_position, context)" colspan="4"/>
+               <field name="recent_product_id" context="purchase_partner_filter=parent.partner_id" on_change="recent_product_id_change(parent.pricelist_id,recent_product_id,product_qty,product_uom,parent.partner_id,parent.date_order,parent.fiscal_position, context)" colspan="4"/>
            </field>
        </field>
    </record>

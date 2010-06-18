@@ -61,9 +61,6 @@ msgstr ""
 "Aquest mòdul és útil quan la llei fiscal ha canviat i voleu transferir els nous comptes, impostos i\n"
 "posicions fiscals incloses en la plantilla de pla comptable cap un pla comptable existent d'una companyia.\n"
 "\n"
-"Nota: Degut a la limitació de memòria dels objectes osv_memory d'OpenERP, només un nombre màxim\n"
-"d'objectes poden ser creats cada vegada. Si heu de crear un nombre elevat de comptes, impostos, codis\n"
-"d'impostos i posicions fiscals, haureu d'executar aquest assistent varies vegades.\n"
 
 #. module: account_chart_update
 #: field:wizard.update.charts.accounts,update_tax_code:0

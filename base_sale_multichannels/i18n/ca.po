@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2009-12-20 17:22+0000\n"
-"PO-Revision-Date: 2009-12-29 02:01+0000\n"
-"Last-Translator: Jordi Esteve - http://www.zikzakmedia.com "
+"PO-Revision-Date: 2010-06-09 20:41+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-09 04:01+0000\n"
+"X-Launchpad-Export-Date: 2010-06-10 03:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: Catalan\n"
 
@@ -94,7 +94,7 @@ msgstr ""
 #. module: base_sale_multichannels
 #: field:sale.shop,order_policy:0
 msgid "Shipping Policy"
-msgstr "Política d'enviament"
+msgstr "Política de facturació"
 
 #. module: base_sale_multichannels
 #: selection:sale.shop,invoice_generation_policy:0
@@ -268,7 +268,9 @@ msgstr ""
 "factura esborrany.\n"
 "  - L'opció 'Factura segons comanda després enviament' generarà la factura "
 "esborrany basada en la comanda de venda després que tots els albarans es "
-"processin."
+"processin.\n"
+"  - L'opció 'Factura des d'albarà' s'utilitza per a crear una factura des "
+"dels albarans processats."
 
 #. module: base_sale_multichannels
 #: field:sale.shop,last_inventory_export_date:0

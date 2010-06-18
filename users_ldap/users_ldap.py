@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution	
@@ -20,7 +20,8 @@
 #
 ##############################################################################
 
-from osv import fields,osv
+from osv import osv
+from osv import fields
 from service import security
 import pooler
 
@@ -29,7 +30,7 @@ try:
 except ImportError:
     import netsvc
     logger = netsvc.Logger()
-    logger.notifyChannel("init", netsvc.LOG_WARNING, "could not import ldap!")
+    logger.notifyChannel("init", netsvc.LOG_WARNING, "could not import ldap library !!")
 
 
 class CompanyLDAP(osv.osv):
@@ -40,12 +41,12 @@ class CompanyLDAP(osv.osv):
         'sequence': fields.integer('Sequence'),
         'company': fields.many2one('res.company', 'Company', required=True,
             ondelete='cascade'),
-        'ldap_server': fields.char('LDAP Server address', size=64, required=True),
-        'ldap_server_port': fields.integer('LDAP Server port', required=True),
-        'ldap_binddn': fields.char('LDAP binddn', size=64, required=True),
+        'ldap_server': fields.char('LDAP Server address', size=64, required=True, help='e.g. MyCompany.com'),
+        'ldap_server_port': fields.integer('LDAP Server port', required=True, help='e.g. 389'),
+        'ldap_binddn': fields.char('LDAP binddn', size=64, required=True, help='e.g. cn=proxy,dc=mycompany,dc=com'),
         'ldap_password': fields.char('LDAP password', size=64, required=True),
-        'ldap_filter': fields.char('LDAP filter', size=64, required=True),
-        'ldap_base': fields.char('LDAP base', size=64, required=True),
+        'ldap_filter': fields.char('LDAP filter', size=64, required=True, help='e.g. cn=%s'),
+        'ldap_base': fields.char('LDAP base', size=64, required=True, help='e.g. ou=users, dc=mycompany, dc=com'),
         'user': fields.many2one('res.users', 'Model user',
             help="Model used for user creation"),
         'create_user': fields.boolean('Create user',
@@ -106,14 +107,23 @@ def ldap_login(oldfnc):
                                     users_obj = pooler.get_pool(cr.dbname).get('res.users')
                                     action_obj = pooler.get_pool(cr.dbname).get('ir.actions.actions')
                                     action_id = action_obj.search(cr, 1, [('usage', '=', 'menu')])[0]
+
+                                    # Search the address affect on the partner
+                                    addr_obj = pooler.get_pool(cr.dbname).get('res.partner.address')
+                                    a_ids = addr_obj.search(cr, 1, [('name','=',name)])
+
                                     if res_company_ldap['user']:
                                         res = users_obj.copy(cr, 1, res_company_ldap['user'],
                                                 default={'active': True})
-                                        users_obj.write(cr, 1, res, {
+
+                                        args = {
                                             'name': name,
                                             'login': login.encode('utf-8'),
                                             'company_id': res_company_ldap['company'],
-                                            })
+                                        }
+                                        if a_ids:
+                                            args['address_id'] = a_ids[0]
+                                        users_obj.write(cr, 1, res, args)
                                     else:
                                         res = users_obj.create(cr, 1, {
                                             'name': name,

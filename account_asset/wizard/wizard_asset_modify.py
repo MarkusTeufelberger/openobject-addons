@@ -22,50 +22,51 @@
 
 import wizard
 import pooler
+from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Modify asset">
-    <separator string="Asset properties to modify" colspan="4"/>
+<form string="Method Modyfying">
+    <separator string="Method parameters to modify" colspan="4"/>
     <field name="name" colspan="4"/>
     <field name="method_delay"/>
     <field name="method_period"/>
+    <field name="method_progress_factor"/>
+    <field name="method_salvage"/>
+    <field name="life"/>
     <separator string="Notes" colspan="4"/>
     <field name="note" nolabel="1" colspan="4"/>
 </form>'''
 
 asset_end_fields = {
-    'name': {'string':'Reason', 'type':'char', 'size':64, 'required':True},
-    'method_delay': {'string':'Number of interval', 'type':'float'},
-    'method_period': {'string':'Period per interval', 'type':'float'},
+    'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
+    'method_delay': {'string':'Number of Intervals', 'type':'integer'},
+    'method_period': {'string':'Intervals per Year', 'type':'integer'},
+    'method_progress_factor': {'string':'Progressive Factor', 'type':'float'},
+    'method_salvage': {'string':'Salvage Value', 'type':'float'},
+    'life': {'string':'Life Quantity', 'type':'float'},
     'note': {'string':'Notes', 'type':'text'},
 }
 
 def _asset_default(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    prop = pool.get('account.asset.property').browse(cr, uid, data['id'], context)
+    method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
     return {
-        'name': prop.name,
-        'method_delay': prop.method_delay,
-        'method_period': prop.method_period
+        'name': _("Modification of "),
+        'method_delay': method.method_delay,
+        'method_period': method.method_period,
+        'method_progress_factor': method.method_progress_factor,
+        'method_salvage': method.method_salvage,
+        'life': method.life,
+
     }
 
 def _asset_modif(self, cr, uid, data, context={}):
     pool = pooler.get_pool(cr.dbname)
-    prop = pool.get('account.asset.property').browse(cr, uid, data['id'], context)
-    pool.get('account.asset.property.history').create(cr, uid, {
-        'asset_property_id': data['id'],
-        'name': prop.name,
-        'method_delay': prop.method_delay,
-        'method_period': prop.method_period,
-        'note': data['form']['note'],
-    }, context)
-    pool.get('account.asset.property').write(cr, uid, [data['id']], {
-        'name': data['form']['name'],
-        'method_delay': data['form']['method_delay'],
-        'method_period': data['form']['method_period'],
-    }, context)
+    method_obj = pool.get('account.asset.method')
+    method = method_obj.browse(cr, uid, data['id'], context)
+    method_obj._modif(cr, uid, method, data['form']['method_delay'], data['form']['method_period'], data['form']['method_progress_factor'], \
+                data['form']['method_salvage'], data['form']['life'], data['form']['name'], data['form']['note'], context)
     return {}
-
 
 class wizard_asset_modify(wizard.interface):
     states = {
@@ -73,7 +74,7 @@ class wizard_asset_modify(wizard.interface):
             'actions': [_asset_default],
             'result': {'type':'form', 'arch':asset_end_arch, 'fields':asset_end_fields, 'state':[
                 ('end','Cancel'),
-                ('asset_modify','Modify asset')
+                ('asset_modify','Modify Method')
             ]}
         },
         'asset_modify': {

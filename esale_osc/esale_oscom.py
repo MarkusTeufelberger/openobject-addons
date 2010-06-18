@@ -993,7 +993,7 @@ class esale_oscom_saleorder(osv.osv):
             wf_service.trg_validate(uid, 'sale.order', order_id, 'order_confirm', cr)
         return True
 
-    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed','done']):
+    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed', 'done', 'exception']):
         ret_super = super(esale_oscom_saleorder,self).action_invoice_create(cr, uid, ids, grouped, states)
         sale_order = self.browse(cr, uid, ids[0])
         self.pool.get('account.invoice').write(cr, uid, [ret_super], {'esale_oscom_web': sale_order.esale_oscom_web.id})

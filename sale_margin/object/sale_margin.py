@@ -31,46 +31,54 @@ import time
 class sale_order_line(osv.osv):
     _inherit = "sale.order.line"
 
-    def price_unit_change(self, cr, uid, ids, purchase_price,product_uom_qty,product_uos_qty,price_unit,product,discount):
+    def convert_to_foreign_currency(self, cr, uid, pricelist, amount):
+        pricelist_obj = self.pool.get('product.pricelist').browse(cr, uid, pricelist)
+        company_currency = self.pool.get('res.users').browse(cr, uid, uid).company_id.currency_id.id
+        price = self.pool.get('res.currency').compute(cr, uid, company_currency, pricelist_obj.currency_id.id, amount, round=False)
+        return price
+    
+    def price_unit_change(self, cr, uid, ids, purchase_price, product_uom_qty, product_uos_qty, price_unit, product, discount, pricelist):
         """If price unit change, calcul the new margin.
         :param pv: sale price
         :param pa: purchase price
         :param margin: amount margin"""
 
-        res={}
-        res['value']={}
+        res = {}
+        res['value'] = {}
         if product:
             product_tmpl_obj = self.pool.get('product.template')
             product_obj = self.pool.get('product.product')
-            pr=product_obj.read(cr,uid,product)
-            product_value= product_tmpl_obj.read(cr,uid,pr['product_tmpl_id'][0] )
-            pv=(price_unit*product_uom_qty*(100.0-discount)/100.0)
-            pa=(product_value['standard_price']*product_uom_qty)
-            margin=round(pv -pa,int(config['price_accuracy']))
-            res['value']['margin']=margin
-            res['value']['marginpourcent']=(((pv-pa)/pv)*100)
-            res['value']['purchase_price']=product_value['standard_price']
+            pr = product_obj.read(cr,uid,product)
+            product_value = product_tmpl_obj.read(cr,uid,pr['product_tmpl_id'][0])
+            std_price = self.convert_to_foreign_currency(cr, uid, pricelist, product_value['standard_price'])
+            pv = (price_unit*product_uom_qty*(100.0-discount)/100.0)
+            pa = (std_price*product_uom_qty)
+            margin = round(pv -pa,int(config['price_accuracy']))
+            res['value']['margin'] = margin
+            res['value']['marginpourcent'] = (((pv-pa)/pv)*100)
+            res['value']['purchase_price'] = std_price
         return res
 
-    def discount_change(self, cr, uid, ids, purchase_price,product_uom_qty,product_uos_qty,price_unit,product,discount):
+    def discount_change(self, cr, uid, ids, purchase_price, product_uom_qty, product_uos_qty, price_unit, product, discount, pricelist):
         """If discount change, calcul the new margin.
         :param pv: sale price
         :param pa: purchase price
         :param margin: amount margin"""
 
-        res={}
-        res['value']={}
+        res = {}
+        res['value'] = {}
         if product:
             product_tmpl_obj = self.pool.get('product.template')
             product_obj = self.pool.get('product.product')
-            pr=product_obj.read(cr,uid,product)
-            product_value= product_tmpl_obj.read(cr,uid,pr['product_tmpl_id'][0] )
-            pv=(price_unit*product_uom_qty*(100.0-discount)/100.0)
-            pa=(product_value['standard_price']*product_uom_qty)
-            margin=round(pv -pa,int(config['price_accuracy']))
-            res['value']['margin']=margin
-            res['value']['marginpourcent']=(((pv-pa)/pv)*100)
-            res['value']['purchase_price']=product_value['standard_price']
+            pr = product_obj.read(cr,uid,product)
+            product_value = product_tmpl_obj.read(cr,uid,pr['product_tmpl_id'][0])
+            std_price = self.convert_to_foreign_currency(cr, uid, pricelist, product_value['standard_price'])
+            pv = (price_unit*product_uom_qty*(100.0-discount)/100.0)
+            pa = (std_price*product_uom_qty)
+            margin = round(pv -pa,int(config['price_accuracy']))
+            res['value']['margin'] = margin
+            res['value']['marginpourcent'] = (((pv-pa)/pv)*100)
+            res['value']['purchase_price'] = std_price
         return res
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,uom=False, qty_uos=0, uos=False, name='', partner_id=False,lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False,discount=0.0,price_unit=0.0):
@@ -79,26 +87,27 @@ class sale_order_line(osv.osv):
         :param pa: purchase price
         :param margin: amount margin"""
 
-        temp={}
-        temp['product']=''
+        temp = {}
+        temp['product'] = ''
         if price_unit>0:
-            temp['price_unit']=price_unit
+            temp['price_unit'] = price_unit
             if product:
-                temp['product']=product
-        res=super(sale_order_line, self).product_id_change( cr, uid, ids, pricelist, product,qty,uom,qty_uos,uos,name,partner_id,lang,update_tax,date_order,packaging,fiscal_position,flag)
+                temp['product'] = product
+        res = super(sale_order_line, self).product_id_change( cr, uid, ids, pricelist, product,qty,uom,qty_uos,uos,name,partner_id,lang,update_tax,date_order,packaging,fiscal_position,flag)
         if product:
             if product==temp['product']:
                 res['value']['price_unit']=price_unit
             product_tmpl_obj = self.pool.get('product.template')
             product_obj = self.pool.get('product.product')
-            pr=product_obj.read(cr,uid,product)
-            product_value= product_tmpl_obj.read(cr,uid,pr['product_tmpl_id'][0] )
-            pv=(res['value']['price_unit']*res['value']['product_uos_qty']*(100.0-discount)/100.0)
-            pa=(product_value['standard_price']*res['value']['product_uos_qty'])
-            margin=round(pv - pa,int(config['price_accuracy']))
-            res['value']['margin']=margin
-            res['value']['marginpourcent']=(((pv-pa)/pv)*100)
-            res['value']['purchase_price']=product_value['standard_price']
+            pr = product_obj.read(cr,uid,product)
+            product_value = product_tmpl_obj.read(cr,uid,pr['product_tmpl_id'][0] )
+            std_price = self.convert_to_foreign_currency(cr, uid, pricelist, product_value['standard_price'])
+            pv = (res['value']['price_unit']*res['value']['product_uos_qty']*(100.0-discount)/100.0)
+            pa = (std_price*res['value']['product_uos_qty'])
+            margin = round(pv - pa,int(config['price_accuracy']))
+            res['value']['margin'] = margin
+            res['value']['marginpourcent'] = (((pv-pa)/pv)*100)
+            res['value']['purchase_price'] = std_price
 
         return res
 

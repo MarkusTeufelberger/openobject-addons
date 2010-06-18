@@ -39,13 +39,15 @@
                     <page string="Transport Details">
                         <field name="bl_no" />
                         <field name="vessel_name" />
-                        <field name="voyage_number" />
+                        <field name="voyage_number" select="1" />
                         <field name="shipping_company" />
+                        <field name="kind_transport" select="1" />
+	                    <field name="forwarder" select="1" />
                         <field name="departure_date" />
                         <field name="arrival_date" />
                         <field name="port_of_departure" />
                         <field name="port_of_arrival" />
-                        <field name="container_id" />
+                        <field name="container_id" select="1" />
                         <newline/>
                         <field name="container_seal" />
                         <field name="loading_code" />
@@ -160,10 +162,11 @@
             <field name="name">Moves Form make planned date readonly</field>
             <field name="model">stock.picking</field>
             <field name="type">form</field>
+            <field name="priority">20</field>
             <field name="inherit_id" ref="stock.view_picking_form" />
             <field name="arch" type="xml">
             	<field name="min_date" select="2" position="replace">
-            		<field name="min_date" select="2" readonly="1"/>
+            		<field name="min_date" select="1" readonly="1"/>
             	</field>
             </field>
         </record>
@@ -178,13 +181,15 @@
                     <page string="Transport Details">
                         <field name="bl_no" />
                         <field name="vessel_name" />
-                        <field name="voyage_number" />
+                        <field name="voyage_number" select="1"/>
                         <field name="shipping_company" />
+                        <field name="kind_transport" select="1" />
+	                    <field name="forwarder" select="1" />
                         <field name="departure_date" />
                         <field name="arrival_date" />
                         <field name="port_of_departure" />
                         <field name="port_of_arrival" />
-                        <field name="container_id" />
+                        <field name="container_id" select="1"/>
                         <newline/>
                         <field name="container_seal" />
                         <field name="loading_code" />

@@ -70,7 +70,7 @@
                     <field
                         context="partner_id=parent.partner_id,quantity=product_uom_qty,pricelist=parent.pricelist_id,shop=parent.shop_id,uom=product_uom"
                         name="price_unit"
-                        on_change="price_unit_change(purchase_price,product_uom_qty,product_uos_qty,price_unit,product_id,discount)"
+                        on_change="price_unit_change(purchase_price,product_uom_qty,product_uos_qty,price_unit,product_id,discount,parent.pricelist_id)"
                         select="1"/>
                 </field>
             </field>
@@ -84,7 +84,7 @@
                 <field name="discount" position="replace">
                     <field
                         name="discount"
-                        on_change="discount_change(purchase_price,product_uom_qty,product_uos_qty,price_unit,product_id,discount)"/>
+                        on_change="discount_change(purchase_price,product_uom_qty,product_uos_qty,price_unit,product_id,discount, parent.pricelist_id)"/>
                 </field>
             </field>
         </record>

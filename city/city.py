@@ -38,12 +38,12 @@ class city(osv.osv):
 			res.append((line['id'], location))
 		return res
 
-	def search(self, cr, uid, args=None, offset=0, limit=80, unknow=0, context=None):
-		res = super(city, self).search(cr, uid, args, offset, limit, unknow, context)
+	def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
+		res = super(city, self).search(cr, uid, args, offset, limit, order, context, count)
 		if not res and args:
 			args = [('zipcode', 'ilike', args[0][2])]
-			res = super(city, self).search(cr, uid, args, offset, limit, unknow, context)
-		return res	
+			res = super(city, self).search(cr, uid, args, offset, limit, order, context, count)
+		return res
 		
 	_name = 'city.city'
 	_description = 'City'
@@ -64,6 +64,8 @@ CountryState()
 
 
 class res_partner_address(osv.osv):	
+	_inherit = "res.partner.address"
+
 	def _get_zip(self, cr, uid, ids, field_name, arg, context):
 		res={}
 		for obj in self.browse(cr,uid,ids):
@@ -72,7 +74,22 @@ class res_partner_address(osv.osv):
 			else:
 				res[obj.id] = ""
 		return res
-		
+
+	def _zip_search(self, cr, uid, obj, name, args, context):
+		if not len(args):
+			return []
+		new_args = []
+		for argument in args:
+			operator = argument[1]
+			value = argument[2]
+			ids = self.pool.get('city.city').search(cr, uid, [('zipcode',operator,value)], context=context)
+			new_args.append( ('location','in',ids) )
+		if new_args:
+			# We need to ensure that locatio is NOT NULL. Otherwise all addresses
+			# that have no location will 'match' current search pattern.
+			new_args.append( ('location','!=',False) )
+		return new_args
+
 	def _get_city(self, cr, uid, ids, field_name, arg, context):
 		res={}
 		for obj in self.browse(cr,uid,ids):
@@ -81,6 +98,21 @@ class res_partner_address(osv.osv):
 			else:
 				res[obj.id] = ""
 		return res
+
+	def _city_search(self, cr, uid, obj, name, args, context):
+		if not len(args):
+			return []
+		new_args = []
+		for argument in args:
+			operator = argument[1]
+			value = argument[2]
+			ids = self.pool.get('city.city').search(cr, uid, [('name',operator,value)], context=context)
+			new_args.append( ('location','in',ids) )
+		if new_args:
+			# We need to ensure that locatio is NOT NULL. Otherwise all addresses
+			# that have no location will 'match' current search pattern.
+			new_args.append( ('location','!=',False) )
+		return new_args
 		
 	def _get_state(self, cr, uid, ids, field_name, arg, context):
 		res={}
@@ -91,6 +123,21 @@ class res_partner_address(osv.osv):
 				res[obj.id] = False
 		return res
 
+	def _state_id_search(self, cr, uid, obj, name, args, context):
+		if not len(args):
+			return []
+		new_args = []
+		for argument in args:
+			operator = argument[1]
+			value = argument[2]
+			ids = self.pool.get('city.city').search(cr, uid, [('state_id',operator,value)], context=context)
+			new_args.append( ('location','in',ids) )
+		if new_args:
+			# We need to ensure that locatio is NOT NULL. Otherwise all addresses
+			# that have no location will 'match' current search pattern.
+			new_args.append( ('location','!=',False) )
+		return new_args
+
 	def _get_country(self, cr, uid, ids, field_name, arg, context):
 		res={}
 		for obj in self.browse(cr,uid,ids):
@@ -100,14 +147,31 @@ class res_partner_address(osv.osv):
 				res[obj.id] = False
 		return res
 
-	_inherit = "res.partner.address"
+	def _country_id_search(self, cr, uid, obj, name, args, context):
+		if not len(args):
+			return []
+		new_args = []
+		for argument in args:
+			operator = argument[1]
+			value = argument[2]
+			ids = self.pool.get('res.country.state').search(cr, uid, [('country_id',operator,value)], context=context)
+			address_ids = []
+			for country in self.pool.get('res.country.state').browse(cr, uid, ids, context):
+				ids += [city.id for city in country.city_ids]
+			new_args.append( ('location','in',tuple(ids)) )
+		if new_args:
+			# We need to ensure that locatio is NOT NULL. Otherwise all addresses
+			# that have no location will 'match' current search pattern.
+			new_args.append( ('location','!=',False) )
+		return new_args
+
 	_columns = {
-			'location': fields.many2one('city.city', 'Location'),
-			'zip': fields.function(_get_zip, method=True, type="char", string='Zip', size=24),
-			'city': fields.function(_get_city, method=True, type="char", string='City', size=128),
-			'state_id': fields.function(_get_state, obj="res.country.state", method=True, type="many2one", string='State'), 
-			'country_id': fields.function(_get_country, obj="res.country" ,method=True, type="many2one", string='Country'), 
-				}
+		'location': fields.many2one('city.city', 'Location'),
+		'zip': fields.function(_get_zip, fnct_search=_zip_search, method=True, type="char", string='Zip', size=24),
+		'city': fields.function(_get_city, fnct_search=_city_search, method=True, type="char", string='City', size=128),
+		'state_id': fields.function(_get_state, fnct_search=_state_id_search, obj="res.country.state", method=True, type="many2one", string='State'), 
+		'country_id': fields.function(_get_country, fnct_search=_country_id_search, obj="res.country" ,method=True, type="many2one", string='Country'), 
+	}
 res_partner_address()
 
 

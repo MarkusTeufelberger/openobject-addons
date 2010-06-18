@@ -50,7 +50,6 @@ class purchase_order_line( osv.osv ):
         if not context:
             context = {}
         result = self.product_id_change(cr, uid, ids, pricelist, recent_product, qty, uom, partner_id, date_order, fiscal_position)
-        product_id_change(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id, parent.date_order, parent.fiscal_position)
         if not 'value' in result:
             result['value'] = {}
         result['value']['product_id'] = recent_product

@@ -66,7 +66,7 @@ class account_invoice(osv.osv):
                     # Accounts to compute amount_tax
                     tax_account = []
                     for line in invoice.tax_line:
-                        if line.account_id.id not in tax_account:
+                        if line.account_id.id not in tax_account and line.amount != 0:
                             tax_account.append(line.account_id.id)
 
                     # The company currency amounts are the debit-credit amounts in the account moves
