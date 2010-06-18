@@ -173,6 +173,7 @@ class sale_shop(external_osv.external_osv):
             else:
                 recent_move_ids = self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
             product_ids = [move.product_id.id for move in self.pool.get('stock.move').browse(cr, uid, recent_move_ids)]
+            product_ids = [x for x in set(product_ids)]
             res = self.pool.get('product.product').export_inventory(cr, uid, product_ids, '', ctx)
             self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_inventory_export_date': time.strftime('%Y-%m-%d %H:%M:%S')})
         return res
