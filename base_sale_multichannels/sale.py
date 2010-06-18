@@ -327,8 +327,8 @@ class base_sale_payment_type(osv.osv):
     _description = "Base Sale Payment Type"
 
     _columns = {
-                #TODO statement status, status invoice, picking, sale order,....
-        'name': fields.char('Name', size=64, required=True), # TODO multi payment name separed by ";"
+        'name': fields.char('Payment Codes', help="List of Payment Codes separated by ;", size=256, required=True),
+        'journal_id': fields.many2one('account.journal','Payment Journal'),
         'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')], 'Packing Policy'),
         'order_policy': fields.selection([
             ('prepaid', 'Payment Before Delivery'),
