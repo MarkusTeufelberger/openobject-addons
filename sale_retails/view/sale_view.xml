@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        ##############################################################################
+        #
+        #    sale_retails module for OpenERP, allows the management of deposit
+        #    Copyright (C) 2010 SYLEAM Info Services ([http://www.syleam.fr/]) Suzanne Jean-Sebastien
+        #
+        #    This file is a part of sale_retails
+        #
+        #    sale_retails is free software: you can redistribute it and/or modify
+        #    it under the terms of the GNU General Public License as published by
+        #    the Free Software Foundation, either version 3 of the License, or
+        #    (at your option) any later version.
+        #
+        #    sale_retails is distributed in the hope that it will be useful,
+        #    but WITHOUT ANY WARRANTY; without even the implied warranty of
+        #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        #    GNU General Public License for more details.
+        #
+        #    You should have received a copy of the GNU General Public License
+        #    along with this program.  If not, see [http://www.gnu.org/licenses/].
+        #
+        ##############################################################################
+
+        <record model="ir.ui.view" id="sale_order_form_simple_pos_payments">
+            <field name="name">sale_order_form_simple_pos_payments"</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Deposits">
+                        <field name="payment_ids" context="{'from_sale':True,'amount_paid':amount_paid,'amount_total':amount_total}" nolabel="1">
+                            <tree string="Deposits">
+                                <field name="date" />
+                                <field name="ref" />
+                                <field name="name" />
+                                <field name="journal_id" />
+                                <field name="debit" />
+                                <field name="credit" />
+                            </tree>
+                            <form string="Deposit">
+                                <notebook>
+                                    <page string="Deposit">
+                                        <field name="date" />
+                                        <field name="journal_id" domain="[('type','=','cash')]" on_change="journal_id_changed(journal_id, credit, debit, parent.name, parent.partner_id)" />
+                                        <field name="debit" on_change="journal_id_changed(journal_id, credit, debit, parent.name)" />
+                                        <field name="account_id" invisible="1" />
+                                        <field name="period_id" invisible="1" />
+                                    </page>
+                                    <page string="Details">
+                                        <field name="ref" />
+                                        <field name="name" />
+                                        <field name="credit" on_change="journal_id_changed(journal_id, credit, debit, parent.name, parent.partner_id)" />
+                                        <field name="state" />
+                                    </page>
+                                </notebook>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+
+
+
+
+        <record model="ir.ui.view" id="sale_order_form_simple_pos6">
+            <field name="name">sale_order_form_simple_pos6</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="tax_id" position="replace" />
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_order_form_simple_pos7">
+            <field name="name">sale_order_form_simple_pos7</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='Sale Order']/field[@name='order_line']/form/notebook" position="inside">
+                    <page string="Taxes">
+                        <field colspan="4" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]" name="tax_id" />
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Create Invoice wizard -->
+
+        <record model="ir.ui.view" id="sale_order_form_simple_pos8">
+            <field name="name">sale_order_form_simple_pos8</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="product_uom" position="replace">
+                    <field name="product_uom" invisible='1' />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_order_form_simple_pos9">
+            <field name="name">sale_order_form_simple_pos9</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="order_confirm" position="replace">
+                    <button name="%(act_simple_pos_deposit_wizard)d" type="action" states="draft" string="Prevalidate order" icon="gtk-execute" />
+                </button>
+            </field>
+        </record>
+
+        <wizard
+            id="sale_packing_manual_id"
+            model="sale.order"
+            multi="True"
+            name="sale_packing_manual"
+            string="Make packing"/>
+
+        <wizard
+            id="sale_packing_auto_id"
+            model="sale.order"
+            multi="True"
+            name="sale_packing_auto"
+            string="Make automatique packing"/>
+
+        <record model="ir.ui.view" id="sale_order_sale_retails_auto_form">
+            <field name="name">sale_order_sale_retails_auto_form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="manual_invoice" position="replace">
+                    <button name="%(sale_retails.sale_packing_auto_id)d" type="action" states="manual" string="Create invoice" icon="gtk-execute" />
+                </button>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_order_sale_retails_packing_form">
+            <field name="name">sale_order_sale_retails_packing_form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="%(sale_retails.sale_packing_auto_id)d" position="after">
+                    <button name="%(sale_retails.sale_packing_manual_id)d" attrs="{'invisible': [('state', 'not in', ('manual', 'progress'))], 'readonly':[('shipped', '!=',0)]}" states="manual" type="action"  string="Make the packing" icon="gtk-execute" />
+                </button>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_order_form_simple_pos10">
+            <field name="name">sale_order_form_simple_pos10</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="action_cancel" position="replace">
+                    <button name="action_cancel" states="manual,progress" string="Cancel Order" type="object" icon="gtk-cancel" />
+                </button>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_order_form_simple_pos11">
+            <field name="name">sale_order_form_simple_pos11</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="invoiced" position="after">
+                    <field name="amount_paid" readonly="1" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_simple_pos_view_shop_form">
+            <field name="name">sale_simple_pos_view_shop_form</field>
+            <field name="model">sale.shop</field>
+            <field name="inherit_id" ref="sale.view_shop_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="default_deposit_percent" />
+                    <field name="deposit_validation" />
+                </field>
+            </field>
+        </record>
+
+        <act_window
+            domain="[('sale_order_ids','in',[active_id])]"
+            context="{'form_view_ref': 'account.invoice_form', 'tree_view_ref': 'account.invoice_tree'}"
+            id="action_invoices_from_sale"
+            name="Invoices"
+            res_model="account.invoice"
+            src_model="sale.order"
+            view_mode="tree,form"
+            view_type="form" />
+
+        <act_window
+            domain="[('sale_id','=',active_id)]"
+            id="action_packings_from_sale"
+            name="Packings"
+            res_model="stock.picking"
+            src_model="sale.order"
+            view_mode="tree,form"
+            view_type="form" />
+
+        <record id="action_packings_from_sale_view1" model="ir.actions.act_window.view">
+                <field name="act_window_id" ref="action_packings_from_sale" />
+                <field eval="0" name="multi" />
+                <field eval="&quot;&quot;&quot;tree&quot;&quot;&quot;" name="view_mode" />
+                <field name="view_id" ref="stock.view_picking_out_tree" />
+                <field eval="0" name="sequence" />
+        </record>
+
+        <record id="action_packings_from_sale_view2" model="ir.actions.act_window.view">
+                <field name="act_window_id" ref="action_packings_from_sale" />
+                <field eval="0" name="multi" />
+                <field eval="&quot;&quot;&quot;form&quot;&quot;&quot;" name="view_mode" />
+                <field name="view_id" ref="stock.view_picking_out_form" />
+                <field eval="1" name="sequence" />
+        </record>
+
+
+    </data>
+</openerp>
