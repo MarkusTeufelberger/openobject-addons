@@ -90,14 +90,14 @@ class account_move_line(osv.osv):
                 WHERE 
                     aml.move_id = am.id AND
                     aml.account_id=%s AND 
-                    aml.partner_id=%s AND
+                    (%s IS NULL OR aml.partner_id=%s) AND
                     LPAD(EXTRACT(EPOCH FROM aml.date)::VARCHAR, 15, '0') || 
                         LPAD(am.name,15,'0') || 
                         LPAD(aml.id::VARCHAR,15,'0') < 
                     LPAD(EXTRACT(EPOCH FROM %s::DATE)::VARCHAR, 15, '0') || 
                         LPAD(%s,15,'0') || 
                         LPAD(%s::VARCHAR,15,'0')
-            """, (account_id,partner_id,date,name,id) )
+            """, (account_id,partner_id,partner_id,date,name,id) )
             balance = cr.fetchone()[0] or 0.0
             # Add/substract current debit and credit
             balance += debit - credit
