@@ -24,7 +24,12 @@ import pooler
 from tools import config
 import time
 from osv.osv import except_osv
-from tools.translate import _
+
+# Big code block replace in this file because of
+# the problem about the field_name and item
+# Hope that they accept the patch
+# https://bugs.launchpad.net/openobject-addons/+bug/516197
+# Some lines are also added in product/pricelist.py to solve the problem
 
 class product_pricelist(osv.osv):
     _name = 'product.pricelist'
@@ -44,15 +49,18 @@ class sale_order_line(osv.osv):
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True,date_order=False,packaging=False,fiscal_position=False, flag=False):
+            lang=False, update_tax=True,date_order=False,packaging=False,fiscal_position=False):
+            #lang=False, update_tax=True,date_order=False,packaging=False,fiscal_position=False, flag=False):
         res=super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty,
             uom, qty_uos, uos, name, partner_id,
-            lang, update_tax,date_order,fiscal_position=fiscal_position,flag=flag)
+            lang, update_tax,date_order,fiscal_position=fiscal_position)
+#            lang, update_tax,date_order,fiscal_position=fiscal_position,flag=flag)
 
         context = {'lang': lang, 'partner_id': partner_id}
         result=res['value']
         pricelist_obj=self.pool.get('product.pricelist')
         product_obj = self.pool.get('product.product')
+	item_obj = self.pool.get('product.pricelist.item')
         if product:
             if result.get('price_unit',False):
                 price=result['price_unit']
@@ -61,20 +69,22 @@ class sale_order_line(osv.osv):
 
             product = product_obj.browse(cr, uid, product, context)
             product_tmpl_id = product.product_tmpl_id.id
-            pricetype_id = pricelist_obj.browse(cr, uid, pricelist).version_id[0].items_id[0].base
-            field_name = 'list_price'
+            res_price_get = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist], product.id, qty or 1.0, partner_id, {})
+	    item = item_obj.browse(cr, uid, res_price_get['item_id'][pricelist])
+
+	    if item.base > 0:
+                field_name = self.pool.get('product.price.type').browse(cr, uid, item.base).field
+	    else:
+		field_name = 'list_price'
+
             product_read = self.pool.get('product.template').read(cr, uid, product_tmpl_id, [field_name], context)
             list_price = product_read[field_name]
 
 
             pricelists=pricelist_obj.read(cr,uid,[pricelist],['visible_discount'])
-
-            old_uom = product.uos_id or product.uom_id
-            new_list_price = self.pool.get('product.uom')._compute_price(cr,
-                        uid, old_uom.id, list_price, uom)
             if(len(pricelists)>0 and pricelists[0]['visible_discount'] and list_price != 0):
-                discount=(new_list_price-price) / new_list_price * 100
-                result['price_unit']=new_list_price
+                discount=(list_price-price) / list_price * 100
+                result['price_unit']=list_price
                 result['discount']=discount
             else:
                 result['discount']=0.0
@@ -92,30 +102,22 @@ class account_invoice_line(osv.osv):
         res=super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
 
 
-        def get_real_price(pricelist_id, product_id):
-            product_tmpl_id = self.pool.get('product.product').browse(cr, uid, product_id, context).product_tmpl_id.id
-            version_id = self.pool.get('product.pricelist').browse(cr, uid, pricelist_id).version_id
-            version_id = version_id and version_id[0] or False
-            
-            if not version_id:
-                raise osv.except_osv(_('No Pricelist Version Found !'),_("You must first define Pricelist Version to the Partner Pricelist!"))
-            else:
-                items = version_id.items_id
-                
-                if not items:
-                    raise osv.except_osv(_('No Pricelist ListPrice Items Found !'),_("You must first define ListPrice Items to Pricelist Version of the Partner Pricelist!"))
-                else:
-                    pricetype_id = items[0].base
-                    
-            if pricetype_id > 0:
-                field_name = self.pool.get('product.price.type').browse(cr, uid, pricetype_id).field
-            else:
-                field_name= 'list_price'
-                
-            product_read = self.pool.get('product.template').read(cr, uid, product_tmpl_id, [field_name], context)
-            return product_read[field_name]
+	def get_real_price(cr, uid, pricelist_id, product_id, qty, partner_id, context):
+	    res_price_get = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist_id], product_id, qty, partner_id, context)
 
-        
+    	    if res_price_get['item_id'][pricelist_id]:
+	        item_obj = self.pool.get('product.pricelist.item')
+	        item = item_obj.browse(cr, uid, res_price_get['item_id'][pricelist_id])
+
+		if item.base > 0:
+	            field_name = self.pool.get('product.price.type').browse(cr, uid, item.base).field
+		else:
+		    field_name = 'list_price'
+
+                product_tmpl_id = self.pool.get('product.product').browse(cr, uid, product_id, context).product_tmpl_id.id
+                product_read = self.pool.get('product.template').read(cr, uid, product_tmpl_id, [field_name], context)
+	        return product_read[field_name]
+    
         if product:
             product = self.pool.get('product.product').browse(cr, uid, product, context=context)
             result=res['value']
@@ -127,14 +129,16 @@ class account_invoice_line(osv.osv):
                     if not pricelist:
                         raise osv.except_osv(_('No Purchase Pricelist Found !'),_("You must first define a pricelist for Supplier !"))
                     price_unit = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist], product.id, qty or 1.0, partner_id, {'uom': uom})[pricelist]
-                    real_price=get_real_price(pricelist, product.id)
+                    real_price = get_real_price(cr, uid, pricelist, product.id, qty or 1.0, partner_id, {'uom': uom})
             else:
                 if partner_id:
                     pricelist = self.pool.get('res.partner').browse(cr, uid, partner_id).property_product_pricelist.id
                     if not pricelist:
                         raise osv.except_osv(_('No Sale Pricelist Found '),_("You must first define a pricelist for Customer !"))
+
                     price_unit = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist], product.id, qty or 1.0, partner_id, {'uom': uom})[pricelist]
-                    real_price=get_real_price(pricelist, product.id)
+		    real_price = get_real_price(cr, uid, pricelist, product.id, qty or 1.0, partner_id, {'uom': uom})
+
             if pricelist:
                 pricelists=self.pool.get('product.pricelist').read(cr,uid,[pricelist],['visible_discount'])
                 if(len(pricelists)>0 and pricelists[0]['visible_discount'] and real_price != 0):
