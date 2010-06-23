@@ -173,6 +173,7 @@ class sale_shop(external_osv.external_osv):
             else:
                 recent_move_ids = self.pool.get('stock.move').search(cr, uid, [('product_id', 'in', product_ids)])
             product_ids = [move.product_id.id for move in self.pool.get('stock.move').browse(cr, uid, recent_move_ids)]
+            product_ids = [x for x in set(product_ids)]
             res = self.pool.get('product.product').export_inventory(cr, uid, product_ids, '', ctx)
             self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_inventory_export_date': time.strftime('%Y-%m-%d %H:%M:%S')})
         return res
@@ -237,15 +238,18 @@ sale_shop()
 class sale_order(osv.osv):
     _inherit = "sale.order"
 
+    _columns = {
+                'ext_payment_method': fields.char('External Payment Method', size=32, help = "Spree, Magento, Oscommerce... Payment Method"),
+    }
 
-    def payment_code_to_payment_settings(self, cr, uid, payment_code, ctx):
+    def payment_code_to_payment_settings(self, cr, uid, payment_code, ctx=None):
         payment_setting_ids = self.pool.get('base.sale.payment.type').search(cr, uid, [['name', 'ilike', payment_code]])
         return payment_setting_ids and self.pool.get('base.sale.payment.type').browse(cr, uid, payment_setting_ids[0], ctx) or False
 
-    def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
+    def generate_payment_with_pay_code(self, cr, uid, payment_code, partner_id, amount, payment_ref, entry_name, date, paid, ctx):
         payment_settings = self.payment_code_to_payment_settings(cr, uid, payment_code, ctx)
-        if payment_settings and payment_settings.journal_id:
-            return self.generate_payment_with_journal(cr, uid, payment_settings.journal_id.id, partner_id, amount, payment_ref, entry_name, date, should_validate and payment_settings.validate_payment, ctx)
+        if payment_settings and payment_settings.journal_id and (payment_settings.check_if_paid and paid or not payment_settings.check_if_paid):
+            return self.generate_payment_with_journal(cr, uid, payment_settings.journal_id.id, partner_id, amount, payment_ref, entry_name, date, payment_settings.validate_payment, ctx)
         return False
         
     def generate_payment_with_journal(self, cr, uid, journal_id, partner_id, amount, payment_ref, entry_name, date, should_validate, ctx):
@@ -258,7 +262,7 @@ class sale_order(osv.osv):
                         }
         statement_id = self.pool.get('account.bank.statement').create(cr, uid, statement_vals, ctx)
         statement = self.pool.get('account.bank.statement').browse(cr, uid, statement_id, ctx)
-        account_id = self.pool.get('account.bank.statement.line').onchange_partner_id(cr, uid, False, partner_id, "customer", statement.currency.id, ctx)['value']['account_id']
+        account_id = self.pool.get('account.bank.statement.line').onchange_partner_id(cr, uid, [], partner_id, "customer", statement.currency.id, ctx)['value']['account_id']
         statement_line_vals = {
                                 'statement_id': statement_id,
                                 'name': entry_name,
@@ -273,27 +277,59 @@ class sale_order(osv.osv):
             self.pool.get('account.move.line').write(cr, uid, [statement.move_line_ids[0].id], {'date': date})
         return statement_line_id
 
+
+    def oe_status(self, cr, uid, order_id, paid = True, context = None):
+        wf_service = netsvc.LocalService("workflow")
+        order = self.browse(cr, uid, order_id, context)
+        payment_settings = self.payment_code_to_payment_settings(cr, uid, order.ext_payment_method, context)
+        
+        if payment_settings and (payment_settings.check_if_paid and paid or not payment_settings.check_if_paid):
+        
+            if payment_settings.validate_order:
+                wf_service.trg_validate(uid, 'sale.order', order.id, 'order_confirm', cr)
+                
+                if order.order_policy == 'prepaid':
+                    if payment_settings.validate_invoice:
+                        for invoice in order.invoice_ids:
+                            wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
+    
+                if order.order_policy == 'manual':
+                    if payment_settings.create_invoice:
+                       invoice_id = self.pool.get('sale.order').action_invoice_create(cr, uid, [order_id])
+                       if payment_settings.validate_invoice:
+                           wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
+    
+                # IF postpaid DO NOTHING
+    
+                if order.order_policy == 'picking':
+                    if payment_settings.create_invoice:
+                       invoice_id = self.pool.get('stock.picking').action_invoice_create(cr, uid, order.picking_ids)
+                       if payment_settings.validate_invoice:
+                           wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
+
+        return True
+
+    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed', 'done', 'exception']):
+        wf_service = netsvc.LocalService("workflow")
+        res = super(sale_order, self).action_invoice_create(cr, uid, ids, grouped, states)
+        for order_id in ids:
+            order = self.browse(cr, uid, order_id)
+            if order.order_policy == 'postpaid':
+                payment_settings = self.payment_code_to_payment_settings(cr, uid, order.ext_payment_method)
+                if payment_settings and payment_settings.validate_invoice:
+                    for invoice in order.invoice_ids:
+                        wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
+        return res
+
 sale_order()
-
-#TODO deprecated remove!
-class account_journal(osv.osv):
-    _inherit = "account.journal"
-    
-    _columns = {
-                'external_payment_codes': fields.char('External Payment Codes', size=256, help="Enter the external payment codes, comma separated. They will be used to select the payment journal."),
-    }
-    
-account_journal()
-
-
 
 class base_sale_payment_type(osv.osv):
     _name = "base.sale.payment.type"
     _description = "Base Sale Payment Type"
 
     _columns = {
-                #TODO statement status, status invoice, picking, sale order,....
-        'name': fields.char('Name', size=64, required=True), # TODO multi payment name separed by ";"
+        'name': fields.char('Payment Codes', help="List of Payment Codes separated by ;", size=256, required=True),
+        'journal_id': fields.many2one('account.journal','Payment Journal'),
         'picking_policy': fields.selection([('direct', 'Partial Delivery'), ('one', 'Complete Delivery')], 'Packing Policy'),
         'order_policy': fields.selection([
             ('prepaid', 'Payment Before Delivery'),
@@ -303,9 +339,11 @@ class base_sale_payment_type(osv.osv):
         ], 'Shipping Policy'),
         'invoice_quantity': fields.selection([('order', 'Ordered Quantities'), ('procurement', 'Shipped Quantities')], 'Invoice on'),
         'is_auto_reconcile': fields.boolean('Auto-reconcile?', help="if true will try to reconcile the order payment statement and the open invoice"),
+        'validate_order': fields.boolean('Validate Order?'),
         'validate_payment': fields.boolean('Validate Payment?'),
+        'create_invoice': fields.boolean('Create Invoice?'),
         'validate_invoice': fields.boolean('Validate Invoice?'),
-        'validate_picking': fields.boolean('Validate Picking?')
+        'check_if_paid': fields.boolean('Check if Paid?'),
     }
     
     _defaults = {
@@ -315,7 +353,6 @@ class base_sale_payment_type(osv.osv):
         'is_auto_reconcile': lambda *a: False,
         'validate_payment': lambda *a: False,
         'validate_invoice': lambda *a: False,
-        'validate_picking': lambda *a: False,
     }
 
 base_sale_payment_type()

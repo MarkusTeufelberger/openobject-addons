@@ -76,6 +76,75 @@
 				</field>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="base_sale_multichannel_view_order_tree">
+			<field name="name">base_sale_multichannel_view_order_tree</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_tree" />
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<field name="state" position="after">
+					<field name="ext_payment_method" select="1" />
+				</field>
+			</field>
+		</record>
+		
+		<record id="view_base_sale_payment_type_form" model="ir.ui.view">
+            <field name="name">base.sale.payment.type</field>
+            <field name="model">base.sale.payment.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Payment Type">
+                    <separator string="Payment Code" colspan="4" />
+                    <field name="name"/>
+                    <separator string="Order Configuration" colspan="4" />
+                    <field name="picking_policy"/>
+                    <field name="order_policy"/>
+                    <field name="invoice_quantity"/>
+                    <separator string="Worflow Option" colspan="4" />
+                    <field name="validate_order"/>
+                    <field name="create_invoice" />
+                    <field name="validate_invoice"/>
+                    <separator string="Account Option" colspan="4" />
+                    <field name="journal_id"/>
+                    <field name="check_if_paid"/>
+                    <field name="validate_payment"/>
+                    <!-- <field name="is_auto_reconcile"/> -->
+                </form>
+            </field>
+        </record>
+		
+		<record id="view_base_sale_payment_type_tree" model="ir.ui.view">
+            <field name="name">base.sale.payment.type</field>
+            <field name="model">base.sale.payment.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Type">
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="picking_policy"/>
+                    <field name="order_policy"/>
+                    <field name="invoice_quantity"/>
+                    <field name="is_auto_reconcile"/>
+                    <field name="validate_order"/>
+                    <field name="validate_payment"/>
+                    <field name="create_invoice"/>
+                    <field name="validate_invoice"/>
+                    <field name="check_if_paid"/>
+                </tree>
+            </field>
+        </record>
+
+		<record id="act_base_sale_payment_type_form" model="ir.actions.act_window">
+			<field name="name">Base Sale Payment Type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">base.sale.payment.type</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_base_sale_payment_type_tree"/>
+		</record>
+		
+		<menuitem action="act_base_sale_payment_type_form" id="menu_base_sale_payment_type" name="E-Commerce Payment Configuration" parent="account.menu_finance" sequence="25"/>
 
 	</data>
 </openerp>
