@@ -42,7 +42,7 @@ class external_osv(osv.osv):
                         ORDER BY sale_order.create_date DESC LIMIT 1;""" % (table_name, table_name, object_name, where_clause and ("and " + where_clause) or "", "%s"), (referential_id,))
         results = cr.fetchone()
         if results and len(results) > 0:
-            return [results[0], results[1].split('sale.order' +'_')[1]]
+            return [results[0], results[1].split(object_name +'_')[1]]
         else:
             return [False, False]
     
