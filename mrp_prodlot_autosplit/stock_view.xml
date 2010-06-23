@@ -59,7 +59,44 @@
 			</field>
 		</record>
 
+		<record model="ir.ui.view" id="view_picking_in_form_manual_split">
+			<field name="name">stock.picking.in.form.manual_split</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_in_form" />
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+                <button string="Split in production lots" position="replace">
+                    <separator colspan="4" string="Split"/>
+                    <button name="split_move_in_single" string="Split move line in single units" type="object"/>
+                </button>
+			</field>
+		</record>
 
+		<record model="ir.ui.view" id="view_picking_form_manual_split">
+			<field name="name">stock.picking.form.manual_split</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form" />
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+                <button string="Split in production lots" position="replace">
+                    <separator colspan="4" string="Split"/>
+                    <button name="split_move_in_single" string="Split move line in single units" type="object"/>
+                </button>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_move_form_manual_split">
+			<field name="name">stock.move.form.manual_split</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_form" />
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+                <button string="Split in production lots" position="replace">
+                    <separator colspan="4" string="Split"/>
+                    <button name="split_move_in_single" string="Split move line in single units" type="object"/>
+                </button>
+			</field>
+		</record>
 
 
 
@@ -74,5 +111,21 @@
 	         </field>
          </field>
      </record>
+
+
+		<record model="ir.ui.view" id="view_picking_in_form_manual_split_in_2">
+			<field name="name">stock.picking.in.form.manual_split_in_2</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_in_form" />
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+                <button name="%(stock.act_stock_picking_move_wizard)d" position="before">
+                    <button name="%(stock.move_split)d" string="Split in Two" type="action" states="assigned,confirmed,draft,auto" />
+                </button>
+			</field>
+		</record>
+
+
+
 	</data>
 </openerp>
