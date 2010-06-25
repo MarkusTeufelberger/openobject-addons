@@ -63,19 +63,6 @@
 				</form>
 			</field>
 		</record>
-
-
-		<record id="simple_pos_view_account_journal_form" model="ir.ui.view">
-			<field name="name">simple_pos_view_account_journal_form</field>
-			<field name="model">account.journal</field>
-			<field name="type">form</field>
-			<field name="inherit_id" ref="account.view_account_journal_form" />
-			<field name="arch" type="xml">
-				<field name="type" position="after">
-					<field name="external_payment_codes" />
-				</field>
-			</field>
-		</record>
 		
 		<record model="ir.ui.view" id="base_sale_multichannel_view_order_tree">
 			<field name="name">base_sale_multichannel_view_order_tree</field>
@@ -85,6 +72,7 @@
 			<field name="arch" type="xml">
 				<field name="state" position="after">
 					<field name="ext_payment_method" select="1" />
+                    <field name="need_to_update" select="1" />
 				</field>
 			</field>
 		</record>

@@ -240,6 +240,10 @@ class sale_order(osv.osv):
 
     _columns = {
                 'ext_payment_method': fields.char('External Payment Method', size=32, help = "Spree, Magento, Oscommerce... Payment Method"),
+                'need_to_update': fields.boolean('Need To Update')
+    }
+    _defaults = {
+        'need_to_update': lambda *a: False,
     }
 
     def payment_code_to_payment_settings(self, cr, uid, payment_code, ctx=None):
@@ -282,30 +286,33 @@ class sale_order(osv.osv):
         wf_service = netsvc.LocalService("workflow")
         order = self.browse(cr, uid, order_id, context)
         payment_settings = self.payment_code_to_payment_settings(cr, uid, order.ext_payment_method, context)
-        
-        if payment_settings and (payment_settings.check_if_paid and paid or not payment_settings.check_if_paid):
-        
-            if payment_settings.validate_order:
-                wf_service.trg_validate(uid, 'sale.order', order.id, 'order_confirm', cr)
                 
-                if order.order_policy == 'prepaid':
-                    if payment_settings.validate_invoice:
-                        for invoice in order.invoice_ids:
-                            wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
-    
-                if order.order_policy == 'manual':
-                    if payment_settings.create_invoice:
-                       invoice_id = self.pool.get('sale.order').action_invoice_create(cr, uid, [order_id])
-                       if payment_settings.validate_invoice:
-                           wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
-    
-                # IF postpaid DO NOTHING
-    
-                if order.order_policy == 'picking':
-                    if payment_settings.create_invoice:
-                       invoice_id = self.pool.get('stock.picking').action_invoice_create(cr, uid, order.picking_ids)
-                       if payment_settings.validate_invoice:
-                           wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
+        if payment_settings: 
+            if payment_settings.check_if_paid and not paid:
+                #TODO add update function indeed if automatique import is used sometime you will import an order which is not in a stable state (ex : the order is not payed (waiting for paypal confirmation), and can be payed or canceled later by your e-commerce website)
+                self.write(cr, uid, order.id, {'need_to_update': True})
+            else:
+                if payment_settings.validate_order:
+                    wf_service.trg_validate(uid, 'sale.order', order.id, 'order_confirm', cr)
+                    
+                    if order.order_policy == 'prepaid':
+                        if payment_settings.validate_invoice:
+                            for invoice in order.invoice_ids:
+                                wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
+        
+                    if order.order_policy == 'manual':
+                        if payment_settings.create_invoice:
+                           invoice_id = self.pool.get('sale.order').action_invoice_create(cr, uid, [order_id])
+                           if payment_settings.validate_invoice:
+                               wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
+        
+                    # IF postpaid DO NOTHING
+        
+                    if order.order_policy == 'picking':
+                        if payment_settings.create_invoice:
+                           invoice_id = self.pool.get('stock.picking').action_invoice_create(cr, uid, order.picking_ids)
+                           if payment_settings.validate_invoice:
+                               wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
 
         return True
 
