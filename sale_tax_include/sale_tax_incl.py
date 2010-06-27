@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -24,6 +24,7 @@ import time
 import netsvc
 from osv import fields, osv
 import ir
+from tools import config
 
 class sale_order(osv.osv):
     _inherit = "sale.order"
@@ -52,8 +53,10 @@ class sale_order_line(osv.osv):
         """
         res = {}
         tax_obj = self.pool.get('account.tax')
-        res_init = super(sale_order_line, self)._amount_line(cr, uid, ids, name, args, context)
+        cur_obj = self.pool.get('res.currency')
         for line in self.browse(cr, uid, ids):
+            cur = line.order_id and line.order_id.pricelist_id.currency_id or False
+            res_init = super(sale_order_line, self)._amount_line(cr, uid, [line.id], name, args, context)
             res[line.id] = {
                 'price_subtotal': 0.0,
                 'price_subtotal_incl': 0.0,
@@ -67,13 +70,13 @@ class sale_order_line(osv.osv):
                     product_taxes = filter(lambda x: x.price_include, line.product_id.taxes_id)
 
                 if ((set(product_taxes) == set(line.tax_id)) or not product_taxes) and (line.order_id.price_type == 'tax_included'):
-                    res[line.id]['price_subtotal_incl'] = res_init[line.id]
+                    res[line.id]['price_subtotal_incl'] = cur and cur_obj.round(cr, uid, cur, res_init[line.id]) or res_init[line.id]
                 else:
-                    res[line.id]['price_subtotal'] = res_init[line.id]
+                    res[line.id]['price_subtotal'] = cur and cur_obj.round(cr, uid, cur, res_init[line.id]) or res_init[line.id]
                     for tax in tax_obj.compute_inv(cr, uid, product_taxes, res_init[line.id]/line.product_uom_qty, line.product_uom_qty):
-                        res[line.id]['price_subtotal'] = res[line.id]['price_subtotal'] - round(tax['amount'], 2)
+                        res[line.id]['price_subtotal'] = res[line.id]['price_subtotal'] - round(tax['amount'], int(config['price_accuracy']))
             else:
-                res[line.id]['price_subtotal'] = res_init[line.id]
+                res[line.id]['price_subtotal'] = cur and cur_obj.round(cr, uid, cur, res_init[line.id]) or res_init[line.id]
 
             if res[line.id]['price_subtotal']:
                 res[line.id]['price_subtotal_incl'] = res[line.id]['price_subtotal']
@@ -86,8 +89,8 @@ class sale_order_line(osv.osv):
                     res[line.id]['price_subtotal'] = res[line.id]['price_subtotal'] - tax['amount']
                     res[line.id]['data'].append( tax)
 
-            res[line.id]['price_subtotal']= round(res[line.id]['price_subtotal'], 2)
-            res[line.id]['price_subtotal_incl']= round(res[line.id]['price_subtotal_incl'], 2)
+            res[line.id]['price_subtotal'] = round(res[line.id]['price_subtotal'], int(config['price_accuracy']))
+            res[line.id]['price_subtotal_incl'] = round(res[line.id]['price_subtotal_incl'], int(config['price_accuracy']))
         return res
 
     def _get_order(self, cr, uid, ids, context):
@@ -107,13 +110,13 @@ sale_order_line()
 class stock_picking(osv.osv):
     _inherit = 'stock.picking'
     _description = "Picking list"
-    
+
     def action_invoice_create(self, cursor, user, ids, journal_id=False,
             group=False, type='out_invoice', context=None):
        return_dict = super(stock_picking, self).action_invoice_create(cursor, user, ids, journal_id=journal_id,group=group, type=type, context=context)
        sale_obj = self.pool.get('sale.order')
        invoice_obj = self.pool.get('account.invoice')
-       
+
        for picking in self.browse(cursor, user, ids, context=context):
            sale_ids = sale_obj.search(cursor, user, [('name','=',picking.origin)],context=context)
        for line in sale_obj.read(cursor, user, sale_ids,['price_type']):
