@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-#  webkit_report.py
+#  c2c_webkit_report.py
 #
 #  Created by Nicolas Bessi  
 #  Some code is taken from report_openoffice module
@@ -80,7 +80,7 @@ class WebKitParser(report_sxw):
                                 )
         path = os.path.join(
                                 config['addons_path'], 
-                                'webkit_report', 
+                                'c2c_webkit_report', 
                                 'lib', 
                                 sysmapping[curr_sys]
                             )
