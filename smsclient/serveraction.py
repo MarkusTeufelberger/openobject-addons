@@ -22,6 +22,7 @@
 
 from osv import osv
 from osv import fields
+from tools.translate import _
 import netsvc
 import time
 
@@ -65,7 +66,10 @@ class ServerAction(osv.osv):
                 except:
                     pass
                 
-                text = self.merge_message(cr, uid, str(action.sms), action, context)
+                try:
+                    text = self.merge_message(cr, uid, str(action.sms), action, context)
+                except UnicodeEncodeError:
+                    raise osv.except_osv(_('UserError'), _("Only basic characters can be sent!"))
                 
                 if sms_pool.send_message(cr, uid, action.sms_server.id, to, text) == True:
                     logger.notifyChannel('sms', netsvc.LOG_INFO, 'SMS successfully send to : %s' % (to))
