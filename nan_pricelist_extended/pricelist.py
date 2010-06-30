@@ -4,8 +4,8 @@
 # Copyright (c) 2009,2010  All Rights Reserved.
 #
 #   NaN Projectes de programari lliure S.L.
-#   http://www.nan-tic.com 
-#   author: Àngel Àlvarez  - angel@nan-tic.com 
+#   http://www.nan-tic.com
+#   author: Àngel Àlvarez  - angel@nan-tic.com
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -62,7 +62,7 @@ class product_pricelist( osv.osv ):
     Add category to pricelist, only for categorize
     Change calculation method. Now take care inside [Base On] item rules to find rule to apply.
     Added base_item_rule dependencies to accumulate price, it permits:
-        - price = (price calculated on base on pricelist ) * (1.0+(item.price_discount or 0.0)) 
+        - price = (price calculated on base on pricelist ) * (1.0+(item.price_discount or 0.0))
         price calculated on rule, it is passed to base_item_rule to apply discounts, recharges..
     """
     _inherit = 'product.pricelist'
@@ -109,7 +109,7 @@ class product_pricelist( osv.osv ):
         context = context or {}
         result = {}
         tmpl_id,categ_ids = self._get_product_category( cr, uid, prod_id )
-        
+
         item = self.pool.get( 'product.pricelist.item').browse( cr, uid, item_id )
 
         if item.product_id.id != prod_id and item.product_id.id:
@@ -118,14 +118,14 @@ class product_pricelist( osv.osv ):
             return False
         if not item.categ_id.id  and item.categ_id.id  in categ_ids:
             return False
-        if item.min_quantity != 0  and   item.min_quantity < qty:
+        if item.min_quantity != 0  and   item.min_quantity > qty:
             return False
 
         return True
 
     def price_get2(self, cr, uid, pricelist_id, prod_id, qty, date,partner=None,context=None, acc_price=False, base_item_rule=False):
-        
-        pricelist= self.pool.get( 'product.pricelist' ).browse( cr,uid,pricelist_id)        
+
+        pricelist= self.pool.get( 'product.pricelist' ).browse( cr,uid,pricelist_id)
         plversion = self._get_pl_version( cr, uid,pricelist_id, date )
         tmpl_id,categ_ids = self._get_product_category( cr, uid, prod_id )
         supplierinfo_obj = self.pool.get('product.supplierinfo')
@@ -148,14 +148,14 @@ class product_pricelist( osv.osv ):
         if start_item:
             i = self.pool.get('product.pricelist.item').browse(cr,uid,start_item )
             if remove:
-                #Its final item rule. 
+                #Its final item rule.
                 items = [i]
             else:
                 # delete items before first item searched.
                 # TODO: Maybe can get interval [first,last] items to be applied.
                 items = list(plv.items_id)
                 items = items[items.index(i):]
-        
+
         current_item=None
         price = acc_price or False
         for item in items:
@@ -172,7 +172,7 @@ class product_pricelist( osv.osv ):
                     price = currency_obj.compute(cr, uid, ptype_src,pricelist.currency_id.id,price_tmp, round=False)
                     if price:
                         break
- 
+
             elif item.base == -2 and itemok and not acc_price:
                 where = []
                 if partner:
@@ -201,7 +201,8 @@ class product_pricelist( osv.osv ):
                 price = acc_price or False
                 if not acc_price:
                     current_item=None
-       
+
+
         if current_item:
            price_limit = price
            price = price * (1.0+(item.price_discount or 0.0))
@@ -213,22 +214,25 @@ class product_pricelist( osv.osv ):
                price = min(price, price_limit+item.price_max_margin)
 
            if item.base_itemrule_id:
-               # Search nex item_rule base on.. 
+               # Search nex item_rule base on..
                price = self.price_get2( cr,uid, pricelist.id, prod_id,qty,date,partner,context, price, item.base_itemrule_id.id )
+           else:
+               if not price:
+                   price = acc_price
         else:
             return acc_price or False
-        return price 
-        
+        return price
+
     def _get_first_item( self, cr, uid, version_id, prod_id, qty, date,partner,tmpl_id,categ_ids, context ):
         #Get sequence of first item on priclist version where depends on other pricelist
-        cr.execute(''' select 
-                            id,sequence 
-                       from    
-                            product_pricelist_item 
-                       where 
+        cr.execute(''' select
+                            id,sequence
+                       from
+                            product_pricelist_item
+                       where
                             base_pricelist_id is not null and
                             price_version_id = ''' + str(version_id) +
-                            ''' order by sequence 
+                            ''' order by sequence
                             limit 1''' )
         seq = cr.dictfetchone()
         if categ_ids:
@@ -248,7 +252,7 @@ class product_pricelist( osv.osv ):
                     'AND i.price_version_id = v.id AND v.pricelist_id = pl.id '
                 'ORDER BY sequence LIMIT 1',
                 (tmpl_id, prod_id, version_id, qty))
-   
+
         res = cr.dictfetchone()
         # not item rule base on other pricelist, and final item rule fetched. return (delete all ,id )
         if not seq and res:
@@ -256,7 +260,7 @@ class product_pricelist( osv.osv ):
         # not item rule base on other pricelist, and  no final item rule fetched. return (delete all, None )
         elif not seq and not res:
             return (True,None)
-        
+
         # item rule base on other pricelist but first applied final item rule . return (delete all, id)
         if ( res['sequence'] < seq['sequence'] ):
             return (True,res['id'] )
@@ -300,7 +304,7 @@ class product_pricelist( osv.osv ):
                 raise osv.except_osv(_('Warning !'),
                             _('Could not resolve product category, ' \
                               'you have defined cyclic categories ' \
-                              'of products!'))                    
+                              'of products!'))
         return tmpl_id,categ_ids
 product_pricelist()
 
@@ -321,7 +325,7 @@ class product_pricelist_item( osv.osv ):
             return False
         else:
             return True
-    
+
     def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
         """
         Makes base_item_rule searches on items on pricelist_version and greater sequence.
@@ -332,7 +336,7 @@ class product_pricelist_item( osv.osv ):
         if context.get('ruleitem_id'):
             ctx = context.copy()
             del ctx['ruleitem_id']
-            item = self.pool.get('product.pricelist.item').browse( cr, uid, context['ruleitem_id'], ctx )            
+            item = self.pool.get('product.pricelist.item').browse( cr, uid, context['ruleitem_id'], ctx )
             if item.price_version_id.items_id:
                 result=[]
                 for i in item.price_version_id.items_id:
@@ -355,9 +359,10 @@ class product_pricelist_item( osv.osv ):
         (_check_base_item_rule, 'Sequence of base item should be gretater than current item.',[]),
     ]
     _sql_constraints = [
-        ('sequence_contraint', 'unique(base_pricelist_id, sequence)', 'Item sequence could not be equal'),
+        ('sequence_contraint', 'unique(price_version_id, sequence)', 'Item sequence could not be equal'),
     ]
- 
+
 product_pricelist_item()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

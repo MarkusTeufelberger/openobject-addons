@@ -54,6 +54,41 @@
 			</field>
 		</field>
 	</record>
+
+	<!-- item views -->
+
+	<record id="product_pricelist_item_tree_view2" model="ir.ui.view">
+        <field name="name">product.pricelist.item.tree2</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Products Listprices Items">
+                <field name="price_version_id" select="1"/>
+                <field name="category_id" select="1" />
+                <field name="sequence"/>
+                <field name="name" select="1"/>
+                <field name="product_id" select="1" />
+                <field name="categ_id" select="1"/>
+                <field name="min_quantity"/>
+                <field name="base"/>
+            </tree>
+        </field>
+    </record>
+
+
+	<record id="product_pricelist_action_item" model="ir.actions.act_window">
+            <field name="name">Pricelist Items</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.pricelist.item</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product_pricelist_item_tree_view2"/>
+            <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem action="product_pricelist_action_item" id="menu_product_pricelist_item_action" parent="product.menu_product_pricelist_main" sequence="3"/>
+
+
+
 </data>
 </openerp>
 
