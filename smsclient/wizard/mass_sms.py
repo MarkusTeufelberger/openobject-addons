@@ -22,7 +22,6 @@
 
 import wizard
 import netsvc
-import tools
 import pooler
 import re
 
@@ -57,8 +56,12 @@ def _sms_send(self, cr, uid, data, context):
     service = netsvc.LocalService("object_proxy")
     
     address = pool.get('res.partner.address')
-
-    res_ids = address.search(cr, uid, [('partner_id','in',data['ids']),('type','=','default')])
+    
+    if data['model'] == 'res.partner':
+        res_ids = address.search(cr, uid, 
+            [('partner_id','in',data['ids']), ('type','=','default')])
+    elif data['model'] == 'res.partner.address':
+        res_ids = data['ids']
     res = address.browse(cr, uid, res_ids, ['mobile'])
     
     nbr = 0
