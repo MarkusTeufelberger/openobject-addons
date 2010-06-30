@@ -40,7 +40,7 @@ class pricelist_partnerinfo(osv.osv):
         today = datetime.date.today()
         today = today.strftime('%Y-%m-%d')
         for info in self.browse(cr, uid, ids, context):
-            if info.state == 'buy' and ( not info.date_start or today >= info.date_start ) and ( not info.date_end or today <= info.date_end ):
+            if info.state in ['buy','quotation'] and ( not info.date_start or today >= info.date_start ) and ( not info.date_end or today <= info.date_end ):
                 result[info.id] = True
             else:
                 result[info.id] = False
@@ -51,6 +51,7 @@ class pricelist_partnerinfo(osv.osv):
         'date_start': fields.date('Start Date', help="Starting date for this pricelist version to be valid."),
         'date_end': fields.date('End Date', help="Ending date for this pricelist version to be valid."),
         'valid': fields.function(_valid, method=True, type='boolean', string='Valid', store=False, help='Indicates if the line is valid in the current date. A line will only be valid if today is between Start and End dates and the line is in Buy state.'),
+        'price': fields.float('Unit Price', required=True, digits=(16,4)),
     }
 
 pricelist_partnerinfo()
