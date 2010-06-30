@@ -1,7 +1,7 @@
 # -*- encoding: latin-1 -*-
 ##############################################################################
 #
-# Copyright (c) 2009 Àngel Àlvarez - NaN  (http://www.nan-tic.com) All Rights Reserved.
+# Copyright (c) 2009 ï¿½ngel ï¿½lvarez - NaN  (http://www.nan-tic.com) All Rights Reserved.
 #
 #
 # WARNING: This program as such is intended to be used by professional
@@ -27,6 +27,7 @@
 #
 ##############################################################################
 
+import math
 from osv import fields,osv
 
 class product_pack(osv.osv):
@@ -42,9 +43,41 @@ product_pack()
 class product_product(osv.osv):
     _inherit = 'product.product'
     _columns = {
+        'stock_depends': fields.boolean( 'Stock depends of components', help='Mark if pack stock is calcualted from component stock'),
         'pack_fixed_price': fields.boolean('Pack has fixed price', help='Mark this field if the public price of the pack should be fixed. Do not mark it if the price should be calculated from the sum of the prices of the products in the pack.'),
         'pack_line_ids': fields.one2many('product.pack.line','parent_product_id', 'Pack Products', help='List of products that are part of this pack.'),
     }
+
+    def get_product_available(self,cr,uid,ids,context=None):
+        """ Calulate stock for packs, return  maximum stock that lets complete pack """
+        result={}
+        for product in self.browse(cr,uid,ids,context=context):
+            stock = super( product_product, self).get_product_available( cr, uid, [product.id],context=context)
+            if not product.stock_depends:
+                result[product.id]=stock[product.id]
+                continue
+
+            nstock=(0,False,0)
+            if product.pack_line_ids:
+                cs = super( product_product,self).get_product_available(cr,uid, [line.product_id.id for line in product.pack_line_ids],context=context )
+            for line in product.pack_line_ids:
+                s,q,l = nstock
+                if not q:
+                    q = line.quantity*cs[line.product_id.id]
+                    l = line.quantity
+                    s = cs[line.product_id.id]
+                    nstock = ( s, q, line.quantity)
+                available = line.quantity*cs[line.product_id.id]
+                if available/line.quantity < q/l:
+                    nstock = ( cs[line.product_id.id],available, line.quantity)
+
+            if product.pack_line_ids:
+                s,a,q = nstock
+                result[product.id] = math.floor(s/q)
+            else:
+                result[product.id]=stock[product.id]
+        return result
+
 product_product()
 
 class sale_order_line(osv.osv):
