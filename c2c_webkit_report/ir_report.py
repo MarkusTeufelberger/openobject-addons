@@ -56,6 +56,15 @@ def register_report(name, model, tmpl_path, parser):
 
 
 class ReportXML(osv.osv):
+    
+    def __init__(self, pool, cr):
+        """Nasty hack for OpenOffice report compatibility due 
+        to the inexistance of selection fields inheritance mechanism"""
+        super(ReportXML, self).__init__(pool, cr)
+        if ('webkit', 'WebKit HTML') not in  self._columns['report_type'].selection :
+            self._columns['report_type'].selection.append(('webkit', 'WebKit HTML'))
+
+            
 
     def _report_content(self, cursor, user, ids, name, arg, context=None):
         """Ask OpenERP for Doc String ??"""
@@ -76,9 +85,9 @@ class ReportXML(osv.osv):
         record = self.read(cursor, user, ids)
         trans_obj = self.pool.get('ir.translation')
         trans_ids = trans_obj.search(
-        cursor, 
-        uid, 
-        [('type', '=', 'report'), ('res_id', 'in' ,ids)]
+            cursor, 
+            uid, 
+            [('type', '=', 'report'), ('res_id', 'in' ,ids)]
         )
         trans_obj.unlink(cr, uid, trans_ids)
         delete_report_service(record['report_name'])
@@ -112,7 +121,7 @@ class ReportXML(osv.osv):
         return res
         
     def write(self, cursor, user, ids, vals, context=None):
-        "edit report and manage it regitration"
+        "Edit report and manage it regitration"
         parser=rml_parse
         record = self.read(cursor, user, ids)
         if isinstance(record, list) :
@@ -150,14 +159,14 @@ class ReportXML(osv.osv):
     _inherit = 'ir.actions.report.xml'
     _columns = {
         'webkit_header':  fields.property(   
-                                        'ir.header_webkit',
-                                        type='many2one',
-                                        relation='ir.header_webkit',
-                                        string='WebKit Header',
-                                        help="The header linked to the report",
-                                        method=True,
-                                        view_load=True,
-                                        required=True
+                                            'ir.header_webkit',
+                                            type='many2one',
+                                            relation='ir.header_webkit',
+                                            string='WebKit Header',
+                                            help="The header linked to the report",
+                                            method=True,
+                                            view_load=True,
+                                            required=True
                                         ),
         'report_webkit': fields.char( 
                                         'WebKit HTML path',
@@ -165,18 +174,6 @@ class ReportXML(osv.osv):
                                     ),
         'webkit_debug' : fields.boolean('Webkit debug'),
         'report_webkit_data': fields.text('WebKit HTML content'),
-        'report_type': fields.selection([
-            ('pdf', 'pdf'),
-            ('html', 'html'),
-            ('raw', 'raw'),
-            ('sxw', 'sxw'),
-            ('odt', 'odt'),
-            ('webkit', 'WebKit HTML'),
-            ('html2html','Html from html'),
-            ], 
-            string='Type', 
-            required=True,
-        ),
     }
 
 ReportXML()

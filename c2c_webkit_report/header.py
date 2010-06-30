@@ -83,8 +83,8 @@ class HeaderHTML(osv.osv):
                 ('Letter','Letter 2 8.5 x 11 inches, 215.9 x 279.4 mm'),
                 ('Tabloid', 'Tabloid 29 279.4 x 431.8 mm'),
                 ],
-                    'Paper size',
-                    required=True,
+                'Paper size',
+                required=True,
         )
     }    
 HeaderHTML()

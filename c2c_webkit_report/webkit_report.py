@@ -363,27 +363,10 @@ class WebKitParser(report_sxw):
             report_rml.report_sxw_content = None
             report_rml.report_sxw = None
         else:
-            title = ''
-            rml = tools.file_open(self.tmpl, subdir=None).read()
-            report_type = data.get('report_type', 'pdf')
-            class a(object):
-                def __init__(self, *args, **argv):
-                    for key, arg in argv.items():
-                        setattr(self, key, arg)
-            report_xml = a(title=title, report_type=report_type, report_rml_content=rml, name=title, attachment=False, header=self.header)
-            
-        report_type = report_xml.report_type
-        if report_type in ['sxw', 'odt']:
-            fnct = self.create_source_odt
-        elif report_type in ['pdf', 'raw', 'html']:
-            fnct = self.create_source_pdf
-        elif report_type=='html2html':
-            fnct = self.create_source_html2html
-        elif report_type=='webkit':
-            fnct = self.create_source_webkit
-        else:
-            raise 'Unknown Report Type'
-        fnct_ret = fnct(cursor, uid, ids, data, report_xml, context)
+            return super(WebKitParser, self).create(cursor, uid, ids, data, context)
+        if report_xml.report_type != 'webkit' :
+            return super(WebKitParser, self).create(cursor, uid, ids, data, context)
+        fnct_ret = self.create_source_webkit(cursor, uid, ids, data, report_xml, context)
         if not fnct_ret:
             return (False,False)
         return fnct_ret
