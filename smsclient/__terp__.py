@@ -35,6 +35,8 @@
     "demo_xml" : [
     ],
     "update_xml" : [
+        "security/sms_security.xml",
+        "security/ir.model.access.csv",
         "smsclient_view.xml",
         "serveraction_view.xml",
         "smsclient_wizard.xml",
