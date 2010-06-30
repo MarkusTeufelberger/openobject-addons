@@ -32,8 +32,8 @@
 		<field name="res_model">qc.proof.method</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
-	</record> 
-    
+	</record>
+
 	<!-- qc.posible.value -->
 	<record model="ir.ui.view" id="qc_posible_value_form_view">
 		<field name="name">qc.posible.value.form</field>
@@ -61,7 +61,37 @@
 		<field name="res_model">qc.posible.value</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
-	</record> 
+	</record>
+
+	<!-- qc.test.template.trigger-->
+	<record model="ir.ui.view" id="qc_test_template_trigger_form_view">
+		<field name="name">qc.test.template.trigger.form</field>
+		<field name="model">qc.test.template.trigger</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Template Trigger" >
+				<field name="name" />
+				<field name="active" />
+			</form>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="qc_test_template_trigger_tree_view">
+		<field name="name">qc.test.template.trigger.tree</field>
+		<field name="model">qc.test.template.trigger</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree string="Template Trigger">
+				<field name="name" select ="1"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_qc_test_template_trigger">
+		<field name="name">Template Trigger</field>
+		<field name="res_model">qc.test.template.trigger</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
 
 
 	<!-- qc.proof.synonym -->
@@ -90,7 +120,7 @@
 		<field name="res_model">qc.proof.synonym</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
-	</record> 
+	</record>
 
 	<!-- qc.proof -->
 	<record model="ir.ui.view" id="qc_proof_form_view">
@@ -99,16 +129,16 @@
 		<field name="type">form</field>
 		<field name="arch" type="xml">
 			<form string="Proof" col="6">
-				<group col="8" colspan="4">
+				<group col="10" colspan="4">
                     <field name="name" />
                     <field name="ref" />
 					<field name="type" />
 					<field name="active" />
 				</group>
-				<group colspan="4">
+				<group col="2" colspan="4">
 					<field name="synonym_ids" nolabel="1"/>
 					<group attrs="{'invisible':[('type','!=','qualitative')]}" col="2" colspan="2" >
-						<field name="posible_values_ids" nolabel="1" colspan="2" attrs="{'required':[('type','=','qualitative')]}" />
+						<field name="value_ids" nolabel="1" colspan="2" attrs="{'required':[('type','=','qualitative')]}" />
 					</group>
 				</group>
 			</form>
@@ -131,7 +161,7 @@
 		<field name="res_model">qc.proof</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
-	</record> 
+	</record>
 
 	<!-- qc.test.template -->
 	<record model="ir.ui.view" id="qc_test_template_form_view">
@@ -148,6 +178,7 @@
 				</group>
 				<field name="category_id" />
 				<field name="fill_correct_values" />
+				<field name="trig_on" />
 				<group col="2" colspan="4" attrs="{'invisible':[('type','=','generic')]}">
 					<field name="object_id" />
 				</group>
@@ -164,10 +195,12 @@
 				<field name="name" />
 				<field name="type" />
 				<field name="category_id" />
+                <field name="object_id" />
+                <field name="test_template_line_ids" />
 			</tree>
 		</field>
 	</record>
-	<record model="ir.ui.view" id="qc_test_template_form2_view">
+    <!--	<record model="ir.ui.view" id="qc_test_template_form2_view">
 		<field name="name">qc.test.template.form2</field>
 		<field name="model">qc.test.template</field>
 		<field name="type">form</field>
@@ -179,13 +212,13 @@
 				<field name="test_template_line_ids" nolabel="1" colspan="4" />
 			</form>
 		</field>
-	</record>
+    </record> -->
 	<record model="ir.actions.act_window" id="action_qc_test_template">
-		<field name="name">Proof Template</field>
+		<field name="name">Test Template</field>
 		<field name="res_model">qc.test.template</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
-	</record> 
+	</record>
 
 	<!-- qc.test.template.line -->
 	<record model="ir.ui.view" id="qc_test_template_line_form_view">
@@ -196,19 +229,19 @@
 			<form string="proof Line" >
 				<group col="8" colspan="4">
 					<field name="proof_id" on_change="onchange_proof_id(proof_id)"/>
-					<field name="method_id" />
+                                         <field name="method_id" />
 					<field name="type" />
 					<field name="sequence" />
 				</group>
 				<group col="1" colspan="4">
 					<group col="2" colspan="4" attrs="{'invisible':[('type','!=','qualitative')]}" >
-						<field name="valid_value" colspan="4" attrs="{'required':[('type','=','qualitative')]}"/>
+                                                <field name="valid_value_ids" colspan="4" attrs="{'required':[('type','=','qualitative')]}" context="{'proof_id':proof_id}"/>
 					</group>
 					<group col="6" colspan="4" attrs="{'invisible':[('type','=','qualitative')]}">
 						<field name="min_value" attrs="{'required':[('type','!=','qualitative')]}"/>
 						<field name="max_value" attrs="{'required':[('type','!=','qualitative')]}"/>
 						<field name="uom_id" attrs="{'required':[('type','!=','qualitative')]}"/>
-					</group> 
+					</group>
 				</group>
 				<field name="notes" colspan="4"/>
 			</form>
@@ -220,14 +253,16 @@
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<tree string="Test Template Line" >
-				<field name="sequence" />
-				<field name="proof_id" />
-				<field name="method_id" />
-				<field name="valid_value"/>
+                                <field name="test_template_id" select="1" />
+				<field name="proof_id" select="1" />
+                                <field name="method_id" select="1"/>
+				<field name="type" select="1"/>
 				<field name="notes" />
 				<field name="min_value" />
 				<field name="max_value" />
 				<field name="uom_id" />
+				<field name="sequence" />
+				<field name="valid_value_ids"/>
 			</tree>
 		</field>
 	</record>
@@ -236,8 +271,8 @@
 		<field name="res_model">qc.test.template.line</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
-		<field name="view_id" ref="qc_test_template_form_view"/>
-	</record> 
+        <!--		<field name="view_id" ref="qc_test_template_form_view"/> -->
+	</record>
 
 	<!-- qc.test.set.template.wizard -->
 	<record id="view_qc_test_set_template_wizard_form" model="ir.ui.view">
@@ -263,32 +298,6 @@
 		<field name="target">new</field>
 	</record>
 
-	<!-- qc.test.wizard -->
-	<!--
-	<record id="view_qc_test_wizard_form" model="ir.ui.view">
-		<field name="name">qc.test.wizard</field>
-		<field name="model">qc.test.wizard</field>
-		<field name="type">form</field>
-		<field name="arch" type="xml">
-			<form string="Quality Control Test">
-				<field name="qualitative_ids"/>
-				<field name="quantitative_ids"/>
-				<group col="2" colspan="2">
-					<button icon="gtk-cancel" special="cancel" string="Cancel" name="action_cancel" type="object"/>
-					<button icon="gtk-ok" name="action_save" string="Accept" type="object"/>
-				</group>
-			</form>
-		</field>
-	</record>
-	<record id="action_qc_test_wizard_form" model="ir.actions.act_window">
-		<field name="name">qc.test.wizard</field>
-		<field name="type">ir.actions.act_window</field>
-		<field name="res_model">qc.test.wizard</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">form</field>
-		<field name="target">new</field>
-	</record>
-	-->
 
 	<!-- qc.test -->
 	<record model="ir.ui.view" id="qc_test_form_view" >
@@ -296,11 +305,11 @@
 		<field name="model">qc.test</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<form string="Test" >  
+			<form string="Test" >
 				<group col="7" colspan="4" >
 					<field name="name" select="1"/>
 					<field name="object_id"/>
-					<field name="test_template_id" readonly="True" select="1"/> 
+					<field name="test_template_id" readonly="True" select="1"/>
 					<button string="Select Template" name="%(action_qc_test_set_template_wizard_form)d" type="action" states="draft"/>
 				</group>
 				<group col="1" colspan="2" >
@@ -321,7 +330,7 @@
 					<button name="approve" states="waiting" string="Approve" icon="gtk-ok"/>
 					<button name="cancel"  states="waiting,failed,success" string="Cancel" icon="gtk-cancel"/>
 				</group>
-			</form>	
+			</form>
 		</field>
 	</record>
 	<record model="ir.ui.view" id="qc_test_tree_view">
@@ -353,27 +362,29 @@
 			<form string="Test Line" >
 				<group colspan="4" attrs="{'invisible':[('proof_type','=','qualitative')]}" >
 					<separator string="Test Result" colspan="4"/>
-					<field name="actual_value_qt" attrs="{'required':[('proof_type','!=','qualitative')]}" />
-					<field name="test_uom_id" attrs="{'required':[('proof_type','!=','qualitative')]}"/>
+					<field name="actual_value_qt" />
+					<field name="test_uom_id"/>
 				</group>
 				<group col="2" colspan="4" attrs="{'invisible':[('proof_type','!=','qualitative')]}" >
 					<separator string="Test Values" colspan="2"/>
-					<field name="actual_value_ql" attrs="{'required':[('proof_type','=','qualitative')]}" />
+					<field name="actual_value_ql" />
 				</group>
 				<group  colspan="4" >
-					<separator string="Check Values" colspan="4" /> 
-					<field name="proof_id" colspan="4"/>
-					<field name="method_id"/>
-					<field name="proof_type"/>
+					<separator string="Check Values" colspan="4" />
+                    <group col="6" colspan="4" >
+    					<field name="proof_id"/>
+    					<field name="method_id"/>
+	    				<field name="proof_type"/>
+                    </group>
 					<group colspan="4" attrs="{'invisible':[('proof_type','!=','qualitative')]}" >
-						<field name="valid_value"/>
+						<field name="valid_value_ids"/>
 					</group>
 					<group col="6" colspan="4"  attrs="{'invisible':[('proof_type','=','qualitative')]}">
 						<field name="min_value"/>
 						<field name="max_value"/>
 						<field name="uom_id" />
 					</group>
-					<field name="notes" colspan="4" /> 
+					<field name="notes" colspan="4" />
 				</group>
 				<field name="success"/>
 			</form>
@@ -385,10 +396,11 @@
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<tree string="Test Line">
-				<field name="proof_id"/> 
+				<field name="proof_id"/>
 				<field name="method_id"/>
+                <field name="proof_type"/>
 				<field name="actual_value_ql"/>
-				<field name="valid_value"/>
+				<field name="valid_value_ids"/>
 				<field name="actual_value_qt"/>
 				<field name="test_uom_id"/>
 				<field name="min_value"/>
@@ -407,39 +419,60 @@
 
 	<menuitem name="Quality Control" id="qc_menu" />
 	<menuitem parent="qc_menu"  name="Configuration" id="qc_menu_config" />
-	<menuitem 
-		name="Method" 
-		parent="qc_menu_config"   
-		id="qc_proof_method_menu" 
+	<menuitem
+		name="Method"
+		parent="qc_menu_config"
+		id="qc_proof_method_menu"
 		action="action_qc_proof_method"
 		/>
-
-	<menuitem 
-		name="Test Template" 
-		parent="qc_menu_config"   
-		id="qc_test_template_menu" 
-		action="action_qc_test_template"
+    <menuitem
+		name="Posible Values"
+		parent="qc_menu_config"
+		id="qc_proof_posible_value_menu"
+		action="action_qc_posible_value"
 		/>
 
-	<menuitem 
-		name="Proof" 
-		parent="qc_menu_config"   
-		id="qc_proof_menu" 
+    <menuitem
+		name="Template Trigger"
+		parent="qc_menu_config"
+		id="qc_test_template_trigger_menu"
+		action="action_qc_test_template_trigger"
+		/>
+
+	<menuitem
+		name="Test Template"
+		parent="qc_menu_config"
+		id="qc_test_template_menu"
+		action="action_qc_test_template"
+		/>
+	<menuitem
+		name="Test Template Lines"
+		parent="qc_test_template_menu"
+		id="qc_test_template_line_menu"
+		action="action_qc_test_template_line"
+		/>
+
+
+	<menuitem
+		name="Proof"
+		parent="qc_menu_config"
+		id="qc_proof_menu"
 		action="action_qc_proof"
 		/>
 
-	<menuitem 
-		name="Test Lines" 
-		parent="qc_menu"   
-		id="qc_test_lines_menu" 
+	<menuitem
+		name="Tests"
+		parent="qc_menu"
+		id="qc_test_menu"
+		action="action_qc_new_test"
+		/>
+	<menuitem
+		name="Test Lines"
+		parent="qc_test_menu"
+		id="qc_test_lines_menu"
 		action="action_qc_test_line"
 		/>
 
-	<menuitem 
-		name="Tests" 
-		parent="qc_menu"   
-		id="qc_test_menu" 
-		action="action_qc_new_test"
-		/>
 </data>
 </openerp>
+
