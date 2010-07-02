@@ -84,7 +84,7 @@ class account_move_line(osv.osv):
         result = {}
         for record in cr.fetchall():
             id = record[0]
-            debt = record[1]
+            debt = record[1] or 0.0
             paid = record[2]
             unreconciled = record[3]
             reconcile_id = record[4]
