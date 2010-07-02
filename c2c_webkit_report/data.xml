@@ -74,7 +74,7 @@
             %for t in inv.tax_line :
             <tr>
                 <td>${ t.name|entity } </td>
-                <td>${ t.base |entity}</td>
+                <td>${ t.base|entity}</td>
                 <td>${ formatLang(t.amount) }</td>
             </tr>
             %endfor
