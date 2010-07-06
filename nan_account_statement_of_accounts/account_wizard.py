@@ -38,6 +38,9 @@ from tools.translate import _
 class account_move_line(osv.osv):
     _inherit = 'account.move.line'
 
+    def _check_partner(self, account_type, partner_id):
+            return account_type in ('payable','receivable') and partner_id or None
+
     def _balance(self, cr, uid, ids, field_name, arg, context):
         if not ids:
             return {}
@@ -53,11 +56,14 @@ class account_move_line(osv.osv):
                 aml.date, 
                 am.name, 
                 aml.debit, 
-                aml.credit 
+                aml.credit,
+                aa.type
             FROM 
                 account_move_line aml, 
-                account_move am 
+                account_move am,
+                account_account aa
             WHERE 
+                aml.account_id = aa.id AND
                 aml.move_id = am.id AND 
                 aml.id IN (%s)
             """ % ids)
@@ -69,6 +75,9 @@ class account_move_line(osv.osv):
             name = record[4]
             debit = record[5]
             credit = record[6]
+            account_type = record[7]
+
+            check_partner = self._check_partner( account_type, partner_id )
 
             # Order is a bit complex. In theory move lines should be sorted by move_id.name
             # but in some cases move_id will be in draft state and thus move_id.name will be '/'
@@ -97,7 +106,7 @@ class account_move_line(osv.osv):
                     LPAD(EXTRACT(EPOCH FROM %s::DATE)::VARCHAR, 15, '0') || 
                         LPAD(%s,15,'0') || 
                         LPAD(%s::VARCHAR,15,'0')
-            """, (account_id,partner_id,partner_id,date,name,id) )
+            """, (account_id,check_partner,partner_id,date,name,id) )
             balance = cr.fetchone()[0] or 0.0
             # Add/substract current debit and credit
             balance += debit - credit
