@@ -93,7 +93,7 @@ class product_pricelist( osv.osv ):
 
         result = {}
         for id in ids:
-            result[id] = self.price_get2( cr,uid, id,prod_id,qty,date,partner,context)
+            result[id] = self.price_get_extended( cr,uid, id,prod_id,qty,date,partner,context)
             if context and ('uom' in context):
                 product = product_obj.browse(cr, uid, prod_id)
                 uom = product.uos_id or product.uom_id
@@ -108,26 +108,28 @@ class product_pricelist( osv.osv ):
 
         context = context or {}
         result = {}
-        tmpl_id,categ_ids = self._get_product_category( cr, uid, prod_id )
+        tmpl_id, categ_ids, supplier_ids = self._get_product_category( cr, uid, prod_id )
 
         item = self.pool.get( 'product.pricelist.item').browse( cr, uid, item_id )
 
-        if item.product_id.id != prod_id and item.product_id.id:
+        if item.product_id and item.product_id.id != prod_id:
             return False
-        if item.product_tmpl_id.id != tmpl_id and  item.product_tmpl_id.id:
+        if item.product_tmpl_id and item.product_tmpl_id.id != tmpl_id:
             return False
-        if not item.categ_id.id  and item.categ_id.id  in categ_ids:
+        if item.categ_id and item.categ_id.id not in categ_ids:
             return False
-        if item.min_quantity != 0  and   item.min_quantity > qty:
+        if item.min_quantity != 0 and item.min_quantity > qty:
+            return False
+        if item.supplier_id and item.supplier_id.id not in supplier_ids:
             return False
 
         return True
 
-    def price_get2(self, cr, uid, pricelist_id, prod_id, qty, date,partner=None,context=None, acc_price=False, base_item_rule=False):
+    def price_get_extended(self, cr, uid, pricelist_id, prod_id, qty, date,partner=None,context=None, acc_price=False, base_item_rule=False):
 
         pricelist= self.pool.get( 'product.pricelist' ).browse( cr,uid,pricelist_id)
         plversion = self._get_pl_version( cr, uid,pricelist_id, date )
-        tmpl_id,categ_ids = self._get_product_category( cr, uid, prod_id )
+        tmpl_id, categ_ids, supplier_ids = self._get_product_category( cr, uid, prod_id )
         supplierinfo_obj = self.pool.get('product.supplierinfo')
         price_type_obj = self.pool.get('product.price.type')
         currency_obj = self.pool.get('res.currency')
@@ -139,11 +141,12 @@ class product_pricelist( osv.osv ):
             start_item=base_item_rule
             remove = False
         else:
-            # Perfomance improvements, serach first item to apply, and decides if its unique o have to go ahead on item rules.
-            remove,start_item = self._get_first_item( cr, uid, plversion['id'],prod_id,qty, date,partner,tmpl_id,categ_ids,context )
+            # Perfomance improvements, search first item to apply, and decides if its unique or have to go ahead on item rules.
+            remove,start_item = self._get_first_item( cr, uid, plversion['id'],prod_id,qty, date, partner, tmpl_id, categ_ids, supplier_ids, context )
+
 
         if remove and (start_item is None):
-            #if no items finded, no item rules can be applied.
+            #if no items found, no item rules can be applied.
             return False
         if start_item:
             i = self.pool.get('product.pricelist.item').browse(cr,uid,start_item )
@@ -167,7 +170,7 @@ class product_pricelist( osv.osv ):
                     price= acc_price or 0.0
                     break;
                 else:
-                    price_tmp = self.price_get2( cr,uid, item.base_pricelist_id.id, prod_id,qty,date,partner,context, acc_price )
+                    price_tmp = self.price_get_extended( cr,uid, item.base_pricelist_id.id, prod_id,qty,date, acc_price=acc_price )
                     ptype_src = self.browse(cr, uid,item.base_pricelist_id.id, ).currency_id.id
                     price = currency_obj.compute(cr, uid, ptype_src,pricelist.currency_id.id,price_tmp, round=False)
                     if price:
@@ -215,7 +218,7 @@ class product_pricelist( osv.osv ):
 
            if item.base_itemrule_id:
                # Search nex item_rule base on..
-               price = self.price_get2( cr,uid, pricelist.id, prod_id,qty,date,partner,context, price, item.base_itemrule_id.id )
+               price = self.price_get_extended( cr,uid, pricelist.id, prod_id,qty,date,partner,context, price, item.base_itemrule_id.id )
            else:
                if not price:
                    price = acc_price
@@ -223,8 +226,8 @@ class product_pricelist( osv.osv ):
             return acc_price or False
         return price
 
-    def _get_first_item( self, cr, uid, version_id, prod_id, qty, date,partner,tmpl_id,categ_ids, context ):
-        #Get sequence of first item on priclist version where depends on other pricelist
+    def _get_first_item( self, cr, uid, version_id, prod_id, qty, date, partner, tmpl_id, categ_ids, supplier_ids, context ):
+        #Get sequence of first item on pricelist version where depends on other pricelist
         cr.execute(''' select
                             id,sequence
                        from
@@ -236,17 +239,23 @@ class product_pricelist( osv.osv ):
                             limit 1''' )
         seq = cr.dictfetchone()
         if categ_ids:
-            categ_where = '(categ_id IN (' + ','.join(categ_ids) + '))'
+            categ_where = '(categ_id IN (' + ','.join([str(x) for x in categ_ids]) + '))'
         else:
             categ_where = '(categ_id IS NULL)'
 
+        if supplier_ids:
+            supplier_where = '(supplier_id IN (' + ','.join([str(x) for x in supplier_ids]) + '))'
+        else:
+            supplier_where = '(supplier_id IS NULL)'
+
         cr.execute(
                 'SELECT i.*, pl.currency_id '
-                'FROM product_pricelist_item AS i, '
+                'FROM product_pricelist_item AS i,  '
                     'product_pricelist_version AS v, product_pricelist AS pl '
                 'WHERE (product_tmpl_id IS NULL OR product_tmpl_id = %s) '
                     'AND (product_id IS NULL OR product_id = %s) '
                     'AND (' + categ_where + ' OR (categ_id IS NULL)) '
+                    'AND (' + supplier_where + ' OR (supplier_id IS NULL)) '
                     'AND price_version_id = %s '
                     'AND (min_quantity IS NULL OR min_quantity <= %s) '
                     'AND i.price_version_id = v.id AND v.pricelist_id = pl.id '
@@ -295,7 +304,7 @@ class product_pricelist( osv.osv ):
         tmpl_id, categ = cr.fetchone()
         categ_ids = []
         while categ:
-            categ_ids.append(str(categ))
+            categ_ids.append(categ)
             cr.execute('SELECT parent_id ' \
                         'FROM product_category ' \
                         'WHERE id = %s', (categ,))
@@ -305,7 +314,13 @@ class product_pricelist( osv.osv ):
                             _('Could not resolve product category, ' \
                               'you have defined cyclic categories ' \
                               'of products!'))
-        return tmpl_id,categ_ids
+
+        supplier_ids = []
+        ids = self.pool.get('product.supplierinfo').search(cr, uid, [('product_id','=',prod_id)])
+        for supplier in self.pool.get('product.supplierinfo').browse(cr, uid, ids):
+            supplier_ids.append( supplier.name.id )
+
+        return tmpl_id, categ_ids, supplier_ids
 product_pricelist()
 
 
@@ -347,6 +362,7 @@ class product_pricelist_item( osv.osv ):
         return  super(product_pricelist_item,self).search(cr, uid, args, offset, limit, order, context, count)
 
     _columns = {
+       'supplier_id': fields.many2one('res.partner', 'Supplier', help='Will match if the given partner is in the supplier information section of the product.'),
        'base_itemrule_id': fields.many2one( 'product.pricelist.item', 'Other Rule Item', help='The selected item will be used to apply an extra discount on the price resulting from the Other Pricelist.' ),
        'category_id': fields.many2one( 'product.pricelist.category', 'Category', help='Use this field to classify pricelist items. Category does not affect the resulting price in any way.'),
        'rounding_mode': fields.selection([('nearest','Nearest Value'),('up','Up'),('down','Down')], 'Rounding Mode', readonly=False, help='Allows you to decide what rounding method to use.'),

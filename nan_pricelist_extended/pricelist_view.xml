@@ -2,11 +2,22 @@
 <openerp>
 <data>
 	<!-- product.pricelist.item -->
+	<record id="product_pricelist_item_form_view_supplier_id" model="ir.ui.view">
+		<field name="name">product.pricelist.item.form.supplier_id</field>
+		<field name="model">product.pricelist.item</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+		<field name="arch" type="xml">
+			<field name="categ_id" position="after">
+				<field name="supplier_id"/>
+			</field>
+		</field>
+	</record>
 	<record id="product_pricelist_item_form_view_rounding_mode" model="ir.ui.view">
 		<field name="name">product.pricelist.item.form.rounding_mode</field>
 		<field name="model">product.pricelist.item</field>
 		<field name="type">form</field>
-		<field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+		<field name="inherit_id" ref="product_pricelist_item_form_view_supplier_id"/>
 		<field name="arch" type="xml">
 			<field name="price_max_margin" position="after">
 				<field name="rounding_mode"/>
