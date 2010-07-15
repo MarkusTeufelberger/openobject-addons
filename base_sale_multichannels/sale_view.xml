@@ -35,6 +35,8 @@
 										colspan="2" type="object" />
 									<field name="last_update_order_export_date" />
 								</group>
+								<button name="create_shipping" string="Create Shipping"
+									colspan="2" type="object" />
 							</group>
 						</page>
 						<page string="External Shop Settings">

@@ -232,6 +232,51 @@ class sale_shop(external_osv.external_osv):
     def update_shop_orders(self, cr, uid, order, ext_id, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
 
+    def create_shipping(self, cr, uid, ids, ctx):
+        logger = netsvc.Logger()
+        for shop in self.browse(cr, uid, ids):
+            ctx['conn_obj'] = self.external_connection(cr, uid, shop.referential_id)        
+        
+            cr.execute("""
+                select stock_picking.id, stock_picking.carrier_tracking_ref, stock_picking.carrier_id, sale_order.id, count(pickings.id) from stock_picking
+                left join sale_order on sale_order.id = stock_picking.sale_id
+                left join stock_picking as pickings on sale_order.id = pickings.sale_id
+                left join ir_model_data on stock_picking.id = ir_model_data.res_id and ir_model_data.model='stock.picking'
+                where shop_id = %s and ir_model_data.res_id ISNULL and stock_picking.state = 'done'
+                Group By stock_picking.id, stock_picking.carrier_tracking_ref, stock_picking.carrier_id, sale_order.id
+                """, (shop.id,))
+            results = cr.fetchall()
+            for result in results:
+                order = self.pool.get('sale.order').browse(cr, uid, result[3], ctx)
+                if result[4] == 1:
+                    ext_shipping_id = self.create_complet_shipping(cr, uid, result[0], order, shop.referential_id.id, ctx)
+                else:
+                    ext_shipping_id = self.create_partial_shipping(cr, uid, result[0], order, shop.referential_id.id, ctx)
+                
+                if ext_shipping_id:
+                    ir_model_data_vals = {
+                        'name': "stock_picking_" + str(ext_shipping_id),
+                        'model': "stock.picking",
+                        'res_id': result[0],
+                        'external_referential_id': shop.referential_id.id,
+                        'module': 'extref.' + shop.referential_id.name
+                      }
+                    print 'ir_model_data_vals', ir_model_data_vals
+                    self.pool.get('ir.model.data').create(cr, uid, ir_model_data_vals)
+                    logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully creating shipping with OpenERP id %s and ext id %s in external sale system" % (result[0], ext_shipping_id))
+                    if result[1] and result[2]:
+                        self.add_ext_tracking_reference(cr, uid, ext_shipping_id, result[2], result[1], ctx)
+                        logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully adding a tracking reference to the shipping with OpenERP id %s and ext id %s in external sale system" % (result[0], ext_shipping_id))
+        
+    def create_complet_shipping(self, cr, uid, id, order, external_referential_id, ctx):
+        osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
+        
+    def create_partial_shipping(self, cr, uid, id, order, external_referential_id, ctx):            
+        osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
+        
+    def add_ext_tracking_reference(self, cr, uid, ext_shipping_id, tracking_ref, carrier_id, ctx):
+        osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
+        
 sale_shop()
 
 
