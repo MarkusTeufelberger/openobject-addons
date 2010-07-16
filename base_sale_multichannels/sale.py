@@ -247,11 +247,17 @@ class sale_shop(external_osv.external_osv):
                 """, (shop.id,))
             results = cr.fetchall()
             for result in results:
-                order = self.pool.get('sale.order').browse(cr, uid, result[3], ctx)
+                stock_picking_obj = self.pool.get('stock.picking')
+                
+                if result[2]:
+                    error = stock_picking_obj.check_ext_carrier_reference(cr, uid, result[0], result[2], ctx)
+                    if error:
+                        raise osv.except_osv(_("Error"), _(error))
+                        
                 if result[4] == 1:
-                    ext_shipping_id = self.create_complet_shipping(cr, uid, result[0], order, shop.referential_id.id, ctx)
+                    ext_shipping_id = stock_picking_obj.create_ext_complet_shipping(cr, uid, result[0], shop.referential_id.id, ctx)
                 else:
-                    ext_shipping_id = self.create_partial_shipping(cr, uid, result[0], order, shop.referential_id.id, ctx)
+                    ext_shipping_id = stock_picking_obj.create_ext_partial_shipping(cr, uid, result[0], shop.referential_id.id, ctx)
                 
                 if ext_shipping_id:
                     ir_model_data_vals = {
@@ -261,21 +267,11 @@ class sale_shop(external_osv.external_osv):
                         'external_referential_id': shop.referential_id.id,
                         'module': 'extref.' + shop.referential_id.name
                       }
-                    print 'ir_model_data_vals', ir_model_data_vals
                     self.pool.get('ir.model.data').create(cr, uid, ir_model_data_vals)
                     logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully creating shipping with OpenERP id %s and ext id %s in external sale system" % (result[0], ext_shipping_id))
-                    if result[1] and result[2]:
-                        self.add_ext_tracking_reference(cr, uid, ext_shipping_id, result[2], result[1], ctx)
-                        logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully adding a tracking reference to the shipping with OpenERP id %s and ext id %s in external sale system" % (result[0], ext_shipping_id))
-        
-    def create_complet_shipping(self, cr, uid, id, order, external_referential_id, ctx):
-        osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
-        
-    def create_partial_shipping(self, cr, uid, id, order, external_referential_id, ctx):            
-        osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
-        
-    def add_ext_tracking_reference(self, cr, uid, ext_shipping_id, tracking_ref, carrier_id, ctx):
-        osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
+                    if result[2]:
+                        if stock_picking_obj.add_ext_tracking_reference(cr, uid, result[0], result[2], ext_shipping_id, result[1], ctx):
+                            logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully adding a tracking reference to the shipping with OpenERP id %s and ext id %s in external sale system" % (result[0], ext_shipping_id))
         
 sale_shop()
 
@@ -372,6 +368,8 @@ class sale_order(osv.osv):
                     for invoice in order.invoice_ids:
                         wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
         return res
+
+
 
 sale_order()
 
