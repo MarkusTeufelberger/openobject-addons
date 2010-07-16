@@ -247,13 +247,13 @@ class sale_shop(external_osv.external_osv):
                 """, (shop.id,))
             results = cr.fetchall()
             for result in results:
-                stock_picking_obj = self.pool.get('stock.picking')
-
                 if result[2] == 1:
-                    ext_shipping_id = stock_picking_obj.create_ext_complet_shipping(cr, uid, result[0], shop.referential_id.id, ctx)
+                    picking_type = 'complete'
                 else:
-                    ext_shipping_id = stock_picking_obj.create_ext_partial_shipping(cr, uid, result[0], shop.referential_id.id, ctx)
+                    picking_type = 'partial'
                 
+                ext_shipping_id = self.pool.get('stock.picking').create_ext_shipping(cr, uid, result[0], picking_type, shop.referential_id.id, ctx)
+
                 if ext_shipping_id:
                     ir_model_data_vals = {
                         'name': "stock_picking_" + str(ext_shipping_id),

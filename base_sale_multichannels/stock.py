@@ -25,10 +25,7 @@ from tools.translate import _
 class stock_picking(osv.osv):
     _inherit = "stock.picking"
     
-    def create_ext_complet_shipping(self, cr, uid, id, external_referential_id, ctx):
-        osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
-        
-    def create_ext_partial_shipping(self, cr, uid, id, external_referential_id, ctx):            
+    def create_ext_shipping(self, cr, uid, id, picking_type, external_referential_id, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
  
 stock_picking()
