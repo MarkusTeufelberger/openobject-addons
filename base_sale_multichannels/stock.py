@@ -30,17 +30,6 @@ class stock_picking(osv.osv):
         
     def create_ext_partial_shipping(self, cr, uid, id, external_referential_id, ctx):            
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
-        
-    def add_ext_tracking_reference(self, cr, uid, id, carrier_id, ext_shipping_id, tracking_carrier_ref, ctx):
-        osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
-        
-    def check_ext_carrier_reference(self, cr, uid, id, carrier_id, ctx):
-        #TAKE CARE THAT THE VALUE OF THE CARRIER IS OK
-        #INDEED IF THE YOU HAVE A ERROR IN THE UPDATE OF THE TRACKING NUMBER FUNCTION add_ext_tracking_reference
-        #OPENERP WILL STOP AFTER CREATING THE PICKING AND WON'T WRITE THE EXTERNAL ID IN ir_model_data !!  
-        return False
-    
-    
  
 stock_picking()
 

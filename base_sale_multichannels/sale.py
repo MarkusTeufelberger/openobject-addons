@@ -232,13 +232,13 @@ class sale_shop(external_osv.external_osv):
     def update_shop_orders(self, cr, uid, order, ext_id, ctx):
         osv.except_osv(_("Not Implemented"), _("Not Implemented in abstract base module!"))
 
-    def create_shipping(self, cr, uid, ids, ctx):
+    def export_shipping(self, cr, uid, ids, ctx):
         logger = netsvc.Logger()
         for shop in self.browse(cr, uid, ids):
             ctx['conn_obj'] = self.external_connection(cr, uid, shop.referential_id)        
         
             cr.execute("""
-                select stock_picking.id, stock_picking.carrier_tracking_ref, stock_picking.carrier_id, sale_order.id, count(pickings.id) from stock_picking
+                select stock_picking.id, sale_order.id, count(pickings.id) from stock_picking
                 left join sale_order on sale_order.id = stock_picking.sale_id
                 left join stock_picking as pickings on sale_order.id = pickings.sale_id
                 left join ir_model_data on stock_picking.id = ir_model_data.res_id and ir_model_data.model='stock.picking'
@@ -248,13 +248,8 @@ class sale_shop(external_osv.external_osv):
             results = cr.fetchall()
             for result in results:
                 stock_picking_obj = self.pool.get('stock.picking')
-                
-                if result[2]:
-                    error = stock_picking_obj.check_ext_carrier_reference(cr, uid, result[0], result[2], ctx)
-                    if error:
-                        raise osv.except_osv(_("Error"), _(error))
-                        
-                if result[4] == 1:
+
+                if result[2] == 1:
                     ext_shipping_id = stock_picking_obj.create_ext_complet_shipping(cr, uid, result[0], shop.referential_id.id, ctx)
                 else:
                     ext_shipping_id = stock_picking_obj.create_ext_partial_shipping(cr, uid, result[0], shop.referential_id.id, ctx)
@@ -269,10 +264,7 @@ class sale_shop(external_osv.external_osv):
                       }
                     self.pool.get('ir.model.data').create(cr, uid, ir_model_data_vals)
                     logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully creating shipping with OpenERP id %s and ext id %s in external sale system" % (result[0], ext_shipping_id))
-                    if result[2]:
-                        if stock_picking_obj.add_ext_tracking_reference(cr, uid, result[0], result[2], ext_shipping_id, result[1], ctx):
-                            logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully adding a tracking reference to the shipping with OpenERP id %s and ext id %s in external sale system" % (result[0], ext_shipping_id))
-        
+
 sale_shop()
 
 

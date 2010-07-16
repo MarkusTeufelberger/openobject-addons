@@ -35,7 +35,7 @@
 										colspan="2" type="object" />
 									<field name="last_update_order_export_date" />
 								</group>
-								<button name="create_shipping" string="Create Shipping"
+								<button name="export_shipping" string="Export Shipping"
 									colspan="2" type="object" />
 							</group>
 						</page>
