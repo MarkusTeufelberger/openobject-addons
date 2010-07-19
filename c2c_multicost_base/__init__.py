@@ -3,7 +3,6 @@
 #
 # Copyright (c) 2010 Camtocamp SA
 # @author Joël Grand-Guillaume
-# $Id: $
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential

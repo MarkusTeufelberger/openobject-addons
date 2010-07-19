@@ -1,8 +1,10 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2009 Camptocamp SA All Rights Reserved.
-#                    Joel Grand-Guillaume
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
+#
+# Author : Joel Grand-guillaume (Camptocamp)
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -26,3 +28,4 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
+

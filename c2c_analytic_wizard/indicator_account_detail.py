@@ -1,7 +1,10 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
-# @author J Grand-Guillaume ported by nbessi
-# Copyright (c) Camptocamp (http://www.camptocamp.com) All Rights Reserved.
+#
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
+#
+# Author : Joel Grand-guillaume (Camptocamp), Ported by Nicolas Bessi (Camptocamp)
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -25,6 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
+
 from osv import fields
 from osv import osv
 

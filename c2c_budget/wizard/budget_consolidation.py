@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) Camptocamp SA - http://www.camptocamp.com
-# Author: Arnaud Wüst
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
 #
-#    This file is part of the c2c_budget module
+# Author : Vincent Renaville
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -27,7 +27,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
-#############################################################################
+##############################################################################
 
 import wizard
 import netsvc
