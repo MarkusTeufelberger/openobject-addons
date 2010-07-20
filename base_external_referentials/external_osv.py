@@ -121,7 +121,11 @@ class external_osv(osv.osv):
                 try:
                     exec each_mapping_line['in_function'] in space
                 except Exception, e:
+                    logger = netsvc.Logger()
+                    logger.notifyChannel('extdata_from_oevals', netsvc.DEBUG, "Error in import mapping: %r" % (each_mapping_line['in_function'],))
                     del(space['__builtins__'])
+                    logger.notifyChannel('extdata_from_oevals', netsvc.DEBUG, "Mapping Context: %r" % (space,))
+                    logger.notifyChannel('extdata_from_oevals', netsvc.DEBUG, "Exception: %r" % (e,))
                 result = space.get('result', False)
                 #If result exists and is of type list
                 if result and type(result) == list:
@@ -231,7 +235,12 @@ class external_osv(osv.osv):
                 try:
                     exec each_mapping_line['out_function'] in space
                 except Exception, e:
+                    logger = netsvc.Logger()
+                    logger.notifyChannel('extdata_from_oevals', netsvc.DEBUG, "Error in import mapping: %r" % (each_mapping_line['out_function'],))
                     del(space['__builtins__'])
+                    logger.notifyChannel('extdata_from_oevals', netsvc.DEBUG, "Mapping Context: %r" % (space,))
+                    logger.notifyChannel('extdata_from_oevals', netsvc.DEBUG, "Exception: %r" % (e,))
+
                 result = space.get('result', False)
                 #If result exists and is of type list
                 if result and type(result) == list:
