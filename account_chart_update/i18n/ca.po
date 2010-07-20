@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.7\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-06-22 16:13+0000\n"
-"PO-Revision-Date: 2010-06-22 19:59+0000\n"
+"PO-Revision-Date: 2010-07-19 04:36+0000\n"
 "Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-06-23 03:57+0000\n"
+"X-Launchpad-Export-Date: 2010-07-20 03:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: Catalan\n"
 
@@ -38,7 +38,7 @@ msgstr "Posició fiscal"
 #. module: account_chart_update
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr "Nom de model invàlid a la definició d'acció."
+msgstr "Nom del model no vàlid a la definició de l'acció."
 
 #. module: account_chart_update
 #: field:wizard.update.charts.accounts,update_children_accounts_parent:0
@@ -301,7 +301,7 @@ msgstr "Continua després d'errors"
 #. module: account_chart_update
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr "XML invàlid per a l'estructura de la vista!"
+msgstr "XML no vàlid per a l'estructura de la vista!"
 
 #. module: account_chart_update
 #: model:ir.model,name:account_chart_update.model_wizard_update_charts_accounts_tax_code

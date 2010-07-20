@@ -8,23 +8,39 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="stock.view_picking_in_form" />
             <field name="arch" type="xml">
-            	<field name="min_date" select="2" readonly="1" position="after">
-            		<button name="%(change_planned_date)d" states="unproduction,assigned,underway" string="Change Date" type="action"/>
-            	</field>
+            	<field name="min_date" select="2" readonly="1" position="replace"/>
+<!--            		<button name="%(change_planned_date)d" states="unproduction,assigned,underway" string="Change Date" type="action"/>-->
+<!--            	</field>-->
             </field>
         </record>
 	
 		<!--  Add Picking and Syatem date in incoming product Picking  --> 
+		
+		<record id="stock_picking_form_add_PO_fields" model="ir.ui.view">
+            <field name="name">Picking Form add PO</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form" />
+            <field name="priority">18</field>
+            <field name="arch" type="xml">
+                <field name="backorder_id" select="2" readonly="1" position="before">
+                	<field name="purchase_id" string="PO Ref."/>					              	
+                </field>
+            </field>
+        </record>
 		
 		 <record id="stock_picking_form_add_date_fields" model="ir.ui.view">
             <field name="name">Picking Form add State in date fields</field>
             <field name="model">stock.picking</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="stock.view_picking_in_form" />
+            <field name="priority">18</field>
             <field name="arch" type="xml">
                 <field name="backorder_id" select="2" readonly="1" position="after">
-                	<field name="picking_date"/>
-                	<field name="system_date" />
+<!--                	<field name="purchase_id" string="PO Ref."/>-->
+					<field name="picking_date"/>					
+					<button name="%(change_planned_date)d" states="unproduction,assigned,underway" string="Change Date" type="action" colspan="2"/>
+					<field name="min_date" select="2" readonly="1"/>                	                	
                 </field>
             </field>
         </record>

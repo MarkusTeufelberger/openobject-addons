@@ -134,16 +134,16 @@ class account_move_line(osv.osv):
     def _payment_type_search(self, cr, uid, obj, name, args, context={}):
         if not len(args):
             return []
-	operator = args[0][1]
-        value = args[0][2]
-        if not value:
-            return []
-	if isinstance(value, int) or isinstance(value, long):
-		ids = [value]
-	elif isinstance(value, list):
-		ids = value 
-	else:
-		ids = self.pool.get('payment.type').search(cr,uid,[('name','ilike',value)], context=context)
+        operator = args[0][1]
+            value = args[0][2]
+            if not value:
+                return []
+        if isinstance(value, int) or isinstance(value, long):
+            ids = [value]
+        elif isinstance(value, list):
+            ids = value 
+        else:
+            ids = self.pool.get('payment.type').search(cr,uid,[('name','ilike',value)], context=context)
         if ids:
             cr.execute('SELECT l.id ' \
                 'FROM account_move_line l, account_invoice i ' \

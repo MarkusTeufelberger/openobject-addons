@@ -1,11 +1,10 @@
-# -*- encoding: utf-8 -*-
-#
-#  report_helper.py
-#
-#  Created by Nicolas Bessi  
-#
-#  Copyright (c) 2010 CamptoCamp. All rights reserved.
+# -*- coding: utf-8 -*-
 ##############################################################################
+#
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
+#
+# Author : Nicolas Bessi (Camptocamp)
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -29,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
-"""Various helper that can be called inside HTML"""
+
 import netsvc
 from osv import fields, osv
 import pooler

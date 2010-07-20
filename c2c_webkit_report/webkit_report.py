@@ -1,12 +1,10 @@
-# -*- encoding: utf-8 -*-
-#
-#  c2c_webkit_report.py
-#
-#  Created by Nicolas Bessi  
-#  Some code is taken from report_openoffice module
-#
-#  Copyright (c) 2010 CamptoCamp. All rights reserved.
+# -*- coding: utf-8 -*-
 ##############################################################################
+#
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
+#
+# Author : Nicolas Bessi (Camptocamp)
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -30,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
-"""Implement report printing mechanisms"""
+
 import sys
 import platform
 import os

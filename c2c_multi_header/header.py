@@ -1,12 +1,10 @@
-# -*- encoding: utf-8 -*-
-#
-#  company.py
-#  c2c_multi_header_report
-#
-#  Created by Nicolas Bessi  
-#
-#  Copyright (c) 2010 CamptoCamp. All rights reserved.
+# -*- coding: utf-8 -*-
 ##############################################################################
+#
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
+#
+# Author : Nicolas Bessi (Camptocamp)
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential

@@ -1,10 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (c) 2008 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
-#                       Jordi Esteve <jesteve@zikzakmedia.com>
-#    $Id$
+#    Copyright (C) 2004-2010 Pexego Sistemas Informáticos. All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,6 +17,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+{
+        "name" : "Pexego - Running balance in Bank Statements",
+        "version" : "1.0",
+        "author" : "Pexego for Igalia (http://www.igalia.com/)",
+        "website" : "http://www.pexego.es",
+        "category" : "Enterprise Specific Modules",
+        "description": """
+Adds a running balance (running total) column to the bank statement lines.
+This makes it easier to find differences and mistakes in long statements.
+            """,
+        "depends" : [
+                'base',
+                'account',
+            ],
+        "init_xml" : [],
+        "demo_xml" : [],
+        "update_xml" : [
+                'bank_statement_view.xml',
+            ],
+        "installable": True,
+        'active': False
 
-import report_partner_labels
-
+}
+ 

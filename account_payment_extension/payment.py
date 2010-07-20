@@ -90,19 +90,19 @@ class payment_order(osv.osv):
     _name = 'payment.order'
     _inherit = 'payment.order'
 
-    def _get_type(self, cr, uid, context={}):
-        type = context.get('type', 'payable')
-        return type
+    def _get_type(self, cr, uid, context=None):
+        if context is None:
+            context = {}
+        return context.get('type', 'payable')
 
-    def _get_reference(self, cr, uid, context={}):
+    def _get_reference(self, cr, uid, context=None):
+        if context is None:
+            context = {}
         type = context.get('type', 'payable')
-        if type == 'payable':
-            ref = self.pool.get('ir.sequence').get(cr, uid, 'payment.order')
-        else:
-            ref = self.pool.get('ir.sequence').get(cr, uid, 'rec.payment.order')
-        return ref
+        model = type == 'payable' and 'payment.order' or 'rec.payment.order'
+        return self.pool.get('ir.sequence').get(cr, uid, model)
 
-    def _get_period(self, cr, uid, context={}):
+    def _get_period(self, cr, uid, context=None):
         try:
             # find() function will throw an exception if no period can be found for
             # current date. That should not be a problem because user would be notified
@@ -111,20 +111,17 @@ class payment_order(osv.osv):
             # So we must ensure no exception is thrown, otherwise the module can only be installed
             # once periods are created.
             periods = self.pool.get('account.period').find(cr, uid)
-        except osv.except_osv, e:
-            periods = []
-        if periods:
             return periods[0]
-        else:
+        except Exception, e:
             return False
 
-    def _payment_type_name_get(self, cr, uid, ids, field_name, arg, context={}):
+    def _payment_type_name_get(self, cr, uid, ids, field_name, arg, context=None):
         result = {}
         for rec in self.browse(cr, uid, ids, context):
             result[rec.id] = rec.mode and rec.mode.type.name or ""
         return result
 
-    def _name_get(self, cr, uid, ids, field_name, arg, context={}):
+    def _name_get(self, cr, uid, ids, field_name, arg, context=None):
         result = {}
         for rec in self.browse(cr, uid, ids, context):
             result[rec.id] = rec.reference
@@ -139,7 +136,13 @@ class payment_order(osv.osv):
         'payment_type_name': fields.function(_payment_type_name_get, method=True, type="char", size=64, string="Payment type name"),
         # The field name is necessary to add attachement documents to payment orders
         'name': fields.function(_name_get, method=True, type="char", size=64, string="Name"),
-        'create_account_moves': fields.selection([('bank-statement','Bank Statement'),('direct-payment','Direct Payment')], 'Create Account Moves', required=True, states={'done':[('readonly',True)]}, help='Indicates when account moves should be created for order payment lines. "Bank Statement" will wait until user introduces those payments in bank a bank statement. "Direct Payment" will mark all payment lines as payied once the order is done.'),
+        'create_account_moves': fields.selection([('bank-statement','Bank Statement'),('direct-payment','Direct Payment')],
+                                                 'Create Account Moves',
+                                                 required=True,
+                                                 states={'done':[('readonly',True)]},
+                                                 help='Indicates when account moves should be created for order payment lines. "Bank Statement" '\
+                                                      'will wait until user introduces those payments in bank a bank statement. "Direct Payment" '\
+                                                      'will mark all payment lines as payied once the order is done.'),
         'period_id': fields.many2one('account.period', 'Period', states={'done':[('readonly',True)]}),
     }
     _defaults = {
@@ -149,7 +152,7 @@ class payment_order(osv.osv):
         'period_id': _get_period,
     }
 
-    def unlink(self, cr, uid, ids, context={}):
+    def unlink(self, cr, uid, ids, context=None):
         pay_orders = self.read(cr, uid, ids, ['state'], context=context)
         unlink_ids = []
         for t in pay_orders:
@@ -160,7 +163,7 @@ class payment_order(osv.osv):
         result = super(payment_order, self).unlink(cr, uid, unlink_ids, context=context)
         return result
 
-    def set_done(self, cr, uid, id, context):
+    def set_done(self, cr, uid, id, context=None):
         result = super(payment_order, self).set_done(cr, uid, id, context)
 
         company_currency_id = self.pool.get('res.users').browse(cr, uid, uid, context).company_id.currency_id.id

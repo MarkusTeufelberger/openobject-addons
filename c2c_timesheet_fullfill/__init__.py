@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Camtocamp SA
-# @author Joël Grand-Guillaume porté par Nicolas Bessi 
-# $Id: $
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
+#
+# Author : Joel Grand-guillaume (Camptocamp), Ported by Nicolas Bessi (Camptocamp)
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
