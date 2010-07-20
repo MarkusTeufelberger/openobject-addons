@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 #########################################################################
 #                                                                       #
-#########################################################################
-#                                                                       #
 # Copyright (C) 2009  Raphaël Valyi                                     #
 #                                                                       #
 #This program is free software: you can redistribute it and/or modify   #
@@ -363,3 +361,4 @@ class base_sale_payment_type(osv.osv):
     }
 
 base_sale_payment_type()
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
