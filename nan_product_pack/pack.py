@@ -53,27 +53,37 @@ class product_product(osv.osv):
         result={}
         for product in self.browse(cr,uid,ids,context=context):
             stock = super( product_product, self).get_product_available( cr, uid, [product.id],context=context)
+
+            # Check if product stock depends on it's subproducts stock.
             if not product.stock_depends:
                 result[product.id]=stock[product.id]
                 continue
 
-            nstock=(0,False,0)
-            if product.pack_line_ids:
-                cs = super( product_product,self).get_product_available(cr,uid, [line.product_id.id for line in product.pack_line_ids],context=context )
-            for line in product.pack_line_ids:
-                s,q,l = nstock
-                if not q:
-                    q = line.quantity*cs[line.product_id.id]
-                    l = line.quantity
-                    s = cs[line.product_id.id]
-                    nstock = ( s, q, line.quantity)
-                available = line.quantity*cs[line.product_id.id]
-                if available/line.quantity < q/l:
-                    nstock = ( cs[line.product_id.id],available, line.quantity)
+            first_subproduct = True
+            pack_stock = 0
 
+            # Check if the pack has subproducts
             if product.pack_line_ids:
-                s,a,q = nstock
-                result[product.id] = math.floor(s/q)
+                # Take the stock/virtual stock of all subproducts
+                subproducts_stock = super( product_product,self).get_product_available(cr,uid, [line.product_id.id for line in product.pack_line_ids],context=context )
+                # Go over all subproducts, take quantity needed for the pack and its available stock
+                for line in product.pack_line_ids:
+                    if first_subproduct:
+                        subproduct_quantity = line.quantity
+                        subproduct_stock = subproducts_stock[line.product_id.id]
+                        # Calculate real stock for current pack from the subproduct stock and needed quantity
+                        pack_stock = math.floor( subproduct_stock / subproduct_quantity )
+                        first_subproduct = False
+                        continue
+                    # Take the info of the next subproduct
+                    subproduct_quantity_next = line.quantity
+                    subproduct_stock_next = subproducts_stock[line.product_id.id]
+                    pack_stock_next = math.floor( subproduct_stock_next / subproduct_quantity_next )
+                    # compare the stock of a subproduct and the next subproduct
+                    if pack_stock_next < pack_stock:
+                        pack_stock = pack_stock_next
+                # result is the minimum stock of all subproducts
+                result[product.id] = pack_stock
             else:
                 result[product.id]=stock[product.id]
         return result
