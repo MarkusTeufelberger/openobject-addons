@@ -135,9 +135,9 @@ class account_move_line(osv.osv):
         if not len(args):
             return []
         operator = args[0][1]
-            value = args[0][2]
-            if not value:
-                return []
+        value = args[0][2]
+        if not value:
+            return []
         if isinstance(value, int) or isinstance(value, long):
             ids = [value]
         elif isinstance(value, list):
