@@ -259,7 +259,7 @@ class sale_shop(external_osv.external_osv):
                 left join stock_picking as pickings on sale_order.id = pickings.sale_id
                 left join ir_model_data on stock_picking.id = ir_model_data.res_id and ir_model_data.model='stock.picking'
                 where shop_id = %s and ir_model_data.res_id ISNULL and stock_picking.state = 'done'
-                Group By stock_picking.id, stock_picking.carrier_tracking_ref, stock_picking.carrier_id, sale_order.id
+                Group By stock_picking.id, sale_order.id
                 """, (shop.id,))
             results = cr.fetchall()
             for result in results:
