@@ -8,30 +8,25 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.10\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-06-02 08:55+0000\n"
-"PO-Revision-Date: 2010-06-09 20:53+0000\n"
-"Last-Translator: Albert Cervera i Areny - http://www.NaN-tic.com <albert@nan-"
-"tic.com>\n"
+"PO-Revision-Date: 2010-07-23 19:25+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-06-21 03:47+0000\n"
+"X-Launchpad-Export-Date: 2010-07-24 04:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: ca\n"
 
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_to_pay
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_to_pay
 msgid "Invoice payments to pay"
-msgstr "Efectos a pagar"
+msgstr "Efectos pendientes de pago"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_pay_payments
 msgid "Payable payment orders"
 msgstr "Órdenes de pago"
 
-#. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable_unreconciled
 msgid "Done payable payments unreconciled"
 msgstr "Pagos realizados no conciliados"
 
@@ -115,8 +110,6 @@ msgstr "Rellenar extracto con líneas de pago"
 msgid "Communication 2"
 msgstr "Comunicación 2"
 
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_receivable
 msgid "Receivable invoice payments"
 msgstr "Efectos a cobrar"
 
@@ -248,8 +241,6 @@ msgstr "¡No puede borrar ordenes de pago ya confirmadas o realizadas!"
 msgid "Create Account Moves"
 msgstr "Crear asientos contables"
 
-#. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
 msgid "Done payments"
 msgstr "Pagos/cobros realizados"
 
@@ -258,8 +249,6 @@ msgstr "Pagos/cobros realizados"
 msgid "Account"
 msgstr "Cuenta"
 
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable_unreconciled
 msgid "Receivable payments unreconciled"
 msgstr "Cobros no conciliados"
 
@@ -273,8 +262,6 @@ msgstr "Nombre"
 msgid "Due Date"
 msgstr "Fecha vencimiento"
 
-#. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_payable
 msgid "All done payable payments"
 msgstr "Todos los pagos realizados"
 
@@ -309,8 +296,6 @@ msgstr "_Añadir a la orden de pago"
 msgid "Invalid action!"
 msgstr "Acción no válida!"
 
-#. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable_unreconciled
 msgid "Done receivable payments unreconciled"
 msgstr "Cobros realizados no conciliados"
 
@@ -326,6 +311,7 @@ msgstr "Importar líneas de pago"
 
 #. module: account_payment_extension
 #: view:account.move.line:0
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
 msgid "Payments"
 msgstr "Efectos"
 
@@ -350,8 +336,6 @@ msgstr "Órdenes de pago"
 msgid "Account Payment Extension"
 msgstr "Extensión de pagos contables (Tesorería)"
 
-#. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_finance_invoice_payments
 msgid "Invoice payments"
 msgstr "Efectos"
 
@@ -362,8 +346,6 @@ msgstr ""
 "El siguiente paso seleccionará automáticamente pagos hasta llegar a este "
 "importe."
 
-#. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable
 msgid "All done receivable payments"
 msgstr "Todos los cobros realizados"
 
@@ -386,8 +368,6 @@ msgstr "Detalles del banco"
 msgid "Error!"
 msgstr "Error!"
 
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_payable
 msgid "Payable invoice payments"
 msgstr "Efectos de pago"
 
@@ -401,8 +381,6 @@ msgstr "Cobros"
 msgid "Description of the payment type that will be shown in the invoices"
 msgstr "Descripción del tipo de pago que se mostrará en las facturas."
 
-#. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_payable_unreconciled
 msgid "Payable payments unreconciled"
 msgstr "Pagos no conciliados"
 
@@ -524,6 +502,18 @@ msgstr ""
 "orden de pago. \"Por extracto bancario\" esperará a que el usuario "
 "introduzca los pagos en el extracto bancario. \"Por pago directo\" marcará "
 "todas las líneas como pagadas cuando se realice la orden."
+
+#~ msgid "Payments to pay"
+#~ msgstr "Efectos pendientes de pago"
+
+#~ msgid "Payments to receive"
+#~ msgstr "Pagos a cobrar"
+
+#~ msgid "All paid and to pay payments"
+#~ msgstr "Todos los efectos de pago"
+
+#~ msgid "All received and to receive payments"
+#~ msgstr "Todos los efectos de cobro"
 
 #~ msgid ""
 #~ "Ensure all lines in the payment order have a bank account when proposing "
