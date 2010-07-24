@@ -45,9 +45,9 @@ ${object.street2 or ''}\n
 ${object.zip or ''} ${object.city or ''}\n
 ${object.state_id.name or ''}\n
 ${object.country_id.name or ''}\n
-&lt;nextFrame/&gt;\n
 &lt;/td&gt;&lt;/tr&gt;\n
-&lt;/blockTable&gt;&quot;&quot;&quot;" name="def_body_text"/>
+&lt;/blockTable&gt;\n
+&lt;nextFrame/&gt;&quot;&quot;&quot;" name="def_body_text"/>
 			<field eval="&quot;&quot;&quot;&lt;blockTableStyle id='mytable'&gt;\n
   &lt;blockAlignment value='CENTER' /&gt;\n
   &lt;blockValign value='MIDDLE' /&gt;\n
