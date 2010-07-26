@@ -3,7 +3,7 @@
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
+#    Revision: --- nhomar.hernandez@netquatro.com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,11 +20,12 @@
 #
 ##############################################################################
 
-from osv import fields
+
 from osv import osv
+from osv import fields
+from tools.translate import _
 import time
 import netsvc
-
 import ir
 from mx import DateTime
 import pooler
@@ -43,17 +44,37 @@ class purchase_order_line(osv.osv):
 
     _columns = {
         'discount': fields.float('Discount (%)', digits=(16,2), help="If you chose apply a discount for this way you will overide the option of calculate based on Price Lists, you will need to change again the product to update based on pricelists, this value must be between 0-100"),
+        'price_unit': fields.float('Real Unit Price', required=True, digits=(16, 4)),
+        'price_base': fields.float('Base Unit Price', required=True, digits=(16, 4)),
     }
     _defaults = {
         'discount': lambda *a: 0.0,
     }
     
-    def discount_change(self, cr, uid, ids, product, discount):
+    def discount_change(self, cr, uid, ids, product, discount, price_unit, product_qty, partner_id, price_base):
         if not product:
             return {'value': {'price_unit': 0.0,}}
         prod= self.pool.get('product.product').browse(cr, uid,product)
         lang=False
-        res = {'value': {'price_unit': prod.standard_price*(1-discount/100),}}
+        res=[]
+        if prod.seller_ids:
+            for s in range(len(prod.seller_ids)):
+                if prod.seller_ids[s].name.id == partner_id:
+                    break
+            if prod.seller_ids[s].pricelist_ids:
+                for pl in range(len(prod.seller_ids[s].pricelist_ids)):
+                    print prod.seller_ids[s].pricelist_ids[pl].min_quantity
+                    ####Compare Quantity.
+                    if product_qty >= prod.seller_ids[s].pricelist_ids[pl].min_quantity:
+                        res = {'value': {'price_unit': prod.seller_ids[s].pricelist_ids[pl].price*(1-discount/100),'price_base': prod.seller_ids[s].pricelist_ids[pl].price}}
+                        return res
+        if res==[]:
+            res = {'value': {'price_unit': price_base*(1-discount/100),'price_base': price_base}}
+            return res
+                        
+                    
+    def rpu_change(self, cr, uid, ids, rpu, discount):
+        res = {'value': {'price_base': rpu*(1+discount/100)}}
         return res
 purchase_order_line()
 
@@ -81,6 +102,76 @@ class stock_picking(osv.osv):
         return discount
 
 stock_picking()
+
+class pricelist_partnerinfo(osv.osv):
+    _inherit='pricelist.partnerinfo'
+    _order = 'min_quantity desc'
+pricelist_partnerinfo()
+
+class purchase_order_line(osv.osv):
+    
+    _inherit='purchase.order.line'
+    
+    def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom,
+            partner_id, date_order=False, fiscal_position=False):
+        if not pricelist:
+            raise osv.except_osv(_('No Pricelist !'), _('You have to select a pricelist in the purchase form !\nPlease set one before choosing a product.'))
+        if not  partner_id:
+            raise osv.except_osv(_('No Partner!'), _('You have to select a partner in the purchase form !\nPlease set one partner before choosing a product.'))
+        if not product:
+            return {'value': {'price_unit': 0.0, 'name':'','notes':'', 'product_uom' : False}, 'domain':{'product_uom':[]}}
+        prod= self.pool.get('product.product').browse(cr, uid,product)
+        lang=False
+        if partner_id:
+            lang=self.pool.get('res.partner').read(cr, uid, partner_id)['lang']
+        context={'lang':lang}
+        context['partner_id'] = partner_id
+
+        prod = self.pool.get('product.product').browse(cr, uid, product, context=context)
+        prod_uom_po = prod.uom_po_id.id
+        if not uom:
+            uom = prod_uom_po
+        if not date_order:
+            date_order = time.strftime('%Y-%m-%d')
+        
+        qty = qty or 1.0
+        seller_delay = 0
+        for s in prod.seller_ids:
+            if s.name.id == partner_id:
+                seller_delay = s.delay
+                temp_qty = s.qty # supplier _qty assigned to temp
+                if qty < temp_qty: # If the supplier quantity is greater than entered from user, set minimal.
+                    qty = temp_qty
+
+        price = self.pool.get('product.pricelist').price_get(cr,uid,[pricelist],
+                product, qty or 1.0, partner_id, {
+                    'uom': uom,
+                    'date': date_order,
+                    })[pricelist]
+        dt = (DateTime.now() + DateTime.RelativeDateTime(days=int(seller_delay) or 0.0)).strftime('%Y-%m-%d %H:%M:%S')
+        prod_name = prod.partner_ref
+
+
+        res = {'value': {'price_unit': price, 'price_base': price, 'name':prod_name, 'taxes_id':map(lambda x: x.id, prod.supplier_taxes_id),
+            'date_planned': dt,'notes':prod.description_purchase,
+            'product_qty': qty,
+            'product_uom': uom}}
+        domain = {}
+
+        partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
+        taxes = self.pool.get('account.tax').browse(cr, uid,map(lambda x: x.id, prod.supplier_taxes_id))
+        fpos = fiscal_position and self.pool.get('account.fiscal.position').browse(cr, uid, fiscal_position) or False
+        res['value']['taxes_id'] = self.pool.get('account.fiscal.position').map_tax(cr, uid, fpos, taxes)
+
+        res2 = self.pool.get('product.uom').read(cr, uid, [uom], ['category_id'])
+        res3 = prod.uom_id.category_id.id
+        domain = {'product_uom':[('category_id','=',res2[0]['category_id'][0])]}
+        if res2[0]['category_id'][0] != res3:
+            raise osv.except_osv(_('Wrong Product UOM !'), _('You have to select a product UOM in the same category than the purchase UOM of the product'))
+
+        res['domain'] = domain
+        return res
+purchase_order_line()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
