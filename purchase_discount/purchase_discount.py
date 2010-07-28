@@ -44,76 +44,31 @@ class purchase_order_line(osv.osv):
 
     _columns = {
         'discount': fields.float('Discount (%)', digits=(16,2), help="If you chose apply a discount for this way you will overide the option of calculate based on Price Lists, you will need to change again the product to update based on pricelists, this value must be between 0-100"),
-        'price_unit': fields.float('Real Unit Price', required=True, digits=(16, 4)),
-        'price_base': fields.float('Base Unit Price', required=True, digits=(16, 4)),
+        'price_unit': fields.float('Real Unit Price', required=True, digits=(16, 4), help="Price that will be used in the rest of accounting cycle"),
+        'price_base': fields.float('Base Unit Price', required=True, digits=(16, 4), help="Price base taken to calc the discount, is an informative price to use it in the rest of the purchase cycle like reference for users"),
     }
     _defaults = {
         'discount': lambda *a: 0.0,
     }
-    
+
     def discount_change(self, cr, uid, ids, product, discount, price_unit, product_qty, partner_id, price_base):
         if not product:
             return {'value': {'price_unit': 0.0,}}
         prod= self.pool.get('product.product').browse(cr, uid,product)
         lang=False
         res=[]
-        if prod.seller_ids:
-            for s in range(len(prod.seller_ids)):
-                if prod.seller_ids[s].name.id == partner_id:
-                    break
-            if prod.seller_ids[s].pricelist_ids:
-                for pl in range(len(prod.seller_ids[s].pricelist_ids)):
-                    print prod.seller_ids[s].pricelist_ids[pl].min_quantity
-                    ####Compare Quantity.
-                    if product_qty >= prod.seller_ids[s].pricelist_ids[pl].min_quantity:
-                        res = {'value': {'price_unit': prod.seller_ids[s].pricelist_ids[pl].price*(1-discount/100),'price_base': prod.seller_ids[s].pricelist_ids[pl].price}}
-                        return res
+        #TODO Improve pending to offer discounts based in price lists selected on order.
         if res==[]:
             res = {'value': {'price_unit': price_base*(1-discount/100),'price_base': price_base}}
             return res
-                        
-                    
+
     def rpu_change(self, cr, uid, ids, rpu, discount):
         res = {'value': {'price_base': rpu*(1+discount/100)}}
         return res
-purchase_order_line()
 
-class purchase_order(osv.osv):
-    _name = "purchase.order"
-    _inherit = "purchase.order"
-
-    def _get_order(self, cr, uid, ids, context={}):
-        """Copied from purchase/purchase.py"""
-        result = {}
-        for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
-            result[line.order_id.id] = True
-        return result.keys()
-
-purchase_order()
-
-class stock_picking(osv.osv):
-    _inherit = 'stock.picking'
-
-    def _get_discount_invoice(self, cursor, user, move_line):
-        '''Return the discount for the move line'''
-        discount = 0.00
-        if move_line and move_line.purchase_line_id:
-            discount = move_line.purchase_line_id.discount
-        return discount
-
-stock_picking()
-
-class pricelist_partnerinfo(osv.osv):
-    _inherit='pricelist.partnerinfo'
-    _order = 'min_quantity desc'
-pricelist_partnerinfo()
-
-class purchase_order_line(osv.osv):
-    
-    _inherit='purchase.order.line'
-    
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom,
             partner_id, date_order=False, fiscal_position=False):
+        """Copied from purchase/purchase.py and modified to take discount"""
         if not pricelist:
             raise osv.except_osv(_('No Pricelist !'), _('You have to select a pricelist in the purchase form !\nPlease set one before choosing a product.'))
         if not  partner_id:
@@ -133,7 +88,7 @@ class purchase_order_line(osv.osv):
             uom = prod_uom_po
         if not date_order:
             date_order = time.strftime('%Y-%m-%d')
-        
+
         qty = qty or 1.0
         seller_delay = 0
         for s in prod.seller_ids:
@@ -171,7 +126,56 @@ class purchase_order_line(osv.osv):
 
         res['domain'] = domain
         return res
+
 purchase_order_line()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class purchase_order(osv.osv):
+    _name = "purchase.order"
+    _inherit = "purchase.order"
 
+    def _get_order(self, cr, uid, ids, context={}):
+        """Copied from purchase/purchase.py"""
+        result = {}
+        for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
+            result[line.order_id.id] = True
+        return result.keys()
+
+    def inv_line_create(self, cr, uid, a, ol):
+        res = super(purchase_order,self).inv_line_create(cr, uid, a, ol)
+        res[2].update({'discount': ol.discount, 'price_unit': ol.price_base or 0.0,})
+        return res
+
+purchase_order()
+
+class stock_picking(osv.osv):
+    _inherit = 'stock.picking'
+
+    def _get_discount_invoice(self, cursor, user, move_line):
+        '''Return the discount for the move line'''
+        discount = 0.00
+        if move_line and move_line.purchase_line_id:
+            discount = move_line.purchase_line_id.discount
+        return discount
+
+stock_picking()
+
+class account_invoice_line(osv.osv):
+    _inherit='account.invoice.line'
+
+    def _get_price_wd(self, cr, uid, ids, prop, unknow_none,unknow_dict):
+        res = {}
+        cur_obj=self.pool.get('res.currency')
+        for line in self.browse(cr, uid, ids):
+            if line.invoice_id:
+                res[line.id] = line.price_unit * (1-(line.discount or 0.0)/100.0)
+                cur = line.invoice_id.currency_id
+                res[line.id] = cur_obj.round(cr, uid, cur, res[line.id])
+            else:
+                res[line.id] = line.price_unit * (1-(line.discount or 0.0)/100.0)
+        return res
+
+    _columns={
+    'price_wd': fields.function(_get_price_wd, method=True, string='Price With Discount',store=True, type="float", digits=(16, 4)),
+    }
+account_invoice_line()
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
