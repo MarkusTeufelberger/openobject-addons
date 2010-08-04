@@ -655,12 +655,19 @@ class esale_oscom_web(osv.osv):
             partner_ids = partner_obj.search(cr, uid, [('esale_oscom_id','=',oscom_partner['esale_oscom_id'])])
             if len(partner_ids):
                 partner_id = partner_ids[0]
-                #print "partner: ", partner_ids
+                #print "partner por ID: ", partner_ids
                 partner_obj.write(cr, uid, partner_ids, {'name':oscom_partner['name']})
             else:
-                del oscom_partner['addresses']
-                partner_id = partner_obj.create(cr, uid, oscom_partner)
-                partner_obj.write(cr, uid, partner_ids, {'ref':oscom_partner['esale_oscom_id']})
+                partner_ids = partner_obj.search(cr, uid, [('vat','=',oscom_partner['vat'])])
+                if len(partner_ids):
+                    partner_id = partner_ids[0]
+                    #print "partner por CIF: ", partner_ids
+                    #print " CIF: ", oscom_partner['vat']
+                    partner_obj.write(cr, uid, partner_ids, {'name':oscom_partner['name'], 'esale_oscom_id': oscom_partner['esale_oscom_id']})
+                else:
+                    del oscom_partner['addresses']
+                    partner_id = partner_obj.create(cr, uid, oscom_partner)
+                    partner_obj.write(cr, uid, partner_ids, {'ref':oscom_partner['esale_oscom_id']})
 
             self.customer_extra_info(cr, uid, website, partner_id, oscom_partner['esale_oscom_id']) # Creates additonal information in OpenERP objects related to customer
 
@@ -739,7 +746,7 @@ class esale_oscom_web(osv.osv):
                 order_id = saleorder_obj.create(cr, uid, value)
                 order_id_obj = saleorder_obj.browse(cr, uid, order_id)
                 concat_cod = self.sale_order_code(order_id_obj)
-                saleorder_obj.write(cr, uid, order_id, {'name':concat_cod})
+                saleorder_obj.write(cr, uid, [order_id], {'name':concat_cod})
  
                 for orderline in saleorder['lines']:
                     ids = esale_product_obj.search(cr, uid, [('esale_oscom_id', '=', orderline['product_id']), ('web_id', '=', website.id)])
