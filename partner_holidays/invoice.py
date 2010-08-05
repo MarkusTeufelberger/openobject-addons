@@ -29,7 +29,7 @@ from tools.translate import _
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
-    def onchange_payment_term_date_invoice(self, cr, uid, ids, payment_term_id, date_invoice, partner_id, context=None):
+    def onchange_payment_term_date_invoice(self, cr, uid, ids, payment_term_id, date_invoice, partner_id=None, context=None):
         if context is None:
             context = {}
 
