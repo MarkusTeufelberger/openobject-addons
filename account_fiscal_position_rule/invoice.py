@@ -26,10 +26,10 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
-            date_invoice=False, payment_term=False,company_id=False, partner_bank_id=False ):
+            date_invoice=False, payment_term=False,company_id=False, partner_bank=False):
 
-        result = super(account_invoice, self).onchange_partner_id(cr,uid,ids,type,partner_id,date_invoice,payment_term,partner_bank_id)
-
+        result = super(account_invoice, self).onchange_partner_id(cr,uid,ids,type,partner_id,date_invoice,payment_term,partner_bank)
+        obj_address = self.pool.get('res.partner.address')
         if not partner_id or not company_id:
             return result
 
@@ -39,7 +39,7 @@ class account_invoice(osv.osv):
         obj_company = self.pool.get('res.company').browse(cr, uid, [company_id])[0]
 
         company_addr = self.pool.get('res.partner').address_get(cr, uid, [obj_company.partner_id.id], ['default'])
-        company_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [company_addr['default']])[0]
+        company_addr_default = obj_address.browse(cr, uid, [company_addr['default']])[0]
 
         from_country = company_addr_default.country_id.id
         from_state = company_addr_default.state_id.id
@@ -47,7 +47,7 @@ class account_invoice(osv.osv):
         if result['value']['address_invoice_id']:
             ptn_invoice_id = result['value']['address_invoice_id']
 
-        partner_addr_default = self.pool.get('res.partner.address').browse(cr, uid, [ptn_invoice_id])[0]
+        partner_addr_default = obj_address.browse(cr, uid, [ptn_invoice_id])[0]
 
         to_country = partner_addr_default.country_id.id
         to_state = partner_addr_default.state_id.id
