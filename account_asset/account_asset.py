@@ -24,6 +24,7 @@ from osv import osv, fields
 import time
 import math
 import mx.DateTime
+import tools
 from tools.translate import _
 from tools import config
 #from mx.DateTime import RelativeDateTime, now, DateTime, localtime
@@ -151,8 +152,8 @@ class account_asset_asset(osv.osv):
             'name': name,
 #            'asset_total': asset.amount_total,
 #            'asset_residual': asset.amount_residual,
-            'note': _("Asset transfered to: ") + str(localisation)+ 
-                    "\n" + str(note or ""),
+            'note': _("Asset transfered to: ") + tools.ustr(localisation)+
+                    "\n" + tools.ustr(note or ""),
         }, context)
         self.pool.get('account.asset.asset').write(cr, uid, [asset_id], {
             'localisation': localisation,
@@ -756,7 +757,7 @@ class account_asset_history(osv.osv):
                     _('\n   Salvage Value: ') + str(method.method_salvage or 0.0)+ \
                     _('\n   Life Quantity: ') + str(method.life or 0.0)+ \
                     _('\n   Intervals Before: ') + str(method.intervals_before or 0.0)+ \
-                    "\n" + str(note or "")
+                    "\n" + tools.ustr(note or "")
 
         self.pool.get('account.asset.history').create(cr, uid, {
              'type': type,
@@ -771,7 +772,7 @@ class account_asset_history(osv.osv):
 #             'method_residual': method.value_residual,
 #             'asset_total': method.asset_id.amount_total,
 #             'asset_residual': method.asset_id.amount_residual,
-             'note': str(note or ""),
+             'note': tools.ustr(note or ""),
         })
 
 
