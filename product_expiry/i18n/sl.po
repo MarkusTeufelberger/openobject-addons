@@ -14,11 +14,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-29 03:39+0000\n"
+"X-Launchpad-Export-Date: 2010-08-10 03:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#. module: product_expiry
-#: field:stock.production.lot,alert_date:0
 msgid "Alert date"
 msgstr ""
 
@@ -65,8 +63,6 @@ msgstr "Napaka: Privzeta EM in nabavna EM morata biti v isti kategoriji."
 msgid "French cheese Camenbert"
 msgstr ""
 
-#. module: product_expiry
-#: model:ir.module.module,description:product_expiry.module_meta_information
 msgid ""
 "Track different dates on products and lots. Used, for exampel, in food "
 "industries: expiry date, alert date, date of removal, eso."
@@ -87,8 +83,6 @@ msgstr ""
 msgid "Error: Invalid ean code"
 msgstr "Napaka: neveljavna EAN črtna koda"
 
-#. module: product_expiry
-#: field:stock.production.lot,dluo:0
 msgid "DLUO"
 msgstr ""
 
@@ -107,8 +101,6 @@ msgstr ""
 msgid "Ham"
 msgstr "Šunka"
 
-#. module: product_expiry
-#: field:stock.production.lot,removal_date:0
 msgid "Removal date"
 msgstr ""
 

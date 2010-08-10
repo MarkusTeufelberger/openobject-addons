@@ -14,11 +14,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-06-21 03:47+0000\n"
+"X-Launchpad-Export-Date: 2010-08-10 03:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#. module: product_expiry
-#: field:stock.production.lot,alert_date:0
 msgid "Alert date"
 msgstr "Fecha alarma"
 
@@ -67,8 +65,6 @@ msgstr ""
 msgid "French cheese Camenbert"
 msgstr "Queso Camembert francés"
 
-#. module: product_expiry
-#: model:ir.module.module,description:product_expiry.module_meta_information
 msgid ""
 "Track different dates on products and lots. Used, for exampel, in food "
 "industries: expiry date, alert date, date of removal, eso."
@@ -92,8 +88,6 @@ msgstr "Tiempo de uso producto"
 msgid "Error: Invalid ean code"
 msgstr "Error: Código EAN erróneo"
 
-#. module: product_expiry
-#: field:stock.production.lot,dluo:0
 msgid "DLUO"
 msgstr "Fecha caducidad"
 
@@ -105,15 +99,13 @@ msgstr "¡XML no válido para la definición de la vista!"
 #. module: product_expiry
 #: field:product.product,life_time:0
 msgid "Product lifetime"
-msgstr "Ciclo de vida producto"
+msgstr "Ciclo de vida del producto"
 
 #. module: product_expiry
 #: model:product.template,name:product_expiry.product_product_from_product_template
 msgid "Ham"
 msgstr "Jamón"
 
-#. module: product_expiry
-#: field:stock.production.lot,removal_date:0
 msgid "Removal date"
 msgstr "Fecha eliminación"
 
