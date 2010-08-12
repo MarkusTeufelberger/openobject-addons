@@ -30,7 +30,7 @@
     framework to run python backup scripts. There are several
     example scripts provided that can be run outside OpenERP
     so they can be easily tested.
-    Backup scrips are called Tasks and they don't do device
+    Backup scripts are called Tasks and they don't do device
     mounting and unmounting but that's provided by the scripts
     in the object Target.
     The result of a backup operation is called a Job. There are
