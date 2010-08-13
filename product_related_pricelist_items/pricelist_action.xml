@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+		<record id="act_product_pricelist_wizard" model="ir.actions.server">
+			<field name="code">
+line_obj = self.pool.get('product.pricelist.wizard.line')
+plver_obj = self.pool.get('product.pricelist.version')
+prod_obj = self.pool.get('product.product')
+categ_ids = set()
+prod_ids = set()
+#this is only a convenience field - will be put in line.categ_id
+own_categ_ids = set()
+#find all the related categ_ids and prod_ids
+for prod in prod_obj.browse(cr, uid, context['active_ids']):
+    categ_ids.add(prod.categ_id.id)
+    own_categ_ids.add(prod.categ_id.id)
+    cat = prod.categ_id
+    while cat.parent_id:
+        categ_ids.add(cat.parent_id.id)
+        cat = cat.parent_id
+    prod_ids = prod_ids.union(set(prod_obj.search(cr, uid, \
+        [('categ_id','=',prod.categ_id.id)])))
+categ_ids = list(categ_ids)
+prod_ids = list(prod_ids)
+own_categ_ids = list(own_categ_ids)
+if len(own_categ_ids) == 1:
+	own_categ_ids = own_categ_ids[0]
+else:
+	own_categ_ids = False
+tmpl_ids = set()
+for prod in prod_obj.browse(cr, uid, prod_ids):
+    tmpl_ids.add(prod.product_tmpl_id.id)
+tmpl_ids = list(tmpl_ids)
+#line.create() will use this context to create the line.items
+context.update({
+    'categ_ids': categ_ids,
+    'prod_ids': prod_ids,
+    'tmpl_ids': tmpl_ids,
+})
+plver_ids = plver_obj.search(cr, uid, [])
+line_ids = []
+#create the main objects, the wizard.lines
+for plver in plver_obj.browse(cr, uid, plver_ids, context):
+    line_ids.append(line_obj.create(cr, uid, {
+        'price_version_id': plver.id,
+        'categ_id': own_categ_ids,
+    }, context))
+
+#this act_window will open the window of the lines
+action = {
+	'view_type': 'form',
+    'view_mode': 'tree,form',
+    'res_id': line_ids,
+    'res_model': 'product.pricelist.wizard.line',
+    'type': 'ir.actions.act_window',
+}</field>
+			<field name="state">code</field>
+			<field name="type">ir.actions.server</field>
+			<field name="model_id" ref="product.model_product_product"/>
+			<field name="name">Price List Items</field>
+		</record>
+	</data>
+</openerp>

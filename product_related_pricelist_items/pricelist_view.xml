@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	    <record id="view_product_pricelist_wizard_item_tree" model="ir.ui.view">
+	        <field name="name">product.pricelist.wizard.item.tree</field>
+	        <field name="model">product.pricelist.wizard.item</field>
+	        <field name="type">tree</field>
+	        <field name="arch" type="xml">
+	        	<tree string="Products Listprices Items" editable="bottom">
+	            	<field name="sequence"/>
+	                <field name="product_id" on_change="product_id_change(product_id)" select="1"/>
+	                <field name="product_tmpl_id" on_change="product_tmpl_id_change(product_tmpl_id)" select="1"/>
+	                <field name="categ_id" on_change="categ_id_change(categ_id, context)" select="1"/>
+	                <field name="price_discount"/>
+	                <field name="min_quantity"/>
+	                <field name="base"/>
+	            </tree>
+	        </field>
+	    </record>
+        <record id="product_pricelist_wizard_item_form_view" model="ir.ui.view">
+            <field name="name">product.pricelist.wizard.item.form</field>
+            <field name="model">product.pricelist.wizard.item</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Products Listprices Items">
+                    <separator colspan="4" string="Rules Test Match"/>
+                    <field colspan="4" name="name" select="1"/>
+                    <field name="product_id" on_change="product_id_change(product_id)" select="1"/>
+                    <field name="product_tmpl_id" on_change="product_tmpl_id_change(product_tmpl_id)" select="1"/>
+                    <field name="categ_id" on_change="categ_id_change(categ_id, context)" select="1"/>
+                    <newline/>
+                    <field name="min_quantity"/>
+                    <field name="sequence"/>
+                    <separator colspan="4" string="Price Computation"/>
+
+                    <field name="base"/>
+                    <field name="base_pricelist_id" attrs="{'required': [('base','=', -1)], 'readonly': [('base','!=', -1)]}"/>
+                    <group col="6" colspan="5">
+                        <label string="New Price ="/>
+                        <label string="Base Price"/>
+                        <label string="* ( 1 + "/>
+                        <field name="price_discount" nolabel="1"/>
+                        <label string=" ) + "/>
+                        <field name="price_surcharge" nolabel="1"/>
+                        <newline/>
+                        <field name="price_round" string="Rounding Method"/>
+                        <field name="price_min_margin" string="Min. Margin"/>
+                        <field name="price_max_margin" string="Max. Margin"/>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+		<record id="view_product_pricelist_wizard_line_tree" model="ir.ui.view">
+	        <field name="name">product.pricelist.wizard.line.tree</field>
+	        <field name="model">product.pricelist.wizard.line</field>
+	        <field name="type">tree</field>
+	        <field name="arch" type="xml">
+	            <tree string="Related Price List Items">
+	                <field name="price_version_id"/>
+                </tree>
+	        </field>
+	    </record>
+		<record id="view_product_pricelist_wizard_line_form" model="ir.ui.view">
+	        <field name="name">product.pricelist.wizard.line.form</field>
+	        <field name="model">product.pricelist.wizard.line</field>
+	        <field name="type">form</field>
+	        <field name="arch" type="xml">
+	            <form string="Related Price List Items">
+	                <field name="price_version_id"/>
+	                <field name="categ_id"/>
+	                <field name="item_ids" colspan="4" nolabel="1"/>
+	            </form>
+	        </field>
+	    </record>
+	    <record id="ir_product_pricelist_wizard" model="ir.values">
+	    	<field eval="'client_action_multi'" name="key2"/>
+	        <field eval="'product.product'" name="model"/>
+	        <field name="name">Price List Items</field>
+	        <field eval="'ir.actions.server,'+str(act_product_pricelist_wizard)" name="value"/>
+	        <field eval="True" name="object"/>
+	    </record>
+    </data>
+</openerp>
