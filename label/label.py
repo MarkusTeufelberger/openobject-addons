@@ -232,7 +232,7 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
             if os.path.isfile(file_out):
                 os.remove(file_out)
             # Delete ir.actions.report.xml report
-            self.pool.get('ir.actions.report.xml').unlink(cr, uid, template.report_template.id, context)
+            self.pool.get('ir.actions.report.xml').unlink(cr, uid, [template.report_template.id], context)
 
     def create(self, cr, uid, vals, context=None):
         id = super(label_templates, self).create(cr, uid, vals, context)
