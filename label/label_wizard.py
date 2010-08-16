@@ -245,11 +245,19 @@ class report_custom(report_rml):
         for i in range((vals.first_row-1) * vals.cols + vals.first_col-1):
             info_xml += '<object></object>\n'
 
-        # Adding partner labels (ids of selected records are in context['active_ids'] in OpenERP 5.0)
-        partners = pool.get('res.partner').browse(cr, uid, context['active_ids'])
-        for partner in partners:
-            value = get_value(cr, uid, partner.id, tag_template, template, context)
-            info_xml += '<object>\n%s</object>\n\n' % value
+        #Adding labels with object data
+        #A list may be passed in context with different quantities
+        #for each record. If not, it will use the
+        #(ids of selected records are in context['active_ids'] in OpenERP 5.0)
+        try:
+            obj_list = context['obj_list']
+        except KeyError:
+            obj_list = [{'id': i, 'qty': 1} for i in context['active_ids']]
+        for obj in obj_list:
+            value = get_value(cr, uid, obj['id'], tag_template, template,
+                context)
+            for i in range(0, obj['qty']):
+                info_xml += '<object>\n%s</object>\n\n' % value
 
         # Computing the xml
         xml='''<?xml version="1.0" encoding="UTF-8" ?>
