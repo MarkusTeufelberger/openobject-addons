@@ -77,21 +77,22 @@ class ReportXML(osv.osv):
             res[report.id] = data
         return res
 
-    def unlink(self, cursor, uid, ids, context=None):
+    def unlink(self, cursor, user, ids, context=None):
         """Delete report and unregister it"""
-        record = self.read(cursor, user, ids)
+        records = self.read(cursor, user, ids)
         trans_obj = self.pool.get('ir.translation')
         trans_ids = trans_obj.search(
             cursor, 
-            uid, 
-            [('type', '=', 'report'), ('res_id', 'in' ,ids)]
+            user,
+            [('type', '=', 'report'), ('res_id', 'in', ids)]
         )
-        trans_obj.unlink(cr, uid, trans_ids)
-        delete_report_service(record['report_name'])
-        record = None
+        trans_obj.unlink(cursor, user, trans_ids)
+        for record in records:
+            delete_report_service(record['report_name'])
+        records = None
         res = super(ReportXML, self).unlink(
                                             cursor, 
-                                            uid, 
+                                            user, 
                                             ids, 
                                             context
                                         )
