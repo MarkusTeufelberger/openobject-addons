@@ -277,7 +277,6 @@ class label_wizard(osv.osv_memory):
         'printer_bottom': fields.char('Bottom', size=20, required=True, help='Numeric size ended with the unit (cm or in). For example, 0.3cm or 0.2in'),
         'printer_left': fields.char('Left', size=20, required=True, help='Numeric size ended with the unit (cm or in). For example, 0.3cm or 0.2in'),
         'printer_right': fields.char('Right', size=20, required=True, help='Numeric size ended with the unit (cm or in). For example, 0.3cm or 0.2in'),
-        'font_type': fields.char('Font Type', size=20, required=True, help='Numeric size ended with the unit (cm or in). For example, 0.3cm or 0.2in'),
         'font_type': fields.selection(
             [('Times-Roman','Times-Roman'),('Times-Bold','Times-Bold'),('Times-Italic','Times-Italic'),('Times-BoldItalic','Times-BoldItalic'),('Helvetica','Helvetica'),('Helvetica-Bold','Helvetica-Bold'),('Helvetica-Oblique','Helvetica-Oblique'),('Helvetica-BoldOblique','Helvetica-BoldOblique'),('Courier','Courier'),('Courier-Bold','Courier-Bold'),('Courier-Oblique','Courier-Oblique'),('Courier-BoldOblique','Courier-BoldOblique')
             ], 'Font Type', required=True),
