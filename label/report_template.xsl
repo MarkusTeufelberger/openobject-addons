@@ -59,6 +59,10 @@
             <xsl:variable name="height"><xsl:value-of select="$frame_height"/></xsl:variable>
             <xsl:variable name="x1"><xsl:value-of select="$initial_left_pos + ((position()-1) mod $number_columns) * $width_increment"/></xsl:variable>
             <xsl:variable name="y1"><xsl:value-of select="$initial_bottom_pos - floor((position()-1) div $number_columns) * $height_increment"/></xsl:variable>
+            <xsl:variable name="leftPadding"><xsl:value-of select="0"/></xsl:variable>
+            <xsl:variable name="bottomPadding"><xsl:value-of select="0"/></xsl:variable>
+            <xsl:variable name="rightPadding"><xsl:value-of select="0"/></xsl:variable>
+            <xsl:variable name="topPadding"><xsl:value-of select="0"/></xsl:variable>
             <frame>
             <xsl:choose>
                 <!--Left labels over the left printer margin-->
