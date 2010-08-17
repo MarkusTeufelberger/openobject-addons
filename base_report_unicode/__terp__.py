@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 Gábor Dukai
+#    Copyright (C) 2009-2010 Gábor Dukai
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 ##############################################################################
 {
     "name" : "Unicode Reports with TrueType fonts",
-    "version" : "1.1",
+    "version" : "1.2",
     "author" : "Gábor Dukai",
     "website" : "http://exploringopenerp.blogspot.com",
     "description": """
     This module replaces the standard PDF Type1 fonts with TrueType fonts that have
     unicode characters.
-    The module contains the DejaVu fonts v2.29 from http://dejavu-fonts.org/
+    The module contains the DejaVu fonts v2.31 from http://dejavu-fonts.org/
     With this module you can continue to use the old font names in the templates,
     they will be replaced with the DejaVu font names every time before creating a pdf.
 
@@ -40,6 +40,3 @@
     "active": False,
     "installable": True
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

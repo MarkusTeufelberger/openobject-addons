@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2009 Gábor Dukai
+#    Copyright (C) 2009-2010 Gábor Dukai
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -83,3 +83,54 @@ def wrap_trml2pdf(method):
 report.render.rml2pdf.parseString = wrap_trml2pdf(report.render.rml2pdf.parseString)
 
 report.render.rml2pdf.parseNode = wrap_trml2pdf(report.render.rml2pdf.parseNode)
+
+style_map = {
+    'DejaVuSerif': {
+        (0, 1): '-Italic',
+        (1, 0): '-Bold',
+        (1, 1): '-BoldItalic',
+    },
+    'DejaVuSans': {
+        (0, 1): '-Oblique',
+        (1, 0): '-Bold',
+        (1, 1): '-BoldOblique',
+    },
+    'DejaVuSansMono': {
+        (0, 1): '-Oblique',
+        (1, 0): '-Bold',
+        (1, 1): '-BoldOblique',
+    },
+    'DejaVuSerifCondensed': {
+        (0, 1): '-Italic',
+        (1, 0): '-Bold',
+        (1, 1): '-BoldItalic',
+    },
+    'DejaVuSansCondensed': {
+        (0, 1): '-Oblique',
+        (1, 0): '-Bold',
+        (1, 1): '-BoldOblique',
+    },
+}
+
+def docinit(self, els):
+    """This adds support for <b>, <i> tags for TrueType fonts.
+    The original method just ignored them.
+    """
+    from reportlab.lib.fonts import addMapping
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+
+    for node in els:
+        for font in node.findall('registerFont'):
+            name = font.get('fontName').encode('ascii')
+            fname = font.get('fontFile').encode('ascii')
+            pdfmetrics.registerFont(TTFont(name, fname ))
+            addMapping(name, 0, 0, name)    #normal
+            for style in ((0, 1), (1, 0), (1, 1)):
+                try:
+                    addMapping(name, *style,
+                        psname=name + style_map[name][style])
+                except KeyError:
+                    addMapping(name, *style, psname=name)
+
+report.render.rml2pdf.trml2pdf._rml_doc.docinit = docinit
