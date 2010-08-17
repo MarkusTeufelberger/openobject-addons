@@ -228,13 +228,13 @@ class report_custom(report_rml):
         try:
             f = open(file_out, 'w')
             try:
-                f.write(generic_template.encode('utf-8') % (
+                f.write((generic_template % (
                     template.report_stylesheets or '',
                     template.sort_field1,
                     template.sort_field2,
                     template.sort_field3,
-                    report_template.encode('utf-8')
-                ))
+                    report_template
+                )).encode('utf-8'))
             finally:
                 f.close()
         except:
