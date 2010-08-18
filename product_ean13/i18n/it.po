@@ -1,0 +1,81 @@
+# Italian translation for openobject-addons
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-03-06 21:20+0000\n"
+"PO-Revision-Date: 2010-08-17 14:09+0000\n"
+"Last-Translator: Nicola Riolini - Micronaet <Unknown>\n"
+"Language-Team: Italian <it@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-08-18 07:08+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: product_ean13
+#: wizard_view:product_ean13.create_ean13,init:0
+#: wizard_button:product_ean13.create_ean13,init,create:0
+msgid "Create ean13"
+msgstr "Crea EAN 13"
+
+#. module: product_ean13
+#: model:ir.module.module,shortdesc:product_ean13.module_meta_information
+msgid "Products Sequence"
+msgstr "Sequenza prodotti"
+
+#. module: product_ean13
+#: wizard_view:product_ean13.create_ean13,init:0
+msgid ""
+"Do you want to create ean13 barcode for the selected product? Remember you "
+"must set country code and your company correct code on ean13 sequence"
+msgstr ""
+"Vuoi creare un codice a barre EAN 13 per il prodotto selezionato? Ricordati "
+"che devi impostare il codice del paese e il tuo corretto codice Compagnia "
+"sulla sequenza EAN 13"
+
+#. module: product_ean13
+#: model:ir.actions.wizard,name:product_ean13.id_create_ean13
+msgid "Create ean13 barcode"
+msgstr "Crea codice a barre EAN 13"
+
+#. module: product_ean13
+#: model:ir.module.module,description:product_ean13.module_meta_information
+msgid ""
+"\n"
+"This module:\n"
+"  * Adds a wizard on product form to generate valid EAN13 product codes.\n"
+"  * By default EAN13 will be generated with spanish country code (84) and "
+"11111 company code. \n"
+"Each company should change this values on administration/sequences to "
+"addecuate to his country and company code.\n"
+"\n"
+"Este módulo:\n"
+"  * Añade un asistente al producto para crear un código EAN13 con formato "
+"válido.\n"
+"  * Por defecto, el código EAN13 será generado con la secuencia de país 84 y "
+"el código de empresa 1111.\n"
+"Cada compañía deberá adecuar estos valores por defecto a los de su país y "
+"empresa en Administración/Personalización/Secuencias.\n"
+"La secuencia de productos por defecto se inicia en 1 (y relleno de 5 dígitos "
+"tal como recomienda AECOC) \n"
+"    "
+msgstr ""
+"\n"
+"Questo modulo:\n"
+"  * Aggiunge una procedura guidata alla maschera del prodotto per generare "
+"un valido codice prodotto EAN 13.\n"
+"  * Per default il codice EAN 13 viene generato con il codice della nazione "
+"Spagna (84) e il codice Compagnia 11111. \n"
+"Ogni Compagnia deve cambiare questo valore in Amministrazione / Sequenze per "
+"adeguare alla sua nazione e al codice della Compagnia. \n"
+"    "
+
+#. module: product_ean13
+#: wizard_button:product_ean13.create_ean13,init,end:0
+msgid "Cancel"
+msgstr "Annulla"
