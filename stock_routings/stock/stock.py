@@ -77,20 +77,23 @@ class stock_picking(osv.osv):
     
     
     _columns={
-                'bl_no' : fields.char('BL No.', size=64,),
+                'bl_no' : fields.char('BL No / HAWB / CMR', size=64,),
                 'vessel_name' : fields.char('Vessel Name', size=128,),
                 'voyage_number' : fields.char('Voyage Number', size=64,),
-                'shipping_company' : fields.char('Shipping Company', size=128,),
-                'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Transportation Type'),
-                'forwarder' : fields.char('Forwarder', size=256),
-                'departure_date' : fields.char('Departure Date', size=64),
-                'arrival_date' : fields.char('Arrival Date', size=64),
+                'shipping_company' : fields.char('Shipping Line', size=128,),
+                'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Transportation Type', required=True),
+#                'forwarder' : fields.many2one('res.partner','Forwarder agent'),
+                'forwarder' : fields.char('Forwarder agent', size=128),
+                'departure_date' : fields.date('Estimated Time of Departure'),
+                'arrival_date' : fields.date('Estimated Time of Arrival'),
                 'port_of_departure' : fields.many2one('stock.location','Depart From'),
                 'port_of_arrival' : fields.many2one('stock.location','Destination'),
                 'myfab_description' : fields.text('Description',),
                 'container_id' : fields.char('Container ID', size=128,),
                 'container_seal' : fields.char('Nr Container Seal', size=128,),
                 'loading_code' : fields.char('Loading Code', size=128,),
+                'tracking_number' : fields.char('Tracking Number', size=128),
+                'forwarder_ref' : fields.char('Forwarder reference', size=128),
                 'stock_history_lines' : fields.one2many('stock.history','history_id','History',readonly=True),
                 'state': fields.selection([
                     ('draft', 'Draft'),
@@ -136,6 +139,7 @@ class stock_move(osv.osv):
     
     _columns={
               'picking_date' : fields.date('Picking Date'),
+              'container_id' : fields.char('Container ID', size=128,),
               'state': fields.selection([('draft','Draft'),('waiting','Waiting'),('confirmed','Confirmed'),('assigned','Available'),('done','Received'),('cancel','Canceled')], 'Status', readonly=True, select=True),
               'product_qty': fields.float('Quantity', required=True,states={'confirmed': [('readonly', True)],'assigned': [('readonly', True)],'flottant': [('readonly', True)],'underway': [('readonly', True)],'unproduction': [('readonly', True)],'cancel': [('readonly', True)]}),
               'date_planned': fields.date('Date', required=True, help="Scheduled date for the movement of the products or real date if the move is done."),
@@ -328,8 +332,8 @@ class stock_move(osv.osv):
                     all_move_ids=[]
                     for mv in moves:
                         all_move_ids.append(mv.id)
-                    if all_move_ids:
-                        self.pool.get('stock.move').write(cr, uid, all_move_ids, {'state': 'assigned'})
+#                    if all_move_ids:
+#                        self.pool.get('stock.move').write(cr, uid, all_move_ids, {'state': 'assigned'})
            
         create_chained_picking(self, cr, uid, n_moves, context)
         return []

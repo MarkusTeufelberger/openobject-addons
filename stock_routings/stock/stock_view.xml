@@ -53,20 +53,22 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Transport Details">
+                    	<field name="kind_transport" select="1" />
+                    	<newline/>
+                    	<field name="voyage_number" select="1" />
                         <field name="bl_no" />
-                        <field name="vessel_name" />
-                        <field name="voyage_number" select="1" />
-                        <field name="shipping_company" />
-                        <field name="kind_transport" select="1" />
-	                    <field name="forwarder" select="1" />
-                        <field name="departure_date" />
-                        <field name="arrival_date" />
                         <field name="port_of_departure" />
                         <field name="port_of_arrival" />
-                        <field name="container_id" select="1" />
-                        <newline/>
-                        <field name="container_seal" />
-                        <field name="loading_code" />
+                        <field name="departure_date" />
+                        <field name="arrival_date" />                        
+                        <field name="vessel_name" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>                    
+                        <field name="container_id" select="1" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>                        
+                        <field name="shipping_company" attrs="{'readonly':[('kind_transport','in',('By road'))]}"/>
+                        <field name="container_seal" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="loading_code" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="tracking_number"/>
+	                    <field name="forwarder" select="1" />
+	                    <field name="forwarder_ref"/>                
                         <newline/>
                         <field name="myfab_description" colspan="4"/>
                     </page>
@@ -117,6 +119,20 @@
                 </field>
             </field>
         </record>
+       
+    <!--     Add Container Id in Internal move -->
+      
+        <record id="stock_view_picking_form_add_containerid" model="ir.ui.view">
+            <field name="name">Internal Move From view Add ContainerId in movelines</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+                <field groups="product.group_uos" name="product_uos_qty" position="after">
+                    <field name="container_id"/>
+                </field>
+            </field>
+        </record>
         
         
         <!-- Add Picking date in Moves of Incoming Product Picking form -->
@@ -138,14 +154,15 @@
 	                        <field name="state"/>
 	                    </tree>
 	                    <form string="Stock Moves">
-	                        <separator colspan="4" string="Move Information"/>
+	                        <separator colspan="4" string="Move Information"/>	                    
 	                        <field name="location_id" select="1" domain="[('usage','&lt;&gt;','view')]"/>
 	                        <field domain="[('usage','=','internal')]" name="location_dest_id" select="1"/>
 	                        <field colspan="4" context="location=location_id" name="product_id" on_change="onchange_product_id(product_id, location_id, location_dest_id)" select="1"/>
-	                        <field name="product_qty" select="1"/>
+	                        <field name="product_qty" select="1"/>	                                   
 	                        <field name="product_uom" select="1"/>
 	                        <field groups="product.group_uos" name="product_uos"/>
 	                        <field groups="product.group_uos" name="product_uos_qty"/>
+	                        <field name="container_id"/>
 	                        <field colspan="4" invisible="1" name="name" select="1"/>
 	                        <field groups="base.group_extended" name="date_planned"/>
 	                        <field name="picking_date"/>
@@ -154,7 +171,7 @@
 	                        <field groups="base.group_extended" name="product_packaging"/>
 	                        <newline/>                                    
 	                        <field name="prodlot_id" select="1"
-	                            context="{'location_id':location_id, 'product_id':product_id}"
+	                            context="{'location_id':location_id, 'product_id':product_id, 'move_id':active_id}"
 	                            domain="[('product_id','=',product_id)]"
 	                            on_change="onchange_lot_id(prodlot_id,product_qty, location_id)"/>
 	                        <field groups="base.group_extended" name="tracking_id" select="1"/>
@@ -195,20 +212,22 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Transport Details">
-                        <field name="bl_no" />
-                        <field name="vessel_name" />
-                        <field name="voyage_number" select="1"/>
-                        <field name="shipping_company" />
                         <field name="kind_transport" select="1" />
-	                    <field name="forwarder" select="1" />
-                        <field name="departure_date" />
-                        <field name="arrival_date" />
+                    	<newline/>
+                    	<field name="voyage_number" select="1" />
+                        <field name="bl_no" />
                         <field name="port_of_departure" />
                         <field name="port_of_arrival" />
-                        <field name="container_id" select="1"/>
-                        <newline/>
-                        <field name="container_seal" />
-                        <field name="loading_code" />
+                        <field name="departure_date" />
+                        <field name="arrival_date" />                        
+                        <field name="vessel_name" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="container_id" select="1" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>                        
+                        <field name="shipping_company" attrs="{'readonly':[('kind_transport','in',('By road'))]}"/>
+                        <field name="container_seal" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="loading_code" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="tracking_number"/>
+	                    <field name="forwarder" select="1" />
+	                    <field name="forwarder_ref"/>
                         <newline/>
                         <field name="myfab_description" colspan="4"/>
                     </page>
