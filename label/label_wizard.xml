@@ -10,6 +10,7 @@
 				<form string="Label Wizard">
                     <group col="4" colspan="4">
                         <field name="label_format" colspan="4"/>
+						<field name="lang"/>
                         <separator string="Printer Margins" colspan="4"/>
                         <field name="printer_top"/>
                         <field name="printer_bottom"/>

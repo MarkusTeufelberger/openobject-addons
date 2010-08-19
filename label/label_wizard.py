@@ -32,6 +32,12 @@ class label_wizard(osv.osv_memory):
     _description = 'This is the wizard for create PDF Labels'
     _rec_name = "subject"
 
+    def _lang_get(self, cr, uid, context=None):
+        obj = self.pool.get('res.lang')
+        ids = obj.search(cr, uid, [], context=context)
+        res = obj.read(cr, uid, ids, ['code', 'name'], context)
+        return [(r['code'], r['name']) for r in res] + [('','')]
+
     _columns = {
         'state':fields.selection([
                         ('create_report','Create a report.'),
@@ -54,6 +60,7 @@ class label_wizard(osv.osv_memory):
             ], 'Font Size', required=True),
         'first_row': fields.integer('First Row',help='The Row of the first label in the first page'),
         'first_col': fields.integer('First Column',help='The Column of the first label in the first page'),
+        'lang': fields.selection(_lang_get, 'Language', size=5),
     }
 
     _defaults = {
@@ -107,12 +114,15 @@ class label_wizard(osv.osv_memory):
 
             #datas dictionary should work with client >= 5.0.12 (see https://answers.launchpad.net/openobject-server/+question/116262)
             #but web client seems not receiving datas information
+            if vals.lang:
+                context['lang'] = vals.lang
             datas = {}
             datas['context'] = context.copy()
             res =  {
                 'type': 'ir.actions.report.xml',
                 'report_name': template.report_template.report_name,
                 'datas': datas,
+                'context': context,
             }
             return res
 
