@@ -50,13 +50,14 @@
     "init_xml" : [
         "report_label_data.xml",
     ],
-    "demo_xml" : [],
+    "demo_xml" : [
+        "label_data.xml",
+    ],
     "update_xml" : [
         "security/ir.model.access.csv",
         "label_view.xml",
         "label_wizard.xml",
         "report_label_view.xml",
-        "label_data.xml",
     ],
     "active": False,
     "installable": True
