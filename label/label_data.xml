@@ -27,6 +27,7 @@ ${o.country_id.name or ''}\n
   &lt;blockValign value='MIDDLE' /&gt;\n
   &lt;lineStyle kind='GRID' colorName='black' tickness='1' /&gt;\n
 &lt;/blockTableStyle&gt;&quot;&quot;&quot;" name="report_stylesheets"/>
+			<field name="type">xsl</field>
 		</record>
 
 		<record id="label_templates_address0" model="label.templates">
@@ -53,6 +54,7 @@ ${object.country_id.name or ''}\n
   &lt;blockValign value='MIDDLE' /&gt;\n
   &lt;lineStyle kind='GRID' colorName='black' tickness='1' /&gt;\n
 &lt;/blockTableStyle&gt;&quot;&quot;&quot;" name="report_stylesheets"/>
+			<field name="type">xsl</field>
 		</record>
 	</data>
 </openerp>

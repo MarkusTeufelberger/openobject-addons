@@ -23,7 +23,7 @@
 
 {
     "name" : "PDF Labels for partner, address, product, picking, ...",
-    "version" : "1.0",
+    "version" : "1.1",
     "author" : "Zikzakmedia SL",
     "website" : "www.zikzakmedia.com",
     "license" : "GPL-3",

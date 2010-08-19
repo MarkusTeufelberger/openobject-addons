@@ -12,6 +12,7 @@
 						on_change="change_model(object_name)"
 						attrs="{'readonly':[('ref_ir_value','!=',False)]}" />
 					<field name="model_int_name" invisible="1" />
+					<field name="type"/>
                     <notebook colspan="4">
 						<page string="Label Details">
 							<separator colspan="3" string="Label Body" />

@@ -47,6 +47,7 @@ except:
                          )
 import report
 import pooler
+import label_report_engine
 
 class label_templates(osv.osv):
     "Templates for Labels"
@@ -186,6 +187,10 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
                 help="Copy and paste this code to your template "
                 "body for displaying the info in your label.",
                 store=False),
+        'type': fields.selection([
+            ('xsl', 'XSL:RML'),
+            ('rml', 'RML'),
+        ], 'Type', required=True, select=True),
     }
 
     _defaults = {
@@ -195,18 +200,9 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
         ('name', 'unique (name)', _('The template name must be unique !'))
     ]
 
-    def create_template_report(self, cr, uid, name, src_obj, allowed_groups, context=None):
-        """Creates template report (ir.actions.report.xml and template file)"""
-        report_name = s = re.sub(r'[^-a-z0-9]+', '-', name.lower())
-        full_report_name = src_obj.replace('.','_')+'_'+report_name
-        oerp_full_report_name = full_report_name.replace('_','.')
-
-        report_ids = self.pool.get('ir.actions.report.xml').search(cr, uid, [('report_name','=',oerp_full_report_name)], context=context)
-        if report_ids:
-            raise osv.except_osv(_('Error!'), _('There is another OpenERP report with the same name:\n%s\n\nChange the template name.') % oerp_full_report_name)
-
-        # Create ir.actions.report.xml report
-        report_vals = {
+    def _report_vals_xsl(self, report_name, src_obj, oerp_full_report_name,
+        full_report_name, allowed_groups):
+        return {
             'name': report_name,
             'model': src_obj,
             'type': 'ir.actions.report.xml',
@@ -219,6 +215,37 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
             'report_type': 'pdf',
             'groups_id': allowed_groups,
         }
+
+    def _report_vals_rml(self, report_name, src_obj, oerp_full_report_name,
+        full_report_name, allowed_groups):
+        return {
+            'name': report_name,
+            'model': src_obj,
+            'type': 'ir.actions.report.xml',
+            'report_name': oerp_full_report_name,
+            'report_xsl': '',
+            'report_xml': '',
+            'report_rml': 'label/report/label_template.rml',
+            'auto': False,
+            'header': False,
+            'report_type': 'pdf',
+            'groups_id': allowed_groups,
+        }
+
+    def create_template_report(self, cr, uid, name, src_obj, allowed_groups,
+        rep_type, context=None):
+        """Creates template report (ir.actions.report.xml and template file)"""
+        report_name = s = re.sub(r'[^-a-z0-9]+', '-', name.lower())
+        full_report_name = src_obj.replace('.','_')+'_'+report_name
+        oerp_full_report_name = full_report_name.replace('_','.')
+
+        report_ids = self.pool.get('ir.actions.report.xml').search(cr, uid, [('report_name','=',oerp_full_report_name)], context=context)
+        if report_ids:
+            raise osv.except_osv(_('Error!'), _('There is another OpenERP report with the same name:\n%s\n\nChange the template name.') % oerp_full_report_name)
+
+        # Create ir.actions.report.xml report
+        report_vals = getattr(self, '_report_vals_' + rep_type)(report_name,
+            src_obj, oerp_full_report_name, full_report_name, allowed_groups)
         #print report_vals
         return self.pool.get('ir.actions.report.xml').create(cr, uid, report_vals, context)
 
@@ -239,7 +266,8 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
         src_obj = self.pool.get('ir.model').read(cr, uid, vals['object_name'], ['model'], context)['model']
 
         # Create report (action + template file)
-        report_template = self.create_template_report(cr, uid, vals['name'], src_obj, vals['allowed_groups'], context)
+        report_template = self.create_template_report(cr, uid, vals['name'],
+            src_obj, vals['allowed_groups'], vals['type'], context)
 
         # Create action window and wizard button
         ref_ir_act_window = self.pool.get('ir.actions.act_window').create(cr, uid, {
@@ -279,7 +307,9 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
             object_name = vals.get('object_name', template.object_name)
             allowed_groups = vals.get('allowed_groups', [(6, 0, [r.id for r in template.allowed_groups])])
             src_obj = self.pool.get('ir.model').read(cr, uid, object_name.id, ['model'], context)['model']
-            vals['report_template'] = self.create_template_report(cr, uid, name, src_obj, allowed_groups, context)
+            vals['report_template'] = self.create_template_report(cr, uid,
+                name, src_obj, allowed_groups, vals.get('type', template.type),
+                context)
 
             result = result and super(label_templates, self).write(cr, uid, [template.id], vals, context)
         return result
@@ -455,5 +485,20 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
                 result += "}\n"
             result += "%endfor\n"
         return {'value':{'table_copyvalue':result}}
+
+    def _instantiate_report_xsl(self, template):
+        label_report_engine.report_label_xsl(
+            'report.' + template.report_template.report_name,
+            template.report_template.model,
+            '',
+            'addons/' + template.report_template.report_xsl)
+
+    def _instantiate_report_rml(self, template):
+        label_report_engine.report_label_rml(
+            'report.' + template.report_template.report_name,
+            template.report_template.model)
+
+    def instantiate_report(self, template):
+        getattr(self, '_instantiate_report_' + template.type)(template)
 
 label_templates()
