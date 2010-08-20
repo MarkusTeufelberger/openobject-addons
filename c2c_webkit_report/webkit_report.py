@@ -45,6 +45,7 @@ import netsvc
 import pooler
 from tools.config import config
 import commands
+import os
 logger = netsvc.Logger()
 
 
@@ -61,34 +62,43 @@ class WebKitParser(report_sxw):
             header, store)
 
         
-    def get_lib(self) :
+    def get_lib(self, cursor, uid, company) :
         """Return the lib wkhtml path"""
         #TODO Detect lib in system first
-        curr_sys = platform.system()
-        sysmapping = {
-                    'Linux': 'wkhtmltopdf-linux-i386-0-9-9',
-                    'Darwin': 'wkhtmltopdf-0.9.9-OS-X.i368',
-                    'Windows' : os.path.join('wkhtmltopdf', 'wkhtmltopdf.exe')
-                        
-                     }
-        if not curr_sys in sysmapping.keys() :
-            raise osv.except_osv(
-                                    _('Your system is not yet supported'), 
-                                    _('You can try to install wkhtmltopdf')
-                                )
-        path = os.path.join(
-                                config['addons_path'], 
-                                'c2c_webkit_report', 
-                                'lib', 
-                                sysmapping[curr_sys]
-                            )
-        if not os.path.exists(path) :
-            raise osv.except_osv(
-            _('Can not find wkhtmltopdf binary' ), 
-            _('You can try to install it into the webkil_report lib folder')
-            )
-        return path
+        path = self.pool.get('res.company').read(cursor, uid, company, ['lib_path',])
         
+        if path['lib_path']:
+            path = path['lib_path'].replace(u' ','')
+        else :
+            raise osv.except_osv(
+                                _('Webkit executable not set in company'+
+                                'Please complete company setting'),
+                                _('Path is none')
+                                )
+        if os.path.isabs(path) :
+            if (os.path.exists(path) and os.access(path, os.X_OK) and os.path.basename(path).startswith('wkhtmltopdf')):
+                return path
+            else:
+                raise osv.except_osv(
+                                    _('Wrong path set in company'+
+                                    'Given path is not executable or path is wrong'),
+                                    'for path %s'%(path)
+                                    )
+        else:
+            for syspath in os.environ["PATH"].split(os.pathsep):
+                cmd = os.path.join(syspath, path)
+                if (os.path.exists(cmd) and os.access(cmd, os.X_OK)):
+                    return path
+
+        raise osv.except_osv(
+                            _('Please install wkhtmltopdf 0.9.9'+
+                            '(sudo apt-get install wkhtmltopdf) '+
+                            'or download it from here: '+
+                            'http://code.google.com/p/wkhtmltopdf/downloads/list.'+
+                            ' You can set executable path into the company'),
+                            _('The embeeded lib are not anymore present for security reasons')
+                            )
+        return False
         
     def genreate_pdf(self, comm_path, report_xml, header, footer, html_list):
         """Call webkit in order to generate pdf"""
@@ -98,11 +108,14 @@ class WebKitParser(report_sxw):
         files = []
         file_to_del = []
         try:
-            command = [comm_path]
+            if comm_path:
+                command = [comm_path]
+            else:
+                command = ['wkhtmltopdf']
+                    
             command.append('-q')
             if header :
-                head_file = file(
-                                    os.path.join(
+                head_file = file( os.path.join(
                                       tmp_dir,
                                       str(time.time()) + '.head.html'
                                      ), 
@@ -113,8 +126,7 @@ class WebKitParser(report_sxw):
                 file_to_del.append(head_file.name)
                 command.append("--header-html '%s'"%(head_file.name))
             if footer :
-                foot_file = file(
-                                    os.path.join(
+                foot_file = file(  os.path.join(
                                       tmp_dir,
                                       str(time.time()) + '.foot.html'
                                      ), 
@@ -124,6 +136,7 @@ class WebKitParser(report_sxw):
                 foot_file.close()
                 file_to_del.append(foot_file.name)
                 command.append("--footer-html '%s'"%(foot_file.name))
+                
             if report_xml.webkit_header.margin_top :
                 command.append('--margin-top %s'%(report_xml.webkit_header.margin_top))
             if report_xml.webkit_header.magrin_bottom :
@@ -135,7 +148,7 @@ class WebKitParser(report_sxw):
             if report_xml.webkit_header.orientation :
                 command.append("--orientation '%s'"%(report_xml.webkit_header.orientation))
             if report_xml.webkit_header.format :
-                command.append(" --page-size '%s'"%(report_xml.webkit_header.format))    
+                command.append(" --page-size '%s'"%(report_xml.webkit_header.format))
             for html in html_list :
                 html_file = file(os.path.join(tmp_dir, str(time.time()) + '.body.html'), 'w')
                 html_file.write(html)
@@ -168,9 +181,6 @@ class WebKitParser(report_sxw):
             pass
         os.unlink(out)
         return pdf
-             
-        
-        
 
     # override needed to keep the attachments' storing procedure
     def create_single_pdf(self, cursor, uid, ids, data, report_xml, 
@@ -274,7 +284,7 @@ class WebKitParser(report_sxw):
                                         setLang=self.parser_instance.setLang
                                         )
             return (deb, 'html')
-        bin = self.get_lib()
+        bin = self.get_lib(cursor, uid, company.id)
         pdf = self.genreate_pdf(bin, report_xml, head, foot, [html])
         return (pdf, 'pdf')
 

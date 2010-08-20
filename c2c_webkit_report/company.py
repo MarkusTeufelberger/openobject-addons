@@ -52,7 +52,12 @@ class ResCompany(osv.osv):
                                                     'html_id', 
                                                     'Available html'
                                                 ),
+                'lib_path' : fields.char('Lib Path', size=264, help="Complete path for wkhtmltopdf library."),
+                                                
     }   
     
-
+    _defaults = {
+        'lib_path': lambda *a: 'wkhtmltopdf-0.9.9'
+    }
+    
 ResCompany()
