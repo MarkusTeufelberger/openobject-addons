@@ -95,13 +95,13 @@ class label_wizard(osv.osv_memory):
             self.write(cr, uid, ids, {'state':'notify_top'}, context)
             validate = True
         if vals.printer_left > vals.initial_left_pos + vals.label_width:
-            self.write(cr, uid, ids, {'state':'notify_top'}, context)
+            self.write(cr, uid, ids, {'state':'notify_left'}, context)
             validate = True
         if vals.printer_bottom > vals.page_height - mtop - (vals.rows-1) * vals.height_incr:
-            self.write(cr, uid, ids, {'state':'notify_top'}, context)
+            self.write(cr, uid, ids, {'state':'notify_bottom'}, context)
             validate = True
         if vals.printer_right >  vals.page_width - vals.initial_left_pos - (vals.cols-1) * vals.width_incr:
-            self.write(cr, uid, ids, {'state':'notify_top'}, context)
+            self.write(cr, uid, ids, {'state':'notify_right'}, context)
             validate = True
 
         if not validate:
