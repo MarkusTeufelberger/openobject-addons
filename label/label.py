@@ -190,6 +190,7 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
         'type': fields.selection([
             ('xsl', 'XSL:RML'),
             ('rml', 'RML'),
+            ('slcs', 'SLCS (Bixolon)'),
         ], 'Type', required=True, select=True),
     }
 
@@ -244,8 +245,12 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
             raise osv.except_osv(_('Error!'), _('There is another OpenERP report with the same name:\n%s\n\nChange the template name.') % oerp_full_report_name)
 
         # Create ir.actions.report.xml report
-        report_vals = getattr(self, '_report_vals_' + rep_type)(report_name,
-            src_obj, oerp_full_report_name, full_report_name, allowed_groups)
+        try:
+            report_vals = getattr(self, '_report_vals_' + rep_type)(report_name,
+                src_obj, oerp_full_report_name, full_report_name, allowed_groups)
+        except AttributeError:
+            raise osv.except_osv(_('Warning'),
+                _('You have to install the label_%s module to use this template type.') % rep_type)
         #print report_vals
         return self.pool.get('ir.actions.report.xml').create(cr, uid, report_vals, context)
 
