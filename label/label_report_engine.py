@@ -288,6 +288,7 @@ class report_label_rml(report_sxw):
         vals = pool.get('label.wizard').browse(cr, uid, ids[0])
         vals.page_width = size2cm(vals.label_format.landscape and vals.label_format.pagesize_id.height or vals.label_format.pagesize_id.width)
         vals.page_height = size2cm(vals.label_format.landscape and vals.label_format.pagesize_id.width or vals.label_format.pagesize_id.height)
+        vals.rows = vals.label_format.rows
         vals.cols = vals.label_format.cols
         vals.label_width = size2cm(vals.label_format.label_width)
         vals.label_height = size2cm(vals.label_format.label_height)
@@ -308,6 +309,7 @@ class report_label_rml(report_sxw):
         except KeyError:
             obj_list = [{'id': i, 'qty': 1} for i in context['active_ids']]
         data_rml = ''
+        label_index = 0
         for j, obj in enumerate(obj_list):
             value = get_value(cr, uid, obj['id'], template.def_body_text, template,
                 context)
@@ -317,6 +319,10 @@ class report_label_rml(report_sxw):
                     data_rml += '<nextFrame/>'
                 elif i + 1 != obj['qty']:
                     data_rml += '<nextFrame/>'
+                label_index += 1
+                if label_index == vals.rows * vals.cols:
+                    data_rml += '<nextPage/>'
+                    label_index = 0
         rml = MakoTemplate(rml).render_unicode(format_exceptions=True,
             vals=vals, obj_list=obj_list)
         rml = rml % (
