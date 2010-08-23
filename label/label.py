@@ -192,6 +192,8 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
             ('rml', 'RML'),
             ('slcs', 'SLCS (Bixolon)'),
         ], 'Type', required=True, select=True),
+        'default_label_format_id': fields.many2one('report.label',
+            'Default Label Format'),
     }
 
     _defaults = {

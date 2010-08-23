@@ -38,6 +38,15 @@ class label_wizard(osv.osv_memory):
         res = obj.read(cr, uid, ids, ['code', 'name'], context)
         return [(r['code'], r['name']) for r in res] + [('','')]
 
+    def _default_label_format(self, cr, uid, context=None):
+        tmpl_obj = self.pool.get('label.templates')
+        if 'template_id' in context:
+            tmpl = tmpl_obj.browse(cr, uid, int(context['template_id']))
+            try:
+                return tmpl.default_label_format_id.id
+            except AttributeError:
+                return False
+
     _columns = {
         'state':fields.selection([
                         ('create_report','Create a report.'),
@@ -65,6 +74,7 @@ class label_wizard(osv.osv_memory):
 
     _defaults = {
         'state': lambda *a: 'create_report',
+        'label_format': _default_label_format,
     }
 
     def create_label(self, cr, uid, ids, context=None):

@@ -13,6 +13,7 @@
 						attrs="{'readonly':[('ref_ir_value','!=',False)]}" />
 					<field name="model_int_name" invisible="1" />
 					<field name="type"/>
+					<field name="default_label_format_id"/>
                     <notebook colspan="4">
 						<page string="Label Details">
 							<separator colspan="3" string="Label Body" />
