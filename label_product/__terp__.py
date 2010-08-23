@@ -33,7 +33,7 @@
     NOTE: Needs the --enable-code-actions parameter for the server.
     Compatibility: tested with OpenERP v5.0
     """,
-    "depends" : ["label",],
+    "depends" : ["label", "product"],
     "init_xml" : [
     ],
     "demo_xml" : [],
