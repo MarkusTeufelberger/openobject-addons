@@ -1,0 +1,242 @@
+<openerp>
+<data>
+    <menuitem name="Documentation" icon="terp-stock" id="menu_documentation"/>
+    <menuitem name="Configuration" id="menu_documentation_configuration" parent="menu_documentation"/>
+
+    <record model="ir.ui.view" id="documentation_paragraph_form">
+        <field name="name">ir.documentation.paragraph.form</field>
+        <field name="model">ir.documentation.paragraph</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Documentation Paragraph">
+		<notebook>
+			<page string="General">
+				<field name="identifier" select="1"/>
+				<field name="module_id" select="1"/>
+				<field name="filename" select="2"/>
+				<field name="sequence" select="2"/>
+				<field name="inherit_id" select="2"/>
+				<field name="position" select="2"/>
+				<field name="type" select="1"/>
+				<field name="parent_id" select="2"/>
+				<field name="source_module_id" select="2"/>
+				<field name="active" select="2"/>
+				<field name="text" select="1" colspan="4"/>
+				<group col="6" colspan="4">
+					<field name="image" widget="image"/>
+				</group>
+			</page>
+			<page string="Web">
+				<group col="1" colspan="2">
+					<separator string="rsT"/>
+					<field name="rst" nolabel="1"/>
+				</group>
+				<group col="1" colspan="2">
+					<separator string="HTML"/>
+					<field name="html" widget="web" nolabel="1"/>
+				</group>
+			</page>
+			<page string="Relations">
+				<separator string="Children Paragraphs" colspan="4"/>
+				<field name="child_ids" nolabel="1" colspan="4" readonly="True"/>
+				<field name="field_ids" nolabel="1" colspan="4" readonly="True">
+					<tree string="Documentation Field">
+						<field name="reference"/>
+						<field name="field_id"/>
+						<field name="help"/>
+						<field name="indent"/>
+					</tree>
+					<form string="Documentation Field">
+						<field name="reference"/>
+						<field name="field_id"/>
+						<field name="help"/>
+						<field name="indent"/>
+					</form>
+				</field>
+				<field name="view_ids" nolabel="1" colspan="4" readonly="True">
+					<tree string="Documentation View">
+						<field name="reference"/>
+						<field name="view_id"/>
+						<field name="field"/>
+						<field name="indent"/>
+					</tree>
+					<form string="Documentation View">
+						<field name="reference"/>
+						<field name="view_id"/>
+						<field name="field"/>
+						<field name="indent"/>
+					</form>
+				</field>
+				<field name="menu_ids" nolabel="1" colspan="4" readonly="True">
+					<tree string="Documentation Menu">
+						<field name="reference"/>
+						<field name="menu_id"/>
+						<field name="indent"/>
+					</tree>
+					<form string="Documentation Menu">
+						<field name="reference"/>
+						<field name="menu_id"/>
+						<field name="indent"/>
+					</form>
+				</field>
+			</page>
+		</notebook>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="documentation_paragraph_tree">
+        <field name="name">ir.documentation.paragraph.tree</field>
+        <field name="model">ir.documentation.paragraph</field>
+        <field name="type">tree</field>
+        <field name="field_parent">child_ids</field>
+        <field name="arch" type="xml">
+            <tree string="Documentation Paragraph">
+                <field name="identifier"/>
+		<field name="module_id"/>
+		<field name="type"/>
+		<field name="parent_id"/>
+		<field name="text"/>
+		<field name="inherit_id"/>
+		<field name="position"/>
+		<field name="sequence"/>
+		<field name="filename"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_documentation_paragraph_view">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.documentation.paragraph</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Documentation Paragraphs"
+        action="action_documentation_paragraph_view"
+        id="menu_documentation_paragraph"
+        parent="menu_documentation_configuration"
+	sequence="1"/>
+
+    <!-- index -->
+    <record model="ir.ui.view" id="documentation_index_tree">
+        <field name="name">ir.documentation.index.tree</field>
+        <field name="model">ir.documentation.paragraph</field>
+        <field name="type">tree</field>
+        <field name="field_parent">child_ids</field>
+        <field name="arch" type="xml">
+            <tree string="Documentation Paragraph">
+		<field name="text"/>
+		<field name="type"/>
+                <field name="identifier"/>
+		<field name="module_id"/>
+		<field name="parent_id"/>
+		<field name="inherit_id"/>
+		<field name="position"/>
+		<field name="sequence"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_documentation_index_view">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.documentation.paragraph</field>
+        <field name="view_type">tree</field>
+        <field name="view_mode">tree</field>
+	<field name="view_id" ref="documentation_index_tree"/>
+	<field name="domain">[('parent_id','=',False)]</field>
+    </record>
+    <menuitem
+        name="Documentation Index"
+        action="action_documentation_index_view"
+        id="menu_documentation_index"
+        parent="menu_documentation_configuration"
+	sequence="2"/>
+
+    <!-- Screenshots -->
+    <record model="ir.ui.view" id="documentation_screenshot_form">
+        <field name="name">ir.documentation.screenshot.form</field>
+        <field name="model">ir.documentation.screenshot</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Documentation Screenshot">
+		<field name="reference"/>
+		<field name="paragraph_id"/>
+		<field name="view_id"/>
+		<field name="user_id"/>
+		<field name="field"/>
+		<field name="image" widget="image" img_width="800" img_height="600" nolabel="1" colspan="4"/>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="documentation_screenshot_tree">
+        <field name="name">ir.documentation.screenshot.tree</field>
+        <field name="model">ir.documentation.screenshot</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Documentation Screenshot">
+		<field name="reference"/>
+		<field name="paragraph_id"/>
+		<field name="view_id"/>
+		<field name="user_id"/>
+		<field name="field"/>
+		<field name="image"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_documentation_screenshot_view">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.documentation.screenshot</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Documentation Screenshots"
+        action="action_documentation_screenshot_view"
+        id="menu_documentation_screenshot"
+        parent="menu_documentation_configuration"
+	sequence="3"
+	/>
+
+    <!-- Files -->
+    <record model="ir.ui.view" id="documentation_file_form">
+        <field name="name">ir.documentation.file.form</field>
+        <field name="model">ir.documentation.file</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Documentation Files">
+		<field name="filename"/>
+		<field name="data"/>
+		<field name="user_id"/>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="documentation_file_tree">
+        <field name="name">ir.documentation.file.tree</field>
+        <field name="model">ir.documentation.file</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Documentation Files">
+		<field name="filename"/>
+		<field name="data"/>
+		<field name="user_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_documentation_file_view">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.documentation.file</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Documentation Files"
+        action="action_documentation_file_view"
+        id="menu_documentation_file"
+        parent="menu_documentation_configuration"
+	sequence="4"
+	/>
+
+</data>
+</openerp>
+
