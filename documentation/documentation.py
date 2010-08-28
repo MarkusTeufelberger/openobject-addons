@@ -147,7 +147,7 @@ class ir_documentation_paragraph(osv.osv):
         try:
             text = publish_string(text, writer_name='html')
         except Exception, e:
-            text = _('ERROR RENDERING RST: %s') % str(e)
+            text = _('Error rendering rsT.')
         return text
 
     def _html(self, cr, uid, ids, name, arg, context=None):
