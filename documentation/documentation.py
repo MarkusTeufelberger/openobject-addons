@@ -468,12 +468,15 @@ class ir_documentation_paragraph(osv.osv):
             documentation[paragraph.filename] += after
 
             # Export images of paragraphs
-            if paragraph.image:
-                f = open( os.path.join( srcdir, 'paragraph_image_%d.png' % paragraph.id ), 'w' )
-                try:
+            f = open( os.path.join( srcdir, 'paragraph_image_%d.png' % paragraph.id ), 'w' )
+            try:
+                if paragraph.image:
                     f.write( base64.decodestring( paragraph.image ) )
-                finally:
-                    f.close()
+                else:
+                    image_missing = os.path.join( os.path.abspath(os.path.dirname(__file__)), 'image-missing.png' )
+                    f.write( open( image_missing ).read() )
+            finally:
+                f.close()
 
         for filename in documentation:
             documentation[filename] = '\n\n'.join( documentation[filename] )
