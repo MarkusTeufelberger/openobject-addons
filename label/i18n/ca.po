@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.0-alpha\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-07-16 11:42+0000\n"
-"PO-Revision-Date: 2010-07-29 09:47+0000\n"
+"PO-Revision-Date: 2010-08-30 17:25+0000\n"
 "Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-10 03:48+0000\n"
+"X-Launchpad-Export-Date: 2010-08-31 04:07+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: label
@@ -60,7 +60,7 @@ msgstr "El cos de l'etiqueta pot contenir:"
 #. module: label
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr "Nom de model no vàlid a la definició d'acció."
+msgstr "Nom de model no vàlid en la definició de l'acció."
 
 #. module: label
 #: field:label.templates,sort_field1:0
