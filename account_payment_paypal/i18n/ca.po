@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-addons\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-11-23 17:22+0000\n"
-"PO-Revision-Date: 2009-12-08 06:09+0000\n"
-"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
-"<jesteve@zikzakmedia.com>\n"
+"PO-Revision-Date: 2010-09-02 15:53+0000\n"
+"Last-Translator: Esther Xaus (Zikzakmedia) <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-10 03:47+0000\n"
+"X-Launchpad-Export-Date: 2010-09-03 03:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: account_payment_paypal
@@ -260,34 +259,34 @@ msgstr ""
 #. module: account_payment_paypal
 #: field:account.payment.paypal.import.config,activate_insert:0
 msgid "Active Insert"
-msgstr ""
+msgstr "Inserció activa"
 
 #. module: account_payment_paypal
 #: field:account.payment.paypal.import.config,status_completed:0
 msgid "Status completed"
-msgstr ""
+msgstr "Estado completado"
 
 #. module: account_payment_paypal
 #: wizard_view:account_payment_paypal.import_paypal,init:0
 msgid "Bank statements import Paypal"
-msgstr ""
+msgstr "Importació d'extractes bancaris Paypal"
 
 #. module: account_payment_paypal
 #: wizard_button:account_payment_paypal.import_paypal,init,end:0
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel·la"
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/wizard/paypal.py:0
 #, python-format
 msgid "Warning"
-msgstr ""
+msgstr "Avís"
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/wizard/paypal.py:0
 #, python-format
 msgid "You must define a Paypal configuration."
-msgstr ""
+msgstr "Heu de definir una configuració per a Paypal."
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
@@ -297,17 +296,22 @@ msgid ""
 "Summary:\n"
 " "
 msgstr ""
+"Importació incorrecta\n"
+"\n"
+"Resum:\n"
+" "
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
 msgid ""
 "The bank statement is alredy confirmed. It can not be imported from file."
 msgstr ""
+"L'extracte bancari ja està confirmat. No es pot importar des de fitxer."
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
 msgid "Bank type PAYPAL not found"
-msgstr ""
+msgstr "El tipus de banc PAYPAL no ha estat trobat"
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
@@ -315,6 +319,8 @@ msgid ""
 "\n"
 "WARNING: Paypal payment with Transaction ID %s is repeated,"
 msgstr ""
+"\n"
+"AVÍS: El pagament de PayPal amb ID de Transacció %s està repetit,"
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
@@ -322,6 +328,8 @@ msgid ""
 "\n"
 "WARNING: Invoice with Transaction ID %s not found,"
 msgstr ""
+"\n"
+"AVÍS: La factura amb ID de Transacció %s no ha estat trobada,"
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
@@ -329,6 +337,8 @@ msgid ""
 "\n"
 "WARNING: Invoice %s and its payment have a difference %f,"
 msgstr ""
+"\n"
+"AVÍS: La factura %s i el seu pagament tenen una diferència de %f,"
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
@@ -338,6 +348,10 @@ msgid ""
 "Summary:\n"
 " Total added payments: %d\n"
 msgstr ""
+"Importació amb èxit.\n"
+"\n"
+"Resum:\n"
+" Total de pagaments afegits: %d\n"
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
@@ -347,13 +361,17 @@ msgid ""
 "Summary:\n"
 " Total added payments: %d\n"
 msgstr ""
+"Inserció activa desactivada, rés ha estat afegit/actualitzat.\n"
+"\n"
+"Resum:\n"
+" Total de pagaments afegits: %d\n"
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
 msgid "Total not added payments: %d\n"
-msgstr ""
+msgstr "Total de pagaments no afegits: %d\n"
 
 #. module: account_payment_paypal
 #: code:extra-addons/account_payment_paypal/paypal.py:0
 msgid "Success"
-msgstr ""
+msgstr "Èxit"

@@ -7,13 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.12\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-05-27 15:57+0000\n"
-"PO-Revision-Date: 2010-08-20 06:32+0000\n"
-"Last-Translator: Ana Juaristi Olalde <ajuaristio@gmail.com>\n"
+"PO-Revision-Date: 2010-09-02 17:39+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-21 04:08+0000\n"
+"X-Launchpad-Export-Date: 2010-09-03 03:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: account_asset
@@ -25,7 +26,7 @@ msgstr "Activos abiertos"
 #. module: account_asset
 #: help:account.asset.usage.createlines,init,interval:0
 msgid "How many usage entries are you going to make per year?"
-msgstr "Cuantas entradas vas a hacer por año?"
+msgstr "¿Cuantas entradas va a hacer por ejercicio fiscal?"
 
 #. module: account_asset
 #: field:account.asset.method,value_residual:0
@@ -36,7 +37,7 @@ msgstr "Valor residual"
 #: field:account.asset.method,account_expense_id:0
 #: field:account.asset.method.defaults,account_expense_id:0
 msgid "Depr. Expense Account"
-msgstr "Cuenta amortización de gastos"
+msgstr "Cuenta gastos amortización"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -45,14 +46,14 @@ msgid ""
 "You cannot assign Product \"%s\" to Asset Method \"%s\". This method is in "
 "Draft state or is inactive (sold or abandoned)."
 msgstr ""
-"No puede asignar Producto \"%s\" al método de amortización \"%s\". Este "
-"método está en estado borrador o es inactivo (Depreciado o abandonado)"
+"No puede asignar producto \"%s\" al método de amortización \"%s\". Este "
+"método está en estado borrador o está inactivo (vendido o abandonado)."
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Date must be in the period !"
-msgstr "La fecha debe estar en el periodo !"
+msgstr "¡La fecha debe estar dentro del periodo!"
 
 #. module: account_asset
 #: view:account.asset.method.defaults:0
@@ -77,7 +78,7 @@ msgstr "Activo"
 #. module: account_asset
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr "Nombre de modelo inválido en la definición de la acción."
+msgstr "Nombre de modelo no válido en la definición de acción."
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -105,7 +106,7 @@ msgid ""
 "   Intervals per Year: "
 msgstr ""
 "\n"
-"   Intervaols por año: "
+"   Intervalos por ejercicio: "
 
 #. module: account_asset
 #: field:account.asset.method,journal_analytic_id:0
@@ -122,7 +123,7 @@ msgstr "Histórico del activo"
 #. module: account_asset
 #: wizard_field:account.asset.reval,init,expense_value:0
 msgid "Increasing Expense Value"
-msgstr "Incrementando el valor del gasto"
+msgstr "Valor incremento del gasto"
 
 #. module: account_asset
 #: help:account.asset.abandon,init,whole_asset:0
@@ -135,7 +136,7 @@ msgid ""
 "Quantity of production which make the asset method used up. Used only in "
 "Units of Production computation method and cannot be zero in this case."
 msgstr ""
-"Cantidad de producción que hace el método de activo consumido. Usado solo en "
+"Cantidad de producción que hace el método de activo consumido. Usado sólo en "
 "el método de cálculo de unidades de producción y no puede ser cero en este "
 "caso."
 
@@ -249,7 +250,7 @@ msgid ""
 "   Number of Intervals: "
 msgstr ""
 "\n"
-"   Numero de periodos: "
+"   Número de periodos: "
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -327,12 +328,12 @@ msgstr "Fecha final"
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Error ! You can not create recursive categories."
-msgstr "Error ! No puede crear categorías recursivas."
+msgstr "¡Error! No puede crear categorías recursivas."
 
 #. module: account_asset
 #: wizard_field:account.asset.reval,init,value:0
 msgid "Increasing Base Value"
-msgstr "Incrementando el valor base"
+msgstr "Valor de incremento base"
 
 #. module: account_asset
 #: field:account.asset.method,account_analytic_id:0
@@ -361,8 +362,8 @@ msgid ""
 "Select account used for residual when asset is sold. You can change the "
 "account before sale operation."
 msgstr ""
-"Seleccionar la cuenta usada para el residual cuando el activo se amortiza. "
-"Puede cambiar la cuenta antes de la operación de venta."
+"Seleccione la cuenta usada para el residual cuando el activo se vende. Puede "
+"cambiar la cuenta antes de la operación de venta."
 
 #. module: account_asset
 #: field:account.asset.method,life:0
@@ -383,10 +384,10 @@ msgid ""
 "Double-Declining Balance you should choose Declining-Balance method and "
 "enter 0,40 (40%) as Progressive factor."
 msgstr ""
-"Especificar el factor de progresión en la depreciación. Es usado en el "
-"método Declining-Balance. Cuando la depreciación lineal es 20% al año y "
-"desea aplicar Doble-Declining Balance debería escoger el método Declining-"
-"Balance y poner 0,40 (40%) como factor progresivo."
+"Indica el factor de progresión en la amortización. Se utiliza en el método "
+"Balance-Declinado. Cuando la amortización lineal es 20% al año y desea "
+"aplicar Balance Doble-Declinado, debería seleccionar el método Balance-"
+"Declinado y poner 0,40 (40%) como factor progresivo."
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -408,7 +409,7 @@ msgstr ""
 msgid ""
 "Assign the asset as depreciation method if move line concerns the asset."
 msgstr ""
-"Asignar el activo como método de depreciación si el asiento corresponde al "
+"Asigna el activo como método de amortización si el asiento corresponde al "
 "activo."
 
 #. module: account_asset
@@ -431,12 +432,14 @@ msgstr "Método de uso"
 #. module: account_asset
 #: help:account.asset.method.defaults,account_impairment_id:0
 msgid "Select account used for impairment amount. Used in revaluation."
-msgstr "Select account used for impairment amount. Used in revaluation."
+msgstr ""
+"Seleccione la cuenta utilizada para el importe del deterioro. Utilizado en "
+"revalorización."
 
 #. module: account_asset
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr "¡XML inválido para la definición de la vista!"
+msgstr "¡XML no válido para la estructura de la vista!"
 
 #. module: account_asset
 #: wizard_button:account.asset.modify,init,asset_modify:0
@@ -454,7 +457,7 @@ msgstr "Método de cálculo"
 msgid "Value planned to be residual after full depreciation process"
 msgstr ""
 "Valor planificado para ser residual después del proceso completo de "
-"depreciación."
+"amortización."
 
 #. module: account_asset
 #: wizard_field:account.asset.initial,init,acc_impairment:0
@@ -492,12 +495,12 @@ msgstr "Periodo calculado y periodo para fijación."
 #. module: account_asset
 #: help:account.asset.usage.createlines,init,fiscal_year:0
 msgid "Choose fiscal year for entries."
-msgstr "Escoja año fiscal para las entradas."
+msgstr "Seleccione ejercicio fiscal para los asientos."
 
 #. module: account_asset
 #: help:account.asset.method.defaults,account_residual_id:0
 msgid "Select account used for sale residual."
-msgstr "Seleccione la cuenta usada para el saldo residual"
+msgstr "Seleccione la cuenta usada para el saldo residual."
 
 #. module: account_asset
 #: view:account.asset.method.usage:0
@@ -507,7 +510,7 @@ msgstr "Método de uso"
 #. module: account_asset
 #: selection:account.asset.history,type:0
 msgid "Depr. Suppression"
-msgstr "Supresión depr."
+msgstr "Supresión amort."
 
 #. module: account_asset
 #: help:account.asset.abandon,init,acc_abandon:0
@@ -518,12 +521,12 @@ msgstr "Cuenta para importe pérdida activo."
 #: field:account.asset.method,method_salvage:0
 #: wizard_field:account.asset.modify,init,method_salvage:0
 msgid "Salvage Value"
-msgstr "Valor de salvaguarda."
+msgstr "Valor de salvaguarda"
 
 #. module: account_asset
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_usage_createlines
 msgid "Usage Lines"
-msgstr "Líneas de uso."
+msgstr "Líneas de uso"
 
 #. module: account_asset
 #: help:account.asset.initial,init,date:0
@@ -559,13 +562,13 @@ msgid ""
 "Initial Value of method expenses. There are sum of depreciations made before "
 "this system asset management."
 msgstr ""
-"Initial Value of method expenses. There are sum of depreciations made before "
-"this system asset management."
+"Valor inicial de gastos del método. Son la suma de las amortizaciones "
+"efectuadas antes de usar este sistema de gestión de activos."
 
 #. module: account_asset
 #: wizard_view:account.asset.close,init:0
 msgid "Method Suppression"
-msgstr "Metodo de supresión."
+msgstr "Metodo de supresión"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -587,9 +590,9 @@ msgid ""
 "How many intervals this asset is to be calculated in its life. If asset was "
 "calculated in other system before specify Intervals Before too."
 msgstr ""
-"Cuantos intevalos de este activo deben ser calculados en su vida. Si el "
-"activo fue calculado en otro sistema antes especificar antes los intervalos "
-"también."
+"Cuantos intervalos de este activo deben ser calculados en su vida. Si el "
+"activo fue calculado en otro sistema antes, indique los intervalos "
+"anteriores también."
 
 #. module: account_asset
 #: help:account.asset.reval,init,value:0
@@ -599,7 +602,7 @@ msgid ""
 "value means decreasing."
 msgstr ""
 "Valor para se añadido al valor del método base. En el método directo es "
-"incrementado el valor del libro. En el método indirecto es incrementando el "
+"incrementado el valor prefijado. En el método indirecto es incrementando el "
 "coste base. Valor negativo indica decremento."
 
 #. module: account_asset
@@ -610,7 +613,7 @@ msgstr "Cambio de parámetros"
 #. module: account_asset
 #: field:account.asset.history,type:0
 msgid "Entry Type"
-msgstr "Tipo entrada"
+msgstr "Tipo de entrada"
 
 #. module: account_asset
 #: view:account.asset.method:0
@@ -659,8 +662,8 @@ msgstr "Revalorizar"
 msgid ""
 "This wizard works only when asset have just Draft and Closed methods !"
 msgstr ""
-"¡ Este asistente sólo funciona cuando el activo tiene únicamente métodos "
-"borrador y cerrados !"
+"¡Este asistente sólo funciona cuando el activo tiene únicamente métodos "
+"borrador y cerrados!"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -676,7 +679,7 @@ msgstr "Valor base"
 #: wizard_field:account.asset.initial,init,intervals_before:0
 #: field:account.asset.method,intervals_before:0
 msgid "Intervals Before"
-msgstr "Intervalos antes"
+msgstr "Intervalos anteriores"
 
 #. module: account_asset
 #: help:account.asset.compute,init,category_id:0
@@ -684,8 +687,9 @@ msgid ""
 "If empty all categories assets will be calculated. If you use hierarchical "
 "categories all children of selected category be calculated."
 msgstr ""
-"Si vacío todas las categorías de activos serán calculados. Si usa categorías "
-"jerárquicas todos los hijos de las categoría seleccionadas serán calculadas."
+"Si está vacío todas las categorías de activos serán calculadas. Si usa "
+"categorías jerárquicas, todos los hijos de la categoría seleccionada serán "
+"calculados."
 
 #. module: account_asset
 #: wizard_button:account.asset.resume,init,asset_resume:0
@@ -730,10 +734,10 @@ msgid ""
 "you want apply Double-Declining Balance you should choose Declining-Balance "
 "method and enter 0,40 (40%) as Progressive factor."
 msgstr ""
-"Especifique el factor de progresión en la depreciación. Usado en los métodos "
-"Balance-declinante y progresivo. Cuando la depreciación lineal es 20% al año "
-"y desea aplicar Balance Doble-Declinado debería escoger Balance-declinado y "
-"poner 0,40 (40%) como en progresivo."
+"Indique el factor de progresión en la amortización. Usado en los métodos "
+"Balance-Declinado y Progresivo. Cuando la amortización lineal es 20% al año "
+"y desea aplicar Balance Doble-Declinado debería seleccionar Balance-"
+"Declinado y poner 0,40 (40%) como factor progresivo."
 
 #. module: account_asset
 #: field:account.asset.method.type,name:0
@@ -754,7 +758,7 @@ msgstr "Cuenta para importe perdido"
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "You can dalete assets only in Draft state !"
-msgstr "¡Solo puede borrar activos en estado borrador!"
+msgstr "¡Sólo puede borrar activos en estado borrador!"
 
 #. module: account_asset
 #: help:account.asset.reval,init,expense_value:0
@@ -762,13 +766,13 @@ msgid ""
 "Value to be added to asset expenses. Used only in indirect method. In direct "
 "method ignored."
 msgstr ""
-"Valor a añadir a los gastos del activo. Solo usado en el método indirecto. "
-"En el método directo es ignorado."
+"Valor a añadir a los gastos del activo. Sólo se usa en el método indirecto. "
+"En el método directo se ignora."
 
 #. module: account_asset
 #: help:account.asset.method.defaults,account_actif_id:0
 msgid "Select account used for depreciation amount."
-msgstr "Seleccione cuenta usada para importe de depreciación."
+msgstr "Seleccione cuenta usada para importe de amortización."
 
 #. module: account_asset
 #: field:account.asset.method,date:0
@@ -795,7 +799,7 @@ msgstr "Suma de los dígitos del año"
 #: code:addons/account_asset/wizard/wizard_asset_resume.py:0
 #, python-format
 msgid "Resuming because: "
-msgstr "Resuming because: "
+msgstr "Reactivación por: "
 
 #. module: account_asset
 #: field:account.asset.asset,category_id:0
@@ -823,7 +827,7 @@ msgid ""
 "already depreciated or is inactive (sold or abandoned)."
 msgstr ""
 "No puede asignar el producto \"%s\" al método de activo \"%s\". Este método "
-"está depreciado o inactivo (amortizado o abandonado)."
+"está amortizado o inactivo (vendido o abandonado)."
 
 #. module: account_asset
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_initial
@@ -864,9 +868,9 @@ msgid ""
 msgstr ""
 "Abierto - Listo para el cálculo.\n"
 "Suprimido - No calculado.\n"
-"Depreciado -Depreciación terminada pero el método existe (puede ser "
-"amortizado o abandonado).\n"
-"Cerrado - El método de activo no existe (amortizado o abandonado)."
+"Amortizado - Amortización terminada pero el método existe (puede ser vendido "
+"o abandonado).\n"
+"Cerrado - El método de activo no existe (vendido o abandonado)."
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
@@ -880,9 +884,9 @@ msgid ""
 "Normal - Asset contains active methods (opened, suppressed or depreciated).\n"
 "Closed - Asset doesn't exist. All methods are sold or abandoned."
 msgstr ""
-"Normal - El activo contiene métodos activos (abierto, suprimido or "
-"depreciado).\n"
-"Cerrado - El activo no existe. Todos los métodos están amortizados o "
+"Normal - El activo contiene métodos activos (abierto, suprimido o "
+"amortizado).\n"
+"Cerrado - El activo no existe. Todos los métodos están vendidos o "
 "abandonados."
 
 #. module: account_asset
@@ -893,7 +897,7 @@ msgstr "Método"
 #. module: account_asset
 #: selection:account.asset.history,type:0
 msgid "Purchase Refund"
-msgstr "Reembolso de Compra"
+msgstr "Abono de compra"
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
@@ -1012,7 +1016,7 @@ msgstr ""
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Cannot post in closed period !"
-msgstr "No puede imputar en un periodo cerrado !"
+msgstr "¡No se puede fijar en un periodo cerrado!"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -1031,8 +1035,8 @@ msgid ""
 "Wizard for starting values of asset coming from production or investment. "
 "Use it also when you continue asset management from another system."
 msgstr ""
-"Asistente para valores iniciales del acivo que vienen de producción o "
-"inversiones. Uselo también cuando continue la gestión de activos desde otro "
+"Asistente para valores iniciales del activo que provienen de producción o "
+"inversiones. Úselo también cuando continúe la gestión de activos desde otro "
 "sistema."
 
 #. module: account_asset
@@ -1050,7 +1054,7 @@ msgstr "Activo cerrado"
 #. module: account_asset
 #: help:account.asset.method,period_id:0
 msgid "Select period indicating first interval."
-msgstr "Selecciione el periodo indicando el primer intervalo"
+msgstr "Seleccione el periodo indicando el primer intervalo"
 
 #. module: account_asset
 #: wizard_view:account.asset.modify,init:0
@@ -1066,7 +1070,8 @@ msgstr "Historia"
 #: help:account.asset.asset,partner_id:0
 msgid "If Date field is empty this field will be filled by first purchase."
 msgstr ""
-"Si el campo fecha está vacío este campo será rellenado por la primera compra."
+"Si el campo fecha está vacío, este campo será rellenado por la primera "
+"compra."
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_asset_method_usage
@@ -1077,7 +1082,7 @@ msgstr "Uso del método de activo"
 #: selection:account.asset.method,method:0
 #: selection:account.asset.method.defaults,method:0
 msgid "Declining-Balance"
-msgstr "Declining-Balance"
+msgstr "Balance-Declinado"
 
 #. module: account_asset
 #: selection:account.asset.method,state:0
@@ -1099,7 +1104,7 @@ msgstr "Período"
 #. module: account_asset
 #: help:account.asset.method,account_actif_id:0
 msgid "Select account used for depreciation amounts."
-msgstr "Seleccione la cuenta usada para los importes de depreciación."
+msgstr "Seleccione la cuenta usada para los importes de amortización."
 
 #. module: account_asset
 #: field:account.asset.method,method_progress_factor:0
@@ -1118,9 +1123,9 @@ msgid ""
 "Period for posting. Consider which period to use for this posting. It should "
 "be probably some additional period before current depreciation start."
 msgstr ""
-"Periodo para imputar. Considere que periodo usar para esta imputación. Sería "
-"probable algunos periodos adicionales antes de iniciar la actual "
-"depreciación."
+"Periodo para fijar. Considere que periodo usar para la fijación. "
+"Probablemente será algunos periodos posteriores de iniciar la actual "
+"amortización."
 
 #. module: account_asset
 #: help:account.asset.usage.createlines,init,value:0
@@ -1180,7 +1185,7 @@ msgid ""
 "Number of intervals calculated already before asset is managed in this "
 "system."
 msgstr ""
-"Número de intervalos calculados ya antes de la gestión de activos en este "
+"Número de intervalos ya calculados antes de la gestión del activo en este "
 "sistema."
 
 #. module: account_asset
@@ -1191,7 +1196,7 @@ msgstr "Cambio localización"
 #. module: account_asset
 #: selection:account.asset.history,type:0
 msgid "Depr. Resuming"
-msgstr "Reactivación Depr"
+msgstr "Reactivación amort."
 
 #. module: account_asset
 #: constraint:ir.model:0
@@ -1209,7 +1214,7 @@ msgstr "Gestión del activo"
 #. module: account_asset
 #: help:account.asset.method.defaults,account_abandon_id:0
 msgid "Select account used for abandonment loss amount."
-msgstr "Seleccione la cuenta usada para el importe perdido de abandono."
+msgstr "Seleccione la cuenta usada para el importe pérdida por abandono."
 
 #. module: account_asset
 #: wizard_view:account.asset.resume,init:0
@@ -1256,7 +1261,7 @@ msgid ""
 "method the invoice line account should change according to the asset method "
 "settings but please check it before creating the invoice."
 msgstr ""
-"Seleccione el método de depreciación del activo si quiere asignar a la línea "
+"Seleccione el método de amortización del activo si quiere asignar a la línea "
 "de factura de compra a un activo fijo. Si el método no existe todavía tendrá "
 "que crearlo y probablemente el activo en sí también. Después de seleccionar "
 "el método de activo la cuenta de la línea de factura debería cambiar de "
@@ -1316,7 +1321,7 @@ msgstr "Método de activo"
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "You can dalete method only in Draft state !"
-msgstr "Puede borrar métodos solo en estado borrador !"
+msgstr "¡Sólo puede borrar métodos en estado borrador!"
 
 #. module: account_asset
 #: field:account.asset.property,journal_id:0
@@ -1338,7 +1343,7 @@ msgstr "Método amortización activo"
 #: field:account.asset.method.defaults,method_period:0
 #: wizard_field:account.asset.modify,init,method_period:0
 msgid "Intervals per Year"
-msgstr "Intervalos por año."
+msgstr "Intervalos por ejercicio."
 
 #. module: account_asset
 #: field:account.asset.method,method_type:0
@@ -1355,7 +1360,7 @@ msgstr "Movimientos creados"
 #. module: account_asset
 #: wizard_field:account.asset.usage.createlines,init,interval:0
 msgid "Entries per Year"
-msgstr "Asientos por año"
+msgstr "Asientos por ejercicio"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -1398,7 +1403,7 @@ msgstr ""
 #, python-format
 msgid "Error ! Number of intervals per year must be 1, 2, 3, 4, 6 or 12."
 msgstr ""
-"Error ! El número de intervalos por año debe ser 1, 2, 3, 4, 6 or 12."
+"¡Error! El número de intervalos por ejercicio debe ser 1, 2, 3, 4, 6 o 12."
 
 #. module: account_asset
 #: wizard_field:account.asset.usage.createlines,init,fiscal_year:0
@@ -1422,9 +1427,9 @@ msgid ""
 "Number of intervals calculated before asset is managed in this system. Used "
 "with Initial Values wizard. If you start asset in this system keep zero."
 msgstr ""
-"Número de intervalos calculados antes de que el activo sea gestionado en el "
-"sistema. Utilizado con el asistente de valores iniciales. Si inicia el "
-"activo en este sistema ponga cero."
+"Número de intervalos calculados antes de que el activo sea gestionado en "
+"este sistema. Utilizado con el asistente de valores iniciales. Si inicia el "
+"activo en este sistema déjelo a cero."
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
@@ -1443,12 +1448,12 @@ msgstr "¡Error!"
 #. module: account_asset
 #: wizard_button:account.asset.initial,init,asset_reval:0
 msgid "Set Initials"
-msgstr "Inicialice"
+msgstr "Fijar valores iniciales"
 
 #. module: account_asset
 #: field:account.asset.history,change_expense:0
 msgid "Expense Change"
-msgstr "Cambio de divisas"
+msgstr "Cambio de gastos"
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
@@ -1469,7 +1474,7 @@ msgstr "Cálculo activos"
 #: selection:account.asset.method,method:0
 #: selection:account.asset.method.defaults,method:0
 msgid "Straight-Line"
-msgstr "Straight-Line"
+msgstr "Línea-recta"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -1484,8 +1489,8 @@ msgid ""
 "Select account used for depreciation expense (write-off). If you use direct "
 "method of depreciation this account should be the same as Asset Account."
 msgstr ""
-"Seleccione la cuenta usada para el gasto de depreciación. si usa el método "
-"directo de depreciación esta cuenta debería ser la misma que la cuenta del "
+"Seleccione la cuenta usada para el gasto de amortización. Si usa el método "
+"directo de amortización esta cuenta debería ser la misma que la cuenta del "
 "activo."
 
 #. module: account_asset
@@ -1498,7 +1503,7 @@ msgstr "Fecha"
 #: field:account.asset.method.defaults,account_impairment_id:0
 #: wizard_field:account.asset.reval,init,acc_impairment:0
 msgid "Impairment Account"
-msgstr "Impairment Account"
+msgstr "Cuenta de deterioro"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -1518,8 +1523,8 @@ msgstr "Tipo método de activo"
 msgid ""
 "Set this date or leave it empty to allow system set the first purchase date."
 msgstr ""
-"Ponga esta fecha o déjela vacía para permitir al sistema asignar la primera "
-"fecha de compra."
+"Introduzca esta fecha o déjela vacía para permitir al sistema asignar la "
+"primera fecha de compra."
 
 #. module: account_asset
 #: field:account.asset.asset,amount_total:0
@@ -1537,14 +1542,108 @@ msgid ""
 "Specify the number of depreciations to be made in year. This number cannot "
 "be less then number of periods in year."
 msgstr ""
-"Especifique el número de depreciaciones para ser hechas en el año. Este "
-"número no puede ser inferior al número de periodos en el año."
+"Indique el número de amortizaciones a realizar durante el ejercicio fiscal. "
+"Este número no puede ser inferior al número de periodos en el ejercicio "
+"fiscal."
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
 #: wizard_view:account.asset.reval,init:0
 msgid "Revaluation"
-msgstr "Reevaluación"
+msgstr "Revalorización"
+
+#~ msgid "Linear"
+#~ msgstr "Lineal"
+
+#~ msgid "Reason"
+#~ msgstr "Razón"
+
+#~ msgid "Change history"
+#~ msgstr "Cambio histórico"
+
+#~ msgid "Depreciation entries"
+#~ msgstr "Asiento de dotación a la amortización"
+
+#~ msgid "Period per interval"
+#~ msgstr "Período por intervalo"
+
+#~ msgid "Depreciation duration"
+#~ msgstr "Plazo de amortización"
+
+#~ msgid "Cumul. value"
+#~ msgstr "Valor acumulado"
+
+#~ msgid "Asset property"
+#~ msgstr "Propiedad del activo"
+
+#~ msgid "Confirm asset"
+#~ msgstr "Confirmar activo"
+
+#~ msgid "Ending period"
+#~ msgstr "Período final"
+
+#~ msgid "Depr. method type"
+#~ msgstr "Tipo de método de amortización"
+
+#~ msgid "Asset board"
+#~ msgstr "Tablero de activos"
+
+#~ msgid "Global state"
+#~ msgstr "Estado global"
+
+#~ msgid "Delay"
+#~ msgstr "Retrasar"
+
+#~ msgid "Asset Entries"
+#~ msgstr "Asientos de activo"
+
+#~ msgid "Sequence"
+#~ msgstr "Secuencia"
+
+#~ msgid "End of asset"
+#~ msgstr "Final de activo"
+
+#~ msgid "Direct"
+#~ msgstr "Directo"
+
+#~ msgid "Indirect"
+#~ msgstr "Indirecto"
+
+#~ msgid "Asset Hierarchy"
+#~ msgstr "Jerarquía de activos"
+
+#~ msgid "Asset properties to modify"
+#~ msgstr "Propiedades de activos para modificar"
+
+#~ msgid "Number of interval"
+#~ msgstr "Numero de intervalo"
+
+#~ msgid "Change duration"
+#~ msgstr "cambio de duración"
+
+#~ msgid "Asset Value"
+#~ msgstr "valor de activos"
+
+#~ msgid "Depreciation board"
+#~ msgstr "cuadro de drepeciación"
+
+#~ msgid "Asset name"
+#~ msgstr "nombre de activos"
+
+#~ msgid "Accounts information"
+#~ msgstr "información de cuentas"
+
+#~ msgid "Computation method"
+#~ msgstr "metodo de computación"
+
+#~ msgid "Asset account"
+#~ msgstr "cuenta de activos"
+
+#~ msgid "Depreciation methods"
+#~ msgstr "Metodos de drepreciación"
+
+#~ msgid "Assets methods"
+#~ msgstr "metodos activos"
 
 #~ msgid ""
 #~ "Financial and accounting asset management.\n"
