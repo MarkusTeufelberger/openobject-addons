@@ -81,7 +81,7 @@ class stock_picking(osv.osv):
                 'vessel_name' : fields.char('Vessel Name', size=128,),
                 'voyage_number' : fields.char('Voyage Number', size=64,),
                 'shipping_company' : fields.char('Shipping Line', size=128,),
-                'kind_transport': fields.selection([('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Transportation Type', required=True),
+                'kind_transport': fields.selection([('Stock move','Stock Move'),('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Transportation Type', required=True),
 #                'forwarder' : fields.many2one('res.partner','Forwarder agent'),
                 'forwarder' : fields.char('Forwarder agent', size=128),
                 'departure_date' : fields.date('Estimated Time of Departure'),
@@ -118,7 +118,8 @@ class stock_picking(osv.osv):
         if default is None:
             default = {}
         default = default.copy()
-        default['stock_history_lines']=[]        
+        default['stock_history_lines']=[]
+        default['backorder_id'] = False
         return super(stock_picking,self).copy(cr,uid,id,default,context)    
     
 stock_picking()
