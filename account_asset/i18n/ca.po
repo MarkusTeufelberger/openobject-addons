@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-05-27 15:57+0000\n"
-"PO-Revision-Date: 2010-08-19 15:06+0000\n"
-"Last-Translator: Albert Cervera i Areny - http://www.NaN-tic.com <albert@nan-"
-"tic.com>\n"
+"PO-Revision-Date: 2010-09-06 19:59+0000\n"
+"Last-Translator: Esther Xaus (Zikzakmedia) <Unknown>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-20 03:54+0000\n"
+"X-Launchpad-Export-Date: 2010-09-07 05:02+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: account_asset
@@ -27,18 +26,18 @@ msgstr "Actius oberts"
 #. module: account_asset
 #: help:account.asset.usage.createlines,init,interval:0
 msgid "How many usage entries are you going to make per year?"
-msgstr ""
+msgstr "Quantes entrades fareu per exercici fiscal?"
 
 #. module: account_asset
 #: field:account.asset.method,value_residual:0
 msgid "Residual Value"
-msgstr ""
+msgstr "Valor residual"
 
 #. module: account_asset
 #: field:account.asset.method,account_expense_id:0
 #: field:account.asset.method.defaults,account_expense_id:0
 msgid "Depr. Expense Account"
-msgstr ""
+msgstr "Compte despeses amortització"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -47,19 +46,21 @@ msgid ""
 "You cannot assign Product \"%s\" to Asset Method \"%s\". This method is in "
 "Draft state or is inactive (sold or abandoned)."
 msgstr ""
+"No podeu assignar producte \"%s\" al mètode d'amortització \"%s\". Aquest "
+"mètode està en estat esborrany o està inactiu (venut o abandonat)."
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Date must be in the period !"
-msgstr ""
+msgstr "La data ha d'estar dins del període!"
 
 #. module: account_asset
 #: view:account.asset.method.defaults:0
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_method_defaults_form
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_method_defaults_form
 msgid "Asset Method Defaults"
-msgstr ""
+msgstr "Valors per defecte mètode d'actiu"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -84,7 +85,7 @@ msgstr "Nom de model invàlid en la definició de l'acció."
 #: field:account.asset.method,usage_ids:0
 #: field:account.asset.method.usage,usage:0
 msgid "Usage"
-msgstr ""
+msgstr "Ús"
 
 #. module: account_asset
 #: help:account.asset.method,account_analytic_id:0
@@ -95,7 +96,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.method.defaults,account_abandon_id:0
 msgid "Abandonment Account"
-msgstr ""
+msgstr "Compte d'abandonament"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
@@ -104,12 +105,14 @@ msgid ""
 "\n"
 "   Intervals per Year: "
 msgstr ""
+"\n"
+"   Intervals per exercici: "
 
 #. module: account_asset
 #: field:account.asset.method,journal_analytic_id:0
 #: field:account.asset.method.defaults,journal_analytic_id:0
 msgid "Analytic Journal"
-msgstr ""
+msgstr "Diari analític"
 
 #. module: account_asset
 #: view:account.asset.property.history:0
@@ -120,12 +123,12 @@ msgstr "Històric de l'actiu"
 #. module: account_asset
 #: wizard_field:account.asset.reval,init,expense_value:0
 msgid "Increasing Expense Value"
-msgstr ""
+msgstr "Valor increment de la despesa"
 
 #. module: account_asset
 #: help:account.asset.abandon,init,whole_asset:0
 msgid "Abandon all methods of this asset."
-msgstr ""
+msgstr "Abandona tots els mètodes d'aquest actiu."
 
 #. module: account_asset
 #: help:account.asset.method,life:0
@@ -139,7 +142,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
 msgid "Asset Categories"
-msgstr ""
+msgstr "Categories d'actiu"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -151,7 +154,7 @@ msgstr "Assentaments"
 #. module: account_asset
 #: help:account.asset.initial,init,value:0
 msgid "Initial Base Value of method."
-msgstr ""
+msgstr "Valor base inicial del mètode."
 
 #. module: account_asset
 #: wizard_view:account.asset.compute,asset_compute:0
@@ -162,7 +165,7 @@ msgstr "Assentaments generats"
 #: wizard_view:account.asset.compute,asset_compute:0
 #: wizard_view:account.asset.compute,init:0
 msgid "Asset Computation"
-msgstr ""
+msgstr "Cálculo de activo"
 
 #. module: account_asset
 #: wizard_view:account.asset.modify,init:0
@@ -174,7 +177,7 @@ msgstr "Modifica l'actiu"
 #. module: account_asset
 #: selection:account.asset.history,type:0
 msgid "Purchase"
-msgstr ""
+msgstr "Compres"
 
 #. module: account_asset
 #: help:account.asset.method.defaults,asset_category:0
@@ -182,12 +185,15 @@ msgid ""
 "Select the asset category for this set of defaults. If no selection defined "
 "defaults will concern to all methods of selected type."
 msgstr ""
+"Selecciona la categoria d'actiu d'aquest conjunt de valors per defecte. Si "
+"no existeix selecció definida s'aplicarà a tots els mètodes del tipus "
+"seleccionat."
 
 #. module: account_asset
 #: code:addons/account_asset/wizard/wizard_asset_initial.py:0
 #, python-format
 msgid "Inital values for asset: "
-msgstr ""
+msgstr "Valors inicials de l'actiu: "
 
 #. module: account_asset
 #: wizard_button:account.asset.compute,asset_compute,asset_open:0
@@ -207,12 +213,13 @@ msgstr "Actius"
 #: field:account.asset.method,account_actif_id:0
 #: field:account.asset.method.defaults,account_actif_id:0
 msgid "Depreciation Account"
-msgstr ""
+msgstr "Compte d'amortització"
 
 #. module: account_asset
 #: help:account.asset.method.defaults,method_type:0
 msgid "Select method type for this set of defaults."
 msgstr ""
+"Selecciona tipus de mètode per a aquest conjunt de valors per defecte."
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_draft
@@ -223,7 +230,7 @@ msgstr "Actius en estat esborrany"
 #. module: account_asset
 #: wizard_view:account.asset.usage.createlines,init:0
 msgid "Creation of Usage Lines"
-msgstr ""
+msgstr "Creació de línies d'ús."
 
 #. module: account_asset
 #: wizard_view:account.asset.modify,init:0
@@ -239,16 +246,18 @@ msgid ""
 "\n"
 "   Number of Intervals: "
 msgstr ""
+"\n"
+"   Número de períodes: "
 
 #. module: account_asset
 #: view:account.asset.asset:0
 msgid "Clear Draft and Close"
-msgstr ""
+msgstr "Limpiar borrador y cerrar"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
 msgid "Sale"
-msgstr ""
+msgstr "Venda"
 
 #. module: account_asset
 #: help:account.asset.abandon,init,date:0
@@ -261,73 +270,73 @@ msgstr ""
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Parameters set to:"
-msgstr ""
+msgstr "Paràmetres fixats a:"
 
 #. module: account_asset
 #: wizard_button:account.asset.close,init,asset_suppress:0
 msgid "Suppress Depreciation"
-msgstr ""
+msgstr "Suprimeix amortització"
 
 #. module: account_asset
 #: selection:account.asset.method,method:0
 #: selection:account.asset.method.defaults,method:0
 msgid "Units of Production"
-msgstr ""
+msgstr "Unitats de producció"
 
 #. module: account_asset
 #: view:account.asset.asset:0
 msgid "Other Information"
-msgstr ""
+msgstr "Altra informació"
 
 #. module: account_asset
 #: wizard_button:account.asset.abandon,init,asset_abandon:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_abandon
 msgid "Abandon"
-msgstr ""
+msgstr "Abandona"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
 msgid "Closing"
-msgstr ""
+msgstr "Tancament"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Warning !"
-msgstr ""
+msgstr "Avís!"
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_asset_method_defaults
 msgid "Asset Method Delfaults"
-msgstr ""
+msgstr "Valors per defecte mètode d'actiu"
 
 #. module: account_asset
 #: field:account.asset.method.defaults,method_progress_factor:0
 msgid "Progressive factor"
-msgstr ""
+msgstr "Factor de progresión"
 
 #. module: account_asset
 #: field:account.asset.history,method_end:0
 #: field:account.asset.method,method_end:0
 msgid "Ending Date"
-msgstr ""
+msgstr "Data final"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Error ! You can not create recursive categories."
-msgstr ""
+msgstr "Error! No podeu crear categories recursives."
 
 #. module: account_asset
 #: wizard_field:account.asset.reval,init,value:0
 msgid "Increasing Base Value"
-msgstr ""
+msgstr "Valor d'increment base"
 
 #. module: account_asset
 #: field:account.asset.method,account_analytic_id:0
 #: field:account.asset.method.defaults,account_analytic_id:0
 msgid "Analytic Account"
-msgstr ""
+msgstr "Compte analític"
 
 #. module: account_asset
 #: wizard_button:account.asset.usage.createlines,init,asset_reval:0
