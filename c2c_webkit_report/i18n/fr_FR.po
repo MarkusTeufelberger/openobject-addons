@@ -1,0 +1,587 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#   * c2c_webkit_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.12\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-08-27 13:17:05+0000\n"
+"PO-Revision-Date: 2010-08-27 13:17:05+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: c2c_webkit_report
+#: field:account.invoice,date_invoice:0
+msgid "Invoice Date"
+msgstr "Date de la facture"
+
+#. module: c2c_webkit_report
+#: field:account.invoice.line,quantity:0
+msgid "QTY"
+msgstr "QTÉ"
+
+#. module: c2c_webkit_report
+#: field:account.invoice.line,price_unit:0
+msgid "Unit Price"
+msgstr "Prix unitaire"
+
+#. module: c2c_webkit_report
+#: field:account.invoice.line,uos_id:0
+msgid "Unit of Measure"
+msgstr "Unité de mesure"
+
+#. module: c2c_webkit_report
+#: view:account.invoice:0
+#: field:account.invoice.line,invoice_line_tax_id:0
+#: model:ir.actions.act_window,name:account.action_tax_form
+#: model:ir.ui.menu,name:account.menu_action_tax_form
+#: model:ir.ui.menu,name:account.next_id_27
+msgid "Taxes"
+msgstr "Impôts"
+
+#. module: c2c_webkit_report
+#: field:account.invoice.line,price_subtotal:0
+msgid "Price"
+msgstr "Prix"
+
+#. module: c2c_webkit_report
+#: field:account.invoice,tax_line:0
+msgid "Tax Lines"
+msgstr "Lignes de taxe"
+
+#. module: c2c_webkit_report
+#: field:account.invoice.tax,amount:0
+msgid "Amount"
+msgstr "Montant"
+
+#. module: c2c_webkit_report
+#: field:account.invoice,:0
+msgid "Partner Ref."
+msgstr "Réf. partenaire"
+
+#. module: c2c_webkit_report
+#: field:account.invoice.line,invoice_id:0
+msgid "Invoice Ref"
+msgstr "Réf. Facture"
+
+#. module: c2c_webkit_report
+#: field:account.invoice,amount_tax:0
+msgid "Total"
+msgstr "Total"
+
+
+#. module: c2c_webkit_report
+#: field:account.invoice,name:0
+#: field:account.invoice.line,name:0
+msgid "Description"
+msgstr "Description"
+
+#. module: c2c_webkit_report
+#: view:account.invoice.line:0
+#: field:account.invoice.tax,invoice_id:0
+msgid "Invoice Line"
+msgstr "Ligne de facture"
+
+#. module: c2c_webkit_report
+#: field:account.analytic.line,product_id:0
+#: field:account.invoice.line,product_id:0
+#: field:account.move.line,product_id:0
+msgid "Product"
+msgstr "Produit"
+
+#. module: c2c_webkit_report
+#: field:account.invoice,name:0
+msgid "Document"
+msgstr "Ref. document"
+
+#. module: c2c_webkit_report
+#: rml:account.invoice.line,discount:0
+msgid "Disc.(%)"
+msgstr "Disc.(%)"
+
+#. module: c2c_webkit_report
+#: model:account.account.type,name:account.account_type_tax
+#: field:account.invoice,amount_tax:0
+#: field:account.move.line,account_tax_id:0
+msgid "Tax"
+msgstr "Taxe"
+
+#. module: c2c_webkit_report
+#: field:ir.actions.report.xml,webkit_header:0
+msgid "WebKit Header"
+msgstr "WebKit-tête"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "Tabloid 29 279.4 x 431.8 mm"
+msgstr "Tabloid 29 279,4 x 431,8 mm"
+
+#. module: c2c_webkit_report
+#: model:ir.actions.act_window,name:c2c_webkit_report.action_header_img
+#: model:ir.ui.menu,name:c2c_webkit_report.menu_header_img
+msgid "Header IMG"
+msgstr "Header IMG"
+
+#. module: c2c_webkit_report
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "le nom du modèle Blancs dans la définition de l'action"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "Ledger  28  431.8 x 279.4 mm"
+msgstr "Ledger  28  431.8 x 279.4 mm"
+
+#. module: c2c_webkit_report
+#: wizard_button:ir.report_actions,exist,end:0
+msgid "_Close"
+msgstr "_Close"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "Executive 4   7.5 x 10 inches, 190.5 x 254 mm"
+msgstr "Exécutif 4 7,5 x 10 pouces, 190,5 x 254 mm"
+
+#. module: c2c_webkit_report
+#: field:ir.header_img,company_id:0
+#: field:ir.header_webkit,company_id:0
+msgid "Company"
+msgstr "Entreprise"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/webkit_report.py:0
+#, python-format
+msgid "Wrong path set in company'+\n"
+"                                    'Given path is not executable or path is wrong"
+msgstr "Mauvais chemin ensemble dans l'entreprise'+\n"
+"                                    'chemin donné n'est pas exécutable ou un chemin qui ne va pas"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "DLE 26 110 x 220 mm"
+msgstr "Moins de 26 110 x 220 mm"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B7  21  88 x 125 mm"
+msgstr "B7  21  88 x 125 mm"
+
+#. module: c2c_webkit_report
+#: view:res.company:0
+msgid "Headers"
+msgstr "Headers"
+
+#. module: c2c_webkit_report
+#: model:ir.module.module,shortdesc:c2c_webkit_report.module_meta_information
+msgid "webkit report"
+msgstr "rapport webkit"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/webkit_report.py:0
+#, python-format
+msgid "Webkit raise an error"
+msgstr "Webkit soulever une erreur"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/webkit_report.py:0
+#, python-format
+msgid "', '"
+msgstr "', '"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "Legal    3   8.5 x 14 inches, 215.9 x 355.6 mm"
+msgstr "Juridique 3 8,5 x 14 pouces, 215,9 x 355,6 mm"
+
+#. module: c2c_webkit_report
+#: model:ir.model,name:c2c_webkit_report.model_ir_header_webkit
+msgid "ir.header_webkit"
+msgstr "ir.header_webkit"
+
+#. module: c2c_webkit_report
+#: model:ir.actions.act_window,name:c2c_webkit_report.action_header_webkit
+#: model:ir.ui.menu,name:c2c_webkit_report.menu_header_webkit
+msgid "Header HTML"
+msgstr "En-tête HTML"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A4  0   210 x 297 mm, 8.26 x 11.69 inches"
+msgstr "A4  0   210 x 297 mm, 8.26 x 11.69 inches"
+
+#. module: c2c_webkit_report
+#: view:res.company:0
+msgid "webkit Headers"
+msgstr "En-têtes webkit"
+
+#. module: c2c_webkit_report
+#: wizard_button:ir.report_actions,add,end:0
+msgid "_Cancel"
+msgstr "_Cancel"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B2  17  500 x 707 mm"
+msgstr "B2  17  500 x 707 mm"
+
+#. module: c2c_webkit_report
+#: wizard_view:ir.report_actions,exist:0
+msgid "Report Action already exist for this report."
+msgstr "Rapport d'action existent déjà pour ce rapport."
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A0  5   841 x 1189 mm"
+msgstr "A0  5   841 x 1189 mm"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "C5E 24  163 x 229 mm"
+msgstr "C5E 24  163 x 229 mm"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/wizard/report_actions.py:0
+#, python-format
+msgid "Client Actions Connections"
+msgstr "Actions connexions client"
+
+#. module: c2c_webkit_report
+#: field:res.company,header_image:0
+msgid "Available Images"
+msgstr "Images disponibles"
+
+#. module: c2c_webkit_report
+#: field:ir.header_webkit,html:0
+msgid "webkit header"
+msgstr "tête WebKit"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B1  15  707 x 1000 mm"
+msgstr "B1  15  707 x 1000 mm"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A1  6   594 x 841 mm"
+msgstr "A1  6   594 x 841 mm"
+
+#. module: c2c_webkit_report
+#: help:ir.actions.report.xml,webkit_header:0
+msgid "The header linked to the report"
+msgstr "L'en-tête lié au rapport"
+
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B5  1   176 x 250 mm, 6.93 x 9.84 inches"
+msgstr "B5  1   176 x 250 mm, 6.93 x 9.84 inches"
+
+#. module: c2c_webkit_report
+#: view:ir.header_webkit:0
+msgid "Content and styling"
+msgstr "Contenu et mise en plis"
+
+#. module: c2c_webkit_report
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML non valide pour l'architecture de la vue"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A7  11  74 x 105 mm"
+msgstr "A7  11  74 x 105 mm"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A6  10  105 x 148 mm"
+msgstr "A6  10  105 x 148 mm"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "Folio 27  210 x 330 mm"
+msgstr "Folio 27  210 x 330 mm"
+
+#. module: c2c_webkit_report
+#: field:ir.actions.report.xml,report_webkit:0
+msgid "WebKit HTML path"
+msgstr "WebKit HTML chemin"
+
+#. module: c2c_webkit_report
+#: field:ir.header_webkit,margin_top:0
+msgid "Top Margin (mm)"
+msgstr "Marge supérieure (mm)"
+
+#. module: c2c_webkit_report
+#: view:ir.actions.report.xml:0
+msgid "Security"
+msgstr "Sécurité"
+
+#. module: c2c_webkit_report
+#: wizard_button:ir.report_actions,add,process:0
+msgid "_Ok"
+msgstr "_Ok"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B3  18  353 x 500 mm"
+msgstr "B3  18  353 x 500 mm"
+
+#. module: c2c_webkit_report
+#: field:ir.header_img,img:0
+msgid "Image"
+msgstr "Image"
+
+#. module: c2c_webkit_report
+#: field:res.company,header_webkit:0
+msgid "Available html"
+msgstr "html Disponible"
+
+#. module: c2c_webkit_report
+#: view:res.company:0
+msgid "Images"
+msgstr "Images"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,orientation:0
+msgid "Portrait"
+msgstr "Portrait"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,orientation:0
+msgid "Landscape"
+msgstr "Paysage"
+
+#. module: c2c_webkit_report
+#: view:ir.actions.report.xml:0
+msgid "Webkit Setup"
+msgstr "Webkit d'installation"
+
+#. module: c2c_webkit_report
+#: view:ir.header_webkit:0
+msgid "page setup"
+msgstr "mise en page"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B8  22  62 x 88 mm"
+msgstr "B8  22  62 x 88 mm"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A2  7   420 x 594 mm"
+msgstr "A2  7   420 x 594 mm"
+
+#. module: c2c_webkit_report
+#: wizard_field:ir.report_actions,add,print_button:0
+msgid "Add print button"
+msgstr "Ajouter le bouton Imprimer"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A9  13  37 x 52 mm"
+msgstr "A9  13  37 x 52 mm"
+
+#. module: c2c_webkit_report
+#: model:ir.actions.report.xml,name:c2c_webkit_report.ir_actions_report_xml_webkitinvoice0
+msgid "WebKit invoice"
+msgstr "facture WebKit"
+
+#. module: c2c_webkit_report
+#: field:ir.header_webkit,magrin_bottom:0
+msgid "Bottom Margin (mm)"
+msgstr "Marge du bas (mm)"
+
+#. module: c2c_webkit_report
+#: wizard_field:ir.report_actions,add,open_action:0
+msgid "Open added action"
+msgstr "Open ajouté action"
+
+#. module: c2c_webkit_report
+#: field:ir.header_webkit,magrin_right:0
+msgid "Right Margin (mm)"
+msgstr "Marge de droite (mm)"
+
+#. module: c2c_webkit_report
+#: field:res.company,lib_path:0
+msgid "Lib Path"
+msgstr "Chemin Lib"
+
+#. module: c2c_webkit_report
+#: field:ir.header_webkit,orientation:0
+msgid "Orientation"
+msgstr "Orientation"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B6  20  125 x 176 mm"
+msgstr "B6  20  125 x 176 mm"
+
+#. module: c2c_webkit_report
+#: field:ir.actions.report.xml,report_webkit_data:0
+msgid "WebKit HTML content"
+msgstr "WebKit HTML contenu"
+
+#. module: c2c_webkit_report
+#: model:ir.model,name:c2c_webkit_report.model_ir_header_img
+msgid "ir.header_img"
+msgstr "ir.header_img"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/webkit_report.py:0
+#, python-format
+msgid "Report template not found !"
+msgstr "Modèle de rapport non trouvé!"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid ":B10    16  31 x 44 mm"
+msgstr ":B10    16  31 x 44 mm"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/webkit_report.py:0
+#, python-format
+msgid "Path is none"
+msgstr "Chemin d'accès n'en est pas"
+
+#. module: c2c_webkit_report
+#: field:ir.header_webkit,css:0
+msgid "Header CSS"
+msgstr "Header CSS"
+
+#. module: c2c_webkit_report
+#: help:res.company,lib_path:0
+msgid "Complete path for wkhtmltopdf library."
+msgstr "chemin d'accès complet pour wkhtmltopdf bibliothèque."
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B4  19  250 x 353 mm"
+msgstr "B4  19  250 x 353 mm"
+
+#. module: c2c_webkit_report
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "Le nom de l'objet doit commencer avec x_ et ne pas contenir de charactères spéciaux !"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/ir_report.py:0
+#, python-format
+msgid "Report registration error !"
+msgstr "Erreur d'inscription Report!"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/webkit_report.py:0
+#, python-format
+msgid "look in company settings"
+msgstr "look in company settings"
+
+#. module: c2c_webkit_report
+#: help:ir.report_actions,add,print_button:0
+msgid "Add action to menu context in print button."
+msgstr "Ajouter action au menu contextuel de bouton Imprimer"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A3  8   297 x 420 mm"
+msgstr "A3  8   297 x 420 mm"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B9  23  33 x 62 mm"
+msgstr "B9  23  33 x 62 mm"
+
+#. module: c2c_webkit_report
+#: field:ir.header_webkit,footer_html:0
+msgid "webkit footer"
+msgstr "footer webkit"
+
+#. module: c2c_webkit_report
+#: field:ir.actions.report.xml,webkit_debug:0
+msgid "Webkit debug"
+msgstr "Webkit debug"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "Letter 2 8.5 x 11 inches, 215.9 x 279.4 mm"
+msgstr "Letter 2 8.5 x 11 inches, 215.9 x 279.4 mm"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "B0  14  1000 x 1414 mm"
+msgstr "B0  14  1000 x 1414 mm"
+
+#. module: c2c_webkit_report
+#: field:ir.header_img,name:0
+#: field:ir.header_webkit,name:0
+msgid "Name"
+msgstr "Nom"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A5  9   148 x 210 mm"
+msgstr "A5  9   148 x 210 mm"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "A8  12  52 x 74 mm"
+msgstr "A8  12  52 x 74 mm"
+
+#. module: c2c_webkit_report
+#: model:ir.actions.wizard,name:c2c_webkit_report.wizard_oo_report_actions
+#: wizard_view:ir.report_actions,add:0
+#: wizard_view:ir.report_actions,exist:0
+msgid "Add Print Buttons"
+msgstr "Ajouter des boutons Imprimer"
+
+#. module: c2c_webkit_report
+#: field:ir.header_img,extention:0
+msgid "extention"
+msgstr "extention"
+
+#. module: c2c_webkit_report
+#: selection:ir.header_webkit,format:0
+msgid "Comm10E 25  105 x 241 mm, U.S. Common 10 Envelope"
+msgstr "Comm10E 25  105 x 241 mm, U.S. Common 10 Envelope"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/webkit_report.py:0
+#, python-format
+msgid "The embeeded lib are not anymore present for security reasons"
+msgstr "The embeeded lib are not anymore present for security reasons"
+
+#. module: c2c_webkit_report
+#: field:ir.header_webkit,magrin_left:0
+msgid "Left Margin (mm)"
+msgstr "Left Margin (mm)"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/webkit_report.py:0
+#, python-format
+msgid "'))\n"
+"        header = report_xml.webkit_header.html\n"
+"        footer = report_xml.webkit_header.footer_html\n"
+"        if not header and report_xml.header:\n"
+"            raise osv.except_osv(\n"
+"                _('No header defined for this report header html is empty !"
+msgstr "'))\n"
+"        header = report_xml.webkit_header.html\n"
+"        footer = report_xml.webkit_header.footer_html\n"
+"        if not header and report_xml.header:\n"
+"            raise osv.except_osv(\n"
+"                _('Pas d'en-tête défini pour ce html-tête d'état est vide!"
+
+#. module: c2c_webkit_report
+#: field:ir.header_webkit,format:0
+msgid "Paper size"
+msgstr "Paper size"
+
+#. module: c2c_webkit_report
+#: code:addons/c2c_webkit_report/ir_report.py:0
+#, python-format
+msgid "Report was not registered in system !"
+msgstr "Rapport n'a pas été enregistrée dans le système!"

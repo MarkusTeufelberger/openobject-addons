@@ -28,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
-
+import re
 import sys
 import platform
 import os
@@ -39,15 +39,21 @@ from osv import osv
 from tools.translate import _
 import time
 from mako.template import Template
+import inspect
 import pooler
 from report_helper import WebKitHelper
 import netsvc
 import pooler
 from tools.config import config
 import commands
-import os
+from lxml import etree
+import ir
+import inspect
+
 logger = netsvc.Logger()
 
+
+string_re = re.compile(r'_(.\".[a-z A-Z 0-9]*)')
 
 
 class WebKitParser(report_sxw):
@@ -182,6 +188,46 @@ class WebKitParser(report_sxw):
         os.unlink(out)
         return pdf
 
+    def translate_call(self, coursor, source, context):
+        """Translate String."""
+        try:
+            frame = inspect.stack()[1][0]
+        except:
+            return source
+        cr = frame.f_locals.get('cursor')
+        lang = (frame.f_locals.get('context') or {}).get('lang', 'en_US')
+        if not (cr and lang):
+            args = frame.f_locals.get('args',False)
+            if args:
+                lang = args[-1].get('lang',False)
+                if frame.f_globals.get('pooler',False):
+                    cr = pooler.get_db(frame.f_globals['pooler'].pool_dic.keys()[0]).cursor()
+        cr.execute('select value from ir_translation where lang=%s and type=%s and src=%s', (lang, 'field', source))
+        res_trans = cr.fetchone()
+        return res_trans and res_trans[0] or source
+
+
+    def get_parse_string(self, cursor, template, context):
+        """Parse Template string"""
+        eview = etree.HTML(template)
+        def _check_rec(eview):
+            for child in eview:
+                if child.text:
+                    match = string_re.match(child.text)
+                    if match:
+                        match_str = match.group(0)
+                        split_str = match_str.split("_(\"")
+                        for str in split_str:
+                            if str != '':
+                                translate = self.translate_call(cursor, str, context)
+                                final_translate = child.text.replace(str, translate)
+                                child.text = final_translate.replace('_("', '').replace('")', '')
+                _check_rec(child)
+            return eview
+        _check_rec(eview)
+        template = etree.tostring(eview)
+        return template
+
     # override needed to keep the attachments' storing procedure
     def create_single_pdf(self, cursor, uid, ids, data, report_xml, 
         context=None):
@@ -240,8 +286,11 @@ class WebKitParser(report_sxw):
             css = ''
         user = self.pool.get('res.users').browse(cursor, uid, uid)
         company= user.company_id
+        parse_template = self.get_parse_string(cursor, template, context)
         #default_filters=['unicode', 'entity'] can be used to set global filter
-        body_mako_tpl = Template(template ,input_encoding='utf-8')
+        body_mako_tpl = Template(parse_template ,input_encoding='utf-8')
+        
+        
         helper = WebKitHelper(cursor, uid, report_xml.id, context)
         html = body_mako_tpl.render(
                                     objects=self.parser_instance.localcontext['objects'], 
@@ -403,4 +452,3 @@ def new_register_all(db):
     return value
 
 report.interface.register_all = new_register_all
-
