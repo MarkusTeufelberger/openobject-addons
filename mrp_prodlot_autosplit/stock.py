@@ -23,6 +23,7 @@ import ir
 import pooler
 from tools.translate import _
 
+
 class stock_move(osv.osv):
     _inherit = "stock.move"
  
@@ -101,6 +102,16 @@ class stock_move(osv.osv):
                             counter += 1
 
         return result
+   
+    def split_move_in_single(self, cr, uid, ids, context=None):
+        for move_id in ids:
+            move = self.browse(cr, uid, move_id)
+            qty = move.product_qty
+            self.write(cr, uid, move.id, {'product_qty': 1, 'product_uos_qty': move.product_id.uos_coeff})
+            while qty > 1:
+                self.copy(cr, uid, move.id, {'state': move.state, 'prodlot_id': None})
+                qty -= 1;
+        return True
 
 stock_move()
 
@@ -112,20 +123,23 @@ class stock_picking(osv.osv):
         result = super(stock_picking, self).action_assign_wkf(cr, uid, ids)
 
         for picking in self.browse(cr, uid, ids):
-            for move in picking.move_lines:
-                if move.product_id.unique_production_number and \
-                   move.product_qty > 1 and \
-                   ((move.product_id.track_production and move.location_id.usage == 'production') or \
-                    (move.product_id.track_production and move.location_dest_id.usage == 'production') or \
-                    (move.product_id.track_incoming and move.location_id.usage == 'supplier') or \
-                    (move.product_id.track_outgoing and move.location_dest_id.usage == 'customer')):
+            if self.pool.get('ir.model.fields').search(cr, uid, [('name', '=', 'company_id'), ('model', '=', 'stock.picking')]): #OpenERP v6 have the field company_id on the stock_picking but v5 doesn't have it, so we use user_id to found the company
+                autosplit = picking.company_id.autosplit_is_active
+            else:
+                user = self.pool.get('res.users').browse(cr, uid, uid)
+                autosplit = user.company_id.autosplit_is_active
 
-                        qty = move.product_qty
-                        self.pool.get('stock.move').write(cr, uid, move.id, {'product_qty': 1, 'product_uos_qty': move.product_id.uos_coeff})
+            
 
-                        while qty > 1:
-                            self.pool.get('stock.move').copy(cr, uid, move.id, {'state': move.state, 'prodlot_id': None})
-                            qty -= 1;
+            if autosplit:
+                for move in picking.move_lines:
+                    if move.product_id.unique_production_number and \
+                       move.product_qty > 1 and \
+                       ((move.product_id.track_production and move.location_id.usage == 'production') or \
+                        (move.product_id.track_production and move.location_dest_id.usage == 'production') or \
+                        (move.product_id.track_incoming and move.location_id.usage == 'supplier') or \
+                        (move.product_id.track_outgoing and move.location_dest_id.usage == 'customer')) or True:
+                            self.pool.get('stock.move').split_move_in_single(cr, uid, [move.id])
 
         return result
 
