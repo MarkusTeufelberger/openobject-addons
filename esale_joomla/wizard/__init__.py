@@ -19,10 +19,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import wizard_product_export
-import wizard_product_category_export
-import wizard_esale_import
+
+import wizard_category
+import wizard_tax
+import wizard_product
+import wizard_producttype
 import wizard_product_stock
-import wizard_taxes_export
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+import wizard_esale_import
+
+from wizard import except_wizard
+
+#import wizard_taxes_export
 

@@ -155,6 +155,7 @@ class purchase_order(osv.osv):
                 'purchase_id': order.id,
                 'port_of_departure': loc_id,
                 'port_of_arrival': order.routing_id and order.routing_id.port_of_loading.id,
+                'kind_transport': order.routing_id and order.routing_id.kind_transport,
                 'loading_code': order.loading_code,
                 'sequence_id': sequence_id[0]
             })

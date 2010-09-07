@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-<data >
+<data noupdate="1">
 	
 	<record model="res.bank"  id="l10n_ch.bank0">
 		<field name="name">Schweizerische Nationalbank</field>

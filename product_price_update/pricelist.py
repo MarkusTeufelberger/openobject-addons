@@ -19,7 +19,6 @@
 #
 ##############################################################################
 from osv import fields, osv
-from tools import config
 
 class product_price_update_wizard(osv.osv_memory):
     """This is the main part of the module. After filling in the form, a
@@ -47,6 +46,7 @@ class product_price_update_wizard(osv.osv_memory):
         pricelist_obj = self.pool.get('product.pricelist')
         cat_obj = self.pool.get('product.category')
         prod_obj = self.pool.get('product.product')
+        cur_obj = self.pool.get('res.currency')
 
         wiz = self.browse(cr, uid, ids[0])
         done = set()
@@ -65,8 +65,8 @@ class product_price_update_wizard(osv.osv_memory):
                     price_new = pricelist_obj.price_get_improved(cr, uid, \
                         [wiz.pricelist_id.id], prod.id, 1)[wiz.pricelist_id.id]\
                         ['price']
-                    roundstr = '%.' + config['price_accuracy'] + 'f'
-                    if roundstr % price_old != roundstr % price_new:
+                    if not cur_obj.is_zero\
+                        (cr, uid, wiz.pricelist_id.currency_id, price_old - price_new):
                         prod_obj.write(cr, uid, [prod.id], {
                             wiz.price_type_id.field: price_new})
                         self.updated_products += 1

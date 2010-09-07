@@ -84,7 +84,7 @@ class make_invoice(wizard.interface):
                     date_due = pterm_list[-1]
 
             curr_invoice = {
-                'name': renewal.domain_id.name+' ('+renewal.date_renewal+'-'+renewal.date_expire+')',
+                'name': renewal.domain_id.name+' ('+renewal.date_renewal+' / '+renewal.date_expire+')',
                 'partner_id': renewal.domain_id.partner_id.id,
                 'date_due': date_due,
             }

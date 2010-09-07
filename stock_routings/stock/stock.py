@@ -77,18 +77,23 @@ class stock_picking(osv.osv):
     
     
     _columns={
-                'bl_no' : fields.char('BL No.', size=64,),
+                'bl_no' : fields.char('BL No / HAWB / CMR', size=64,),
                 'vessel_name' : fields.char('Vessel Name', size=128,),
                 'voyage_number' : fields.char('Voyage Number', size=64,),
-                'shipping_company' : fields.char('Shipping Company', size=128,),
-                'departure_date' : fields.char('Departure Date', size=64),
-                'arrival_date' : fields.char('Arrival Date', size=64),
+                'shipping_company' : fields.char('Shipping Line', size=128,),
+                'kind_transport': fields.selection([('Stock move','Stock Move'),('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Transportation Type', required=True),
+#                'forwarder' : fields.many2one('res.partner','Forwarder agent'),
+                'forwarder' : fields.char('Forwarder agent', size=128),
+                'departure_date' : fields.date('Estimated Time of Departure'),
+                'arrival_date' : fields.date('Estimated Time of Arrival'),
                 'port_of_departure' : fields.many2one('stock.location','Depart From'),
                 'port_of_arrival' : fields.many2one('stock.location','Destination'),
                 'myfab_description' : fields.text('Description',),
                 'container_id' : fields.char('Container ID', size=128,),
                 'container_seal' : fields.char('Nr Container Seal', size=128,),
                 'loading_code' : fields.char('Loading Code', size=128,),
+                'tracking_number' : fields.char('Tracking Number', size=128),
+                'forwarder_ref' : fields.char('Forwarder reference', size=128),
                 'stock_history_lines' : fields.one2many('stock.history','history_id','History',readonly=True),
                 'state': fields.selection([
                     ('draft', 'Draft'),
@@ -108,6 +113,15 @@ class stock_picking(osv.osv):
                 'picking_date' : fields.date('Picking Date', help="Date when actual picking is done by user.",states={'done':[('readonly',True)]}),
                 'system_date' : fields.datetime('System Date',readonly=True),
               }
+    
+    def copy(self, cr, uid, id, default=None, context={}):
+        if default is None:
+            default = {}
+        default = default.copy()
+        default['stock_history_lines']=[]
+        default['backorder_id'] = False
+        return super(stock_picking,self).copy(cr,uid,id,default,context)    
+    
 stock_picking()
 
 def date_difference(cr,uid,old_date,new_date):
@@ -126,6 +140,7 @@ class stock_move(osv.osv):
     
     _columns={
               'picking_date' : fields.date('Picking Date'),
+              'container_id' : fields.char('Container ID', size=128,),
               'state': fields.selection([('draft','Draft'),('waiting','Waiting'),('confirmed','Confirmed'),('assigned','Available'),('done','Received'),('cancel','Canceled')], 'Status', readonly=True, select=True),
               'product_qty': fields.float('Quantity', required=True,states={'confirmed': [('readonly', True)],'assigned': [('readonly', True)],'flottant': [('readonly', True)],'underway': [('readonly', True)],'unproduction': [('readonly', True)],'cancel': [('readonly', True)]}),
               'date_planned': fields.date('Date', required=True, help="Scheduled date for the movement of the products or real date if the move is done."),
@@ -171,6 +186,7 @@ class stock_move(osv.osv):
                         'invoice_state': 'none',
                         'port_of_departure': r_seq.port_of_loading.id,
                         'port_of_arrival': r_seq.port_of_destination.id,
+                        'kind_transport': r_seq.kind_transport
                     })
                     
                         new_moves=[]
@@ -223,6 +239,7 @@ class stock_move(osv.osv):
                         'invoice_state': 'none',
                         'port_of_departure': r_seq.port_of_loading.id,
                         'port_of_arrival': r_seq.port_of_destination.id,
+                        'kind_transport': r_seq.kind_transport
                     })
                     
                         new_moves=[]
@@ -280,6 +297,7 @@ class stock_move(osv.osv):
                             'invoice_state': 'none',
                             'port_of_departure': r_seq.port_of_loading.id,
                             'port_of_arrival': r_seq.port_of_destination.id,
+                            'kind_transport': r_seq.kind_transport
                         })
                         
                             new_moves=[]
@@ -315,8 +333,8 @@ class stock_move(osv.osv):
                     all_move_ids=[]
                     for mv in moves:
                         all_move_ids.append(mv.id)
-                    if all_move_ids:
-                        self.pool.get('stock.move').write(cr, uid, all_move_ids, {'state': 'assigned'})
+#                    if all_move_ids:
+#                        self.pool.get('stock.move').write(cr, uid, all_move_ids, {'state': 'assigned'})
            
         create_chained_picking(self, cr, uid, n_moves, context)
         return []
@@ -449,8 +467,7 @@ class stock_move(osv.osv):
         
         for mv_id in move_ids:
             move_dt=self.read(cr,uid,mv_id,['date_planned','picking_id','move_dest_id'])
-            
-            if not all_pick_ids.__contains__(move_dt['picking_id'][0]) :
+            if move_dt['picking_id'] and not all_pick_ids.__contains__(move_dt['picking_id'][0]) :
                 
                 if move_dt['picking_id'][0]!=move_dates[0]['picking_id'][0]:
                     all_pick_ids.append(move_dt['picking_id'][0])
@@ -519,7 +536,10 @@ class stock_move(osv.osv):
                     stock_obj.write(cr,uid,r['id'],{'min_date':r['min_date']}) 
              
         self.write(cr, uid, ids, {'state': 'done','picking_date':first_pick_date})
-        stock_obj.write(cr,uid,move_dates[0]['picking_id'][0],{'system_date': time.strftime('%Y-%m-%d %H:%M:%S')})
+        
+        if move_dates and move_dates[0]['picking_id']:
+            stock_obj.write(cr,uid,move_dates[0]['picking_id'][0],{'system_date': time.strftime('%Y-%m-%d %H:%M:%S')})
+            
         wf_service = netsvc.LocalService("workflow")
         for id in ids:
             wf_service.trg_trigger(uid, 'stock.move', id, cr)

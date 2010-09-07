@@ -43,11 +43,13 @@ class project_task(osv.osv):
         return True
     
     def write(self, cr, uid, ids, vals, context={}):
+        if isinstance(ids, (int, long)):
+            ids = [ids]
         res = super(project_task,self).write(cr, uid, ids, vals, context)
         date_deadline = vals.get('date_deadline', False)
         if date_deadline:
             for task in self.browse(cr, uid, ids, context):
-                if task.case_id:         
+                if task.case_id:   
                     cr.execute("update crm_case set date = '%s' where id = %d " %(date_deadline, task.case_id.id))                                  
         return res
        
@@ -59,7 +61,9 @@ project_task()
 class crm_case(osv.osv):
     _inherit = "crm.case"
    
-    def write(self, cr, uid, ids,vals,context={}):
+    def write(self, cr, uid, ids, vals,context={}):
+        if isinstance(ids, (int, long)):
+            ids = [ids]
         res = super(crm_case,self).write(cr, uid, ids, vals, context)
         date = vals.get('date',False)
         if date:

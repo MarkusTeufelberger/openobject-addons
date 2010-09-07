@@ -103,13 +103,11 @@ Some additional features, mainly related to OpenERP, where added:
                      'base',
                      ],
         "init_xml" : [],
-        "demo_xml" : [],
+        "demo_xml" : [
+                     'demo/partner_demo_report.xml',
+                     ],
         "update_xml" : [
-                      #
-                      # You might uncomment the next line if you want to
-                      # test the sample report of the demo folder.
-                      #
-                      # 'demo/partner_demo_report.xml'
+                     'report_xml_view.xml',
                         ],
         "installable": True
 }

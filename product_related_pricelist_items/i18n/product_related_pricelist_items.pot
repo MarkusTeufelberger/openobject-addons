@@ -1,0 +1,244 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* product_related_pricelist_items
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.1\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-06-23 09:13:14+0000\n"
+"PO-Revision-Date: 2009-06-23 09:13:14+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.line,categ_id:0
+msgid "Category"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Max. Margin"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Base Price"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Products Listprices Items"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,name:0
+msgid "Explicit rule name for this pricelist line."
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Min. Margin"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "* ( 1 + "
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.line,item_ids:0
+msgid "Price List Items"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,product_tmpl_id:0
+msgid "Set a template if this rule only apply to a template of product. Keep empty for all products"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Rounding Method"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,product_id:0
+msgid "Product"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,categ_id:0
+msgid "Product Category"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: model:ir.model,name:product_related_pricelist_items.model_product_pricelist_wizard_line
+msgid "product.pricelist.wizard.line"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_round:0
+msgid "Price Rounding"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_max_margin:0
+msgid "Max. Price Margin"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid " ) + "
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: model:ir.module.module,shortdesc:product_related_pricelist_items.module_meta_information
+msgid "Related pricelist items"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_surcharge:0
+msgid "Price Surcharge"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.line,price_version_id:0
+msgid "Price List Version"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Rules Test Match"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,min_quantity:0
+msgid "Min. Quantity"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,product_id:0
+msgid "Set a product if this rule only apply to one product. Keep empty for all products"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Price Computation"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: model:ir.module.module,description:product_related_pricelist_items.module_meta_information
+msgid "\n"
+"\n"
+"    Compatibility: tested with OpenERP v5.0\n"
+"    "
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,categ_id:0
+msgid "Set a category of product if this rule only apply to products of a category and his childs. Keep empty for all products"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: code:addons/product_related_pricelist_items/pricelist.py:0
+#, python-format
+msgid "Other Pricelist"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_min_margin:0
+msgid "Min. Price Margin"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,product_tmpl_id:0
+msgid "Product Template"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,base_pricelist_id:0
+msgid "If Other Pricelist"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "New Price ="
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,name:0
+msgid "Rule Name"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: code:addons/product_related_pricelist_items/pricelist.py:0
+#, python-format
+msgid "Partner section of the product form"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,sequence:0
+msgid "Sequence"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.line:0
+msgid "Related Price List Items"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,price_round:0
+msgid "Sets the price so that it is a multiple of this value.\n"
+"Rounding is applied after the discount and before the surcharge.\n"
+"To have prices that end in 9.99, set rounding 10, surcharge -0.01"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,min_quantity:0
+msgid "The rule only applies if the partner buys/sells more than this quantity."
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,base:0
+msgid "The mode for computing the price for this rule."
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,base:0
+msgid "Based on"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,item_id:0
+msgid "Price List Item"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,wizard_line_id:0
+msgid "Wizard Line"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: model:ir.model,name:product_related_pricelist_items.model_product_pricelist_wizard_item
+msgid "Pricelist item"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_discount:0
+msgid "Price Discount"
+msgstr ""
+

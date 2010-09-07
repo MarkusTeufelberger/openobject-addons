@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <wizard id="wizard_cancel_bank_statement" menu="True" model="account.bank.statement" name="account.bank.statement.cancelation" string="Cancel Current Bank Statement" />
+    </data>
+</openerp>

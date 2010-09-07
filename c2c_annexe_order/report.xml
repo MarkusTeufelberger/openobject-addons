@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data >
+
+        <report id="c2c_annexe_order.annexe_order"
+            string="Order Annexes"
+            model="sale.order"
+            name="c2c_annexe_order.annexe_order"
+            rml="c2c_annexe_order/report/order_annexe.rml"
+            auto="False"/>      
+        
+  </data>
+</openerp>

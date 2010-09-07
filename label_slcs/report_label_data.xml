@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+<!--Page Sizes-->
+        <record id="report_pagesize_labelroll" model="report.pagesize">
+            <field name="name" eval="&quot;Label roll&quot;"/>
+            <field name="width" eval="&quot;13cm&quot;"/>
+            <field name="height" eval="&quot;30cm&quot;"/>
+        </record>
+
+<!--Label Manufacturers-->
+        <record id="report_label_manufacturer_bixolon" model="report.label.manufacturer">
+            <field name="name" eval="&quot;Bixolon&quot;"/>
+        </record>
+
+<!--Labels-->
+        <record id="report_label_032_025_3" model="report.label">
+            <field name="name" eval="&quot;032_025_3&quot;"/>
+            <field name="manufacturer_id" ref="report_label_manufacturer_bixolon"/>
+            <field name="pagesize_id" ref="report_pagesize_labelroll"/>
+            <field name="landscape" eval="False"/>
+            <field name="label_width" eval="&quot;3.2cm&quot;"/>
+            <field name="label_height" eval="&quot;2.5cm&quot;"/>
+            <field name="width_incr" eval="&quot;3.5cm&quot;"/>
+            <field name="height_incr" eval="&quot;2.7cm&quot;"/>
+            <field name="rows" eval="1"/>
+            <field name="cols" eval="3"/>
+            <field name="margin_left" eval="&quot;0.1cm&quot;"/>
+            <field name="margin_top" eval="&quot;0cm&quot;"/>
+        </record>
+    </data>
+</openerp>

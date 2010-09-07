@@ -8,23 +8,39 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="stock.view_picking_in_form" />
             <field name="arch" type="xml">
-            	<field name="min_date" select="2" readonly="1" position="after">
-            		<button name="%(change_planned_date)d" states="unproduction,assigned,underway" string="Change Date" type="action"/>
-            	</field>
+            	<field name="min_date" select="2" readonly="1" position="replace"/>
+<!--            		<button name="%(change_planned_date)d" states="unproduction,assigned,underway" string="Change Date" type="action"/>-->
+<!--            	</field>-->
             </field>
         </record>
 	
 		<!--  Add Picking and Syatem date in incoming product Picking  --> 
+		
+		<record id="stock_picking_form_add_PO_fields" model="ir.ui.view">
+            <field name="name">Picking Form add PO</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form" />
+            <field name="priority">18</field>
+            <field name="arch" type="xml">
+                <field name="backorder_id" select="2" readonly="1" position="before">
+                	<field name="purchase_id" string="PO Ref."/>					              	
+                </field>
+            </field>
+        </record>
 		
 		 <record id="stock_picking_form_add_date_fields" model="ir.ui.view">
             <field name="name">Picking Form add State in date fields</field>
             <field name="model">stock.picking</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="stock.view_picking_in_form" />
+            <field name="priority">18</field>
             <field name="arch" type="xml">
                 <field name="backorder_id" select="2" readonly="1" position="after">
-                	<field name="picking_date"/>
-                	<field name="system_date" />
+<!--                	<field name="purchase_id" string="PO Ref."/>-->
+					<field name="picking_date"/>					
+					<button name="%(change_planned_date)d" states="unproduction,assigned,underway" string="Change Date" type="action" colspan="2"/>
+					<field name="min_date" select="2" readonly="1"/>                	                	
                 </field>
             </field>
         </record>
@@ -37,18 +53,22 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Transport Details">
+                    	<field name="kind_transport" select="1" />
+                    	<newline/>
+                    	<field name="voyage_number" select="1" />
                         <field name="bl_no" />
-                        <field name="vessel_name" />
-                        <field name="voyage_number" />
-                        <field name="shipping_company" />
-                        <field name="departure_date" />
-                        <field name="arrival_date" />
                         <field name="port_of_departure" />
                         <field name="port_of_arrival" />
-                        <field name="container_id" />
-                        <newline/>
-                        <field name="container_seal" />
-                        <field name="loading_code" />
+                        <field name="departure_date" />
+                        <field name="arrival_date" />                        
+                        <field name="vessel_name" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>                    
+                        <field name="container_id" select="1" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>                        
+                        <field name="shipping_company" attrs="{'readonly':[('kind_transport','in',('By road'))]}"/>
+                        <field name="container_seal" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="loading_code" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="tracking_number"/>
+	                    <field name="forwarder" select="1" />
+	                    <field name="forwarder_ref"/>                
                         <newline/>
                         <field name="myfab_description" colspan="4"/>
                     </page>
@@ -99,6 +119,20 @@
                 </field>
             </field>
         </record>
+       
+    <!--     Add Container Id in Internal move -->
+      
+        <record id="stock_view_picking_form_add_containerid" model="ir.ui.view">
+            <field name="name">Internal Move From view Add ContainerId in movelines</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+                <field groups="product.group_uos" name="product_uos_qty" position="after">
+                    <field name="container_id"/>
+                </field>
+            </field>
+        </record>
         
         
         <!-- Add Picking date in Moves of Incoming Product Picking form -->
@@ -120,14 +154,15 @@
 	                        <field name="state"/>
 	                    </tree>
 	                    <form string="Stock Moves">
-	                        <separator colspan="4" string="Move Information"/>
+	                        <separator colspan="4" string="Move Information"/>	                    
 	                        <field name="location_id" select="1" domain="[('usage','&lt;&gt;','view')]"/>
 	                        <field domain="[('usage','=','internal')]" name="location_dest_id" select="1"/>
 	                        <field colspan="4" context="location=location_id" name="product_id" on_change="onchange_product_id(product_id, location_id, location_dest_id)" select="1"/>
-	                        <field name="product_qty" select="1"/>
+	                        <field name="product_qty" select="1"/>	                                   
 	                        <field name="product_uom" select="1"/>
 	                        <field groups="product.group_uos" name="product_uos"/>
 	                        <field groups="product.group_uos" name="product_uos_qty"/>
+	                        <field name="container_id"/>
 	                        <field colspan="4" invisible="1" name="name" select="1"/>
 	                        <field groups="base.group_extended" name="date_planned"/>
 	                        <field name="picking_date"/>
@@ -136,7 +171,7 @@
 	                        <field groups="base.group_extended" name="product_packaging"/>
 	                        <newline/>                                    
 	                        <field name="prodlot_id" select="1"
-	                            context="{'location_id':location_id, 'product_id':product_id}"
+	                            context="{'location_id':location_id, 'product_id':product_id, 'move_id':active_id}"
 	                            domain="[('product_id','=',product_id)]"
 	                            on_change="onchange_lot_id(prodlot_id,product_qty, location_id)"/>
 	                        <field groups="base.group_extended" name="tracking_id" select="1"/>
@@ -160,10 +195,11 @@
             <field name="name">Moves Form make planned date readonly</field>
             <field name="model">stock.picking</field>
             <field name="type">form</field>
+            <field name="priority">20</field>
             <field name="inherit_id" ref="stock.view_picking_form" />
             <field name="arch" type="xml">
             	<field name="min_date" select="2" position="replace">
-            		<field name="min_date" select="2" readonly="1"/>
+            		<field name="min_date" select="1" readonly="1"/>
             	</field>
             </field>
         </record>
@@ -176,18 +212,22 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Transport Details">
+                        <field name="kind_transport" select="1" />
+                    	<newline/>
+                    	<field name="voyage_number" select="1" />
                         <field name="bl_no" />
-                        <field name="vessel_name" />
-                        <field name="voyage_number" />
-                        <field name="shipping_company" />
-                        <field name="departure_date" />
-                        <field name="arrival_date" />
                         <field name="port_of_departure" />
                         <field name="port_of_arrival" />
-                        <field name="container_id" />
-                        <newline/>
-                        <field name="container_seal" />
-                        <field name="loading_code" />
+                        <field name="departure_date" />
+                        <field name="arrival_date" />                        
+                        <field name="vessel_name" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="container_id" select="1" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>                        
+                        <field name="shipping_company" attrs="{'readonly':[('kind_transport','in',('By road'))]}"/>
+                        <field name="container_seal" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="loading_code" attrs="{'readonly':[('kind_transport','in',('By air','By road'))]}"/>
+                        <field name="tracking_number"/>
+	                    <field name="forwarder" select="1" />
+	                    <field name="forwarder_ref"/>
                         <newline/>
                         <field name="myfab_description" colspan="4"/>
                     </page>

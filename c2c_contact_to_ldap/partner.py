@@ -1,8 +1,10 @@
-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#author nbessi
-#Thanks to Laurent Lauden for his code adaptation
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
+#
+# Author : Nicolas Bessi (Camptocamp), Thanks to Laurent Lauden for his code adaptation
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential

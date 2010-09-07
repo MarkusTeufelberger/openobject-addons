@@ -27,7 +27,7 @@ msgstr "Borradores de factura"
 #: wizard_field:open_risk_window,init,total_debt:0
 #: field:res.partner,total_debt:0
 msgid "Total Debt"
-msgstr "Deduda total"
+msgstr "Deuda total"
 
 #. module: nan_partner_risk
 #: view:sale.order:0

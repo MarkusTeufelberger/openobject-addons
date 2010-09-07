@@ -90,13 +90,15 @@ class account_bank_statement(osv.osv):
         return vals
 
 
-    def epassporte_extra_info(self, cr, uid, row, config, context={}):
+    def epassporte_extra_info(self, cr, uid, row, config, context=None):
         """If you want create additonal information in OpenERP objects related to epassporte payment,
            you can redefine this method in your own module"""
+        if context == None:
+            context = {}
         return True
 
 
-    def epassporte_import(self, cr, uid, id, file, filename, config_id, context={}):
+    def epassporte_import(self, cr, uid, id, file, filename, config_id, context=None):
         statement_line_obj = self.pool.get('account.bank.statement.line')
         move_line_obj = self.pool.get('account.move.line')
         partner_obj = self.pool.get('res.partner')
@@ -112,6 +114,8 @@ class account_bank_statement(osv.osv):
         property_obj = self.pool.get('ir.property')
         cur_obj = self.pool.get('res.currency')
 
+        if context == None:
+            context = {}
         config = config_obj.browse(cr, uid, config_id)
         company_currency_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.currency_id.id
 

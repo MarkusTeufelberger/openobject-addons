@@ -1,4 +1,4 @@
-# -*- encoding: latin-1 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2010 NaN Projectes de Programari Lliure, S.L. All Rights Reserved.
@@ -63,13 +63,28 @@ class qc_posible_value(osv.osv):
     _defaults = {
         'active': lambda *a: True,
     }
-qc_posible_value()
 
+    def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
+        if context is None:
+            context = {}
+        if context.get('proof_id'):
+            ctx = context.copy()
+            del ctx['proof_id']
+            proof = self.pool.get('qc.proof').browse( cr, uid, context['proof_id'], ctx )
+            result = [ x.id for x in proof.value_ids ]
+            args = args[:]
+            args.append( ('id', 'in',result))
+        return  super(qc_posible_value, self).search(cr, uid, args, offset, limit, order, context, count)
+
+
+qc_posible_value()
 
 class qc_proof( osv.osv ):
     """
-    This model stores proofs which will be part of a test. Proofs are classified between qualitative 
+    This model stores proofs which will be part of a test. Proofs are classified between qualitative
     (such as color) and quantitative (such as density).
+
+    Proof must be related with method, and Poof-Method relation must be unique
 
     A name_search on thish model will search on 'name' field but also on any of its synonyms.
     """
@@ -87,16 +102,19 @@ class qc_proof( osv.osv ):
     _columns = {
         'name': fields.char('Name', size=200, required=True,select="1",translate=True),
         'ref':fields.char('Code',size=30, select="1"),
-        'active': fields.boolean('Active'),
+        'active': fields.boolean('Active', select="1"),
         'synonym_ids': fields.one2many('qc.proof.synonym','proof_id','Synonyms'),
         'type': fields.selection([('qualitative','Qualitative'),('quantitative','Quantitative')], 'Type', select="1",required=True),
-        'posible_values_ids': fields.many2many('qc.posible.value', 'proof_posible_value_rel','posible_value_id','proof_id','Posible Values'),
+        'value_ids': fields.many2many('qc.posible.value', 'qc_proof_posible_value_rel','proof_id','posible_value_id','Posible Values'),
         'synonyms': fields.function(_synonyms, method=True, type='char', size='1000', string='Synonyms', store=False),
     }
 
     _defaults = {
         'active': lambda *a: True,
     }
+    _sql_constraints = [
+        ('proof_method_unique', 'unique(proof_id, method_id)', 'Proof-Method relation alredy exists!'),
+    ]
 
     def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=None):
         result = super(qc_proof,self).name_search(cr, uid, name, args, operator, context, limit)
@@ -187,6 +205,21 @@ class qc_test_template_category( osv.osv):
 qc_test_template_category()
 
 
+
+class qc_test_template_trigger( osv.osv ):
+    _name = 'qc.test.template.trigger'
+
+    _columns ={
+        'name':fields.char('Name', size=64, required=True, readonly=False),
+        'active':fields.boolean('Active', required=False),
+    }
+
+    _defaults = {
+        'active':lambda *a:1,
+    }
+
+qc_test_template_trigger()
+
 class qc_test_template(osv.osv):
     """
     A template is a group of proofs to with the values that make them valid.
@@ -224,14 +257,16 @@ class qc_test_template(osv.osv):
         else:
             return False
 
+
     _columns = {
         'active':fields.boolean('Active', select="1"),
         'name': fields.char('Name', size=200, required=True,translate=True,select="1"),
         'test_template_line_ids':fields.one2many('qc.test.template.line','test_template_id', 'Lines' ),
         'object_id':fields.reference('Reference Object', selection=_links_get, size=128 ) ,
         'fill_correct_values':fields.boolean('Fill With Correct Values' ),
-        'type':fields.selection([('generic','Generic'),('related','Related')], 'Type' ),
+        'type':fields.selection([('generic','Generic'),('related','Related')], 'Type' , select="1"),
         'category_id': fields.many2one('qc.test.template.category','Category'),
+        'trig_on' : fields.many2one('qc.test.template.trigger', 'Trigger'),
     }
 
     _defaults = {
@@ -250,24 +285,28 @@ class qc_test_template_line(osv.osv):
 
     _name = 'qc.test.template.line'
     _order= 'sequence asc'
+    _rec_name = 'sequence'
 
     def onchange_proof_id(self, cr, uid, ids, proof_id,context=None):
         if not proof_id:
-            return {}
+           return {}
         proof = self.pool.get('qc.proof').browse(cr,uid,proof_id)
-        return {'value':{'type':proof.type}}
+        return {'value':{'type':proof.type,
+                        }
+                }
+
 
     _columns = {
         'sequence':fields.integer('Sequence', required=True),
-        'test_template_id': fields.many2one('qc.test.template', 'Test Template'),
-        'proof_id': fields.many2one('qc.proof', 'Proof', required=True),
-        'method_id': fields.many2one('qc.proof.method','Method'),
-        'valid_value': fields.many2one('qc.posible.value','Valid Value'), # Only if qualitative
+        'test_template_id': fields.many2one('qc.test.template', 'Test Template', select="1"),
+        'proof_id': fields.many2one('qc.proof', 'Proof', required=True, select="1"),
+        'valid_value_ids': fields.many2many('qc.posible.value', 'qc_template_value_rel','template_line_id','value_id','Values'),
+        'method_id': fields.many2one('qc.proof.method','Method', select="1"),
         'notes': fields.text('Notes'),
-        'min_value': fields.float('Min'), # Only if quantitative
-        'max_value': fields.float('Max'), # Only if quantitative
+        'min_value': fields.float('Min', digits = (16,5) ), # Only if quantitative
+        'max_value': fields.float('Max', digits = (15,5) ), # Only if quantitative
         'uom_id': fields.many2one('product.uom','Uom'), # Only if quantitative
-        'type': fields.selection([('qualitative','Qualitative'),('quantitative','Quantitative')], 'Type', readonly=True),
+        'type': fields.selection([('qualitative','Qualitative'),('quantitative','Quantitative')], 'Type', select="1"),
     }
 
     _defaults = {
@@ -288,8 +327,12 @@ class qc_test(osv.osv):
         result = {}
         for test in self.browse(cr, uid, ids, context):
             success = True
+            proof={}
             for line in test.test_line_ids:
-                if not line.success:
+                proof[ line.proof_id.id ] = proof.get(line.proof_id.id,False) or line.success
+
+            for p in proof:
+                if not proof[p]:
                     success = False
                     break
             result[test.id] = success
@@ -309,20 +352,20 @@ class qc_test(osv.osv):
             return False
 
     _columns = {
-        'name': fields.datetime('Date',required=True, readonly=True, states={'draft':[('readonly',False)]}),
-        'object_id':fields.reference('Reference', selection=_links_get, size=128, readonly=True, states={'draft':[('readonly',False)]}),
-        'test_template_id': fields.many2one('qc.test.template','Test', states={'success':[('readonly',True)], 'failed':[('readonly',True)]}),
+        'name': fields.datetime('Date',required=True, readonly=True, states={'draft':[('readonly',False)]}, select="1"),
+        'object_id':fields.reference('Reference', selection=_links_get, size=128, readonly=True, states={'draft':[('readonly',False)]}, select="1"),
+        'test_template_id': fields.many2one('qc.test.template','Test', states={'success':[('readonly',True)], 'failed':[('readonly',True)]}, select="1"),
         'test_line_ids': fields.one2many( 'qc.test.line', 'test_id', 'Test Lines', states={'success':[('readonly',True)], 'failed':[('readonly',True)]}),
         'test_internal_note': fields.text('Internal Note', states={'success':[('readonly',True)], 'failed':[('readonly',True)]}),
         'test_external_note': fields.text('External Note', states={'success':[('readonly',True)], 'failed':[('readonly',True)]}),
-        'state': fields.selection([ 
+        'state': fields.selection([
             ('draft','Draft'),
             ('waiting','Waiting Supervisor Approval'),
             ('success','Quality Success'),
             ('failed','Quality Failed'),
-        ], 'State', readonly=True),
-        'success': fields.function(_success, method=True, type='boolean', string='Success', help='This field will be active if all tests have succeeded.'),
-        'enabled': fields.boolean('Enabled', readonly=True, help='If a quality control test is not enabled it means it can not be moved from "Quality Success" or "Quality Failed" state.'),
+        ], 'State', readonly=True, select="1"),
+        'success': fields.function(_success, method=True, type='boolean', string='Success', help='This field will be active if all tests have succeeded.',select="1"),
+        'enabled': fields.boolean('Enabled', readonly=True, help='If a quality control test is not enabled it means it can not be moved from "Quality Success" or "Quality Failed" state.',select="1"),
     }
     _defaults = {
         'name' : lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -330,6 +373,15 @@ class qc_test(osv.osv):
         'object_id': _default_object_id,
         'enabled': lambda *a: True,
     }
+
+    def copy(self, cr, uid, id, default=None,context=None):
+        if context == None:
+            context = {}
+
+        if default == None:
+            default = {}
+        default['name'] = time.strftime('%Y-%m-%d %H:%M:%S')
+        return super( qc_test, self).copy( cr, uid, id, default, context)
 
     def create(self, cr, uid, datas, context=None):
         if context and context.get('reference_model', False):
@@ -356,7 +408,9 @@ class qc_test(osv.osv):
             return quality_check
         return False
 
-    def set_test_template(self, cr, uid, ids, template_id, context):
+    def set_test_template(self, cr, uid, ids, template_id, force_fill=False, context=None):
+        if context == None:
+            context={}
         for id in ids:
             self.pool.get('qc.test').write( cr, uid, id, {
                 'test_template_id' : template_id
@@ -367,11 +421,15 @@ class qc_test(osv.osv):
             if len(test.test_line_ids) > 0:
                 self.pool.get( 'qc.test.line' ).unlink(cr, uid, [x.id for x in test.test_line_ids], context )
 
+            fill=False
+            if test.test_template_id.fill_correct_values:
+                fill=True
+
+
             for line in test.test_template_id.test_template_line_ids:
-                test_line_id = self.pool.get('qc.test.line').create( cr,uid, {
+                data = {
                     'test_id': id,
                     'method_id': line.method_id.id,
-                    'valid_value': line.valid_value.id,
                     'proof_id': line.proof_id.id,
                     'test_template_line_id': line.id,
                     'notes': line.notes,
@@ -380,7 +438,23 @@ class qc_test(osv.osv):
                     'uom_id': line.uom_id.id,
                     'test_uom_id': line.uom_id.id,
                     'proof_type': line.proof_id.type,
-                }, context)
+                }
+                if fill or force_fill :
+                    if line.type == 'qualitative':
+                        # Fill wiht the first correct value finded.
+                        data['actual_value_ql'] = len(line.valid_value_ids) and line.valid_value_ids[0] and  line.valid_value_ids[0].id or False
+
+                    else:
+                        # Fill with value inside rang.
+                        data['actual_value_qt'] =line.min_value
+                        data['test_uom_id'] = line.uom_id.id
+
+                test_line_id = self.pool.get('qc.test.line').create( cr,uid,data , context)
+                self.pool.get('qc.test.line').write(cr, uid, [test_line_id], {
+                        'valid_value_ids': [(6, 0,[x.id for x in line.valid_value_ids ])]
+                    })
+
+
 qc_test()
 
 
@@ -391,6 +465,7 @@ class qc_test_line(osv.osv):
 
     _name = 'qc.test.line'
     _rec_name = 'proof_id'
+
 
     def quality_test_check( self, cr, uid, ids,field_name, field_value, context ):
         res ={}
@@ -403,7 +478,7 @@ class qc_test_line(osv.osv):
         return res
 
     def quality_test_qualitative_check( self, cr, uid, test_line, context ):
-        if test_line.valid_value == test_line.actual_value_ql:
+        if test_line.actual_value_ql in test_line.valid_value_ids:
             return True
         else:
             return False
@@ -420,12 +495,12 @@ class qc_test_line(osv.osv):
         'test_template_line_id':fields.many2one('qc.test.template.line','Test Template Line', readonly=True),
         'proof_id': fields.many2one('qc.proof','Proof', readonly=True),
         'method_id': fields.many2one('qc.proof.method','Method', readonly=True),
-        'valid_value': fields.many2one('qc.posible.value','Valid Value', readonly=True, help="Value that should have the result to be valid if it is a qualitative proof."),
-        'actual_value_qt': fields.float('Qt.Value', help="Value of the result if it is a quantitative proof."),
+        'valid_value_ids': fields.many2many('qc.posible.value', 'qc_test_value_rel','test_line_id','value_id','Values'),
+        'actual_value_qt': fields.float('Qt.Value', digits=(16,5) ,help="Value of the result if it is a quantitative proof."),
         'actual_value_ql': fields.many2one('qc.posible.value','Ql.Value', help="Value of the result if it is a qualitative proof."),
         'notes': fields.text('Notes', readonly=True ),
-        'min_value': fields.float('Min', readonly=True, help="Minimum valid value if it is a quantitative proof."),
-        'max_value': fields.float('Max', readonly=True, help="Maximum valid value if it is a quantitative proof."),
+        'min_value': fields.float('Min', digits=(16,5), readonly=True, help="Minimum valid value if it is a quantitative proof."),
+        'max_value': fields.float('Max', digits=(16,5), readonly=True, help="Maximum valid value if it is a quantitative proof."),
         'uom_id': fields.many2one('product.uom','Uom', readonly=True, help="UoM for minimum and maximum values if it is a quantitative proof."),
         'test_uom_id':fields.many2one('product.uom','Uom Test', help="UoM of the value of the result if it is a quantitative proof."),
         'proof_type': fields.selection([('qualitative','Qualitative'),('quantitative','Quantitative')], 'Proof Type', readonly=True),
@@ -467,7 +542,8 @@ class qc_test_wizard(osv.osv_memory):
         return {
             'type': 'ir.actions.act_window_close',
         }
-   
+
 qc_test_wizard()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

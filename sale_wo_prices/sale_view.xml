@@ -41,8 +41,8 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <field name="amount_untaxed" sum="Untaxed amount" position="replace">
-                <field name="amount_untaxed" sum="Untaxed amount" groups="sale.group_sale_manager"/>
+            <field name="amount_untaxed" position="replace">
+                <field name="amount_untaxed" groups="sale.group_sale_manager"/>
             </field>
         </field>
     </record>
@@ -65,8 +65,8 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <field name="amount_total" sum="Total amount" position="replace">
-                <field name="amount_total" sum="Total amount" groups="sale.group_sale_manager"/>
+            <field name="amount_total" position="replace">
+                <field name="amount_total" groups="sale.group_sale_manager"/>
             </field>
         </field>
     </record>

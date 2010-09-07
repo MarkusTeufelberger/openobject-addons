@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        ##############################################################################
+        #
+        #    sale_retails module for OpenERP, allows the management of deposit
+        #    Copyright (C) 2010 SYLEAM Info Services ([http://www.syleam.fr/]) Suzanne Jean-Sebastien
+        #
+        #    This file is a part of sale_retails
+        #
+        #    sale_retails is free software: you can redistribute it and/or modify
+        #    it under the terms of the GNU General Public License as published by
+        #    the Free Software Foundation, either version 3 of the License, or
+        #    (at your option) any later version.
+        #
+        #    sale_retails is distributed in the hope that it will be useful,
+        #    but WITHOUT ANY WARRANTY; without even the implied warranty of
+        #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        #    GNU General Public License for more details.
+        #
+        #    You should have received a copy of the GNU General Public License
+        #    along with this program.  If not, see [http://www.gnu.org/licenses/].
+        #
+        ##############################################################################
+
+        <record id="invoice_form_inherit_sale_simple_pos" model="ir.ui.view">
+            <field name="name">account.invoice.form.sale_simple_pos</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="origin" position="replace">
+                    <field name="origin" invisible="1" />
+                    <field name="sale_order_ids" colspan="4" />
+                </field>
+            </field>
+        </record>
+
+        <record id="invoice_supplier_form_inherit_sale_simple_pos" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.sale_simple_pos</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="type">form</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <field name="origin" position="replace">
+                    <field name="origin" invisible="1" />
+                    <field name="sale_order_ids" colspan="4" />
+                </field>
+            </field>
+        </record>
+
+        <record id="view_simple_pos_deposit" model="ir.ui.view">
+            <field name="name">view_simple_pos_deposit</field>
+            <field name="model">sale_simple_pos.simple_deposit_wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Deposit">
+                    <field name="amount_paid" />
+                    <field name="amount_all" invisible="1" />
+                    <field name="pay_all" on_change="pay_all_change(pay_all, amount_all)" />
+                    <field name="payment_description" required="1"/>
+                    <field name="journal_id" attrs="{'required':[('amount_paid', '!=', 0)]}"/>
+                    <button icon="gtk-cancel" colspan="2" special="cancel" string="Cancel"/>
+                    <button icon="gtk-ok" colspan="2" name="create_simple_deposit" string="Ok" type="object"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_simple_pos_deposit_wizard" model="ir.actions.act_window">
+            <field name="name">Simple Deposit</field>
+            <field name="res_model">sale_simple_pos.simple_deposit_wizard</field>
+            <field name="src_model">sale.order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+    </data>
+</openerp>

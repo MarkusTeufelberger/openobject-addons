@@ -1,0 +1,9 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_ir_documentation_paragraph","paragraph","model_ir_documentation_paragraph","base.group_user",1,1,1,1
+"access_ir_documentation_screenshot","screenshot","model_ir_documentation_screenshot","base.group_user",1,1,1,1
+"access_ir_documentation_menu","menu","model_ir_documentation_menu","base.group_user",1,1,1,1
+"access_ir_documentation_field","field","model_ir_documentation_field","base.group_user",1,1,1,1
+"access_ir_documentation_view","view","model_ir_documentation_view","base.group_user",1,1,1,1
+"access_ir_documentation_file","file","model_ir_documentation_file","base.group_user",1,1,1,1
+"access_documentation_generate_wizard","generate","model_documentation_generate_wizard","base.group_user",1,1,1,1
+"access_documentation_import_wizard","import","model_documentation_import_wizard","base.group_user",1,1,1,1

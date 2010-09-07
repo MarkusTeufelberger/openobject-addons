@@ -26,7 +26,32 @@ Extends report_xml to add new report types to the report_type selection.
 """
 __author__ = "Borja López Soilán (Pexego)"
 
+import os
+import base64
 from osv import osv, fields
+import openoffice_report
+from tools.translate import _
+
+class report_xml_file(osv.osv):
+    _name = 'ir.actions.report.xml.file'
+    _columns = {
+        'file': fields.binary('File', required=True, filters="*.odt,*.pdf,*.html,*.doc,*.rtf,*.txt,*.ods,*.xls,*.csv,*.odp,*.ppt,*.swf", help=''),
+        'filename': fields.char('File Name', size=256, required=False, help=''),
+        'report_id': fields.many2one('ir.actions.report.xml', 'Report', required=True, ondelete='cascade', help=''),
+        'default': fields.boolean('Default', help=''),
+    }
+    def create(self, cr, uid, vals, context=None):
+        result = super(report_xml_file,self).create(cr, uid, vals, context)
+        self.pool.get('ir.actions.report.xml').update(cr, uid, [vals['report_id']], context)
+        return result
+
+    def write(self, cr, uid, ids, vals, context=None):
+        result = super(report_xml_file,self).write(cr, uid, ids, vals, context)
+        for attachment in self.browse(cr, uid, ids, context):
+            self.pool.get('ir.actions.report.xml').update(cr, uid, [attachment.report_id.id], context)
+        return result
+
+report_xml_file()
 
 class report_xml(osv.osv):
     """
@@ -34,9 +59,9 @@ class report_xml(osv.osv):
 
     You may declare reports of the new types like this
         <report id="report_REPORTNAME"
-			... />
+            ... />
         <record model="ir.actions.report.xml" id="report_REPORTNAME">
-	        <field name="report_type">oo-odt</field>
+            <field name="report_type">oo-odt</field>
         </record>
     """
     
@@ -63,6 +88,81 @@ class report_xml(osv.osv):
                 ('oo-ppt', 'OpenOffice - ppt output'),
                 ('oo-swf', 'OpenOffice - swf output'),
             ], string='Type', required=True),
+        'openoffice_file_ids': fields.one2many('ir.actions.report.xml.file', 'report_id', 'Files', help=''),
+        'openoffice_model_id': fields.many2one('ir.model', 'Model', help=''),
+        'openoffice_report': fields.boolean('Is OpenOffice Report?', help=''),
     }
+
+    def create(self, cr, uid, vals, context=None):
+        if context and context.get('openoffice_report'):
+            vals['model'] = self.pool.get('ir.model').browse(cr, uid, vals['openoffice_model_id'], context).model
+            vals['type'] = 'ir.actions.report.xml'
+#            vals['report_type'] = 'pdf'
+            vals['openoffice_report'] = True
+        return super(report_xml,self).create(cr, uid, vals, context)
+
+    def write(self, cr, uid, ids, vals, context=None):
+        if context and context.get('openoffice_report'):
+            if 'openoffice_model_id' in vals:
+                vals['model'] = self.pool.get('ir.model').browse(cr, uid, vals['openoffice_model_id'], context).model
+            vals['type'] = 'ir.actions.report.xml'
+#            vals['report_type'] = 'pdf'
+            vals['openoffice_report'] = True
+        return super(report_xml,self).write(cr, uid, ids, vals, context)
+
+    def update(self, cr, uid, ids, context={}):
+        for report in self.browse(cr, uid, ids):
+            has_default = False
+            # Browse attachments and store .odt into pxgo_openoffixe_reprots/custom_reports
+            # directory. Also add or update ir.values data so they're shown on model views.
+            #for attachment in self.pool.get('ir.attachment').browse( cr, uid, attachmentIds ):
+            for attachment in report.openoffice_file_ids:
+                content = attachment.file
+                fileName = attachment.filename
+                if not fileName or not content:
+                    continue
+                path = self.save_file( fileName, content )
+                for extension in ['.odt','.pdf','.html','.doc','.rtf','.txt','.ods','.xls','.csv','.odp','.ppt','.swf']:
+                    if extension in fileName:
+                        if attachment.default:
+                            if has_default:
+                                raise osv.except_osv(_('Error'), _('There is more than one report marked as default'))
+                            has_default = True
+                            # Update path into report_rml field.
+                            self.write(cr, uid, [report.id], {
+                                'report_rml': path
+                            })
+                            valuesId = self.pool.get('ir.values').search(cr, uid, [('value','=','ir.actions.report.xml,%s'% report.id)])
+                            data = {
+                                'name': report.name,
+                                'model': report.model,
+                                'key': 'action',
+                                'object': True,
+                                'key2': 'client_print_multi',
+                                'value': 'ir.actions.report.xml,%s'% report.id
+                            }
+                            if not valuesId:
+                                valuesId = self.pool.get('ir.values').create(cr, uid, data, context=context)
+                            else:
+                                self.pool.get('ir.values').write(cr, uid, valuesId, data, context=context)
+                                valuesId = valuesId[0]
+
+            if not has_default:
+                raise osv.except_osv(_('Error'), _('No report has been marked as default.'))
+
+            # Ensure the report is registered so it can be used immediately
+            openoffice_report.register_openoffice_report( report.report_name, report.model )
+        return True
+
+    def save_file(self, name, value):
+        path = os.path.abspath( os.path.dirname(__file__) )
+        path += '/custom_reports/%s' % name
+        f = open( path, 'wb+' )
+        try:
+            f.write( base64.decodestring( value ) )
+        finally:
+            f.close()
+        path = 'pxgo_openoffice_reports/custom_reports/%s' % name
+        return path
 
 report_xml()

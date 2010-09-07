@@ -129,7 +129,8 @@ class pos_order(osv.osv):
                 'reference': order.name,
                 'partner_id': order.partner_id.id,
                 'comment': order.note or '',
-                'price_type': prices_tax_include and 'tax_included' or 'tax_excluded'
+                'price_type': prices_tax_include and 'tax_included' or 'tax_excluded',
+                'journal_id': order.sale_journal.id,
             }
             inv.update(inv_ref.onchange_partner_id(cr, uid, [], 'out_invoice', order.partner_id.id)['value'])
             inv_id = inv_ref.create(cr, uid, inv, context)

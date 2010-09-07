@@ -62,7 +62,7 @@ class product_template(osv.osv):
               'list_price_ids' :fields.one2many('company.wise.sale.price','product_id')
               }
     def create(self,cr,uid,vals,context={}):
-        standard_ids=vals['standard_price_ids']
+        standard_ids = vals.get('standard_price_ids',[])
         if not standard_ids:
             company=self.pool.get('res.users').read(cr,uid,uid,['company_id'])['company_id']
 #            raise osv.except_osv(_('Error !'),

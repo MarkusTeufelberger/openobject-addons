@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) Camptocamp SA
-# Author: Arnaud Wüst
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
 #
-#
-#    This file is part of the c2c_timesheet_report module
-#
+# Author : Arnaud Wüst (Camptocamp)
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential

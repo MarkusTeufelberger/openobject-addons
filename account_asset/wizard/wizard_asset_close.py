@@ -22,26 +22,53 @@
 
 import wizard
 import pooler
+import time
+from tools.translate import _
 
 asset_end_arch = '''<?xml version="1.0"?>
-<form string="Close asset">
+<form string="Method Suppression">
     <separator string="General information" colspan="4"/>
+    <field name="name" colspan="4"/>
+    <field name="whole_asset" colspan="4"/>    
+    <separator string="Notes" colspan="4"/>
+    <field name="note" nolabel="1" colspan="4"/>
 </form>'''
 
 asset_end_fields = {
+    'name': {'string':'Description', 'type':'char', 'size':64, 'required':True},
+    'whole_asset': {'string':'All Methods', 'type':'boolean'},
+    'note': {'string':'Notes', 'type':'text'},
+
 }
+
+def _asset_default(self, cr, uid, data, context={}):
+    pool = pooler.get_pool(cr.dbname)
+    method = pool.get('account.asset.method').browse(cr, uid, data['id'], context)
+    return {
+        'note': _("Suppressed because: "),
+    }
+
+
+def _asset_suppress(self, cr, uid, data, context={}):
+    pool = pooler.get_pool(cr.dbname)
+    method_obj = pool.get('account.asset.method')
+    met = method_obj.browse(cr, uid, data['id'], context)
+    methods = data['form']['whole_asset'] and met.asset_id.method_ids or [met]
+    method_obj._suppress(cr, uid, methods, data['form']['name'], data['form']['note'], context)
+    return {}
+
 
 class wizard_asset_close(wizard.interface):
     states = {
         'init': {
-            'actions': [],
+            'actions': [_asset_default],
             'result': {'type':'form', 'arch':asset_end_arch, 'fields':asset_end_fields, 'state':[
                 ('end','Cancel'),
-                ('asset_close','End of asset')
+                ('asset_suppress','Suppress Depreciation')
             ]}
         },
-        'asset_close': {
-            'actions': [],
+        'asset_suppress': {
+            'actions': [_asset_suppress],
             'result': {'type' : 'state', 'state': 'end'}
         }
     }

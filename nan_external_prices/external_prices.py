@@ -54,7 +54,6 @@ class sale_order(osv.osv):
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context):
         result = super(sale_order, self)._amount_all(cr, uid, ids, field_name, arg, context)
-        print "HOLA!!!!"
         for order in self.browse(cr, uid, ids, context):
             if order.use_external_prices:
                 amount_tax = 0.0
@@ -188,7 +187,6 @@ class account_invoice_line(osv.osv):
         for line in self.browse(cr, uid, ids, context):
             if line.invoice_id.use_external_prices:
                 result[line.id]['price_subtotal_incl'] = line.external_base_amount + line.external_tax_amount
-        print "HER: ", result
         return result
 
     def _get_invoice(self, cr, uid, ids, context):

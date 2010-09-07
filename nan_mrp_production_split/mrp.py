@@ -1,7 +1,7 @@
 # -*- encoding: latin-1 -*-
 ##############################################################################
 #
-# Copyright (c) 2009 Àngel Àlvarez - NaN  (http://www.nan-tic.com) All Rights Reserved.
+# Copyright (c) 2009 Ã€ngel Ã€lvarez - NaN  (http://www.nan-tic.com) All Rights Reserved.
 #
 #
 # WARNING: This program as such is intended to be used by professional
@@ -37,15 +37,63 @@ import netsvc
 class mrp_production(osv.osv):
     _inherit = 'mrp.production'
 
-    #_columns = {
-        #'split_into_id': fields.many2one('mrp.production', 'Merged into', required=False, readonly=True, help='Production order in which this production order has been merged into.'),
-        #'merged_from_ids': fields.one2many('mrp.production', 'merged_into_id', 'Merged from', help='List of production orders that have been merged into the current one.'),
-    #}
+    def _change_prod_qty(self, cr, uid, id ,quantity, context):
+
+        prod_obj = self.pool.get('mrp.production')
+        prod = prod_obj.browse(cr, uid, id , context=context)
+        prod_obj.write(cr, uid, prod.id, {'product_qty' : quantity })
+        prod_obj.action_compute(cr, uid, [prod.id])
+
+        move_lines_obj = self.pool.get('stock.move')
+        for move in prod.move_lines:
+            bom_point = prod.bom_id
+            bom_id = prod.bom_id.id
+            if not bom_point:
+                bom_id = self.pool.get('mrp.bom')._bom_find(cr, uid, prod.product_id.id, prod.product_uom.id)
+                if not bom_id:
+                    raise osv.except_osv(_('Error'), _("Couldn't find bill of material for product"))
+                self.write(cr, uid, [prod.id], {'bom_id': bom_id})
+                bom_point = self.pool.get('mrp.bom').browse(cr, uid, [bom_id])[0]
+
+            if not bom_id:
+                raise osv.except_osv(_('Error'), _("Couldn't find bill of material for product"))
+
+            factor = prod.product_qty * prod.product_uom.factor / bom_point.product_uom.factor
+            res = self.pool.get('mrp.bom')._bom_explode(cr, uid, bom_point, factor / bom_point.product_qty, [])
+            for r in res[0]:
+                if r['product_id']== move.product_id.id:
+                    move_lines_obj.write(cr, uid,move.id, {'product_qty' :  r['product_qty']})
+
+        product_lines_obj = self.pool.get('mrp.production.product.line')
+
+        for m in prod.move_created_ids:
+            move_lines_obj.write(cr, uid,m.id, {'product_qty' : quantity})
+
+        return {}
+
+    def _update_picking( self,cr,uid,id,try_assign=False, context=None ):
+        if context == None:
+            context={}
+
+        prod = self.browse(cr,uid,id,context=context)
+
+        cancel_moves =  [x.id for x in prod.picking_id.move_lines]
+        lines = []
+        for move_line in  prod.move_lines:
+            new_mome_id = self.pool.get('stock.move').copy(cr,uid, move_line.id, {'location_dest_id':prod.location_src_id.id, 'picking_id':prod.picking_id.id,'state':'confirmed'}, context = context)
+            lines.append(new_mome_id)
+        self.pool.get('stock.picking').browse(cr,uid,prod.picking_id.id,context=context)
+
+        self.pool.get('stock.picking').write( cr, uid, prod.picking_id.id, {'move_lines':[(6,0,lines)]}, context=context)
+        self.pool.get('stock.move').action_cancel(cr,uid, cancel_moves,context)
+        if try_assign:
+            self.pool.get('stock.picking')._try_assign(cr, uid, production.picking_id, context)
+
 
     def _split(self, cr, uid, id, quantity, context):
         """
         Sets the quantity to produce for production with id 'id' to 'quantity' and
-        creates a new production order with the deference between current amount and 
+        creates a new production order with the deference between current amount and
         the new quantity.
         """
 
@@ -64,9 +112,11 @@ class mrp_production(osv.osv):
 
         self.write(cr, uid, production.id, {
             'product_qty': quantity,
+            'product_lines': [],
         }, context)
 
-        self.action_compute(cr, uid, [id, new_production_id])
+        self.action_compute(cr, uid, [ new_production_id])
+        self._change_prod_qty( cr, uid, production.id ,quantity, context)
         workflow = netsvc.LocalService("workflow")
         workflow.trg_validate(uid, 'mrp.production', new_production_id, 'button_confirm', cr)
 
@@ -75,3 +125,4 @@ class mrp_production(osv.osv):
 mrp_production()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

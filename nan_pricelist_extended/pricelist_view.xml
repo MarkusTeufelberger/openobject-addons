@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	<!-- product.pricelist.item -->
+	<record id="product_pricelist_item_form_view_supplier_id" model="ir.ui.view">
+		<field name="name">product.pricelist.item.form.supplier_id</field>
+		<field name="model">product.pricelist.item</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+		<field name="arch" type="xml">
+			<field name="categ_id" position="after">
+				<field name="supplier_id"/>
+			</field>
+		</field>
+	</record>
+	<record id="product_pricelist_item_form_view_rounding_mode" model="ir.ui.view">
+		<field name="name">product.pricelist.item.form.rounding_mode</field>
+		<field name="model">product.pricelist.item</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="product_pricelist_item_form_view_supplier_id"/>
+		<field name="arch" type="xml">
+			<field name="price_max_margin" position="after">
+				<field name="rounding_mode"/>
+			</field>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="product_pricelist_item_form_extended">
+		<field name="name">product.pricelist.item.extended</field>
+		<field name="model">product.pricelist.item</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="product.product_pricelist_item_form_view" />
+		<field name="arch" type="xml">
+			<field name="base_pricelist_id" position="replace">
+				<field name="category_id" />
+				<group colspan="4" attrs="{'invisible':[('base','not in',[-1])]}">
+					<separator string="Dependency Properties" colspan="4" />
+					<field name="base_pricelist_id" attrs="{'required': [('base','=',-1)], 'readonly':[('base','!=',-1)]}" />
+					<field name="base_itemrule_id" attrs="{'readonly':[('base','!=',-1)]}" context="{'ruleitem_id':active_id}" />
+				</group>
+				<separator string="Price Properties" colspan="4"/>
+			</field>
+		</field>
+	</record>
+
+	<!-- product.pricelist -->
+	<record id="product_pricelist_view_tree_extended" model="ir.ui.view">
+		<field name="name">product.pricelist.extendedtree</field>
+		<field name="model">product.pricelist</field>
+		<field name="type">tree</field>
+		<field name="inherit_id" ref="product.product_pricelist_view_tree" />
+		<field name="arch" type="xml">
+			<field name="type" position="after">
+				<field name="category_id" select="1"/>
+			</field>
+		</field>
+	</record>
+	<record id="product_pricelist_view_extended" model="ir.ui.view">
+		<field name="name">product.pricelist.extended.form</field>
+		<field name="model">product.pricelist</field>
+		<field name="inherit_id" ref="product.product_pricelist_view" />
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<field name="active" select="1" position="after">
+				<field name="category_id" select="1" />
+			</field>
+		</field>
+	</record>
+
+	<!-- item views -->
+
+	<record id="product_pricelist_item_tree_view2" model="ir.ui.view">
+        <field name="name">product.pricelist.item.tree2</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Products Listprices Items">
+                <field name="price_version_id" select="1"/>
+                <field name="category_id" select="1" />
+                <field name="sequence"/>
+                <field name="name" select="1"/>
+                <field name="product_id" select="1" />
+                <field name="categ_id" select="1"/>
+                <field name="min_quantity"/>
+                <field name="base"/>
+            </tree>
+        </field>
+    </record>
+
+
+	<record id="product_pricelist_action_item" model="ir.actions.act_window">
+            <field name="name">Pricelist Items</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.pricelist.item</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product_pricelist_item_tree_view2"/>
+            <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem action="product_pricelist_action_item" id="menu_product_pricelist_item_action" parent="product.menu_product_pricelist_main" sequence="3"/>
+
+
+
+</data>
+</openerp>
+

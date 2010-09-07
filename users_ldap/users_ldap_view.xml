@@ -1,35 +1,56 @@
 <?xml version="1.0"?>
 <openerp>
-	<data>
-		<record model="ir.ui.view" id="company_form_view">
-			<field name="name">res.company.form.inherit.users_ldap</field>
-			<field name="model">res.company</field>
-			<field name="type">form</field>
-			<field name="inherit_id" ref="base.view_company_form"/>
-			<field name="arch" type="xml">
-				<field name="currency_id" position="after">
-					<field name="ldaps" colspan="4">
-						<form string="LDAP Parameters">
-                            <field name="ldap_server"/>
-                            <field name="ldap_server_port"/>
-							<field name="ldap_binddn"/>
-							<field name="ldap_password"/>
-							<field name="ldap_base"/>
-							<field name="ldap_filter"/>
-							<field name="create_user"/>
-                            <field name="user"/>
-                            <newline/>
-                            <field name="sequence"/>
-						</form>
-						<tree string="LDAP Parameters">
-							<field name="sequence"/>
-                            <field name="ldap_server"/>
-                            <field name="ldap_server_port"/>
-							<field name="ldap_base"/>
-						</tree>
-					</field>
-				</field>
-			</field>
-		</record>
-	</data>
+    <data>
+        <record model="ir.ui.view" id="company_ldap_form_view">
+            <field name="name">res.company.ldap</field>
+            <field name="model">res.company.ldap</field>
+            <field name="type">form</field>
+            <field name='priority' eval="8"/>
+            <field name="arch" type="xml">
+                <form string="LDAP Parameters">
+                    <separator string="Server Information" colspan="4"/>
+                    <field name="ldap_server"/>
+                    <field name="ldap_server_port"/>
+                    <field name="sequence"/>
+                    <field name="ldap_password" password="True"/>
+                    <field name="ldap_binddn" colspan="4"/>
+                    <separator string="Search info" colspan="4"/>
+                    <field name="ldap_base" colspan="4"/>
+                    <field name="ldap_filter" colspan="4"/>
+                    <separator string="Action" colspan="4"/>
+                    <field name="create_user"/>
+                    <field name="user"/>
+                    <newline/>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="company_ldap_tree_view">
+            <field name="name">res.company.ldap</field>
+            <field name="model">res.company.ldap</field>
+            <field name="type">tree</field>
+            <field name='priority' eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="LDAP Parameters">
+                    <field name="sequence"/>
+                    <field name="ldap_server"/>
+                    <field name="ldap_server_port"/>
+                    <field name="ldap_base"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="company_form_view">
+            <field name="name">res.company.form.inherit.users_ldap</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='currency_id']" position="after">
+                    <separator string="LDAP Parameters" colspan="4"/>
+                    <field name="ldaps" colspan="4" nolabel="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </openerp>

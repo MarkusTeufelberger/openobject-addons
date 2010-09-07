@@ -246,6 +246,6 @@ class ir_model_data(osv.osv):
         #'external_referential_id':fields.many2one('external.referential', 'Ext. Referential'),
         #'create_date': fields.datetime('Created date', readonly=True), #TODO used?
         #'write_date': fields.datetime('Updated date', readonly=True), #TODO used?
-                }
+    }
 
 ir_model_data()

@@ -123,6 +123,8 @@ class hr_holidays(osv.osv):
         'user_id': lambda obj, cr, uid, context: uid,
         'date_from1': lambda *a: time.strftime('%Y-%m-%d'),
         'date_to1': lambda *a: time.strftime('%Y-%m-%d'),
+        'date_from': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
+        'date_to': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
             }
     _order = 'date_from1 desc'
 
@@ -134,8 +136,6 @@ class hr_holidays(osv.osv):
             return {'value':{}}
             
     def days_chaeck(self,cr,uid,ids,s1):
-        print s1
-        
         seaobj=self.pool.get('days.holidays.days').browse(cr,uid,s1)
         if seaobj.holiday_id.id:
             if not seaobj.holiday_id.id==ids[0]:

@@ -1,0 +1,51 @@
+## -*- coding: utf-8 -*-
+##############################################################################
+##
+##    Copyright (C) 2010 Gábor Dukai <gdukai@gmail.com>
+##
+##    This program is free software: you can redistribute it and/or modify
+##    it under the terms of the GNU General Public License as published by
+##    the Free Software Foundation, either version 3 of the License, or
+##    (at your option) any later version.
+##
+##    This program is distributed in the hope that it will be useful,
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##    GNU General Public License for more details.
+##
+##    You should have received a copy of the GNU General Public License
+##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+##############################################################################
+SL${vals.label_height},${vals.height_incr - vals.label_height},G
+<%
+font = {
+  0: {'w': 9, 'h': 15},
+  1: {'w': 12, 'h': 20},
+  2: {'w': 16, 'h': 25},
+  3: {'w': 19, 'h': 30},
+  4: {'w': 24, 'h': 38},
+  5: {'w': 32, 'h': 50},
+  6: {'w': 48, 'h': 76},
+  7: {'w': 22, 'h': 34},
+  8: {'w': 28, 'h': 44},
+  9: {'w': 37, 'h': 58},
+}
+def splittext(f, aw, text):
+  length = int(aw / font[f]['w'])
+  return [text[i: i + length] for i in range(0, len(text), length)]
+%>
+<% col = 0 %>
+%for j, obj in enumerate(obj_list):
+  %for i in range(0, obj['qty']):
+    <%include file="usertemplate.txt" args="object=objects[j], col=col, vals=vals, font=font, splittext=splittext, user=user"/>
+    <% col += 1 %>
+    %if col >= vals.cols:
+      <% col = 0 %>
+      P1
+    %endif
+  %endfor
+%endfor
+%if col:
+  P1
+%endif

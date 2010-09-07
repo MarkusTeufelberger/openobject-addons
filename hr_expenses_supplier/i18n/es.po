@@ -1,0 +1,47 @@
+# Spanish translation for openobject-addons
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-09-04 17:40+0000\n"
+"PO-Revision-Date: 2010-07-16 05:02+0000\n"
+"Last-Translator: Ana Juaristi Olalde <ajuaristio@gmail.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-08-10 03:47+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: hr_expenses_supplier
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: hr_expenses_supplier
+#: model:ir.module.module,shortdesc:hr_expenses_supplier.module_meta_information
+msgid "HR Expenses Supplier"
+msgstr "RRHH Gastos Proveedor"
+
+#. module: hr_expenses_supplier
+#: model:ir.module.module,description:hr_expenses_supplier.module_meta_information
+msgid ""
+"\n"
+"    Add supplier on expenses lines for generate invoice supplier\n"
+"    if the employe didn't paid the expenses but the society\n"
+"    "
+msgstr ""
+"\n"
+"    Añade proveedor en las líneas de gasto para generar una factura de "
+"proveedor.\n"
+"Si la empresa paga los gastos en vez de el empleado\n"
+"    "
+
+#. module: hr_expenses_supplier
+#: field:hr.expense.line,partner_id:0
+msgid "Supplier"
+msgstr "Proveedor"

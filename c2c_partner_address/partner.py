@@ -1,7 +1,11 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-# @author Bessi Nicolas
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# All Right Reserved
+#
+# Author : Nicolas Bessi (Camptocamp)
+#
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
 # consequences resulting from its eventual inadequacies and bugs
@@ -98,9 +102,28 @@ class ResPartnerAddress(osv.osv):
         logger = netsvc.Logger()
         if not len(ids):
             return []
-        reads = self.read(cr, uid, ids, ['lastname','firstname','street','street2','city','po_box'], context)
+        reads = self.read(
+                            cr,
+                            uid, 
+                            ids, 
+                            [
+                                'lastname',
+                                'firstname',
+                                'street',
+                                'street2',
+                                'city',
+                                'po_box', 
+                                'partner_id'
+                            ], 
+                            context
+                        )
         res = []
         for record in reads:
+            if context.get('contact_display', 'contact')=='partner' and record['partner_id']:
+                part = self.pool.get('res.partner').browse(cr, uid, 
+                    record['partner_id'][0])
+                res.append((record['id'], part.name))
+                continue
             if type(record['lastname']) is bool :
                 record['lastname'] = ''
             if type(record['firstname']) is bool :
@@ -120,6 +143,7 @@ class ResPartnerAddress(osv.osv):
                 name = 'N/A'
             res.append((record['id'], name))
         return res
+    
     
         
     def init(self, cr):
@@ -175,7 +199,7 @@ class ResPartnerAddress(osv.osv):
         return super(ResPartnerAddress,self).search(cr, user, args, offset, limit,
                 order, context=context, count=count)
     
-    def name_search(self, cr, user, obj, name, args,context={}):
+    def name_search(self, cr, user, obj, name, args, context={}, limit=None):
         res = []
         whereclause = ''
         logger = netsvc.Logger()

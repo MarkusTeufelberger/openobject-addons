@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- ************************************************************** -->
+        <!-- ** On change view on product category ************************ -->
+        <!-- ************************************************************** -->
+        <record id="view_product_product_extended_form" model="ir.ui.view">
+            <field name="name">product.product.extended.form - Category</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="priority" eval="18"/>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="/form/notebook/page/group/field[@name='categ_id']" position="replace">
+                    <field name="categ_id" select="1" on_change="onchange_category(categ_id)"/>
+                </xpath>
+
+            </field>
+        </record> 
+
+        <!-- ************************************************************** -->
+        <!-- ** Add notebook on product category ************************** -->
+        <!-- ************************************************************** -->
+        <record id="product.product_category_form_view" model="ir.ui.view">
+            <field name="priority" eval="8"/>
+        </record>
+
+        <record id="product_category_notebook_form" model="ir.ui.view">
+            <field name="name">product.category.extended - Form</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="priority" eval="10"/>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/field[@name='sequence']" position="replace">
+                    <notebook colspan="4">
+                        <page string="General">
+                            <group colspan="4">
+                                <separator string="Information" colspan="4"/>
+                                <group col="2" colspan="2">
+                                    <field name="sequence" colspan="2"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ************************************************************** -->
+        <!-- ** Replace the original view on stock ************************ -->
+        <!-- ************************************************************** -->
+        <record id="stock.view_category_property_form" model="ir.ui.view">
+            <field name="name">product.category.extended - Stock</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="priority" eval="14"/>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook" position="inside">
+                    <page string="Accounting">
+                        <group col="2" colspan="2">
+                            <separator colspan="2" string="Accounting Stock Properties"/>
+                            <field domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" name="property_stock_account_input_categ"/>
+                            <field domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" name="property_stock_account_output_categ"/>
+                            <field name="property_stock_journal"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ************************************************************** -->
+        <!-- ** Replace the original view on stock ************************ -->
+        <!-- ************************************************************** -->
+        <record id="account.view_category_property_form" model="ir.ui.view">
+            <field name="name">product.category.extended - Account</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='Accounting']" position="inside">
+                    <group col="2" colspan="2">
+                        <separator colspan="2" string="Accounting Properties"/>
+                        <field domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" name="property_account_income_categ"/>
+                        <field domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" name="property_account_expense_categ"/>
+                    </group> 
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ************************************************************** -->
+        <!-- Add taxes and uom field on product category ****************** -->
+        <!-- ************************************************************** -->
+        <record id="view_product_category_extended_form" model="ir.ui.view">
+            <field name="name">product.category.extended - Form</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="/form/notebook/page[@string='Accounting']" position="inside">
+                    <group col="2" colspan="2">
+                        <separator string="Sales taxes" colspan="2"/>
+                        <field name="sale_taxes_ids"  nolabel="1" colspan="2" height="200"/>
+                    </group>
+                    <group col="2" colspan="2">
+                        <separator string="Purchases taxes" colspan="2"/> 
+                        <field name="purchase_taxes_ids" nolabel="1" colspan="2" height="200"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="view_product_category_extended2_form" model="ir.ui.view">
+            <field name="name">product.category.extended 2 - Form</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="/form/notebook/page[@string='General']" position="inside">
+                    <group col="2" colspan="2">
+                        <separator string="Sale and Purchase Unit (UoM)" colspan="2"/>
+                        <field name="uom_id" colspan="2"/>
+                        <field name="uom_po_id" colspan="2"/>
+                    </group>
+                    <group col="2" colspan="2">
+                        <separator string="Secondary Unit (UoS)" colspan="2"/> 
+                        <field name="uos_id" colspan="2"/>
+                        <field name="uos_coeff" colspan="2"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

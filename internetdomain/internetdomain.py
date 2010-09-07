@@ -83,6 +83,19 @@ class internetdomain_domain(osv.osv):
                     else:
                         self.pool.get('poweremail.templates').generate_mail(cr, uid, template.id, ids)
 
+    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
+        res = False
+        contact_addr_id = False
+
+        if partner_id:
+            res = self.pool.get('res.partner').address_get(cr, uid, [partner_id], ['contact', 'default'])
+            contact_addr_id = res['default']
+
+        result = {'value': {
+            'partner_address_id': contact_addr_id,
+            }
+        }
+        return result
 
     _name = 'internetdomain.domain'
     _columns = {

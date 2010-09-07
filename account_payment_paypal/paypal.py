@@ -73,6 +73,33 @@ account_payment_paypal_import_config()
 class account_bank_statement(osv.osv):
     _inherit = "account.bank.statement"
 
+
+    def paypal_search_customer_invoice(self, cr, uid, row, config, context=None):
+        """If you want to search the customer invoice using other filters,
+           you can redefine this method in your own module"""
+        if context == None:
+            context = {}
+        invoice_ids = self.pool.get('account.invoice').search(cr, uid, [
+            ('state','=','open'),
+            ('type','=','out_invoice'),
+            ('name', 'like', '%'+row['Transaction ID']+'%')
+        ], context=context)
+        return invoice_ids
+
+
+    def paypal_search_supplier_invoice(self, cr, uid, row, config, context=None):
+        """If you want to search the supplier invoice using other filters,
+           you can redefine this method in your own module"""
+        if context == None:
+            context = {}
+        invoice_ids = self.pool.get('account.invoice').search(cr, uid, [
+            ('state','=','open'),
+            ('type','=','in_invoice'),
+            ('reference', '=', row['Reference Txn ID'][3:])
+        ], context=context)
+        return invoice_ids
+
+
     def paypal_payment_line_fields(self, row):
         """If you want compute additional fields or update them in paypal payment lines,
            you can redefine this method in your own module"""
@@ -91,13 +118,15 @@ class account_bank_statement(osv.osv):
         return vals
 
 
-    def paypal_extra_info(self, cr, uid, row, config, context={}):
+    def paypal_extra_info(self, cr, uid, row, config, context=None):
         """If you want create additonal information in OpenERP objects related to paypal payment,
            you can redefine this method in your own module"""
+        if context == None:
+            context = {}
         return True
 
 
-    def paypal_import(self, cr, uid, id, file, filename, config_id, context={}):
+    def paypal_import(self, cr, uid, id, file, filename, config_id, context=None):
         statement_line_obj = self.pool.get('account.bank.statement.line')
         move_line_obj = self.pool.get('account.move.line')
         partner_obj = self.pool.get('res.partner')
@@ -111,6 +140,8 @@ class account_bank_statement(osv.osv):
         config_obj = self.pool.get('account.payment.paypal.import.config')
         cur_obj = self.pool.get('res.currency')
 
+        if context == None:
+            context = {}
         config = config_obj.browse(cr, uid, config_id)
         company_currency_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.currency_id.id
 
@@ -185,7 +216,7 @@ class account_bank_statement(osv.osv):
             if type_payment == 'customer':
                 # Search invoice by name (ref payment)
                 name_payment = row['From Email Address']
-                invoice_ids = invoice_obj.search(cr, uid, [('state','=','open'),('name', 'like', '%'+ref_payment+'%')])
+                invoice_ids = self.paypal_search_customer_invoice(cr, uid, row, config, context)
                 invoice_ids = [x for x in invoice_ids if x not in invoice_list]
                 invoice_id = invoice_ids and invoice_ids[0] or False
                 if invoice_id:
@@ -200,7 +231,7 @@ class account_bank_statement(osv.osv):
 
             elif type_payment == 'supplier':
                 name_payment = row['To Email Address']
-                invoice_ids = invoice_obj.search(cr, uid, [('state','=','open'),('reference', '=', row['Reference Txn ID'][3:])])
+                invoice_ids = self.paypal_search_supplier_invoice(cr, uid, row, config, context)
                 invoice_ids = [x for x in invoice_ids if x not in invoice_list]
                 invoice_id = invoice_ids and invoice_ids[0] or False
                 if invoice_id:

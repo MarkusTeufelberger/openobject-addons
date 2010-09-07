@@ -2,10 +2,6 @@
 <openerp>
 <data>
 
-    #---------------------------------------------------------
-    # Fiscal Year
-    #---------------------------------------------------------
-
     <record model="ir.ui.view" id="view_account_invoice_asset_form">
         <field name="name">account.invoice.line.form</field>
         <field name="model">account.invoice.line</field>
@@ -13,10 +9,35 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <field name="price_subtotal" position="after">
-                <field name="asset_id" context="name=name"/>
+                <field name="asset_method_id" context="name=name" domain ="[('state','in', ['draft','open','suppressed','depreciated'])]" on_change="asset_method_id_change(asset_method_id, parent.type)"/>
             </field>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="view_account_move_line_form">
+        <field name="name">account.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <field name="analytic_account_id" position="after">
+                <field name="asset_method_id" context="name=name"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_move_form">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <field name="quantity" position="after">
+                <field name="asset_method_id" context="name=name"/>
+            </field>
+        </field>
+    </record>
+
 
 </data>
 </openerp>

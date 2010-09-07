@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (c) 2009 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
-#                       Jordi Esteve <jesteve@zikzakmedia.com>
-#    $Id$
+#    Copyright (c) 2010 Zikzakmedia S.L. (http://www.zikzakmedia.com)
+#    Copyright (c) 2010 Pexego Sistemas Informáticos S.L. (http://www.pexego.es)
+#    @authors: Jordi Esteve (Zikzakmedia), Borja López Soilán (Pexego)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,5 +19,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+"""
+Account Chart Update Wizard
+"""
+__authors__ = [ "Jordi Esteve <jesteve@zikzakmedia.com>",
+                "Borja López Soilán <borjals@pexego.es>" ]
 
 import account

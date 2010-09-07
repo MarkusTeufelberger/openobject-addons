@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -19,28 +19,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import math
+
 from osv import fields,osv
-import tools
-import ir
-import pooler
 
 class sale_agent(osv.osv):
         _name = "sale.agent"
         _description = "Sale agent sale info"
         _columns = {
-                'name': fields.char('Saleagent Name', size=25, required=True),
-                'partner_id': fields.many2one('res.partner','Partner',required=True,ondelete='cascade'),
-                'customer':fields.one2many('res.partner','agent_id','Customer',readonly=True),
-                'commission_rate':fields.float('Commission Rate', required=True),
-                # 'comprice_id': fields.many2one('product.pricelist','commission price list',  required=True,ondelete='cascade'),
-                'active': fields.boolean('Active'),
-                   }
+            'name': fields.char('Saleagent Name', size=25, required=True),
+            'partner_id': fields.many2one('res.partner','Partner',required=True,ondelete='cascade'),
+            'customer':fields.one2many('res.partner','agent_id','Customer',readonly=True),
+            'commission_rate':fields.float('Commission Rate', required=True),
+            # 'comprice_id': fields.many2one('product.pricelist','commission price list',  required=True,ondelete='cascade'),
+            'active': fields.boolean('Active'),
+                }
         _defaults = {
-                'active': lambda *a: True,
+            'active': lambda *a: True,
                 }
 sale_agent()#
 # En Sale_agent class
 #
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

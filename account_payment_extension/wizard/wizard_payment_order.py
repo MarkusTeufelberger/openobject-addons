@@ -34,10 +34,12 @@ FIELDS = {
 
 field_duedate={
     'duedate': {'string':'Due Date', 'type':'date','required':True, 'default': lambda *a: time.strftime('%Y-%m-%d'),},
+    'amount': {'string':'Amount', 'type':'float', 'help': 'Next step will automatically select payments up to this amount.'}
     }
 arch_duedate='''<?xml version="1.0" encoding="utf-8"?>
-<form string="Search Payment lines">
+<form string="Search Payment lines" col="2">
     <field name="duedate" />
+    <field name="amount" />
 </form>'''
 
 
@@ -59,7 +61,7 @@ def search_entries(self, cr, uid, data, context):
     domain = domain + ['|',('date_maturity','<',search_due_date),('date_maturity','=',False)]
     if payment.mode:
         domain = [('payment_type','=',payment.mode.type.id)] + domain
-    line_ids = line_obj.search(cr, uid, domain, context=context)
+    line_ids = line_obj.search(cr, uid, domain, order='date_maturity', context=context)
     FORM.string = '''<?xml version="1.0" encoding="utf-8"?>
 <form string="Populate Payment:">
     <field name="entries" colspan="4" height="300" width="800" nolabel="1"
@@ -67,7 +69,25 @@ def search_entries(self, cr, uid, data, context):
     <separator string="Extra message of payment communication" colspan="4"/>
     <field name="communication2" colspan="4"/>
 </form>''' % (','.join([str(x) for x in line_ids]), ctx)
-    return {}
+
+    selected_ids = []
+    amount = data['form']['amount']
+    if amount:
+        if payment.mode and payment.mode.require_bank_account:
+            line2bank = pool.get('account.move.line').line2bank(cr, uid, line_ids, payment.mode.id, context)
+        else:
+            line2bank = None
+        # If user specified an amount, search what moves match the criteria taking into account
+        # if payment mode allows bank account to be null.
+        for line in pool.get('account.move.line').browse(cr, uid, line_ids, context):
+            if abs(line.amount_to_pay) <= amount:
+                if line2bank and not line2bank.get(line.id):
+                    continue
+                amount -= abs(line.amount_to_pay)
+                selected_ids.append( line.id )
+    return {
+        'entries': selected_ids,
+    }
 
 
 def create_payment(self, cr, uid, data, context):
@@ -103,6 +123,7 @@ def create_payment(self, cr, uid, data, context):
             'communication2': data['form']['communication2'],
             'date': date_to_pay,
             'currency': line.invoice and line.invoice.currency_id.id or False,
+            'account_id': line.account_id.id,
             }, context=context)
     return {}
 
