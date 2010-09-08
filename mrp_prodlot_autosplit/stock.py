@@ -23,6 +23,7 @@ import ir
 import pooler
 from tools.translate import _
 
+
 class stock_move(osv.osv):
     _inherit = "stock.move"
  
@@ -101,6 +102,16 @@ class stock_move(osv.osv):
                             counter += 1
 
         return result
+   
+    def split_move_in_single(self, cr, uid, ids, context=None):
+        for move_id in ids:
+            move = self.browse(cr, uid, move_id)
+            qty = move.product_qty
+            self.write(cr, uid, move.id, {'product_qty': 1, 'product_uos_qty': move.product_id.uos_coeff})
+            while qty > 1:
+                self.copy(cr, uid, move.id, {'state': move.state, 'prodlot_id': None})
+                qty -= 1;
+        return True
 
 stock_move()
 
@@ -111,6 +122,10 @@ class stock_picking(osv.osv):
     def action_assign_wkf(self, cr, uid, ids):
         result = super(stock_picking, self).action_assign_wkf(cr, uid, ids)
 
+        if True:
+            #TODO ADD A CHECK BOX TO ACTIVATE AUTO SPLIT
+            return result
+
         for picking in self.browse(cr, uid, ids):
             for move in picking.move_lines:
                 if move.product_id.unique_production_number and \
@@ -119,13 +134,7 @@ class stock_picking(osv.osv):
                     (move.product_id.track_production and move.location_dest_id.usage == 'production') or \
                     (move.product_id.track_incoming and move.location_id.usage == 'supplier') or \
                     (move.product_id.track_outgoing and move.location_dest_id.usage == 'customer')):
-
-                        qty = move.product_qty
-                        self.pool.get('stock.move').write(cr, uid, move.id, {'product_qty': 1, 'product_uos_qty': move.product_id.uos_coeff})
-
-                        while qty > 1:
-                            self.pool.get('stock.move').copy(cr, uid, move.id, {'state': move.state, 'prodlot_id': None})
-                            qty -= 1;
+                        self.pool.get('stock.move').split_move_in_single(cr, uid, [move.id])
 
         return result
 

@@ -151,15 +151,11 @@ class sale_order_line(osv.osv):
     #TODO adapt signature to new fiscal_position parameter
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-# FIXME
-#            lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False,
-            lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False,
+            lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False,
             is_maintenance=False, maintenance_product_qty=False, maintenance_month_qty=False,order_fleet_id=False):
 
         result = super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty,
-# FIXME
-#            uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, packaging, fiscal_position, flag)
-            uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, packaging, fiscal_position)
+            uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, packaging, fiscal_position, flag)
         
         if product:
             product_obj = self.pool.get('product.product').browse(cr, uid, product)
@@ -207,8 +203,16 @@ class sale_order_line(osv.osv):
         for order_line in self.browse(cr, uid, ids):
             if order_line.order_id.is_loan:  #FIXME ugly because depends on product_loan module
                 return True
-#FIXME
-#            elif order_line.product_id.is_maintenance or order_line.product_id.type == 'product' or order_line.product_id.type == 'consu':
+
+	    #FIXME
+	    # Le test verifiant que chaque ligne de commande avait une subfleet associee incluait les
+	    # produit de type maintenance, ca n'est maintenant plus le cas. Le probleme qui a amene a 
+	    # faire cela est que lorsque l'on ajoute une subfleet dans une fleet via le menu "All fleet",
+	    # lors du save, openerp execute la contrainte sur TOUTES les order lines, or entre temps il est possible
+	    # que des modifications sur les flottes amenent ce que la contraintes ne soit plus verifiees,
+	    # et de ce fait on ne plus ajouter de subfleet.
+
+	    # elif order_line.product_id.is_maintenance or order_line.product_id.type == 'product' or order_line.product_id.type == 'consu':
             elif order_line.product_id.type == 'product' or order_line.product_id.type == 'consu':
                 if order_line.fleet_id and order_line.fleet_id.fleet_type == 'sub_fleet' and order_line.fleet_id.location_id.partner_id == order_line.order_id.partner_id:
                     return True
