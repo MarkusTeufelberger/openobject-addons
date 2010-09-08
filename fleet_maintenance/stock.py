@@ -164,22 +164,15 @@ class stock_picking(osv.osv):
 
         return create_ids
 
-
     def _default_address_id(self, cr, uid, context={}):
-        address_return = False
-
-	if context.get('address_id', False):
-	    address_return = self.pool.get('res.partner.address').browse(cr, uid, context.get('address_id', False))
-	    return address_return.id
-
-        return address_return
+        return context.get('address_id', False)
 
     def _default_origin(self, cr, uid, context={}):
-	return context.get('incident_ref', False)
+        return context.get('incident_ref', False)
 
     _defaults = {
         'address_id': _default_address_id,
-	'origin': _default_origin,
+        'origin': _default_origin,
     }
     
 stock_picking()

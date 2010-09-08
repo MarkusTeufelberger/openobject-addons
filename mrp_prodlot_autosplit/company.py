@@ -1,7 +1,10 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2008 Raphaël Valyi
+#    OpenERP, Open Source Management Solution	
+#    Copyright (C) 2010 Anevia. All Rights Reserved
+#    $Id$
+#    (written by Sebastien Beau sebastien.beau@akretion.com.br)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,8 +21,17 @@
 #
 ##############################################################################
 
-import product
-import stock
-import company
+from osv import osv,fields
+
+class company(osv.osv):
+    _inherit = 'res.company'
+    _columns = {
+        'autosplit_is_active': fields.boolean('Active auto split', help="active the autosplit function for picking"),
+    }
+    _defaults = {
+        'autosplit_is_active': lambda *a: True,
+    }
+company()
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
