@@ -73,8 +73,8 @@ class account_move_line(osv.osv):
             partner_id = record[2]
             date = record[3]
             name = record[4]
-            debit = record[5]
-            credit = record[6]
+            debit = record[5] or 0.0
+            credit = record[6] or 0.0
             account_type = record[7]
 
             check_partner = self._check_partner( account_type, partner_id )
