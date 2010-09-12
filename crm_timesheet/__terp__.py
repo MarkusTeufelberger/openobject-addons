@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2008-2009 Syleam (<http://syleam.fr>). All Rights Reserved
 #    $Id$
 #
@@ -33,7 +33,7 @@
     """,
     'author': 'Syleam',
     'depends': [
-        'base', 
+        'base',
         'crm',
         'hr_timesheet'
     ],
@@ -43,6 +43,7 @@
         'view/crm_timesheet.xml',
         'view/partner.xml',
         'view/crm_section.xml',
+        'view/account_analytic.xml',
     ],
     'demo_xml': [],
     'installable': True,

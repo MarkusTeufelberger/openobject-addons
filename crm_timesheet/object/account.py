@@ -23,33 +23,13 @@
 from osv import osv
 from osv import fields
 
-class res_partner_crm_analytic(osv.osv):
-    """
-    Define one analytic account by section,
-    to disable the analytic account for a section, add line with section and
-    not fill the analytic account
-    """
-    _name = 'res.partner.crm.analytic'
-    _description = 'CRM Partner Analytic Account'
+class account_analytic_account(osv.osv):
+    _inherit = 'account.analytic.account'
 
     _columns = {
-        'partner_id': fields.many2one('res.partner', 'Partner', required=True),
-        'section_id': fields.many2one('crm.case.section', 'Section', required=True),
-        'account_id': fields.many2one('account.analytic.account', 'Analytic Account', ondelete='cascade'),
+        'rounding_duration': fields.float('Rouding Duration'),
     }
 
-res_partner_crm_analytic()
-
-class res_partner(osv.osv):
-    """
-    Add a new tab on partner, to select the analytic account by section
-    """
-    _inherit = 'res.partner'
-
-    _columns = {
-        'crm_analytic_ids': fields.one2many('res.partner.crm.analytic', 'partner_id', 'CRM Analytic Account'),
-    }
-
-res_partner()
+account_analytic_account()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
