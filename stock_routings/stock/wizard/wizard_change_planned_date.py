@@ -100,8 +100,8 @@ def change_plan_date(self,cr,uid,data,context={}):
 
         vals_move = {}
         vals_pick = {}
-#        source_count = 0
-#        dest_count = 0
+        source_count = 0
+        dest_count = 0
         new_source_location_id =  False
         new_dest_location_id = False
         vals_pick.update({'min_date': new_date})
@@ -113,35 +113,36 @@ def change_plan_date(self,cr,uid,data,context={}):
                 new_source_location_id = data['form']['new_source_location_id']
                 vals_move.update({'location_id': new_source_location_id})
                 vals_pick.update({'port_of_departure': new_source_location_id})
-#                source_count = 1
+                source_count = 1
             if 'new_dest_location_id' in data['form'] and data['form']['new_dest_location_id']:
                 new_dest_location_id = data['form']['new_dest_location_id']
                 vals_move.update({'location_dest_id': new_dest_location_id})
                 vals_pick.update({'port_of_arrival': new_dest_location_id})
-#                dest_count = 1 
+                dest_count = 1 
             stock_mv_obj.write(cr,uid,stock_mv_dt['id'],vals_move)
-#            if source_count and dest_count and stock_mv_dt['prodlot_id'] and stock_mv_dt['product_id']:
-#                previous_move_ids = stock_mv_obj.search(cr, uid, [('prodlot_id', '=', stock_mv_dt['prodlot_id'][0]), ('product_id', '=', stock_mv_dt['product_id'][0]), ('location_dest_id', '=', data['form']['new_source_location_id'])])
-#                if len(previous_move_ids) == 1:
-#                    previous_move_data = stock_mv_obj.read(cr, uid, previous_move_ids[0], ['move_dest_id'])
-#                    if not previous_move_data['move_dest_id']:
-#                        stock_mv_obj.write(cr, uid, previous_move_ids, {'move_dest_id': stock_mv_dt['id']})
-#                else:
-#                    previous_move_ids = stock_mv_obj.search(cr ,uid, [('prodlot_id', '=', stock_mv_dt['prodlot_id'][0]), ('product_id', '=', stock_mv_dt['product_id'][0]), ('location_dest_id', '=', data['form']['new_source_location_id']), ('product_qty', '=', stock_mv_dt['product_qty'])])
-#                    if previous_move_ids:
-#                        previous_move_data = stock_mv_obj.read(cr, uid, previous_move_ids[0], ['move_dest_id'])
-#                        if not previous_move_data['move_dest_id']:
-#                            stock_mv_obj.write(cr, uid, previous_move_ids, {'move_dest_id': stock_mv_dt['id']})
+            if source_count and dest_count and stock_mv_dt['prodlot_id'] and stock_mv_dt['product_id']:
+                previous_move_ids = stock_mv_obj.search(cr, uid, [('prodlot_id', '=', stock_mv_dt['prodlot_id'][0]), ('product_id', '=', stock_mv_dt['product_id'][0]), ('location_dest_id', '=', data['form']['new_source_location_id'])])
+                if len(previous_move_ids) == 1:
+                    previous_move_data = stock_mv_obj.read(cr, uid, previous_move_ids[0], ['move_dest_id'])
+                    if not previous_move_data['move_dest_id']:
+                        stock_mv_obj.write(cr, uid, previous_move_ids, {'move_dest_id': stock_mv_dt['id']})
+                else:
+                    previous_move_ids = stock_mv_obj.search(cr ,uid, [('prodlot_id', '=', stock_mv_dt['prodlot_id'][0]), ('product_id', '=', stock_mv_dt['product_id'][0]), ('location_dest_id', '=', data['form']['new_source_location_id']), ('product_qty', '=', stock_mv_dt['product_qty'])])
+                    if previous_move_ids:
+                        previous_move_data = stock_mv_obj.read(cr, uid, previous_move_ids[0], ['move_dest_id'])
+                        if not previous_move_data['move_dest_id']:
+                            stock_mv_obj.write(cr, uid, previous_move_ids, {'move_dest_id': stock_mv_dt['id']})
             
         stock_obj.write(cr,uid,[id],vals_pick)    
         vals={}
-        vals['date']=time.strftime('%Y-%m-%d')
-        vals['prev_plan_date']=form['main_plan_date']
-        vals['new_plan_date']=form['new_plan_date']
-        vals['user']=user
-        vals['description']=form['description']
-        vals['history_id']=id
-        history_id=stock_history_obj.create(cr,uid,vals,context=context)
+        if form['main_plan_date'] <> form['new_plan_date']:
+            vals['date']=time.strftime('%Y-%m-%d')
+            vals['prev_plan_date']=form['main_plan_date']
+            vals['new_plan_date']=form['new_plan_date']
+            vals['user']=user
+            vals['description']=form['description']
+            vals['history_id']=id
+            history_id=stock_history_obj.create(cr,uid,vals,context=context)
        
     else:
         move_ids=stock_mv_obj.search(cr,uid,[('picking_id','=',id)])
