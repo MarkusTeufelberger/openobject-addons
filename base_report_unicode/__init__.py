@@ -128,9 +128,9 @@ def docinit(self, els):
             addMapping(name, 0, 0, name)    #normal
             for style in ((0, 1), (1, 0), (1, 1)):
                 try:
-                    addMapping(name, *style,
-                        psname=name + style_map[name][style])
+                    addMapping(name,
+                        psname=name + style_map[name][style], *style)
                 except KeyError:
-                    addMapping(name, *style, psname=name)
+                    addMapping(name, psname=name, *style)
 
 report.render.rml2pdf.trml2pdf._rml_doc.docinit = docinit
