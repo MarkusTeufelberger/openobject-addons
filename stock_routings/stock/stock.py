@@ -140,7 +140,7 @@ class stock_move(osv.osv):
     
     _columns={
               'picking_date' : fields.date('Picking Date'),
-              'container_id' : fields.char('Container ID', size=128,),
+              'container_id' : fields.char('Container id / Box id', size=128,),
               'state': fields.selection([('draft','Draft'),('waiting','Waiting'),('confirmed','Confirmed'),('assigned','Available'),('done','Received'),('cancel','Canceled')], 'Status', readonly=True, select=True),
               'product_qty': fields.float('Quantity', required=True,states={'confirmed': [('readonly', True)],'assigned': [('readonly', True)],'flottant': [('readonly', True)],'underway': [('readonly', True)],'unproduction': [('readonly', True)],'cancel': [('readonly', True)]}),
               'date_planned': fields.date('Date', required=True, help="Scheduled date for the movement of the products or real date if the move is done."),
