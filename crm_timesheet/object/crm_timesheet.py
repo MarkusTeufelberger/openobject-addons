@@ -177,6 +177,23 @@ class crm_case(osv.osv):
         'analytic_account_id' : fields.many2one('account.analytic.account', 'Contract', help='Link to an Analytic Account'),
     }
 
+    def create(self, cr, uid, vals, context=None):
+        """
+        If calculate_duration is pass on the context, all time enter on the crm.case.work
+        are sum and save it on duration field
+        """
+        if context is None:
+            context = {}
+        if context.get('calculate_duration', False):
+            if vals.get('timesheet_ids', False):
+                duration = 0.0
+                for t in vals['timesheet_ids']:
+                    if t[2]:
+                        # Add hours of timesheet modified
+                        duration += t[2]['hours']
+                vals['duration'] = duration
+        return super(crm_case, self).create(cr, uid, vals, context)
+
     def write(self, cr, uid, ids, vals, context=None):
         """
         If calculate_duration is pass on the context, all time enter on the crm.case.work
