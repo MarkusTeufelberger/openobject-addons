@@ -22,7 +22,7 @@
 {
     "name" : "Sale Order Layout Improvement",
     "version" : "1.0",
-    "depends" : ["base", "sale"],
+    "depends" : ["base", "sale", "account_invoice_layout"],
     "author" : "Tiny",
     "description": """
     This module provides some features to improve the layout of the Sale Order.
