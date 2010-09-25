@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-09-23 15:17:03+0000\n"
-"PO-Revision-Date: 2009-09-23 17:23+0200\n"
-"Last-Translator: Albert Cervera i Areny <albert@nan-tic.com>\n"
+"POT-Creation-Date: 2010-05-27 15:57+0000\n"
+"PO-Revision-Date: 2010-09-10 21:14+0000\n"
+"Last-Translator: Esther Xaus (Zikzakmedia) <Unknown>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: Lokalize 1.0\n"
+"X-Launchpad-Export-Date: 2010-09-25 09:23+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
@@ -24,15 +24,43 @@ msgid "Open Assets"
 msgstr "Actius oberts"
 
 #. module: account_asset
-#: field:account.asset.property,method_end:0
-#: field:account.asset.property.history,method_end:0
-msgid "Ending date"
-msgstr "Data final"
+#: help:account.asset.usage.createlines,init,interval:0
+msgid "How many usage entries are you going to make per year?"
+msgstr "Quantes entrades fareu per exercici fiscal?"
 
 #. module: account_asset
-#: view:account.asset.asset:0
-msgid "Depreciation board"
-msgstr "Taula d'amortització"
+#: field:account.asset.method,value_residual:0
+msgid "Residual Value"
+msgstr "Valor residual"
+
+#. module: account_asset
+#: field:account.asset.method,account_expense_id:0
+#: field:account.asset.method.defaults,account_expense_id:0
+msgid "Depr. Expense Account"
+msgstr "Compte despeses amortització"
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"You cannot assign Product \"%s\" to Asset Method \"%s\". This method is in "
+"Draft state or is inactive (sold or abandoned)."
+msgstr ""
+"No podeu assignar producte \"%s\" al mètode d'amortització \"%s\". Aquest "
+"mètode està en estat esborrany o està inactiu (venut o abandonat)."
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Date must be in the period !"
+msgstr "La data ha d'estar dins del període!"
+
+#. module: account_asset
+#: view:account.asset.method.defaults:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_method_defaults_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_method_defaults_form
+msgid "Asset Method Defaults"
+msgstr "Valors per defecte mètode d'actiu"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -53,29 +81,70 @@ msgid "Invalid model name in the action definition."
 msgstr "Nom de model invàlid en la definició de l'acció."
 
 #. module: account_asset
-#: selection:account.asset.property,method:0
-msgid "Linear"
-msgstr "Lineal"
-
-#. module: account_asset
 #: view:account.asset.asset:0
-msgid "Change duration"
-msgstr "Canvi de durada"
+#: field:account.asset.method,usage_ids:0
+#: field:account.asset.method.usage,usage:0
+msgid "Usage"
+msgstr "Ús"
 
 #. module: account_asset
-#: field:account.asset.asset,child_ids:0
-msgid "Childs asset"
-msgstr "Actius fills"
+#: help:account.asset.method,account_analytic_id:0
+#: help:account.asset.method,journal_analytic_id:0
+msgid "Not implemented yet."
+msgstr "No implementat encara."
 
 #. module: account_asset
-#: field:account.asset.board,value_asset:0
-msgid "Asset Value"
-msgstr "Valor de l'actiu"
+#: field:account.asset.method.defaults,account_abandon_id:0
+msgid "Abandonment Account"
+msgstr "Compte d'abandonament"
 
 #. module: account_asset
-#: wizard_field:account.asset.modify,init,name:0
-msgid "Reason"
-msgstr "Raó"
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Intervals per Year: "
+msgstr ""
+"\n"
+"   Intervals per exercici: "
+
+#. module: account_asset
+#: field:account.asset.method,journal_analytic_id:0
+#: field:account.asset.method.defaults,journal_analytic_id:0
+msgid "Analytic Journal"
+msgstr "Diari analític"
+
+#. module: account_asset
+#: view:account.asset.property.history:0
+#: model:ir.model,name:account_asset.model_account_asset_property_history
+msgid "Asset history"
+msgstr "Històric de l'actiu"
+
+#. module: account_asset
+#: wizard_field:account.asset.reval,init,expense_value:0
+msgid "Increasing Expense Value"
+msgstr "Valor increment de la despesa"
+
+#. module: account_asset
+#: help:account.asset.abandon,init,whole_asset:0
+msgid "Abandon all methods of this asset."
+msgstr "Abandona tots els mètodes d'aquest actiu."
+
+#. module: account_asset
+#: help:account.asset.method,life:0
+msgid ""
+"Quantity of production which make the asset method used up. Used only in "
+"Units of Production computation method and cannot be zero in this case."
+msgstr ""
+"Quantitat de producció que fa el mètode d'actiu consumit. Utilitzat només en "
+"el mètode de càlcul d'unitats de producció i no pot ser zero en aquest cas."
+
+#. module: account_asset
+#: view:account.asset.category:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
+msgid "Asset Categories"
+msgstr "Categories d'actiu"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -85,16 +154,48 @@ msgid "Entries"
 msgstr "Assentaments"
 
 #. module: account_asset
+#: help:account.asset.initial,init,value:0
+msgid "Initial Base Value of method."
+msgstr "Valor base inicial del mètode."
+
+#. module: account_asset
 #: wizard_view:account.asset.compute,asset_compute:0
 msgid "Generated entries"
 msgstr "Assentaments generats"
 
 #. module: account_asset
-#: wizard_field:account.asset.modify,init,method_delay:0
-#: field:account.asset.property,method_delay:0
-#: field:account.asset.property.history,method_delay:0
-msgid "Number of interval"
-msgstr "Número d'intervals"
+#: wizard_view:account.asset.compute,asset_compute:0
+#: wizard_view:account.asset.compute,init:0
+msgid "Asset Computation"
+msgstr "Cálculo de activo"
+
+#. module: account_asset
+#: wizard_view:account.asset.modify,init:0
+#: wizard_button:account.asset.modify,init,asset_modify:0
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_modify
+msgid "Modify asset"
+msgstr "Modifica l'actiu"
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Purchase"
+msgstr "Compres"
+
+#. module: account_asset
+#: help:account.asset.method.defaults,asset_category:0
+msgid ""
+"Select the asset category for this set of defaults. If no selection defined "
+"defaults will concern to all methods of selected type."
+msgstr ""
+"Selecciona la categoria d'actiu d'aquest conjunt de valors per defecte. Si "
+"no existeix selecció definida s'aplicarà a tots els mètodes del tipus "
+"seleccionat."
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_initial.py:0
+#, python-format
+msgid "Inital values for asset: "
+msgstr "Valors inicials de l'actiu: "
 
 #. module: account_asset
 #: wizard_button:account.asset.compute,asset_compute,asset_open:0
@@ -111,15 +212,27 @@ msgid "Assets"
 msgstr "Actius"
 
 #. module: account_asset
-#: selection:account.asset.property,method:0
-msgid "Progressive"
-msgstr "Progressiu"
+#: field:account.asset.method,account_actif_id:0
+#: field:account.asset.method.defaults,account_actif_id:0
+msgid "Depreciation Account"
+msgstr "Compte d'amortització"
+
+#. module: account_asset
+#: help:account.asset.method.defaults,method_type:0
+msgid "Select method type for this set of defaults."
+msgstr ""
+"Selecciona tipus de mètode per a aquest conjunt de valors per defecte."
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_draft
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list_draft
 msgid "Draft Assets"
 msgstr "Actius en estat esborrany"
+
+#. module: account_asset
+#: wizard_view:account.asset.usage.createlines,init:0
+msgid "Creation of Usage Lines"
+msgstr "Creació de línies d'ús."
 
 #. module: account_asset
 #: wizard_view:account.asset.modify,init:0
@@ -129,24 +242,133 @@ msgid "Notes"
 msgstr "Notes"
 
 #. module: account_asset
-#: view:account.asset.asset:0
-msgid "Change history"
-msgstr "Canvi històric"
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Number of Intervals: "
+msgstr ""
+"\n"
+"   Número de períodes: "
 
 #. module: account_asset
 #: view:account.asset.asset:0
-msgid "Depreciation entries"
-msgstr "Assentament de dotació a l'amortització "
+msgid "Clear Draft and Close"
+msgstr "Limpiar borrador y cerrar"
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Sale"
+msgstr "Venda"
+
+#. module: account_asset
+#: help:account.asset.abandon,init,date:0
+#: help:account.asset.compute,init,date:0
+#: help:account.asset.reval,init,date:0
+msgid "Efective date for accounting move."
+msgstr "Data efectiva per l'assentament."
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Parameters set to:"
+msgstr "Paràmetres fixats a:"
+
+#. module: account_asset
+#: wizard_button:account.asset.close,init,asset_suppress:0
+msgid "Suppress Depreciation"
+msgstr "Suprimeix amortització"
+
+#. module: account_asset
+#: selection:account.asset.method,method:0
+#: selection:account.asset.method.defaults,method:0
+msgid "Units of Production"
+msgstr "Unitats de producció"
 
 #. module: account_asset
 #: view:account.asset.asset:0
-msgid "Methods"
-msgstr "Mètodes"
+msgid "Other Information"
+msgstr "Altra informació"
 
 #. module: account_asset
-#: wizard_view:account.asset.modify,init:0
-msgid "Asset properties to modify"
-msgstr "Propietats de l'actiu a modificar"
+#: wizard_button:account.asset.abandon,init,asset_abandon:0
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_abandon
+msgid "Abandon"
+msgstr "Abandona"
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Closing"
+msgstr "Tancament"
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Warning !"
+msgstr "Avís!"
+
+#. module: account_asset
+#: model:ir.model,name:account_asset.model_account_asset_method_defaults
+msgid "Asset Method Delfaults"
+msgstr "Valors per defecte mètode d'actiu"
+
+#. module: account_asset
+#: field:account.asset.method.defaults,method_progress_factor:0
+msgid "Progressive factor"
+msgstr "Factor de progresión"
+
+#. module: account_asset
+#: field:account.asset.history,method_end:0
+#: field:account.asset.method,method_end:0
+msgid "Ending Date"
+msgstr "Data final"
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Error ! You can not create recursive categories."
+msgstr "Error! No podeu crear categories recursives."
+
+#. module: account_asset
+#: wizard_field:account.asset.reval,init,value:0
+msgid "Increasing Base Value"
+msgstr "Valor d'increment base"
+
+#. module: account_asset
+#: field:account.asset.method,account_analytic_id:0
+#: field:account.asset.method.defaults,account_analytic_id:0
+msgid "Analytic Account"
+msgstr "Compte analític"
+
+#. module: account_asset
+#: wizard_button:account.asset.usage.createlines,init,asset_reval:0
+msgid "Create Lines"
+msgstr "Crea línies"
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Accounts"
+msgstr "Comptes"
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Depreciation Methods"
+msgstr "Mètodes d'amortització"
+
+#. module: account_asset
+#: help:account.asset.method,account_residual_id:0
+msgid ""
+"Select account used for residual when asset is sold. You can change the "
+"account before sale operation."
+msgstr ""
+"Seleccioneu el compte utilitzat per al residual quan l'actiu es ven. Podeu "
+"canviar el compte abans de l'operació de venda."
+
+#. module: account_asset
+#: field:account.asset.method,life:0
+#: wizard_field:account.asset.modify,init,life:0
+msgid "Life Quantity"
+msgstr "Quantitat de vida."
 
 #. module: account_asset
 #: field:account.asset.asset,partner_id:0
@@ -154,46 +376,64 @@ msgid "Partner"
 msgstr "Empresa"
 
 #. module: account_asset
-#: wizard_field:account.asset.modify,init,method_period:0
-#: field:account.asset.property,method_period:0
-#: field:account.asset.property.history,method_period:0
-msgid "Period per interval"
-msgstr "Període per interval"
+#: help:account.asset.method.defaults,method_progress_factor:0
+msgid ""
+"Specify the factor of progression in depreciation. It is used in Declining-"
+"Balance method. When linear depreciation is 20% per year, and you want apply "
+"Double-Declining Balance you should choose Declining-Balance method and "
+"enter 0,40 (40%) as Progressive factor."
+msgstr ""
+"Indica el factor de progressió en l'amortització. S'utilitza en el mètode "
+"Balanç-Declinat. Quan l'amortització lineal és 20% l'any i voleu aplicar "
+"Balanç Doble-Declinat, hauríeu de seleccionar el mètode Balanç-Declinat i "
+"posar 0,40 (40%) com factor progressiu."
 
 #. module: account_asset
-#: view:account.asset.asset:0
-msgid "Depreciation duration"
-msgstr "termini d'amortització"
+#: selection:account.asset.history,type:0
+msgid "Transfer"
+msgstr "Transferiu"
 
 #. module: account_asset
-#: field:account.asset.property,account_analytic_id:0
-msgid "Analytic account"
-msgstr "Compte analític"
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Progressive Factor: "
+msgstr ""
+"\n"
+"   Factor progressiu: "
 
 #. module: account_asset
-#: field:account.asset.property,state:0
-msgid "State"
-msgstr "Estat"
+#: help:account.move.line,asset_method_id:0
+msgid ""
+"Assign the asset as depreciation method if move line concerns the asset."
+msgstr ""
+"Assigna l'actiu com mètode d'amortització si l'assentament correspon a "
+"l'actiu."
 
 #. module: account_asset
-#: view:account.asset.asset:0
-msgid "Depreciation methods"
-msgstr "Mètodes d'amortització"
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_resume
+msgid "Resume asset"
+msgstr "Reactiva actiu"
 
 #. module: account_asset
-#: view:account.asset.asset:0
-msgid "Other information"
-msgstr "Altra informació"
+#: wizard_field:account.asset.abandon,init,acc_abandon:0
+msgid "Abandon Account"
+msgstr "Abandona Compte"
 
 #. module: account_asset
-#: field:account.asset.board,value_asset_cumul:0
-msgid "Cumul. value"
-msgstr "Valor acumulat"
+#: view:account.asset.method.usage:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_method_usage_periodical_entry
+#: model:ir.ui.menu,name:account_asset.menu_asset_method_usage
+msgid "Method Usage"
+msgstr "Mètode d'ús"
 
 #. module: account_asset
-#: view:account.asset.property:0
-msgid "Assets methods"
-msgstr "Mètodes d'actius"
+#: help:account.asset.method.defaults,account_impairment_id:0
+msgid "Select account used for impairment amount. Used in revaluation."
+msgstr ""
+"Seleccioneu el compte utilitzat per l'import del deteriorament. Utilitzat en "
+"revaloració."
 
 #. module: account_asset
 #: constraint:ir.ui.view:0
@@ -201,9 +441,137 @@ msgid "Invalid XML for View Architecture!"
 msgstr "XML invàlid per a la definició de la vista!"
 
 #. module: account_asset
-#: model:ir.model,name:account_asset.model_account_asset_property
-msgid "Asset property"
-msgstr "Propietat de l'actiu"
+#: wizard_button:account.asset.modify,init,asset_modify:0
+msgid "Modify Method"
+msgstr "Modifica mètode"
+
+#. module: account_asset
+#: field:account.asset.method,method:0
+#: field:account.asset.method.defaults,method:0
+msgid "Computation Method"
+msgstr "Mètode de càlcul"
+
+#. module: account_asset
+#: help:account.asset.method,method_salvage:0
+msgid "Value planned to be residual after full depreciation process"
+msgstr ""
+"Valor planificat per ser residual després del procés complet d'amortització."
+
+#. module: account_asset
+#: wizard_field:account.asset.initial,init,acc_impairment:0
+msgid "Asset Counter Account"
+msgstr "Compte comptador d'actiu"
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Life Quantity: "
+msgstr ""
+"\n"
+"   Quantitat de vida: "
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_reval.py:0
+#, python-format
+msgid "Asset revalued because: "
+msgstr "Actiu revalorat perquè: "
+
+#. module: account_asset
+#: help:account.asset.method.usage,period_id:0
+msgid "Select period which usage concerns."
+msgstr "Seleccioneu el període a què fa l'ús."
+
+#. module: account_asset
+#: help:account.asset.abandon,init,period_id:0
+#: help:account.asset.compute,init,period_id:0
+#: help:account.asset.reval,init,period_id:0
+msgid "Calculated period and period for posting."
+msgstr "Període calculat i període per fixació."
+
+#. module: account_asset
+#: help:account.asset.usage.createlines,init,fiscal_year:0
+msgid "Choose fiscal year for entries."
+msgstr "Seleccioneu exercici fiscal pels assentaments."
+
+#. module: account_asset
+#: help:account.asset.method.defaults,account_residual_id:0
+msgid "Select account used for sale residual."
+msgstr "Seleccioneu el compte utilitzat per el saldo residual."
+
+#. module: account_asset
+#: view:account.asset.method.usage:0
+msgid "Method usage"
+msgstr "Mètode d'ús"
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Depr. Suppression"
+msgstr "Supressió amort."
+
+#. module: account_asset
+#: help:account.asset.abandon,init,acc_abandon:0
+msgid "Account for asset loss amount."
+msgstr "Compte per import pèrdua actiu."
+
+#. module: account_asset
+#: field:account.asset.method,method_salvage:0
+#: wizard_field:account.asset.modify,init,method_salvage:0
+msgid "Salvage Value"
+msgstr "Valor de salvaguarda"
+
+#. module: account_asset
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_usage_createlines
+msgid "Usage Lines"
+msgstr "Líneas de uso"
+
+#. module: account_asset
+#: help:account.asset.initial,init,date:0
+msgid "Efective date for posting."
+msgstr "Data efectiva per fixació."
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_close.py:0
+#, python-format
+msgid "Suppressed because: "
+msgstr "Suprimit per: "
+
+#. module: account_asset
+#: field:account.asset.history,invoice_id:0
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: account_asset
+#: help:account.asset.method.usage,usage:0
+msgid "Specify usage quantity in selected period."
+msgstr "Especifica la quantitat d'ús en el període seleccionat."
+
+#. module: account_asset
+#: field:account.asset.method,method_delay:0
+#: field:account.asset.method.defaults,method_delay:0
+#: wizard_field:account.asset.modify,init,method_delay:0
+msgid "Number of Intervals"
+msgstr "Número de intervalos"
+
+#. module: account_asset
+#: help:account.asset.initial,init,expense_value:0
+msgid ""
+"Initial Value of method expenses. There are sum of depreciations made before "
+"this system asset management."
+msgstr ""
+"Valor inicial de despeses del mètode. Són la suma de les amortitzacions "
+"efectuades abans d'usar aquest sistema de gestió d'actius."
+
+#. module: account_asset
+#: wizard_view:account.asset.close,init:0
+msgid "Method Suppression"
+msgstr "Mètode de supressió"
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Asset Description"
+msgstr "Descripció actiu"
 
 #. module: account_asset
 #: wizard_view:account.asset.compute,asset_compute:0
@@ -215,64 +583,264 @@ msgid "Compute assets"
 msgstr "Calcula els actius"
 
 #. module: account_asset
-#: wizard_view:account.asset.modify,init:0
-#: wizard_button:account.asset.modify,init,asset_modify:0
-#: model:ir.actions.wizard,name:account_asset.wizard_asset_modify
-msgid "Modify asset"
-msgstr "Modifica l'actiu"
+#: help:account.asset.method,method_delay:0
+msgid ""
+"How many intervals this asset is to be calculated in its life. If asset was "
+"calculated in other system before specify Intervals Before too."
+msgstr ""
+"Quants intervals d'aquest actiu han de ser calculats en la seva vida. Si "
+"l'actiu va ser calculat en un altre sistema abans, indiqueu els intervals "
+"anteriors també."
+
+#. module: account_asset
+#: help:account.asset.reval,init,value:0
+msgid ""
+"Value to be added to method base value. In Direct method it is increasing of "
+"book value. In Indirect method it is increasing of cost basis. Negative "
+"value means decreasing."
+msgstr ""
+"Valor per ser afegit al valor del mètode base. En el mètode directe és "
+"incrementat el valor prefixat. En el mètode indirecte és incrementant el "
+"cost base. Valor negatiu indica decrement."
 
 #. module: account_asset
 #: view:account.asset.asset:0
-msgid "Confirm asset"
-msgstr "Confirma l'actiu"
+msgid "Change Parameters"
+msgstr "Canvi de paràmetres"
 
 #. module: account_asset
-#: view:account.asset.property.history:0
-#: model:ir.model,name:account_asset.model_account_asset_property_history
-msgid "Asset history"
-msgstr "Històric de l'actiu"
+#: field:account.asset.history,type:0
+msgid "Entry Type"
+msgstr "Tipus d'entrada"
 
 #. module: account_asset
-#: field:account.asset.property,date:0
-msgid "Date created"
+#: view:account.asset.method:0
+msgid "Assets Methods"
+msgstr "Mètodes d'actius"
+
+#. module: account_asset
+#: help:account.asset.method,account_asset_id:0
+#: help:account.asset.method.defaults,account_asset_id:0
+msgid ""
+"Select account used for cost basis of asset. It will be applied into invoice "
+"line when you select this asset in invoice line."
+msgstr ""
+"Seleccioneu el compte usat per el cost bàsic de l'actiu. Serà aplicat en la "
+"línia de factura quan seleccioneu aquest actiu en la línia de factura."
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_localisation.py:0
+#, python-format
+msgid "Asset transfered because: "
+msgstr "Actiu transferit per: "
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Settings Change"
+msgstr "Canvi de configuració"
+
+#. module: account_asset
+#: field:account.asset.category,parent_id:0
+msgid "Parent Category"
+msgstr "Categoria pare"
+
+#. module: account_asset
+#: field:account.asset.property.history,name:0
+msgid "History name"
+msgstr "Nom històric"
+
+#. module: account_asset
+#: wizard_button:account.asset.reval,init,asset_reval:0
+msgid "Revalue"
+msgstr "Revalora"
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"This wizard works only when asset have just Draft and Closed methods !"
+msgstr ""
+"Aquest assistent només funciona quan l'actiu té únicament mètodes esborrany "
+"i tancats!"
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Create Usage Lines"
+msgstr "Crea línies d'ús"
+
+#. module: account_asset
+#: wizard_field:account.asset.initial,init,value:0
+msgid "Base Value"
+msgstr "Valor base"
+
+#. module: account_asset
+#: wizard_field:account.asset.initial,init,intervals_before:0
+#: field:account.asset.method,intervals_before:0
+msgid "Intervals Before"
+msgstr "Intervals anteriors"
+
+#. module: account_asset
+#: help:account.asset.compute,init,category_id:0
+msgid ""
+"If empty all categories assets will be calculated. If you use hierarchical "
+"categories all children of selected category be calculated."
+msgstr ""
+"Si està buit totes les categories d'actius seran calculades. Si utilitzeu "
+"categories jeràrquiques, tots els fills de la categoria seleccionada seran "
+"calculats."
+
+#. module: account_asset
+#: wizard_button:account.asset.resume,init,asset_resume:0
+msgid "Resume Depreciation"
+msgstr "Reactiva amortització"
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Suppress Method"
+msgstr "Mètode supressió"
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Depreciation Board"
+msgstr "Taula d'amortització"
+
+#. module: account_asset
+#: model:ir.actions.act_window,name:account_asset.asset_category_action
+#: model:ir.ui.menu,name:account_asset.menu_asset_category_action
+msgid "Assets Category Structure"
+msgstr "Estructura categoria d'actiu"
+
+#. module: account_asset
+#: help:account.asset.asset,localisation:0
+msgid ""
+"Set this field before asset coonfirming. Later on you will have to use "
+"Change Localisation button."
+msgstr ""
+"Assigneu valor en aquest camp abans de la confirmació de l'actiu. Més tard "
+"tindreu que utilitzar el botó de canvi de localització."
+
+#. module: account_asset
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_reval
+msgid "Revaluate"
+msgstr "Revalorar"
+
+#. module: account_asset
+#: help:account.asset.method,method_progress_factor:0
+msgid ""
+"Specify the factor of progression in depreciation. Used in Declining-Balance "
+"and Progressive method only. When linear depreciation is 20% per year, and "
+"you want apply Double-Declining Balance you should choose Declining-Balance "
+"method and enter 0,40 (40%) as Progressive factor."
+msgstr ""
+"Indiqueu el factor de progressió en l'amortització. Utilitzat en els mètodes "
+"Balanç-Declinat i Progressiu. Quan l'amortització lineal és 20% a l'any i "
+"voleu aplicar Balanç Doble-Declinat hauríeu de seleccionar Balanç-Declinat i "
+"posar 0,40 (40%) com a factor progressiu."
+
+#. module: account_asset
+#: field:account.asset.method.type,name:0
+msgid "Asset Method Type Name"
+msgstr "Nombre tipo método de activo"
+
+#. module: account_asset
+#: wizard_view:account.asset.reval,init:0
+msgid "Revaluation entry"
+msgstr "Entrada revaloració"
+
+#. module: account_asset
+#: help:account.asset.reval,init,acc_impairment:0
+msgid "Account for impairment loss amount."
+msgstr "Compte per import perdut"
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "You can dalete assets only in Draft state !"
+msgstr "Només podeu esborrar actius en estat esborrany!"
+
+#. module: account_asset
+#: help:account.asset.reval,init,expense_value:0
+msgid ""
+"Value to be added to asset expenses. Used only in indirect method. In direct "
+"method ignored."
+msgstr ""
+"Valor a afegir a les despeses de l'actiu. Només s'utilitza en el mètode "
+"indirecte. En el mètode directe s'ignora."
+
+#. module: account_asset
+#: help:account.asset.method.defaults,account_actif_id:0
+msgid "Select account used for depreciation amount."
+msgstr "Seleccioneu compte utilitzat per import d'amortització."
+
+#. module: account_asset
+#: field:account.asset.method,date:0
+msgid "Date Created"
 msgstr "Data de creació"
 
 #. module: account_asset
-#: model:ir.module.module,description:account_asset.module_meta_information
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
 msgid ""
-"Financial and accounting asset management.\n"
-"    Allows to define\n"
-"    * Asset category. \n"
-"    * Assets.\n"
-"    *Asset usage period and property.\n"
-"    "
+"\n"
+"   Intervals Before: "
 msgstr ""
-"Gestió financera i comptable d'actius.\n"
-"  Permet definir\n"
-"  * Categories d'actiu. \n"
-"  * Actius.\n"
-"  * Període i propietats de l'actiu utilitzat. "
+"\n"
+"   Intervals abans: "
 
 #. module: account_asset
-#: field:account.asset.board,value_gross:0
-#: field:account.asset.property,value_total:0
-msgid "Gross value"
-msgstr "Valor brut"
+#: selection:account.asset.method,method:0
+#: selection:account.asset.method.defaults,method:0
+msgid "Sum of Years Digits"
+msgstr "Suma dels dígits de l'any"
 
 #. module: account_asset
-#: selection:account.asset.property,method_time:0
-msgid "Ending period"
-msgstr "Període final"
+#: code:addons/account_asset/wizard/wizard_asset_resume.py:0
+#, python-format
+msgid "Resuming because: "
+msgstr "Reactivació per: "
 
 #. module: account_asset
-#: field:account.asset.board,name:0
-msgid "Asset name"
-msgstr "Nom de l'actiu"
+#: field:account.asset.asset,category_id:0
+#: view:account.asset.category:0
+#: field:account.asset.category,name:0
+#: model:ir.model,name:account_asset.model_account_asset_category
+msgid "Asset category"
+msgstr "Categoria d'actiu"
 
 #. module: account_asset
-#: view:account.asset.asset:0
-msgid "Accounts information"
-msgstr "Informació de comptes"
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"\n"
+"Price: "
+msgstr ""
+"\n"
+"Preu: "
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"You cannot assign Product \"%s\" to Asset Method \"%s\". This method is "
+"already depreciated or is inactive (sold or abandoned)."
+msgstr ""
+"No podeu assignar el producte \"% s\" al mètode d'actiu \"% s\". Aquest "
+"mètode està amortitzat o inactiu (venut o abandonat)."
+
+#. module: account_asset
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_initial
+msgid "Initial"
+msgstr "Inicial"
+
+#. module: account_asset
+#: wizard_view:account.asset.initial,init:0
+msgid "Initial entry"
+msgstr "Entrada inicial"
+
+#. module: account_asset
+#: field:account.asset.asset,amount_residual:0
+msgid "Residual"
+msgstr "Valor residual"
 
 #. module: account_asset
 #: field:account.asset.asset,note:0
@@ -288,14 +856,34 @@ msgid "Draft"
 msgstr "Esborrany"
 
 #. module: account_asset
-#: field:account.asset.property,type:0
-msgid "Depr. method type"
-msgstr "Tipus de mètode d'amortització"
+#: help:account.asset.method,state:0
+msgid ""
+"Open - Ready for calculation.\n"
+"Suppressed - Not calculated.\n"
+"Depreciated - Depreciation finished but method exists (can be sold or "
+"abandoned).\n"
+"Closed - Asset method doesn't exist (sold or abandoned)."
+msgstr ""
+"Obert - A punt per al càlcul.\n"
+"Suprimit - No calculat.\n"
+"Amortitzat - Amortització acabada però el mètode existeix (pot ser venut o "
+"abandonat).\n"
+"Tancat - El mètode d'actiu no existeix (venut o abandonat)."
 
 #. module: account_asset
-#: field:account.asset.property,account_asset_id:0
-msgid "Asset account"
-msgstr "Compte d'actiu"
+#: selection:account.asset.asset,state:0
+#: selection:account.asset.method,state:0
+msgid "Closed"
+msgstr "Tancament"
+
+#. module: account_asset
+#: help:account.asset.asset,state:0
+msgid ""
+"Normal - Asset contains active methods (opened, suppressed or depreciated).\n"
+"Closed - Asset doesn't exist. All methods are sold or abandoned."
+msgstr ""
+"Normal - L'actiu conté mètodes actius (obert, suprimit o amortitzat).\n"
+"Tancat - L'actiu no existeix. Tots els mètodes estan venuts o abandonats."
 
 #. module: account_asset
 #: field:account.asset.property.history,asset_property_id:0
@@ -303,14 +891,29 @@ msgid "Method"
 msgstr "Mètode"
 
 #. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Purchase Refund"
+msgstr "Abonment de compra"
+
+#. module: account_asset
 #: selection:account.asset.asset,state:0
 msgid "Normal"
 msgstr "Normal"
 
 #. module: account_asset
-#: field:account.asset.property,method_progress_factor:0
-msgid "Progressif factor"
-msgstr "Factor de progressió"
+#: selection:account.asset.history,type:0
+msgid "Initial Value"
+msgstr "Valor inicial"
+
+#. module: account_asset
+#: field:account.asset.asset,state:0
+msgid "Asset State"
+msgstr "Estat actiu"
+
+#. module: account_asset
+#: wizard_field:account.asset.localisation,init,localisation:0
+msgid "Enter New localisation"
+msgstr "Introdueix nova localització"
 
 #. module: account_asset
 #: field:account.asset.asset,localisation:0
@@ -318,14 +921,22 @@ msgid "Localisation"
 msgstr "Localització"
 
 #. module: account_asset
-#: field:account.asset.property,method:0
-msgid "Computation method"
-msgstr "Mètode de càlcul"
+#: wizard_field:account.asset.abandon,init,whole_asset:0
+#: wizard_field:account.asset.close,init,whole_asset:0
+#: wizard_field:account.asset.resume,init,whole_asset:0
+msgid "All Methods"
+msgstr "Tots els mètodes"
 
 #. module: account_asset
-#: field:account.asset.property,method_time:0
-msgid "Time method"
-msgstr "Mètode de temps"
+#: code:addons/account_asset/wizard/wizard_asset_modify.py:0
+#, python-format
+msgid "Modification of "
+msgstr "Modificació de "
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Resume Method"
+msgstr "Mètode reactivació"
 
 #. module: account_asset
 #: field:account.asset.asset,active:0
@@ -333,25 +944,103 @@ msgid "Active"
 msgstr "Actiu"
 
 #. module: account_asset
+#: field:account.asset.category,child_ids:0
+msgid "Children Categories"
+msgstr "Categories filles"
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"Product \"%s\" is assigned to Asset Method \"%s\". But this method has no "
+"Sale Residual Account to make asset moves."
+msgstr ""
+"El producte \"% s\" està assignat al mètode d'actiu \"% s\" però aquest "
+"mètode no té compte de saldo residual per a realitzar els moviments de "
+"l'actiu."
+
+#. module: account_asset
 #: field:account.asset.property.history,user_id:0
 msgid "User"
 msgstr "Usuari"
 
 #. module: account_asset
-#: field:account.asset.asset,property_ids:0
-msgid "Asset method name"
-msgstr "Nom del mètode d'actiu"
+#: code:addons/account_asset/wizard/wizard_asset_usage_createlines.py:0
+#, python-format
+msgid "year %s !"
+msgstr "any %s !"
 
 #. module: account_asset
-#: field:account.asset.asset,date:0
-#: field:account.asset.property.history,date:0
-msgid "Date"
-msgstr "Data"
+#: view:account.asset.asset:0
+#: view:account.asset.history:0
+msgid "Asset History"
+msgstr "Històric de l'actiu"
 
 #. module: account_asset
-#: field:account.asset.board,value_net:0
-msgid "Net value"
-msgstr "Valor net"
+#: field:account.invoice.line,asset_method_id:0
+msgid "Asset Method"
+msgstr "Mètode d'actiu"
+
+#. module: account_asset
+#: view:account.asset.asset:0
+#: wizard_view:account.asset.initial,init:0
+msgid "Initial Values"
+msgstr "Valors inicials"
+
+#. module: account_asset
+#: field:account.asset.asset,method_ids:0
+msgid "Asset Method Name"
+msgstr "Nom mètode d'actiu"
+
+#. module: account_asset
+#: model:ir.module.module,description:account_asset.module_meta_information
+msgid ""
+"Financial and accounting asset management.\n"
+"    Allows to define\n"
+"    * Asset category. \n"
+"    * Assets.\n"
+"    *Asset usage period and property.\n"
+"    "
+msgstr ""
+"Gestió financera i comptable d'actius.\n"
+"  Permet definir\n"
+"  * Categories d'actiu. \n"
+"  * Actius.\n"
+"  * Període i propietats de l'actiu utilitzat.\n"
+"    "
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Cannot post in closed period !"
+msgstr "No es pot fixar en un període tancat!"
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Summary"
+msgstr "Resum"
+
+#. module: account_asset
+#: field:account.asset.method,account_asset_id:0
+#: field:account.asset.method.defaults,account_asset_id:0
+msgid "Asset Account"
+msgstr "Compta d'actiu"
+
+#. module: account_asset
+#: wizard_view:account.asset.initial,init:0
+msgid ""
+"Wizard for starting values of asset coming from production or investment. "
+"Use it also when you continue asset management from another system."
+msgstr ""
+"Assistent per a valors inicials de l'actiu que provenen de producció o "
+"inversions. Utilitzeu-lo també quan continuï la gestió d'actius des d'un "
+"altre sistema."
+
+#. module: account_asset
+#: field:account.asset.method,account_residual_id:0
+#: field:account.asset.method.defaults,account_residual_id:0
+msgid "Sale Residual Account"
+msgstr "Compte de saldo residual"
 
 #. module: account_asset
 #: wizard_view:account.asset.close,init:0
@@ -360,14 +1049,47 @@ msgid "Close asset"
 msgstr "Tanca l'actiu"
 
 #. module: account_asset
+#: help:account.asset.method,period_id:0
+msgid "Select period indicating first interval."
+msgstr "Seleccione el periodo indicando el primer intervalo"
+
+#. module: account_asset
+#: wizard_view:account.asset.modify,init:0
+msgid "Method Modyfying"
+msgstr "Modificació del mètode"
+
+#. module: account_asset
 #: field:account.asset.property,history_ids:0
 msgid "History"
 msgstr "Història"
 
 #. module: account_asset
-#: field:account.asset.property,account_actif_id:0
-msgid "Depreciation account"
-msgstr "Compte d'amortització"
+#: help:account.asset.asset,partner_id:0
+msgid "If Date field is empty this field will be filled by first purchase."
+msgstr ""
+"Si el camp data està buit, aquest camp serà omplert per la primera compra."
+
+#. module: account_asset
+#: model:ir.model,name:account_asset.model_account_asset_method_usage
+msgid "Asset Method Usage"
+msgstr "Ús del mètode d'actiu"
+
+#. module: account_asset
+#: selection:account.asset.method,method:0
+#: selection:account.asset.method.defaults,method:0
+msgid "Declining-Balance"
+msgstr "Balanç-Declinat"
+
+#. module: account_asset
+#: selection:account.asset.method,state:0
+msgid "Suppressed"
+msgstr "Suprimit"
+
+#. module: account_asset
+#: wizard_view:account.asset.abandon,init:0
+#: selection:account.asset.history,type:0
+msgid "Abandonment"
+msgstr "Abandonament"
 
 #. module: account_asset
 #: field:account.asset.asset,period_id:0
@@ -376,10 +1098,50 @@ msgid "Period"
 msgstr "Període"
 
 #. module: account_asset
+#: help:account.asset.method,account_actif_id:0
+msgid "Select account used for depreciation amounts."
+msgstr "Seleccione la cuenta usada para los importes de amortización."
+
+#. module: account_asset
+#: field:account.asset.method,method_progress_factor:0
+#: wizard_field:account.asset.modify,init,method_progress_factor:0
+msgid "Progressive Factor"
+msgstr "Factor de progressió"
+
+#. module: account_asset
+#: wizard_view:account.asset.modify,init:0
+msgid "Method parameters to modify"
+msgstr "Paràmetres del mètode a modificar"
+
+#. module: account_asset
+#: help:account.asset.initial,init,period_id:0
+msgid ""
+"Period for posting. Consider which period to use for this posting. It should "
+"be probably some additional period before current depreciation start."
+msgstr ""
+"Període per a fixar. Considereu quin període utilitzar per a la fixació. "
+"Probablement serà alguns períodes posteriors d'iniciar l'actual amortització."
+
+#. module: account_asset
+#: help:account.asset.usage.createlines,init,value:0
+msgid ""
+"Value of Unit of Production. This value has to be changed before asset "
+"calculation but could be some indication for entering later on."
+msgstr ""
+"Valor de la unitat de producció. Aquest valor ha de ser canviat abans del "
+"càlcul d'actiu però pot haver alguna indicació per introduir després."
+
+#. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
 msgid "Asset Category"
 msgstr "Categoria d'actiu"
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Changing of method parameters to:"
+msgstr "Canviant els paràmetres del mètode a:"
 
 #. module: account_asset
 #: wizard_button:account.asset.close,init,end:0
@@ -396,9 +1158,39 @@ msgid "Close"
 msgstr "Tanca"
 
 #. module: account_asset
+#: wizard_view:account.asset.localisation,init:0
+#: wizard_button:account.asset.localisation,init,asset_modify:0
+msgid "Set New Localisation"
+msgstr "Establir nova localització"
+
+#. module: account_asset
 #: selection:account.asset.property,state:0
 msgid "Open"
 msgstr "Obre"
+
+#. module: account_asset
+#: field:account.asset.asset,code:0
+msgid "Asset Code"
+msgstr "Codi d'actiu"
+
+#. module: account_asset
+#: help:account.asset.initial,init,intervals_before:0
+msgid ""
+"Number of intervals calculated already before asset is managed in this "
+"system."
+msgstr ""
+"Nombre d'intervals ja calculats abans de la gestió de l'actiu en aquest "
+"sistema."
+
+#. module: account_asset
+#: wizard_view:account.asset.localisation,init:0
+msgid "Localisation Changing"
+msgstr "Canvi localització"
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Depr. Resuming"
+msgstr "Reactivació amort."
 
 #. module: account_asset
 #: constraint:ir.model:0
@@ -414,21 +1206,31 @@ msgid "Asset management"
 msgstr "Gestió de l'actiu"
 
 #. module: account_asset
-#: view:account.asset.board:0
-#: field:account.asset.property,board_ids:0
-#: model:ir.model,name:account_asset.model_account_asset_board
-msgid "Asset board"
-msgstr "Taulell d'actius"
+#: help:account.asset.method.defaults,account_abandon_id:0
+msgid "Select account used for abandonment loss amount."
+msgstr ""
+"Seleccioneu el compte utilitzat per l'import pèrdua per abandonament."
 
 #. module: account_asset
-#: field:account.asset.asset,state:0
-msgid "Global state"
-msgstr "Estat global"
+#: wizard_view:account.asset.resume,init:0
+msgid "Method Resuming"
+msgstr "Mètode reactivació"
 
 #. module: account_asset
-#: selection:account.asset.property,method_time:0
-msgid "Delay"
-msgstr "Retarda"
+#: code:addons/account_asset/wizard/wizard_asset_abandon.py:0
+#, python-format
+msgid "Asset abandoned because: "
+msgstr "Actiu abandonat per: "
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Salvage Value: "
+msgstr ""
+"\n"
+"   Valor d'excepció: "
 
 #. module: account_asset
 #: wizard_view:account.asset.close,init:0
@@ -436,9 +1238,58 @@ msgid "General information"
 msgstr "Informació general"
 
 #. module: account_asset
-#: field:account.asset.property,journal_analytic_id:0
-msgid "Analytic journal"
-msgstr "Diari analític"
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"]\n"
+"Invoice date: "
+msgstr ""
+"]\n"
+"Data factura: "
+
+#. module: account_asset
+#: help:account.invoice.line,asset_method_id:0
+msgid ""
+"Select the asset depreciation method if you wish to assign the purchase "
+"invoice line to fixed asset. If method doesn't exists yet you will have to "
+"create it and probably the asset itself too. After selecting the asset "
+"method the invoice line account should change according to the asset method "
+"settings but please check it before creating the invoice."
+msgstr ""
+"Seleccioneu el mètode d'amortització de l'actiu si voleu assignar a la línia "
+"de factura de compra a un actiu fix. Si el mètode no existeix encara haureu "
+"de crear-lo i probablement l'actiu en si també. Després de seleccionar el "
+"mètode d'actiu el compte de la línia de factura hauria de canviar d'acord a "
+"la configuració del mètode d'actiu però si us plau, verifíqueu-lo abans de "
+"crear la factura."
+
+#. module: account_asset
+#: help:account.asset.compute,init,method_type_id:0
+msgid "If empty all method types will be calculated for assets."
+msgstr ""
+"Si està buit tot els tipus de mètodes seran calculats per als actius."
+
+#. module: account_asset
+#: view:account.asset.method.type:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_method_type_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_method_type_form
+msgid "Asset Method Types"
+msgstr "Tipus mètodes d'actiu"
+
+#. module: account_asset
+#: selection:account.asset.property,method:0
+msgid "Progressive"
+msgstr "Progressiu"
+
+#. module: account_asset
+#: field:account.asset.asset,sequence:0
+msgid "Seq."
+msgstr "Seq."
+
+#. module: account_asset
+#: field:account.asset.method,state:0
+msgid "Method State"
+msgstr "Estat mètode"
 
 #. module: account_asset
 #: field:account.asset.property,name:0
@@ -446,48 +1297,158 @@ msgid "Method name"
 msgstr "Nom del mètode"
 
 #. module: account_asset
+#: wizard_field:account.asset.abandon,init,name:0
+#: wizard_field:account.asset.close,init,name:0
+#: wizard_field:account.asset.initial,init,name:0
+#: wizard_field:account.asset.localisation,init,name:0
+#: wizard_field:account.asset.modify,init,name:0
+#: wizard_field:account.asset.resume,init,name:0
+#: wizard_field:account.asset.reval,init,name:0
+msgid "Description"
+msgstr "Descripció"
+
+#. module: account_asset
+#: model:ir.model,name:account_asset.model_account_asset_method
+msgid "Asset method"
+msgstr "Mètode d'actiu"
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "You can dalete method only in Draft state !"
+msgstr "Només podeu esborrar mètodes en estat esborrany!"
+
+#. module: account_asset
 #: field:account.asset.property,journal_id:0
 msgid "Journal"
 msgstr "Diari"
 
 #. module: account_asset
-#: field:account.asset.property.history,name:0
-msgid "History name"
-msgstr "Nom històric"
-
-#. module: account_asset
-#: view:account.asset.asset:0
-msgid "Close method"
-msgstr "Tanca el mètode"
-
-#. module: account_asset
-#: field:account.asset.property,entry_asset_ids:0
-msgid "Asset Entries"
-msgstr "Assentaments d'actiu"
-
-#. module: account_asset
-#: field:account.asset.asset,category_id:0
-#: view:account.asset.category:0
-#: field:account.asset.category,name:0
-#: model:ir.model,name:account_asset.model_account_asset_category
-msgid "Asset category"
-msgstr "Categoria d'actiu"
-
-#. module: account_asset
-#: view:account.asset.asset:0
-msgid "Depreciation"
-msgstr "Depreciació"
-
-#. module: account_asset
-#: field:account.asset.asset,code:0
 #: field:account.asset.category,code:0
-msgid "Asset code"
-msgstr "Codi d'actiu"
+msgid "Asset Category Code"
+msgstr "Codi categoria d'actiu"
 
 #. module: account_asset
-#: field:account.asset.asset,value_total:0
-msgid "Total value"
-msgstr "Valor total"
+#: field:account.move.line,asset_method_id:0
+msgid "Asset Depr. Method"
+msgstr "Mètode amortització actiu"
+
+#. module: account_asset
+#: field:account.asset.method,method_period:0
+#: field:account.asset.method.defaults,method_period:0
+#: wizard_field:account.asset.modify,init,method_period:0
+msgid "Intervals per Year"
+msgstr "Intervals per exercici."
+
+#. module: account_asset
+#: field:account.asset.method,method_type:0
+#: field:account.asset.method.defaults,method_type:0
+msgid "Method Type"
+msgstr "Tipus mètode"
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_compute.py:0
+#, python-format
+msgid "Created moves"
+msgstr "Moviments creats"
+
+#. module: account_asset
+#: wizard_field:account.asset.usage.createlines,init,interval:0
+msgid "Entries per Year"
+msgstr "Assentaments per exercici"
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Revalue Method"
+msgstr "Mètode revalorar"
+
+#. module: account_asset
+#: field:account.asset.method.type,code:0
+msgid "Asset Method Type Code"
+msgstr "Codi tipus mètode d'actiu"
+
+#. module: account_asset
+#: help:account.asset.initial,init,acc_impairment:0
+msgid "Counter account for base value."
+msgstr "Compte comptable per el valor base"
+
+#. module: account_asset
+#: field:account.asset.history,change_total:0
+msgid "Total Change"
+msgstr "Total canvi"
+
+#. module: account_asset
+#: field:account.asset.method,value_total:0
+msgid "Gross Value"
+msgstr "Valor brut"
+
+#. module: account_asset
+#: wizard_field:account.asset.initial,init,expense_value:0
+msgid "Expense Value"
+msgstr "Valor despesa"
+
+#. module: account_asset
+#: wizard_view:account.asset.initial,init:0
+msgid "But for purchased assets use invoice line assignment."
+msgstr ""
+"Però per als actius de compra utilitzeu l'assignació de línia de factura."
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Error ! Number of intervals per year must be 1, 2, 3, 4, 6 or 12."
+msgstr ""
+"Error! El nombre d'intervals per exercici ha de ser 1, 2, 3, 4, 6 o 12."
+
+#. module: account_asset
+#: wizard_field:account.asset.usage.createlines,init,fiscal_year:0
+msgid "Fiscal Year"
+msgstr "Exercici fiscal"
+
+#. module: account_asset
+#: selection:account.asset.method,state:0
+msgid "Depreciated"
+msgstr "Amortitzat"
+
+#. module: account_asset
+#: wizard_view:account.asset.abandon,init:0
+#: view:account.asset.asset:0
+msgid "Abandon Method"
+msgstr "Mètode abandonament"
+
+#. module: account_asset
+#: help:account.asset.method,intervals_before:0
+msgid ""
+"Number of intervals calculated before asset is managed in this system. Used "
+"with Initial Values wizard. If you start asset in this system keep zero."
+msgstr ""
+"Nombre d'intervals calculats abans que l'actiu sigui gestionat en aquest "
+"sistema. Utilitzat amb l'assistent de valors inicials. Si inicieu l'actiu en "
+"aquest sistema deixeu-ho a zero."
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Asset transfered to: "
+msgstr "Actiu transferit a: "
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#: code:addons/account_asset/account_asset_invoice.py:0
+#: code:addons/account_asset/wizard/wizard_asset_usage_createlines.py:0
+#, python-format
+msgid "Error !"
+msgstr "Error!"
+
+#. module: account_asset
+#: wizard_button:account.asset.initial,init,asset_reval:0
+msgid "Set Initials"
+msgstr "Fixa valors inicials"
+
+#. module: account_asset
+#: field:account.asset.history,change_expense:0
+msgid "Expense Change"
+msgstr "Canvi de despeses"
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
@@ -500,38 +1461,240 @@ msgid "General info"
 msgstr "Informació general"
 
 #. module: account_asset
-#: field:account.asset.asset,sequence:0
-msgid "Sequence"
-msgstr "Seqüència"
+#: model:ir.ui.menu,name:account_asset.menu_finance_periodical_assets
+msgid "Assets Calculation"
+msgstr "Càlcul actius"
 
 #. module: account_asset
-#: field:account.asset.property,value_residual:0
-msgid "Residual value"
-msgstr "Valor residual"
+#: selection:account.asset.method,method:0
+#: selection:account.asset.method.defaults,method:0
+msgid "Straight-Line"
+msgstr "Línia-recta"
 
 #. module: account_asset
-#: wizard_button:account.asset.close,init,asset_close:0
-msgid "End of asset"
-msgstr "Final d'actiu"
+#: view:account.asset.asset:0
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_localisation
+msgid "Change Localisation"
+msgstr "Canvi localització"
 
 #. module: account_asset
-#: selection:account.asset.property,type:0
-msgid "Direct"
-msgstr "Directe"
+#: help:account.asset.method,account_expense_id:0
+#: help:account.asset.method.defaults,account_expense_id:0
+msgid ""
+"Select account used for depreciation expense (write-off). If you use direct "
+"method of depreciation this account should be the same as Asset Account."
+msgstr ""
+"Seleccioneu el compte utilitzat per la despesa d'amortització. Si utilitzeu "
+"el mètode directe d'amortització aquest compte hauria de ser la mateixa que "
+"el compte de l'actiu."
 
 #. module: account_asset
-#: selection:account.asset.property,type:0
-msgid "Indirect"
-msgstr "Indirecte"
+#: field:account.asset.asset,date:0
+#: field:account.asset.property.history,date:0
+msgid "Date"
+msgstr "Data"
 
 #. module: account_asset
-#: field:account.asset.asset,parent_id:0
-msgid "Parent asset"
-msgstr "Família d'actiu"
+#: field:account.asset.method.defaults,account_impairment_id:0
+#: wizard_field:account.asset.reval,init,acc_impairment:0
+msgid "Impairment Account"
+msgstr "Compte de deteriorament"
 
 #. module: account_asset
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_tree
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_tree
-msgid "Asset Hierarchy"
-msgstr "Jerarquia d'actius"
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid "Product name: "
+msgstr "Nom producte: "
 
+#. module: account_asset
+#: wizard_field:account.asset.compute,init,method_type_id:0
+#: view:account.asset.method.type:0
+#: model:ir.model,name:account_asset.model_account_asset_method_type
+msgid "Asset Method Type"
+msgstr "Tipus mètode d'actiu"
+
+#. module: account_asset
+#: help:account.asset.asset,date:0
+msgid ""
+"Set this date or leave it empty to allow system set the first purchase date."
+msgstr ""
+"Introduïu aquesta data o deixeu buida per permetre al sistema assignar la "
+"primera data de compra."
+
+#. module: account_asset
+#: field:account.asset.asset,amount_total:0
+msgid "Total"
+msgstr "Total"
+
+#. module: account_asset
+#: wizard_field:account.asset.usage.createlines,init,value:0
+msgid "Entry Value"
+msgstr "Valor entrada"
+
+#. module: account_asset
+#: help:account.asset.method,method_period:0
+msgid ""
+"Specify the number of depreciations to be made in year. This number cannot "
+"be less then number of periods in year."
+msgstr ""
+"Indiqueu el nombre d'amortitzacions a realitzar durant l'exercici fiscal. "
+"Aquest nombre no pot ser inferior al nombre de períodes en l'exercici fiscal."
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+#: wizard_view:account.asset.reval,init:0
+msgid "Revaluation"
+msgstr "Revaloració"
+
+#~ msgid "Ending date"
+#~ msgstr "Data final"
+
+#~ msgid "Depreciation board"
+#~ msgstr "Taula d'amortització"
+
+#~ msgid "Linear"
+#~ msgstr "Lineal"
+
+#~ msgid "Change duration"
+#~ msgstr "Canvi de durada"
+
+#~ msgid "Childs asset"
+#~ msgstr "Actius fills"
+
+#~ msgid "Asset Value"
+#~ msgstr "Valor de l'actiu"
+
+#~ msgid "Reason"
+#~ msgstr "Raó"
+
+#~ msgid "Number of interval"
+#~ msgstr "Número d'intervals"
+
+#~ msgid "Change history"
+#~ msgstr "Canvi històric"
+
+#~ msgid "Depreciation entries"
+#~ msgstr "Assentament de dotació a l'amortització"
+
+#~ msgid "Methods"
+#~ msgstr "Mètodes"
+
+#~ msgid "Asset properties to modify"
+#~ msgstr "Propietats de l'actiu a modificar"
+
+#~ msgid "Period per interval"
+#~ msgstr "Període per interval"
+
+#~ msgid "Depreciation duration"
+#~ msgstr "termini d'amortització"
+
+#~ msgid "Analytic account"
+#~ msgstr "Compte analític"
+
+#~ msgid "State"
+#~ msgstr "Estat"
+
+#~ msgid "Depreciation methods"
+#~ msgstr "Mètodes d'amortització"
+
+#~ msgid "Other information"
+#~ msgstr "Altra informació"
+
+#~ msgid "Cumul. value"
+#~ msgstr "Valor acumulat"
+
+#~ msgid "Assets methods"
+#~ msgstr "Mètodes d'actius"
+
+#~ msgid "Asset property"
+#~ msgstr "Propietat de l'actiu"
+
+#~ msgid "Confirm asset"
+#~ msgstr "Confirma l'actiu"
+
+#~ msgid "Date created"
+#~ msgstr "Data de creació"
+
+#~ msgid "Gross value"
+#~ msgstr "Valor brut"
+
+#~ msgid "Ending period"
+#~ msgstr "Període final"
+
+#~ msgid "Asset name"
+#~ msgstr "Nom de l'actiu"
+
+#~ msgid "Accounts information"
+#~ msgstr "Informació de comptes"
+
+#~ msgid "Depr. method type"
+#~ msgstr "Tipus de mètode d'amortització"
+
+#~ msgid "Asset account"
+#~ msgstr "Compte d'actiu"
+
+#~ msgid "Progressif factor"
+#~ msgstr "Factor de progressió"
+
+#~ msgid "Computation method"
+#~ msgstr "Mètode de càlcul"
+
+#~ msgid "Time method"
+#~ msgstr "Mètode de temps"
+
+#~ msgid "Asset method name"
+#~ msgstr "Nom del mètode d'actiu"
+
+#~ msgid "Net value"
+#~ msgstr "Valor net"
+
+#~ msgid "Depreciation account"
+#~ msgstr "Compte d'amortització"
+
+#~ msgid "Asset board"
+#~ msgstr "Taulell d'actius"
+
+#~ msgid "Global state"
+#~ msgstr "Estat global"
+
+#~ msgid "Delay"
+#~ msgstr "Retarda"
+
+#~ msgid "Analytic journal"
+#~ msgstr "Diari analític"
+
+#~ msgid "Close method"
+#~ msgstr "Tanca el mètode"
+
+#~ msgid "Asset Entries"
+#~ msgstr "Assentaments d'actiu"
+
+#~ msgid "Depreciation"
+#~ msgstr "Depreciació"
+
+#~ msgid "Asset code"
+#~ msgstr "Codi d'actiu"
+
+#~ msgid "Total value"
+#~ msgstr "Valor total"
+
+#~ msgid "Sequence"
+#~ msgstr "Seqüència"
+
+#~ msgid "Residual value"
+#~ msgstr "Valor residual"
+
+#~ msgid "End of asset"
+#~ msgstr "Final d'actiu"
+
+#~ msgid "Direct"
+#~ msgstr "Directe"
+
+#~ msgid "Indirect"
+#~ msgstr "Indirecte"
+
+#~ msgid "Parent asset"
+#~ msgstr "Família d'actiu"
+
+#~ msgid "Asset Hierarchy"
+#~ msgstr "Jerarquia d'actius"
