@@ -49,9 +49,9 @@
     "depends" : ["base",],
     "init_xml" : [
         "report_label_data.xml",
+        "label_data.xml",
     ],
     "demo_xml" : [
-        "label_data.xml",
     ],
     "update_xml" : [
         "security/ir.model.access.csv",
