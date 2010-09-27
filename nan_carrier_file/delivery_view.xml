@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+	<!-- Delivery File for Carrier Wizard -->
+	<record model="ir.ui.view" id="carrier_file_wizard_form">
+		<field name="name">carrier.file.wizard.form </field>
+		<field name="model">carrier.file.wizard</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Generete Delivery Files For Carriers" >
+				<field name="start_date"/>
+				<field name="end_date"/>
+				<field name="carrier_id"/>
+		                <group col="2" colspan="4">
+                		    <button icon="gtk-cancel" special="cancel" string="Cancel" type="object"/>
+                   		    <button icon="gtk-ok" name="action_accept" string="Resend" type="object"/>
+                		</group>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="action_gen_file_for_carriers" model="ir.actions.act_window">
+		<field name="name">carrier.file.wizard</field>
+		<field name="type">ir.actions.act_window</field>
+        	<field name="src_model">stock.picking</field>
+        	<field name="res_model">carrier.file.wizard</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+    <menuitem parent="stock.menu_stock_root" name="Generate Carrier Files" id="gen_carrier_files_id" action="action_gen_file_for_carriers"/>
+
+
+    <!-- Delivery Carrier view -->
+
+    <record id="view_delivery_carrier_file_form" model="ir.ui.view">
+            <field name="name">delivery.carrier.file.form</field>
+            <field name="model">delivery.carrier</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
+            <field name="arch" type="xml">
+                <field name="product_id" select="1" position="after">
+                    <field name="format_id" />
+                </field>
+            </field>
+    </record>
+ 
+</data>
+</openerp>
+
