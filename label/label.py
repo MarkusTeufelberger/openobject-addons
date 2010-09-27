@@ -64,6 +64,47 @@ class label_templates(osv.osv):
             'value': {'model_int_name':mod_name}
         }
 
+    def _help_text_xsl(self):
+        return "The label body can contain:\n" + \
+        "1) Fixed strings like 'Ref.:'\n" + \
+        "2) Mako fields like ${object.name} (use the expression builder to compute them)\n" + \
+        "3) Mako control sequence %%for ... %%endfor for loops\n" + \
+        "4) ReportLab tags <b> <i> <u> <super> <sub> <font> <barCode> <greek>\n" + \
+        "5) ReportLab tags like <blockTable>, <tr>, <td>, ...\n" + \
+        "6) <nextFrame/> tag where you want jump to next label.\n" + \
+        "Note: Only 1, 2, 4 contents can be mixed in the same line.\n" + \
+        "Note: Line with 1, 2, 4 content is inserted in a <para> tag.\n" + \
+        "For ReportLab documentation visit http://www.reportlab.com/software/documentation/\n"
+
+    def _help_text_rml(self):
+        return "The label body can contain:\n" + \
+        '1) Fixed strings in <para> tags like <para style="default">Ref.:</para>\n' + \
+        "2) Mako fields like ${object.name} (use the expression builder to compute them)\n" + \
+        "3) Mako control sequence %%for ... %%endfor for loops\n" + \
+        "4) ReportLab tags <b> <i> <u> <super> <sub> <font> <barCode> <greek>\n" + \
+        "5) ReportLab tags like <blockTable>, <tr>, <td>, ...\n" + \
+        "6) <nextFrame/> tag is not needed.\n" + \
+        "For Mako documentation visit http://www.makotemplates.org/docs/syntax.html\n" + \
+        "For ReportLab documentation visit http://www.reportlab.com/software/documentation/\n"
+
+    def _help_text(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for tmpl in self.read(cr, uid, ids, ['type']):
+            try:
+                res[tmpl['id']] = getattr(self, '_help_text_' + tmpl['type'])()
+            except AttributeError:
+                res[tmpl['id']] = ''
+        return res
+
+    def change_type(self, cr, uid, ids, tmpl_type, context=None):
+        try:
+            help_text = getattr(self, '_help_text_' + tmpl_type)()
+        except AttributeError:
+            help_text = ''
+        return {
+            'value': {'help_text': help_text}
+        }
+
     _columns = {
         'name': fields.char('Name of Template', size=100, required=True),
         'object_name': fields.many2one('ir.model', 'Model'),
@@ -194,6 +235,8 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
         ], 'Type', required=True, select=True),
         'default_label_format_id': fields.many2one('report.label',
             'Default Label Format'),
+        'help_text': fields.function(_help_text, method=True,
+            type='text', string='Help'),
     }
 
     _defaults = {
