@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_server_action_form_inherit">
+			<field name="name">Server Action Inherit</field>
+			<field name="model">ir.actions.server</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="base.view_server_action_form" />
+			<field name="arch" type="xml">
+				<data>
+					<field name="sequence" position="after">
+                        <field name="active"/>
+                    </field>
+					<field name="condition" position="after">
+	                    <field name="run_once"/>
+					</field>
+				</data>
+			</field>
+		</record>
+
+	</data>
+</openerp>
