@@ -1,0 +1,786 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* training_exam
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-08-25 09:23:09+0000\n"
+"PO-Revision-Date: 2009-08-25 09:23:09+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: training_exam
+#: view:training.participation.line:0
+msgid "The response(s) from the question"
+msgstr ""
+
+#. module: training_exam
+#: help:training.participation,questionnaire_id:0
+msgid "Select the Questionnaire for participant"
+msgstr ""
+
+#. module: training_exam
+#: model:process.node,note:training_exam.process_node_rponse0
+#: model:process.node,note:training_exam.process_node_rponse1
+msgid "Définir les réponses liées au questions"
+msgstr ""
+
+#. module: training_exam
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr ""
+
+#. module: training_exam
+#: model:process.transition,name:training_exam.process_transition_questionnaireducours0
+#: model:process.transition,name:training_exam.process_transition_questionnaireducours1
+#: model:process.transition,name:training_exam.process_transition_questionnaireducours2
+#: model:process.transition,name:training_exam.process_transition_questionnaireducours3
+#: model:process.transition,name:training_exam.process_transition_questionnaireducours4
+msgid "Questionnaire du cours"
+msgstr ""
+
+#. module: training_exam
+#: field:training.subscription.line,parent_id:0
+msgid "Parent"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.questionnaire,category:0
+msgid "Category of  Course"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.actions.act_window,name:training_exam.exam_questionnaire_current_act
+#: model:ir.ui.menu,name:training_exam.library_exam_current_mi
+msgid "Current Questionnaires"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.questionnaire,len_question_ids:0
+msgid "Total number of questions"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.questionnaire,duration:0
+msgid "Duration for the exam"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire:0
+msgid "Validate"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.questionnaire,passing_score:0
+#: field:training.participation,passing_score:0
+msgid "Passing Score"
+msgstr ""
+
+#. module: training_exam
+#: help:training.participation,duration_questionnaire_id:0
+msgid "Duration of selected  Questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.model,name:training_exam.model_training_exam_question_wizard
+#: view:training.exam.question.wizard:0
+msgid "Question Wizard"
+msgstr ""
+
+#. module: training_exam
+#: view:training.participation.line:0
+msgid "Notes"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.model,name:training_exam.model_training_exam_questionnaire_wizard
+#: view:training.exam.questionnaire.wizard:0
+msgid "Questionnaire Wizard"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question.answer:0
+msgid "Examen Answer"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.actions.act_window,name:training_exam.exam_questionnaire_all_act
+#: model:ir.ui.menu,name:training_exam.library_exam_questionnaire_all_mi
+#: model:process.node,name:training_exam.process_node_questionnaires0
+#: model:process.node,name:training_exam.process_node_questionnaires1
+#: view:training.course:0
+#: view:training.exam.question:0
+#: view:training.exam.questionnaire:0
+msgid "Questionnaires"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question:0
+msgid "Exposition of the question"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.questionnaire,kind:0
+#: selection:training.exam.questionnaire.wizard,kind:0
+msgid "Automatic"
+msgstr ""
+
+#. module: training_exam
+#: help:training.participation.line,point:0
+msgid "Number of point get from question"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.question,duration:0
+msgid "Time related to question"
+msgstr ""
+
+#. module: training_exam
+#: model:process.transition,name:training_exam.process_transition_liaisonquestionnairecours0
+#: model:process.transition,name:training_exam.process_transition_liaisonquestionnairecours1
+#: model:process.transition,name:training_exam.process_transition_liaisonquestionnairecours2
+#: model:process.transition,name:training_exam.process_transition_liaisonquestionnairecours3
+#: model:process.transition,name:training_exam.process_transition_liaisonquestionnairecours4
+msgid "Liaison questionnaire - Cours"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question:0
+msgid "Response (Plain)"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.question,number_of_good_answers:0
+msgid "Number of Good Answers"
+msgstr ""
+
+#. module: training_exam
+#: field:training.participation.line,plain_question_id:0
+msgid "Solution Plain"
+msgstr ""
+
+#. module: training_exam
+#: wizard_field:training.exam.question.assign.course,init,course_id:0
+#: field:training.exam.question.wizard,course_id:0
+#: field:training.exam.questionnaire,course_id:0
+#: field:training.exam.questionnaire.wizard,course_id:0
+msgid "Course"
+msgstr ""
+
+#. module: training_exam
+#: code:addons/training_exam/training_exam.py:0
+#, python-format
+msgid "Warning"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question.wizard:0
+#: view:training.exam.questionnaire.wizard:0
+msgid "_Cancel"
+msgstr ""
+
+#. module: training_exam
+#: help:training.subscription.line,computed:0
+msgid "Missing Documenatation"
+msgstr ""
+
+#. module: training_exam
+#: model:process.node,name:training_exam.process_node_rponse0
+#: model:process.node,name:training_exam.process_node_rponse1
+msgid "Réponse"
+msgstr ""
+
+#. module: training_exam
+#: field:training.subscription.line,with_exam:0
+#: field:training.subscription.line.second,with_exams:0
+#: field:training.subscription.mass.wizard,with_exams:0
+msgid "With Exam(s)"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question:0
+msgid "Response (Yes/No)"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.question.answer,is_solution:0
+msgid "Acceptable Solution"
+msgstr ""
+
+#. module: training_exam
+#: wizard_button:training.exam.question.assign.course,init,confirm:0
+msgid "Confirm"
+msgstr ""
+
+#. module: training_exam
+#: model:process.node,name:training_exam.process_node_question0
+#: model:process.node,name:training_exam.process_node_question1
+#: view:training.exam.question:0
+#: field:training.exam.question,question:0
+#: field:training.exam.question.answer,question_id:0
+#: view:training.participation.line:0
+#: field:training.participation.line,question_id:0
+msgid "Question"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.questionnaire,kind:0
+msgid "Kind"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.questionnaire,state:0
+msgid "State"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.question,number_of_good_answers:0
+msgid "Missing Documentation"
+msgstr ""
+
+#. module: training_exam
+#: help:training.participation.line,point_question_id:0
+msgid "Point of question"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.question,type:0
+#: field:training.exam.questionnaire.wizard,kind:0
+#: field:training.participation.line,type_question_id:0
+msgid "Type"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.questionnaire.wizard,kind:0
+msgid "At Least one open-ended question"
+msgstr ""
+
+#. module: training_exam
+#: field:training.participation.line,participation_id:0
+msgid "Participation"
+msgstr ""
+
+#. module: training_exam
+#: code:addons/training_exam/training_exam.py:0
+#, python-format
+msgid "There is not an available questionnaire for the following course %s"
+msgstr ""
+
+#. module: training_exam
+#: view:training.participation.line:0
+msgid "Responses"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question.answer:0
+msgid "Question Answer"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.actions.act_window,name:training_exam.exam_questionnaire_new_act
+#: model:ir.ui.menu,name:training_exam.library_exam_new_mi
+msgid "New Questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: model:training.offer.kind,name:training_exam.offer_kind_exam
+msgid "Exam Only"
+msgstr ""
+
+#. module: training_exam
+#: model:process.transition,name:training_exam.process_transition_crerrponses0
+#: model:process.transition,name:training_exam.process_transition_crerrponses1
+#: model:process.transition,name:training_exam.process_transition_crerrponses2
+#: model:process.transition,name:training_exam.process_transition_crerrponses3
+#: model:process.transition,name:training_exam.process_transition_crerrponses4
+msgid "Créer réponses"
+msgstr ""
+
+#. module: training_exam
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: training_exam
+#: field:training.participation.line,qcm_question_id:0
+msgid "Solution QCM"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire.wizard:0
+msgid "Information about the questions"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.questionnaire,total_point:0
+msgid "Total point for the questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.questionnaire,kind:0
+msgid "Manual"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire.wizard:0
+msgid "Questionnaire Information"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.actions.act_window,name:training_exam.exam_question_new_act
+#: model:ir.ui.menu,name:training_exam.library_exam_question_new_mi
+msgid "New Question"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.question,type:0
+#: help:training.participation.line,yesno_question_id:0
+msgid "Question type"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.module.module,description:training_exam.module_meta_information
+msgid "This module adds the exam management for the training management"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.question,is_eliminatory:0
+msgid "Eliminatory"
+msgstr ""
+
+#. module: training_exam
+#: field:training.subscription.line,computed:0
+msgid "Computed"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.question,point:0
+#: field:training.participation.line,point:0
+#: field:training.participation.line,point_question_id:0
+msgid "Point"
+msgstr ""
+
+#. module: training_exam
+#: view:training.participation.line:0
+msgid "The response(s) from the student"
+msgstr ""
+
+#. module: training_exam
+#: field:training.participation,result:0
+msgid "Result"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.actions.act_window,name:training_exam.course_questions
+#: model:ir.actions.act_window,name:training_exam.exam_question_all_act
+#: model:ir.actions.act_window,name:training_exam.show_question_from_questionnaire
+#: model:ir.ui.menu,name:training_exam.library_exam_question_mi
+#: view:training.exam.questionnaire:0
+#: field:training.exam.questionnaire,question_ids:0
+#: view:training.participation.line:0
+msgid "Questions"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.question,response_yesno:0
+#: selection:training.exam.question.answer,is_solution:0
+#: selection:training.participation.line,response_yesno:0
+#: selection:training.subscription.line.second,with_exams:0
+#: selection:training.subscription.mass.wizard,with_exams:0
+msgid "Yes"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.questionnaire,state:0
+msgid "The state of the Questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.actions.act_window,name:training_exam.exam_questionnaire_wizard_act
+#: model:ir.ui.menu,name:training_exam.library_exam_questionnaire_generate_mi
+msgid "Generate Questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.question,response_yesno:0
+#: selection:training.exam.question.answer,is_solution:0
+#: selection:training.participation.line,response_yesno:0
+#: selection:training.subscription.line.second,with_exams:0
+#: selection:training.subscription.mass.wizard,with_exams:0
+msgid "No"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.actions.act_window,name:training_exam.exam_question_without_act
+#: model:ir.ui.menu,name:training_exam.library_exam_question_mi1
+msgid "Questions Without Course"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question:0
+#: field:training.exam.question,note:0
+#: field:training.participation.line,note:0
+msgid "Note"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire:0
+#: selection:training.exam.questionnaire,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.question,type:0
+#: selection:training.participation.line,type_question_id:0
+msgid "Yes/No"
+msgstr ""
+
+#. module: training_exam
+#: model:process.node,name:training_exam.process_node_moduledecours1
+msgid "Module de cours"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire:0
+#: selection:training.exam.questionnaire,state:0
+msgid "Pending"
+msgstr ""
+
+#. module: training_exam
+#: view:training.participation.line:0
+msgid "Question Information"
+msgstr ""
+
+#. module: training_exam
+#: view:training.subscription:0
+#: field:training.subscription.line,course_id:0
+#: field:training.subscription.line.second,course_id:0
+#: field:training.subscription.mass.line,course_id:0
+msgid "Exam"
+msgstr ""
+
+#. module: training_exam
+#: code:addons/training_exam/training_exam.py:0
+#, python-format
+msgid "You have selected an exam seance but there is no associated course"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question:0
+msgid "Question Description"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.actions.wizard,name:training_exam.wizard_training_exam_question_assign_course
+msgid "Assign Course"
+msgstr ""
+
+#. module: training_exam
+#: model:process.transition,name:training_exam.process_transition_crerquestionnaire0
+#: model:process.transition,name:training_exam.process_transition_crerquestionnaire1
+#: model:process.transition,name:training_exam.process_transition_crerquestionnaire2
+#: model:process.transition,name:training_exam.process_transition_crerquestionnaire3
+#: model:process.transition,name:training_exam.process_transition_crerquestionnaire4
+msgid "Créer questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.question,name:0
+msgid "Name of Question"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire:0
+msgid "Deprecate"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.questionnaire,name:0
+msgid "Name of questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.question,type:0
+#: selection:training.participation.line,type_question_id:0
+msgid "Plain"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.question,is_mandatory:0
+msgid "Question is mandatory or not"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question:0
+#: field:training.exam.question,course_ids:0
+msgid "Courses"
+msgstr ""
+
+#. module: training_exam
+#: model:process.process,name:training_exam.process_process_crationexamen0
+msgid "Création examen"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.questionnaire,total_point:0
+msgid "Total Point"
+msgstr ""
+
+#. module: training_exam
+#: help:training.subscription.line,with_exam:0
+msgid "Select if participant give exam"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.question,is_mandatory:0
+msgid "Mandatory"
+msgstr ""
+
+#. module: training_exam
+#: model:process.transition,name:training_exam.process_transition_rponsesduquestionnaire0
+#: model:process.transition,name:training_exam.process_transition_rponsesduquestionnaire1
+#: model:process.transition,name:training_exam.process_transition_rponsesduquestionnaire2
+#: model:process.transition,name:training_exam.process_transition_rponsesduquestionnaire3
+#: model:process.transition,name:training_exam.process_transition_rponsesduquestionnaire4
+msgid "réponses du questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question.answer:0
+msgid "Proposed Answer"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire:0
+msgid "General"
+msgstr ""
+
+#. module: training_exam
+#: wizard_button:training.exam.question.assign.course,init,end:0
+msgid "Cancel"
+msgstr ""
+
+#. module: training_exam
+#: model:process.node,name:training_exam.process_node_questionnaire0
+#: model:process.node,name:training_exam.process_node_questionnaire1
+#: view:training.course:0
+#: field:training.course,questionnaire_ids:0
+#: field:training.exam.question,questionnaire_ids:0
+#: view:training.exam.questionnaire:0
+#: field:training.participation,questionnaire_id:0
+msgid "Questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.questionnaire,state:0
+msgid "Validated"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire:0
+#: selection:training.exam.questionnaire,state:0
+msgid "In Progress"
+msgstr ""
+
+#. module: training_exam
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire:0
+msgid "Exam Content"
+msgstr ""
+
+#. module: training_exam
+#: model:process.node,note:training_exam.process_node_moduledecours1
+msgid "Lier les questionnaires aux cours"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question:0
+msgid "Designation"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.questionnaire:0
+#: field:training.exam.questionnaire,objective:0
+msgid "Objective"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.actions.act_window,name:training_exam.question_wizard_act
+#: model:ir.ui.menu,name:training_exam.library_exam_question_course_wizard_mi
+msgid "Questions by Course"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.question,type:0
+#: selection:training.participation.line,type_question_id:0
+msgid "QCM"
+msgstr ""
+
+#. module: training_exam
+#: view:training.participation:0
+msgid "Exam Participation"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.questionnaire,description:0
+msgid "Description"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.model,name:training_exam.model_training_exam_questionnaire
+msgid "training.exam.questionnaire"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question:0
+msgid "Response (QCU/QCM)"
+msgstr ""
+
+#. module: training_exam
+#: code:addons/training_exam/wizard/wizard_subscription_mass.py:0
+#, python-format
+msgid "Mass Subscription Wizard"
+msgstr ""
+
+#. module: training_exam
+#: view:training.subscription:0
+msgid "Compute Exams"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.questionnaire,state:0
+msgid "Deprecated"
+msgstr ""
+
+#. module: training_exam
+#: field:training.participation.line,response_qcm_ids:0
+msgid "Solutions"
+msgstr ""
+
+#. module: training_exam
+#: help:training.participation,result:0
+msgid "Exam Result of participate"
+msgstr ""
+
+#. module: training_exam
+#: model:process.node,note:training_exam.process_node_question0
+#: model:process.node,note:training_exam.process_node_question1
+msgid "Créer les questions qui composeront les questionnaires"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.question,name:0
+#: field:training.exam.questionnaire,name:0
+#: field:training.exam.questionnaire.wizard,name:0
+msgid "Name"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.question,question_answer_ids:0
+#: field:training.exam.question,response_plain:0
+#: field:training.exam.question,response_yesno:0
+#: field:training.exam.question.answer,name:0
+#: field:training.participation.line,response_plain:0
+#: field:training.participation.line,response_yesno:0
+msgid "Solution"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.model,name:training_exam.model_training_exam_question_answer
+msgid "Training Question Answer"
+msgstr ""
+
+#. module: training_exam
+#: field:training.participation.line,yesno_question_id:0
+msgid "Solution YesNo"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.ui.menu,name:training_exam.library_exam_mi
+#: view:training.offer:0
+#: field:training.offer,questionnaire_ids:0
+msgid "Exams"
+msgstr ""
+
+#. module: training_exam
+#: view:training.exam.question.wizard:0
+#: view:training.exam.questionnaire.wizard:0
+msgid "_Apply"
+msgstr ""
+
+#. module: training_exam
+#: field:training.course,has_questionnaire:0
+msgid "Has Questionnaires"
+msgstr ""
+
+#. module: training_exam
+#: wizard_view:training.exam.question.assign.course,init:0
+msgid "Assign to a new course"
+msgstr ""
+
+#. module: training_exam
+#: field:training.participation,participation_line_ids:0
+msgid "Participation Lines"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.questionnaire,passing_score:0
+msgid "Passing score of  related to Exam"
+msgstr ""
+
+#. module: training_exam
+#: help:training.exam.question,point:0
+msgid "Point related to question"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.model,name:training_exam.model_training_participation_line
+msgid "training.participation.line"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.module.module,shortdesc:training_exam.module_meta_information
+msgid "Training Exam"
+msgstr ""
+
+#. module: training_exam
+#: model:ir.model,name:training_exam.model_training_exam_question
+msgid "Training Exam Question"
+msgstr ""
+
+#. module: training_exam
+#: model:process.node,note:training_exam.process_node_questionnaire0
+#: model:process.node,note:training_exam.process_node_questionnaire1
+msgid "Ensemble de questions composant le questionnaires"
+msgstr ""
+
+#. module: training_exam
+#: selection:training.exam.question,type:0
+#: selection:training.participation.line,type_question_id:0
+msgid "QCU"
+msgstr ""
+
+#. module: training_exam
+#: field:training.exam.question,duration:0
+#: field:training.exam.questionnaire,duration:0
+#: field:training.participation,duration_questionnaire_id:0
+msgid "Duration"
+msgstr ""
+
+#. module: training_exam
+#: view:training.course:0
+#: field:training.exam.questionnaire,len_question_ids:0
+#: field:training.exam.questionnaire.wizard,number_of_question:0
+msgid "Number of Questions"
+msgstr ""
+

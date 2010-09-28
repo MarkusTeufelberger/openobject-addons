@@ -1,8 +1,9 @@
 # -*- encoding: utf-8 -*-
-##############################################################################
+############################################################################################
 #
 #    OpenERP, Open Source Management Solution	
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
+#    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu). All Rights Reserved
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,13 +19,16 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+############################################################################################
 import partner
+import res_groups
+import invoice
+import training_email
 import training
-
+import training_holiday
 import report
 import wizard
 
-import dummy
+import document_price
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
