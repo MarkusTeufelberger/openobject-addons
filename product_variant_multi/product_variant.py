@@ -98,11 +98,16 @@ class product_template(osv.osv):
         default.update({'variant_ids':False,})
         return super(product_template, self).copy(cr, uid, id, default, context)
 
-    def button_generate_variants(self, cr, uid, ids, context={}):
+
+    def _create_variant_list(self, cr, uid, vals, context=None):
+        
         def cartesian_product(args):
             if len(args) == 1: return [(x,) for x in args[0]]
             return [(i,) + j for j in cartesian_product(args[1:]) for i in args[0]]
+        
+        return cartesian_product(vals)
 
+    def button_generate_variants(self, cr, uid, ids, context={}):
         variants_obj = self.pool.get('product.product')
         temp_val_list=[]
 
@@ -114,7 +119,7 @@ class product_template(osv.osv):
                     temp_val_list.pop()
 
             if temp_val_list:
-                list_of_variants = cartesian_product(temp_val_list)                
+                list_of_variants = self._create_variant_list(cr, uid, temp_val_list, context)
                 
                 for variant in list_of_variants:
                     variant = [i for i in variant if i]
