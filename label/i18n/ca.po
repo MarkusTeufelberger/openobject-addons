@@ -7,13 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.0-alpha\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-07-16 11:42+0000\n"
-"PO-Revision-Date: 2010-09-06 14:27+0000\n"
-"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
+"PO-Revision-Date: 2010-09-24 16:13+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-07 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-09-29 05:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: label
@@ -717,7 +718,7 @@ msgstr "Núm. columnes"
 #. module: label
 #: selection:label.wizard,state:0
 msgid "Create a report."
-msgstr "Creeu un informe."
+msgstr "Crea un informe."
 
 #. module: label
 #: model:ir.actions.act_window,name:label.action_report_pagesize_form
@@ -838,7 +839,7 @@ msgstr ""
 #. module: label
 #: view:label.wizard:0
 msgid "Close"
-msgstr "Tanqueu"
+msgstr "Tanca"
 
 #. module: label
 #: selection:label.wizard,state:0
