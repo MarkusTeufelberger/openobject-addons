@@ -92,11 +92,13 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr='/form/notebook/page[@string="General"]/field[@name="name"]' position="attributes">
-                        <attribute name="readonly">1</attribute>
+                    <xpath expr='/form/field[@name="name"]' position="replace">
+                        <field name="name" select="1" on_change="onchange_partner(name)" readonly="1" />
+                        <!--<attribute name="readonly">1</attribute>-->
                     </xpath>
-                    <xpath expr='/form/notebook/page[@string="General"]/field[@name="address_id"]' position="attributes">
-                        <attribute name="on_change">onchange_address_id(address_id)</attribute>
+                    <xpath expr='/form/field[@name="address_id"]' position="replace">
+                        <field name="address_id" select="1" attrs="{'required': [('name', '!=', False)]}" on_change="onchange_address(address_id)"/>
+                        <!--<attribute name="on_change">onchange_address_id(address_id)</attribute>-->
                     </xpath>
                 </data>
             </field>
@@ -109,11 +111,13 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr='/form/notebook/page[@string="General"]/field[@name="job_ids"]/form/field[@name="name"]' position="attributes">
-                        <attribute name="readonly">1</attribute>
+                    <xpath expr='/form/notebook/page[@string="General"]/field[@name="job_ids"]/form/field[@name="name"]' position="replace">
+                        <field name="name" readonly="1" />
+                        <!--<attribute name="readonly">1</attribute>-->
                     </xpath>
-                    <xpath expr='/form/notebook/page[@string="General"]/field[@name="job_ids"]/form/field[@name="address_id"]' position="attributes">
-                        <attribute name="on_change">onchange_address_id(address_id)</attribute>
+                    <xpath expr='/form/notebook/page[@string="General"]/field[@name="job_ids"]/form/field[@name="address_id"]' position="replace">
+                        <field name="address_id" on_change="onchange_address_id(address_id)" />
+                        <!--<attribute name="on_change">onchange_address_id(address_id)</attribute>-->
                     </xpath>
                 <notebook position="inside">
                     <page string="Courses">

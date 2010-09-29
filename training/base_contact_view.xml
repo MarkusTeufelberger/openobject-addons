@@ -19,8 +19,9 @@
                         <field name="departments" colspan="4" />
                         <field name="orientation" colspan="4" />
                     </xpath>
-                    <xpath expr="/form/notebook/page[@string='General']/field[@name='job_ids']/form/field[@name='address_id']" position="attributes">
-                        <attribute name="required">1</attribute>
+                    <xpath expr="/form/notebook/page[@string='General']/field[@name='job_ids']/form/field[@name='address_id']" position="replace">
+                        <field name="address_id" required="1" />
+                        <!--<attribute name="required">1</attribute>-->
                     </xpath>
                     <xpath expr="/form/notebook/page[@string='General']/field[@name='job_ids']/tree/field[@name='name']" position="after">
                         <field name="team_id" />

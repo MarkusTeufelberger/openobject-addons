@@ -19,8 +19,8 @@
             <field name="arch" type="xml">
                 <form string="Location">
                     <separator string="Location Description" colspan="4" />
-                    <field name="partner_id" on_change="on_change_partner(partner_id)" link="0"/>
-                    <field name="address_id" link="0"/>
+                    <field name="partner_id" on_change="on_change_partner(partner_id)" /> <!--link="0"-->
+                    <field name="address_id" /> <!--link="0"-->
                     <field name="name" />
                     <field name="seats" />
                 </form>
@@ -110,7 +110,7 @@
             <field name="inherit_id" ref="training.view_training_participation_stakeholder_form"/>
             <field name="arch" type="xml">
                 <field name="state_seance" position="after">
-                    <field name="seance_location_id" link="0"/>
+                    <field name="seance_location_id" /> <!--link="0"-->
                 </field>
             </field>
         </record>

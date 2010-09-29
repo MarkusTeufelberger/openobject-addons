@@ -1094,14 +1094,12 @@
                                     <field name="job_id"
                                         context="{'partner_id' : parent.partner_id}"
                                         domain="[('name', '=', parent.partner_id)]"
-                                        on_change="on_change_job(job_id)" 
-                                        link="0" />
+                                        on_change="on_change_job(job_id)" /> <!--link="0"-->
                                     <field name="job_email" />
 
                                     <separator string="Session" colspan="4"/>
                                     <field name="session_id"
-                                        on_change="on_change_session(session_id, price_list_id, parent.partner_id)" 
-                                        link="0" />
+                                        on_change="on_change_session(session_id, price_list_id, parent.partner_id)" /> <!--link="0"-->
                                     <field name="session_date" />
                                     <field name="kind" />
 
@@ -1127,10 +1125,10 @@
                                 </form>
                                 <tree string="Subscription Lines">
                                     <field name="name" />
-                                    <field name="session_id" link="0" />
+                                    <field name="session_id" /> <!--link="0"-->
                                     <field name="session_date" />
                                     <field name="kind" />
-                                    <field name="job_id" domain="[('name', '=', parent.partner_id)]" on_change="on_change_job(job_id)" link="0" />
+                                    <field name="job_id" domain="[('name', '=', parent.partner_id)]" on_change="on_change_job(job_id)" /> <!--link="0"-->
                                     <field name="price_list_id" groups="base.group_user" />
                                     <field name="price" sum="Price"/>
                                     <field name="invoice_line_id" widget="boolean" string="Invoiced" groups="base.group_user" />
@@ -1319,28 +1317,28 @@
             <field name="arch" type="xml">
                 <form string="Subscription Line">
                     <field name="name" />
-                    <field name="subscription_id" on_change="on_change_subscription(subscription_id)" link="0" />
-                    <field name="partner_id" link="0" />
+                    <field name="subscription_id" on_change="on_change_subscription(subscription_id)" /> <!--link="0"-->
+                    <field name="partner_id" /> <!--link="0"-->
                     <field name="partner_hr_email" readonly="1" />
                     <field name="job_id" context="{'partner_id' : partner_id}"
                         domain="[('name', '=', partner_id)]"
-                        on_change="on_change_job(job_id)" link="0" />
+                        on_change="on_change_job(job_id)" /> <!--link="0"-->
                     <field name="job_email" />
 
                     <notebook colspan="4">
                         <page string="General">
                             <separator string="Session" colspan="4"/>
-                            <field name="session_id" on_change="on_change_session(session_id, price_list_id, partner_id)" link="0" />
+                            <field name="session_id" on_change="on_change_session(session_id, price_list_id, partner_id)" /> <!--link="0"-->
                             <field name="kind" />
 
                             <separator string="Invoicing" colspan="4" />
                             <group groups="training.group_training" colspan="2" col="2">
-                                <field name="price_list_id" on_change="on_change_price_list(session_id, price_list_id)" link="0" />
+                                <field name="price_list_id" on_change="on_change_price_list(session_id, price_list_id)" /> <!--link="0"-->
                             </group>
                             <field name="price" />
                             <group col="5" colspan="4" groups="training.group_training">
                                 <field name="invoice_id" context="{'form_view_ref': 'account.invoice_form'}"/>
-                                <field name="invoice_line_id" link="0" />
+                                <field name="invoice_line_id" /> <!--link="0"-->
                                 <group col="1" colspan="1">
                                     <group attrs="{'invisible' : [('invoice_line_id', '=', False)]}" col="2" colspan="1">
                                         <field name="paid" />
@@ -1418,7 +1416,7 @@
             <field name="arch" type="xml">
                 <tree string="Subscription Lines" colors="red:theoritical_disponibility &lt; 0;darkgreen:theoritical_disponibility &gt;= 0">
                     <field name="name" />
-                    <field name="session_id" link="0" />
+                    <field name="session_id" /> <!--link="0"-->
                     <field name="session_state" />
                     <field name="session_date"/>
                     <field name="kind" />
@@ -1456,12 +1454,12 @@
             <field name="arch" type="xml">
                 <tree string="Subscription Lines" colors="black:state == 'done';red:state=='draft';darkgreen:state=='confirmed'">
                     <field name="name" />
-                    <field name="session_id" link="0" />
+                    <field name="session_id" /> <!--link="0"-->
                     <field name="session_state" />
                     <field name="session_date"/>
                     <field name="kind" />
-                    <field name="partner_id" groups="base.group_user" link="0" />
-                    <field name="price_list_id" groups="base.group_user" link="0" />
+                    <field name="partner_id" groups="base.group_user" /> <!--link="0"-->
+                    <field name="price_list_id" groups="base.group_user" /> <!--link="0"-->
                     <field name="partner_hr_email" groups="base.group_user" />
                     <!--
                     <field name="job_id" string="Participant"/>
@@ -2009,10 +2007,10 @@
                 <form string="Participation Request">
                     <group colspan="4" col="6" attrs="{'readonly': [('state', '!=', 'draft')]}">
                         <field name="reference" colspan="6" />
-                        <field name="session_id" link="0" />
+                        <field name="session_id" /> <!--link="0"-->
                         <field name="kind" groups="training.group_training" />
                         <field name="date" groups="training.group_training" />
-                        <field name="job_id" link="0" />
+                        <field name="job_id" /> <!--link="0"-->
                         <field name="email" widget='email' />
                     </group>
                     <group colspan="4" col="7">
@@ -2029,9 +2027,9 @@
                             <field name="participation_ids" colspan="4" nolabel="1" attrs="{'readonly': [('state', '!=', 'draft')]}" context="{'default_job_id': job_id, 'default_request_session_id': session_id}">
                                 <tree string="Participations">
                                     <field name="date" />
-                                    <field name="seance_id" link="0" />
-                                    <field name="group_id" link="0" />
-                                    <field name="course_id" link="0" />
+                                    <field name="seance_id" /> <!--link="0"-->
+                                    <field name="group_id" /> <!--link="0"-->
+                                    <field name="course_id" /> <!--link="0"-->
                                     <field name="duration" />
                                     <field name="paid" />
                                     <field name="product_id" groups="training.group_training" />
@@ -2080,10 +2078,10 @@
             <field name="arch" type="xml">
                 <tree string="Participation Requests">
                     <field name="reference" />
-                    <field name="session_id" link="0" />
+                    <field name="session_id" /> <!--link="0"-->
                     <field name="date" />
                     <field name="kind" />
-                    <field name="job_id" link="0" />
+                    <field name="job_id" /> <!--link="0"-->
                     <field name="price" />
                     <field name="amount_to_pay" groups="training.group_training"/>
                     <field name="state" />
@@ -2184,17 +2182,16 @@
                     <field name="request_session_id" invisible="1" />
                     <field name="seance_id" 
                         attrs="{'readonly' : [('state', '!=', 'draft')]}"
-                        on_change='on_change_seance(job_id, seance_id)' 
-                        link="0"
-                        context="{'request_session_id' : request_session_id, 'job_id' : job_id}" />
-                    <field name="group_id" link="0"/>
+                        on_change='on_change_seance(job_id, seance_id)'
+                        context="{'request_session_id' : request_session_id, 'job_id' : job_id}" /> <!--link="0"-->
+                    <field name="group_id" /> <!--link="0"-->
                     <field name="kind" />
                     <field name="date" />
                     <field name="duration" />
                     <field name="state_seance" groups="training.group_seance_manager,training.group_session_manager" />
                     
                     <separator string="Course Information" colspan="4" />
-                    <field name="course_id" colspan="4" link="0" />
+                    <field name="course_id" colspan="4" /> <!--link="0"-->
                     
                     <separator string="Payment" colspan="4" />
                     <field name="purchase_order_id" groups="training.group_seance_manager,training.group_session_manager" />
@@ -2679,15 +2676,15 @@
                 <data>
                     <xpath expr="/form/notebook/page/field['product_id']" position="before">
                         <field name="seance_id_int" select="1" />
-                        <field name="seance_id" select="1" link="0" />
-                        <field name="course_id" select="1" link="0" />
+                        <field name="seance_id" select="1" /> <!--link="0"-->
+                        <field name="course_id" select="1" /> <!--link="0"-->
                     </xpath>
-                    <field name="product_id" position="attributes">
+                    <!--<field name="product_id" position="attributes">
                         <attribute name="link">0</attribute>
                     </field>
                     <field name="product_uom" position="attributes">
                         <attribute name="link">0</attribute>
-                    </field>
+                    </field>-->
                 </data>
             </field>
         </record>

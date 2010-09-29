@@ -28,11 +28,13 @@
                         <field name="send_to" groups='training.group_training' />
                         <field name="sent_by_mail" groups='training.group_training' />
                     </field>
-                    <field name="type" position="attributes">
-                        <attribute name="groups">base.group_user</attribute>
+                    <field name="type" position="replace">
+                        <field name="type" groups="base.group_user"/>
+                        <!--<attribute name="groups">base.group_user</attribute>-->
                     </field>
-                    <field name="origin" position="attributes">
-                        <attribute name="groups">base.group_user</attribute>
+                    <field name="origin" position="replace">
+                        <field name="origin" groups="base.group_user"/>
+                        <!--<attribute name="groups">base.group_user</attribute>-->
                     </field>
                 </data>
             </field>

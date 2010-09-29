@@ -332,8 +332,9 @@
             <field name="inherit_id" ref="training.training_seance_form" />
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="course_id" position="attributes">
-                    <attribute name="attrs">{'readonly' : [('kind', '=', 'exam')], 'required' : [('kind', '=', 'standard')]}</attribute>
+                <field name="course_id" position="replace">
+                    <field name="course_id" on_change="on_change_course(course_id, kind)" attrs="{'readonly' : [('kind', '=', 'exam')], 'required' : [('kind', '=', 'standard')]}"/>
+                    <!--<attribute name="attrs">{'readonly' : [('kind', '=', 'exam')], 'required' : [('kind', '=', 'standard')]}</attribute>-->
                 </field>
             </field>
         </record>
@@ -460,18 +461,18 @@
             <field name="arch" type="xml">
                 <data>
                     <field name="session_id" position="after">
-                        <field name="exam_session_id" link="0" />
+                        <field name="exam_session_id" /> <!--link="0"-->
                     </field>
                     <field name="kind" position="after">
                         <group colspan="2" col="2" attrs="{'invisible': [('kind', '!=', 'exam')]}">
                             <field name="course_id" string="Exam" 
                                 attrs="{'required': [('kind', '=', 'exam')], 'readonly': [('state', '!=', 'draft')]}"
-                                on_change="on_change_exam(session_id, price_list_id, course_id, partner_id)"
-                                link="0" />
+                                on_change="on_change_exam(session_id, price_list_id, course_id, partner_id)" /> <!--link="0"-->
                         </group>
                     </field>
-                    <field name="price_list_id" position="attributes">
-                        <attribute name="on_change">on_change_price_list(session_id, price_list_id, course_id)</attribute>
+                    <field name="price_list_id" position="replace">
+                        <field name="price_list_id" on_change="on_change_price_list(session_id, price_list_id, course_id)" />
+                        <!--<attribute name="on_change">on_change_price_list(session_id, price_list_id, course_id)</attribute>-->
                     </field>
                 </data>
             </field>
@@ -484,7 +485,7 @@
             <field name="inherit_id" ref="training.training_subscription_line_tree" />
             <field name="arch" type="xml">
                 <field name="session_id" position="after">
-                    <field name="course_id" select="1" link="0" />
+                    <field name="course_id" select="1" /> <!--link="0"-->
                 </field>
             </field>
         </record>
@@ -496,7 +497,7 @@
             <field name="inherit_id" ref="training.training_subscription_line_tree2" />
             <field name="arch" type="xml">
                 <field name="session_id" position="after">
-                    <field name="course_id" select="1" link="0" />
+                    <field name="course_id" select="1" /> <!--link="0"-->
                 </field>
             </field>
         </record>
@@ -509,21 +510,21 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="/form/notebook/page[@string='Subscription']/field[@name='subscription_line_ids']/tree/field[@name='kind']" position="after">
-                        <field name="course_id" string="Exam" link="0" />
+                        <field name="course_id" string="Exam" /> <!--link="0"-->
                     </xpath>
                     <xpath expr="/form/notebook/page[@string='Subscription']/field[@name='subscription_line_ids']/form/field[@name='session_id']" position="after">
-                        <field name="exam_session_id" link="0" />
+                        <field name="exam_session_id" /> <!--link="0"-->
                     </xpath>
                     <xpath expr="/form/notebook/page[@string='Subscription']/field[@name='subscription_line_ids']/form/field[@name='kind']" position="after">
                         <group colspan="2" col="2" attrs="{'invisible': [('kind', '!=', 'exam')]}">
                             <field name="course_id" string="Exam" 
                                 attrs="{'required': [('kind', '=', 'exam')]}"
-                                link="0" 
-                                on_change="on_change_exam(session_id, price_list_id, course_id, parent.partner_id)"/>
+                                on_change="on_change_exam(session_id, price_list_id, course_id, parent.partner_id)"/> <!--link="0"-->
                         </group>
                     </xpath>
-                    <xpath expr="/form/notebook/page[@string='Subscription']/field[@name='subscription_line_ids']/form/field[@name='price_list_id']" position="attributes">
-                        <attribute name="on_change">on_change_price_list(session_id, price_list_id, course_id)</attribute>
+                    <xpath expr="/form/notebook/page[@string='Subscription']/field[@name='subscription_line_ids']/form/field[@name='price_list_id']" position="replace">
+                        <field name="price_list_id" on_change="on_change_price_list(session_id, price_list_id, course_id)" groups="base.group_user" />
+                        <!--<attribute name="on_change">on_change_price_list(session_id, price_list_id, course_id)</attribute>-->
                     </xpath>
                     <xpath expr="/form/notebook/page[@string='Subscription']/field[@name='subscription_line_ids']" position="before">
                         <button name="action_subscription_line_compute" string="Compute Exam Subscription" type="object" colspan="2" states="draft" />
@@ -727,20 +728,22 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <data>
-                    <field name="session_id" position="attributes">
-                        <attribute name="on_change">on_change_session(session_id)</attribute>
+                    <field name="session_id" position="replace">
+                        <field name="session_id" on_change="on_change_session(session_id)"/>
+                        <!--<attribute name="on_change">on_change_session(session_id)</attribute>-->
                     </field>
 
-                    <field name="kind" position="attributes">
-                        <attribute name="invisible">0</attribute>
+                    <field name="kind" position="replace">
+                        <field name="kind" invisible="0" />
+                        <!--<attribute name="invisible">0</attribute>-->
                     </field>
-                    <field name="session_id" position="after">
+                    <!--<field name="session_id" position="after">
                         <field name="date_session" />
                         <field name="exam_session_id" attrs="{'readonly' : [('kind', '=', 'exam')]}" />
                         <field name="course_id"
                             attrs="{'readonly':[('kind', '!=', 'exam')], 'required':[('kind', '=', 'exam')]}"
                             domain="[('has_questionnaire', '=', True)]" />
-                    </field>
+                    </field>-->
                 </data>
             </field>
         </record>
@@ -752,13 +755,14 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <data>
-                    <field name="session_id" position="after">
+                    <!--<field name="session_id" position="after">
                         <field name="date_session" />
                         <field name="course_id" />
                         <field name="exam_session_id" />
-                    </field>
-                    <field name="kind" position="attributes">
-                        <attribute name="invisible">0</attribute>
+                    </field>-->
+                    <field name="kind" position="replace">
+                        <field name="kind" invisible="0" />
+                        <!--<attribute name="invisible">0</attribute>-->
                     </field>
                 </data>
             </field>
@@ -774,7 +778,7 @@
             <field name="arch" type="xml">
                 <field name="remuneration_form_report" position="after">
                     <separator string="Exam Reports" colspan="2" />
-                    <field name="exams_report" />
+                    <!--<field name="exams_report" />-->
                 </field>
             </field>
         </record>

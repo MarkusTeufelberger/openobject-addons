@@ -200,11 +200,14 @@ class training_course(osv.osv):
         return super(training_course, self).search(cr, uid, domain, offset, limit, order, context, count)
 
     def _has_questionnaire_compute(self, cr, uid, ids, fieldnames, args, context=None):
-        proxy = self.pool.get('training.exam.questionnaire')
+        q_proxy = self.pool.get('training.exam.questionnaire')
+        qc_proxy = self.pool.get('training.exam.questionnaire.course')
         res = dict.fromkeys(ids, False)
 
         for obj in self.browse(cr, uid, ids, context=context):
-            res[obj.id] = len(proxy.search(cr, uid, [('course_id', '=', obj.id),('state', 'in', ('deprecated', 'validated'))], context=context)) > 0
+            qc_ids = qc_proxy.search(cr, uid, [('course_id', '=', obj.id)], context=context)
+            q_ids = [qc.questionnaire_id.id for qc in qc_proxy.browse(cr, uid, qc_ids, context=context)]
+            res[obj.id] = len(q_proxy.search(cr, uid, [('id', 'in', q_ids),('state', 'in', ('deprecated', 'validated'))], context=context)) > 0
 
         return res
 
@@ -1526,38 +1529,38 @@ class training_participation_line(osv.osv):
     ]
 training_participation_line()
 
-class mass_subscription_line(osv.osv_memory):
-    _inherit = 'training.subscription.mass.line'
+#class mass_subscription_line(osv.osv_memory):
+#    _inherit = 'training.subscription.mass.line'
 
-    _columns = {
-        'date_session' : fields.related('session_id', 'date', type='datetime', string='Date', readonly=True),
-        'exam_session_id' : fields.many2one('training.session', 'Exam Session'),
-        'course_id' : fields.many2one('training.course', 'Exam',
-                                      domain="[('state_course', '=', 'validated')]"),
-    }
+#    _columns = {
+#        'date_session' : fields.related('session_id', 'date', type='datetime', string='Date', readonly=True),
+#        'exam_session_id' : fields.many2one('training.session', 'Exam Session'),
+#        'course_id' : fields.many2one('training.course', 'Exam',
+#                                      domain="[('state_course', '=', 'validated')]"),
+#    }
 
-    def on_change_session(self, cr, uid, ids, session_id, context=None):
-        if not session_id:
-            return False
+#    def on_change_session(self, cr, uid, ids, session_id, context=None):
+#        if not session_id:
+#            return False
 
-        session = self.pool.get('training.session').browse(cr, uid, session_id)
-        dates = [seance.date for seance in session.seance_ids]
+#        session = self.pool.get('training.session').browse(cr, uid, session_id)
+#        dates = [seance.date for seance in session.seance_ids]
 
-        return {
-            'value' : {
-                'kind' : session.kind,
-                'date_session' : session.date,
-            },
-            'domain' : {
-                'exam_session_id' :
-                [('state', 'in', ('opened_confirmed', 'opened', 'closed_confirmed')),
-                 ('kind', '=', 'exam'),
-                 ('date', '>', len(dates) and max(dates) or session.date),
-                 ('id', '!=', session.id)],
-            },
-        }
+#        return {
+#            'value' : {
+#                'kind' : session.kind,
+#                'date_session' : session.date,
+#            },
+#            'domain' : {
+#                'exam_session_id' :
+#                [('state', 'in', ('opened_confirmed', 'opened', 'closed_confirmed')),
+#                 ('kind', '=', 'exam'),
+#                 ('date', '>', len(dates) and max(dates) or session.date),
+#                 ('id', '!=', session.id)],
+#            },
+#        }
 
-mass_subscription_line()
+#mass_subscription_line()
 
 class training_participation_stakeholder(osv.osv):
     _inherit = 'training.participation.stakeholder'
@@ -1636,42 +1639,42 @@ class training_email(osv.osv):
         return super(training_email, self)._get_lang(session, seance, **objects)
 training_email()
 
-class training_seance_generate_pdf_wizard(osv.osv_memory):
-    _inherit = 'training.seance.generate.zip.wizard'
+#class training_seance_generate_pdf_wizard(osv.osv_memory):
+#    _inherit = 'training.seance.generate.zip.wizard'
 
-    _columns = {
-        'exams_report' : fields.boolean('Exams',
-                                        help="If you select this option, you will print the exams. The filename format is Exam_DATE_PARTICIPATIONID.pdf"),
-    }
+#    _columns = {
+#        'exams_report' : fields.boolean('Exams',
+#                                        help="If you select this option, you will print the exams. The filename format is Exam_DATE_PARTICIPATIONID.pdf"),
+#    }
 
-    _defaults = {
-        'exams_report' : lambda *a: False,
-    }
+#    _defaults = {
+#        'exams_report' : lambda *a: False,
+#    }
 
-    def add_selections(self, cr, uid, ids, directory, context=None):
-        active_id = context and context.get('active_id')
-        seance = self.pool.get('training.seance').browse(cr, uid, active_id, context=context)
-        ts = time.strptime(seance.date, '%Y-%m-%d %H:%M:%S')
-        date = time.strftime('%Y%m%d', ts)
+#    def add_selections(self, cr, uid, ids, directory, context=None):
+#        active_id = context and context.get('active_id')
+#        seance = self.pool.get('training.seance').browse(cr, uid, active_id, context=context)
+#        ts = time.strptime(seance.date, '%Y-%m-%d %H:%M:%S')
+#        date = time.strftime('%Y%m%d', ts)
 
-        exam_directory = os.path.join(directory, 'Exams')
-        os.mkdir(exam_directory)
+#        exam_directory = os.path.join(directory, 'Exams')
+#        os.mkdir(exam_directory)
 
-        res = []
-        for obj in self.browse(cr, uid, ids, context=context):
-            if obj.exams_report:
-                for part in seance.participant_ids:
-                    if part.questionnaire_id:
-                        res = self._get_report(cr, uid, part.id, 'report.training.participation.report', context=context)
+#        res = []
+#        for obj in self.browse(cr, uid, ids, context=context):
+#            if obj.exams_report:
+#                for part in seance.participant_ids:
+#                    if part.questionnaire_id:
+#                        res = self._get_report(cr, uid, part.id, 'report.training.participation.report', context=context)
 
-                        filename = os.path.join(exam_directory, 'Exam_%s_%06d.pdf' % (date, part.id))
-                        fp = file(filename, 'w')
-                        fp.write(res)
-                        fp.close()
+#                        filename = os.path.join(exam_directory, 'Exam_%s_%06d.pdf' % (date, part.id))
+#                        fp = file(filename, 'w')
+#                        fp.write(res)
+#                        fp.close()
 
-        super(training_seance_generate_pdf_wizard, self).add_selections(cr, uid, ids, directory, context=context)
+#        super(training_seance_generate_pdf_wizard, self).add_selections(cr, uid, ids, directory, context=context)
 
-training_seance_generate_pdf_wizard()
+#training_seance_generate_pdf_wizard()
 
 class exam_wizard_helper(osv.osv_memory):
     _name = 'training.exam.wizard.helper'
