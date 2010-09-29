@@ -104,17 +104,14 @@ class product_template(osv.osv):
             return [(i,) + j for j in cartesian_product(args[1:]) for i in args[0]]
 
         variants_obj = self.pool.get('product.product')
-        temp_type_list=[]
         temp_val_list=[]
 
         for product_temp in self.browse(cr, uid, ids, context):
             for temp_type in product_temp.dimension_type_ids:
-                temp_type_list.append(temp_type.id)
                 temp_val_list.append([temp_type_value.id for temp_type_value in temp_type.value_ids] + (not temp_type.mandatory_dimension and [None] or []))
                 # if last dimension_type has no dimension_value, we ignore it
                 if not temp_val_list[-1]:
                     temp_val_list.pop()
-                    temp_type_list.pop()
 
             if temp_val_list:
                 list_of_variants = cartesian_product(temp_val_list)                
