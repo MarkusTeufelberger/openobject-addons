@@ -3279,7 +3279,7 @@ class training_subscription_line(osv.osv):
                                    domain="[('name', '=', parent.partner_id),('state', '=', 'current')]",
                                    help='Select the Participant', **WRITABLE_ONLY_IN_DRAFT),
         'job_email' : fields.char('Participant Email', size=64, help='Participant Email Address'), #**WRITABLE_ONLY_IN_DRAFT),
-        'contact_id' : fields.related('job_id', 'contact_id', type='many2one', relation='res.partner.contact', string='Contact', select=1, readonly=True),
+        'contact_id' : fields.related('job_id', 'contact_id', type='many2one', relation='res.partner.contact', string='Contact', select=1, readonly=True, store=True),
         'contact_firstname' : fields.related('contact_id', 'first_name', string='Contact Firstname',
                                              type='char', size=64, readonly=True),
         'contact_lastname' : fields.related('contact_id', 'name', string='Contact Lastname',
