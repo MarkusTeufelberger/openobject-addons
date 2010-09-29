@@ -37,8 +37,13 @@ class product_variant_dimension_type(osv.osv):
         'value_ids' : fields.one2many('product.variant.dimension.value', 'dimension_id', 'Dimension Values'),
         'product_tmpl_id': fields.many2one('product.template', 'Product Template', required=True, ondelete='cascade'),
         'allow_custom_value': fields.boolean('Allow Custom Value', help="If true, custom values can be entered in the product configurator"),
+        'mandatory_dimension': fields.boolean('Mandatory Dimension', help="If false, variant products will be created with and without this dimension"),
     }
 
+    _defaults = {
+        'mandatory_dimension': lambda *a: 1,
+        }
+    
     _order = "sequence, name"
 
     def name_search(self, cr, user, name='', args=None, operator='ilike', context=None, limit=None):
@@ -105,20 +110,29 @@ class product_template(osv.osv):
         for product_temp in self.browse(cr, uid, ids, context):
             for temp_type in product_temp.dimension_type_ids:
                 temp_type_list.append(temp_type.id)
-                temp_val_list.append([temp_type_value.id for temp_type_value in temp_type.value_ids])
+                temp_val_list.append([temp_type_value.id for temp_type_value in temp_type.value_ids] + (not temp_type.mandatory_dimension and [None] or []))
                 # if last dimension_type has no dimension_value, we ignore it
                 if not temp_val_list[-1]:
                     temp_val_list.pop()
                     temp_type_list.pop()
 
             if temp_val_list:
-                list_of_variants = cartesian_product(temp_val_list)
-
+                list_of_variants = cartesian_product(temp_val_list)                
+                
                 for variant in list_of_variants:
-                    constraints_list=[('dimension_value_ids', 'in', [i] ) for i in variant]
-
-                    prod_var=variants_obj.search(cr, uid, constraints_list)
-                    if not prod_var:
+                    variant = [i for i in variant if i]
+                    variant.sort()
+                    constraints_list=[('dimension_value_ids', 'in', [i]) for i in variant] or [('dimension_value_ids', '=', False)] + [('product_tmpl_id', '=', product_temp.id)]
+                    prod_var_ids=variants_obj.search(cr, uid, constraints_list)
+                    prod_var_list=variants_obj.read(cr, uid, prod_var_ids, ['dimension_value_ids'])
+                    
+                    product_found = False
+                    for prod_var in prod_var_list:
+                        prod_var['dimension_value_ids'].sort()
+                        if prod_var['dimension_value_ids'] == variant:
+                            product_found = True
+                    
+                    if not product_found:
                         vals={}
                         vals['product_tmpl_id']=product_temp.id
                         vals['dimension_value_ids']=[(6,0,variant)]

@@ -104,6 +104,7 @@
 					<field name="name" />
 					<field name="sequence" />
 					<field name="allow_custom_value" />
+					<field name="mandatory_dimension" />
 					<field name="value_ids">
 						<tree string="Variant Value" editable="bottom">
 							<field name="name" />
@@ -134,11 +135,13 @@
 							<tree string="Dimension types">
 								<field name="name" />
 								<field name="allow_custom_value" />
+								<field name="mandatory_dimension" />
 							</tree>
 							<form string="Variant Type">
 								<field name="name" />
 								<field name="sequence" />
 								<field name="allow_custom_value" />
+								<field name="mandatory_dimension" />
 								<field name="value_ids" nolabel="1" colspan="4">
 									<tree string="Variant Value" editable="bottom">
 										<field name="name" />
