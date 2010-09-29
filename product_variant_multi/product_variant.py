@@ -147,6 +147,12 @@ product_template()
 class product_product(osv.osv):
     _inherit = "product.product"
 
+    def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=80):
+        res = super(product_product, self).name_search(cr, uid, name, args, operator, context, limit)
+        ids = self.search(cr, uid, [('variants', 'ilike', name)])
+        res2 = [(x['id'],x['name']) for x in self.read(cr, uid, ids, ['name'])]
+        return res + res2
+
     def _variant_name_get(self, cr, uid, ids, name, arg, context={}):
         res = {}
         for product in self.browse(cr, uid, ids, context):
