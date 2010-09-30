@@ -21,8 +21,8 @@
 ##############################################################################
 
 from osv import fields, osv
-
 from tools import config
+import netsvc
 
 #
 # Dimensions Definition
@@ -102,12 +102,13 @@ class product_template(osv.osv):
     def _create_variant_list(self, cr, uid, vals, context=None):
         
         def cartesian_product(args):
-            if len(args) == 1: return [(x,) for x in args[0]]
-            return [(i,) + j for j in cartesian_product(args[1:]) for i in args[0]]
+            if len(args) == 1: return [x and [x] or [] for x in args[0]]
+            return [(i and [i] or []) + j for j in cartesian_product(args[1:]) for i in args[0]]
         
         return cartesian_product(vals)
 
     def button_generate_variants(self, cr, uid, ids, context={}):
+        logger = netsvc.Logger()
         variants_obj = self.pool.get('product.product')
         temp_val_list=[]
 
@@ -120,27 +121,30 @@ class product_template(osv.osv):
 
             if temp_val_list:
                 list_of_variants = self._create_variant_list(cr, uid, temp_val_list, context)
+                existing_product_ids = variants_obj.search(cr, uid, [('product_tmpl_id', '=', product_temp.id)])
+                existing_product_dim_value = variants_obj.read(cr, uid, existing_product_ids, ['dimension_value_ids'])
+                list_of_variants_existing = [x['dimension_value_ids'] for x in existing_product_dim_value]
+                for x in list_of_variants_existing:
+                    x.sort()
+                for x in list_of_variants:
+                    x.sort()                  
+                list_of_variants_to_create = [x for x in list_of_variants if not x in list_of_variants_existing]
                 
-                for variant in list_of_variants:
-                    variant = [i for i in variant if i]
-                    variant.sort()
-                    constraints_list=[('dimension_value_ids', 'in', [i]) for i in variant] or [('dimension_value_ids', '=', False)] + [('product_tmpl_id', '=', product_temp.id)]
-                    prod_var_ids=variants_obj.search(cr, uid, constraints_list)
-                    prod_var_list=variants_obj.read(cr, uid, prod_var_ids, ['dimension_value_ids'])
+                logger.notifyChannel('product_variant_multi', netsvc.LOG_INFO, "variant existing : %s, variant to create : %s" % (len(list_of_variants_existing), len(list_of_variants_to_create)))
+                count = 0
+                for variant in list_of_variants_to_create:
+                    count += 1
                     
-                    product_found = False
-                    for prod_var in prod_var_list:
-                        prod_var['dimension_value_ids'].sort()
-                        if prod_var['dimension_value_ids'] == variant:
-                            product_found = True
-                    
-                    if not product_found:
-                        vals={}
-                        vals['product_tmpl_id']=product_temp.id
-                        vals['dimension_value_ids']=[(6,0,variant)]
-
-                        var_id=variants_obj.create(cr, uid, vals, {})
-
+                    vals={}
+                    vals['product_tmpl_id']=product_temp.id
+                    vals['dimension_value_ids']=[(6,0,variant)]
+    
+                    var_id=variants_obj.create(cr, uid, vals, {})
+                                        
+                    if count%50 == 0:
+                        cr.commit()
+                        logger.notifyChannel('product_variant_multi', netsvc.LOG_INFO, "product created : %s" % (count,))
+                logger.notifyChannel('product_variant_multi', netsvc.LOG_INFO, "product created : %s" % (count,))
         return True
 
 product_template()
