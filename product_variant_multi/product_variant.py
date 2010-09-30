@@ -89,7 +89,14 @@ class product_template(osv.osv):
     _columns = {
         'dimension_type_ids':fields.one2many('product.variant.dimension.type', 'product_tmpl_id', 'Dimension Types'),
         'variant_ids':fields.one2many('product.product', 'product_tmpl_id', 'Variants'),
+        'variant_model_name':fields.char('Variant Model Name', size=64, required=True, help='[NAME] will be replaced by the name of the dimension and [VALUE] by is value. Example of Variant Model Name : "[NAME] - [VALUE]"'),
+        'variant_model_name_separator':fields.char('Variant Model Name Separator', size=64, help= 'Add a separator between the elements of the variant name'),
     }
+    
+    _defaults = {
+        'variant_model_name': lambda *a: '[NAME] - [VALUE]',
+        'variant_model_name_separator': lambda *a: ' - ',
+                }
     
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
@@ -162,8 +169,11 @@ class product_product(osv.osv):
     def _variant_name_get(self, cr, uid, ids, name, arg, context={}):
         res = {}
         for product in self.browse(cr, uid, ids, context):
-            r = map(lambda dim: (dim.dimension_id.name or '')+':'+(dim.name or '-'), product.dimension_value_ids)
-            res[product.id] = ' - '.join(r)
+            model = product.variant_model_name
+            r = map(lambda dim: [dim.dimension_id.sequence, model.replace('[NAME]', (dim.dimension_id.name or '')).replace('[VALUE]', dim.name or '-')], product.dimension_value_ids)
+            r.sort()
+            r = [x[1] for x in r]
+            res[product.id] = (product.variant_model_name_separator or '').join(r)
         return res
 
     def _get_products_from_dimension(self, cr, uid, ids, context={}):
@@ -180,6 +190,10 @@ class product_product(osv.osv):
                 result.append(product_id.id)
         return result
 
+    def _get_products_from_product_template(self, cr, uid, ids, context={}):
+        product_tmpl = self.pool.get('product.template').read(cr, uid, ids, ['variant_ids'], context=context)
+        return [id for vals in product_tmpl for id in vals['variant_ids']]
+    
     def _check_dimension_values(self, cr, uid, ids): # TODO: check that all dimension_types of the product_template have a corresponding dimension_value ??
         for p in self.browse(cr, uid, ids, {}):
             buffer = []
@@ -221,7 +235,8 @@ class product_product(osv.osv):
         'variants': fields.function(_variant_name_get, method=True, type='char', size=128, string='Variants', readonly=True,
             store={
                 'product.variant.dimension.type': (_get_products_from_dimension, None, 10),
-                'product.product': (_get_products_from_product, None, 10),
+                'product.product': (_get_products_from_product, ['product_tmpl_id'], 10),
+                'product.template': (_get_products_from_product_template, ['variant_model_name', 'variant_model_name_separator'], 10),
             }),
     }
     _constraints = [ (_check_dimension_values, 'Several dimension values for the same dimension type', ['dimension_value_ids']),]
