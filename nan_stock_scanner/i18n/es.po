@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-08-29 16:55+0000\n"
-"PO-Revision-Date: 2010-09-22 08:42+0000\n"
-"Last-Translator: Jordi Pasquina - http://www.nan-tic.com <Unknown>\n"
+"PO-Revision-Date: 2010-09-29 20:31+0000\n"
+"Last-Translator: Esther Xaus (Zikzakmedia) <Unknown>\n"
 "Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-29 05:33+0000\n"
+"X-Launchpad-Export-Date: 2010-10-01 08:55+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: nan_stock_scanner
@@ -115,7 +115,7 @@ msgstr "Embalaje"
 #. module: nan_stock_scanner
 #: model:ir.module.module,shortdesc:nan_stock_scanner.module_meta_information
 msgid "Stock Barcode Scanner"
-msgstr "Escannerar Albarán Con Código de Barras"
+msgstr "Escanerar albarán con código de barras"
 
 #. module: nan_stock_scanner
 #: help:product.supplierinfo,product_barcode:0
@@ -136,7 +136,7 @@ msgstr "Activo"
 #. module: nan_stock_scanner
 #: view:nan.stock.picking.scanner.confirm.wizard:0
 msgid "Partial Picking"
-msgstr "Picking parcial"
+msgstr "Empaquetado parcial"
 
 #. module: nan_stock_scanner
 #: help:stock.picking,scanned_lot_ref:0

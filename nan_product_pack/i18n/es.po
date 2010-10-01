@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2009-09-25 19:42+0000\n"
-"PO-Revision-Date: 2010-09-24 15:59+0000\n"
-"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
-"<jesteve@zikzakmedia.com>\n"
+"PO-Revision-Date: 2010-09-29 20:25+0000\n"
+"Last-Translator: Esther Xaus (Zikzakmedia) <Unknown>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-29 05:33+0000\n"
+"X-Launchpad-Export-Date: 2010-10-01 08:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: nan_product_pack
@@ -85,7 +84,7 @@ msgstr ""
 #. module: nan_product_pack
 #: help:sale.order.line,pack_depth:0
 msgid "Depth of the product if it is part of a pack."
-msgstr "Profundidad del producto si formar parte de un pack."
+msgstr "Profundidad del producto si forma parte de un pack."
 
 #. module: nan_product_pack
 #: model:ir.module.module,shortdesc:nan_product_pack.module_meta_information
