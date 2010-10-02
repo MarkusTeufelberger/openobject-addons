@@ -202,7 +202,7 @@ class sale_order(osv.osv):
                         'sequence': sequence,
                         'delay': subproduct.sale_delay or 0.0,
                         'product_id': subproduct.id,
-                        'procurement_id': line.procurement_id and line.producrement_id.id or False,
+                        'procurement_id': line.procurement_id and line.procurement_id.id or False,
                         'price_unit': price,
                         'tax_id': [(6,0,tax_ids)],
                         'type': subproduct.procure_method,
