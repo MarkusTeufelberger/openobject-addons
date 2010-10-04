@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-08-29 16:55+0000\n"
-"PO-Revision-Date: 2010-10-01 12:00+0000\n"
-"Last-Translator: OpenERP Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-10-03 22:22+0000\n"
+"Last-Translator: Esther Xaus (Zikzakmedia) <Unknown>\n"
 "Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-02 05:14+0000\n"
+"X-Launchpad-Export-Date: 2010-10-04 05:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: nan_stock_scanner
@@ -190,18 +190,18 @@ msgstr "Código de barras de producto"
 #. module: nan_stock_scanner
 #: view:nan.stock.picking.scanner.confirm.wizard:0
 msgid "Are you sure you want to confirm this picking?"
-msgstr "¿Estás seguro de que quiere confirmar este picking?"
+msgstr "¿Seguro que quiere confirmar este albarán?"
 
 #. module: nan_stock_scanner
 #: model:ir.actions.act_window,name:nan_stock_scanner.action_stock_scanner_config_form
 #: model:ir.ui.menu,name:nan_stock_scanner.menu_action_stock_scanner_form
 msgid "Stock Scanner Configuration"
-msgstr "Configuracion del Escaner de estoc"
+msgstr "Configuración del escaner de estoc"
 
 #. module: nan_stock_scanner
 #: view:stock.picking:0
 msgid "Packing list"
-msgstr "Lista de Albaranes"
+msgstr "Lista de albaranes"
 
 #. module: nan_stock_scanner
 #: help:stock.picking,scanned_packaging_id:0
