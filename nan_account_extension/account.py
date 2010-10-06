@@ -27,9 +27,32 @@
 #
 ##############################################################################
 
-import company
-import invoice
-import partner
-import account
+from osv import osv
+from osv import fields
+from tools.translate import _
+
+class account_move(osv.osv):
+    _inherit = 'account.move'
+
+    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
+        if not args:
+            args = []
+        if context is None:
+            context = {}
+
+        if name and name.lstrip().startswith('*'):
+            id = name.strip().lstrip('*').strip()
+            try:
+                id = int(id)
+            except ValueError:
+                id = False
+
+            if id:
+                return self.name_get(cr, user, [id], context)
+
+        return super(account_move, self).name_search(cr, user, name, args, operator, context, limit)
+
+account_move()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
