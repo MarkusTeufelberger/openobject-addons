@@ -3857,7 +3857,7 @@ class training_subscription_line(osv.osv):
                 for c in courses:
                     if c.duration == 0.0:
                         raise osv.except_osv(_('Error'),
-                                             _("The following course has not a valid duration \"%s\" (%d)") % (c.name, c.id))
+                                             _("The following course has not a valid duration '%s' (%d)") % (c.name, c.id))
                     total_duration += c.duration
 
                 # Create 'analytic distribution instance'

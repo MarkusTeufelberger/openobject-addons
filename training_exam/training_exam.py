@@ -1206,7 +1206,7 @@ class training_subscription_line(osv.osv):
                 for c in courses:
                     if c.duration == 0.0:
                         raise osv.except_osv(_('Error'),
-                                             _("The following course has not a valid duration \"%s\" (%d)") % (c.name, c.id))
+                                             _("The following course has not a valid duration '%s' (%d)") % (c.name, c.id))
                     total_duration += c.duration
 
                 # Create 'analytic distribution instance'
@@ -1376,7 +1376,7 @@ class training_participation_exam(osv.osv):
             course = p.course_questionnaire_id
             if not course:
                 raise osv.except_osv(_('Error'),
-                                     _('Can\'t assign questionnaire to participation %s because there is not exam defined on this participation') % (p.id))
+                                     _("Can't assign questionnaire to participation %s because there is not exam defined on this participation") % (p.id))
 
             # combinate quizz relate to "course", and standard filter
             domain = self.random_questionnaire_get_domain(cr, uid, p)
@@ -1385,7 +1385,7 @@ class training_participation_exam(osv.osv):
             quizz_ids = t_quizz.search(cr, uid, domain)
             if not quizz_ids:
                 raise osv.except_osv(_('Error'),
-                                    _('Can\'t find validated questionnaire for course "%s"' % (course.name)))
+                                    _("Can't find validated questionnaire for course '%s'") % (course.name))
 
             # make random choice of quizz
             final_quizz_id = random.choice(quizz_ids)
