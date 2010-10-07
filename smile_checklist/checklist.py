@@ -303,11 +303,11 @@ class checklist(osv.osv):
                     action = instance.checklist_task_id.action_id
                     try:
                         self.pool.get('ir.actions.server').run(cr, uid, [action.id], context)
-                        self.logger.notifyChannel('ir.actions.server', netsvc.LOG_DEBUG, 'Action: %s, User: %s, Resource: %s, Origin: checklist.task,%s' % (action.id, action.user_id and action.user_id.id or uid, object.id, checklist_task.id))
+                        self.logger.notifyChannel('ir.actions.server', netsvc.LOG_DEBUG, 'Action: %s, User: %s, Resource: %s, Origin: checklist.task,%s' % (action.id, uid, object.id, checklist_task.id))
                     except Exception, e:
                         stack = traceback.format_exc()
                         self.pool.get('checklist.exception').create(cr, uid, {'checklist_task_id': checklist_task.id, 'exception_type': 'action', 'res_id': object.id, 'action_id': action.id, 'exception': e, 'stack': stack})
-                        self.logger.notifyChannel('ir.actions.server', netsvc.LOG_ERROR, 'Action: %s, User: %s, Resource: %s, Origin: checklist.task,%s, Exception: %s' % (action.id, action.user_id and action.user_id.id or uid, object.id, checklist_task.id, tools.ustr(e)))
+                        self.logger.notifyChannel('ir.actions.server', netsvc.LOG_ERROR, 'Action: %s, User: %s, Resource: %s, Origin: checklist.task,%s, Exception: %s' % (action.id, uid, object.id, checklist_task.id, tools.ustr(e)))
                         continue
                 if instance.checklist_task_id.checklist_id.active_field and instance.mandatory:
                     total_progress_rates.setdefault('total_progress_rate_mandatory', 0.0)
@@ -332,11 +332,11 @@ class checklist(osv.osv):
                 action = checklist.action_id
                 try:
                     self.pool.get('ir.actions.server').run(cr, uid, [action.id], context)
-                    self.logger.notifyChannel('ir.actions.server', netsvc.LOG_DEBUG, 'Action: %s, User: %s, Resource: %s, Origin: checklist,%s' % (action.id, action.user_id and action.user_id.id or uid, object.id, checklist.id))
+                    self.logger.notifyChannel('ir.actions.server', netsvc.LOG_DEBUG, 'Action: %s, User: %s, Resource: %s, Origin: checklist,%s' % (action.id, uid, object.id, checklist.id))
                 except Exception, e:
                     stack = traceback.format_exc()
                     self.pool.get('checklist.exception').create(cr, uid, {'checklist_id': checklist.id, 'exception_type': 'action', 'res_id': object.id, 'action_id': action.id, 'exception': e, 'stack': stack})
-                    self.logger.notifyChannel('ir.actions.server', netsvc.LOG_ERROR, 'Action: %s, User: %s, Resource: %s, Origin: checklist,%s, Exception: %s' % (action.id, action.user_id and action.user_id.id or uid, object.id, checklist.id, tools.ustr(e)))
+                    self.logger.notifyChannel('ir.actions.server', netsvc.LOG_ERROR, 'Action: %s, User: %s, Resource: %s, Origin: checklist,%s, Exception: %s' % (action.id, uid, object.id, checklist.id, tools.ustr(e)))
                     continue
         return True
 
