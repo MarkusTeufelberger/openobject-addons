@@ -8,14 +8,11 @@
 			<field name="type">form</field>
 			<field name="inherit_id" ref="base.view_server_action_form" />
 			<field name="arch" type="xml">
-				<data>
-					<field name="sequence" position="after">
-                        <field name="active"/>
-                    </field>
-					<field name="condition" position="after">
-	                    <field name="run_once"/>
-					</field>
-				</data>
+				<field name="condition" position="after">
+                    <field name="user_id"/>						
+                    <field name="active"/>
+                    <field name="run_once"/>
+				</field>
 			</field>
 		</record>
 

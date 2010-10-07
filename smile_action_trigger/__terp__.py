@@ -21,7 +21,7 @@
 
 {
     "name" : "Server Actions R* Trigger Rules Engine",
-    "version" : "2.0",
+    "version" : "2.1",
     "author" : "Smile",
     "website": 'http://www.smile.fr',
     "category" : "Tools",

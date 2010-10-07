@@ -102,6 +102,7 @@ sartre_operator()
 class sartre_rule(osv.osv):
     _name = 'sartre.rule'
     _description = 'Sartre Rule'
+    logger = netsvc.Logger()
 
     def __init__(self, pool, cr):
         super(sartre_rule, self).__init__(pool, cr)
@@ -234,9 +235,9 @@ class sartre_rule(osv.osv):
         """Build max executions condition"""
         res = False
         if rule.executions_max_number:
-            log_pool = self.pool.get('sartre.log')
-            log_ids = log_pool.search(cr, uid, [('rule_id', '=', rule.id), ('executions_number', '>=', rule.executions_max_number)])
-            res_ids = list(set(context.get('active_object_ids', [])) - set([log['res_id'] for log in log_pool.read(cr, uid, log_ids, ['res_id'])]))
+            execution_pool = self.pool.get('sartre.execution')
+            execution_ids = execution_pool.search(cr, uid, [('rule_id', '=', rule.id), ('executions_number', '>=', rule.executions_max_number)])
+            res_ids = list(set(context.get('active_object_ids', [])) - set([execution['res_id'] for execution in execution_pool.read(cr, uid, execution_ids, ['res_id'])]))
             res = ('id', 'in', res_ids)
         return res
 
@@ -305,6 +306,7 @@ class sartre_rule(osv.osv):
             context = {}
         context.setdefault('active_test', False)
         for rule in self.browse(cr, uid, ids):
+            self.logger.notifyChannel('sartre.rule', netsvc.LOG_DEBUG, 'Rule: %s, User: %s' % (rule.id, uid))
             domain = []
             domain_built = False
             try:
@@ -314,6 +316,7 @@ class sartre_rule(osv.osv):
             except Exception, e:
                 stack = traceback.format_exc()
                 self.pool.get('sartre.exception').create(cr, uid, {'rule_id': rule.id, 'exception_type': 'condition', 'exception': tools.ustr(e), 'stack': tools.ustr(stack)})
+                self.logger.notifyChannel('sartre.rule', netsvc.LOG_ERROR, 'Rule: %s, User: %s, Exception:%s' % (rule.id, uid, tools.ustr(e)))
             # Search action to execute for filtered objects from domain
             if domain_built:
                 # Search objects which validate rule conditions
@@ -328,18 +331,21 @@ class sartre_rule(osv.osv):
                                 if action.run_once:
                                     # Sartre case where you run once for all instances
                                     context_copy['active_id'] = rule_object_ids
-                                    ir_actions_server_pool.run(cr, uid, [action.id], context=context_copy)
+                                    ir_actions_server_pool.run(cr, action.user_id and action.user_id.id or uid, [action.id], context=context_copy)
+                                    self.logger.notifyChannel('ir.actions.server', netsvc.LOG_DEBUG, 'Action: %s, User: %s, Resource: %s, Origin: sartre.rule,%s' % (action.id, action.user_id and action.user_id.id or uid, context_copy['active_id'], rule.id))
                                 else:
                                     # Sartre case where you run once per instance
                                     for object_id in rule_object_ids:
                                         context_copy['active_id'] = object_id
-                                        ir_actions_server_pool.run(cr, uid, [action.id], context=context_copy)                
+                                        ir_actions_server_pool.run(cr, action.user_id and action.user_id.id or uid, [action.id], context=context_copy)
+                                        self.logger.notifyChannel('ir.actions.server', netsvc.LOG_DEBUG, 'Action: %s, User: %s, Resource: %s, Origin: sartre.rule,%s' % (action.id, action.user_id and action.user_id.id or uid, context_copy['active_id'], rule.id))
                                 if rule.executions_max_number:
                                     for object_id in rule_object_ids:
-                                        self.pool.get('sartre.log').update_executions_counter(cr, uid, rule, object_id)
+                                        self.pool.get('sartre.execution').update_executions_counter(cr, uid, rule, object_id)
                             except Exception, e:
                                 stack = traceback.format_exc()
                                 self.pool.get('sartre.exception').create(cr, uid, {'rule_id': rule.id, 'exception_type': 'action', 'res_id': False, 'action_id': action.id, 'exception': tools.ustr(e), 'stack': tools.ustr(stack)})
+                                self.logger.notifyChannel('ir.actions.server', netsvc.LOG_ERROR, 'Action: %s, User: %s, Resource: %s, Origin: sartre.rule,%s, Exception: %s' % (action.id, action.user_id and action.user_id.id or uid, False, rule.id, tools.ustr(e)))
                                 continue
                     if not 'rules' in context:
                         context['rules'] = {}
@@ -482,9 +488,9 @@ class sartre_exception(osv.osv):
 
 sartre_exception()
 
-class sartre_log(osv.osv):
-    _name = 'sartre.log'
-    _description = 'Sartre Log'
+class sartre_execution(osv.osv):
+    _name = 'sartre.execution'
+    _description = 'Sartre Execution'
     _rec_name = 'rule_id'
    
     _columns = {
@@ -497,7 +503,7 @@ class sartre_log(osv.osv):
     def update_executions_counter(self, cr, uid, rule, res_id):
         """Update executions counter"""
         if not (rule and res_id):
-            raise osv.except_osv(_('Error'), _('Sartre Log: all arguments are mandatory !'))
+            raise osv.except_osv(_('Error'), _('Sartre Execution: all arguments are mandatory !'))
         log_id = self.search(cr, uid, [('rule_id', '=', rule.id), ('model_id', '=', rule.model_id.id), ('res_id', '=', res_id)], limit=1)
         if log_id:
             executions_number = self.read(cr, uid, log_id[0], ['executions_number'])['executions_number'] + 1
@@ -505,7 +511,7 @@ class sartre_log(osv.osv):
         else:
             return self.create(cr, uid, {'rule_id': rule.id, 'model_id': rule.model_id.id, 'res_id': res_id, 'executions_number': 1}) and True
 
-sartre_log()
+sartre_execution()
 
 def _check_method_based_trigger_rules(self, cr, uid, method, field_name=None, calculation_method=False):
     """Check method based trigger rules"""

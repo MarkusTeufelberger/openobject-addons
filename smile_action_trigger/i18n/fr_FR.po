@@ -366,8 +366,8 @@ msgstr "Date de dernière modification"
 #. module: smile_action_trigger
 #: code:addons/smile_action_trigger/sartre.py:0
 #, python-format
-msgid "Sartre Log: all arguments are mandatory !"
-msgstr "Sartre Log: l'ensemble des arguments sont obligatoires"
+msgid "Sartre Execution: all arguments are mandatory !"
+msgstr "Sartre Execution: l'ensemble des arguments sont obligatoires"
 
 #. module: smile_action_trigger
 #: view:sartre.operator:0
@@ -707,3 +707,13 @@ msgstr "Exécuter une seule fois pour l'ensemble des instances"
 #: help:ir.actions.server,run_once:0
 msgid "Works only from trigger rules. If checked, the variable object is a browse record list"
 msgstr "Fonctionne uniquement à partir des règles de déclenchement. Si elle est cochée, la variable object est une browse record list"
+
+#. module: smile_action_trigger
+#: field:ir.actions.server,user_id:0
+msgid "User"
+msgstr "Utilisateur"
+
+#. module: smile_action_trigger
+#: help:ir.actions.server,user_id:0
+msgid "If empty, the action is executed by the current user"
+msgstr "Si vide, l'action est exécutée par l'utilisateur courant"

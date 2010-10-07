@@ -27,6 +27,7 @@ class actions_server(osv.osv):
     _columns = {
         'active': fields.boolean("Active"),
         'run_once': fields.boolean("Run once for all instances", help="Works only from trigger rules. If checked, the variable object is a browse record list"),
+        'user_id': fields.many2one('res.users', "User", help="If empty, the action is executed by the current user"),
     }
 
     _defaults = {
