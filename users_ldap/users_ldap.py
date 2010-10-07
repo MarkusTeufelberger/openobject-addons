@@ -24,11 +24,11 @@ from osv import osv
 from osv import fields
 from service import security
 import pooler
+import netsvc
 
 try:
     import ldap
 except ImportError:
-    import netsvc
     logger = netsvc.Logger()
     logger.notifyChannel("init", netsvc.LOG_WARNING, "could not import ldap library !!")
 
