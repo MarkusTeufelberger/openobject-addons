@@ -138,6 +138,7 @@ def ldap_login(oldfnc):
                             l.unbind()
                     except Exception, e:
                         netsvc.Logger().notifyChannel('ldap', netsvc.LOG_ERROR, e)
+                        cr.close()
                         return False
         cr.close()
         return oldfnc(db, login, passwd)
@@ -181,6 +182,7 @@ def ldap_check(oldfnc):
                                 l.unbind()
                         except Exception, e:
                             netsvc.Logger().notifyChannel('ldap', netsvc.LOG_ERROR, e)
+                            cr.close()
                             return False
         cr.close()
         return oldfnc(db, uid, passwd)
