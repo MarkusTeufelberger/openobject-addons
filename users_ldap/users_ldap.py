@@ -24,11 +24,11 @@ from osv import osv
 from osv import fields
 from service import security
 import pooler
+import netsvc
 
 try:
     import ldap
 except ImportError:
-    import netsvc
     logger = netsvc.Logger()
     logger.notifyChannel("init", netsvc.LOG_WARNING, "could not import ldap library !!")
 
@@ -137,7 +137,8 @@ def ldap_login(oldfnc):
                                     return res
                             l.unbind()
                     except Exception, e:
-                        continue
+                        netsvc.Logger().notifyChannel('ldap', netsvc.LOG_ERROR, e)
+                        return False
         cr.close()
         return oldfnc(db, login, passwd)
     return _ldap_login
@@ -179,7 +180,8 @@ def ldap_check(oldfnc):
                                         return True
                                 l.unbind()
                         except Exception, e:
-                            pass
+                            netsvc.Logger().notifyChannel('ldap', netsvc.LOG_ERROR, e)
+                            return False
         cr.close()
         return oldfnc(db, uid, passwd)
     return _ldap_check
