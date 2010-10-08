@@ -16,6 +16,7 @@
             <field name="catalog_id" ref="training.training_catalog_0"/>
             <field eval="(DateTime.now() + DateTime.RelativeDateTime(months=1)).strftime('%Y-%m-%d 08:30:00')" name="date" />
             <field name="user_id" ref="base.user_root"/>
+            <field name="format_id" ref="training_offer_format0" />
         </record>
     </data>
     <data>
@@ -32,6 +33,7 @@
             <field name="catalog_id" ref="training.training_catalog_0"/>
             <field eval="(DateTime.now() + DateTime.RelativeDateTime(days=25)).strftime('%Y-%m-%d 08:30:00')" name="date" />
             <field name="user_id" ref="base.user_root"/>
+            <field name="format_id" ref="training_offer_format1" />
         </record>
     </data>
     <data>
@@ -47,6 +49,7 @@
             <field name="catalog_id" ref="training.training_catalog_0"/>
             <field eval="(DateTime.now() + DateTime.RelativeDateTime(days=15)).strftime('%Y-%m-%d 08:30:00')" name="date" />
             <field name="user_id" ref="base.user_root"/>
+            <field name="format_id" ref="training_offer_format1" />
         </record>
     </data>
     <data>

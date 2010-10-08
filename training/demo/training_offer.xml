@@ -33,11 +33,21 @@
         </record>
     </data>
     <data>
+        <record id="training_offer_format0" model="training.offer.format">
+            <field eval="&quot;&quot;&quot;Classroom&quot;&quot;&quot;" name="name"/>
+            <field eval="1" name="active"/>
+        </record>
+        <record id="training_offer_format1" model="training.offer.format">
+            <field eval="&quot;&quot;&quot;On-line&quot;&quot;&quot;" name="name"/>
+            <field eval="1" name="active"/>
+        </record>
+
         <record id="training_offer_openerpintegrator0" model="training.offer">
             <field name="lang_id" ref="base.lang_en" />
             <field eval="&quot;&quot;&quot;standard&quot;&quot;&quot;" name="kind"/>
             <field name="product_id" ref="product_product_coursesession0"/>
             <field name="product_line_id" ref="training_course_category_integrator0"/>
+            <field name="format_id" ref="training_offer_format0" />
             <field eval="&quot;&quot;&quot;draft&quot;&quot;&quot;" name="state"/>
             <field eval="&quot;&quot;&quot;This offer helps an integrator to launch his Open ERP activity&quot;&quot;&quot;" name="objective"/>
             <field eval="&quot;&quot;&quot;Open ERP 5.0 - Integrator&quot;&quot;&quot;" name="name"/>
@@ -71,6 +81,7 @@
             <field eval="&quot;&quot;&quot;Open ERP 5.0 - Business&quot;&quot;&quot;" name="name"/>
             <field name="product_id" ref="product_product_coursesession0"/>
             <field name="product_line_id" ref="training_course_category_business0"/>
+            <field name="format_id" ref="training_offer_format1" />
         </record>
         <record model="training.course.offer.rel" id="training_course_offer_rel_4">
             <field name="course_id" eval="ref('training_course_openerpcrm0')" />
@@ -102,6 +113,7 @@
             <field eval="&quot;&quot;&quot;draft&quot;&quot;&quot;" name="state"/>
             <field eval="&quot;&quot;&quot;Open ERP 5.0 - Developer&quot;&quot;&quot;" name="name"/>
             <field name="product_line_id" ref="training_course_category_developer0"/>
+            <field name="format_id" ref="training_offer_format1" />
         </record>
 
         <record model="training.course.offer.rel" id="training_course_offer_rel_7">

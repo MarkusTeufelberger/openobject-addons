@@ -22,14 +22,16 @@
 #
 ############################################################################################
 
-import partner
-import res_groups
-import invoice
-import product
-import training_email
-import training
-import training_holiday
-import report
-import wizard
+from osv import osv, fields
+from tools import config
+from tools.translate import _
 
-import document_price
+class product_template(osv.osv):
+    _inherit = 'product.template'
+
+    _columns = {
+        'deposit_price': fields.float('Deposit Price', digits=(16, int(config['price_accuracy'])),
+                        help="Deposit price for this product."),
+    }
+
+product_template()

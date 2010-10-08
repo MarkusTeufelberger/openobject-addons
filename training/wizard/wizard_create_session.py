@@ -55,6 +55,7 @@ class wizard_create_session(wizard.interface):
         pool = pooler.get_pool(cr.dbname)
         proxy = pool.get('training.offer')
         offer = proxy.browse(cr, uid, data['id'], context=context)
+
         if not offer.can_be_planned:
             raise wizard.except_wizard(_('Warning'),
                                        _("You can not create a session with a non-validated offer"))
@@ -66,6 +67,7 @@ class wizard_create_session(wizard.interface):
                                       'offer_id' : data['id'],
                                       'date' : data['form']['date'],
                                       'name' : "%s (%s)" % (data['form']['name'], time.strftime("%Y-%m-%d", time.strptime(data['form']['date'], '%Y-%m-%d %H:%M:%S'))),
+                                      'format_id' : offer.format_id.id,
                                   }
                                  )
         vals = proxy.on_change_offer(cr, uid, None, data['id'])

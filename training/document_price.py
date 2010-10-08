@@ -3,7 +3,8 @@
 #
 #    OpenERP, Open Source Management Solution	
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu). All Rights Reserved
+#    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu>). All Rights Reserved
+#    Copyright (C) 2010 Zikzakmedia S.L. (<http://www.zikzakmedia.com>). All Rights Reserved
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,6 +21,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ############################################################################################
+
 from osv import osv, fields
 
 import tools

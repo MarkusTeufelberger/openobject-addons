@@ -152,6 +152,37 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record model="ir.ui.view" id="training_offer_format_form">
+            <field name="name">training.offer.format.form</field>
+            <field name="model">training.offer.format</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Format">
+                    <field name="name" />
+                    <field name="active" />
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="training_offer_format_tree">
+            <field name="name">training.offer.format.tree</field>
+            <field name="model">training.offer.format</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Format">
+                    <field name="name" />
+                    <field name="active" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="training_offer_format_all_act">
+            <field name="name">Offer/Session Format</field>
+            <field name="res_model">training.offer.format</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <record model="ir.ui.view" id="wizard_course_pending_form">
             <field name="name">wizard.course.pending.form</field>
             <field name="model">training.course.pending.wizard</field>
@@ -529,9 +560,12 @@
                         <page string="Session Description">
                             <field name="offer_id" domain="[('can_be_planned', '=', 1)]" on_change="on_change_offer(offer_id)"/>
                             <field name="kind" select="1" />
-                            <field name="user_id" groups="training.group_session_user" />
+                            <field name="format_id" select="2" />
                             <field name="catalog_id" groups="training.group_session_user" />
+                            <field name="user_id" groups="training.group_session_user" />
                             <field name="stylegroup_id" groups="training.group_session_manager" string="Email Style"/>
+                            <field name="address_id" select="2" />
+                            <field name="date_end" select="2" />
                             <newline />
                             <group colspan="4" col="4" groups="training.group_session_user">
                             <separator string="Subscriptions" colspan="4" />
@@ -1630,11 +1664,15 @@
                         </page>
                         <page string="Description">
                             <field name="target_public_id" select="1" />
+                            <field name="format_id" attrs="{'readonly' : [('state', '!=', 'draft')], 'required' : [('kind', '=', 'standard')]}" select="1" />
                             <field name="product_id" attrs="{'readonly' : [('state', '!=', 'draft')], 'required' : [('kind', '=', 'standard')]}" />
+                            <field name="sequence"/>
                             <separator string="Objective" colspan="4" />
                             <field name="objective" nolabel="1" colspan="4" />
                             <separator string="Offer Content (Internet Index)" colspan="4" />
                             <field name="description" nolabel="1" colspan="4" />
+                            <separator string="Requeriments" colspan="4" />
+                            <field name="requeriments" nolabel="1" colspan="4" />
                         </page>
                         <page string="Procurements">
                             <field name="purchase_line_ids" nolabel="1" colspan="4" attrs="{'readonly' : [('state', '!=', 'draft')]}" context="{'default_offer_id' : active_id}">
@@ -1695,6 +1733,12 @@
                                     <field name="name" />
                                 </tree>
                             </field>
+                            <separator string="Included Offers (Internet)" colspan="4" />
+                            <field name="included_offer_ids" nolabel="1" colspan="4">
+                                <tree string="Included Offers">
+                                    <field name="name" />
+                                </tree>
+                            </field>
                         </page>
                         <page string="Themes">
                             <field name="theme_ids" nolabel="1" colspan="4"/>
@@ -1731,6 +1775,7 @@
                     <field name="create_date" />
                     <field name="is_standalone" />
                     <field name="state" />
+                    <field name="sequence" select="2" />
                 </tree>
             </field>
         </record>
@@ -1799,6 +1844,7 @@
         <menuitem id="course_theme_all_mi" parent="training_config_library_categ_mi" action="course_theme_all_act" sequence='10'/>
         <menuitem id="training_config_library_product_line_mi" parent="training_config_library_categ_mi" action="training_course_category_all_act" sequence='20'/>
         <menuitem id="training_config_library_course_type_mi" parent="training_config_library_categ_mi" action="training_course_type_all_act" sequence='30'/>
+        <menuitem id="training_config_library_offer_format_mi" parent="training_config_library_categ_mi" action="training_offer_format_all_act" sequence='40'/>
 
         <menuitem id="training_library_mi" parent="training_mi" name="Library" sequence="2" />
 
@@ -2442,6 +2488,7 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="training_offer_public_mi" action="training_offer_public_act" parent="training_config_library_mi" sequence='20' />
+
     </data>
 
     <data>

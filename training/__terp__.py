@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 ############################################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    OpenERP, Open Source Management Solution	
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu). All Rights Reserved
+#    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu>). All Rights Reserved
+#    Copyright (C) 2010 Zikzakmedia S.L. (<http://www.zikzakmedia.com>). All Rights Reserved
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -74,6 +75,7 @@ With the analytic account support, you can know the costs of your trainings.
         'purchase_view.xml',
         'partner_view.xml',
         'base_contact_view.xml',
+        'product_view.xml',
         'training_view.xml',
         'training_wizard.xml',
         'invoice_view.xml',

@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 ############################################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    OpenERP, Open Source Management Solution	
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu). All Rights Reserved
+#    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu>). All Rights Reserved
+#    Copyright (C) 2010 Zikzakmedia S.L. (<http://www.zikzakmedia.com>). All Rights Reserved
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -657,6 +658,21 @@ class training_offer_kind(osv.osv):
 
 training_offer_kind()
 
+class training_offer_format(osv.osv):
+    _name = 'training.offer.format'
+    _description = "The delivery format of the offer or session"
+
+    _columns = {
+        'name' : fields.char('Name', size=32, required=True, select=1, help="The format's name of the offer or session"),
+        'active' : fields.boolean('Active'),
+    }
+
+    _defaults = {
+        'active' : lambda *a: 1,
+    }
+
+training_offer_format()
+
 class training_offer_purchase_line_update_wizard(osv.osv_memory):
     _name = 'training.offer.purchase.line.update.wizard'
     _columns = {
@@ -1029,6 +1045,11 @@ class training_offer(osv.osv):
                                  ),
         'description' : fields.text('Description',
                                     help="Allows to write the description of the course"),
+        'requeriments' : fields.text('Requeriments',
+                                    help="Allows to write the requeriments of the course"),
+        'sequence' : fields.integer('Sequence', help="Allows to order the offers by its importance"),
+        'format_id' : fields.many2one('training.offer.format', 'Format', required=True,
+                                    help="Delivery format of the course"),
         'state' : fields.selection([('draft', 'Draft'),
                                     ('validated', 'Validated'),
                                     ('deprecated', 'Deprecated')
@@ -1061,6 +1082,13 @@ class training_offer(osv.osv):
                                                      'offer_id',
                                                      'cpl_offer_id',
                                                      'Complementary Offers',
+                                                     domain="[('state', '=', 'validated')]"),
+
+        'included_offer_ids' : fields.many2many('training.offer',
+                                                     'training_offer_incl_offer_rel',
+                                                     'offer_id',
+                                                     'incl_offer_id',
+                                                     'Included Offers',
                                                      domain="[('state', '=', 'validated')]"),
 
         'is_standalone' : fields.function(_is_standalone_compute,
@@ -1495,7 +1523,13 @@ class training_session(osv.osv):
                                  select=1,
                                  help="The date of the planned session"
                                 ),
-
+        'date_end' : fields.datetime('End Date',
+                                 help="The end date of the planned session"
+                                ),
+        'address_id' : fields.many2one('res.partner.address', 'Training place',
+                                    help='Address where the training is planned'),
+        'format_id' : fields.many2one('training.offer.format', 'Format', required=True,
+                                    help="Delivery format of the planned session"),
         'user_id' : fields.many2one('res.users',
                                     'Responsible',
                                     select=1,
