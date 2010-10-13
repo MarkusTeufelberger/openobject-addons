@@ -115,30 +115,23 @@ class sale_order(osv.osv):
             if vals.get( 'order_line' ):
                 for orderline in vals[ 'order_line' ]:
                     if orderline[ 1 ] == 0 and order.prices_used == 'external_total_prices':
-                        raise osv.except_osv( _( 'Error' ), _( "The sale order %s can not have a non-imported line (%s), becasue the total amount are not calculated, it are imported from the external place/shop" ) %  ( order.name, orderline[ 2 ][ 'name' ] ) )
+                        raise osv.except_osv( _( 'Error' ), _( "Sale order %s can not have a non-imported line (%s) because total amounts are not calculated, they are imported from an external application/shop." ) %  ( order.name, orderline[ 2 ][ 'name' ] ) )
                     order_line_stored = self.pool.get( 'sale.order.line' ).browse( cr, uid, orderline[ 1 ], context=context )
-                    field_mod = False
+                    field_mod = []
                     if order_line_stored.product_uos_qty != orderline[ 2 ][ 'product_uos_qty' ]:
-                        field_mod = _( "Quantity (UoS)" )
+                        field_mod.append( _( "Quantity (UoS)" ) )
                     if order_line_stored.product_uom_qty != orderline[ 2 ][ 'product_uom_qty' ]:
-                        if field_mod:
-                            field_mod += ", "
-                        field_mod +=_( "Quantity (UoM)" )
+                        field_mod.append( _( "Quantity (UoM)" ) )
                     if order_line_stored.price_unit != orderline[ 2 ][ 'price_unit' ]:
-                        if field_mod:
-                            field_mod += ", "
-                        field_mod += _( "Unit Price" )
+                        field_mod.append( _( "Unit Price" ) )
                     if order_line_stored.discount != orderline[ 2 ][ 'discount' ]:
-                        if field_mod:
-                            field_mod += ", "
-                        field_mod += _( "Discount (%)" )
+                        field_mod.append( _( "Discount (%)" ) )
                     if order_line_stored.tax_id and len( order_line_stored.tax_id ) != 1 or order_line_stored.tax_id[ 0 ].id != orderline[ 2 ][ 'tax_id' ][ 0 ][ 2 ][ 0 ]:
-                        if field_mod:
-                            field_mod += ", "
-                        field_mod += _( "Taxes" )
+                        field_mod.append( _( "Taxes" ) )
 
                     if field_mod:
-                        raise osv.except_osv( _( 'Error' ), _( "The field(s) %s of the sale order line %s of the sale order %s can not be edited, becasue the total amount are not calculated, it are imported from the external place/shop" ) % ( field_mod, order_line_stored.name, order.name ) )
+                        field_mod = ",".join( field_mod )
+                        raise osv.except_osv( _( 'Error' ), _( "Field(s) %s of line %s in sale order %s can not be edited because total amounts are not calculated, they are imported from an external application/shop." ) % ( field_mod, order_line_stored.name, order.name ) )
 
         result = super( sale_order, self ).write( cr, uid, ids, vals, context )
 
@@ -146,7 +139,7 @@ class sale_order(osv.osv):
             for orderline in order.order_line: 
                 #if order.prices_used == 'external_total_prices' and orderline.prices_used != 'external_total_prices':
                 if ( vals.get( 'prices_used' ) and vals[ 'prices_used' ] == 'external_total_prices' or order.prices_used == 'external_total_prices' ) and orderline.prices_used != 'external_total_prices':
-                    raise osv.except_osv( _( 'Error' ), _( "The sale order %s can not have a non-imported line, becasue the total amount are not calulated, it are imported from the external place/shop" ) % order.name )
+                    raise osv.except_osv( _( 'Error' ), _( "Sale order %s can not have a non-imported line because total amounts are not calulated, they are imported from an external application/shop." ) % order.name )
 
         return result
 
@@ -289,32 +282,27 @@ class account_invoice(osv.osv):
             if vals.get( 'invoice_line' ):
                 for invoiceline in vals[ 'invoice_line' ]:
                     if invoiceline[ 1 ] == 0 and invoice.prices_used == 'external_total_prices':
-                        raise osv.except_osv( _( 'Error' ), _( "The invoice %s can not have a non-imported line (%s), becasue the total amount are not calculated, it is imported from the external place/shop" ) % ( invoice.number, invoiceline[ 2 ][ 'name' ] ) )
+                        raise osv.except_osv( _( 'Error' ), _( "Invoice %s can not have a non-imported line (%s) because total amounts are not calculated, they are imported from an external application/shop." ) % ( invoice.number, invoiceline[ 2 ][ 'name' ] ) )
                     invoice_line_stored = self.pool.get( 'account.invoice.line' ).browse( cr, uid, invoiceline[ 1 ], context=context )
-                    field_mod = False
+                    field_mod = []
                     if invoice_line_stored.price_unit != invoiceline[ 2 ][ 'price_unit' ]:
-                        field_mod = _( "Unit Price" )
+                        field_mod.append( _( "Unit Price" ) )
                     if invoice_line_stored.quantity != invoiceline[ 2 ][ 'quantity' ]:
-                        if field_mod:
-                            field_mod += ", "
-                        field_mod = _( "Quantity" )
+                        field_mod.append( _( "Quantity" ) )
                     if invoice_line_stored.discount != invoiceline[ 2 ][ 'discount' ]:
-                        if field_mod:
-                            field_mod += ", "
-                        field_mod = _( "Discount (%)" )
+                        field_mod.append( _( "Discount (%)" ) )
                     if invoice_line_stored.invoice_line_tax_id and len( invoice_line_stored.invoice_line_tax_id ) != 1 or invoice_line_stored.invoice_line_tax_id[ 0 ].id != invoiceline[ 2 ][ 'invoice_line_tax_id' ][ 0 ][ 2 ][ 0 ]:
-                        if field_mod:
-                            field_mod += ", "
-                        field_mod = _( "Taxes" )
+                        field_mod.append( _( "Taxes" ) )
 
                     if field_mod:
-                        raise osv.except_osv( _( 'Error' ), _( "The field(s) %s of the invoice line %s of the invoice %s can not be edited, becasue the total amount are not calculated, it is imported from the external place/shop" ) % ( field_mod, invoice_line_stored.name, invoice.name ) )
+                        field_mod = ",".join( field_mod )
+                        raise osv.except_osv( _( 'Error' ), _( "Field(s) %s of line %s in invoice %s can not be edited because total amounts are not calculated, they are imported from an external application/shop." ) % ( field_mod, invoice_line_stored.name, invoice.name ) )
         result = super( account_invoice, self ).write( cr, uid, ids, vals, context )
 
         for invoice in self.browse( cr, uid, ids, context ):
             for invoiceline in invoice.invoice_line: 
                 if invoice.prices_used == 'external_total_prices' and invoiceline.prices_used != 'external_total_prices':
-                    raise osv.except_osv( _( 'Error' ), _( "The invoice %s can not have a non-imported line, becasue the total amount are not calulated, it is imported from the external place/shop" ) % invoice.name )
+                    raise osv.except_osv( _( 'Error' ), _( "Invoice %s can not have a non-imported line because total amounts are not calulated, they are imported from an external application/shop." ) % invoice.name )
         return result
 
 account_invoice()
