@@ -303,15 +303,17 @@ class sartre_rule(osv.osv):
     def run_now(self, cr, uid, ids, context=None):
         """Execute now server actions"""
         if context is None:
-            context = {}
-        context.setdefault('active_test', False)
+            context_copy = {}
+        else:
+            context_copy = dict(context)
+        context_copy.setdefault('active_test', False)
         for rule in self.browse(cr, uid, ids):
             self.logger.notifyChannel('sartre.rule', netsvc.LOG_DEBUG, 'Rule: %s, User: %s' % (rule.id, uid))
             domain = []
             domain_built = False
             try:
                 # Build domain expression
-                domain = self._build_domain_expression(cr, uid, rule, context)
+                domain = self._build_domain_expression(cr, uid, rule, context_copy)
                 domain_built = True
             except Exception, e:
                 stack = traceback.format_exc()
@@ -320,10 +322,10 @@ class sartre_rule(osv.osv):
             # Search action to execute for filtered objects from domain
             if domain_built:
                 # Search objects which validate rule conditions
-                rule_object_ids = self.pool.get(rule.model_id.model).search(cr, uid, domain, context=context)
+                rule_object_ids = self.pool.get(rule.model_id.model).search(cr, uid, domain, context=context_copy)
                 # Execute server actions
                 if rule_object_ids:
-                    context_copy = dict(context)
+                    context_copy.setdefault('rules', {}).setdefault(rule.id, []).extend(rule_object_ids)
                     ir_actions_server_pool = self.pool.get('ir.actions.server')
                     for action in rule.action_ids:
                         if action.active:
@@ -347,9 +349,7 @@ class sartre_rule(osv.osv):
                                 self.pool.get('sartre.exception').create(cr, uid, {'rule_id': rule.id, 'exception_type': 'action', 'res_id': False, 'action_id': action.id, 'exception': tools.ustr(e), 'stack': tools.ustr(stack)})
                                 self.logger.notifyChannel('ir.actions.server', netsvc.LOG_ERROR, 'Action: %s, User: %s, Resource: %s, Origin: sartre.rule,%s, Exception: %s' % (action.id, action.user_id and action.user_id.id or uid, False, rule.id, tools.ustr(e)))
                                 continue
-                    if not 'rules' in context:
-                        context['rules'] = {}
-                    context['rules'].setdefault(rule.id, []).extend(rule_object_ids)
+        return True
 
     def check_rules(self, cr, uid, context={}):
         """Call the scheduler to check date based trigger rules"""
@@ -358,6 +358,7 @@ class sartre_rule(osv.osv):
         if rule_ids:
             # Launch rules execution
             self.run_now(cr, uid, rule_ids, context)
+        return True
 
 sartre_rule()
 
@@ -615,9 +616,12 @@ class sartre_common(common):
         if uid:
             pool = pooler.get_pool(db)
             cr = pooler.get_db(db).cursor()
-            rule_ids = _check_method_based_trigger_rules(pool.get('res.users'), cr, uid, 'login')
-            if rule_ids:
-                self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context={'active_object_ids': list(uid)})
+            try:
+                rule_ids = _check_method_based_trigger_rules(pool.get('res.users'), cr, uid, 'login')
+                if rule_ids:
+                    self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context={'active_object_ids': list(uid)})
+            finally:
+                cr.close()
         return uid
 
 sartre_common()

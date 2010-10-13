@@ -376,6 +376,8 @@ class checklist_task_instance(osv.osv):
 
     _columns = {
         'checklist_task_id': fields.many2one('checklist.task', 'Checklist Task', required=True, ondelete='cascade'),
+        'checklist_id': fields.related('checklist_task_id', 'checklist_id', type='many2one', relation='checklist', string='Checklist'),
+        'model_id': fields.related('checklist_id', 'model_id', type='many2one', relation='ir.model', string='Model'),
         'name': fields.related('checklist_task_id', 'name', type='char', size=128, string='Name'),
         'mandatory': fields.related('checklist_task_id', 'mandatory', type='boolean', string='Mandatory', help='Required to make active object'),
         'res_id': fields.integer('Resource ID', select=True, required=True),
