@@ -41,14 +41,29 @@ class stock_scanner_config(osv.osv):
     _columns = {
         'name':fields.char( 'Name', size=30 ),
         'active':fields.boolean( 'Active' ),
+        'default':fields.boolean('Default'),
         'auto_create_lot': fields.boolean('Create automatic lot on input material',help ='Create atutomatic lot on input material, taking care of supplier ref, dluo...' ),
+        'fill_quantity': fields.boolean('Fill Qty:', help='Mark pending quantity must be loaded when product is scanned' ),
         'input_reports_ids': fields.many2many( 'ir.actions.report.xml', 'scanner_input_repors_rel', 'warehouse_id','report_id' , 'Input Reports' , help='Reports to print after input packing has done' ),
         'output_reports_ids': fields.many2many( 'ir.actions.report.xml', 'scanner_output_reports_rel', 'warehouse_id','report_id', 'Output Reports', help='Reports to print after output packing has done' ),
     }
 
+    
     _defaults = {
         'active': lambda *a: True,
     }
+    
+    def write(self, cr, uid, ids, vals, context=None):
+
+        if context is None:
+            context={}
+
+        if 'default' in vals.keys() and vals.get('default'):
+            config_ids = self.search(cr, uid, [], context=context)
+            self.write( cr, uid, config_ids, {'default':False}, context=context)
+
+        return super( stock_scanner_config, self).write(cr, uid, ids,vals, context)
+
 stock_scanner_config()
 
  
@@ -70,19 +85,33 @@ class stock_picking(osv.osv):
  
         return {}
 
-    def on_change_scanned_product(self, cr, uid, ids, product_id, context):
+    def on_change_scanned_product(self, cr, uid, ids, product_id, scanned_quantity, context):
+
         if not ids or not product_id:
             return {}
+
         picking = self.browse(cr, uid, ids[0], context)
+
+        config=False
+        config_id = self.pool.get('stock.scanner.config').search(cr, uid, [('default','=',True)],context=context)
+        if config_id:
+            config = self.pool.get('stock.scanner.config').browse(cr,uid, config_id[0], context=context)
+
+
         result={'value':{}}
         for move in picking.pending_move_line_ids:
             if move.product_id.id == product_id:
                 product = self.pool.get('product.product').browse(cr, uid, product_id, context)
                 if len(product.packaging) == 1:
                     result['value']['scanned_packaging_id'] = product.packaging[0].id
-                result['value']['scanned_quantity'] = move.pending_quantity
+                if config and config.fill_quantity:
+                    result['value']['scanned_quantity'] = move.pending_quantity
+                elif scanned_quantity == 0:
+                    result['value']['scanned_quantity'] = 1
+
                 if picking.scanned_ean:
                     result['warning'] = {'title':'Ean13 Code Will be Updated','message':'Ean13 %s will be updated on product %s with current Ean13 %s'%(picking.scanned_ean,move.product_id.product_tmpl_id.name,move.product_id.ean13 or '' )}
+
                 return result
         return { 'warning': {
                 'title': _('Product Error'),
@@ -114,11 +143,9 @@ class stock_picking(osv.osv):
         return moves
 
 
-    #TODO: Make configurable, automatic prodlot creation
     def _scanned_product(self, cr, uid, ids, context):        
         move_ids = []
         for picking in self.browse(cr, uid, ids, context):
-            print  "picking:", picking.id
             if not picking.scanned_product_id:
                 continue
             if picking.scanned_quantity <= 0:
@@ -138,7 +165,6 @@ class stock_picking(osv.osv):
                     default_create_lot = config.auto_create_lot or False
                 
 
-            print "get scanned move"
             moves=self._get_scanned_move( cr,  uid,  picking.move_lines,  product_id,  lot_ref , context)
             print "moves...",moves
             for move in moves:
@@ -217,29 +243,33 @@ class stock_picking(osv.osv):
 
     def action_scanned(self, cr, uid, ids, context=None):
         pick = self.browse( cr, uid, ids , context=context)[0]
-        print pick.scanned_product_id.id, 
+        print  "product:",pick.scanned_product_id.id, 
 
         scanned_product = pick.scanned_product_id.id
         scanned_ean = pick.scanned_ean
         if pick.scanned_product_id or pick.scanned_quantity:
            # Call _scanned_product if either one of the two fields are updated because
            # the function will reset their values to NULL
+           print "hoollllaaa"
            self._scanned_product(cr, uid, ids, context)
 
         if scanned_ean and len(scanned_ean) ==  13:
             self.pool.get('product.product').write( cr, uid,scanned_product, {'ean13':scanned_ean} ,context=context)
         
+
         return False
 
     _columns = {
         'pending_move_line_ids': fields.function(_pending_move_line_ids, method=True, type='one2many', relation='stock.move', string='Pending Lines', store=False, help='List of pending products to be received.'),
-        'scanned_product_id': fields.many2one('product.product', 'Scanned product', states={'assigned': [('readonly', False)]}, readonly=True, help='Scan the code of the next product.'),
-        'scanned_quantity': fields.float('Quantity', states={'assigned': [('readonly', False)]}, readonly=True, help='Quantity of the scanned product.'),
+        'scanned_product_id': fields.many2one('product.product', 'Scanned product', states={'assigned': [('readonly', False)], 'confirmed':[('readonly',False)]}, readonly=True, help='Scan the code of the next product.'),
+        'scanned_quantity': fields.float('Quantity', states={'assigned': [('readonly', False)],'confirmed':[('readonly',False)]}, readonly=True, help='Quantity of the scanned product.'),
         'scanned_lot_ref': fields.char('Supplier Lot Ref.', size=64, states={'assigned': [('readonly', False)]}, readonly=True, help="Supplier's lot reference."),
         'scanned_packaging_id': fields.many2one('product.packaging', 'Packaging', states={'assigned': [('readonly', False)]}, readonly=True, help="Product's packaging."),
         'scanned_dluo': fields.date('DLUO', states={'assigned': [('readonly', False)]}, readonly=True, help="Lot's expire date."),
         'scanned_ean': fields.char('Ean13',size=13,help='Type ean for update on  current product'),
     }
+
+
 
     def print_report(self, cr, uid, ids, report_ids,context):
         data = {
@@ -384,7 +414,7 @@ class stock_picking(osv.osv):
 
             #print Reports.
             reports_ids =[]
-            config_ids = self.pool.get('stock.scanner.config').search(cr,uid,[], context=context)
+            config_ids = self.pool.get('stock.scanner.config').search(cr,uid,[('default','=',True)], context=context)
             if config_ids:
                 config = self.pool.get('stock.scanner.config').browse(cr,uid,config_ids[0],context=context )
                 if picking.type == "in":
@@ -444,6 +474,7 @@ class nan_stock_picking_scanner_confirm_wizard(osv.osv_memory):
 
     def action_force_scanner_confirm( self, cr, uid, ids, context=None):
         return self.pool.get('stock.picking').action_force_scanner_confirm( cr, uid, [context['active_id']],context)
+
     def action_scanner_confirm(self, cr, uid, ids, context=None):
         return self.pool.get('stock.picking').action_scanner_confirm(cr, uid, [context['active_id']], context)
 nan_stock_picking_scanner_confirm_wizard()

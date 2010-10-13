@@ -10,7 +10,9 @@
             <form string="Scanner Config">
                 <field name="name"/>
                 <field name="active" />
+                <field name="default" />
     			<field name="auto_create_lot"/>
+    			<field name="fill_quantity"/>
                 <newline/>
                 <separator string="Input Packing Reports" colspan="2"/>
                 <separator string="Output Packing Reports" colspan="2"/>
@@ -57,6 +59,7 @@
                     <label colspan="3"/>
     				<button special="cancel" string="Cancel" icon="gtk-cancel"/>
 	    			<button name="action_scanner_confirm" string="Confirm" type="object" icon="gtk-ok"/>
+
                 </group>
 			</form>
 		</field>
@@ -101,7 +104,7 @@
 					-->
 					<button name="button_cancel" states="assigned,confirmed,draft" string="Cancel"/>
 					<!-- action added by nan_stock_scanner module -->
-					<button name="%(action_stock_picking_scanner_confirm)d" states="assigned" string="Confirm scanned products" type="action"/>
+                    <button name="%(action_stock_picking_scanner_confirm)d" states="assigned,confirmed" string="Confirm scanned products" type="action" />
 				</group>
 			</form>
 		</field>
@@ -117,9 +120,9 @@
 			<page string="General Information" position="before">
 				<page string="Pending Moves">
 					<group col="6" colspan="4">
-						<field name="scanned_product_id" colspan="3" on_change="on_change_scanned_product(scanned_product_id,context)"/>
+						<field name="scanned_product_id" colspan="3" on_change="on_change_scanned_product(scanned_product_id,scanned_quantity,context)"/>
 						<field name="scanned_quantity"/>
-						<button name="action_scanned" string="Accept" type="object" states="assigned"/>
+						<button name="action_scanned" string="Accept" type="object" states="assigned"  use="{'shortcut': 'F3'}"/>
 
 					</group>
 					<separator string="Pending Stock Moves" colspan="4"/>
@@ -178,7 +181,7 @@
 					-->
 					<button name="button_cancel" states="assigned,confirmed,draft" string="Cancel"/>
 					<!-- action added by nan_stock_scanner module -->
-					<button name="%(action_stock_picking_scanner_confirm)d" states="assigned" string="Confirm scanned products" type="action"/>
+                    <button name="%(action_stock_picking_scanner_confirm)d" states="assigned,confirmed" string="Confirm scanned products" type="action"/>
 				</group>
 			</form>
 		</field>
@@ -193,13 +196,13 @@
 			<page string="General Information" position="before">
 				<page string="Pending Moves">
 					<group col="6" colspan="4">
-						<field name="scanned_product_id" colspan="3" on_change="on_change_scanned_product(scanned_product_id,context)"/>
+						<field name="scanned_product_id" colspan="3" on_change="on_change_scanned_product(scanned_product_id,scanned_quantity,context)"/>
 						<field name="scanned_quantity"/>
                         <field name="scanned_lot_ref"/>
                         <field name="scanned_dluo"/>
                         <field name="scanned_packaging_id" domain="[('product_id','=',scanned_product_id)]"/>
                         <field name="scanned_ean"  on_change="onchange_scanned_ean( scanned_product_id, scanned_ean,context)" />
-						<button name="action_scanned" string="Accept" type="object" states="assigned"/>
+						<button name="action_scanned" string="Accept" type="object" states="assigned,confirmed" />
 
 					</group>
 					<separator string="Pending Stock Moves" colspan="4"/>
