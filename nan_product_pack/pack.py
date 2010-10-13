@@ -196,7 +196,7 @@ class sale_order(osv.osv):
                         uos_id = False
                         uos_qty = quantity
 
-                    self.pool.get('sale.order.line').create(cr, uid, {
+                    vals = {
                         'order_id': order.id,
                         'name': '%s%s' % ('> '* (line.pack_depth+1), subproduct_name),
                         'sequence': sequence,
@@ -221,7 +221,13 @@ class sale_order(osv.osv):
                         'state': 'draft',
                         'pack_parent_line_id': line.id,
                         'pack_depth': line.pack_depth + 1,
-                    }, context)
+                    }
+
+                    # It's a control for the case that the nan_external_price was installed with the product pack
+                    if hasattr( line, 'prices_used' ):
+                        vals[ 'prices_used' ] = line.prices_used
+
+                    self.pool.get('sale.order.line').create(cr, uid, vals, context)
                     if not order.id in updated_orders:
                         updated_orders.append( order.id )
 
