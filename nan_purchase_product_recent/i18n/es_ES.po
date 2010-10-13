@@ -3,6 +3,7 @@
 # 	* nan_purchase_product_recent
 #
 # Albert Cervera i Areny <albert@nan-tic.com>, 2010.
+# Jordi Pasquina <jordi@nan-tic.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.7\n"
@@ -21,7 +22,7 @@ msgstr ""
 #. module: nan_purchase_product_recent
 #: model:ir.module.module,shortdesc:nan_purchase_product_recent.module_meta_information
 msgid "Purchase Recent Product"
-msgstr "Compras producto reciente"
+msgstr "Compras de producto recientes"
 
 #. module: nan_purchase_product_recent
 #: constraint:ir.ui.view:0
@@ -51,3 +52,4 @@ msgstr ""
 #: field:purchase.order.line,recent_product_id:0
 msgid "Recent Product"
 msgstr "Producto reciente"
+
