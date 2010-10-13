@@ -321,6 +321,11 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
             src_obj, vals['allowed_groups'], vals['type'], context)
 
         # Create action window and wizard button
+        view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'label.wizard.form')], context=context)
+        if len( view_id ):
+            view_id = view_id[0]
+        else:
+            view_id = False
         ref_ir_act_window = self.pool.get('ir.actions.act_window').create(cr, uid, {
              'name': _('Label %s') % vals['name'],
              'type': 'ir.actions.act_window',
@@ -329,7 +334,7 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
              'view_type': 'form',
              'context': "{'src_model':'%s','template_id':'%d','src_rec_id':active_id,'src_rec_ids':active_ids}" % (src_obj, id),
              'view_mode':'form,tree',
-             'view_id': self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'label.wizard.form')], context=context)[0],
+             'view_id': view_id,
              'target': 'new',
              'auto_refresh':1
         }, context)
