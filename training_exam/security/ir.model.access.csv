@@ -16,3 +16,5 @@
 "access_training_participation_line_manager","training.participation.line","model_training_participation_line","training.group_training",1,1,1,1
 "access_training_exam_quizz_course_user","training.exam.questionnaire.course","model_training_exam_questionnaire_course","group_exam_user",1,0,0,0
 "access_training_exam_quizz_course_manager","training.exam.questionnaire.course","model_training_exam_questionnaire_course","group_exam_manager",1,1,1,1
+"access_training_exam_wizard_helper_manager","training.exam.wizard.helper","model_training_exam_wizard_helper","group_exam_manager",1,1,1,1
+"access_training_exam_wizard_helper_user","training.exam.wizard.helper","model_training_exam_wizard_helper","group_exam_user",1,0,0,0
