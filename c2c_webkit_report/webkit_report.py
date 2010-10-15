@@ -144,13 +144,25 @@ class WebKitParser(report_sxw):
                 command.append("--footer-html '%s'"%(foot_file.name))
                 
             if report_xml.webkit_header.margin_top :
-                command.append('--margin-top %s'%(report_xml.webkit_header.margin_top))
+                if report_xml.webkit_header.margin_top == 0.01:
+                    command.append('--margin-top 0')
+                else :
+                    command.append('--margin-top %s'%(report_xml.webkit_header.margin_top))
             if report_xml.webkit_header.magrin_bottom :
-                command.append('--margin-bottom %s'%(report_xml.webkit_header.magrin_bottom))
+                if report_xml.webkit_header.magrin_bottom == 0.01:
+                    command.append('--margin-bottom 0')
+                else :
+                    command.append('--margin-bottom %s'%(report_xml.webkit_header.magrin_bottom))
             if report_xml.webkit_header.magrin_left :
-                command.append('--margin-left %s'%(report_xml.webkit_header.magrin_left))
+                if report_xml.webkit_header.magrin_left == 0.01:
+                    command.append('--margin-left 0')
+                else :                
+                    command.append('--margin-left %s'%(report_xml.webkit_header.magrin_left))
             if report_xml.webkit_header.magrin_right :
-                command.append('--margin-right %s'%(report_xml.webkit_header.magrin_right))
+                if report_xml.webkit_header.magrin_right == 0.01:
+                    command.append('--margin-right 0')
+                else :
+                    command.append('--margin-right %s'%(report_xml.webkit_header.magrin_right))
             if report_xml.webkit_header.orientation :
                 command.append("--orientation '%s'"%(report_xml.webkit_header.orientation))
             if report_xml.webkit_header.format :
@@ -292,14 +304,11 @@ class WebKitParser(report_sxw):
         
         
         helper = WebKitHelper(cursor, uid, report_xml.id, context)
+        
         html = body_mako_tpl.render(
-                                    objects=self.parser_instance.localcontext['objects'], 
-                                    company=company, 
-                                    time=time, 
                                     helper=helper, 
                                     css=css,
-                                    formatLang=self.parser_instance.formatLang,
-                                    setLang=self.parser_instance.setLang,
+                                    **self.parser_instance.localcontext
                                     )
         head_mako_tpl = Template(header, input_encoding='utf-8')
         head = head_mako_tpl.render(

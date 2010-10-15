@@ -1,0 +1,346 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* nan_stock_scanner
+#
+# Albert Cervera i Areny <albert@nan-tic.com>, 2009.
+# Jordi Pasquina <jordi@nan-tic.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.6\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-08-29 16:55+0000\n"
+"PO-Revision-Date: 2010-10-04 06:53+0000\n"
+"Last-Translator: OpenERP Administrators <Unknown>\n"
+"Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-10-05 05:06+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Pending Stock Moves"
+msgstr "Movimientos de estoc pendientes"
+
+#. module: nan_stock_scanner
+#: constraint:ir.model:0
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+"El nombre del objeto debe empezar con x_ y no debe contener ningún carácter "
+"especial!"
+
+#. module: nan_stock_scanner
+#: code:addons/nan_stock_scanner/stock.py:0
+#, python-format
+msgid "Invalid printer"
+msgstr "No se ha encontrado una Impresora válida"
+
+#. module: nan_stock_scanner
+#: model:ir.model,name:nan_stock_scanner.model_stock_scanner_config
+msgid "stock.scanner.config"
+msgstr "stock.scanner.config"
+
+#. module: nan_stock_scanner
+#: view:nan.stock.picking.scanner.confirm.wizard:0
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Check Availability"
+msgstr "Comprobar disponibilidad"
+
+#. module: nan_stock_scanner
+#: field:stock.scanner.config,input_reports_ids:0
+msgid "Input Reports"
+msgstr "Informes ( Entrada Material )"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Process Later"
+msgstr "Procesar mas tarde"
+
+#. module: nan_stock_scanner
+#: help:stock.move,pending_quantity:0
+msgid "Quantity pending to be received"
+msgstr "Cantidad pendiente de recibir"
+
+#. module: nan_stock_scanner
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo inválido en la definición de la acción."
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Pending Moves"
+msgstr "Movimientos pendientes"
+
+#. module: nan_stock_scanner
+#: field:stock.picking,pending_move_line_ids:0
+msgid "Pending Lines"
+msgstr "Líneas pendientes"
+
+#. module: nan_stock_scanner
+#: view:stock.scanner.config:0
+msgid "Input Packing Reports"
+msgstr "Informes ( Entrada Material )"
+
+#. module: nan_stock_scanner
+#: view:stock.scanner.config:0
+msgid "Output Packing Reports"
+msgstr "Informes ( Salida Material )"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Force Availability"
+msgstr "Forzar disponibilidad"
+
+#. module: nan_stock_scanner
+#: help:stock.scanner.config,input_reports_ids:0
+msgid "Reports to print after input packing has done"
+msgstr "Informes a imprimir cuando el albarán de entrada se ha realizado"
+
+#. module: nan_stock_scanner
+#: field:stock.move,pending_quantity:0
+msgid "Pending Quantity"
+msgstr "Cantidad pendiente"
+
+#. module: nan_stock_scanner
+#: field:stock.picking,scanned_packaging_id:0
+msgid "Packaging"
+msgstr "Embalaje"
+
+#. module: nan_stock_scanner
+#: model:ir.module.module,shortdesc:nan_stock_scanner.module_meta_information
+msgid "Stock Barcode Scanner"
+msgstr "Escanerar albarán con código de barras"
+
+#. module: nan_stock_scanner
+#: help:product.supplierinfo,product_barcode:0
+msgid "The barcode for this product of this supplier."
+msgstr "Código de barras del producto para este proveedor"
+
+#. module: nan_stock_scanner
+#: code:addons/nan_stock_scanner/stock.py:0
+#, python-format
+msgid "No printer specified for report \"%s\"."
+msgstr "No se ha especificado impresora para el informe \"%s\"."
+
+#. module: nan_stock_scanner
+#: field:stock.scanner.config,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: nan_stock_scanner
+#: view:nan.stock.picking.scanner.confirm.wizard:0
+msgid "Partial Picking"
+msgstr "Empaquetado parcial"
+
+#. module: nan_stock_scanner
+#: help:stock.picking,scanned_lot_ref:0
+msgid "Supplier's lot reference."
+msgstr "Referencia de lote de proveedor"
+
+#. module: nan_stock_scanner
+#: code:addons/nan_stock_scanner/stock.py:0
+#, python-format
+msgid "Product Error"
+msgstr "Error de producto"
+
+#. module: nan_stock_scanner
+#: help:stock.scanner.config,auto_create_lot:0
+msgid ""
+"Create atutomatic lot on input material, taking care of supplier ref, dluo..."
+msgstr ""
+"Crea de forma automática un lote en la entrada de material, teniendo en "
+"cuenta la referencia a proveedor, fecha de caducidad..."
+
+#. module: nan_stock_scanner
+#: model:ir.actions.act_window,name:nan_stock_scanner.action_stock_picking_scanner_confirm
+msgid "Confirm Scanner Picking"
+msgstr "Confirmar Picking"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Process Now"
+msgstr "Procesar ahora"
+
+#. module: nan_stock_scanner
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML inválido para la arquitectura de vistas!"
+
+#. module: nan_stock_scanner
+#: help:stock.picking,scanned_quantity:0
+msgid "Quantity of the scanned product."
+msgstr "Cantidad del producto escaneado."
+
+#. module: nan_stock_scanner
+#: field:stock.scanner.config,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: nan_stock_scanner
+#: field:product.supplierinfo,product_barcode:0
+msgid "Product Barcode"
+msgstr "Código de barras de producto"
+
+#. module: nan_stock_scanner
+#: view:nan.stock.picking.scanner.confirm.wizard:0
+msgid "Are you sure you want to confirm this picking?"
+msgstr "¿Seguro que quiere confirmar este albarán?"
+
+#. module: nan_stock_scanner
+#: model:ir.actions.act_window,name:nan_stock_scanner.action_stock_scanner_config_form
+#: model:ir.ui.menu,name:nan_stock_scanner.menu_action_stock_scanner_form
+msgid "Stock Scanner Configuration"
+msgstr "Configuración del escaner de estoc"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Packing list"
+msgstr "Lista de albaranes"
+
+#. module: nan_stock_scanner
+#: help:stock.picking,scanned_packaging_id:0
+msgid "Product's packaging."
+msgstr "Embalaje del producto"
+
+#. module: nan_stock_scanner
+#: field:stock.scanner.config,output_reports_ids:0
+msgid "Output Reports"
+msgstr "Informes (Salida material)"
+
+#. module: nan_stock_scanner
+#: field:stock.picking,scanned_product_id:0
+msgid "Scanned product"
+msgstr "Producto escaneado"
+
+#. module: nan_stock_scanner
+#: help:stock.scanner.config,output_reports_ids:0
+msgid "Reports to print after output packing has done"
+msgstr "Informes a imprimir cuando el albarán de salida se ha realizado"
+
+#. module: nan_stock_scanner
+#: model:ir.model,name:nan_stock_scanner.model_nan_stock_picking_scanner_confirm_wizard
+msgid "nan.stock.picking.scanner.confirm.wizard"
+msgstr "nan.stock.picking.scanner.confirm.wizard"
+
+#. module: nan_stock_scanner
+#: help:stock.picking,scanned_dluo:0
+msgid "Lot's expire date."
+msgstr "Fecha de caducidad del lote."
+
+#. module: nan_stock_scanner
+#: field:stock.picking,scanned_quantity:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Confirm scanned products"
+msgstr "Confirmar productos escaneados"
+
+#. module: nan_stock_scanner
+#: field:stock.picking,scanned_ean:0
+msgid "Ean13"
+msgstr "Ean13"
+
+#. module: nan_stock_scanner
+#: code:addons/nan_stock_scanner/stock.py:0
+#, python-format
+msgid ""
+"Wrong product quantity. Expected %(expected).2f at most but you introduced "
+"%(introduced).2f."
+msgstr ""
+"Cantidad de producto incorrecta. Se esperaba %(expected).2f como máximo pero "
+"introdujo %(introduced).2f."
+
+#. module: nan_stock_scanner
+#: help:stock.move,received_quantity:0
+msgid "Quantity of product received"
+msgstr "Cantidad de producto recibida"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Input Packing List"
+msgstr "Lista de bultos de entrada"
+
+#. module: nan_stock_scanner
+#: code:addons/nan_stock_scanner/stock.py:0
+#, python-format
+msgid "There are no pending moves with this product."
+msgstr "No hay movimientos pendientes para este producto."
+
+#. module: nan_stock_scanner
+#: code:addons/nan_stock_scanner/stock.py:0
+#, python-format
+msgid "This product is not pending to be scanned in this order."
+msgstr "Este producto no está pendiente de ser escaneado en este pedido."
+
+#. module: nan_stock_scanner
+#: help:stock.picking,scanned_ean:0
+msgid "Type ean for update on  current product"
+msgstr "Introdujo el Ean13 para actualizarlo en la ficha actual del producto"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "Accept"
+msgstr "Aceptar"
+
+#. module: nan_stock_scanner
+#: help:stock.picking,scanned_product_id:0
+msgid "Scan the code of the next product."
+msgstr "Escanee el código del siguiente producto."
+
+#. module: nan_stock_scanner
+#: field:stock.scanner.config,auto_create_lot:0
+msgid "Create automatic lot on input material"
+msgstr "Crear de forma automatica un lote en la entrada de material"
+
+#. module: nan_stock_scanner
+#: view:stock.picking:0
+msgid "General Information"
+msgstr "Información General"
+
+#. module: nan_stock_scanner
+#: field:stock.picking,scanned_dluo:0
+msgid "DLUO"
+msgstr "DLUO"
+
+#. module: nan_stock_scanner
+#: field:stock.picking,scanned_lot_ref:0
+msgid "Supplier Lot Ref."
+msgstr "Ref. lote del proveedor"
+
+#. module: nan_stock_scanner
+#: view:nan.stock.picking.scanner.confirm.wizard:0
+#: view:stock.picking:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: nan_stock_scanner
+#: help:stock.picking,pending_move_line_ids:0
+msgid "List of pending products to be received."
+msgstr "Lista de productos pendientes de recibir."
+
+#. module: nan_stock_scanner
+#: view:stock.scanner.config:0
+msgid "Scanner Config"
+msgstr "Configuración Scanner"
+
+#. module: nan_stock_scanner
+#: model:ir.module.module,description:nan_stock_scanner.module_meta_information
+msgid ""
+"This module allows the usage of a barcode scanner to process incoming "
+"products."
+msgstr ""
+"Este módulo permite el uso de un lector de códigos de barra para procesar "
+"los productos entrantes."
+
+#. module: nan_stock_scanner
+#: field:stock.move,received_quantity:0
+msgid "Received Quantity"
+msgstr "Cantidad recibida"

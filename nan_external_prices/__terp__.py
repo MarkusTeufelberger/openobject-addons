@@ -30,9 +30,10 @@
     "name" : "External Prices",
     "version" : "1.0",
     "depends" : [
-        'sale',
         'account',
         'account_tax_include',
+        'sale',
+        'stock',
     ],
     "author" : "NaN",
     "description": """\

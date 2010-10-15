@@ -64,41 +64,42 @@ class label_templates(osv.osv):
             'value': {'model_int_name':mod_name}
         }
 
-    def _help_text_xsl(self):
-        return "The label body can contain:\n" + \
-        "1) Fixed strings like 'Ref.:'\n" + \
-        "2) Mako fields like ${object.name} (use the expression builder to compute them)\n" + \
-        "3) Mako control sequence %%for ... %%endfor for loops\n" + \
-        "4) ReportLab tags <b> <i> <u> <super> <sub> <font> <barCode> <greek>\n" + \
-        "5) ReportLab tags like <blockTable>, <tr>, <td>, ...\n" + \
-        "6) <nextFrame/> tag where you want jump to next label.\n" + \
-        "Note: Only 1, 2, 4 contents can be mixed in the same line.\n" + \
-        "Note: Line with 1, 2, 4 content is inserted in a <para> tag.\n" + \
-        "For ReportLab documentation visit http://www.reportlab.com/software/documentation/\n"
+    def _help_text_xsl(self, cr, context=None):
+        return _("The label body can contain:\n") + \
+        _("1) Fixed strings like 'Ref.:'\n") + \
+        _("2) Mako fields like ${object.name} (use the expression builder to compute them)\n") + \
+        _("3) Mako control sequence %%for ... %%endfor for loops\n") + \
+        _("4) ReportLab tags <b> <i> <u> <super> <sub> <font> <barCode> <greek>\n") + \
+        _("5) ReportLab tags like <blockTable>, <tr>, <td>, ...\n") + \
+        _("6) <nextFrame/> tag where you want jump to next label.\n") + \
+        _("Note: Only 1, 2, 4 contents can be mixed in the same line.\n") + \
+        _("Note: Line with 1, 2, 4 content is inserted in a <para> tag.\n") + \
+        _("For ReportLab documentation visit http://www.reportlab.com/software/documentation/\n")
 
-    def _help_text_rml(self):
-        return "The label body can contain:\n" + \
-        '1) Fixed strings in <para> tags like <para style="default">Ref.:</para>\n' + \
-        "2) Mako fields like ${object.name} (use the expression builder to compute them)\n" + \
-        "3) Mako control sequence %%for ... %%endfor for loops\n" + \
-        "4) ReportLab tags <b> <i> <u> <super> <sub> <font> <barCode> <greek>\n" + \
-        "5) ReportLab tags like <blockTable>, <tr>, <td>, ...\n" + \
-        "6) <nextFrame/> tag is not needed.\n" + \
-        "For Mako documentation visit http://www.makotemplates.org/docs/syntax.html\n" + \
-        "For ReportLab documentation visit http://www.reportlab.com/software/documentation/\n"
+    def _help_text_rml(self, cr, context=None):
+        return _("The label body can contain:\n") + \
+        _('1) Fixed strings in <para> tags like <para style="default">Ref.:</para>\n') + \
+        _("2) Mako fields like ${object.name} (use the expression builder to compute them)\n") + \
+        _("3) Mako control sequence %%for ... %%endfor for loops\n") + \
+        _("4) ReportLab tags <b> <i> <u> <super> <sub> <font> <barCode> <greek>\n") + \
+        _("5) ReportLab tags like <blockTable>, <tr>, <td>, ...\n") + \
+        _("6) <nextFrame/> tag is not needed.\n") + \
+        _("For Mako documentation visit http://www.makotemplates.org/docs/syntax.html\n") + \
+        _("For ReportLab documentation visit http://www.reportlab.com/software/documentation/\n")
 
     def _help_text(self, cr, uid, ids, name, args, context=None):
         res = {}
         for tmpl in self.read(cr, uid, ids, ['type']):
             try:
-                res[tmpl['id']] = getattr(self, '_help_text_' + tmpl['type'])()
+                res[tmpl['id']] = getattr(self, '_help_text_' + 
+tmpl['type'])(cr, context=context)
             except AttributeError:
                 res[tmpl['id']] = ''
         return res
 
     def change_type(self, cr, uid, ids, tmpl_type, context=None):
         try:
-            help_text = getattr(self, '_help_text_' + tmpl_type)()
+            help_text = getattr(self, '_help_text_' + tmpl_type)(cr, context=context)
         except AttributeError:
             help_text = ''
         return {
@@ -320,6 +321,11 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
             src_obj, vals['allowed_groups'], vals['type'], context)
 
         # Create action window and wizard button
+        view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'label.wizard.form')], context=context)
+        if len( view_id ):
+            view_id = view_id[0]
+        else:
+            view_id = False
         ref_ir_act_window = self.pool.get('ir.actions.act_window').create(cr, uid, {
              'name': _('Label %s') % vals['name'],
              'type': 'ir.actions.act_window',
@@ -328,7 +334,7 @@ For ReportLab documentation visit http://www.reportlab.com/software/documentatio
              'view_type': 'form',
              'context': "{'src_model':'%s','template_id':'%d','src_rec_id':active_id,'src_rec_ids':active_ids}" % (src_obj, id),
              'view_mode':'form,tree',
-             'view_id': self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'label.wizard.form')], context=context)[0],
+             'view_id': view_id,
              'target': 'new',
              'auto_refresh':1
         }, context)

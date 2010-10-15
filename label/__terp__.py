@@ -49,6 +49,7 @@
     "depends" : ["base",],
     "init_xml" : [
         "report_label_data.xml",
+        "label_wizard.xml", # Needed by label_data.xml (label.create() method)
         "label_data.xml",
     ],
     "demo_xml" : [

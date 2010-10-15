@@ -1,0 +1,180 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* nan_pricelist_extended
+#
+# Jordi Pasquina <jordi@nan-tic.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.12\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-08-30 15:50:44+0000\n"
+"PO-Revision-Date: 2010-08-30 18:14+0200\n"
+"Last-Translator: Jordi Pasquina <jordi@nan-tic.com>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: Lokalize 1.0\n"
+
+#. module: nan_pricelist_extended
+#: field:product.pricelist,category_id:0
+#: field:product.pricelist.category,name:0
+#: field:product.pricelist.item,category_id:0
+msgid "Category"
+msgstr "Categoria"
+
+#. module: nan_pricelist_extended
+#: selection:product.pricelist.item,rounding_mode:0
+msgid "Nearest Value"
+msgstr "Valor más cercano"
+
+#. module: nan_pricelist_extended
+#: view:product.pricelist.item:0
+msgid "Products Listprices Items"
+msgstr "Lista de precios de artículos"
+
+#. module: nan_pricelist_extended
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "El nombre del objeto debe empezar con x_ y no debe contener ningún carácter especial!"
+
+#. module: nan_pricelist_extended
+#: code:addons/nan_pricelist_extended/pricelist.py:0
+#, python-format
+msgid ""
+"Could not resolve product category, ' \\n"
+"                              'you have defined cyclic categories ' \\n"
+"                              'of products!"
+msgstr ""
+"No se pudo resolver la categoria de producto, ' \\n"
+"                              'se ha definido categorias ciclicas ' \\n"
+"                              'de productos!"
+
+#. module: nan_pricelist_extended
+#: help:product.pricelist.item,rounding_mode:0
+msgid "Allows you to decide what rounding method to use."
+msgstr "Habilita a decidir el método de redondeo a usar."
+
+#. module: nan_pricelist_extended
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo inválido en la definición de la acción."
+
+#. module: nan_pricelist_extended
+#: field:product.pricelist.item,supplier_id:0
+msgid "Supplier"
+msgstr "Proveedor"
+
+#. module: nan_pricelist_extended
+#: field:product.pricelist.item,base_itemrule_id:0
+msgid "Other Rule Item"
+msgstr "Otros elementos de la regla"
+
+#. module: nan_pricelist_extended
+#: code:addons/nan_pricelist_extended/pricelist.py:0
+#, python-format
+msgid ""
+"No active version for the selected pricelist !\n' \\n"
+"                'Please create or activate one."
+msgstr ""
+"Ninguna versión activa de la lista de precios seleccionado !\n' \\n"
+"                'Por favor crear o activar una."
+
+#. module: nan_pricelist_extended
+#: model:ir.model,name:nan_pricelist_extended.model_product_pricelist_category
+msgid "Product Pricelist Category"
+msgstr "Lista de precios de las categorías"
+
+#. module: nan_pricelist_extended
+#: model:ir.module.module,shortdesc:nan_pricelist_extended.module_meta_information
+msgid "Pricelist Extended"
+msgstr "Lista de precios extendida"
+
+#. module: nan_pricelist_extended
+#: view:product.pricelist.item:0
+msgid "Dependency Properties"
+msgstr "Propiedades de dependecia"
+
+#. module: nan_pricelist_extended
+#: field:product.pricelist.item,rounding_mode:0
+msgid "Rounding Mode"
+msgstr "Modo de redondeo"
+
+#. module: nan_pricelist_extended
+#: model:ir.actions.act_window,name:nan_pricelist_extended.product_pricelist_action_item
+#: model:ir.ui.menu,name:nan_pricelist_extended.menu_product_pricelist_item_action
+msgid "Pricelist Items"
+msgstr "Lista de precios de los artículos"
+
+#. module: nan_pricelist_extended
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML inválido para la arquitectura de vistas!"
+
+#. module: nan_pricelist_extended
+#: help:product.pricelist.item,supplier_id:0
+msgid "Will match if the given partner is in the supplier information section of the product."
+msgstr "Coincidirá si el socio está incluído en la sección de información del proveedor del producto."
+
+#. module: nan_pricelist_extended
+#: model:ir.module.module,description:nan_pricelist_extended.module_meta_information
+msgid ""
+"Extends pricelist by:\n"
+"- Adding a category to pricelist items.\n"
+"- Allowing to accumulate values from several pricelists.\n"
+"- If a price is not found in a 'based on' pricelist, it will \n"
+"  consider it didn't match the current item and move to the next one.\n"
+"\n"
+"It also allows configuring what kind of rounding happens on pricelists:\n"
+"- Round to nearest value (default)\n"
+"- Round up\n"
+"- Round down\n"
+msgstr ""
+"Extiende la lista de precios por:\n"
+"- Introducción de una categoría a la lista de precios artículos.\n"
+"- Permite acumular valores en la diferentes listas de precios.\n"
+"- Si el precio no se encuentra en una lista de precios \"basada en\", se\n"
+"  considerará que no se corresponde con el elemento actual y pasará a la siguiente.\n"
+"\n"
+"También permite configurar qué tipo de redondeo se realiza en listas de precios:\n"
+"- Redondea al valor más próximo (por defecto)\n"
+"- Redondea hacia arriba\n"
+"- Rodondea hacia abajo\n"
+
+#. module: nan_pricelist_extended
+#: selection:product.pricelist.item,rounding_mode:0
+msgid "Up"
+msgstr "Abajo"
+
+#. module: nan_pricelist_extended
+#: code:addons/nan_pricelist_extended/pricelist.py:0
+#, python-format
+msgid "Warning !"
+msgstr "Aviso !"
+
+#. module: nan_pricelist_extended
+#: help:product.pricelist.item,base_itemrule_id:0
+msgid "The selected item will be used to apply an extra discount on the price resulting from the Other Pricelist."
+msgstr ""
+"El elemento seleccionado se utilizará para aplicar un descuento adicional sobre el precio resultante de la Otra "
+"Lista de precios."
+
+#. module: nan_pricelist_extended
+#: selection:product.pricelist.item,rounding_mode:0
+msgid "Down"
+msgstr "Abajo"
+
+#. module: nan_pricelist_extended
+#: help:product.pricelist.item,category_id:0
+msgid "Use this field to classify pricelist items. Category does not affect the resulting price in any way."
+msgstr ""
+"Utilice este campo para clasificar los elementos de la lista de precios. La categoría no afecta al precio "
+"resultante de ninguna manera."
+
+#. module: nan_pricelist_extended
+#: view:product.pricelist.item:0
+msgid "Price Properties"
+msgstr "Propiedades del precio."
+
+

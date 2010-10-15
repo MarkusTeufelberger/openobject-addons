@@ -1,0 +1,174 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* nan_stock_production_lot_quality_control
+#
+# Jordi Pasquina <jordi@nan-tic.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.12\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-08-31 08:46:09+0000\n"
+"PO-Revision-Date: 2010-08-31 11:12+0200\n"
+"Last-Translator: Jordi Pasquina <jordi@nan-tic.com>\n"
+"Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: Lokalize 1.0\n"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.module.module,shortdesc:nan_stock_production_lot_quality_control.module_meta_information
+msgid "Production Lot Quality Control"
+msgstr "Control de Calidad del Lote de Producción"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.actions.act_window,name:nan_stock_production_lot_quality_control.action_prodlot_test_failed
+msgid "Invalid Production Lot Tests"
+msgstr "Test del lote de Producción inválido"
+
+#. module: nan_stock_production_lot_quality_control
+#: selection:stock.production.lot,state:0
+msgid "Waiting Specific Quality Control"
+msgstr "Esperando Control de calidad Específico"
+
+#. module: nan_stock_production_lot_quality_control
+#: view:stock.production.lot:0
+msgid "Sample Done"
+msgstr "Muestra tomada"
+
+#. module: nan_stock_production_lot_quality_control
+#: field:stock.production.lot,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: nan_stock_production_lot_quality_control
+#: selection:stock.production.lot,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: nan_stock_production_lot_quality_control
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo inválido en la definición de la acción."
+
+#. module: nan_stock_production_lot_quality_control
+#: selection:stock.production.lot,state:0
+msgid "Waiting Generic Quality Control"
+msgstr "Esperando Control de calidad Genérico"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.ui.menu,name:nan_stock_production_lot_quality_control.qc_prodlot_test_waiting_menu
+msgid "Confirmed Tests"
+msgstr "Tests Confirmados"
+
+#. module: nan_stock_production_lot_quality_control
+#: selection:stock.production.lot,state:0
+msgid "Specific Quality Control Failed"
+msgstr "Control de calidad Específico No superado"
+
+#. module: nan_stock_production_lot_quality_control
+#: selection:stock.production.lot,state:0
+msgid "Specific Quality Control Succeeded"
+msgstr "Control de calidad Específico Superado"
+
+#. module: nan_stock_production_lot_quality_control
+#: selection:stock.production.lot,state:0
+msgid "Waiting Sample Library"
+msgstr "Esperando Conjunto de muestras"
+
+#. module: nan_stock_production_lot_quality_control
+#: field:stock.production.lot,specific_quality_test_id:0
+msgid "Specific Quality Test"
+msgstr "Control de calidad Específico"
+
+#. module: nan_stock_production_lot_quality_control
+#: selection:stock.production.lot,state:0
+msgid "Generic Quality Control Failed"
+msgstr "Control de calidad Genérico No superado"
+
+#. module: nan_stock_production_lot_quality_control
+#: help:stock.production.lot,state:0
+msgid "A production lot can be in one of the following states: Draft, Waiting Sample Library, Waiting Quality Control, Valid (passed quality tests) or Invalid (did not pass quality tests)."
+msgstr ""
+"Un lote de producción puede estar en uno de los siguientes estados: Borrador, en espera de conjunto de muestras, en espera de Control de Calidad, Válido (pruebas de calidad pasadas) o no "
+"válido (no pasó las pruebas de calidad)."
+
+#. module: nan_stock_production_lot_quality_control
+#: help:product.product,prodlot_test_template_id:0
+msgid "Quality control test the product has to pass before being sold or use for production."
+msgstr "El producto tiene que pasar el test de Control de Calidad antes de su venta o uso para la producción."
+
+#. module: nan_stock_production_lot_quality_control
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML inválido para la arquitectura de vistas!"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.module.module,description:nan_stock_production_lot_quality_control.module_meta_information
+msgid ""
+"This module adds two quality controls to production lots on arrival and after production. The idea is that the first\n"
+"test will be 'Generic' and check for things like correct packaging. The second will be specific to the product in question.\n"
+msgstr ""
+"Este módulo añade dos controles de calidad para los lotes de producción a su llegada y después de la producción. La idea es que el primer test\n "
+"sea 'genérico' y compruebe cosas como que el embalaje sea correcto. El segundo test será específico para el producto en cuestión.\n"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.actions.act_window,name:nan_stock_production_lot_quality_control.action_prodlot_test_success
+msgid "Valid Production Lot Tests"
+msgstr "Test del lote de Producción Correcto"
+
+#. module: nan_stock_production_lot_quality_control
+#: field:stock.production.lot,requires_generic_quality_test:0
+#: field:stock.production.lot,requires_sample_library:0
+#: field:stock.production.lot,requires_specific_quality_test:0
+msgid "Requires Sample Library"
+msgstr "Requiere Conjunto de muestras"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.actions.act_window,name:nan_stock_production_lot_quality_control.action_prodlot_test_waiting
+msgid "Confirmed Production Lot Tests"
+msgstr "Tests de lotes de Producción Confirmados"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.ui.menu,name:nan_stock_production_lot_quality_control.qc_prodlot_test_draft_menu
+msgid "Draft Tests"
+msgstr "Tests en Borrador"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.ui.menu,name:nan_stock_production_lot_quality_control.qc_prodlot_test_success_menu
+msgid "Valid Tests"
+msgstr "Tests Válidos"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.ui.menu,name:nan_stock_production_lot_quality_control.qc_prodlot_test_failed_menu
+msgid "Invalid Tests"
+msgstr "Tests inválidos"
+
+#. module: nan_stock_production_lot_quality_control
+#: field:product.product,prodlot_test_template_id:0
+msgid "Production Lot Test Template"
+msgstr "Plantilla de test de Lotes de Producción"
+
+#. module: nan_stock_production_lot_quality_control
+#: field:stock.production.lot,generic_quality_test_id:0
+msgid "Generic Quality Test"
+msgstr "Control de Calidad Genérico"
+
+#. module: nan_stock_production_lot_quality_control
+#: field:stock.production.lot,sample_library_code:0
+msgid "Sample Library Code"
+msgstr "Código de conjunto de muestras"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.actions.act_window,name:nan_stock_production_lot_quality_control.action_prodlot_test_draft
+msgid "Draft Production Lot Tests"
+msgstr "Tests de lotes de producción en Borrador"
+
+#. module: nan_stock_production_lot_quality_control
+#: model:ir.actions.act_window,name:nan_stock_production_lot_quality_control.action_prodlot_test
+#: model:ir.ui.menu,name:nan_stock_production_lot_quality_control.qc_prodlot_menu
+msgid "Production Lot Tests"
+msgstr "Tests de Lotes de Producción"
+
+

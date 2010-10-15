@@ -81,7 +81,7 @@ class stock_picking(osv.osv):
                 'vessel_name' : fields.char('Vessel Name', size=128,),
                 'voyage_number' : fields.char('Voyage Number', size=64,),
                 'shipping_company' : fields.char('Shipping Line', size=128,),
-                'kind_transport': fields.selection([('Stock move','Stock Move'),('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Transportation Type', required=True),
+                'kind_transport': fields.selection([('Stock move','Stock Move'),('By air','By Air'),('By sea','By Sea'),('By road','By Road'),('By feeder', 'By Feeder')],'Transportation Type', required=True),
 #                'forwarder' : fields.many2one('res.partner','Forwarder agent'),
                 'forwarder' : fields.char('Forwarder agent', size=128),
                 'departure_date' : fields.date('Estimated Time of Departure'),

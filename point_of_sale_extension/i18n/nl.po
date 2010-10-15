@@ -1,0 +1,411 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Point_of_Sale_extra\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-09-06 17:05+0000\n"
+"PO-Revision-Date: 2010-09-22 09:29+0000\n"
+"Last-Translator: Jan Verlaan - Veritos <Unknown>\n"
+"Language-Team: Jan Verlaan - Veritos <informatie@veritos.nl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-09-29 05:33+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+"X-Poedit-Country: NETHERLANDS\n"
+"X-Poedit-Language: Dutch\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#. module: point_of_sale_extension
+#: help:pos.payment2,ask_pay,invoice_wanted:0
+msgid ""
+"To create invoice, for example if you are billing membership fees. Then the "
+"payment in the point of sale has no sense, because the payments will be "
+"managed from the menu Financial management / Payment."
+msgstr ""
+"Wanneer een factuur wordt gecreëerd, b.v. voor facturatie lidmaatschapsgeld. "
+"In dat geval heeft een betaling via de POS geen zin omdat deze betalingen "
+"worden beheert via het Menu -> Financieel Beheer -> Betaling"
+
+#. module: point_of_sale_extension
+#: view:pos.order:0
+msgid "Ma_ke Payment"
+msgstr "_Betaling uitvoeren"
+
+#. module: point_of_sale_extension
+#: constraint:ir.model:0
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+"De Objectnaam moet starten met x_ en mag geen speciale tekens bevatten!"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
+#, python-format
+msgid "No products have been added."
+msgstr "Er zijn geen producten toegevoegd"
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,ask_pay,payment_name:0
+msgid "Payment name"
+msgstr "Betalingsnaam"
+
+#. module: point_of_sale_extension
+#: field:pos.order.line,price_unit_vat:0
+msgid "Total Unit"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: field:pos.order.line,state:0
+msgid "State"
+msgstr "Status"
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Draft"
+msgstr "Concept"
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,ask_pay,payment_nb:0
+msgid "Piece number"
+msgstr "Stuknummer"
+
+#. module: point_of_sale_extension
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Ongeldige naam van het model in de actie definitie."
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,ask_pay,payment_date:0
+msgid "Payment date"
+msgstr "Betaaldatum"
+
+#. module: point_of_sale_extension
+#: model:ir.module.module,description:point_of_sale_extension.module_meta_information
+msgid ""
+"\n"
+"* Only it allows delete draft or canceled POS orders and POS order lines.\n"
+"* If POS order has a partner, the partner is stored in:\n"
+"    - The stock.picking created by the pos order.\n"
+"    - The account.move.line created by the pos order.\n"
+"* POS orders with amount_total==0 no creates account moves (it gives "
+"error).\n"
+"* Shows the payment type (journal) in the payments list in teh second tab of "
+"the POS.\n"
+"* The journals used to pay with the POS can be choosed (in the configuration "
+"tab of the company: Administration / Users / Companies).\n"
+"* Product prices with or without taxes included (select in the configuration "
+"tab of the company).\n"
+"* Shows a warning in the payment wizard (but you can continue) if:\n"
+"    - A product added in the POS order has already been requested by the "
+"partner (the partner has a sale order with this product), so the user can "
+"decide if is better to do a POS order from a sale order.\n"
+"    - There is not enough virtual stock in any of the products.\n"
+"  These two warnings can be activated/desactivated (in the configuration tab "
+"of the company).\n"
+"* List and search POS order lines by number of order, partner and state.\n"
+msgstr ""
+"\n"
+"* Verwijderen is alleen mogelijk bij Concept of Geannuleerde POS orders en "
+"POS orderregels.\n"
+"* Indien de POS order een relatie heeft, dan is de relatie opgeslagen in:\n"
+"    - De stock.picking aangemaakt door de POS order.\n"
+"    - De account.move.line aangemaakt door de POS order.\n"
+"* POS orders een amount_total==0 maakt geen account moves aan (geeft een "
+"error).\n"
+"* Laat het betaaltype (dagboek) zien in het betaaloverzicht in de tweede tab "
+"van het POS scherm.\n"
+"* De dagboeken welke gebruikt kunne nworden voor betalingen middels de POS "
+"kunnen gekozen worden (in de configuratie tab van het bedrijf: Beheer / "
+"Gebruikers / Bedrijfsstructuur).\n"
+"* Product prijzen op basis van incl. en excl. BTW is aanwezig. (selecteer in "
+"de configuratie tab van het bedrijf).\n"
+"* Geeft een waarschuwing in de betalings wizard (is niet blokkerend) "
+"indien:\n"
+"    - Een product welke aan de POS word toegevoegd maar reeds is aangevraagd "
+"via deze partner via een verkooporder. De medewerker kan hierna besluiten om "
+"de verkooporder om te zetten naar de POS order.\n"
+"    - Er is onvoldoende economische voorraad aanwezig van de producten.\n"
+"  Deze twee waarschuwingen kunnen worden aan- en uitgezet in de configuratie "
+"tab van het bedrijf.\n"
+"* List en zoek POS orderregels bij ordernummer, relatie en land.\n"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid ""
+"There is no receivable account defined for this journal:'\\n                 "
+"   ' \"%s\" (id:%d)"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
+#, python-format
+msgid "No cash journal defined !"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,product_stock_warning,product:0
+#: wizard_field:pos.payment2,sale_order_warning,product:0
+msgid "Product"
+msgstr "Product"
+
+#. module: point_of_sale_extension
+#: view:res.company:0
+msgid "Point of sale"
+msgstr "Point of Sale"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Error !"
+msgstr "Fout !"
+
+#. module: point_of_sale_extension
+#: wizard_view:pos.payment2,product_stock_warning:0
+msgid "These products have not enough virtual stock:"
+msgstr "Deze producten hebben onvoldoende voorraad:"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Please provide a partner for the sale."
+msgstr "Wijs een relatie toe aan deze verkoop."
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,ask_pay,journal:0
+msgid "Journal"
+msgstr "Dagboek"
+
+#. module: point_of_sale_extension
+#: wizard_view:pos.payment2,ask_pay:0
+#: wizard_view:pos.payment2,product_stock_warning:0
+#: wizard_view:pos.payment2,sale_order_warning:0
+msgid "Add payment:"
+msgstr "Betaling toevoegen"
+
+#. module: point_of_sale_extension
+#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_order_lines
+msgid "TPV sales lines"
+msgstr "TPV Verkoop orderregel"
+
+#. module: point_of_sale_extension
+#: help:res.company,pos_journals:0
+msgid "The journals used to pay with the POS."
+msgstr "Het dagboek welke wordt gebruikt bij betaling via POS."
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Paid"
+msgstr "Betaald"
+
+#. module: point_of_sale_extension
+#: wizard_view:pos.payment2,sale_order_warning:0
+msgid "Maybe you may want to create the sale from the existing order:"
+msgstr "Wilt u de verkoop creëren vanuit de bestaande order:"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Invalid action !"
+msgstr "Ongeldige actie!"
+
+#. module: point_of_sale_extension
+#: view:res.company:0
+msgid "Configuration"
+msgstr "Configuratie"
+
+#. module: point_of_sale_extension
+#: model:ir.actions.wizard,name:point_of_sale_extension.pos_payment2
+msgid "Payment"
+msgstr "Betaling"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid ""
+"There is no income '\\n                        'account defined for this "
+"product: \"%s\" (id:%d)"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: help:res.company,pos_warn_virtual_stock:0
+msgid ""
+"Shows a warning if there is not enough virtual stock in any of the products."
+msgstr ""
+"Laat een waarschuwing zien indien economische voorraad ontoereikend is."
+
+#. module: point_of_sale_extension
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "Ongeldige XML voor aanzicht!"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Cannot delete a point of sale line which is already confirmed !"
+msgstr "Verwijderen van een bevestigde POS order is niet mogelijk!"
+
+#. module: point_of_sale_extension
+#: wizard_view:pos.payment2,sale_order_warning:0
+msgid "This partner has already made an order with the product:"
+msgstr "Deze relatie heeft al een order met het product:"
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,ask_pay,payment_id:0
+msgid "Payment term"
+msgstr "Betalingsconditie"
+
+#. module: point_of_sale_extension
+#: field:pos.order.line,price_subtotal_vat:0
+msgid "Subtotal+Tax"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: field:res.company,pos_warn_sale_order:0
+msgid "Product in sale order warning"
+msgstr "Product in verkooporder waarschuwing"
+
+#. module: point_of_sale_extension
+#: field:res.company,pos_prices_tax_include:0
+msgid "Prices tax included"
+msgstr "Inclusief belastingen"
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,ask_pay,amount:0
+msgid "Amount"
+msgstr "Bedrag"
+
+#. module: point_of_sale_extension
+#: help:res.company,pos_prices_tax_include:0
+msgid "Product prices have tax included."
+msgstr "Productprijzen zijn incl. belastingen."
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#: code:addons/point_of_sale_extension/wizard/wizard_pos_payment.py:0
+#, python-format
+msgid "Error"
+msgstr "Fout"
+
+#. module: point_of_sale_extension
+#: wizard_button:pos.payment2,product_stock_warning,ask_pay:0
+#: wizard_button:pos.payment2,sale_order_warning,ask_pay:0
+msgid "Go on"
+msgstr "Ga verder"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Invoice from POS: %s"
+msgstr ""
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,sale_order_warning,sale_order:0
+msgid "Order"
+msgstr "Order"
+
+#. module: point_of_sale_extension
+#: model:ir.model,name:point_of_sale_extension.model_pos_report_change
+msgid "Change path to rml file to get a better POS receipt"
+msgstr "Verander het path naar de rml file voor een beter POS receipt"
+
+#. module: point_of_sale_extension
+#: wizard_button:pos.payment2,ask_pay,add_pay:0
+msgid "Ma_ke payment"
+msgstr "_Betaling uitvoeren"
+
+#. module: point_of_sale_extension
+#: field:res.company,pos_warn_virtual_stock:0
+msgid "No virtual stock warning"
+msgstr "Geen economische voorraad waarschuwing"
+
+#. module: point_of_sale_extension
+#: help:res.company,pos_warn_sale_order:0
+msgid ""
+"Shows a warning if a product added in the POS order has already been "
+"requested by the partner (the partner has a sale order with this product), "
+"so the user can decide if is better to do a POS order from a sale order."
+msgstr ""
+"Laat een waarschuwing zien indien een product welke aan de POS word "
+"toegevoegd maar reeds is aangevraagd via deze partner via een verkooporder. "
+"De medewerker kan hierna besluiten om de verkooporder om te zetten naar de "
+"POS order"
+
+#. module: point_of_sale_extension
+#: model:ir.module.module,shortdesc:point_of_sale_extension.module_meta_information
+msgid "Point Of Sale Extension"
+msgstr "Point Of Sale Extension"
+
+#. module: point_of_sale_extension
+#: field:res.company,pos_journals:0
+msgid "Payment journals"
+msgstr "Betalingsdagboeken"
+
+#. module: point_of_sale_extension
+#: model:ir.actions.act_window,name:point_of_sale_extension.act_partner_2_pos_orders
+msgid "TPV sales"
+msgstr "TPV Verkoop"
+
+#. module: point_of_sale_extension
+#: view:pos.order:0
+msgid "Sales Order POS"
+msgstr "Verkoop order POS"
+
+#. module: point_of_sale_extension
+#: code:addons/point_of_sale_extension/pos.py:0
+#, python-format
+msgid "Cannot delete a point of sale which is already confirmed !"
+msgstr "Verwijderen van een bevestigde POS order is niet mogelijk!"
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Done"
+msgstr "Klaar"
+
+#. module: point_of_sale_extension
+#: wizard_field:pos.payment2,ask_pay,invoice_wanted:0
+msgid "Invoice"
+msgstr "Factuur"
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+#: wizard_button:pos.payment2,ask_pay,end:0
+#: wizard_button:pos.payment2,product_stock_warning,end:0
+#: wizard_button:pos.payment2,sale_order_warning,end:0
+msgid "Cancel"
+msgstr "Cancel"
+
+#. module: point_of_sale_extension
+#: field:pos.order.line,partner_id:0
+msgid "Partner"
+msgstr "Relatie"
+
+#. module: point_of_sale_extension
+#: selection:pos.order.line,state:0
+msgid "Invoiced"
+msgstr "Gefactureerd"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Tax :"
+msgstr "BTW:"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Disc :"
+msgstr "Korting:"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "This coupon is valid until"
+msgstr "Deze coupon is geldig tot"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Operation Nº :"
+msgstr "Transactie Nº :"
+
+#. module: point_of_sale
+#: rml:pos.receipt:0
+msgid "Salesman :"
+msgstr "Verkoper:"
