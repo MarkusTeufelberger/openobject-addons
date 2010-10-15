@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ############################################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu>). All Rights Reserved
 #    Copyright (C) 2010 Zikzakmedia S.L. (<http://www.zikzakmedia.com>). All Rights Reserved
@@ -269,7 +269,7 @@ class training_course_offer_rel(osv.osv):
         'category_id' : fields.related('course_id', 'category_id', type='many2one', relation='training.course_category',  string='Product Line', readonly=True),
         'course_type_id' : fields.related('course_id', 'course_type_id', type='many2one', relation='training.course_type', string='Course Type', readonly=True),
         'lang_id' : fields.related('course_id', 'lang_id', type='many2one', relation='res.lang', string='Language', readonly=True),
-        'kind': fields.related('course_id','kind',type='selection', selection=training_course_kind_compute, string='Course Kind', readonly=True),
+        'kind': fields.related('course_id','kind', type='selection', selection=training_course_kind_compute, string='Course Kind', readonly=True),
         'duration' : fields.related('course_id', 'duration', type='float', string='Duration', readonly=True),
     }
 
@@ -1048,7 +1048,7 @@ class training_offer(osv.osv):
         'requeriments' : fields.text('Requeriments',
                                     help="Allows to write the requeriments of the course"),
         'sequence' : fields.integer('Sequence', help="Allows to order the offers by its importance"),
-        'format_id' : fields.many2one('training.offer.format', 'Format', required=True,
+        'format_id' : fields.many2one('training.offer.format', 'Format', required=True, select=1,
                                     help="Delivery format of the course"),
         'state' : fields.selection([('draft', 'Draft'),
                                     ('validated', 'Validated'),
@@ -1528,7 +1528,7 @@ class training_session(osv.osv):
                                 ),
         'address_id' : fields.many2one('res.partner.address', 'Training place',
                                     help='Address where the training is planned'),
-        'format_id' : fields.many2one('training.offer.format', 'Format', required=True,
+        'format_id' : fields.many2one('training.offer.format', 'Format', required=True, select=2,
                                     help="Delivery format of the planned session"),
         'user_id' : fields.many2one('res.users',
                                     'Responsible',
@@ -1751,8 +1751,8 @@ class training_session(osv.osv):
 
         if not dates:
             cr.execute(
-                "SELECT date(%s) + s.t AS date FROM generate_series(0,%s) AS s(t)"
-                , (session.date, seance_counter+1))
+                "SELECT date(%s) + s.t AS date FROM generate_series(0,%s) AS s(t)",
+                (session.date, seance_counter+1))
 
             for x in cr.fetchall():
                 dates.append(mx.DateTime.strptime(x[0] + " " + date.strftime('%H:%M:%S'), '%Y-%m-%d %H:%M:%S'))
@@ -2574,10 +2574,10 @@ class training_seance(osv.osv):
                                               ),
         'original_session_id' : fields.many2one('training.session', 'Original Session', ondelete='cascade'),
         'original_offer_id': fields.related('original_session_id', 'offer_id', string="Original Offer", type='many2one', relation='training.offer', select=1),
-        'original_offer_kind': fields.related('original_offer_id','kind', type='selection', selection=training_offer_kind_compute, string='Original Offer Kind', readonly=True),
+        'original_offer_kind': fields.related('original_offer_id', 'kind', type='selection', selection=training_offer_kind_compute, string='Original Offer Kind', readonly=True),
         'duplicata' : fields.boolean('Duplicata', required=True),
         'duplicated' : fields.boolean('Duplicated', required=True),
-        'date' : fields.datetime('Date', required=True, select=1,help="The create date of seance"),
+        'date' : fields.datetime('Date', required=True, select=1, help="The create date of seance"),
         'duration' : fields.float('Duration', select=1, help="The duration of the seance"),
         'participant_ids' : fields.one2many('training.participation',
                                             'seance_id',
@@ -2616,8 +2616,8 @@ class training_seance(osv.osv):
                                                    ('validated', 'Validated')],
                                         readonly=True),
         'purchase_line_ids' : fields.one2many('training.seance.purchase_line', 'seance_id', 'Supplier Commands'),
-        'min_limit' : fields.integer("Minimum Threshold",help='The Minimum of Participants in Seance'),
-        'max_limit' : fields.integer("Maximum Threshold",help='The Maximum of Participants in Seance'),
+        'min_limit' : fields.integer("Minimum Threshold", help='The Minimum of Participants in Seance'),
+        'max_limit' : fields.integer("Maximum Threshold", help='The Maximum of Participants in Seance'),
         'user_id' : fields.many2one('res.users', 'Responsible', required=True, select=1),
 
         'available_seats' : fields.function(_available_seats_compute,
@@ -2901,8 +2901,8 @@ class training_seance(osv.osv):
                        "AND rel.offer_id = %s "
                        "AND seance.state = %s "
                        "AND seance.date >= %s "
-                       "AND seance.duplicated = %s "
-                      , (offer_id, 'opened', date, False,))
+                       "AND seance.duplicated = %s ",
+                       (offer_id, 'opened', date, False,))
 
             return [x[0] for x in cr.fetchall()]
 
@@ -3055,11 +3055,11 @@ class training_subscription(osv.osv):
     _columns = {
         'name' : fields.char('Reference', size=32, required=True, select=1, readonly=True, help='The unique identifier is generated by the system (customizable)'),
         'create_date' : fields.datetime('Creation Date', select=True, readonly=True),
-        'state' : fields.selection([('draft', 'Draft'), ('confirmed','Request Sent'), ('cancelled','Cancelled'), ('done', 'Done') ], 'State', readonly=True, required=True, select=1,help='The state of the Subscription'),
+        'state' : fields.selection([('draft', 'Draft'), ('confirmed','Request Sent'), ('cancelled','Cancelled'), ('done', 'Done') ], 'State', readonly=True, required=True, select=1, help='The state of the Subscription'),
 
-        'partner_id' : fields.many2one('res.partner', 'Partner', select=1, required=True,help='The Subscription name', **WRITABLE_ONLY_IN_DRAFT),
+        'partner_id' : fields.many2one('res.partner', 'Partner', select=1, required=True, help='The Subscription name', **WRITABLE_ONLY_IN_DRAFT),
         'partner_rh_email' : fields.char('Subscription Contact', size=64),
-        'address_id' : fields.many2one('res.partner.address', 'Invoice Address', select=1, required=True,help='The Subscription invoice address', **WRITABLE_ONLY_IN_DRAFT),
+        'address_id' : fields.many2one('res.partner.address', 'Invoice Address', select=1, required=True, help='The Subscription invoice address', **WRITABLE_ONLY_IN_DRAFT),
         'subscription_line_ids' : fields.one2many('training.subscription.line', 'subscription_id',
                                                   'Subscription Lines', select=1, **WRITABLE_ONLY_IN_DRAFT),
 
@@ -3270,7 +3270,7 @@ class training_subscription_line(osv.osv):
         'subscription_id' : fields.many2one('training.subscription', 'Subscription',
                                             required=True,
                                             ondelete='cascade',
-                                            select=1,help='Select the subscription', **WRITABLE_ONLY_IN_DRAFT),
+                                            select=1, help='Select the subscription', **WRITABLE_ONLY_IN_DRAFT),
         'subscription_state' : fields.related('subscription_id', 'state',
                                               type='selection',
                                               selection=[
@@ -3341,7 +3341,7 @@ class training_subscription_line(osv.osv):
                                    'State',
                                    required=True,
                                    readonly=True,
-                                   select=1,help='The state of participant'),
+                                   select=1, help='The state of participant'),
         'date' : fields.related('session_id', 'date', type='datetime', string='Date',
                                 readonly=True),
         'available_seats' : fields.related('session_id', 'available_seats',

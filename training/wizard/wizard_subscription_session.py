@@ -23,6 +23,7 @@
 import wizard
 import pooler
 import tools
+from tools.translate import _
 
 class wizard_subscription_session(wizard.interface):
     first_screen_fields = {
@@ -57,6 +58,11 @@ class wizard_subscription_session(wizard.interface):
     </form>'''
 
 
+    def _get_defaults(self, cr, uid, data, context):
+        if data['ids']:
+            data['form']['line_ids'] = data['ids']
+        return data['form']
+
     def make_subscription(self, cr, uid, data, context=None):
         pool = pooler.get_pool(cr.dbname)
 
@@ -67,6 +73,8 @@ class wizard_subscription_session(wizard.interface):
         values.update({
                 'partner_id' : partner_id,
             })
+        if 'address_id' not in values:
+            raise wizard.except_wizard(_('Warning'),_("You have selected a partner that has no address."))
 
         subscription_id = subscription_proxy.create(cr, uid, values, context=context)
 
@@ -85,7 +93,8 @@ class wizard_subscription_session(wizard.interface):
                             massline = masslines.browse(cr, uid, mlid, context=context)
                             job = pool.get('res.partner.job').browse(cr, uid, job_id, context=context)
                             values = subscription_line_proxy._get_values_from_wizard(cr, uid, subscription_id, job, massline, context=context)
-
+                            if 'price' not in values:
+                                raise wizard.except_wizard(_('Warning'),_("The offer has not a product, so it is not possible to compute the price."))
                             sl_id = subscription_line_proxy.create(cr, uid, values, context=context)
 
         return {
@@ -102,7 +111,7 @@ class wizard_subscription_session(wizard.interface):
 
     states = {
         'init': {
-            'actions': [],
+            'actions': [_get_defaults],
             'result': {
                 'type': 'form',
                 'arch': first_screen_form,

@@ -26,6 +26,7 @@
     'version' : '0.1',
     'author' : 'Tiny SPRL - AJM Technologies S.A',
     'website' : 'http://www.openerp.com',
+    'category' : 'Enterprise Specific Modules/Training',
     'description' : """The module training_room helps the user to manage the training's location""",
     'depends' : [
         'training',

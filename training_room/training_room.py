@@ -45,7 +45,7 @@ class training_location(osv.osv):
         'partner_id' : fields.many2one('res.partner', 'Partner', required=True),
         'address_id' : fields.many2one('res.partner.address', 'Address', required=True,
                                       domain="[('partner_id','=',partner_id)]"),
-        'seats' : fields.integer('Seats',help='Total Seats'),
+        'seats' : fields.integer('Seats', help='Total Seats'),
     }
 
     _defaults = {
@@ -101,10 +101,10 @@ class training_seance(osv.osv):
     _inherit = 'training.seance'
 
     _columns = {
-        'location_id' : fields.many2one('training.location', 'Location', select=1,help='The location for seance'),
-        'reserved' : fields.boolean('Reserved',help='Location is reserved '),
+        'location_id' : fields.many2one('training.location', 'Location', select=1, help='The location for seance'),
+        'reserved' : fields.boolean('Reserved', help='Location is reserved '),
         'seats' : fields.related('location_id', 'seats', type='integer', string='Maximum Seats',
-                                 readonly=True,help='Maximum seats available in location')
+                                 readonly=True, help='Maximum seats available in location')
     }
 
     _defaults = {
@@ -123,9 +123,9 @@ training_seance()
 class training_session(osv.osv):
     _inherit = 'training.session'
     _columns = {
-        'location_id' : fields.many2one('training.location', 'Location', select=1,help='The location for seance'),
+        'location_id' : fields.many2one('training.location', 'Location', select=1, help='The location for seance'),
         'seats' : fields.related('location_id', 'seats', type='integer', string='Maximum Seats',
-                                 readonly=True,help='Maximum seats available in location')
+                                 readonly=True, help='Maximum seats available in location')
     }
 
     #def copy(self, cr, uid, session_id, defaults=None, context=None):

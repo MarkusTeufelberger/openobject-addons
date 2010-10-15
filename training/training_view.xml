@@ -560,7 +560,7 @@
                         <page string="Session Description">
                             <field name="offer_id" domain="[('can_be_planned', '=', 1)]" on_change="on_change_offer(offer_id)"/>
                             <field name="kind" select="1" />
-                            <field name="format_id" select="2" />
+                            <field name="format_id" />
                             <field name="catalog_id" groups="training.group_session_user" />
                             <field name="user_id" groups="training.group_session_user" />
                             <field name="stylegroup_id" groups="training.group_session_manager" string="Email Style"/>
@@ -697,6 +697,7 @@
                     <field name="offer_id" />
                     <field name="catalog_id" />
                     <field name="kind" />
+                    <field name="format_id" />
                     <field name="available_seats" groups="training.group_seance_user" />
                     <field name="participant_count" groups="training.group_seance_user" />
                     <field name="draft_subscriptions" groups="training.group_seance_user" />
@@ -1664,7 +1665,7 @@
                         </page>
                         <page string="Description">
                             <field name="target_public_id" select="1" />
-                            <field name="format_id" attrs="{'readonly' : [('state', '!=', 'draft')], 'required' : [('kind', '=', 'standard')]}" select="1" />
+                            <field name="format_id" attrs="{'readonly' : [('state', '!=', 'draft')]}" />
                             <field name="product_id" attrs="{'readonly' : [('state', '!=', 'draft')], 'required' : [('kind', '=', 'standard')]}" />
                             <field name="sequence"/>
                             <separator string="Objective" colspan="4" />
@@ -1772,6 +1773,7 @@
                     <field name="kind" />
                     <field name="product_id" />
                     <field name="target_public_id" />
+                    <field name="format_id" />
                     <field name="create_date" />
                     <field name="is_standalone" />
                     <field name="state" />

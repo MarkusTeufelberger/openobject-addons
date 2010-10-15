@@ -319,7 +319,7 @@ class training_question(osv.osv):
              ('yesno', 'Yes/No') ],
             'Type',
             required=True,
-            select=1 ,help='Question type'),
+            select=1, help='Question type'),
         'number_of_good_answers' : fields.function(_number_of_good_answer, method=True,
                                                    string='Number of Good Answers',
                                                    type='integer'),
@@ -351,7 +351,7 @@ class training_question(osv.osv):
                         'Image Position',
                         ),
         # plain question
-        'free_lines_count': fields.integer('Free Lines',help='How many free line available to formulate a response to a plain question'),
+        'free_lines_count': fields.integer('Free Lines', help='How many free line available to formulate a response to a plain question'),
 
         # states
         'state': fields.selection([
@@ -675,7 +675,7 @@ class exam_questionnaire(osv.osv):
         return res or 0.0
 
     _columns = {
-        'name' : fields.char( 'Name', size=128, required=True, select=1 ,help='Name of questionnaire'),
+        'name' : fields.char( 'Name', size=128, required=True, select=1, help='Name of questionnaire'),
         'state' : fields.selection([('draft', 'Draft'),
                                     ('validated', 'Validated'),
                                     ('pending', 'Pending'),
@@ -1060,15 +1060,17 @@ class training_subscription_line(osv.osv):
         if ocv and 'value' in ocv:
             values.update(ocv['value'])
 
-        course_id = subscription_mass_line.course_id and subscription_mass_line.course_id.id
-        ocv = self.on_change_exam(cr, uid, [], values['session_id'], values.get('price_list_id', False), course_id, job.name.id, context=context)
+        ocv = super(training_subscription_line, self).on_change_price_list(cr, uid, [], values['session_id'], values.get('price_list_id', False), context=context)
+# These code uses fields that has been inherit in an osv.osv_memory and v.5.0 not supports inheritance in osv.osv_memory yet
+#        course_id = subscription_mass_line.course_id and subscription_mass_line.course_id.id
+#        ocv = self.on_change_exam(cr, uid, [], values['session_id'], values.get('price_list_id', False), course_id, job.name.id, context=context)
         if ocv and 'value' in ocv:
             values.update(ocv['value'])
 
-        values.update({
-            'exam_session_id' : getattr(subscription_mass_line.exam_session_id, 'id'),
-            'course_id' : course_id,
-        })
+#        values.update({
+#            'exam_session_id' : getattr(subscription_mass_line.exam_session_id, 'id'),
+#            'course_id' : course_id,
+#        })
         return values
 
     def _get_courses(self, cr, uid, ids, context=None):
@@ -1402,7 +1404,7 @@ class training_participation_exam(osv.osv):
                                                      type='float',
                                                      string='Duration',
                                                      store=True,
-                                                     readonly=True,help='Duration of selected  Questionnaire'),
+                                                     readonly=True, help='Duration of selected  Questionnaire'),
         'participation_line_ids' : fields.one2many('training.participation.line',
                                                    'participation_id',
                                                    'Participation Lines'),
@@ -1473,7 +1475,7 @@ class training_participation_line(osv.osv):
                                              required=True,
                                              ondelete="cascade"),
         'question_id' : fields.many2one('training.exam.question', 'Question', ondelete='restrict'),
-        'point_question_id' : fields.related('question_id', 'point', type='integer', string='Max Point', readonly=True,help='Point of question'),
+        'point_question_id' : fields.related('question_id', 'point', type='integer', string='Max Point', readonly=True, help='Point of question'),
         'type_question_id' : fields.related('question_id', 'type',
                                             type='selection',
                                             selection = [('qcm', 'QCM'),
@@ -1482,7 +1484,7 @@ class training_participation_line(osv.osv):
                                                          ('yesno', 'Yes/No') ],
                                             string='Type', readonly=True),
         'yesno_question_id' : fields.related('question_id', 'response_yesno', type='char',
-                                             string='Solution YesNo', readonly=True,help='Question type'),
+                                             string='Solution YesNo', readonly=True, help='Question type'),
         'plain_question_id' : fields.related('question_id', 'response_plain', type='text',
                                              string='Solution Plain', readonly=True),
         'qcm_question_id' : fields.related('question_id', 'question_answer_ids', type='one2many',
@@ -1529,6 +1531,7 @@ class training_participation_line(osv.osv):
     ]
 training_participation_line()
 
+# v.5.0 not supports inheritance in osv.osv_memory yet
 #class mass_subscription_line(osv.osv_memory):
 #    _inherit = 'training.subscription.mass.line'
 
@@ -1639,6 +1642,7 @@ class training_email(osv.osv):
         return super(training_email, self)._get_lang(session, seance, **objects)
 training_email()
 
+# v.5.0 not supports inheritance in osv.osv_memory yet
 #class training_seance_generate_pdf_wizard(osv.osv_memory):
 #    _inherit = 'training.seance.generate.zip.wizard'
 

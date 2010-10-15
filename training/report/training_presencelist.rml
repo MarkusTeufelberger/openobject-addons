@@ -51,7 +51,7 @@
   <story>
     <para style="Standard">[[ repeatIn(objects,'seance') ]]</para>
     <section>
-    <para style="Standard"><font color="white">[[ setLang(seance.course_id.lang_id.code) ]]</font></para>
+    <para style="Standard"><font color="white">[[ seance.course_id and seance.course_id.lang_id and setLang(seance.course_id.lang_id.code) ]]</font></para>
     <para style="terp_header_Centre">Presence List</para>
     <blockTable colWidths="481.0" style="Table1" rowHeights="65"><tr>
         <td>

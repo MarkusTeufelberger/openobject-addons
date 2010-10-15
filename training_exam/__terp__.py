@@ -26,6 +26,7 @@
     'version' : '0.5',
     'author' : 'Tiny SPRL - AJM Technologies S.A',
     'website' : 'http://www.openerp.com',
+    'category' : 'Enterprise Specific Modules/Training',
     'description' : """This module adds the exam management for the training management""",
     'depends' : [
         'training',

@@ -755,15 +755,15 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <data>
+                    <field name="kind" position="replace">
+                        <field name="kind" invisible="0" />
+                        <!--<attribute name="invisible">0</attribute>-->
+                    </field>
                     <!--<field name="session_id" position="after">
                         <field name="date_session" />
                         <field name="course_id" />
                         <field name="exam_session_id" />
                     </field>-->
-                    <field name="kind" position="replace">
-                        <field name="kind" invisible="0" />
-                        <!--<attribute name="invisible">0</attribute>-->
-                    </field>
                 </data>
             </field>
         </record>
