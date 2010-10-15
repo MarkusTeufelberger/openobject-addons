@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -22,5 +22,14 @@
 
 import wizard_not_implemented
 import wizard_subscription_line_invoice
+import wizard_subscription_line_confirm
+import wizard_subscription_line_change_participant
+import wizard_create_session
+import wizard_subscription_second_line
+import wizard_create_offer
+import wizard_create_block_offer
+import wizard_validate_course
+import wizard_spam
+import wizard_subscription_session
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
-##############################################################################
+############################################################################################
 #
 #    OpenERP, Open Source Management Solution	
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
+#    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu>). All Rights Reserved
+#    Copyright (C) 2010 Zikzakmedia S.L. (<http://www.zikzakmedia.com>). All Rights Reserved
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,13 +20,14 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+############################################################################################
 
 {
     'name' : 'Training Management',
-    'version' : '0.0.1',
-    'author' : 'Tiny SPRL',
+    'version' : '0.5',
+    'author' : 'Tiny SPRL - AJM Technologies S.A',
     'website' : 'http://www.openerp.com',
+    'category' : 'Enterprise Specific Modules/Training',
     'description' : """
 From the conception of a project to the elaboration of your catalog, our training management allows you to create easily courses and to organize the sessions.
 With the analytic account support, you can know the costs of your trainings.
@@ -40,32 +43,57 @@ With the analytic account support, you can know the costs of your trainings.
         'base_contact_team',
         'base_iban',
         'product',
-        'mrp',
+        'smtpclient',
+        'sale',
+        'document',
+        'account_analytic_plans',
+        'purchase_manual',
+        'purchase_analytic_plans',
+        'account_payment',
     ],
     'init_xml' : [
         'training_sequence.xml',
+        'training_data.xml',
     ],
     'demo_xml' : [
-        'training_demo.xml',
+        'demo/training_course_type.xml',
+        'demo/training_course_category.xml',
+        'demo/training_course_theme.xml',
+        'demo/training_course.xml',
+        'demo/training_offer.xml',
+        'demo/training_catalog.xml',
+        'demo/training_session.xml',
+        'demo/training_seance.xml',
     ],
     'update_xml' : [
         'security/training_security.xml',
         'security/ir.model.access.csv',
+
+        # TODO move this into the base_contact module
+        'contact_security/groups.xml',
+        'contact_security/ir.model.access.csv',
+
+        'purchase_view.xml',
         'partner_view.xml',
         'base_contact_view.xml',
+        'product_view.xml',
         'training_view.xml',
         'training_wizard.xml',
+        'invoice_view.xml',
         'training_report.xml',
-        'workflow/catalog_workflow.xml',
-        'workflow/course_workflow.xml',
-        'workflow/offer_workflow.xml',
-        'workflow/seance_workflow.xml',
-        'workflow/session_workflow.xml',
-        'workflow/subscription_workflow.xml',
-        'process/plan_course_process.xml',
-        'process/course_subscription_process.xml',
-
-        'dummy_view.xml',
+        'workflow/catalog.xml',
+        'workflow/course.xml',
+        'workflow/offer.xml',
+        'workflow/seance.xml',
+        'workflow/session.xml',
+        'workflow/subscription.xml',
+        'workflow/subscription_line.xml',
+        'workflow/participation_sh_request.xml',
+        'workflow/participation_sh.xml',
+        'workflow/invoice.xml',
+        'training_email_view.xml',
+        'training_holiday_view.xml',
+        'document_price_view.xml',
     ],
     'active' : False,
     'installable' : True,
