@@ -60,7 +60,7 @@ msgstr "Manager Tafel"
 #: help:report.finance.base.board,receivable_balance_change:0
 #: help:report.finance.board,receivable_balance_change:0
 msgid "Receivable balance change per ISO Week"
-msgstr "Veränderunge der Forderungen je ISO Woche"
+msgstr "Veränderungen der Forderungen je ISO Woche"
 
 #. module: c2c_managment_board
 #: help:report.invoice.board,out_refund_residual:0
@@ -87,7 +87,7 @@ msgstr "Fertig"
 #: field:report.purchase.order.board,po_untaxed_progress:0
 #: field:report.sale.order.board,so_untaxed_progress:0
 msgid "progress"
-msgstr "in Bearbeitung"
+msgstr "In Bearbeitung"
 
 #. module: c2c_managment_board
 #: model:ir.model,name:c2c_managment_board.model_report_finance_base_board
@@ -179,7 +179,7 @@ msgstr "Veränderung Verbindlichkeiten je ISO Woche"
 #. module: c2c_managment_board
 #: field:report.invoice.board,in_invoice_residual:0
 msgid "In Invoice Residual"
-msgstr "EIngangsrechnung OP"
+msgstr "Eingangsrechnung OP"
 
 #. module: c2c_managment_board
 #: help:report.purchase.order.board,po_untaxed_done:0
@@ -207,7 +207,7 @@ msgstr "Entwurf"
 #. module: c2c_managment_board
 #: view:report.purchase.order.board:0
 msgid "Weekly Purchase Orders Untaxed"
-msgstr "wöchentliche Netto Einkaufsaufträge"
+msgstr "Wöchentliche Netto Einkaufsaufträge"
 
 #. module: c2c_managment_board
 #: help:report.sale.order.board,so_untaxed_done:0
@@ -217,7 +217,7 @@ msgstr "Netto Verkaufsaufträge erledigt je ISO Woche"
 #. module: c2c_managment_board
 #: help:report.invoice.board,in_invoice_residual:0
 msgid "Untaxed In invoice residual per ISO Week"
-msgstr "Netto EIngangsrechnung OP je ISO Woche"
+msgstr "Netto Eingangsrechnung OP je ISO Woche"
 
 #. module: c2c_managment_board
 #: field:report.invoice.board,out_refund_untaxed:0
@@ -321,7 +321,7 @@ msgstr "Rechnungen"
 #: model:ir.ui.menu,name:c2c_managment_board.menu_action_report_finance_board_tree
 #: view:report.finance.board:0
 msgid "Weekly Balances"
-msgstr "Wächentlichen Salden"
+msgstr "Wöchentlichen Salden"
 
 #. module: c2c_managment_board
 #: field:report.invoice.board,in_refund_untaxed:0
@@ -361,7 +361,7 @@ msgstr "Netto Kundenrechnungen je ISO Woche"
 #: model:ir.actions.act_window,name:c2c_managment_board.action_report_sale_order_board_tree
 #: model:ir.ui.menu,name:c2c_managment_board.menu_action_report_sale_order_board_tree
 msgid "Weekly Sale Orders"
-msgstr "wöchenltiche Verkaufsaufträge"
+msgstr "Wöchenltiche Verkaufsaufträge"
 
 #. module: c2c_managment_board
 #: field:report.finance.base.board,payable_balance_change:0
