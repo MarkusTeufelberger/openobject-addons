@@ -39,8 +39,6 @@ from tools.translate import _
 import netsvc
 
 import base64
-import mx.DateTime
-from mx.DateTime import RelativeDateTime, now, DateTime, localtime
 import tempfile
 
 import time
@@ -73,6 +71,24 @@ account_bank_statement_split_line_wizard()
 
 class account_bank_statement(osv.osv):
     _inherit = 'account.bank.statement'
+
+    def _total_amount(self, cursor, user, ids, name, attr, context=None):
+        res_currency_obj = self.pool.get('res.currency')
+        res_users_obj = self.pool.get('res.users')
+        result = {}
+        company_currency_id = res_users_obj.browse(cursor, user, user,context=context).company_id.currency_id.id
+
+        statements = self.browse(cursor, user, ids, context=context)
+        for statement in statements:
+            amount = 0.0
+            for line in statement.line_ids:
+                amount += line.amount
+            result[statement.id] = amount
+        return result
+
+    _columns = {
+        'total_amount': fields.function(_total_amount, method=True, string='Total Amount'),
+    }
 
     def _attach_file_to_statement(self, cr, uid, file_contents, statement_id, attachment_name, file_name, context=None):
         """
@@ -117,9 +133,10 @@ class account_bank_statement_line(osv.osv):
                                         ('reference_and_amount','Reference and Amount'),
                                         ('vat_and_amount','Vat and Amount'),
                                         ('amount','Amount'),
-                                        ('invoice','Invoice'),
-                                        ('origin','Invoice Origin' ),
-                                        ('payment_order','Payment Order' ) ], 'Search By' )
+                                        ('invoice_number','Invoice Number'),
+                                        ('invoice_origin','Invoice Origin' ),
+                                        ('payment_order','Payment Order' ),
+                                        ('bank_statement','Bank Statement')], 'Search By' )
     }
 
     _defaults={
@@ -204,12 +221,19 @@ class account_bank_statement_line(osv.osv):
             return []
         return [ data['vat'] ]
 
-    def _get_invoices( self, cr, uid, line, data, context ):
+    def _get_invoice_numbers( self, cr, uid, line, data, context ):
         if not 'invoice_number' in data:
             if line.search_by != 'all':
-                raise osv.except_osv(_('Search by invoice error'), _('You cannot search by invoice because it seems this line has not been imported from a bank statement file. The system expected an "invoice" key in the line with amount %.2f in statement %s.') % (line.amount, line.statement_id.name) )
+                raise osv.except_osv(_('Search by invoice error'), _('You cannot search by invoice number because it seems this line has not been imported from a bank statement file. The system expected an "invoice_number" key in the line with amount %.2f in statement %s.') % (line.amount, line.statement_id.name) )
             return []
         return [ data['invoice_number'] ]
+
+    def _get_invoice_origins( self, cr, uid, line, data, context ):
+        if not 'invoice_origin' in data:
+            if line.search_by != 'all':
+                raise osv.except_osv(_('Search by invoice error'), _('You cannot search by invoice origin because it seems this line has not been imported from a bank statement file. The system expected an "invoice_origin" key in the line with amount %.2f in statement %s.') % (line.amount, line.statement_id.name) )
+            return []
+        return [ data['invoice_origin'] ]
 
     def search_line2reconcile_by_imported_line( self, cr, uid, line, data, reconciled_move_line_ids, maturity_date, max_date_diff, context):
         """
@@ -232,12 +256,23 @@ class account_bank_statement_line(osv.osv):
                 if move_lines:
                     break
 
-        # Search by invoice
-        if not move_lines and line.search_by in ('invoice', 'all'):
-            for invoice in self._get_invoices( cr, uid, line, data, context ): 
-                move_lines = self._find_entry_to_reconcile_by_invoice_number(cr, uid, line, invoice, reconciled_move_line_ids, context)
+        # Search by invoice number
+        if not move_lines and line.search_by in ('invoice_number', 'all'):
+            for invoice in self._get_invoice_numbers( cr, uid, line, data, context ): 
+                move_lines = self._find_entry_to_reconcile_by_invoice_number(cr, uid, invoice, reconciled_move_line_ids, context)
                 if move_lines:
                     break
+
+        # Search by invoice origin
+        if not move_lines and line.search_by in ('invoice_origin', 'all'):
+            for invoice in self._get_invoice_origins( cr, uid, line, data, context ): 
+                move_lines = self._find_entry_to_reconcile_by_invoice_origin(cr, uid, invoice, reconciled_move_line_ids, context)
+                if move_lines:
+                    break
+
+        if not move_lines and line.search_by in ('bank_statement', 'all'):
+            move_lines = self._find_entry_to_reconcile_by_bank_statement(cr, uid, line, reconciled_move_line_ids, context)
+
             
         # Search by line amount.
         if not move_lines and line.search_by in ('amount', 'all'):
@@ -263,22 +298,6 @@ class account_bank_statement_line(osv.osv):
                 self.pool.get('account.bank.statement.line').unlink(cr, uid, [line.id], context)
 
         return move_lines 
-
-    def reconcile_search_by_origin_invoice( self, cr, uid, origin, context):
-        invoice_id = self.pool.get('account.invoice').search(cr, uid, [('origin','ilike', origin )])
-        if invoice_id == []:
-            return None
-
-        invoice = self.pool.get('account.invoice').browse(cr, uid, invoice_id[0], context)
-        if not invoice:
-            return False
-
-        res_line = False
-        for line in invoice.move_id.line_id:
-            if line.account_id.type in ['receivable','payable']:
-                return line
-
-        return False
 
     def _get_default_partner_account_ids(self, cr, uid, context=None):
         """
@@ -359,7 +378,7 @@ class account_bank_statement_line(osv.osv):
                     min_diff = diff
         return nearest
 
-    def _find_entry_to_reconcile_by_invoice_number(self, cr, uid, line, number, reconciled_move_line_ids, context):
+    def _find_entry_to_reconcile_by_invoice_number(self, cr, uid, number, reconciled_move_line_ids, context):
         invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('number','ilike',number)], context=context)
         domain = [
             ('account_id.reconcile','=',True),
@@ -375,17 +394,58 @@ class account_bank_statement_line(osv.osv):
             return [ids[0]]
         return []
 
-    def _find_entry_to_reconcile_by_line_ref_and_amount(self, cr, uid, line,
-            reference, reconciled_move_line_ids,
-            maturity_date, max_date_diff, context=None):
-        """
-        Searchs for a non-conciled entry with the same reference and amount.
-        (If more than one entry matches returns False).
+    def _find_entry_to_reconcile_by_invoice_origin( self, cr, uid, origin, reconciled_move_line_ids, context):
+        invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('origin','ilike',origin)], context=context)
+        domain = [
+            ('account_id.reconcile','=',True),
+            ('account_id.type','in',['receivable','payable']),
+            ('invoice','in',invoice_ids),
+        ]
 
-        Note: The operation reference may be stored in
-              Banc Sabadell => 'referencia2' or 'conceptos'
-              Caja Rural del Jalón => 'conceptos'
-        """
+        if reconciled_move_line_ids:
+            domain.append( ('id', 'not in', reconciled_move_line_ids) )
+
+        ids = self.pool.get('account.move.line').search(cr, uid, domain, context=context)
+        if ids:
+            return [ids[0]]
+        return []
+
+    def _find_entry_to_reconcile_by_bank_statement(self, cr, uid, line, reconciled_move_line_ids, context):
+        journal_ids = self.pool.get('account.journal').search(cr, uid, [
+            ('default_credit_account_id.reconcile','=',True),
+            ('default_debit_account_id.reconcile','=',True),
+        ], context=context)
+
+        if not journal_ids:
+            return []
+
+        ids = self.pool.get('account.bank.statement').search(cr, uid, [
+            ('journal_id','in',journal_ids),
+            ('id','!=',line.id),
+        ], context=context)
+
+        lines = []
+        for statement in self.pool.get('account.bank.statement').browse(cr, uid, ids, context):
+            account_ids = (
+                statement.journal_id.default_credit_account_id.id, 
+                statement.journal_id.default_debit_account_id.id
+            )
+            # If statement.total_amount == line.amount
+            if self.pool.get('res.currency').is_zero(cr, uid, statement.currency, statement.total_amount - line.amount):
+                for move_line in statement.move_line_ids:
+                    if move_line.reconcile_id:
+                        # If any of the lines of the statement has been reconciled it means this is not
+                        # the statement we're looking for
+                        lines = []
+                        break
+                    if move_line.account_id.id in account_ids:
+                        lines.append( move_line.id )
+            if lines:
+                break
+        return lines
+
+    def _find_entry_to_reconcile_by_line_ref_and_amount(self, cr, uid, line,
+            reference, reconciled_move_line_ids, maturity_date, max_date_diff, context=None):
         domain = [
             ('id', 'not in', reconciled_move_line_ids),
             ('ref', '=', reference),
