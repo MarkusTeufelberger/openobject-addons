@@ -170,9 +170,21 @@ class account_bank_statement_line(osv.osv):
                 reconcile_id = self.pool.get('account.bank.statement.reconcile').create(cr, uid, {
                     'line_ids': [(6, 0, line_ids)],
                 }, context)
+
+                reconcile_line = self.pool.get('account.move.line').browse(cr, uid, line_ids[0], context)
+                account_type = 'general'
+                if reconcile_line.partner_id:
+                    if reconcile_line.partner_id.property_account_receivable == reconcile_line.account_id:
+                        account_type = 'customer'
+                    else:
+                        account_type = 'supplier'
+
                 self.write( cr, uid, [line.id], {
-                    'reconcile_id': reconcile_id 
-                } ,context= context )
+                    'reconcile_id': reconcile_id,
+                    'account_id': reconcile_line.account_id.id,
+                    'partner_id': reconcile_line.partner_id and reconcile_line.partner_id.id or False,
+                    'type': account_type,
+                }, context )
 
             result[line.id] = line_ids and True or False
         return result
