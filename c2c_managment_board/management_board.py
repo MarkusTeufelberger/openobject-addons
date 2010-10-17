@@ -19,19 +19,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import time
 import netsvc
-
 from osv import fields, osv
-
-#from tools.misc import currency
-#from tools.translate import _
-import pooler
 import tools.sql
-from tools import config
-import sys
-
-
 
 # SO
 class report_sale_order_board(osv.osv):
@@ -126,6 +116,7 @@ select to_char(date_invoice,'IYYYIW')::int as id,
    sum(case when type ='out_refund' then -round(residual * amount_untaxed / amount_total) else 0 end) as out_refund_residual
   from account_invoice
   where date_invoice is not null
+    and amount_total != 0    
   group by to_char(date_invoice,'IYYYIW')::int,
           to_char(date_invoice,'IYYY-IW')
   order by 1 desc limit 13;
