@@ -45,6 +45,7 @@ select to_char(date_order,'IYYYIW')::int as id,
        sum(case when state='done' then amount_untaxed else 0 end) as so_untaxed_done
   from sale_order
  where state != 'cancel'
+   and date_order > current_date - 110
  group by to_char(date_order,'IYYYIW')::int,
           to_char(date_order,'IYYY-IW') order by 1 desc limit 13;
  """)
@@ -73,6 +74,7 @@ select to_char(date_order,'IYYYIW')::int as id,
        sum(case when state='done' then amount_untaxed else 0 end) as po_untaxed_done
   from purchase_order
  where state != 'cancel'
+   and date_order > current_date - 110
  group by to_char(date_order,'IYYYIW')::int,
           to_char(date_order,'IYYY-IW')
  order by 1 desc limit 13;
@@ -116,7 +118,8 @@ select to_char(date_invoice,'IYYYIW')::int as id,
    sum(case when type ='out_refund' then -round(residual * amount_untaxed / amount_total) else 0 end) as out_refund_residual
   from account_invoice
   where date_invoice is not null
-    and amount_total != 0    
+    and amount_total != 0  
+    and date_invoice > current_date - 110  
   group by to_char(date_invoice,'IYYYIW')::int,
           to_char(date_invoice,'IYYY-IW')
   order by 1 desc limit 13;
@@ -154,6 +157,7 @@ class report_finance_base_board(osv.osv):
    and t.id = a.user_type
    and (t.code = 'cash' or a.type in('payable','receivable'))
    and l.state = 'valid'
+   and date  > current_date - 110
  group by to_char(date,'IYYYIW')::int,
           to_char(date,'IYYY-IW')
  order by 1 desc limit 13;
