@@ -44,6 +44,7 @@ This module adds some new features to account module, including:
 	],
     "init_xml" : [],
     "update_xml" : [
+        'account_view.xml',
         'company_view.xml',
         'partner_view.xml',
     ],

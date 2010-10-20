@@ -27,10 +27,6 @@
 #
 ##############################################################################
 
-import company
-import invoice
-import partner
-import account
-import wizard
+import wizard_invoice_draft
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
