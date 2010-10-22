@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!--
+	Changes to the views of the module "sale" to add the Sale Order Slips.
+	Please see also sale_order.fields_view_get() in sale_view.py !
+	-->
+<openerp>
+    <data>
+
+        <!--
+		Add the delivery date to the order form
+		-->
+
+        <record model="ir.ui.view" id="sale_order_add_delivery_date">
+            <field name="name">sale.order.add_delivery_date</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <field name="picking_policy" position="before">
+                    <field name="date_delivery" />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
