@@ -32,6 +32,15 @@ class sale_order(osv.osv):
     """Add the delivery date to the Sale Order object."""
     _inherit = 'sale.order'
 
+    def copy(self, cr, uid, id, default=None, context=None):
+        """Make sure the delivery date is not copied along with the Sale Order"""
+        if default is None:
+            default = {}
+        else:
+            default = default.copy()
+        default['date_delivery'] = False
+        return super(sale_order, self).copy(cr, uid, id, default=default,
+                                            context=context)        
     _columns = {
         'date_delivery': fields.date('Expected Delivery Date', readonly=True,
             states={'draft': [('readonly', False)]},
