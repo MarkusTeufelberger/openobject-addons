@@ -15,6 +15,7 @@ class account_invoice(osv.osv):
         for line in lines:
             if 'fleet_id' in line:
                 line['fleet_id'] = line.get('fleet_id', False) and line['fleet_id'][0]
+                line['parent_fleet_id'] = line.get('parent_fleet_id', False) and line['parent_fleet_id'][0]
             if 'account_analytic_lines' in line:
                 line['account_analytic_lines'] = [(6,0, line.get('account_analytic_lines', [])) ]
         return super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
