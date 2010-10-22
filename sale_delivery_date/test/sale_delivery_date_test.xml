@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--
+            Test case for fixed delivery dates
+            XXX the following tests are very naive because date calculations can't be made in assertions.
+        -->
+
+        <!-- Resource: sale.order -->
+        <record id="sale_delivery_date_test_order1" model="sale.order">
+            <field name="shop_id" ref="sale.shop" />
+            <field model="product.pricelist" name="pricelist_id" search="[]" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="order_policy">manual</field> <!-- force manual invoicing -->
+            <field name="picking_policy">one</field> <!-- full delivery only -->
+            <field name="invoice_quantity">order</field> <!-- invoice based on ordered quantities -->
+            <field name="partner_id" ref="base.res_partner_agrolait" />
+            <field name="partner_invoice_id" ref="base.res_partner_address_8invoice" />
+            <field name="partner_shipping_id" ref="base.res_partner_address_8delivery" />
+            <field name="partner_order_id" ref="base.res_partner_address_8" />
+            <field name="name">SO-Fixed-Delivery-Date</field>
+            <field name="date_order">2010-10-10</field>
+            <field name="date_delivery">2010-12-10</field>
+        </record>
+        <record id="sale_delivery_date_test_order1_line1" model="sale.order.line">
+            <field name="order_id" ref="sale_delivery_date_test_order1" />
+            <field name="name">[PC2] Basic+ PC (assembly on order)</field>
+            <field name="product_id" ref="product.product_product_pc2" />
+            <field name="product_uom" ref="product.product_uom_unit" />
+            <field name="product_uom_qty">4</field>
+            <field name="price_unit">750</field>
+            <field name="type">make_to_order</field>
+            <field name="delay">15</field>
+        </record>
+
+        <!--  confirm order -->
+        <workflow action="order_confirm" model="sale.order" ref="sale_delivery_date_test_order1" />
+        <assert id="sale_delivery_date_test_order1" model="sale.order" string="The packing's date is correct">
+            <test expr="state">manual</test>
+            <test expr="len(picking_ids) == 1" />
+            <test expr="picking_ids[0].address_id == partner_shipping_id" />
+            <test expr="picking_ids[0].invoice_state">none</test>
+            <test expr="picking_ids[0].state">confirmed</test>
+            <test expr="len(picking_ids[0].move_lines) == 1" />
+            <!-- XXX this only works if you leave the company's security lead time to 5 -->
+            <test expr="user_id.company_id.security_lead == 5" />
+            <test expr="picking_ids[0].move_lines[0].date_planned">2010-12-05 00:00:00</test>
+        </assert>
+        <assert id="sale_delivery_date_test_order1_line1" model="sale.order.line" string="The procurement's date is correct">
+            <test expr="procurement_id.date_planned">2010-12-05 00:00:00</test>
+        </assert>
+
+        <!--
+            Test case for default delivery dates
+        -->
+
+        <!-- Resource: sale.order -->
+        <record id="sale_delivery_date_test_order2" model="sale.order">
+            <field name="shop_id" ref="sale.shop" />
+            <field model="product.pricelist" name="pricelist_id" search="[]" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="order_policy">manual</field> <!-- force manual invoicing -->
+            <field name="picking_policy">one</field> <!-- full delivery only -->
+            <field name="invoice_quantity">order</field> <!-- invoice based on ordered quantities -->
+            <field name="partner_id" ref="base.res_partner_agrolait" />
+            <field name="partner_invoice_id" ref="base.res_partner_address_8invoice" />
+            <field name="partner_shipping_id" ref="base.res_partner_address_8delivery" />
+            <field name="partner_order_id" ref="base.res_partner_address_8" />
+            <field name="name">SO-Fixed-Delivery-Date</field>
+            <field name="date_order">2010-10-10</field>
+            <field name="date_delivery"></field>
+        </record>
+        <record id="sale_delivery_date_test_order2_line1" model="sale.order.line">
+            <field name="order_id" ref="sale_delivery_date_test_order2" />
+            <field name="name">[PC2] Basic+ PC (assembly on order)</field>
+            <field name="product_id" ref="product.product_product_pc2" />
+            <field name="product_uom" ref="product.product_uom_unit" />
+            <field name="product_uom_qty">4</field>
+            <field name="price_unit">750</field>
+            <field name="type">make_to_order</field>
+            <field name="delay">15</field>
+        </record>
+
+        <!--  confirm order -->
+        <workflow action="order_confirm" model="sale.order" ref="sale_delivery_date_test_order2" />
+        <assert id="sale_delivery_date_test_order2" model="sale.order" string="The packing's date is correct">
+            <test expr="state">manual</test>
+            <test expr="len(picking_ids) == 1" />
+            <test expr="picking_ids[0].address_id == partner_shipping_id" />
+            <test expr="picking_ids[0].invoice_state">none</test>
+            <test expr="picking_ids[0].state">confirmed</test>
+            <test expr="len(picking_ids[0].move_lines) == 1" />
+            <!-- XXX there is a small possibility of this failing even when all is OK... -->
+            <test expr="picking_ids[0].move_lines[0].date_planned != '2010-12-05 00:00:00'" />
+        </assert>
+        <assert id="sale_delivery_date_test_order2_line1" model="sale.order.line" string="The procurement's date is correct">
+            <test expr="procurement_id.date_planned != '2010-12-05 00:00:00'" />
+        </assert>
+    </data>
+</openerp>
