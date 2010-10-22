@@ -528,83 +528,50 @@ def _check_method_based_trigger_rules(self, cr, uid, method, field_name=None, ca
                     rule_ids.remove(rule_id)
     return rule_ids
 
-native_orm_create = orm.orm.create
-native_orm_write = orm.orm.write
-native_orm_unlink = orm.orm.unlink
-native_fields_function_get = fields.function.get
-native_fields_function_set = fields.function.set
+from functools import wraps
+import inspect
 
-def create_object_and_check_rules(self, cr, uid, vals, context={}):
-    """Override create method to check create method based trigger rules"""
-    rule_ids = _check_method_based_trigger_rules(self, cr, uid, 'create')
-    result = native_orm_create(self, cr, uid, vals, context)
-    if result and rule_ids:
-        context_copy = dict(context or {})
-        context_copy['active_object_ids'] = [result]
-        self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context_copy)
-    return result
+def sartre_decorator(fnct):
+    @wraps(fnct)
+    def new_fnct(*args, **kwds):
 
-def write_object_and_check_rules(self, cr, uid, ids, vals, context={}):
-    """Override write method to check write method based trigger rules"""
-    if isinstance(ids, (int, long)):
-        ids = [ids]
-    rule_ids = _check_method_based_trigger_rules(self, cr, uid, 'write')
-    context_copy = dict(context or {})
-    if rule_ids:
-        context_copy['active_object_ids'] = list(ids)
-        context_copy['old_values'] = _get_browse_record_dict(self, cr, uid, ids)
-    result = native_orm_write(self, cr, uid, ids, vals, context)
-    if result and rule_ids:
-        self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context_copy)
-    return result
+        # Get arguments
+        args_names = inspect.getargspec(fnct).args
+        args_dict = {}.fromkeys(args_names, False)
+        for arg in args_names:
+            if args_names.index(arg) < len(args):
+                args_dict[arg] = args[args_names.index(arg)]
+        self = args_dict.get('obj', False) or args_dict.get('self', False)
+        cr = args_dict.get('cr', False)
+        uid = args_dict.get('uid', False) or args_dict.get('user', False)
+        ids = args_dict.get('ids', [])
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+        context = dict(args_dict.get('context', {}) or {})
 
-def unlink_object_and_check_rules(self, cr, uid, ids, context={}):
-    """Override unlink method to check unlink method based trigger rules"""
-    if isinstance(ids, (int, long)):
-        ids = [ids]
-    context_copy = dict(context or {})
-    rule_ids = _check_method_based_trigger_rules(self, cr, uid, 'unlink')
-    if rule_ids:
-        context_copy['active_object_ids'] = list(ids)
-        context_copy['old_values'] = _get_browse_record_dict(self, cr, uid, ids)
-    result = native_orm_unlink(self, cr, uid, ids, context)
-    if result and rule_ids:
-        self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context_copy)
-    return result
+        # Search trigger rules
+        rule_ids = _check_method_based_trigger_rules(self, cr, uid, fnct.__name__)
+        # Save old values if trigger rules exist
+        if rule_ids and ids:
+            context.update({'active_object_ids': ids, 'old_values': _get_browse_record_dict(self, cr, uid, ids)})
 
-def get_field_and_check_rules(self, cr, obj, ids, name, user=None, context={}, values={}):
-    """Override get field method"""
-    if isinstance(ids, (int, long)):
-        ids = [ids]
-    context_copy = dict(context or {})
-    rule_ids = _check_method_based_trigger_rules(obj, cr, user, 'function', name, 'get')
-    if rule_ids:
-        context_copy['active_object_ids'] = list(ids)
-        context_copy['old_values'] = _get_browse_record_dict(obj, cr, user, ids)
-    result = native_fields_function_get(self, cr, obj, ids, name, user, context, values)
-    if result and rule_ids:
-        self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context_copy)
-    return result
+        # Execute original method
+        result = fnct(*args, **kwds)
 
-def set_field_and_check_rules(self, cr, obj, id, name, value, user=None, context={}):
-    """Override set field method"""
-    if isinstance(id, (list, tuple)):
-        id = id[0]
-    context_copy = context and dict(context) or {}
-    rule_ids = _check_method_based_trigger_rules(obj, cr, user, 'function', name, 'set')
-    if rule_ids:
-        context_copy['active_object_ids'] = list(id)
-        context_copy['old_values'] = _get_browse_record_dict(obj, cr, user, id)
-    result = native_fields_function_set(self, cr, obj, id, name, value, user, context)
-    if result and rule_ids:
-        self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context_copy)
-    return result
+        # Run trigger rules if exists
+        if result and rule_ids:
+            if fnct.__name__ == 'create':
+                context['active_object_ids'] = [result]
+            self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context)
 
-orm.orm.create = create_object_and_check_rules
-orm.orm.write = write_object_and_check_rules
-orm.orm.unlink = unlink_object_and_check_rules
-fields.function.get = get_field_and_check_rules
-fields.function.set = set_field_and_check_rules
+        return result
+    return new_fnct
+
+orm.orm.create = sartre_decorator(orm.orm.create)
+orm.orm.write = sartre_decorator(orm.orm.write)
+orm.orm.unlink = sartre_decorator(orm.orm.unlink)
+fields.function.get = sartre_decorator(fields.function.get)
+fields.function.set = sartre_decorator(fields.function.set)
 
 common = netsvc.SERVICES['common'].__class__
 
