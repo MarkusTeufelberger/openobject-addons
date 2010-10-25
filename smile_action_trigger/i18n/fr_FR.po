@@ -205,6 +205,11 @@ msgid "Dynamic value corresponds to an object field"
 msgstr "Une valeur dynamique correspond au champs d'un objet"
 
 #. module: smile_action_trigger
+#: help:sartre.rule,trigger_other:0
+msgid "Only methods with an argument 'id' or 'ids' in their signatures"
+msgstr "Uniquement les méthodes qui disposent d'un argument 'id' ou 'ids' dans leur signature"
+
+#. module: smile_action_trigger
 #: model:ir.module.module,description:smile_action_trigger.module_meta_information
 msgid "\n"
 "\n"

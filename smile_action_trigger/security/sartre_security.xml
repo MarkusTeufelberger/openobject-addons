@@ -96,6 +96,14 @@
 			<field eval="0" name="perm_write" />
 			<field eval="1" name="perm_create" />
 		</record>
+		<record id="ir_model_access_ir_model_methods_all" model="ir.model.access">
+			<field name="model_id" ref="model_ir_model_methods" />
+			<field eval="1" name="perm_read" />
+			<field eval="&quot;&quot;&quot;Model Methods&quot;&quot;&quot;" name="name" />
+			<field eval="0" name="perm_unlink" />
+			<field eval="0" name="perm_write" />
+			<field eval="1" name="perm_create" />
+		</record>
 
 	</data>
 </openerp>

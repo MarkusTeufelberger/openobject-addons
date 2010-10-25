@@ -20,8 +20,8 @@
 ##############################################################################
 
 {
-    "name" : "Server Actions R* Trigger Rules Engine",
-    "version" : "2.1",
+    "name" : "Server Actions R* Trigger Rules Engine (aka Sartre)",
+    "version" : "3.0",
     "author" : "Smile",
     "website": 'http://www.smile.fr',
     "category" : "Tools",
@@ -41,6 +41,8 @@
         * object deletion
         * object date (creation date, last update date or another date)
         * object function field recalculation (thus you can trigger the calculation of function fields on cascade)
+        * object methods (with an argument named id or ids in its signature)
+        * user login
     2. Conditions
         * operators: you can create your own operators (which apply to current or old field value)
         * value age: current or old values if the rule trigger is the object update

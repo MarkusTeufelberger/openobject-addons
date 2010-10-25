@@ -30,12 +30,22 @@ import tools
 from tools.translate import _
 import traceback
 import inspect
+import operator
 
 def _get_browse_record_dict(self, cr, uid, ids):
     """Get a dictionary of dictionary from browse records list"""
     if isinstance(ids, (int, long)):
         ids = [ids]
     return dict([(object.id, dict([(field, eval('obj.' + field, {'obj':object})) for field in self._columns])) for object in self.browse(cr, uid, ids)])
+
+class ir_model_methods(osv.osv):
+    _name = 'ir.model.methods'
+    
+    _columns = {
+        'name': fields.char('Method name', size=128, select=True, required=True),
+        'model_id': fields.many2one('ir.model', 'Object', select=True, required=True),
+    }
+ir_model_methods()
 
 class sartre_operator(osv.osv):
     _name = 'sartre.operator'
@@ -132,7 +142,7 @@ class sartre_rule(osv.osv):
         res.setdefault('value', {})['domain_force'] = domain_force
         return res
 
-    def onchange_model_id(self, cr, uid, ids, model_id, context={}):
+    def onchange_model_id(self, cr, uid, ids, model_id, trigger_function, trigger_other, context={}):
         """Dynamic domain for the field trigger_function_field"""
         res = {'value': {'trigger_login_readonly': True}}
         if model_id:
@@ -140,8 +150,18 @@ class sartre_rule(osv.osv):
             if model == 'res.users':
                 res['value']['trigger_login_readonly'] = False
             obj = self.pool.get(model)
-            function_fields = [field for field in obj._columns if isinstance(obj._columns[field], (fields.function, fields.related, fields.property))]
-            res.setdefault('domain', {})['trigger_function_field_id'] = "[('model_id','='," + str(model_id) + "),('name','in'," + str(function_fields) + ")]"
+            if trigger_function:
+                function_fields = [field for field in obj._columns if isinstance(obj._columns[field], (fields.function, fields.related, fields.property))]
+                res.setdefault('domain', {})['trigger_function_field_id'] = "[('model_id', '=', %s),('name', 'in', (%s))]" % (model_id, ','.join(map(str, function_fields)))
+            if trigger_other:
+                method_names = [attr for attr in dir(obj.__class__) if inspect.ismethod(getattr(obj, attr))]
+                model_methods_pool = self.pool.get('ir.model.methods')
+                model_methods_ids = model_methods_pool.search(cr, uid, [('model_id', '=', model_id), ('name', 'in', method_names)])
+                existing_method_names = [method['name'] for method in model_methods_pool.read(cr, uid, model_methods_ids, ['name'])]
+                for method in method_names:
+                    method_args = inspect.getargspec(getattr(obj, method)).args
+                    if method not in ['create', 'write', 'unlink'] + existing_method_names and not method.startswith('__') and ('ids' in method_args or 'id' in method_args):
+                        model_methods_pool.create(cr, uid, {'name': method, 'model_id': model_id})
         return res
 
     _columns = {
@@ -155,7 +175,9 @@ class sartre_rule(osv.osv):
         'trigger_login_readonly': fields.boolean("Trigger Login Readonly"),
         'trigger_function': fields.boolean("Function"),
         'trigger_function_type': fields.selection([('set', 'Manually'), ('get', 'Automatically'), ('both', 'Both')], "updated", size=16),
-        'trigger_function_field_id': fields.many2one('ir.model.fields', "Function field", domain="[('model_id','=',model_id)]"),
+        'trigger_function_field_id': fields.many2one('ir.model.fields', "Function field", domain="[('model_id', '=', model_id)]"),
+        'trigger_other': fields.boolean("Other methods", help="Only methods with an argument 'id' or 'ids' in their signatures"),
+        'trigger_other_method_id': fields.many2one('ir.model.methods', "Object method", domain="[('model_id', '=', model_id)]"),
         'trigger_date': fields.boolean("Date"),
         'trigger_date_type': fields.function(_get_trigger_date_type, method=True, type='char', size=64, string='Trigger Date Type', store=True),
         'trigger_date_type_display1': fields.selection([('create_date', 'Creation Date'), ('write_date', 'Update Date'), ('other_date', 'Other Date')], 'Trigger Date Type 1', size=16),
@@ -186,13 +208,18 @@ class sartre_rule(osv.osv):
     }
 
     def _update_rules_cache(self, cr):
+        self.sartre_rules_cache = {}
         rule_ids = self.search(cr, 1, [('active','=',True)])
         rules = self.browse(cr, 1, rule_ids)
-        self.sartre_rules_cache = {}
         for rule in rules:
-            for method in ['create', 'write', 'unlink', 'function', 'login']: # All except for date
+            for method in ['create', 'write', 'unlink', 'function', 'login', 'other']: # All except for date
                 if getattr(rule, 'trigger_' + method):
                     self.sartre_rules_cache.setdefault(method, {}).setdefault(rule.model_id.model, []).append(rule.id)
+                    if method == 'other':
+                        m_class = self.pool.get(rule.model_id.model)
+                        m_name = rule.trigger_orther_method_id.name
+                        if hasattr(m_class, m_name):
+                            setattr(m_class, m_name, sartre_decorator(getattr(m_class, m_name)))
         return True
 
     def create(self, cr, uid, vals, context={}):
@@ -544,15 +571,17 @@ def sartre_decorator(original_method):
         if isinstance(ids, (int, long)):
             ids = [ids]
         context = dict(args_dict.get('context', {}) or {})
-        # Search trigger rules
-        rule_ids = _check_method_based_trigger_rules(self, cr, uid, original_method.__name__)
-        # Save old values if trigger rules exist
-        if rule_ids and ids:
-            context.update({'active_object_ids': ids, 'old_values': _get_browse_record_dict(self, cr, uid, ids)})
+        args_ok = reduce(operator.__and__, map(bool, [self, cr, uid]))
+        if args_ok:
+            # Search trigger rules
+            rule_ids = _check_method_based_trigger_rules(self, cr, uid, original_method.__name__)
+            # Save old values if trigger rules exist
+            if rule_ids and ids:
+                context.update({'active_object_ids': ids, 'old_values': _get_browse_record_dict(self, cr, uid, ids)})
         # Execute original method
         result = original_method(*args, **kwds)
         # Run trigger rules if exists
-        if result and rule_ids:
+        if result and args_ok and rule_ids:
             if original_method.__name__ == 'create':
                 context['active_object_ids'] = [result]
             self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context)
@@ -560,7 +589,8 @@ def sartre_decorator(original_method):
     return sartre_trigger
 
 for method in [orm.orm.create, orm.orm.write, orm.orm.unlink, fields.function.get, fields.function.set]:
-    setattr(method.im_class, method.__name__, sartre_decorator(getattr(method.im_class, method.__name__)))
+    if hasattr(method.im_class, method.__name__):
+        setattr(method.im_class, method.__name__, sartre_decorator(getattr(method.im_class, method.__name__)))
 
 common = netsvc.SERVICES['common'].__class__
 

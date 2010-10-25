@@ -11,7 +11,7 @@
 					<group colspan="4">
 						<field name="name" select="1" />
 						<field name="active" select="1" />
-						<field name="model_id" select="1" on_change="onchange_model_id(model_id)"/>
+						<field name="model_id" select="1" on_change="onchange_model_id(model_id, trigger_function, trigger_other)"/>
 						<field name="executions_max_number" />
 						<label colspan="2" />
 						<button type="object" name="run_now" string="Run Now" colspan="2" />
@@ -21,8 +21,10 @@
 							<field name="trigger_create" />
 							<field name="trigger_date" />
 							<field name="trigger_write" />
-							<field name="trigger_function" />
+							<field name="trigger_function" on_change="onchange_model_id(model_id, trigger_function, trigger_other)" />
 							<field name="trigger_unlink" />
+							<field name="trigger_other" on_change="onchange_model_id(model_id, trigger_function, trigger_other)" />
+							<label colspan="2" />
 							<field name="trigger_login" attrs="{'readonly':[('trigger_login_readonly','=',True)]}" />
 							<field name="trigger_login_readonly" invisible="1" />
 							<group string="Trigger Date" col="10" colspan="4" attrs="{'invisible':[('trigger_date','!=',True)]}">
@@ -43,6 +45,9 @@
 							<group string="Trigger Function" colspan="4" attrs="{'invisible':[('trigger_function','!=',True)]}">
 								<field name="trigger_function_field_id" attrs="{'required':[('trigger_function','=',True)]}" />
 								<field name="trigger_function_type" attrs="{'required':[('trigger_function','=',True)]}" />
+							</group>
+							<group string="Trigger Methods" colspan="4" attrs="{'invisible':[('trigger_other','!=',True)]}">
+								<field name="trigger_other_method_id" attrs="{'required':[('trigger_other','=',True)]}" />
 							</group>
 						</page>
 						<page string="Conditions">
