@@ -29,6 +29,7 @@ from mx.DateTime import RelativeDateTime, now
 import tools
 from tools.translate import _
 import traceback
+import inspect
 
 def _get_browse_record_dict(self, cr, uid, ids):
     """Get a dictionary of dictionary from browse records list"""
@@ -528,50 +529,38 @@ def _check_method_based_trigger_rules(self, cr, uid, method, field_name=None, ca
                     rule_ids.remove(rule_id)
     return rule_ids
 
-from functools import wraps
-import inspect
-
-def sartre_decorator(fnct):
-    @wraps(fnct)
-    def new_fnct(*args, **kwds):
-
+def sartre_decorator(original_method):
+    def sartre_trigger(*args, **kwds):
         # Get arguments
-        args_names = inspect.getargspec(fnct).args
+        args_names = inspect.getargspec(original_method).args
         args_dict = {}.fromkeys(args_names, False)
         for arg in args_names:
             if args_names.index(arg) < len(args):
                 args_dict[arg] = args[args_names.index(arg)]
         self = args_dict.get('obj', False) or args_dict.get('self', False)
-        cr = args_dict.get('cr', False)
+        cr = args_dict.get('cursor', False) or args_dict.get('cr', False)
         uid = args_dict.get('uid', False) or args_dict.get('user', False)
         ids = args_dict.get('ids', [])
         if isinstance(ids, (int, long)):
             ids = [ids]
         context = dict(args_dict.get('context', {}) or {})
-
         # Search trigger rules
-        rule_ids = _check_method_based_trigger_rules(self, cr, uid, fnct.__name__)
+        rule_ids = _check_method_based_trigger_rules(self, cr, uid, original_method.__name__)
         # Save old values if trigger rules exist
         if rule_ids and ids:
             context.update({'active_object_ids': ids, 'old_values': _get_browse_record_dict(self, cr, uid, ids)})
-
         # Execute original method
-        result = fnct(*args, **kwds)
-
+        result = original_method(*args, **kwds)
         # Run trigger rules if exists
         if result and rule_ids:
-            if fnct.__name__ == 'create':
+            if original_method.__name__ == 'create':
                 context['active_object_ids'] = [result]
             self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context)
-
         return result
-    return new_fnct
+    return sartre_trigger
 
-orm.orm.create = sartre_decorator(orm.orm.create)
-orm.orm.write = sartre_decorator(orm.orm.write)
-orm.orm.unlink = sartre_decorator(orm.orm.unlink)
-fields.function.get = sartre_decorator(fields.function.get)
-fields.function.set = sartre_decorator(fields.function.set)
+for method in [orm.orm.create, orm.orm.write, orm.orm.unlink, fields.function.get, fields.function.set]:
+    setattr(method.im_class, method.__name__, sartre_decorator(getattr(method.im_class, method.__name__)))
 
 common = netsvc.SERVICES['common'].__class__
 
