@@ -90,23 +90,25 @@ class sartre_operator(osv.osv):
         self.sartre_operators_cache.update(opposite_operators_dict)
         return True
 
+    def sartre_operator_decorator(fnct):
+        def new_fnct(self, cr, *args, **kwds):
+            result = getattr(osv.osv, fnct.__name__)(self, cr, *args, **kwds)
+            if result:
+                self._update_operators_cache(cr)
+            return result
+        return new_fnct
+
+    @sartre_operator_decorator
     def create(self, cr, uid, vals, context={}):
-        res = super(sartre_operator, self).create(cr, uid, vals, context)
-        if res:
-            self._update_operators_cache(cr)
-        return res
+        return super(sartre_operator, self).create(cr, uid, vals, context)
 
+    @sartre_operator_decorator
     def write(self, cr, uid, ids, vals, context={}):
-        res = super(sartre_operator, self).write(cr, uid, ids, vals, context)
-        if res:
-            self._update_operators_cache(cr)
-        return res
+        return super(sartre_operator, self).write(cr, uid, ids, vals, context)
 
+    @sartre_operator_decorator
     def unlink(self, cr, uid, ids, context={}):
-        res = super(sartre_operator, self).unlink(cr, uid, ids, context)
-        if res:
-            self._update_operators_cache(cr)
-        return res
+        return super(sartre_operator, self).unlink(cr, uid, ids, context)
 
 sartre_operator()
 
@@ -209,7 +211,7 @@ class sartre_rule(osv.osv):
 
     def _update_rules_cache(self, cr):
         self.sartre_rules_cache = {}
-        rule_ids = self.search(cr, 1, [('active','=',True)])
+        rule_ids = self.search(cr, 1, [], context={'active_test': True})
         rules = self.browse(cr, 1, rule_ids)
         for rule in rules:
             for method in ['create', 'write', 'unlink', 'function', 'login', 'other']: # All except for date
@@ -222,23 +224,25 @@ class sartre_rule(osv.osv):
                             setattr(m_class, m_name, sartre_decorator(getattr(m_class, m_name)))
         return True
 
+    def sartre_rule_decorator(fnct):
+        def new_fnct(self, cr, *args, **kwds):
+            result = getattr(osv.osv, fnct.__name__)(self, cr, *args, **kwds)
+            if result:
+                self._update_rules_cache(cr)
+            return result
+        return new_fnct
+
+    @sartre_rule_decorator
     def create(self, cr, uid, vals, context={}):
-        res = super(sartre_rule, self).create(cr, uid, vals, context)
-        if res:
-            self._update_rules_cache(cr)
-        return res
+        return super(sartre_rule, self).create(cr, uid, vals, context)
 
+    @sartre_rule_decorator
     def write(self, cr, uid, ids, vals, context={}):
-        res = super(sartre_rule, self).write(cr, uid, ids, vals, context)
-        if res:
-            self._update_rules_cache(cr)
-        return res
+        return super(sartre_rule, self).write(cr, uid, ids, vals, context)
 
+    @sartre_rule_decorator
     def unlink(self, cr, uid, ids, context={}):
-        res = super(sartre_rule, self).unlink(cr, uid, ids, context)
-        if res:
-            self._update_rules_cache(cr)
-        return res
+        return super(sartre_rule, self).unlink(cr, uid, ids, context)
 
     def _add_trigger_date_condition(self, cr, uid, rule, context={}):
         """Build trigger date condition"""
