@@ -15,17 +15,5 @@
             </field>
         </record>
 
-        <record id="view_picking_out_form2" model="ir.ui.view">
-            <field name="name">stock.picking.out.form</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_out_form"/>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <field colspan="4" context="location=location_id" name="product_id" on_change="onchange_product_id(product_id, location_id, location_dest_id, parent.address_id)" select="1">
-                    <field colspan="4" context="location=location_id" name="product_id" on_change="onchange_product_id(product_id, location_id, location_dest_id, parent.address_id)" select="1" readonly="1"/>
-                </field>
-            </field>
-        </record>
-
     </data>
 </openerp>

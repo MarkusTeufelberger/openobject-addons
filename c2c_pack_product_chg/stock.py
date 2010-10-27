@@ -29,6 +29,7 @@ class stock_move(osv.osv):
 
     _columns = {
         'old_product_id': fields.many2one('product.product', 'Ordred Product', readonly=True, help="The field will be fullfill by the system with the customer ordred product when you choose to replace it during the packing operation."),
+        'product_id': fields.many2one('product.product', 'Product', required=True, select=True,readonly=True, states={'draft':[('readonly',False)]}),
     }
 
 stock_move()
