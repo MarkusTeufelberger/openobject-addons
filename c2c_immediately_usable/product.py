@@ -43,7 +43,7 @@ class ProductImmediatelyUsable(osv.osv):
         if 'immediately_usable_qty' in field_names:        
             # for each product we compute the stock 
             for product_id, stock_qty in res.iteritems():
-                res[product_id]['immediately_usable_qty'] = stock_qty['qty_available'] - stock_qty['outgoing_qty']
+                res[product_id]['immediately_usable_qty'] = stock_qty['qty_available'] - abs(stock_qty['outgoing_qty'])
         
         return res
     
