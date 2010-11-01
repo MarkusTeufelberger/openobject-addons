@@ -32,7 +32,7 @@
 	      <field name="type">ir.actions.act_window</field>
           <field name="res_model">sale.order</field>
           <field name="view_type">form</field>
-	      <field name="auto_refresh">1</field>
+	      <field name="auto_refresh">0</field>
 	    </record> 
 	    
        <wizard id="act_c2c_block_customer_non_confirmed_form" model="sale.order" name="c2c_block_customer_sale.non.confirmed.order" string="Sales order in Waiting Confirmation"/>
