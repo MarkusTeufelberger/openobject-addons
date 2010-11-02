@@ -207,7 +207,10 @@ class WebKitParser(report_sxw):
     def translate_call(self, src):
         """Translate String."""
         ir_translation = self.pool.get('ir.translation')
-        res = ir_translation._get_source(self.parser_instance.cr, self.parser_instance.uid, self.name, 'rml', self.parser_instance.localcontext.get('lang', 'en_US'), src)
+        name = self.name
+        if name.startswith('report.'):
+            name = name.lstrip('report.')
+        res = ir_translation._get_source(self.parser_instance.cr, self.parser_instance.uid, name, 'rml', self.parser_instance.localcontext.get('lang', 'en_US'), src)
         if not res :
             res = src
         return res
@@ -217,6 +220,8 @@ class WebKitParser(report_sxw):
     def create_single_pdf(self, cursor, uid, ids, data, report_xml, 
         context=None):
         """generate the PDF"""
+        if report_xml.report_type != 'webkit':
+            return super(WebKitParser,self).create_single_pdf(cursor, uid, ids, data, report_xml, context=context)
         self.parser_instance = self.parser(
                                             cursor, 
                                             uid, 
