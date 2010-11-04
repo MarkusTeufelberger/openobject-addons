@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-10-08 16:36:49+0000\n"
-"PO-Revision-Date: 2010-10-08 19:36+0100\n"
-"Last-Translator: Raimon Esteve <resteve@zikzakmedia.com>\n"
+"POT-Creation-Date: 2010-11-04 15:38:13+0000\n"
+"PO-Revision-Date: 2010-11-04 16:45+0100\n"
+"Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -260,9 +260,10 @@ msgid "Training place"
 msgstr "Lloc formació"
 
 #. module: training
-#: selection:training.email,trigger:0
-msgid "Availability Request - Refusal"
-msgstr "Sol·licitud de disponibilitat - Rebuig"
+#: wizard_view:training.course.create.block.offer,init:0
+#: view:training.offer:0
+msgid "Offer Description"
+msgstr "Descripció del curs"
 
 #. module: training
 #: field:training.course_category,analytic_account_id:0
@@ -312,11 +313,6 @@ msgid "Participation Request"
 msgstr "Sol·licitud de participació"
 
 #. module: training
-#: constraint:account.analytic.account:0
-msgid "Error! You can not create recursive analytic accounts."
-msgstr "Error! No podeu crear comptes analítiques recursives."
-
-#. module: training
 #: field:training.subscription.line,create_date:0
 msgid "Created at"
 msgstr "Creat el"
@@ -360,6 +356,11 @@ msgstr "Durada de l'assignatura."
 #: help:training.session,offer_id:0
 msgid "Allows to select a validated offer for the session"
 msgstr "Permet seleccionar un curs validat per a l'edició. "
+
+#. module: training
+#: field:training.subscription,notification_active:0
+msgid "Notification Active"
+msgstr "Activar notificació"
 
 #. module: training
 #: view:training.email.error:0
@@ -457,11 +458,6 @@ msgstr "Edicions planificades"
 #, python-format
 msgid "Can you give a right date ?"
 msgstr "Heu introduït una data correcta?"
-
-#. module: training
-#: constraint:product.template:0
-msgid "Error: UOS must be in a different category than the UOM"
-msgstr "Error: La UdV ha d'estar en una categoria diferent que la UdM"
 
 #. module: training
 #: wizard_view:training.subscription.line_second,init:0
@@ -1081,9 +1077,11 @@ msgid "Absent Participants"
 msgstr "Participants absents"
 
 #. module: training
-#: constraint:product.product:0
-msgid "Error: Invalid ean code"
-msgstr "Error: Codi EAN erroni"
+#: field:training.course.pending,create_date:0
+#: field:training.email.error,create_date:0
+#: field:training.offer,create_date:0
+msgid "Create Date"
+msgstr "Data creació"
 
 #. module: training
 #: selection:training.email,target:0
@@ -1332,6 +1330,12 @@ msgid "Duplicated"
 msgstr "Duplicat"
 
 #. module: training
+#: code:addons/training/training.py:0
+#, python-format
+msgid "Only draft subscriptions could be deleted !"
+msgstr "Només subscripcions en esborrany poden ser eliminades!"
+
+#. module: training
 #: view:training.holiday.year:0
 msgid "Holiday year"
 msgstr "Any de vacances"
@@ -1451,6 +1455,12 @@ msgstr "Gestiona subscripcions"
 #: model:ir.ui.menu,name:training.participation_stakeholder_request_valid_mi
 msgid "Requests to send"
 msgstr "Sol·licituds a enviar"
+
+#. module: training
+#: code:addons/training/training.py:0
+#, python-format
+msgid "Invalid action !"
+msgstr "Acció no vàlida!"
 
 #. module: training
 #: model:ir.actions.report.xml,name:training.training_seance_presence_noshow_report
@@ -1709,9 +1719,16 @@ msgid "SMTP Server Error !"
 msgstr "Error servidor SMTP!"
 
 #. module: training
-#: help:training.offer,description:0
-msgid "Allows to write the description of the course"
-msgstr "Permet escriure la descripció de l'assignatura."
+#: model:ir.actions.act_window,name:training.participation_stakeholder_request_cancelled_act
+#: model:ir.ui.menu,name:training.participation_stakeholder_request_cancelled_mi
+msgid "Cancelled Requests"
+msgstr "Sol·licituds cancel·lades"
+
+#. module: training
+#: code:addons/training/wizard/wizard_subscription_session.py:0
+#, python-format
+msgid "The offer has not a product, so it is not possible to compute the price."
+msgstr "Aquest curs no té assignat cap  producte i no es pot calcular el preu."
 
 #. module: training
 #: field:training.subscription.cancellation.wizard,session_state:0
@@ -1797,6 +1814,12 @@ msgstr "Heu seleccionat una edició amb una convocatòria compartida"
 #: field:training.offer,lang_id:0
 msgid "Language"
 msgstr "Idioma"
+
+#. module: training
+#: code:addons/training/wizard/wizard_subscription_session.py:0
+#, python-format
+msgid "You have selected a partner that has no address."
+msgstr "Heu seleccionat un participant  que no té adreça."
 
 #. module: training
 #: model:ir.actions.act_window,name:training.training_catalog_new_act
@@ -1972,11 +1995,6 @@ msgid "training.participation.stakeholder.request"
 msgstr "formacio.participacio.organitzador.peticio"
 
 #. module: training
-#: constraint:training.course_type:0
-msgid "The minimum limit is greater than the maximum limit"
-msgstr "Les places mínimes és més gran que les places màximes"
-
-#. module: training
 #: field:training.subscription.mass.line,allow_closed_session:0
 msgid "Allow Closed Session"
 msgstr "Permet edicions tancades"
@@ -2043,13 +2061,6 @@ msgstr "Component"
 #: selection:training.participation.stakeholder.request,state:0
 msgid "Refused"
 msgstr "Rebutjada"
-
-#. module: training
-#: field:training.course.pending,create_date:0
-#: field:training.email.error,create_date:0
-#: field:training.offer,create_date:0
-msgid "Create Date"
-msgstr "Data creació"
 
 #. module: training
 #: view:training.subscription.line:0
@@ -2215,6 +2226,12 @@ msgstr "formacio.curs.nivell"
 #: help:training.offer,course_ids:0
 msgid "An offer can contain some courses"
 msgstr "Un curs pot contenir diverses assignatures."
+
+#. module: training
+#: code:addons/training/training.py:0
+#, python-format
+msgid "This Subscription line was invoiced or price is 0"
+msgstr "Aquesta línia de subscripció està facturada o el preu és 0."
 
 #. module: training
 #: model:ir.actions.act_window,name:training.training_catalog_current_act
@@ -2501,15 +2518,6 @@ msgid "Presence List"
 msgstr "Llistat d'assistència"
 
 #. module: training
-#: field:training.participation,subscription_id:0
-#: view:training.subscription:0
-#: view:training.subscription.cancellation.wizard:0
-#: field:training.subscription.cancellation.wizard,subscription_id:0
-#: field:training.subscription.line,subscription_id:0
-msgid "Subscription"
-msgstr "Subscripció"
-
-#. module: training
 #: view:training.course_category:0
 #: field:training.course_category,partner_ids:0
 msgid "Partners"
@@ -2615,20 +2623,19 @@ msgid "Training Email Sign"
 msgstr "Signatura email formació"
 
 #. module: training
-#: constraint:training.course:0
-msgid "Please, Can you check the duration ?"
-msgstr "¿Podeu comprovar la durada?"
-
-#. module: training
 #: code:addons/training/training.py:0
 #, python-format
 msgid "There is at least a session in the \"Draft\" or \"Confirmed\" state"
 msgstr "Existeix al menys una edició en estat \"Esborrany\" o \"Confirmada\""
 
 #. module: training
-#: constraint:training.holiday.year.wizard:0
-msgid "Can you check the year"
-msgstr "Podeu comprovar l'any?"
+#: field:training.participation,subscription_id:0
+#: view:training.subscription:0
+#: view:training.subscription.cancellation.wizard:0
+#: field:training.subscription.cancellation.wizard,subscription_id:0
+#: field:training.subscription.line,subscription_id:0
+msgid "Subscription"
+msgstr "Subscripció"
 
 #. module: training
 #: field:training.course_type,product_id:0
@@ -2795,9 +2802,9 @@ msgid "Create Subscriptions"
 msgstr "Crea subscripcions"
 
 #. module: training
-#: constraint:product.template:0
-msgid "Error: The default UOM and the purchase UOM must be in the same category."
-msgstr "Error: La UdM per defecte i la UdM de compra han d'estar en la mateixa categoria."
+#: field:training.subscription.line,price:0
+msgid "Sales Price"
+msgstr "Preu venta"
 
 #. module: training
 #: view:ir.attachment:0
@@ -2843,12 +2850,6 @@ msgid "Pending"
 msgstr "Pendent"
 
 #. module: training
-#: wizard_view:training.course.create.block.offer,init:0
-#: view:training.offer:0
-msgid "Offer Description"
-msgstr "Descripció del curs"
-
-#. module: training
 #: help:training.course,lecturer_ids:0
 msgid "The lecturers who give the course"
 msgstr "Els professors que imparteixen l'assignatura."
@@ -2867,6 +2868,12 @@ msgstr "formacio.curs.compra.linia.historial"
 #: field:training.subscription.line,paid:0
 msgid "Paid"
 msgstr "Pagat"
+
+#. module: training
+#: code:addons/training/training.py:0
+#, python-format
+msgid "Only draft subscription lines could be deleted !"
+msgstr "Només línies de subscripció en esborrany poden ser eliminades!"
 
 #. module: training
 #: selection:training.email,trigger:0
@@ -2890,7 +2897,6 @@ msgstr "Grups"
 #: field:training.course.theme,active:0
 #: field:training.holiday.period,active:0
 #: field:training.offer.format,active:0
-#: field:training.subscription,notification_active:0
 msgid "Active"
 msgstr "Actiu"
 
@@ -3134,11 +3140,6 @@ msgstr "Reenvia petició per email"
 #: help:training.participation,present:0
 msgid "Allows to know if a participant was present or not"
 msgstr "Permet saber si un participant era present o no."
-
-#. module: training
-#: constraint:training.session:0
-msgid "You have a seance with a date inferior to the session's date"
-msgstr "Teniu una convocatòria amb una data anterior a la data de l'edició."
 
 #. module: training
 #: view:training.participation.stakeholder.request:0
@@ -3579,11 +3580,6 @@ msgid "Allows to the user to write the description of the course type"
 msgstr "Permet a l'usuari escriure la descripció del tipus d'assignatura."
 
 #. module: training
-#: field:training.subscription.line,price:0
-msgid "Sales Price"
-msgstr "Preu venta"
-
-#. module: training
 #: field:training.seance.generate.zip.wizard,zip_file_name:0
 msgid "File name"
 msgstr "Nom fitxer"
@@ -3681,6 +3677,7 @@ msgstr "Heu seleccionat una assignatura amb un idioma diferent"
 #: code:addons/training/wizard/wizard_create_offer.py:0
 #: code:addons/training/wizard/wizard_create_session.py:0
 #: code:addons/training/wizard/wizard_subscription_line_change_participant.py:0
+#: code:addons/training/wizard/wizard_subscription_session.py:0
 #, python-format
 msgid "Warning"
 msgstr "Avís"
@@ -3865,9 +3862,9 @@ msgid "Configuration"
 msgstr "Configuració"
 
 #. module: training
-#: model:product.template,name:training.product_product_coursesession0_product_template
-msgid "Course Session"
-msgstr "Edició assignatura"
+#: selection:training.email,trigger:0
+msgid "Availability Request - Refusal"
+msgstr "Sol·licitud de disponibilitat - Rebuig"
 
 #. module: training
 #: help:training.subscription,state:0
@@ -4137,6 +4134,12 @@ msgid "Requests awaiting response"
 msgstr "Sol·licituds esperant resposta"
 
 #. module: training
+#: selection:training.participation,kind:0
+#: selection:training.participation.stakeholder,kind:0
+msgid "Exam"
+msgstr "Examen"
+
+#. module: training
 #: view:training.offer:0
 msgid "Pedagogical Suggestion"
 msgstr "Suggeriment pedagògic"
@@ -4164,10 +4167,9 @@ msgid "Subscriptions to Validate"
 msgstr "Subscripcions a validar"
 
 #. module: training
-#: model:ir.actions.act_window,name:training.participation_stakeholder_request_cancelled_act
-#: model:ir.ui.menu,name:training.participation_stakeholder_request_cancelled_mi
-msgid "Cancelled Requests"
-msgstr "Sol·licituds cancel·lades"
+#: help:training.offer,description:0
+msgid "Allows to write the description of the course"
+msgstr "Permet escriure la descripció de l'assignatura."
 
 #. module: training
 #: view:training.offer:0
@@ -4204,6 +4206,12 @@ msgstr "Podeu configurar les funcions de contacte?"
 #, python-format
 msgid "Please, Could you check the functions because the system does not find any function with the status 'current'"
 msgstr "Podríeu comprovar les funcions ja que el sistema no troba cap funció amb l'estat 'Actual'?"
+
+#. module: training
+#: code:addons/training/training.py:0
+#, python-format
+msgid "Select Analytic Journal from Financial Journals Configuration"
+msgstr "Selecciona un diari analític a la configuració de diaris financers"
 
 #. module: training
 #: field:training.course.purchase_line,product_price:0
@@ -4632,6 +4640,28 @@ msgstr "wizard.course.pending"
 msgid "Deposit price for this product."
 msgstr "Preu de reserva per a aquest producte."
 
+#~ msgid "Error! You can not create recursive analytic accounts."
+#~ msgstr "Error! No podeu crear comptes analítiques recursives."
+#~ msgid "Error: UOS must be in a different category than the UOM"
+#~ msgstr "Error: La UdV ha d'estar en una categoria diferent que la UdM"
+#~ msgid "Error: Invalid ean code"
+#~ msgstr "Error: Codi EAN erroni"
+#~ msgid "The minimum limit is greater than the maximum limit"
+#~ msgstr "Les places mínimes és més gran que les places màximes"
+#~ msgid "Please, Can you check the duration ?"
+#~ msgstr "¿Podeu comprovar la durada?"
+#~ msgid "Can you check the year"
+#~ msgstr "Podeu comprovar l'any?"
+#~ msgid ""
+#~ "Error: The default UOM and the purchase UOM must be in the same category."
+#~ msgstr ""
+#~ "Error: La UdM per defecte i la UdM de compra han d'estar en la mateixa "
+#~ "categoria."
+#~ msgid "You have a seance with a date inferior to the session's date"
+#~ msgstr "Teniu una convocatòria amb una data anterior a la data de l'edició."
+#~ msgid "Course Session"
+#~ msgstr "Edició assignatura"
+
 #, fuzzy
 #~ msgid "The cost of the reserve subscription this Offer."
 #~ msgstr "L'estat de la subscripció."
@@ -4659,6 +4689,4 @@ msgstr "Preu de reserva per a aquest producte."
 #, fuzzy
 #~ msgid "Course Format"
 #~ msgstr "Informació de l'assignatura"
-#~ msgid "Exam"
-#~ msgstr "Examen"
 

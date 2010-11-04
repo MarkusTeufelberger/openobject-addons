@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
-    <data>
+    <data noupdate="1">
         <record model="ir.sequence.type" id="seq_training_subscription_type">
             <field name="name">Training Subscription Sequence Type</field>
             <field name="code">training.subscription</field>
@@ -36,7 +36,5 @@
             <field name="prefix">PSHR/%(year)s-</field>
             <field name="padding">4</field>
         </record>
-
-        
     </data>
 </openerp>

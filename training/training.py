@@ -3070,7 +3070,7 @@ class training_subscription(osv.osv):
 
         'origin' : fields.char('Origin', size=64, **WRITABLE_ONLY_IN_DRAFT),
 
-        'notification_active' : fields.boolean('Active', **WRITABLE_ONLY_IN_DRAFT),
+        'notification_active' : fields.boolean('Notification Active', **WRITABLE_ONLY_IN_DRAFT),
         'notification_text' : fields.function(_notification_text_compute, method=True,
                                               string='Kind', type='char',
                                               store={
@@ -3085,6 +3085,16 @@ class training_subscription(osv.osv):
         if vals.get('name', '/')=='/':
             vals['name'] = self.pool.get('ir.sequence').get(cr, uid, 'training.subscription')
         return super(training_subscription, self).create(cr, uid, vals, context)
+
+    def unlink(self, cr, uid, vals, context):
+        subscriptions = self.read(cr, uid, vals, ['state'])
+        unlink_ids = []
+        for s in subscriptions:
+            if s['state'] in ['draft']:
+                unlink_ids.append(s['id'])
+            else:
+                raise osv.except_osv(_('Invalid action !'), _('Only draft subscriptions could be deleted !'))
+        return osv.osv.unlink(self, cr, uid, unlink_ids, context=context)
 
     _defaults = {
         'state' : lambda *a: 'draft',
@@ -3375,6 +3385,16 @@ class training_subscription_line(osv.osv):
 
     def _default_name(self, cr, uid, context=None):
         return self.pool.get('ir.sequence').get(cr, uid, 'training.subscription.line')
+
+    def unlink(self, cr, uid, vals, context):
+        subscription_lines = self.read(cr, uid, vals, ['state'])
+        unlink_ids = []
+        for s in subscription_lines:
+            if s['state'] in ['draft']:
+                unlink_ids.append(s['id'])
+            else:
+                raise osv.except_osv(_('Invalid action !'), _('Only draft subscription lines could be deleted !'))
+        return osv.osv.unlink(self, cr, uid, unlink_ids, context=context)
 
     _defaults = {
         'state' : lambda *a: 'draft',
@@ -3809,8 +3829,23 @@ class training_subscription_line(osv.osv):
 
     # training.subscription.line
     def action_create_invoice(self, cr, uid, ids, context=None):
+        if context == None:
+            context = {}
         # Creation des factures
-        account_id = self.pool.get('account.account').search(cr, uid, [('code', '=', '70828')])[0]
+
+        user = self.pool.get('res.users').browse(cr, uid, uid, context)
+        if user.company_id:
+            company_id = user.company_id.id
+            prop_obj = self.pool.get('ir.property')
+            prop_ids = prop_obj.search(cr, uid, [('name','=','property_account_income_categ'),('company_id','=',company_id)])
+            if not prop_ids:
+                prop_ids = prop_obj.search(cr, uid, [('name','=','property_account_income'),('company_id','=',company_id)])
+            if prop_ids:
+                prop = prop_obj.browse(cr, uid, prop_ids[0], context=context)
+                if prop.value:
+                    # for example you must extract 164 if value contains: account.account,164
+                    account_id = prop.value[16:]
+
         # Get journal
         journal_proxy = self.pool.get('account.journal')
         journal_sales_srch = journal_proxy.search(cr, uid, [('type','=','sale'),('refund_journal','=',False)])
@@ -3823,9 +3858,6 @@ class training_subscription_line(osv.osv):
         proxy_adistline = self.pool.get('account.analytic.plan.instance.line')
         workflow = netsvc.LocalService('workflow')
 
-        if not context:
-            context = {}
-
         partners = {}
         for sl in self.browse(cr, uid, ids, context=context):
             if sl.price >= -0.00001 and sl.price <= 0.00001:
@@ -3835,6 +3867,9 @@ class training_subscription_line(osv.osv):
                 continue
             key = (sl.subscription_id.partner_id, sl.session_id, sl.subscription_id.payment_term_id.id,)
             partners.setdefault(key, []).append(sl)
+
+        if partners == {}:
+            raise osv.except_osv(_('Error'), _("This Subscription line was invoiced or price is 0") )
 
         invoice_ids = []
 
@@ -3893,6 +3928,9 @@ class training_subscription_line(osv.osv):
                         raise osv.except_osv(_('Error'),
                                              _("The following course has not a valid duration '%s' (%d)") % (c.name, c.id))
                     total_duration += c.duration
+
+                if not journal_sales.analytic_journal_id.id:
+                    raise osv.except_osv(_('Error'), _("Select Analytic Journal from Financial Journals Configuration") )
 
                 # Create 'analytic distribution instance'
                 adist_id = proxy_adist.create(cr, uid, {
