@@ -4,7 +4,15 @@
 # Copyright (c) 2009 Camptocamp SA
 # @author Nicolas Bessi 
 # @source JBA and AWST inpiration 
-# @contributor Grzegorz Grzelak (grzegorz.grzelak@birdglobe.com),
+# @contributor Grzegorz Grzelak (grzegorz.grzelak@birdglobe.com)
+# Copyright (c) 2010 Alexis de Lattre (alexis@via.ecp.fr)
+#  - ported XML-based webservices (Admin.ch, ECB, PL NBP) to new XML lib
+#  - rates given by ECB webservice is now correct even when main_cur <> EUR
+#  - rates given by PL_NBP webservice is now correct even when main_cur <> PLN
+#  - if company_currency <> CHF, you can now update CHF via Admin.ch webservice
+#    (same for EUR with ECB webservice and PLN with NBP webservice)
+#  For more details, see Launchpad bug #645263
+#
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
 # consequences resulting from its eventual inadequacies and bugs
@@ -27,6 +35,15 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
+
+# TODO : think about this problem :
+# the result of the webservice query creates an entry in res.currency.rate
+# with date = today... but the rate given by the webservice may be dated
+# of the previous trading day
+# I have added a log message for that, but I think we need to find a better idea
+
+# TODO "nice to have" : restain the list of currencies that can be added for
+# a webservice to the list of currencies supported by the Webservice
 
 from osv import osv, fields
 import time
@@ -128,7 +145,6 @@ class Currency_rate_update(osv.osv):
                                         netsvc.LOG_INFO, 
                                         'warning cron not found one will be created'
                                      )
-            print 'warning cron not found one will be created'
             pass # ignore if the cron is missing cause we are going to create it in db
         
         #the cron does not exists
@@ -192,13 +208,13 @@ class Currency_rate_update(osv.osv):
                                             vals,
                                         )
                      
-                    note = note + "\n currency updated at %s "\
-                       %(str(datetime.today()))
+                    note = note + "\n%s currency updated. "\
+                       %(datetime.strftime(datetime.today(), '%Y-%m-%d %H:%M:%S'))
                     note = note + (log_info or '')
                     service.write({'note':note})
                 except Exception, e:
-                    error_msg = note + "\n !!! %s %s !!!"\
-                        %(str(datetime.today()), str(e))
+                    error_msg = note + "\n%s ERROR : %s"\
+                        %(datetime.strftime(datetime.today(), '%Y-%m-%d %H:%M:%S'), str(e))
                     self.logger.notifyChannel(self.LOG_NAME, netsvc.LOG_INFO, str(e))
                     service.write({'note':error_msg})
                 
@@ -295,7 +311,7 @@ class Curreny_getter_interface(object) :
     updated_currency = {}
     
     def get_updated_currency(self, currency_array, main_currency) :
-        """Interface method that will retriev the currency
+        """Interface method that will retrieve the currency
            This function has to be reinplemented in child"""
         raise AbstractMethodError
     
@@ -338,21 +354,19 @@ class Yahoo_getter(Curreny_getter_interface) :
                 raise Exception('Could not update the %s'%(curr))
         
         return self.updated_currency, self.log_info  # empty string added by polish changes
-##Admin CH ############################################################################    
+##Admin CH ############################################################################
 class Admin_ch_getter(Curreny_getter_interface) :
     """Implementation of Currency_getter_factory interface
     for Admin.ch service"""
-        
-    def rate_retrieve(self, node) :
-        """ Parse a dom node to retrieve 
+
+    def rate_retrieve(self, dom, ns, curr) :
+        """ Parse a dom node to retrieve-
         currencies data"""
         res = {}
-        if isinstance(node, list) :
-            node = node[0]
-        res['code'] = node.attributes['code'].value.upper()
-        res['currency'] = node.getElementsByTagName('waehrung')[0].childNodes[0].data
-        res['rate_currency'] = float(node.getElementsByTagName('kurs')[0].childNodes[0].data)
-        res['rate_ref'] = float(res['currency'].split(' ')[0])
+        xpath_rate_currency = "/def:wechselkurse/def:devise[@code='%s']/def:kurs/text()"%(curr.lower())
+        xpath_rate_ref = "/def:wechselkurse/def:devise[@code='%s']/def:waehrung/text()"%(curr.lower())
+        res['rate_currency'] = float(dom.xpath(xpath_rate_currency, namespaces=ns)[0])
+        res['rate_ref'] = float((dom.xpath(xpath_rate_ref, namespaces=ns)[0]).split(' ')[0])
         return res
 
     def get_updated_currency(self, currency_array, main_currency):
@@ -361,92 +375,115 @@ class Admin_ch_getter(Curreny_getter_interface) :
         #we do not want to update the main currency
         if main_currency in currency_array :
             currency_array.remove(main_currency)
-        from xml.dom.minidom import parseString
-        from xml import xpath
-        rawfile = self.get_url(url)        
-        dom = parseString(rawfile)
+        # Move to new XML lib cf Launchpad bug #645263
+        from lxml import etree
+        logger = netsvc.Logger()
+        logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "Admin.ch currency rate service : connecting...")
+        rawfile = self.get_url(url)
+        dom = etree.fromstring(rawfile)
+        logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "Admin.ch sent a valid XML file")
+        adminch_ns = {'def': 'http://www.afd.admin.ch/publicdb/newdb/mwst_kurse'}
+        rate_date = dom.xpath('/def:wechselkurse/def:datum/text()', namespaces=adminch_ns)[0]
+        if rate_date != datetime.strftime(datetime.today(), '%Y-%m-%d'):
+            self.log_info = "WARNING : the rate date from Admin.ch (%s) is not today's date" % rate_date
+            logger.notifyChannel("rate_update", netsvc.LOG_WARNING, "the rate date from Admin.ch (%s) is not today's date" % rate_date)
         #we dynamically update supported currencies
-        self.supported_currency_array = []
+        self.supported_currency_array = dom.xpath("/def:wechselkurse/def:devise/@code", namespaces=adminch_ns)
+        self.supported_currency_array = [x.upper() for x in self.supported_currency_array]
         self.supported_currency_array.append('CHF')
-        for el in xpath.Evaluate("/wechselkurse/devise/@code", dom):
-            self.supported_currency_array.append(el.value.upper())
+
+        logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "Supported currencies = " + str(self.supported_currency_array))
         self.validate_cur(main_currency)
-        #The XML give the value in franc for 1 XX if we are in CHF 
-        #we want to have the value for 1 xx in chf
-        #if main currency is not CHF we have to apply a computation on it
         if main_currency != 'CHF':
-            main_xpath = "/wechselkurse/devise[@code='%s']"%(main_currency.lower())
-            node = xpath.Evaluate(main_xpath, dom)
-            tmp_data = self.rate_retrieve(node)
-            main_rate = tmp_data['rate_currency'] / tmp_data['rate_ref']
+            main_curr_data = self.rate_retrieve(dom, adminch_ns, main_currency)
+            # 1 MAIN_CURRENCY = main_rate CHF
+            main_rate = main_curr_data['rate_currency'] / main_curr_data['rate_ref']
         for curr in currency_array :
-            curr_xpath = "/wechselkurse/devise[@code='%s']"%(curr.lower())
-            for node  in xpath.Evaluate(curr_xpath, dom):    
-                tmp_data = self.rate_retrieve(node)
-                #Source is in CHF, so we transform it into reference currencies
+            self.validate_cur(curr)
+            if curr == 'CHF':
+                rate = main_rate
+            else:
+                curr_data = self.rate_retrieve(dom, adminch_ns, curr)
+                # 1 MAIN_CURRENCY = rate CURR
                 if main_currency == 'CHF' :
-                    rate = 1 / (tmp_data['rate_currency'] / tmp_data['rate_ref'])
+                    rate = curr_data['rate_ref'] / curr_data['rate_currency']
                 else :
-                    rate = main_rate / (tmp_data['rate_currency'] / tmp_data['rate_ref'])
+                    rate = main_rate * curr_data['rate_ref'] / curr_data['rate_currency']
+            self.updated_currency[curr] = rate
+            logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "Rate retrieved : 1 " + main_currency + ' = ' + str(rate) + ' ' + curr)
+        return self.updated_currency, self.log_info
 
-                self.updated_currency[curr] = rate
-        return self.updated_currency, self.log_info # empty string added by polish changes
+## ECB getter ############################################################################
 
-## ECB getter ############################################################################    
 class ECB_getter(Curreny_getter_interface) :
     """Implementation of Currency_getter_factory interface
     for ECB service"""
-        
-    def rate_retrieve(self, node) :
-        """ Parse a dom node to retrieve 
+
+    def rate_retrieve(self, dom, ns, curr) :
+        """ Parse a dom node to retrieve-
         currencies data"""
         res = {}
-        if isinstance(node, list) :
-            node = node[0]
-        res['code'] = node.attributes['currency'].value.upper()
-        res['rate_currency'] = float(node.attributes['rate'].value)
+        xpath_curr_rate = "/gesmes:Envelope/def:Cube/def:Cube/def:Cube[@currency='%s']/@rate"%(curr.upper())
+        res['rate_currency'] = float(dom.xpath(xpath_curr_rate, namespaces=ns)[0])
         return res
 
     def get_updated_currency(self, currency_array, main_currency):
         """implementation of abstract method of Curreny_getter_interface"""
         url='http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
+        # Important : as explained on the ECB web site, the currencies are
+        # at the beginning of the afternoon ; so, until 3 p.m. Paris time
+        # the currency rates are the ones of trading day N-1
+        # see http://www.ecb.europa.eu/stats/exchange/eurofxref/html/index.en.html
+
         #we do not want to update the main currency
         if main_currency in currency_array :
             currency_array.remove(main_currency)
-        from xml.dom.minidom import parseString
-        from xml import xpath
-        rawfile = self.get_url(url)        
-        dom = parseString(rawfile)
+        # Move to new XML lib cf Launchpad bug #645263
+        from lxml import etree
+        logger = netsvc.Logger()
+        logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "ECB currency rate service : connecting...")
+        rawfile = self.get_url(url)
+        dom = etree.fromstring(rawfile)
+        logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "ECB sent a valid XML file")
+        ecb_ns = {'gesmes': 'http://www.gesmes.org/xml/2002-08-01', 'def': 'http://www.ecb.int/vocabulary/2002-08-01/eurofxref'}
+        rate_date = dom.xpath('/gesmes:Envelope/def:Cube/def:Cube/@time', namespaces=ecb_ns)[0]
+        if rate_date != datetime.strftime(datetime.today(), '%Y-%m-%d'):
+            self.log_info = "WARNING : the rate date from ECB (%s) is not today's date" % rate_date
+            logger.notifyChannel("rate_update", netsvc.LOG_WARNING, "the rate date from ECB (%s) is not today's date" % rate_date)
         #we dynamically update supported currencies
-        self.supported_currency_array = []
+        self.supported_currency_array = dom.xpath("/gesmes:Envelope/def:Cube/def:Cube/def:Cube/@currency", namespaces=ecb_ns)
         self.supported_currency_array.append('EUR')
-        for el in xpath.Evaluate("//Cube/Cube/Cube", dom):
-            self.supported_currency_array.append(el)
+        logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "Supported currencies = " + str(self.supported_currency_array))
         self.validate_cur(main_currency)
-        for curr in currency_array :
-            curr_xpath = "//Cube/Cube/Cube[@currency='%s']"%(curr.upper())
-            for node  in xpath.Evaluate(curr_xpath, dom):    
-                tmp_data = self.rate_retrieve(node)
-                self.updated_currency[curr] = tmp_data['rate_currency']
-        return self.updated_currency, self.log_info # empty string added by polish changes
+        if main_currency != 'EUR':
+            main_curr_data = self.rate_retrieve(dom, ecb_ns, main_currency)
+        for curr in currency_array:
+            self.validate_cur(curr)
+            if curr == 'EUR':
+                rate = 1 / main_curr_data['rate_currency']
+            else:
+                curr_data = self.rate_retrieve(dom, ecb_ns, curr)
+                if main_currency == 'EUR':
+                    rate = curr_data['rate_currency']
+                else:
+                    rate = curr_data['rate_currency'] / main_curr_data['rate_currency']
+            self.updated_currency[curr] = rate
+            logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "Rate retrieved : 1 " + main_currency + ' = ' + str(rate) + ' ' + curr)
+        return self.updated_currency, self.log_info
 
-##PL NBP ############################################################################    
+##PL NBP ############################################################################
 class PL_NBP_getter(Curreny_getter_interface) :   # class added according to polish needs = based on class Admin_ch_getter
     """Implementation of Currency_getter_factory interface
     for PL NBP service"""
-        
-    def rate_retrieve(self, node) :
-        """ Parse a dom node to retrieve 
+
+    def rate_retrieve(self, dom, ns, curr) :
+        """ Parse a dom node to retrieve
         currencies data"""
         res = {}
-        if isinstance(node, list) :
-            node = node[0]
-        res['code'] = node.getElementsByTagName('kod_waluty')[0].childNodes[0].data    # pl changes
-#        res['currency'] = node.getElementsByTagName('waehrung')[0].childNodes[0].data  Removed in Polish changes
-#        res['currency'] = res['code'] #pl changes
-        res['rate_currency'] = float(node.getElementsByTagName('kurs_sredni')[0].childNodes[0].data.replace(',','.'))  #pl changes
-        res['rate_ref'] = float(node.getElementsByTagName('przelicznik')[0].childNodes[0].data)  #pl changes
-
+        xpath_rate_currency = "/tabela_kursow/pozycja[kod_waluty='%s']/kurs_sredni/text()"%(curr.upper())
+        xpath_rate_ref = "/tabela_kursow/pozycja[kod_waluty='%s']/przelicznik/text()"%(curr.upper())
+        res['rate_currency'] = float(dom.xpath(xpath_rate_currency, namespaces=ns)[0].replace(',','.'))
+        res['rate_ref'] = float(dom.xpath(xpath_rate_ref, namespaces=ns)[0])
         return res
 
     def get_updated_currency(self, currency_array, main_currency):
@@ -455,27 +492,44 @@ class PL_NBP_getter(Curreny_getter_interface) :   # class added according to pol
         #we do not want to update the main currency
         if main_currency in currency_array :
             currency_array.remove(main_currency)
-        from xml.dom.minidom import parseString
-        from xml import xpath
-        rawfile = self.get_url(url)        
-        dom = parseString(rawfile)
-        node = xpath.Evaluate("/tabela_kursow", dom) # BEGIN Polish - rates table name
-        if isinstance(node, list) :
-            node = node[0]
-        self.log_info = node.getElementsByTagName('numer_tabeli')[0].childNodes[0].data   
-        self.log_info = self.log_info + " " + node.getElementsByTagName('data_publikacji')[0].childNodes[0].data    # END Polish - rates table name
+        # Move to new XML lib cf Launchpad bug #645263
+        from lxml import etree
+        logger = netsvc.Logger()
+        logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "NBP.pl currency rate service : connecting...")
+        rawfile = self.get_url(url)
+        dom = etree.fromstring(rawfile) # If rawfile is not XML, it crashes here
+        ns = {} # Cool, there are no namespaces !
+        logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "NBP.pl sent a valid XML file")
+        #node = xpath.Evaluate("/tabela_kursow", dom) # BEGIN Polish - rates table name
+        #if isinstance(node, list) :
+        #    node = node[0]
+        #self.log_info = node.getElementsByTagName('numer_tabeli')[0].childNodes[0].data
+        #self.log_info = self.log_info + " " + node.getElementsByTagName('data_publikacji')[0].childNodes[0].data    # END Polish - rates table name
 
+        rate_date = dom.xpath('/tabela_kursow/data_publikacji/text()', namespaces=ns)[0]
+        if rate_date != datetime.strftime(datetime.today(), '%Y-%m-%d'):
+            self.log_info = "WARNING : the rate date from NBP.pl (%s) is not today's date" % rate_date
+            logger.notifyChannel("rate_update", netsvc.LOG_WARNING, "the rate date from NBP.pl (%s) is not today's date" % rate_date)
         #we dynamically update supported currencies
-        self.supported_currency_array = []
+        self.supported_currency_array = dom.xpath('/tabela_kursow/pozycja/kod_waluty/text()', namespaces=ns)
         self.supported_currency_array.append('PLN')
-        for el in xpath.Evaluate("/tabela_kursow/pozycja/kod_waluty/text()", dom):
-            self.supported_currency_array.append(el)
+        logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "Supported currencies = " + str(self.supported_currency_array))
         self.validate_cur(main_currency)
+        if main_currency != 'PLN':
+            main_curr_data = self.rate_retrieve(dom, ns, main_currency)
+            # 1 MAIN_CURRENCY = main_rate PLN
+            main_rate = main_curr_data['rate_currency'] / main_curr_data['rate_ref']
         for curr in currency_array :
-            curr_xpath = "/tabela_kursow/pozycja[kod_waluty='%s']"%(curr.upper())
-            for node  in xpath.Evaluate(curr_xpath, dom):    
-                tmp_data = self.rate_retrieve(node)
-                #Source is in PLN, so we transform it into reference currencies
-                rate = 1 / (tmp_data['rate_currency'] / tmp_data['rate_ref'])
-                self.updated_currency[curr] = rate
+            self.validate_cur(curr)
+            if curr == 'PLN':
+                rate = main_rate
+            else:
+                curr_data = self.rate_retrieve(dom, ns, curr)
+                # 1 MAIN_CURRENCY = rate CURR
+                if main_currency == 'PLN':
+                    rate = curr_data['rate_ref'] / curr_data['rate_currency']
+                else:
+                    rate = main_rate * curr_data['rate_ref'] / curr_data['rate_currency']
+            self.updated_currency[curr] = rate
+            logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "Rate retrieved : 1 " + main_currency + ' = ' + str(rate) + ' ' + curr)
         return self.updated_currency, self.log_info

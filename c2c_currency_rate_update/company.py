@@ -31,19 +31,15 @@
 import netsvc
 from osv import fields, osv
 class res_company(osv.osv):
-    """override company to add currency udate"""
+    """override company to add currency update"""
     
     def _multi_curr_enable(self, cr, uid, ids, field_name, arg, context={}):
-        "check if multiy company currency is enable"
+        "check if multi company currency is enabled"
         result = {}
-        enable = 1
-        try :
-            #if we are in a mutli company mode the company_id col should exsits
-            cr.execute('select company_id from res_currency')
-            cr.fetchall()
-        except:
-            cr.rollback()
+        if self.pool.get('ir.model.fields').search(cr, uid, [('name', '=', 'company_id'), ('model', '=', 'res.currency')])==[]:
             enable = 0
+        else:
+            enable = 1
         for id in ids:
             result[id] = enable
         return result
@@ -56,7 +52,6 @@ class res_company(osv.osv):
         try:
             currency_updater_obj.run_currency_update(cr, uid)
         except Exception, e:
-            print str(e)
             return False
         return True
         
