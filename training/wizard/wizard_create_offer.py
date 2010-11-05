@@ -28,11 +28,20 @@ from tools.translate import _
 
 class wizard_create_offers(wizard.interface):
     first_screen_fields = {
+        'format_id' : {
+            'string' : 'Format',
+            'type' : 'many2one',
+            'relation' : 'training.offer.format',
+            'required' : True,
+            'help' : "Delivery format of the course",
+        },
     }
 
     first_screen_form = '''<?xml version="1.0"?>
     <form string="Create Offers" colspan="6">
-        <label string="Do you want to create an offer for each selected course ?" />
+        <label string="Do you want to create an offer for each selected course ?" colspan="2" />
+        <newline/>
+        <field name="format_id" />
     </form>'''
 
     def init(self, cr, uid, data, context=None):
@@ -54,7 +63,8 @@ class wizard_create_offers(wizard.interface):
                                             'name' : course.name,
                                             'lang_id' : course.lang_id.id,
                                             'type_id' : course.course_type_id.id,
-                                            'product_line_id': course.category_id.id
+                                            'product_line_id': course.category_id.id,
+                                            'format_id' : data['form']['format_id'],
                                         },
                                         context=context)
 
