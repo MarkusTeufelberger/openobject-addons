@@ -1,0 +1,83 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.6\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-12-06 13:36+0000\n"
+"PO-Revision-Date: 2010-11-08 14:18+0000\n"
+"Last-Translator: António Anacleto (www.prime.cv) "
+"<antonio.anacleto@prime.cv>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-11-09 04:58+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: wiki_extension
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML Inválido para a Arquitectura de Vista!"
+
+#. module: wiki_extension
+#: code:addons/wiki_extension/object/wiki.py:0
+#, python-format
+msgid "Read Only"
+msgstr "Só de Leitura"
+
+#. module: wiki_extension
+#: view:wiki.groups:0
+msgid "Members"
+msgstr "Membros"
+
+#. module: wiki_extension
+#: model:ir.actions.act_window,name:wiki_extension.action_wiki_extension
+msgid "Wiki Pages"
+msgstr "Páginas Wiki"
+
+#. module: wiki_extension
+#: model:ir.module.module,shortdesc:wiki_extension.module_meta_information
+msgid "Document Management - Wiki Extension"
+msgstr "Gestão de Documentos - Extenção Wiki"
+
+#. module: wiki_extension
+#: model:ir.module.module,description:wiki_extension.module_meta_information
+msgid ""
+"\n"
+"    The base module to manage documents(wiki) \n"
+"\n"
+"    Add new features :\n"
+"    - members in wiki groups\n"
+"    - state in page wiki (Running, Raed Only, Obsolete)\n"
+"    - improvement view\n"
+"    "
+msgstr ""
+"\n"
+"    O modulo base para gestão de documentos(wiki)\n"
+"\n"
+"    Adiciona novas funcionalidades :\n"
+"    - membros em grupos wiki\n"
+"    - estado da página wiki(EmProgresso, Só de Leitura, Obsoleto)\n"
+"    - melhorar a vista\n"
+"    "
+
+#. module: wiki_extension
+#: code:addons/wiki_extension/object/wiki.py:0
+#, python-format
+msgid "Obsolete"
+msgstr "Obsoleto"
+
+#. module: wiki_extension
+#: code:addons/wiki_extension/object/wiki.py:0
+#, python-format
+msgid "Running"
+msgstr "Em Progresso"
+
+#. module: wiki_extension
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nome do modelo inválido na definição da acção."
+
+#. module: wiki_extension
+#: view:wiki.groups:0
+msgid "Configuration"
+msgstr "Configuração"
