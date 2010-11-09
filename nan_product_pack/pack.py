@@ -223,8 +223,8 @@ class sale_order(osv.osv):
                         'pack_depth': line.pack_depth + 1,
                     }
 
-                    # It's a control for the case that the nan_external_price was installed with the product pack
-                    if hasattr( line, 'prices_used' ):
+                    # It's a control for the case that the nan_external_prices was installed with the product pack
+                    if 'prices_used' in line:
                         vals[ 'prices_used' ] = line.prices_used
 
                     self.pool.get('sale.order.line').create(cr, uid, vals, context)
