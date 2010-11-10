@@ -35,7 +35,12 @@ import tempfile
 from os.path import splitext
 from tools.translate import _
 from oo_template import OOTemplate, OOTemplateException
+import mx.DateTime
+import time
 
+DT_FORMAT = '%Y-%m-%d'
+DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
+HM_FORMAT = '%H:%M:%S'
 
 
 class OOReportException(Exception):
@@ -49,7 +54,7 @@ class OOReportException(Exception):
         return self.message
 
 
-class OOReport:
+class OOReport(object):
     """
     OpenOffice/Relatorio based report.
     """
@@ -69,10 +74,36 @@ class OOReport:
         self.data = data
         self.model = self.data['model']
         self.context = context or {}
-        self.dbname = self.cr.dbname
-        self.pool = pooler.get_pool( self.cr.dbname )
+        self.dbname = cr.dbname
+        self.pool = pooler.get_pool( cr.dbname )
         self.openoffice_port = 8100
         self.autostart_openoffice = True
+        self.lang_dict_called = False
+        self.lang_dict = {}
+        self.default_lang = {}
+
+
+    def get_report_context(self):
+        """
+        Returns the context for the report
+        (Template method pattern)
+        """
+        return {}
+
+
+    def _get_lang_dict(self):
+        """
+        Helper function that returns a function that
+        sets the language for one object using the current database
+        connection (cr) and user (uid).
+        """
+        pool_lang = self.pool.get('res.lang')
+        lang = self.context.get('lang', False) or 'en_US'
+        lang_ids = pool_lang.search(self.cr, self.uid, [('code','=',lang)])[0]
+        lang_obj = pool_lang.browse(self.cr, self.uid, lang_ids)
+        self.lang_dict.update({'lang_obj':lang_obj,'date_format':lang_obj.date_format,'time_format':lang_obj.time_format})
+        self.default_lang[lang] = self.lang_dict.copy()
+        return True
 
 
     def execute(self, output_format='pdf', report_file_name=None):
@@ -179,6 +210,47 @@ class OOReport:
             return (data, 'image/png')
 
 
+        def _formatLang():
+            """
+            Helper function that returns a function that
+            formats received value to the language format.
+            """
+            def _format_lang(value, digits=2, date=False, date_time=False, grouping=True, monetary=False):
+                """
+                formats received value to the language format
+                """
+                if isinstance(value, (str, unicode)) and not value:
+                    return ''
+                if not self.lang_dict_called:
+                    self._get_lang_dict()
+                    self.lang_dict_called = True
+
+                if date or date_time:
+                    if not str(value):
+                        return ''
+                    date_format = self.lang_dict['date_format']
+                    parse_format = DT_FORMAT
+                    if date_time:
+                        date_format = date_format + " " + self.lang_dict['time_format']
+                        parse_format = DHM_FORMAT
+
+                    if not isinstance(value, time.struct_time):
+                        try:
+                            date = mx.DateTime.strptime(str(value),parse_format)
+                        except:# sometimes it takes converted values into value, so we dont need conversion.
+                            return str(value)
+                    else:
+                        date = mx.DateTime.DateTime(*(value.timetuple()[:6]))
+                    return date.strftime(date_format)
+                return self.lang_dict['lang_obj'].format('%.' + str(digits) + 'f', value, grouping=grouping, monetary=monetary)
+            return _format_lang
+
+
+        def _format(text, oldtag=None):
+            """
+            Removes white spaces
+            """
+            return text.strip()
 
 
         def _gettext(lang):
@@ -190,8 +262,6 @@ class OOReport:
                 """
                 Returns the translation of one string
                 """
-                cr = pooler.get_db(self.dbname).cursor()
-                context = { 'lang': lang }
                 return _(text)
             return gettext
 
@@ -226,8 +296,6 @@ class OOReport:
         context['logo'] = user.company_id and user.company_id.logo
         context['lang'] = context.get('lang') or (user.company_id and user.company_id.partner_id and user.company_id.partner_id.lang)
 
-        # TODO: add a translate helper like the one rml reports use,
-
         #
         # Add some helper function aliases
         #
@@ -240,6 +308,11 @@ class OOReport:
         context['chart'] = context.get('chart') or _chart_template_to_image
         context['gettext'] = context.get('gettext') or _gettext(context.get('lang'))
         context['_'] = context.get('_') or _gettext(context.get('lang'))
+        context['formatLang'] = context.get('formatLang') or _formatLang()
+        context['format'] = _format
+
+        # Update the context with the custom report context
+        context.update(self.get_report_context())
 
         #
         # Process the template using the OpenOffice/Relatorio engine
@@ -247,7 +320,6 @@ class OOReport:
         data = self.process_template(report_file_name, output_format, context)
 
         return data
-
 
     def process_template(self, template_file, output_format, context=None):
         """
@@ -306,13 +378,8 @@ class openoffice_report(report.interface.report_int):
         """
         name = self.name
 
-        if self.parser:
-            options = self.parser(cr, uid, ids, datas, context)
-            ids = options.get('ids', ids)
-            name = options.get('name', self.name)
-            # Use model defined in openoffice_report definition. Necesary for menu entries.
-            datas['model'] = options.get('model', self.model)
-            datas['records'] = options.get('records', [])
+        reportClass = self.parser or OOReport
+
 
         self._context.update(context)
 
@@ -330,11 +397,8 @@ class openoffice_report(report.interface.report_int):
         #
         # Get the report
         #
-        rpt = OOReport( name, cr, uid, ids, datas, self._context )
+        rpt = reportClass( name, cr, uid, ids, datas, self._context )
         return (rpt.execute(output_format=output_format), output_format )
-
-
-
 
 
 
@@ -371,11 +435,11 @@ def new_register_all(db):
     value = OLD_REGISTER_ALL(db)
 
     #
-    # Search for reports with 'oo-<something>' type
+    # Search for reports with 'oo-<something>' type and auto set to True
     # and register them
     #
     cr = db.cursor()
-    cr.execute("SELECT * FROM ir_act_report_xml WHERE report_type LIKE 'oo-%' ORDER BY id")
+    cr.execute("SELECT * FROM ir_act_report_xml WHERE report_type LIKE 'oo-%' and auto=True ORDER BY id")
     records = cr.dictfetchall()
     cr.close()
     for record in records:

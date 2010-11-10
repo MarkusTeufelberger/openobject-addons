@@ -1,0 +1,79 @@
+# Spanish translation for openobject-addons
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-12-05 14:38+0000\n"
+"PO-Revision-Date: 2009-12-06 06:03+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-08-10 03:47+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: product_tax_include
+#: model:ir.module.module,shortdesc:product_tax_include.module_meta_information
+msgid "Product Tax Include"
+msgstr "Productos con impuestos incluidos"
+
+#. module: product_tax_include
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: product_tax_include
+#: help:product.template,price_unit_tax:0
+msgid ""
+"Price calculated with taxes included or excluded, depend of the "
+"configuration in company configuration"
+msgstr ""
+"Precio calculado con impuestos incluidos o excluidos, dependiendo de la "
+"configuración de la compañía."
+
+#. module: product_tax_include
+#: view:res.company:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: product_tax_include
+#: field:product.template,price_unit_tax:0
+msgid "Sale price with taxes included or excluded"
+msgstr "Precio de venta con impuestos incluidos o excluidos"
+
+#. module: product_tax_include
+#: field:res.company,product_prices_tax_include:0
+msgid "Prices tax included"
+msgstr "Precios impuestos incluidos"
+
+#. module: product_tax_include
+#: help:res.company,product_prices_tax_include:0
+msgid "Product prices have tax included."
+msgstr "Los precios del producto tienen los impuestos incluidos."
+
+#. module: product_tax_include
+#: view:res.company:0
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: product_tax_include
+#: model:ir.module.module,description:product_tax_include.module_meta_information
+msgid ""
+"Add new field for tax include in product\n"
+"\n"
+" OpenERP version : 5.0\n"
+" Creation : 2009-12-05\n"
+" Last update : 2009-12-05\n"
+msgstr ""
+"Añade un nuevo campo para los impuestos incluidos en los precios del "
+"producto\n"
+"\n"
+" OpenERP versión : 5.0\n"
+" Creación : 05-12-2009\n"
+" Última actualización : 05-12-2009\n"

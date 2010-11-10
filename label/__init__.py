@@ -21,7 +21,7 @@
 #
 ##############################################################################
 
-import label
 import report_label
+import label
 import label_wizard
 import label_report_engine

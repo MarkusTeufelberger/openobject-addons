@@ -165,7 +165,7 @@ class account_move_line(osv.osv):
     def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
         for key in vals.keys():
             if key not in ['received_check', 'partner_bank', 'date_maturity']:
-                return super(account_move_line, self).write(cr, uid, ids, vals, context, check, update_check=True)
+                return super(account_move_line, self).write(cr, uid, ids, vals, context, check, update_check)
         return super(account_move_line, self).write(cr, uid, ids, vals, context, check, update_check=False)
 
 account_move_line()

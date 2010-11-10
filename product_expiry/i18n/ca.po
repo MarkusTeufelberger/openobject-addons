@@ -7,16 +7,18 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-01-09 17:19+0000\n"
-"PO-Revision-Date: 2010-01-10 23:16+0000\n"
+"PO-Revision-Date: 2010-09-25 14:06+0000\n"
 "Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-10 03:48+0000\n"
+"X-Launchpad-Export-Date: 2010-09-29 05:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
+#. module: product_expiry
+#: field:stock.production.lot,alert_date:0
 msgid "Alert date"
 msgstr "Data alarma"
 
@@ -24,7 +26,7 @@ msgstr "Data alarma"
 #: model:product.uom,name:product_expiry.product_uom_ltr
 #: model:product.uom.categ,name:product_expiry.product_uom_categ_vol
 msgid "LTR"
-msgstr ""
+msgstr "LTR"
 
 #. module: product_expiry
 #: view:product.product:0
@@ -65,6 +67,8 @@ msgstr ""
 msgid "French cheese Camenbert"
 msgstr "Formatge Camembert francès"
 
+#. module: product_expiry
+#: model:ir.module.module,description:product_expiry.module_meta_information
 msgid ""
 "Track different dates on products and lots. Used, for exampel, in food "
 "industries: expiry date, alert date, date of removal, eso."
@@ -80,6 +84,7 @@ msgstr "Data eliminació producte"
 
 #. module: product_expiry
 #: field:product.product,use_time:0
+#: field:stock.production.lot,dlc:0
 msgid "Product usetime"
 msgstr "Temps d'ús producte"
 
@@ -88,6 +93,8 @@ msgstr "Temps d'ús producte"
 msgid "Error: Invalid ean code"
 msgstr "Error: Codi EAN erroni"
 
+#. module: product_expiry
+#: field:stock.production.lot,dluo:0
 msgid "DLUO"
 msgstr "Data caducitat"
 
@@ -106,6 +113,8 @@ msgstr "Cicle de vida producte"
 msgid "Ham"
 msgstr "Pernil"
 
+#. module: product_expiry
+#: field:stock.production.lot,removal_date:0
 msgid "Removal date"
 msgstr "Data eliminació"
 

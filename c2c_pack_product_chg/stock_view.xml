@@ -1,0 +1,19 @@
+<openerp>
+    <data>
+
+        <record id="view_picking_out_form" model="ir.ui.view">
+            <field name="name">stock.picking.out.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="%(stock.track_line)d" string="Split in production lots" type="action" position="after">
+                    <separator colspan="4" string="Product Replacement"/>
+                    <button name="%(replace_product)d" string="Replace the product" type="action"/>
+                    <field name="old_product_id" />
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>

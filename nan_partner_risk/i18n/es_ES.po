@@ -3,19 +3,21 @@
 # 	* nan_partner_risk
 #
 # Albert Cervera i Areny <albert@nan-tic.com>, 2009.
+# Jordi Pasquina <jordi@nan-tic.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.5-bzr\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-12-02 12:41:57+0000\n"
-"PO-Revision-Date: 2009-12-02 13:55+0100\n"
-"Last-Translator: Albert Cervera i Areny <albert@nan-tic.com>\n"
+"POT-Creation-Date: 2009-12-02 12:41+0000\n"
+"PO-Revision-Date: 2010-07-24 04:47+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
-"X-Generator: Lokalize 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-08-10 03:47+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,draft_invoices_amount:0
@@ -48,7 +50,7 @@ msgstr "Efectos pendientes no vencidos"
 #. module: nan_partner_risk
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr ""
+msgstr "Nombre de modelo no válido en la definición de la acción."
 
 #. module: nan_partner_risk
 #: model:ir.actions.wizard,name:nan_partner_risk.open_risk_wizard
@@ -84,8 +86,8 @@ msgstr "Crédito disponible"
 msgid ""
 "Warning: Credit Limit Exceeded.\n"
 "\n"
-"This partner has a credit limit of %(limit).2f and already has a debt of %"
-"(debt).2f."
+"This partner has a credit limit of %(limit).2f and already has a debt of "
+"%(debt).2f."
 msgstr ""
 "Advertencia: Se ha excedido el crédito concedido.\n"
 "\n"
@@ -121,7 +123,8 @@ msgid "Payments Sent to Bank"
 msgstr "Efectos en circulación"
 
 #. module: nan_partner_risk
-#: code:addons/nan_partner_risk/risk.py:0, python-format
+#: code:addons/nan_partner_risk/risk.py:0
+#, python-format
 msgid "Credit Limit Exceeded"
 msgstr "Se ha excedido el crédito concedido"
 
@@ -155,8 +158,8 @@ msgid ""
 msgstr ""
 "Este módulo añade un nuevo botón en el formulario de empresas para analizar "
 "el estado actual del riesgo de una empresa.\n"
-"Muestra información actual referente a la dedua en facturas, albaranes, etc."
-"\n"
+"Muestra información actual referente a la dedua en facturas, albaranes, "
+"etc.\n"
 "\n"
 "También modifica el flujo de trabajo de los pedidos de venta añadiendo un "
 "nuevo paso cuando se excede el crédito concedido de la empresa."
@@ -165,5 +168,3 @@ msgstr ""
 #: wizard_button:open_risk_window,init,end:0
 msgid "Close"
 msgstr "Cerrar"
-
-

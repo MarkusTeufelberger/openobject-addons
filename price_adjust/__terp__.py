@@ -32,7 +32,7 @@ It also records a history of price changes in the past.""",
     "depends" : ["product","sale"],
     "category" : "Generic Modules/Sales & Purchases",
     "demo_xml" : [],
-        "update_xml" : [
+    "update_xml" : [
         "security/ir.model.access.csv",
     	"price_adjust_wizard.xml",
 	    "price_adjust_view.xml"

@@ -1,0 +1,254 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.7\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-02-09 10:41+0000\n"
+"PO-Revision-Date: 2010-11-10 03:18+0000\n"
+"Last-Translator: António Anacleto (www.prime.cv) "
+"<antonio.anacleto@prime.cv>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-11-10 05:12+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: sale_retails
+#: model:ir.model,name:sale_retails.model_sale_simple_pos_simple_deposit_wizard
+msgid "sale_simple_pos.simple_deposit_wizard"
+msgstr "sale_simple_pos.simple_deposit_wizard"
+
+#. module: sale_retails
+#: constraint:ir.model:0
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+"O nome do Objecto deve começar com x_ e não pode conter nenhum carácter "
+"especial !"
+
+#. module: sale_retails
+#: code:addons/sale_retails/object/account_move_line.py:0
+#, python-format
+msgid "Your journal must have a default debit and credit account."
+msgstr "O seu diário precisa ter um débito padrão e uma conta de crédito."
+
+#. module: sale_retails
+#: help:sale.shop,default_deposit_percent:0
+msgid "percentage of the deposits by default"
+msgstr "percentagem dos depósito por defeito"
+
+#. module: sale_retails
+#: field:sale.shop,default_deposit_percent:0
+msgid "Default Deposit %"
+msgstr "Depósito Padrão %"
+
+#. module: sale_retails
+#: view:sale.order:0
+msgid "Details"
+msgstr "Detalhes"
+
+#. module: sale_retails
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nome do modelo inválido na definição da acção."
+
+#. module: sale_retails
+#: model:ir.module.module,shortdesc:sale_retails.module_meta_information
+msgid "Sale Retails"
+msgstr "Venda de Retalho"
+
+#. module: sale_retails
+#: model:ir.actions.act_window,name:sale_retails.act_simple_pos_deposit_wizard
+msgid "Simple Deposit"
+msgstr "Depósito Simples"
+
+#. module: sale_retails
+#: selection:sale.shop,deposit_validation:0
+msgid "Automatically once Order Confirmed"
+msgstr "Automáticamente após Confirmação da Ordem de Venda"
+
+#. module: sale_retails
+#: code:addons/sale_retails/object/account_move_line.py:0
+#, python-format
+msgid "Error !"
+msgstr "Erro !"
+
+#. module: sale_retails
+#: field:sale_simple_pos.simple_deposit_wizard,payment_description:0
+msgid "Description"
+msgstr "Descrição"
+
+#. module: sale_retails
+#: model:ir.actions.wizard,name:sale_retails.sale_packing_manual_id
+#: wizard_view:sale_packing_auto,askpacking:0
+msgid "Make packing"
+msgstr "Fazer embalagem"
+
+#. module: sale_retails
+#: wizard_view:sale_packing_manual,end2:0
+msgid "Packing result"
+msgstr "Resultado da Embalagem"
+
+#. module: sale_retails
+#: wizard_field:sale_packing_manual,end2,back_order_notification:0
+msgid "Back Order"
+msgstr "Voltar Ordem"
+
+#. module: sale_retails
+#: view:sale.order:0
+msgid "Prevalidate order"
+msgstr "Pré-Validar Venda"
+
+#. module: sale_retails
+#: view:sale.order:0
+msgid "Make the packing"
+msgstr "Fazer a embalagem"
+
+#. module: sale_retails
+#: field:sale.order,customer_name:0
+msgid "New Customer Name"
+msgstr "Nome do Novo Cliente"
+
+#. module: sale_retails
+#: selection:sale.shop,deposit_validation:0
+msgid "Manual Validation Only"
+msgstr "Somente Validação Manual"
+
+#. module: sale_retails
+#: model:ir.actions.wizard,name:sale_retails.sale_packing_auto_id
+msgid "Make automatique packing"
+msgstr "Fazer Embalagem Automática"
+
+#. module: sale_retails
+#: view:sale.order:0
+msgid "Create invoice"
+msgstr "Criar factura"
+
+#. module: sale_retails
+#: wizard_view:sale_packing_auto,askpacking:0
+msgid "Do you want make all the packing ?"
+msgstr "Quere fazer toda a embalagem ?"
+
+#. module: sale_retails
+#: field:sale_simple_pos.simple_deposit_wizard,pay_all:0
+msgid "Pay All"
+msgstr "Pagar Tudo"
+
+#. module: sale_retails
+#: view:sale.order:0
+msgid "Cancel Order"
+msgstr "Cancelar Venda"
+
+#. module: sale_retails
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML Inválido para a Arquitectura de Vista!"
+
+#. module: sale_retails
+#: wizard_button:sale_packing_auto,askpacking,make:0
+#: view:sale_simple_pos.simple_deposit_wizard:0
+msgid "Ok"
+msgstr "Ok"
+
+#. module: sale_retails
+#: field:sale_simple_pos.simple_deposit_wizard,journal_id:0
+msgid "Journal/Payment Mode"
+msgstr "Diário/ Modo de Pagamento"
+
+#. module: sale_retails
+#: field:account.move.line,sale_id:0
+msgid "Sale Order"
+msgstr "Ordem de Venda"
+
+#. module: sale_retails
+#: view:sale.order:0
+msgid "Taxes"
+msgstr "Taxas"
+
+#. module: sale_retails
+#: view:sale.order:0
+#: field:sale.order,amount_paid:0
+#: field:sale.order,payment_ids:0
+msgid "Deposits"
+msgstr "Depósitos"
+
+#. module: sale_retails
+#: code:addons/sale_retails/wizard/deposite_wizard.py:0
+#: view:sale.order:0
+#: view:sale_simple_pos.simple_deposit_wizard:0
+#, python-format
+msgid "Deposit"
+msgstr "Deposito"
+
+#. module: sale_retails
+#: field:sale_simple_pos.simple_deposit_wizard,amount_paid:0
+msgid "New Deposit"
+msgstr "Novo Depósito"
+
+#. module: sale_retails
+#: model:ir.actions.act_window,name:sale_retails.action_packings_from_sale
+msgid "Packings"
+msgstr "Embalagens"
+
+#. module: sale_retails
+#: model:ir.module.module,description:sale_retails.module_meta_information
+msgid "allows the management of deposit"
+msgstr "Permite a gestão do depósito"
+
+#. module: sale_retails
+#: field:sale_simple_pos.simple_deposit_wizard,amount_all:0
+msgid "Amount All"
+msgstr "Todo o Montante"
+
+#. module: sale_retails
+#: field:account.journal,pos_enabled:0
+msgid "POS Enabled"
+msgstr "POS Permitido"
+
+#. module: sale_retails
+#: selection:sale.shop,deposit_validation:0
+msgid "Automatically once Invoice is Confirmed"
+msgstr "Automáticamente após Confirmação da Factura"
+
+#. module: sale_retails
+#: model:ir.actions.act_window,name:sale_retails.action_invoices_from_sale
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: sale_retails
+#: field:sale.shop,deposit_validation:0
+msgid "Deposits Accounting Validation"
+msgstr "Validação de Conta Depósitos"
+
+#. module: sale_retails
+#: code:addons/sale_retails/wizard/sale_packing_manual_wizard.py:0
+#, python-format
+msgid "Back Order %s Assigned to this Packing."
+msgstr "Voltar Ordem %s Atribuído a esta Embalagem"
+
+#. module: sale_retails
+#: wizard_button:sale_packing_manual,init,split:0
+msgid "Make Picking"
+msgstr "Fazer Recolha"
+
+#. module: sale_retails
+#: wizard_button:sale_packing_auto,askpacking,sendsignal:0
+#: wizard_button:sale_packing_manual,init,end:0
+#: view:sale_simple_pos.simple_deposit_wizard:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: sale_retails
+#: wizard_button:sale_packing_manual,end2,end:0
+msgid "Close"
+msgstr "Fechar"
+
+#. module: sale_retails
+#: field:account.invoice,sale_order_ids:0
+msgid "Sale Orders"
+msgstr "Ordens de Venda"
+
+#. module: sale_retails
+#: wizard_view:sale_packing_manual,end2:0
+msgid "The packing has been successfully made !"
+msgstr "A embalagem foi feita com sucesso !"

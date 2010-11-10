@@ -1,0 +1,289 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data noupdate="1">
+        <!-- ####### TIPSA ####### -->
+		<record id="file_format_tipsa0" model="file.format">
+			<field name="model_id" ref="stock.model_stock_picking"/>
+			<field eval="&quot;&quot;&quot;TIPSA&quot;&quot;&quot;" name="name"/>
+			<field eval="1" name="header"/>
+			<field eval="&quot;&quot;&quot;tipsa.txt&quot;&quot;&quot;" name="file_name"/>
+			<field eval="&quot;&quot;&quot;/tmp&quot;&quot;&quot;" name="path"/>
+		</record>
+		<record id="file_format_field_client0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;client&quot;&quot;&quot;" name="name"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="40" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$partner_id.name or $address_id.name&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_telefono0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Telefono&quot;&quot;&quot;" name="name"/>
+			<field eval="1" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="15" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$address_id.phone&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_ciudad0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;ciudad&quot;&quot;&quot;" name="name"/>
+			<field eval="2" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="60" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$address_id.city&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_zip0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;zip&quot;&quot;&quot;" name="name"/>
+			<field eval="3" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="5" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$address_id.zip&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_provincia0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;provincia&quot;&quot;&quot;" name="name"/>
+			<field eval="4" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="20" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$address_id.state_id.name&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_calle0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;calle&quot;&quot;&quot;" name="name"/>
+			<field eval="5" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="50" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$address_id.street&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_observaciones0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;observaciones&quot;&quot;&quot;" name="name"/>
+			<field eval="6" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="80" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$note.replace('\\n',' ')&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_referencia0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;referencia&quot;&quot;&quot;" name="name"/>
+			<field eval="7" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="16" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$name&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_doc0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;doc&quot;&quot;&quot;" name="name"/>
+			<field eval="8" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="4" name="length"/>
+			<field eval="&quot;&quot;&quot;0&quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;'0'&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_paquetes0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;paquetes&quot;&quot;&quot;" name="name"/>
+			<field eval="9" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="4" name="length"/>
+			<field eval="&quot;&quot;&quot;0&quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$packages or 0&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_reembolso0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;reembolso&quot;&quot;&quot;" name="name"/>
+			<field eval="10" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot;,&quot;&quot;&quot;" name="decimal_character"/>
+			<field eval="12" name="length"/>
+			<field eval="&quot;&quot;&quot;0&quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;'0'&quot;&quot;&quot;" name="expression"/>
+			<field eval="&quot;&quot;&quot;.2f&quot;&quot;&quot;" name="format_number"/>
+		</record>
+		<record id="file_format_field_kilos0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;kilos&quot;&quot;&quot;" name="name"/>
+			<field eval="11" name="sequence"/>
+			<field eval="&quot;&quot;&quot;right&quot;&quot;&quot;" name="align"/>
+			<field eval="4" name="length"/>
+			<field eval="&quot;&quot;&quot;0&quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;int(round($weight,0)) or 0&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_conretorno0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Con Retorno&quot;&quot;&quot;" name="name"/>
+			<field eval="12" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="1" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;'N'&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_conacuse0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Con Acuse&quot;&quot;&quot;" name="name"/>
+			<field eval="12" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="1" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;'N'&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_codigocliente0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Codigo Cliente&quot;&quot;&quot;" name="name"/>
+			<field eval="13" name="sequence"/>
+			<field eval="&quot;&quot;&quot;right&quot;&quot;&quot;" name="align"/>
+			<field eval="5" name="length"/>
+			<field eval="&quot;&quot;&quot;0&quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;code&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_tipodeporte0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Tipo de Porte&quot;&quot;&quot;" name="name"/>
+			<field eval="14" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="1" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$incoterm and $incoterm.code == 'EXW' and 'P' or 'D'&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_articulo0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Articulo&quot;&quot;&quot;" name="name"/>
+			<field eval="15" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="2" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;'14'&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_sabado0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Sabado&quot;&quot;&quot;" name="name"/>
+			<field eval="16" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="1" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;'N'&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_correo0" model="file.format.field">
+			<field eval="&quot;&quot;&quot;correo&quot;&quot;&quot;" name="name"/>
+			<field eval="17" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="60" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_tipsa0"/>
+			<field eval="&quot;&quot;&quot;$address_id.email&quot;&quot;&quot;" name="expression"/>
+		</record>
+
+        <!-- ####### SEUR ####### -->
+		<record id="file_format_seur0" model="file.format">
+			<field name="model_id" ref="stock.model_stock_picking"/>
+			<field eval="&quot;&quot;&quot;SEUR&quot;&quot;&quot;" name="name"/>
+			<field eval="&apos;&quot;&apos;" name="quote"/>
+			<field eval="1" name="header"/>
+			<field eval="&quot;&quot;&quot;,&quot;&quot;&quot;" name="separator"/>
+			<field eval="&quot;&quot;&quot;res.txt&quot;&quot;&quot;" name="file_name"/>
+			<field eval="&quot;&quot;&quot;/tmp&quot;&quot;&quot;" name="path"/>
+		</record>
+		<record id="file_format_field_nombreempresa1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Nombre Empresa&quot;&quot;&quot;" name="name"/>
+			<field eval="1" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$address_id.partner_id.name&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_nombrecomercial1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Nombre Comercial&quot;&quot;&quot;" name="name"/>
+			<field eval="2" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$address_id.partner_id.comercial&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_callecompaa1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Calle Compañía&quot;&quot;&quot;" name="name"/>
+			<field eval="3" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;($address_id.street or '') + ($address_id.street2 or '')&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_ciudad1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Ciudad&quot;&quot;&quot;" name="name"/>
+			<field eval="4" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$address_id.city or ''&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_cp1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;CP&quot;&quot;&quot;" name="name"/>
+			<field eval="5" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$address_id.zip or ''&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_telfono1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Teléfono&quot;&quot;&quot;" name="name"/>
+			<field eval="6" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$address_id.phone or ''&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_bltos1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Búltos&quot;&quot;&quot;" name="name"/>
+			<field eval="7" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$packages or 1&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_peso1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Peso&quot;&quot;&quot;" name="name"/>
+			<field eval="8" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot;,&quot;&quot;&quot;" name="decimal_character"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$weight or 0.0&quot;&quot;&quot;" name="expression"/>
+			<field eval="&quot;&quot;&quot;%.2f&quot;&quot;&quot;" name="format_number"/>
+		</record>
+		<record id="file_format_field_origen1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Origen&quot;&quot;&quot;" name="name"/>
+			<field eval="9" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$origin&quot;&quot;&quot;" name="expression"/>
+		</record>
+		<record id="file_format_field_total1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Total&quot;&quot;&quot;" name="name"/>
+			<field eval="10" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="&quot;&quot;&quot;,&quot;&quot;&quot;" name="decimal_character"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$cash_on_delivery and ($sale_id.amount_total or 0.0) or ''&quot;&quot;&quot;" name="expression"/>
+			<field eval="&quot;&quot;&quot;%.2f&quot;&quot;&quot;" name="format_number"/>
+		</record>
+		<record id="file_format_field_contrareembolso1" model="file.format.field">
+			<field eval="&quot;&quot;&quot;Contrareembolso&quot;&quot;&quot;" name="name"/>
+			<field eval="11" name="sequence"/>
+			<field eval="&quot;&quot;&quot;left&quot;&quot;&quot;" name="align"/>
+			<field eval="1" name="length"/>
+			<field eval="&quot;&quot;&quot; &quot;&quot;&quot;" name="fill_char"/>
+			<field name="format_id" ref="file_format_seur0"/>
+			<field eval="&quot;&quot;&quot;$cash_on_delivery and 'F' or ''&quot;&quot;&quot;" name="expression"/>
+		</record>
+	</data>
+</openerp>

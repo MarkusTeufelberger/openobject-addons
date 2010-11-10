@@ -330,7 +330,6 @@ class sale_order(osv.osv):
         statement_line_id = self.pool.get('account.bank.statement.line').create(cr, uid, statement_line_vals, ctx)
         if should_validate:
             self.pool.get('account.bank.statement').button_confirm(cr, uid, [statement_id], ctx)
-            self.pool.get('account.move.line').write(cr, uid, [statement.move_line_ids[0].id], {'date': date})
         return statement_line_id
 
 
@@ -362,7 +361,7 @@ class sale_order(osv.osv):
         
                     if order.order_policy == 'picking':
                         if payment_settings.create_invoice:
-                           invoice_id = self.pool.get('stock.picking').action_invoice_create(cr, uid, order.picking_ids)
+                           invoice_id = self.pool.get('stock.picking').action_invoice_create(cr, uid, [picking.id for picking in order.picking_ids])
                            if payment_settings.validate_invoice:
                                wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
 

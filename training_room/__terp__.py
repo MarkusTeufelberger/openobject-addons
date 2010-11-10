@@ -1,8 +1,9 @@
 # -*- encoding: utf-8 -*-
-##############################################################################
+############################################################################################
 #
 #    OpenERP, Open Source Management Solution	
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
+#    Copyright (C) 2008-2009 AJM Technologies S.A. (<http://www.ajm.lu). All Rights Reserved
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,13 +19,14 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+############################################################################################
 
 {
-    'name' : 'Module Training Room - Helps to manage the training location',
-    'version' : '0.0.1',
-    'author' : 'Tiny SPRL',
+    'name' : 'Training Room',
+    'version' : '0.1',
+    'author' : 'Tiny SPRL - AJM Technologies S.A',
     'website' : 'http://www.openerp.com',
+    'category' : 'Enterprise Specific Modules/Training',
     'description' : """The module training_room helps the user to manage the training's location""",
     'depends' : [
         'training',

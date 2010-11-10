@@ -34,9 +34,9 @@
                             <field name="orientation" />
                             <field name="format" />
                             <field name="margin_top" />
-                            <field name="magrin_bottom" />
-                            <field name="magrin_left" />
-                            <field name="magrin_right" />
+                            <field name="margin_bottom" />
+                            <field name="margin_left" />
+                            <field name="margin_right" />
                         </page>
                     </notebook>
                 </form>

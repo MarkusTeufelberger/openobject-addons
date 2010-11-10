@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>   
+         
+        <record id="view_validate_partial_packing" model="ir.ui.view">
+            <field name="name">confirmation Message before partial packing</field>
+            <field name="model">validate.partial.packing</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Confirmation Before Partial Packing">
+                    <group col="2" colspan="4">
+                        <label string="Are you sure you want to make a partial packing ?" colspan="4"/>
+                        
+                    </group>
+                    <group col="3" colspan="4">                                            
+                        <button icon='gtk-cancel' special="cancel"
+                            string="Close" />
+                        <button name="make_partial" string="Ok"
+                            colspan="1" type="object" icon="gtk-ok" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="act_validate_partial_packing" model="ir.actions.act_window">
+            <field name="name">Confirmation Message before partial packing</field>
+            <field name="res_model">validate.partial.packing</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_validate_partial_packing"/>
+            <field name="target">new</field>
+        </record>
+
+
+    </data>
+</openerp>          

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    <!-- Import pricelist Wizard form -->
+
+          <record id="view_c2c_import_pricelist" model="ir.ui.view">
+            <field name="name">c2c.import.pricelist.form</field>
+            <field name="model">c2c.import.pricelist</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import Pricelist">
+                    <group colspan="4" >
+                          <separator string="" colspan="4"/>
+                          <field name="data" filename="name" />
+                          <field name="name" colspan="2"/>
+                    </group>
+                   <separator string="" colspan="4"/>
+                   <group colspan="4" col="6">
+                        <button  icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button  icon="gtk-ok" name="action_import" string="Import" type="object"/>
+                   </group>
+               </form>
+            </field>
+        </record>
+
+    <!--  Action of Import Pricelist wizard -->
+
+    <record id="action_c2c_import_pricelist" model="ir.actions.act_window">
+        <field name="name">Import Pricelist</field>
+        <field name="res_model">c2c.import.pricelist</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+       <field name="view_id" ref="view_c2c_import_pricelist"/>
+       <field name="target">new</field>
+    </record>  
+   
+    <menuitem  id="menu_import_pricelist" name="Import Pricelist" action="action_c2c_import_pricelist" parent="product.menu_product_pricelist_main"/>
+      
+    
+    </data>
+</openerp>    

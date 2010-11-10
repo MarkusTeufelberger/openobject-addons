@@ -42,9 +42,9 @@ class HeaderHTML(osv.osv):
         'css' : fields.text('Header CSS'),
         'name' : fields.char('Name', size=128, required=True),
         'margin_top' : fields.float('Top Margin (mm)'),
-        'magrin_bottom' : fields.float('Bottom Margin (mm)'),
-        'magrin_left' : fields.float('Left Margin (mm)'),
-        'magrin_right' : fields.float('Right Margin (mm)'),
+        'margin_bottom' : fields.float('Bottom Margin (mm)'),
+        'margin_left' : fields.float('Left Margin (mm)'),
+        'margin_right' : fields.float('Right Margin (mm)'),
         'orientation' : fields.selection(
                         [('Landscape','Landscape'),('Portrait', 'Portrait')],
                         'Orientation'

@@ -12,7 +12,7 @@
 						on_change="change_model(object_name)"
 						attrs="{'readonly':[('ref_ir_value','!=',False)]}" />
 					<field name="model_int_name" invisible="1" />
-					<field name="type"/>
+					<field name="type" on_change="change_type(type,context)"/>
 					<field name="default_label_format_id"/>
                     <notebook colspan="4">
 						<page string="Label Details">
@@ -56,18 +56,7 @@
 							</notebook>
                             </group>
 
-                            <group colspan="4" col="1">
-                                <label string="The label body can contain:" align="0.0" />
-                                <label string="1) Fixed strings like 'Ref.:'" align="0.0" />
-                                <label string="2) Mako fields like ${object.name} (use the expression builder to compute them)" align="0.0" />
-                                <label string="3) Mako control sequence %%for ... %%endfor for loops" align="0.0" />
-                                <label string="4) ReportLab tags &lt;b&gt; &lt;i&gt; &lt;u&gt; &lt;super&gt; &lt;sub&gt; &lt;font&gt; &lt;barCode&gt; &lt;greek&gt;" align="0.0" />
-                                <label string="5) ReportLab tags like &lt;blockTable&gt;, &lt;tr&gt;, &lt;td&gt;, ..." align="0.0" />
-                                <label string="6) &lt;nextFrame/&gt; tag where you want jump to next label." align="0.0" />
-                                <label string="Note: Only 1, 2, 4 contents can be mixed in the same line." align="0.0" />
-                                <label string="Note: Line with 1, 2, 4 content is inserted in a &lt;para&gt; tag." align="0.0" />
-                                <label string="For ReportLab documentation visit http://www.reportlab.com/software/documentation/" align="0.0" />
-                            </group>
+                            <field name="help_text" colspan="4" nolabel="1"/>
 						</page>
 
 						<page string="Security">

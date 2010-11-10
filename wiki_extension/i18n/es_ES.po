@@ -1,0 +1,88 @@
+# Spanish translation for openobject-addons
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-12-06 13:36+0000\n"
+"PO-Revision-Date: 2009-12-07 06:02+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-08-10 03:47+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: wiki_extension
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: wiki_extension
+#: code:addons/wiki_extension/object/wiki.py:0
+#, python-format
+msgid "Read Only"
+msgstr "Sólo lectura"
+
+#. module: wiki_extension
+#: view:wiki.groups:0
+msgid "Members"
+msgstr "Miembros"
+
+#. module: wiki_extension
+#: model:ir.actions.act_window,name:wiki_extension.action_wiki_extension
+msgid "Wiki Pages"
+msgstr "Páginas Wiki"
+
+#. module: wiki_extension
+#: model:ir.module.module,shortdesc:wiki_extension.module_meta_information
+msgid "Document Management - Wiki Extension"
+msgstr "Gestión documental - Extensión de la Wiki"
+
+#. module: wiki_extension
+#: model:ir.module.module,description:wiki_extension.module_meta_information
+msgid ""
+"\n"
+"    The base module to manage documents(wiki) \n"
+"\n"
+"    Add new features :\n"
+"    - members in wiki groups\n"
+"    - state in page wiki (Running, Raed Only, Obsolete)\n"
+"    - improvement view\n"
+"    "
+msgstr ""
+"\n"
+"    Extiende el módulo básico para gestionar documentos (Wiki) \n"
+"\n"
+"    Añade nuevas funcionalidades :\n"
+"    - Grupos de miembros en la Wiki\n"
+"    - Estado de las páginas Wiki (En progreso, Sólo lectura, Obsoleto)\n"
+"    - Vista mejorada\n"
+"    "
+
+#. module: wiki_extension
+#: code:addons/wiki_extension/object/wiki.py:0
+#, python-format
+msgid "Obsolete"
+msgstr "Obsoleto"
+
+#. module: wiki_extension
+#: code:addons/wiki_extension/object/wiki.py:0
+#, python-format
+msgid "Running"
+msgstr "En progreso"
+
+#. module: wiki_extension
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo no válido en la definición de la acción."
+
+#. module: wiki_extension
+#: view:wiki.groups:0
+msgid "Configuration"
+msgstr "Configuración"

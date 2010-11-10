@@ -1,0 +1,71 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* sale_credit_limit
+#
+# Dukai Gábor <gdukai@gmail.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.12\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-08-12 11:14+0000\n"
+"PO-Revision-Date: 2010-09-22 07:40+0000\n"
+"Last-Translator: Dukai Gábor <Unknown>\n"
+"Language-Team: mađarski <>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-09-29 05:33+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: sale_credit_limit
+#: code:addons/sale_credit_limit/sale.py:0
+#, python-format
+msgid "Credit Limit Exceeded!"
+msgstr "Hitelkeret túllépés!"
+
+#. module: sale_credit_limit
+#: model:ir.module.module,description:sale_credit_limit.module_meta_information
+msgid ""
+"\n"
+"    The Sale Order confirming button checks if the partner's\n"
+"    receivables minus payables plus the order's total\n"
+"    exceeds her credit limit.\n"
+"    If it does, it doesn't let the user to confirm the order.\n"
+"    Managers have an extra button to bypass the check but\n"
+"    of course the credit limit itself could be lifted, too.\n"
+"    "
+msgstr ""
+"\n"
+"    The Sale Order confirming button checks if the partner's\n"
+"    receivables minus payables plus the order's total\n"
+"    exceeds her credit limit.\n"
+"    If it does, it doesn't let the user to confirm the order.\n"
+"    Managers have an extra button to bypass the check but\n"
+"    of course the credit limit itself could be lifted, too.\n"
+"    "
+
+#. module: sale_credit_limit
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "Invalid XML for View Architecture!"
+
+#. module: sale_credit_limit
+#: view:sale.order:0
+msgid "Without Limit"
+msgstr "Hitelkeret nélkül"
+
+#. module: sale_credit_limit
+#: code:addons/sale_credit_limit/sale.py:0
+#, python-format
+msgid ""
+"Cannot confirm Sales Order, credit limit exceeded with %d!\n"
+"Check Partner Accounts or Credit Limit!"
+msgstr ""
+"Nem tudom jóváhagyni az ajánlatot, mert túllépné a hitelkeretet %d "
+"összeggel!\n"
+"Ellenőrizze a partner számláit vagy hitelkeretét!"
+
+#. module: sale_credit_limit
+#: model:ir.module.module,shortdesc:sale_credit_limit.module_meta_information
+msgid "Sale Order Credit Limit for Partners"
+msgstr "Sale Order Credit Limit for Partners"

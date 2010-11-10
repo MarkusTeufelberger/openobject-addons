@@ -137,14 +137,9 @@ def ldap_login(oldfnc):
                                     return res
                             l.unbind()
                     except Exception, e:
-			# FIX add by A. Demeaulte 08/03/10
-			# This "return False" fix this security problem :
-			# If you try to log you without password AND your password in the 
-			# database is set to NULL, the authentification will be a success
-                        netsvc.Logger().notifyChannel("ldap", netsvc.LOG_ERROR, e)
-			#print "users_ldap exception = ", e
-			return False
-                        #continue
+                        netsvc.Logger().notifyChannel('ldap', netsvc.LOG_ERROR, e)
+                        cr.close()
+                        return False
         cr.close()
         return oldfnc(db, login, passwd)
     return _ldap_login
@@ -186,9 +181,9 @@ def ldap_check(oldfnc):
                                         return True
                                 l.unbind()
                         except Exception, e:
-                            netsvc.Logger().notifyChannel("ldap", netsvc.LOG_ERROR, e)
-                            raise
-                            #pass
+                            netsvc.Logger().notifyChannel('ldap', netsvc.LOG_ERROR, e)
+                            cr.close()
+                            return False
         cr.close()
         return oldfnc(db, uid, passwd)
     return _ldap_check

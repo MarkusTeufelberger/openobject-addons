@@ -106,8 +106,10 @@ class WebKitParser(report_sxw):
                             )
         return False
         
-    def genreate_pdf(self, comm_path, report_xml, header, footer, html_list):
+    def genreate_pdf(self, comm_path, report_xml, header, footer, html_list, webkit_header=False):
         """Call webkit in order to generate pdf"""
+        if not webkit_header:
+            webkit_header = report_xml.webkit_header
         tmp_dir = tempfile.gettempdir()
         out = report_xml.name+str(time.time())+'.pdf'
         out = os.path.join(tmp_dir, out.replace(' ',''))
@@ -143,20 +145,34 @@ class WebKitParser(report_sxw):
                 file_to_del.append(foot_file.name)
                 command.append("--footer-html '%s'"%(foot_file.name))
                 
-            if report_xml.webkit_header.margin_top :
-                command.append('--margin-top %s'%(report_xml.webkit_header.margin_top))
-            if report_xml.webkit_header.magrin_bottom :
-                command.append('--margin-bottom %s'%(report_xml.webkit_header.magrin_bottom))
-            if report_xml.webkit_header.magrin_left :
-                command.append('--margin-left %s'%(report_xml.webkit_header.magrin_left))
-            if report_xml.webkit_header.magrin_right :
-                command.append('--margin-right %s'%(report_xml.webkit_header.magrin_right))
-            if report_xml.webkit_header.orientation :
-                command.append("--orientation '%s'"%(report_xml.webkit_header.orientation))
-            if report_xml.webkit_header.format :
-                command.append(" --page-size '%s'"%(report_xml.webkit_header.format))
+            if webkit_header.margin_top :
+                if webkit_header.margin_top == 0.01:
+                    command.append('--margin-top 0')
+                else :
+                    command.append('--margin-top %s'%(webkit_header.margin_top))
+            if webkit_header.margin_bottom :
+                if webkit_header.margin_bottom == 0.01:
+                    command.append('--margin-bottom 0')
+                else :
+                    command.append('--margin-bottom %s'%(webkit_header.margin_bottom))
+            if webkit_header.margin_left :
+                if webkit_header.margin_left == 0.01:
+                    command.append('--margin-left 0')
+                else :                
+                    command.append('--margin-left %s'%(webkit_header.margin_left))
+            if webkit_header.margin_right :
+                if webkit_header.margin_right == 0.01:
+                    command.append('--margin-right 0')
+                else :
+                    command.append('--margin-right %s'%(webkit_header.margin_right))
+            if webkit_header.orientation :
+                command.append("--orientation '%s'"%(webkit_header.orientation))
+            if webkit_header.format :
+                command.append(" --page-size '%s'"%(webkit_header.format))
+            f = 0;
             for html in html_list :
-                html_file = file(os.path.join(tmp_dir, str(time.time()) + '.body.html'), 'w')
+                html_file = file(os.path.join(tmp_dir, str(time.time()) + str(f) + '.body.html'), 'w')
+                f += 1
                 html_file.write(html)
                 html_file.close()
                 file_to_del.append(html_file.name)
@@ -173,7 +189,7 @@ class WebKitParser(report_sxw):
             except Exception, exc:
                 try:
                     for f_to_del in file_to_del :
-                        os.unlink(f_to_del)
+                        os.unlink(f_to_del) 
                 except Exception, exc:
                     pass
         except Exception, exc:
@@ -188,50 +204,24 @@ class WebKitParser(report_sxw):
         os.unlink(out)
         return pdf
 
-    def translate_call(self, coursor, source, context):
+    def translate_call(self, src):
         """Translate String."""
-        try:
-            frame = inspect.stack()[1][0]
-        except:
-            return source
-        cr = frame.f_locals.get('cursor')
-        lang = (frame.f_locals.get('context') or {}).get('lang', 'en_US')
-        if not (cr and lang):
-            args = frame.f_locals.get('args',False)
-            if args:
-                lang = args[-1].get('lang',False)
-                if frame.f_globals.get('pooler',False):
-                    cr = pooler.get_db(frame.f_globals['pooler'].pool_dic.keys()[0]).cursor()
-        cr.execute('select value from ir_translation where lang=%s and type=%s and src=%s', (lang, 'field', source))
-        res_trans = cr.fetchone()
-        return res_trans and res_trans[0] or source
+        ir_translation = self.pool.get('ir.translation')
+        name = self.name
+        if name.startswith('report.'):
+            name = name.lstrip('report.')
+        res = ir_translation._get_source(self.parser_instance.cr, self.parser_instance.uid, name, 'rml', self.parser_instance.localcontext.get('lang', 'en_US'), src)
+        if not res :
+            res = src
+        return res
 
-
-    def get_parse_string(self, cursor, template, context):
-        """Parse Template string"""
-        eview = etree.HTML(template)
-        def _check_rec(eview):
-            for child in eview:
-                if child.text:
-                    match = string_re.match(child.text)
-                    if match:
-                        match_str = match.group(0)
-                        split_str = match_str.split("_(\"")
-                        for str in split_str:
-                            if str != '':
-                                translate = self.translate_call(cursor, str, context)
-                                final_translate = child.text.replace(str, translate)
-                                child.text = final_translate.replace('_("', '').replace('")', '')
-                _check_rec(child)
-            return eview
-        _check_rec(eview)
-        template = etree.tostring(eview)
-        return template
 
     # override needed to keep the attachments' storing procedure
     def create_single_pdf(self, cursor, uid, ids, data, report_xml, 
         context=None):
         """generate the PDF"""
+        if report_xml.report_type != 'webkit':
+            return super(WebKitParser,self).create_single_pdf(cursor, uid, ids, data, report_xml, context=context)
         self.parser_instance = self.parser(
                                             cursor, 
                                             uid, 
@@ -286,20 +276,18 @@ class WebKitParser(report_sxw):
             css = ''
         user = self.pool.get('res.users').browse(cursor, uid, uid)
         company= user.company_id
-        parse_template = self.get_parse_string(cursor, template, context)
+        parse_template = template
         #default_filters=['unicode', 'entity'] can be used to set global filter
         body_mako_tpl = Template(parse_template ,input_encoding='utf-8')
         
         
         helper = WebKitHelper(cursor, uid, report_xml.id, context)
+        
         html = body_mako_tpl.render(
-                                    objects=self.parser_instance.localcontext['objects'], 
-                                    company=company, 
-                                    time=time, 
                                     helper=helper, 
                                     css=css,
-                                    formatLang=self.parser_instance.formatLang,
-                                    setLang=self.parser_instance.setLang,
+                                    _=self.translate_call,
+                                    **self.parser_instance.localcontext
                                     )
         head_mako_tpl = Template(header, input_encoding='utf-8')
         head = head_mako_tpl.render(
@@ -320,7 +308,9 @@ class WebKitParser(report_sxw):
                                         helper=helper, 
                                         css=css, 
                                         formatLang=self.parser_instance.formatLang,
-                                        setLang=self.parser_instance.setLang
+                                        setLang=self.parser_instance.setLang,
+                                        _=self.translate_call,
+                                        
                                         )
         if report_xml.webkit_debug :
             deb = head_mako_tpl.render(
@@ -330,7 +320,8 @@ class WebKitParser(report_sxw):
                                         css=css, 
                                         _debug=html,
                                         formatLang=self.parser_instance.formatLang,
-                                        setLang=self.parser_instance.setLang
+                                        setLang=self.parser_instance.setLang,
+                                        _=self.translate_call,
                                         )
             return (deb, 'html')
         bin = self.get_lib(cursor, uid, company.id)

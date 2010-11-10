@@ -1,0 +1,266 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* product_related_pricelist_items
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.1\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-06-23 09:13+0000\n"
+"PO-Revision-Date: 2010-09-22 07:40+0000\n"
+"Last-Translator: Dukai Gábor <Unknown>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-09-29 05:33+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.line,categ_id:0
+msgid "Category"
+msgstr "Kategória"
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Max. Margin"
+msgstr "Max. árrés"
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Base Price"
+msgstr "Alapár"
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Products Listprices Items"
+msgstr "Árlista változat tételei"
+
+#. module: product_related_pricelist_items
+#: constraint:ir.model:0
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,name:0
+msgid "Explicit rule name for this pricelist line."
+msgstr "Ennek az árlista szabálynak a neve."
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Min. Margin"
+msgstr "Min. árrés"
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "* ( 1 + "
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.line,item_ids:0
+msgid "Price List Items"
+msgstr "Árlista tételek"
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,product_tmpl_id:0
+msgid ""
+"Set a template if this rule only apply to a template of product. Keep empty "
+"for all products"
+msgstr ""
+"Ha kiválaszt egy sablont, a szabály csak arra fog vonatkozni. Hagyja üresen "
+"ha nem kívánja korlátozni."
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Rounding Method"
+msgstr "Kerekítési mód"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,product_id:0
+msgid "Product"
+msgstr "Termék"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,categ_id:0
+msgid "Product Category"
+msgstr "Termék kategória"
+
+#. module: product_related_pricelist_items
+#: model:ir.model,name:product_related_pricelist_items.model_product_pricelist_wizard_line
+msgid "product.pricelist.wizard.line"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_round:0
+msgid "Price Rounding"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_max_margin:0
+msgid "Max. Price Margin"
+msgstr "Max. árrés"
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid " ) + "
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: model:ir.module.module,shortdesc:product_related_pricelist_items.module_meta_information
+msgid "Related pricelist items"
+msgstr "Kapcsolódó árlista tételek"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_surcharge:0
+msgid "Price Surcharge"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.line,price_version_id:0
+msgid "Price List Version"
+msgstr "Árlista változat"
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Rules Test Match"
+msgstr "Szabály mire érvényes"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,min_quantity:0
+msgid "Min. Quantity"
+msgstr "Min. mennyiség"
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,product_id:0
+msgid ""
+"Set a product if this rule only apply to one product. Keep empty for all "
+"products"
+msgstr ""
+"Ha kiválaszt egy terméket, a szabály csak arra fog vonatkozni. Hagyja üresen "
+"ha nem kívánja korlátozni."
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "Price Computation"
+msgstr "Árszámítás"
+
+#. module: product_related_pricelist_items
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: model:ir.module.module,description:product_related_pricelist_items.module_meta_information
+msgid ""
+"\n"
+"\n"
+"    Compatibility: tested with OpenERP v5.0\n"
+"    "
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,categ_id:0
+msgid ""
+"Set a category of product if this rule only apply to products of a category "
+"and his childs. Keep empty for all products"
+msgstr ""
+"Ha kiválaszt egy termék kategóriát, a szabály csak arra és az alkategóriáira "
+"fog vonatkozni. Hagyja üresen ha nem kívánja korlátozni."
+
+#. module: product_related_pricelist_items
+#: code:addons/product_related_pricelist_items/pricelist.py:0
+#, python-format
+msgid "Other Pricelist"
+msgstr "Másik árlista"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_min_margin:0
+msgid "Min. Price Margin"
+msgstr "Min. árrés"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,product_tmpl_id:0
+msgid "Product Template"
+msgstr "Terméksablon"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,base_pricelist_id:0
+msgid "If Other Pricelist"
+msgstr "Ha másik árlista"
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.item:0
+msgid "New Price ="
+msgstr "Új ár ="
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,name:0
+msgid "Rule Name"
+msgstr "Szabály neve"
+
+#. module: product_related_pricelist_items
+#: code:addons/product_related_pricelist_items/pricelist.py:0
+#, python-format
+msgid "Partner section of the product form"
+msgstr "A termékek beszállítói információja"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,sequence:0
+msgid "Sequence"
+msgstr "Sorszám"
+
+#. module: product_related_pricelist_items
+#: view:product.pricelist.wizard.line:0
+msgid "Related Price List Items"
+msgstr "Kapcsolódó árlista tételek"
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,price_round:0
+msgid ""
+"Sets the price so that it is a multiple of this value.\n"
+"Rounding is applied after the discount and before the surcharge.\n"
+"To have prices that end in 9.99, set rounding 10, surcharge -0.01"
+msgstr ""
+"Az ár ennek az értéknek csak a többszöröse lehet.\n"
+"A kerekítés a százalékos érték felszorzása után és a fix összeg\n"
+"hozzáadása előtt kerül alkalmazásra. 9,99-re végződő ár\n"
+"készítéséhez 10-es kerekítést és -0,01 fix összeget használjon."
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,min_quantity:0
+msgid ""
+"The rule only applies if the partner buys/sells more than this quantity."
+msgstr ""
+"A szabály csak akkor lép életbe, ha a partner ennél a mennyiségnél többet "
+"vesz vagy ad el."
+
+#. module: product_related_pricelist_items
+#: help:product.pricelist.wizard.item,base:0
+msgid "The mode for computing the price for this rule."
+msgstr "A szabályhoz tartozó ár számításának módja."
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,base:0
+msgid "Based on"
+msgstr "Alapár"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,item_id:0
+msgid "Price List Item"
+msgstr "Árlista tétel"
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,wizard_line_id:0
+msgid "Wizard Line"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: model:ir.model,name:product_related_pricelist_items.model_product_pricelist_wizard_item
+msgid "Pricelist item"
+msgstr ""
+
+#. module: product_related_pricelist_items
+#: field:product.pricelist.wizard.item,price_discount:0
+msgid "Price Discount"
+msgstr "Árengedmény"

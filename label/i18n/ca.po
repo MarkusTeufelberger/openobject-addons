@@ -6,14 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.0-alpha\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-07-16 11:42+0000\n"
-"PO-Revision-Date: 2010-09-06 14:27+0000\n"
-"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
+"POT-Creation-Date: 2010-10-03 13:33+0000\n"
+"PO-Revision-Date: 2010-10-04 20:37+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-07 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-10-05 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: label
@@ -52,19 +53,16 @@ msgid "Width"
 msgstr "Amplada"
 
 #. module: label
-#: view:label.templates:0
-msgid "The label body can contain:"
-msgstr "El cos de l'etiqueta pot contenir:"
-
-#. module: label
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr "Nom de model no vàlid en la definició de l'acció."
+msgstr "Nom de model no vàlid a la definició d'acció."
 
 #. module: label
-#: field:label.templates,sort_field1:0
-msgid "Sort field 1"
-msgstr "Camp a ordenar 1"
+#: code:addons/label/label.py:0
+#, python-format
+msgid "Note: Only 1, 2, 4 contents can be mixed in the same line.\n"
+msgstr ""
+"Nota: Només els continguts 1, 2, 4 poden barrejar-se a la mateixa línia.\n"
 
 #. module: label
 #: view:label.templates:0
@@ -86,6 +84,13 @@ msgstr "Primera etiqueta"
 #: selection:label.wizard,font_type:0
 msgid "Courier-BoldOblique"
 msgstr "Courier-BoldOblique"
+
+#. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid "You have to install the label_%s module to use this template type."
+msgstr ""
+"Heu d'instal·lar el mòdul label_%s per usar aquest tipus de plantilla."
 
 #. module: label
 #: field:label.templates,sort_field3:0
@@ -130,9 +135,14 @@ msgstr ""
 "l'etiqueta + amplada etiqueta). Torna-ho a provar."
 
 #. module: label
-#: model:ir.model,name:label.model_report_label
-msgid "report.label"
-msgstr "informe.etiqueta"
+#: code:addons/label/label.py:0
+#, python-format
+msgid ""
+"2) Mako fields like ${object.name} (use the expression builder to compute "
+"them)\n"
+msgstr ""
+"2) Camps Mako com ${object.name} (el constructor d'expressions permet "
+"calcular-los)\n"
 
 #. module: label
 #: help:label.wizard,first_row:0
@@ -140,9 +150,25 @@ msgid "The Row of the first label in the first page"
 msgstr "La fila de la primera etiqueta a la primera pàgina"
 
 #. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid ""
+"1) Fixed strings in <para> tags like <para style=\"default\">Ref.:</para>\n"
+msgstr ""
+"1) Textos fixes dins d'etiquetes <para>, per exemple <para "
+"style=\"default\">Ref.:</para>\n"
+
+#. module: label
 #: selection:label.wizard,font_type:0
 msgid "Helvetica"
 msgstr "Helvetica"
+
+#. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid "Note: Line with 1, 2, 4 content is inserted in a <para> tag.\n"
+msgstr ""
+"Nota: Línia amb continguts 1, 2, 4 s'insereix dins d'una etiqueta <para>.\n"
 
 #. module: label
 #: help:label.templates,report_stylesheets:0
@@ -197,6 +223,11 @@ msgid "Label action, wizard and report"
 msgstr "Acció, assistent i informe d'etiqueta"
 
 #. module: label
+#: field:label.templates,sort_field1:0
+msgid "Sort field 1"
+msgstr "Camp a ordenar 1"
+
+#. module: label
 #: field:report.label,label_height:0
 msgid "Label Height"
 msgstr "Altura etiqueta"
@@ -221,6 +252,11 @@ msgid "Right"
 msgstr "Dret"
 
 #. module: label
+#: field:label.templates,help_text:0
+msgid "Help"
+msgstr "Ajuda"
+
+#. module: label
 #: code:addons/label/label.py:0
 #, python-format
 msgid "Label %s"
@@ -235,7 +271,7 @@ msgstr "Formats etiquetes"
 
 #. module: label
 #: code:addons/label/label.py:0
-#: code:addons/label/label_wizard.py:0
+#: code:addons/label/label_report_engine.py:0
 #, python-format
 msgid "Mako templates not installed"
 msgstr "Plantilles Mako no estan instal·lades"
@@ -249,6 +285,12 @@ msgstr "Plantilla etiqueta"
 #: model:ir.ui.menu,name:label.label_reports_menu
 msgid "Labels"
 msgstr "Etiquetes"
+
+#. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid "The label body can contain:\n"
+msgstr "El cos de l'etiqueta pot contenir:\n"
 
 #. module: label
 #: code:addons/label/label.py:0
@@ -272,21 +314,6 @@ msgid "Times-Roman"
 msgstr "Times-Roman"
 
 #. module: label
-#: view:label.templates:0
-msgid "Note: Line with 1, 2, 4 content is inserted in a <para> tag."
-msgstr ""
-"Nota: Línia amb continguts 1, 2, 4 s'insereix dins d'una etiqueta <para>."
-
-#. module: label
-#: view:label.templates:0
-msgid ""
-"For ReportLab documentation visit "
-"http://www.reportlab.com/software/documentation/"
-msgstr ""
-"Per a documentació ReportLab visiteu "
-"http://www.reportlab.com/software/documentation/"
-
-#. module: label
 #: field:label.wizard,label_format:0
 msgid "Label Format"
 msgstr "Format etiqueta"
@@ -297,9 +324,9 @@ msgid "Insert Simple Field"
 msgstr "Insereix camp simple"
 
 #. module: label
-#: help:label.templates,null_value:0
-msgid "This Value is used if the field is empty."
-msgstr "Aquest valor s'utilitza si el camp està buit."
+#: field:label.templates,default_label_format_id:0
+msgid "Default Label Format"
+msgstr "Format etiqueta per defecte"
 
 #. module: label
 #: field:label.wizard,first_row:0
@@ -308,7 +335,7 @@ msgstr "Primera fila"
 
 #. module: label
 #: code:addons/label/label.py:0
-#: code:addons/label/label_wizard.py:0
+#: code:addons/label/label_report_engine.py:0
 #, python-format
 msgid "Label"
 msgstr "Etiqueta"
@@ -369,6 +396,11 @@ msgid "Label Width"
 msgstr "Amplada etiqueta"
 
 #. module: label
+#: field:label.templates,type:0
+msgid "Type"
+msgstr "Tipus"
+
+#. module: label
 #: help:label.templates,table_required_fields:0
 msgid "Select the fields you require in the table."
 msgstr "Seleccioneu els camps que necessiteu de la taula."
@@ -415,9 +447,10 @@ msgid "Invalid XML for View Architecture!"
 msgstr "XML invàlid per a la definició de la vista!"
 
 #. module: label
-#: model:ir.module.module,shortdesc:label.module_meta_information
-msgid "PDF Labels for partner, address, product, picking, ..."
-msgstr "Etiquetes PDF per a empreses, direccions, productes, albarans, ..."
+#: code:addons/label/label.py:0
+#, python-format
+msgid "6) <nextFrame/> tag is not needed.\n"
+msgstr "6) Etiqueta <nextFrame/> no és necessària.\n"
 
 #. module: label
 #: view:label.templates:0
@@ -445,7 +478,7 @@ msgid "New Template"
 msgstr "Nova plantilla"
 
 #. module: label
-#: code:addons/label/label_wizard.py:0
+#: code:addons/label/label_report_engine.py:0
 #, python-format
 msgid "Generic template file in label folder can not be read."
 msgstr ""
@@ -476,7 +509,12 @@ msgid "Security"
 msgstr "Seguretat"
 
 #. module: label
-#: code:addons/label/label_wizard.py:0
+#: selection:label.templates,type:0
+msgid "XSL:RML"
+msgstr "XSL:RML"
+
+#. module: label
+#: code:addons/label/label_report_engine.py:0
 #, python-format
 msgid ""
 "Template has invalid %%for control sentence in line:\n"
@@ -539,9 +577,9 @@ msgstr ""
 "http://www.reportlab.com/software/documentation/"
 
 #. module: label
-#: selection:label.wizard,font_type:0
-msgid "Helvetica-Oblique"
-msgstr "Helvetica-Oblique"
+#: model:ir.model,name:label.model_label_templates
+msgid "Label Templates for Models"
+msgstr "Plantilles d'etiquetes per a models"
 
 #. module: label
 #: field:label.templates,ref_ir_act_window:0
@@ -554,19 +592,14 @@ msgid "Landscape"
 msgstr "Horitzontal"
 
 #. module: label
-#: code:addons/label/label_wizard.py:0
+#: code:addons/label/label_report_engine.py:0
 #, python-format
 msgid "Template file in label/custom_reports folder can not be created."
 msgstr ""
 "No es pot crear el fitxer de la plantilla a la carpeta label/custom_reports."
 
 #. module: label
-#: view:label.templates:0
-msgid "3) Mako control sequence %for ... %endfor for loops"
-msgstr "3) Seqüència de control Mako per a bucles %for  ... %endfor"
-
-#. module: label
-#: code:addons/label/label_wizard.py:0
+#: code:addons/label/label_report_engine.py:0
 #, python-format
 msgid ""
 "Template has not balanced %%for and %%endfor control sentences.\n"
@@ -600,9 +633,15 @@ msgstr ""
 "extern utilitzat al bucle (per ex. object.address/o.street)."
 
 #. module: label
-#: view:label.templates:0
-msgid "<blockTableStyle id='mytable'>"
-msgstr "<blockTableStyle id='mytable'>"
+#: code:addons/label/label.py:0
+#, python-format
+msgid "3) Mako control sequence %%for ... %%endfor for loops\n"
+msgstr ""
+
+#. module: label
+#: model:ir.module.module,shortdesc:label.module_meta_information
+msgid "PDF Labels for partner, address, product, picking, ..."
+msgstr "Etiquetes PDF per a empreses, direccions, productes, albarans, ..."
 
 #. module: label
 #: help:label.wizard,first_col:0
@@ -644,7 +683,7 @@ msgid "Courier"
 msgstr "Courier"
 
 #. module: label
-#: code:addons/label/label_wizard.py:0
+#: code:addons/label/label_report_engine.py:0
 #, python-format
 msgid ""
 "Template has not balanced %%for and %%endfor control sentences.\n"
@@ -658,17 +697,8 @@ msgstr "Marge superior"
 
 #. module: label
 #: view:label.templates:0
-msgid "6) <nextFrame/> tag where you want jump to next label."
-msgstr "6) Etiqueta <nextFrame/> a on s'ha de saltar a la següent etiqueta."
-
-#. module: label
-#: view:label.templates:0
-msgid ""
-"2) Mako fields like ${object.name} (use the expression builder to compute "
-"them)"
-msgstr ""
-"2) Camps Mako com ${object.name} (el constructor d'expressions permet "
-"calcular-los)"
+msgid "<blockTableStyle id='mytable'>"
+msgstr "<blockTableStyle id='mytable'>"
 
 #. module: label
 #: help:report.label,label_height:0
@@ -700,6 +730,16 @@ msgstr ""
 "que heu seleccionat."
 
 #. module: label
+#: help:label.templates,null_value:0
+msgid "This Value is used if the field is empty."
+msgstr "Aquest valor s'utilitza si el camp està buit."
+
+#. module: label
+#: selection:label.templates,type:0
+msgid "RML"
+msgstr "RML"
+
+#. module: label
 #: field:report.label,manufacturer_id:0
 msgid "Manufacturer"
 msgstr "Fabricant"
@@ -718,6 +758,11 @@ msgstr "Núm. columnes"
 #: selection:label.wizard,state:0
 msgid "Create a report."
 msgstr "Creeu un informe."
+
+#. module: label
+#: field:label.wizard,lang:0
+msgid "Language"
+msgstr "Idioma"
 
 #. module: label
 #: model:ir.actions.act_window,name:label.action_report_pagesize_form
@@ -742,7 +787,7 @@ msgid "Courier-Bold"
 msgstr "Courier-Bold"
 
 #. module: label
-#: code:addons/label/label_wizard.py:0
+#: code:addons/label/label_report_engine.py:0
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -765,11 +810,6 @@ msgstr "Camp taula"
 #: field:label.templates,copyvalue:0
 msgid "Expression"
 msgstr "Expressió"
-
-#. module: label
-#: view:label.templates:0
-msgid "5) ReportLab tags like <blockTable>, <tr>, <td>, ..."
-msgstr "5) Etiquetes ReportLab com <blockTable>, <tr>, <td>, ..."
 
 #. module: label
 #: field:label.wizard,printer_left:0
@@ -809,7 +849,7 @@ msgstr "Marges impressora"
 #. module: label
 #: field:report.pagesize,height:0
 msgid "Height"
-msgstr "Alçada"
+msgstr "Altura"
 
 #. module: label
 #: code:addons/label/label.py:0
@@ -849,6 +889,12 @@ msgstr ""
 "l'etiqueta + altura etiqueta). Torna-ho a provar."
 
 #. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid "5) ReportLab tags like <blockTable>, <tr>, <td>, ...\n"
+msgstr "5) Etiquetes ReportLab com <blockTable>, <tr>, <td>, ...\n"
+
+#. module: label
 #: constraint:ir.model:0
 msgid ""
 "The Object name must start with x_ and not contain any special character !"
@@ -872,14 +918,14 @@ msgid "Width Increment"
 msgstr "Increment horitzontal"
 
 #. module: label
-#: view:label.templates:0
-msgid "1) Fixed strings like 'Ref.:'"
-msgstr "1) Textos fixos com 'Ref.:'"
-
-#. module: label
 #: field:label.templates,report_template:0
 msgid "Label Report"
 msgstr "Informe etiqueta"
+
+#. module: label
+#: model:ir.model,name:label.model_report_label
+msgid "report.label"
+msgstr "informe.etiqueta"
 
 #. module: label
 #: model:ir.module.module,description:label.module_meta_information
@@ -954,15 +1000,60 @@ msgid "Field"
 msgstr "Camp"
 
 #. module: label
-#: view:label.templates:0
-msgid "4) ReportLab tags <b> <i> <u> <super> <sub> <font> <barCode> <greek>"
-msgstr ""
-"4) Etiquetes ReportLab <b> <i> <u> <super> <sub> <font> <barCode> <greek>"
-
-#. module: label
 #: field:label.templates,table_copyvalue:0
 msgid "Table Code"
 msgstr "Codi taula"
+
+#. module: label
+#: model:label.templates,def_body_text:label.label_templates_address0
+msgid ""
+"<blockTable style=\"mytable\">\n"
+" <tr><td>\n"
+" <b>${object.partner_id.name or ''}${object.partner_id.title and ' "
+"'+object.partner_id.title or ''}</b>\n"
+" ${object.title and object.title+' ' or ''}${object.name or ''}\n"
+" ${object.street or ''}\n"
+" ${object.street2 or ''}\n"
+" ${object.zip or ''} ${object.city or ''}\n"
+" ${object.state_id.name or ''}\n"
+" ${object.country_id.name or ''}\n"
+" </td></tr>\n"
+" </blockTable>\n"
+" <nextFrame/>"
+msgstr ""
+"<blockTable style=\"mytable\">\n"
+" <tr><td>\n"
+" <b>${object.partner_id.name or ''}${object.partner_id.title and ' "
+"'+(object.partner_id.title=='Corp.' and 'S.A.' or "
+"object.partner_id.title=='ltd' and 'S.L.' or object.partner_id.title) or "
+"''}</b>\n"
+" ${object.title and (object.title=='M.' and 'Sr.' or object.title in "
+"['Ms.','Mss'] and 'Sra.' or object.title)+' ' or ''}${object.name or ''}\n"
+" ${object.street or ''}\n"
+" ${object.street2 or ''}\n"
+" ${object.zip or ''} ${object.city or ''}\n"
+" ${object.state_id.name or ''}\n"
+" ${object.country_id.name or ''}\n"
+" </td></tr>\n"
+" </blockTable>\n"
+" <nextFrame/>"
+
+#. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid ""
+"For Mako documentation visit http://www.makotemplates.org/docs/syntax.html\n"
+msgstr ""
+"Per a documentació Mako visiteu "
+"http://www.makotemplates.org/docs/syntax.html\n"
+
+#. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid ""
+"4) ReportLab tags <b> <i> <u> <super> <sub> <font> <barCode> <greek>\n"
+msgstr ""
+"4) Etiquetes ReportLab <b> <i> <u> <super> <sub> <font> <barCode> <greek>\n"
 
 #. module: label
 #: field:report.label,description:0
@@ -970,9 +1061,25 @@ msgid "Description"
 msgstr "Descripció"
 
 #. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid "1) Fixed strings like 'Ref.:'\n"
+msgstr "1) Textos fixos com 'Ref.:'\n"
+
+#. module: label
 #: field:label.templates,null_value:0
 msgid "Null Value"
 msgstr "Valor nul"
+
+#. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid ""
+"For ReportLab documentation visit "
+"http://www.reportlab.com/software/documentation/\n"
+msgstr ""
+"Per a documentació ReportLab visiteu "
+"http://www.reportlab.com/software/documentation/\n"
 
 #. module: label
 #: view:label.templates:0
@@ -988,40 +1095,6 @@ msgstr "Insereix taula"
 #: selection:label.wizard,font_size:0
 msgid "9"
 msgstr "9"
-
-#. module: label
-#: model:label.templates,def_body_text:label.label_templates_address0
-msgid ""
-"<blockTable style=\"mytable\">\n"
-" <tr><td>\n"
-" <b>${object.partner_id.name or ''}${object.partner_id.title and ' "
-"'+object.partner_id.title or ''}</b>\n"
-" ${object.title and object.title+' ' or ''}${object.name or ''}\n"
-" ${object.street or ''}\n"
-" ${object.street2 or ''}\n"
-" ${object.zip or ''} ${object.city or ''}\n"
-" ${object.state_id.name or ''}\n"
-" ${object.country_id.name or ''}\n"
-" <nextFrame/>\n"
-" </td></tr>\n"
-" </blockTable>"
-msgstr ""
-"<blockTable style=\"mytable\">\n"
-" <tr><td>\n"
-" <b>${object.partner_id.name or ''}${object.partner_id.title and ' "
-"'+(object.partner_id.title=='Corp.' and 'S.A.' or "
-"object.partner_id.title=='ltd' and 'S.L.' or object.partner_id.title) or "
-"''}</b>\n"
-" ${object.title and (object.title=='M.' and 'Sr.' or object.title in "
-"['Ms.','Mss'] and 'Sra.' or object.title)+' ' or ''}${object.name or ''}\n"
-" ${object.street or ''}\n"
-" ${object.street2 or ''}\n"
-" ${object.zip or ''} ${object.city or ''}\n"
-" ${object.state_id.name or ''}\n"
-" ${object.country_id.name or ''}\n"
-" <nextFrame/>\n"
-" </td></tr>\n"
-" </blockTable>"
 
 #. module: label
 #: help:report.pagesize,height:0
@@ -1074,9 +1147,14 @@ msgid "Model"
 msgstr "Model"
 
 #. module: label
-#: model:ir.model,name:label.model_label_templates
-msgid "Label Templates for Models"
-msgstr "Plantilles d'etiquetes per a models"
+#: selection:label.wizard,font_type:0
+msgid "Helvetica-Oblique"
+msgstr "Helvetica-Oblique"
+
+#. module: label
+#: selection:label.templates,type:0
+msgid "SLCS (Bixolon)"
+msgstr "SLCS (Bixolon)"
 
 #. module: label
 #: code:addons/label/label.py:0
@@ -1094,14 +1172,15 @@ msgstr ""
 
 #. module: label
 #: view:label.templates:0
-msgid "Note: Only 1, 2, 4 contents can be mixed in the same line."
-msgstr ""
-"Nota: Només els continguts 1, 2, 4 poden barrejar-se a la mateixa línia."
-
-#. module: label
-#: view:label.templates:0
 msgid "  <blockAlignment value='CENTER'/>"
 msgstr "  <blockAlignment value='CENTER'/>"
+
+#. module: label
+#: code:addons/label/label.py:0
+#, python-format
+msgid "6) <nextFrame/> tag where you want jump to next label.\n"
+msgstr ""
+"6) Etiqueta <nextFrame/> a on s'ha de saltar a la següent etiqueta.\n"
 
 #. module: label
 #: help:label.templates,allowed_groups:0

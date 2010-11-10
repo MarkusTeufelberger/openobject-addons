@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <!-- Customer Credit Warning wizard view-->
+    
+      <record id="view_customer_credit_warning" model="ir.ui.view">
+        <field name="name">customer.credit.warning.form</field>
+        <field name="model">customer.credit.warning</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+           <form string="Warning">
+                <group colspan="4" >
+                    <label string="The chosen  customer has reach his credit limit of X.- !"/>                     
+                </group>
+               <separator string="" colspan="4" />
+               <group colspan="4" col="6">
+                    <button  icon="gtk-ok" special="cancel" string="Ok"/>
+               </group>
+           </form>
+        </field>
+    </record>
+    
+
+    <!--  Action of  Customer Credit Warning wizard -->
+
+    <record id="action_customer_credit_warning" model="ir.actions.act_window">
+        <field name="name">Customer credit Warning</field>
+        <field name="res_model">customer.credit.warning</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+       <field name="view_id" ref="view_customer_credit_warning"/>
+       <field name="target">new</field>
+    </record>      
+    
+         
+    </data>
+</openerp>       

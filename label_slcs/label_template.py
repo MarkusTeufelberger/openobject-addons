@@ -19,6 +19,7 @@
 ##############################################################################
 
 from osv import osv
+from tools.translate import _
 
 import label_report_engine
 
@@ -45,5 +46,13 @@ class label_templates(osv.osv):
         label_report_engine.report_label_slcs(
             'report.' + template.report_template.report_name,
             template.report_template.model)
+
+    def _help_text_slcs(self, cr, context=None):
+        return _("You can write here SLCS commands directly.\n") + \
+        _("To access variables put \n") + \
+        _('<%page args="object, col, vals, font, splittext, user" /> at the beginning.\n') + \
+        _("The whole template handling logic is in a mako file,\n") + \
+        _("look at label_slcs/report/label_template.txt to see how it works.\n") + \
+        _("For Mako documentation visit http://www.makotemplates.org/docs/syntax.html\n")
 
 label_templates()

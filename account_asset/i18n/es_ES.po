@@ -6,14 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.12\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-08-18 14:34:08+0000\n"
-"PO-Revision-Date: 2010-08-19 16:00+0100\n"
-"Last-Translator: Ana Juaristi <ajuaristio@gmail.com>\n"
+"POT-Creation-Date: 2010-05-27 15:57+0000\n"
+"PO-Revision-Date: 2010-09-03 08:06+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
+"X-Launchpad-Export-Date: 2010-09-04 04:58+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
@@ -24,7 +26,7 @@ msgstr "Activos abiertos"
 #. module: account_asset
 #: help:account.asset.usage.createlines,init,interval:0
 msgid "How many usage entries are you going to make per year?"
-msgstr "Cuantas entradas vas a hacer por año?"
+msgstr "¿Cuantas entradas va a hacer por ejercicio fiscal?"
 
 #. module: account_asset
 #: field:account.asset.method,value_residual:0
@@ -35,19 +37,23 @@ msgstr "Valor residual"
 #: field:account.asset.method,account_expense_id:0
 #: field:account.asset.method.defaults,account_expense_id:0
 msgid "Depr. Expense Account"
-msgstr "Cuenta amortización de gastos"
+msgstr "Cuenta gastos amortización"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
 #, python-format
-msgid "You cannot assign Product \"%s\" to Asset Method \"%s\". This method is in Draft state or is inactive (sold or abandoned)."
-msgstr "No puede asignar Producto \"%s\" al método de amortización \"%s\". Este método está en estado borrador o es inactivo (Depreciado o abandonado)"
+msgid ""
+"You cannot assign Product \"%s\" to Asset Method \"%s\". This method is in "
+"Draft state or is inactive (sold or abandoned)."
+msgstr ""
+"No puede asignar producto \"%s\" al método de amortización \"%s\". Este "
+"método está en estado borrador o está inactivo (vendido o abandonado)."
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Date must be in the period !"
-msgstr "La fecha debe estar en el periodo !"
+msgstr "¡La fecha debe estar dentro del periodo!"
 
 #. module: account_asset
 #: view:account.asset.method.defaults:0
@@ -59,16 +65,20 @@ msgstr "Valores por defecto método de activo"
 #. module: account_asset
 #: view:account.asset.asset:0
 #: field:account.asset.asset,name:0
-#: field:account.asset.history,asset_id:0
-#: field:account.asset.method,asset_id:0
+#: field:account.asset.board,asset_id:0
+#: field:account.asset.property,asset_id:0
+#: field:account.invoice.line,asset_id:0
+#: field:account.move.line,asset_id:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_form
 #: model:ir.model,name:account_asset.model_account_asset_asset
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_form
 msgid "Asset"
 msgstr "Activo"
 
 #. module: account_asset
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr "Nombre de modelo inválido en la definición de la acción."
+msgstr "Nombre de modelo no válido en la definición de acción."
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -96,7 +106,7 @@ msgid ""
 "   Intervals per Year: "
 msgstr ""
 "\n"
-"   Intervaols por año: "
+"   Intervalos por ejercicio: "
 
 #. module: account_asset
 #: field:account.asset.method,journal_analytic_id:0
@@ -105,15 +115,15 @@ msgid "Analytic Journal"
 msgstr "Diario analítico"
 
 #. module: account_asset
-#: view:account.asset.history:0
-#: model:ir.model,name:account_asset.model_account_asset_history
+#: view:account.asset.property.history:0
+#: model:ir.model,name:account_asset.model_account_asset_property_history
 msgid "Asset history"
 msgstr "Histórico del activo"
 
 #. module: account_asset
 #: wizard_field:account.asset.reval,init,expense_value:0
 msgid "Increasing Expense Value"
-msgstr "Incrementando el valor del gasto"
+msgstr "Valor incremento del gasto"
 
 #. module: account_asset
 #: help:account.asset.abandon,init,whole_asset:0
@@ -122,8 +132,13 @@ msgstr "Abandonar todos los métodos de este activo."
 
 #. module: account_asset
 #: help:account.asset.method,life:0
-msgid "Quantity of production which make the asset method used up. Used only in Units of Production computation method and cannot be zero in this case."
-msgstr "Cantidad de producción que hace el método de activo consumido. Usado solo en el método de cálculo de unidades de producción y no puede ser cero en este caso."
+msgid ""
+"Quantity of production which make the asset method used up. Used only in "
+"Units of Production computation method and cannot be zero in this case."
+msgstr ""
+"Cantidad de producción que hace el método de activo consumido. Usado sólo en "
+"el método de cálculo de unidades de producción y no puede ser cero en este "
+"caso."
 
 #. module: account_asset
 #: view:account.asset.category:0
@@ -134,8 +149,8 @@ msgstr "Categorías de activo"
 
 #. module: account_asset
 #: view:account.asset.asset:0
+#: field:account.asset.asset,entry_ids:0
 #: wizard_field:account.asset.compute,asset_compute,move_ids:0
-#: field:account.asset.method,entry_ids:0
 msgid "Entries"
 msgstr "Asientos"
 
@@ -156,6 +171,8 @@ msgid "Asset Computation"
 msgstr "Cálculo de activo"
 
 #. module: account_asset
+#: wizard_view:account.asset.modify,init:0
+#: wizard_button:account.asset.modify,init,asset_modify:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_modify
 msgid "Modify asset"
 msgstr "Modificar activo"
@@ -167,14 +184,19 @@ msgstr "Compra"
 
 #. module: account_asset
 #: help:account.asset.method.defaults,asset_category:0
-msgid "Select the asset category for this set of defaults. If no selection defined defaults will concern to all methods of selected type."
-msgstr "Seleccionar la categoría de activo de este conjunto de valores por defecto. Si no existe selección definida aplicará a todos los métodos del tipo seleccionado."
+msgid ""
+"Select the asset category for this set of defaults. If no selection defined "
+"defaults will concern to all methods of selected type."
+msgstr ""
+"Seleccionar la categoría de activo de este conjunto de valores por defecto. "
+"Si no existe selección definida aplicará a todos los métodos del tipo "
+"seleccionado."
 
 #. module: account_asset
 #: code:addons/account_asset/wizard/wizard_asset_initial.py:0
 #, python-format
 msgid "Inital values for asset: "
-msgstr "Valores iniciales del activo:"
+msgstr "Valores iniciales del activo: "
 
 #. module: account_asset
 #: wizard_button:account.asset.compute,asset_compute,asset_open:0
@@ -183,8 +205,8 @@ msgstr "Abrir asientos"
 
 #. module: account_asset
 #: view:account.asset.asset:0
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_form
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_form
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list
 #: model:ir.ui.menu,name:account_asset.menu_finance_Assets
 #: model:ir.ui.menu,name:account_asset.menu_finance_config_Assets
 msgid "Assets"
@@ -199,7 +221,8 @@ msgstr "Cuenta de amortización"
 #. module: account_asset
 #: help:account.asset.method.defaults,method_type:0
 msgid "Select method type for this set of defaults."
-msgstr "Seleccionar tipo de método para este conjunto de valores por defecto."
+msgstr ""
+"Seleccionar tipo de método para este conjunto de valores por defecto."
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_draft
@@ -213,21 +236,9 @@ msgid "Creation of Usage Lines"
 msgstr "Creación de líneas de uso."
 
 #. module: account_asset
-#: wizard_view:account.asset.abandon,init:0
-#: wizard_field:account.asset.abandon,init,note:0
-#: wizard_view:account.asset.close,init:0
-#: wizard_field:account.asset.close,init,note:0
-#: view:account.asset.history:0
-#: wizard_view:account.asset.initial,init:0
-#: wizard_field:account.asset.initial,init,note:0
-#: wizard_view:account.asset.localisation,init:0
-#: wizard_field:account.asset.localisation,init,note:0
 #: wizard_view:account.asset.modify,init:0
 #: wizard_field:account.asset.modify,init,note:0
-#: wizard_view:account.asset.resume,init:0
-#: wizard_field:account.asset.resume,init,note:0
-#: wizard_view:account.asset.reval,init:0
-#: wizard_field:account.asset.reval,init,note:0
+#: view:account.asset.property.history:0
 msgid "Notes"
 msgstr "Notas"
 
@@ -239,7 +250,7 @@ msgid ""
 "   Number of Intervals: "
 msgstr ""
 "\n"
-"   Numero de periodos: "
+"   Número de periodos: "
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -317,12 +328,12 @@ msgstr "Fecha final"
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Error ! You can not create recursive categories."
-msgstr "Error ! No puede crear categorías recursivas."
+msgstr "¡Error! No puede crear categorías recursivas."
 
 #. module: account_asset
 #: wizard_field:account.asset.reval,init,value:0
 msgid "Increasing Base Value"
-msgstr "Incrementando el valor base"
+msgstr "Valor de incremento base"
 
 #. module: account_asset
 #: field:account.asset.method,account_analytic_id:0
@@ -347,8 +358,12 @@ msgstr "Métodos de amortización"
 
 #. module: account_asset
 #: help:account.asset.method,account_residual_id:0
-msgid "Select account used for residual when asset is sold. You can change the account before sale operation."
-msgstr "Seleccionar la cuenta usada para el residual cuando el activo se amortiza. Puede cambiar la cuenta antes de la operación de venta."
+msgid ""
+"Select account used for residual when asset is sold. You can change the "
+"account before sale operation."
+msgstr ""
+"Seleccione la cuenta usada para el residual cuando el activo se vende. Puede "
+"cambiar la cuenta antes de la operación de venta."
 
 #. module: account_asset
 #: field:account.asset.method,life:0
@@ -358,14 +373,21 @@ msgstr "Cantidad de vida."
 
 #. module: account_asset
 #: field:account.asset.asset,partner_id:0
-#: field:account.asset.history,partner_id:0
 msgid "Partner"
 msgstr "Empresa"
 
 #. module: account_asset
 #: help:account.asset.method.defaults,method_progress_factor:0
-msgid "Specify the factor of progression in depreciation. It is used in Declining-Balance method. When linear depreciation is 20% per year, and you want apply Double-Declining Balance you should choose Declining-Balance method and enter 0,40 (40%) as Progressive factor."
-msgstr "Especificar el factor de progresión en la depreciación. Es usado en el método Declining-Balance. Cuando la depreciación lineal es 20% al año y desea aplicar Doble-Declining Balance debería escoger el método Declining-Balance y poner 0,40 (40%) como factor progresivo."
+msgid ""
+"Specify the factor of progression in depreciation. It is used in Declining-"
+"Balance method. When linear depreciation is 20% per year, and you want apply "
+"Double-Declining Balance you should choose Declining-Balance method and "
+"enter 0,40 (40%) as Progressive factor."
+msgstr ""
+"Indica el factor de progresión en la amortización. Se utiliza en el método "
+"Balance-Declinado. Cuando la amortización lineal es 20% al año y desea "
+"aplicar Balance Doble-Declinado, debería seleccionar el método Balance-"
+"Declinado y poner 0,40 (40%) como factor progresivo."
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -384,8 +406,11 @@ msgstr ""
 
 #. module: account_asset
 #: help:account.move.line,asset_method_id:0
-msgid "Assign the asset as depreciation method if move line concerns the asset."
-msgstr "Asignar el activo como método de depreciación si el asiento corresponde al activo."
+msgid ""
+"Assign the asset as depreciation method if move line concerns the asset."
+msgstr ""
+"Asigna el activo como método de amortización si el asiento corresponde al "
+"activo."
 
 #. module: account_asset
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_resume
@@ -407,12 +432,14 @@ msgstr "Método de uso"
 #. module: account_asset
 #: help:account.asset.method.defaults,account_impairment_id:0
 msgid "Select account used for impairment amount. Used in revaluation."
-msgstr "Select account used for impairment amount. Used in revaluation."
+msgstr ""
+"Seleccione la cuenta utilizada para el importe del deterioro. Utilizado en "
+"revalorización."
 
 #. module: account_asset
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr "¡XML inválido para la definición de la vista!"
+msgstr "¡XML no válido para la estructura de la vista!"
 
 #. module: account_asset
 #: wizard_button:account.asset.modify,init,asset_modify:0
@@ -428,7 +455,9 @@ msgstr "Método de cálculo"
 #. module: account_asset
 #: help:account.asset.method,method_salvage:0
 msgid "Value planned to be residual after full depreciation process"
-msgstr "Valor planificado para ser residual después del proceso completo de depreciación."
+msgstr ""
+"Valor planificado para ser residual después del proceso completo de "
+"amortización."
 
 #. module: account_asset
 #: wizard_field:account.asset.initial,init,acc_impairment:0
@@ -466,12 +495,12 @@ msgstr "Periodo calculado y periodo para fijación."
 #. module: account_asset
 #: help:account.asset.usage.createlines,init,fiscal_year:0
 msgid "Choose fiscal year for entries."
-msgstr "Escoja año fiscal para las entradas."
+msgstr "Seleccione ejercicio fiscal para los asientos."
 
 #. module: account_asset
 #: help:account.asset.method.defaults,account_residual_id:0
 msgid "Select account used for sale residual."
-msgstr "Seleccione la cuenta usada para el saldo residual"
+msgstr "Seleccione la cuenta usada para el saldo residual."
 
 #. module: account_asset
 #: view:account.asset.method.usage:0
@@ -481,7 +510,7 @@ msgstr "Método de uso"
 #. module: account_asset
 #: selection:account.asset.history,type:0
 msgid "Depr. Suppression"
-msgstr "Supresión depr. "
+msgstr "Supresión amort."
 
 #. module: account_asset
 #: help:account.asset.abandon,init,acc_abandon:0
@@ -492,12 +521,12 @@ msgstr "Cuenta para importe pérdida activo."
 #: field:account.asset.method,method_salvage:0
 #: wizard_field:account.asset.modify,init,method_salvage:0
 msgid "Salvage Value"
-msgstr "Valor de salvaguarda."
+msgstr "Valor de salvaguarda"
 
 #. module: account_asset
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_usage_createlines
 msgid "Usage Lines"
-msgstr "Líneas de uso."
+msgstr "Líneas de uso"
 
 #. module: account_asset
 #: help:account.asset.initial,init,date:0
@@ -529,13 +558,17 @@ msgstr "Número de intervalos"
 
 #. module: account_asset
 #: help:account.asset.initial,init,expense_value:0
-msgid "Initial Value of method expenses. There are sum of depreciations made before this system asset management."
-msgstr "Initial Value of method expenses. There are sum of depreciations made before this system asset management."
+msgid ""
+"Initial Value of method expenses. There are sum of depreciations made before "
+"this system asset management."
+msgstr ""
+"Valor inicial de gastos del método. Son la suma de las amortizaciones "
+"efectuadas antes de usar este sistema de gestión de activos."
 
 #. module: account_asset
 #: wizard_view:account.asset.close,init:0
 msgid "Method Suppression"
-msgstr "Metodo de supresión."
+msgstr "Metodo de supresión"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -543,6 +576,8 @@ msgid "Asset Description"
 msgstr "Descripción activo"
 
 #. module: account_asset
+#: wizard_view:account.asset.compute,asset_compute:0
+#: wizard_view:account.asset.compute,init:0
 #: wizard_button:account.asset.compute,init,asset_compute:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_compute
 #: model:ir.ui.menu,name:account_asset.menu_wizard_asset_compute
@@ -551,13 +586,24 @@ msgstr "Calcular activos"
 
 #. module: account_asset
 #: help:account.asset.method,method_delay:0
-msgid "How many intervals this asset is to be calculated in its life. If asset was calculated in other system before specify Intervals Before too."
-msgstr "Cuantos intevalos de este activo deben ser calculados en su vida. Si el activo fue calculado en otro sistema antes especificar antes los intervalos también. "
+msgid ""
+"How many intervals this asset is to be calculated in its life. If asset was "
+"calculated in other system before specify Intervals Before too."
+msgstr ""
+"Cuantos intervalos de este activo deben ser calculados en su vida. Si el "
+"activo fue calculado en otro sistema antes, indique los intervalos "
+"anteriores también."
 
 #. module: account_asset
 #: help:account.asset.reval,init,value:0
-msgid "Value to be added to method base value. In Direct method it is increasing of book value. In Indirect method it is increasing of cost basis. Negative value means decreasing."
-msgstr "Valor para se añadido al valor del método base. En el método directo es incrementado el valor del libro. En el método indirecto es incrementando el coste base. Valor negativo indica decremento."
+msgid ""
+"Value to be added to method base value. In Direct method it is increasing of "
+"book value. In Indirect method it is increasing of cost basis. Negative "
+"value means decreasing."
+msgstr ""
+"Valor para se añadido al valor del método base. En el método directo es "
+"incrementado el valor prefijado. En el método indirecto es incrementando el "
+"coste base. Valor negativo indica decremento."
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -567,7 +613,7 @@ msgstr "Cambio de parámetros"
 #. module: account_asset
 #: field:account.asset.history,type:0
 msgid "Entry Type"
-msgstr "Tipo entrada"
+msgstr "Tipo de entrada"
 
 #. module: account_asset
 #: view:account.asset.method:0
@@ -577,8 +623,12 @@ msgstr "Métodos de activos"
 #. module: account_asset
 #: help:account.asset.method,account_asset_id:0
 #: help:account.asset.method.defaults,account_asset_id:0
-msgid "Select account used for cost basis of asset. It will be applied into invoice line when you select this asset in invoice line."
-msgstr "Seleccione la cuenta usada para el coste básico del activo. Será aplicado en la línea de factura cuando seleccione este activo en la línea de factura."
+msgid ""
+"Select account used for cost basis of asset. It will be applied into invoice "
+"line when you select this asset in invoice line."
+msgstr ""
+"Seleccione la cuenta usada para el coste básico del activo. Será aplicado en "
+"la línea de factura cuando seleccione este activo en la línea de factura."
 
 #. module: account_asset
 #: code:addons/account_asset/wizard/wizard_asset_localisation.py:0
@@ -597,7 +647,7 @@ msgid "Parent Category"
 msgstr "Categoría padre"
 
 #. module: account_asset
-#: field:account.asset.history,name:0
+#: field:account.asset.property.history,name:0
 msgid "History name"
 msgstr "Nombre histórico"
 
@@ -609,8 +659,11 @@ msgstr "Revalorizar"
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
-msgid "This wizard works only when asset have just Draft and Closed methods !"
-msgstr "¡ Este asistente sólo funciona cuando el activo tiene únicamente métodos borrador y cerrados !"
+msgid ""
+"This wizard works only when asset have just Draft and Closed methods !"
+msgstr ""
+"¡Este asistente sólo funciona cuando el activo tiene únicamente métodos "
+"borrador y cerrados!"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -626,12 +679,17 @@ msgstr "Valor base"
 #: wizard_field:account.asset.initial,init,intervals_before:0
 #: field:account.asset.method,intervals_before:0
 msgid "Intervals Before"
-msgstr "Intervalos antes"
+msgstr "Intervalos anteriores"
 
 #. module: account_asset
 #: help:account.asset.compute,init,category_id:0
-msgid "If empty all categories assets will be calculated. If you use hierarchical categories all children of selected category be calculated."
-msgstr "Si vacío todas las categorías de activos serán calculados. Si usa categorías jerárquicas todos los hijos de las categoría seleccionadas serán calculadas."
+msgid ""
+"If empty all categories assets will be calculated. If you use hierarchical "
+"categories all children of selected category be calculated."
+msgstr ""
+"Si está vacío todas las categorías de activos serán calculadas. Si usa "
+"categorías jerárquicas, todos los hijos de la categoría seleccionada serán "
+"calculados."
 
 #. module: account_asset
 #: wizard_button:account.asset.resume,init,asset_resume:0
@@ -656,8 +714,12 @@ msgstr "Estructura categoría de activo"
 
 #. module: account_asset
 #: help:account.asset.asset,localisation:0
-msgid "Set this field before asset coonfirming. Later on you will have to use Change Localisation button."
-msgstr "Asigne valor en este campo antes de la confirmación del activo. Más tarde tendrá que usar el botón de cambio de localización."
+msgid ""
+"Set this field before asset coonfirming. Later on you will have to use "
+"Change Localisation button."
+msgstr ""
+"Asigne valor en este campo antes de la confirmación del activo. Más tarde "
+"tendrá que usar el botón de cambio de localización."
 
 #. module: account_asset
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_reval
@@ -666,8 +728,16 @@ msgstr "Revalorizar"
 
 #. module: account_asset
 #: help:account.asset.method,method_progress_factor:0
-msgid "Specify the factor of progression in depreciation. Used in Declining-Balance and Progressive method only. When linear depreciation is 20% per year, and you want apply Double-Declining Balance you should choose Declining-Balance method and enter 0,40 (40%) as Progressive factor."
-msgstr "Especifique el factor de progresión en la depreciación. Usado en los métodos Balance-declinante y progresivo. Cuando la depreciación lineal es 20% al año y desea aplicar Balance Doble-Declinado debería escoger Balance-declinado y poner 0,40 (40%) como en progresivo."
+msgid ""
+"Specify the factor of progression in depreciation. Used in Declining-Balance "
+"and Progressive method only. When linear depreciation is 20% per year, and "
+"you want apply Double-Declining Balance you should choose Declining-Balance "
+"method and enter 0,40 (40%) as Progressive factor."
+msgstr ""
+"Indique el factor de progresión en la amortización. Usado en los métodos "
+"Balance-Declinado y Progresivo. Cuando la amortización lineal es 20% al año "
+"y desea aplicar Balance Doble-Declinado debería seleccionar Balance-"
+"Declinado y poner 0,40 (40%) como factor progresivo."
 
 #. module: account_asset
 #: field:account.asset.method.type,name:0
@@ -688,17 +758,21 @@ msgstr "Cuenta para importe perdido"
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "You can dalete assets only in Draft state !"
-msgstr "¡Solo puede borrar activos en estado borrador!"
+msgstr "¡Sólo puede borrar activos en estado borrador!"
 
 #. module: account_asset
 #: help:account.asset.reval,init,expense_value:0
-msgid "Value to be added to asset expenses. Used only in indirect method. In direct method ignored."
-msgstr "Valor a añadir a los gastos del activo. Solo usado en el método indirecto. En el método directo es ignorado."
+msgid ""
+"Value to be added to asset expenses. Used only in indirect method. In direct "
+"method ignored."
+msgstr ""
+"Valor a añadir a los gastos del activo. Sólo se usa en el método indirecto. "
+"En el método directo se ignora."
 
 #. module: account_asset
 #: help:account.asset.method.defaults,account_actif_id:0
 msgid "Select account used for depreciation amount."
-msgstr "Seleccione cuenta usada para importe de depreciación."
+msgstr "Seleccione cuenta usada para importe de amortización."
 
 #. module: account_asset
 #: field:account.asset.method,date:0
@@ -725,9 +799,12 @@ msgstr "Suma de los dígitos del año"
 #: code:addons/account_asset/wizard/wizard_asset_resume.py:0
 #, python-format
 msgid "Resuming because: "
-msgstr "Resuming because: "
+msgstr "Reactivación por: "
 
 #. module: account_asset
+#: field:account.asset.asset,category_id:0
+#: view:account.asset.category:0
+#: field:account.asset.category,name:0
 #: model:ir.model,name:account_asset.model_account_asset_category
 msgid "Asset category"
 msgstr "Categoría de activo"
@@ -745,8 +822,12 @@ msgstr ""
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
 #, python-format
-msgid "You cannot assign Product \"%s\" to Asset Method \"%s\". This method is already depreciated or is inactive (sold or abandoned)."
-msgstr "No puede asignar el producto \"%s\" al método de activo \"%s\". Este método está depreciado o inactivo (amortizado o abandonado)."
+msgid ""
+"You cannot assign Product \"%s\" to Asset Method \"%s\". This method is "
+"already depreciated or is inactive (sold or abandoned)."
+msgstr ""
+"No puede asignar el producto \"%s\" al método de activo \"%s\". Este método "
+"está amortizado o inactivo (vendido o abandonado)."
 
 #. module: account_asset
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_initial
@@ -766,14 +847,13 @@ msgstr "Valor residual"
 #. module: account_asset
 #: field:account.asset.asset,note:0
 #: field:account.asset.category,note:0
-#: field:account.asset.history,note:0
-#: field:account.asset.method.type,note:0
+#: field:account.asset.property.history,note:0
 msgid "Note"
 msgstr "Nota"
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
-#: selection:account.asset.method,state:0
+#: selection:account.asset.property,state:0
 msgid "Draft"
 msgstr "Borrador"
 
@@ -782,13 +862,15 @@ msgstr "Borrador"
 msgid ""
 "Open - Ready for calculation.\n"
 "Suppressed - Not calculated.\n"
-"Depreciated - Depreciation finished but method exists (can be sold or abandoned).\n"
+"Depreciated - Depreciation finished but method exists (can be sold or "
+"abandoned).\n"
 "Closed - Asset method doesn't exist (sold or abandoned)."
 msgstr ""
 "Abierto - Listo para el cálculo.\n"
 "Suprimido - No calculado.\n"
-"Depreciado -Depreciación terminada pero el método existe (puede ser amortizado o abandonado).\n"
-"Cerrado - El método de activo no existe (amortizado o abandonado)."
+"Amortizado - Amortización terminada pero el método existe (puede ser vendido "
+"o abandonado).\n"
+"Cerrado - El método de activo no existe (vendido o abandonado)."
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
@@ -802,19 +884,20 @@ msgid ""
 "Normal - Asset contains active methods (opened, suppressed or depreciated).\n"
 "Closed - Asset doesn't exist. All methods are sold or abandoned."
 msgstr ""
-"Normal - El activo contiene métodos activos (abierto, suprimido or depreciado).\n"
-"Cerrado - El activo no existe. Todos los métodos están amortizados o abandonados."
+"Normal - El activo contiene métodos activos (abierto, suprimido o "
+"amortizado).\n"
+"Cerrado - El activo no existe. Todos los métodos están vendidos o "
+"abandonados."
 
 #. module: account_asset
-#: field:account.asset.history,asset_method_id:0
-#: field:account.asset.method.usage,asset_method_id:0
+#: field:account.asset.property.history,asset_property_id:0
 msgid "Method"
 msgstr "Método"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
 msgid "Purchase Refund"
-msgstr "Reembolso de Compra"
+msgstr "Abono de compra"
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
@@ -842,263 +925,6 @@ msgid "Localisation"
 msgstr "Localización"
 
 #. module: account_asset
-#: model:ir.module.module,description:account_asset.module_meta_information
-msgid ""
-"Financial and accounting asset management.\n"
-"    Allows to define\n"
-"    * Assets.\n"
-"    * Asset usage period and method.\n"
-"    * Asset category. \n"
-"    * Asset method types\n"
-"    * Default accounts for methods and categories\n"
-"    * Depreciation methods:\n"
-"        - Straight-Line\n"
-"        - Declining-Balance\n"
-"        - Sum of Year Digits\n"
-"        - Units of Production - this method can be used for individual depreciation schedule.\n"
-"        - Progressive\n"
-"    * Method Parameters:\n"
-"	- Starting interval (period)\n"
-"	- Number of depreciation intervals\n"
-"	- Number of intervals per year\n"
-"	- Progressive factor for Declining-Balance method\n"
-"	- Salvage Value\n"
-"	- Life Quantity for Unit of Production method\n"
-"    * Functionality:\n"
-"	- Defining the asset in invoice when purchasing\n"
-"	- Adjusting the asset value in purchasing Refund\n"
-"	- Periodical entering of units of production\n"
-"	- Periodical asset calculation\n"
-"	- Sales invoice stops the depreciation and make final postings\n"
-"    * Wizards:\n"
-"	- Initial Values for continuing depreciation from previous system\n"
-"	- Revaluation\n"
-"	- Abandonment\n"
-"	- Method parameters changing\n"
-"	- Suppressing and Resuming depreciation\n"
-"	- Localisation changing\n"
-"\n"
-"This module is based on original Tiny module account_asset version 1.0 of the same name \"Financial and accounting asset management\".\n"
-"\n"
-"Purpose of the module is to aid fixed assets management and integrate this management into the accounting system.\n"
-"\n"
-"Terms used in the module:\n"
-"- Asset - product or set of products which are used internally in company for longer time and must be taken into asset registry.\n"
-"- Asset Category - Term for grouping assets into hierarchical structure.\n"
-"- Asset Method - Calculation rules of depreciation. Asset can have few methods. For each asset element or for each kind of depreciation (cost and tax).\n"
-"- Method Type - Used for differentiation of method types and for default settings. \n"
-"- Method Defaults - Settings assigned to method types (and categories) simplifying creation of asset settings.\n"
-"\n"
-"Usage of the module:\n"
-"====================\n"
-"Introduction settings:\n"
-"1. Creating Asset categories (optional)\n"
-"2. Creating Method Types (optional)\n"
-"3. Setting Method Defaults (optional)\n"
-"\n"
-"Usual activities:\n"
-"4. Creating Asset\n"
-"5. Purchasing Asset\n"
-"6. Calculating Asset depreciation\n"
-"\n"
-"Rare activities:\n"
-"7. Acquiring asset \n"
-"8. Sale of asset\n"
-"9. Revaluation of asset\n"
-"10. Asset abandonment\n"
-"11. Suppressing and resuming the depreciation\n"
-"12. Changing a localisation\n"
-"\n"
-"============================\n"
-"1. Create Asset categories in menu \"Financial Management - Configuration - Assets - Asset Categories\". Categories can be hierarchical. Read farther how hierarchy works for Method Defaults and for Periodical Calculation. You can review hierarchy of categories in menu \"Financial Management - Configuration - Assets - Category Structure\"\n"
-"\n"
-"2. Create Method types in menu \"Financial Management - Configuration - Assets - Asset Method Types\". You should create method type for every kind of depreciation. Fe. you use fast depreciation for computer equipment and slow depreciation for buildings. You can also create different types for cost depreciation and for tax depreciation (if you use tax depreciation).\n"
-"\n"
-"3. Create Method Defaults in menu \"Financial Management - Configuration - Assets - Asset Method Defaults\". You can create default settings for method type only or for pairs of method type and asset category. It is suggested to accounting manager to design asset categories hierarchy and assign defaults to categories and method types before system start. If it will be well designed accountants will have simplified and more error-proof job later on. All accounts, calculation methods and other parameters will be entered automatically during asset creation. Note that as Categories are hierarchical the defaults will work also hierarchical for all children categories. It means that if there is no defaults line for certain pair of Method Type and Category system look for pairs of Method Type and parent Category. It looks for such pair till root of Category.\n"
-"\n"
-"4. Create asset in menu \"Financial Management - Configuration - Assets - Assets\" or in \"Financial Management - Assets - Assets\". In Asset form you should enter the name of asset, asset code (abbreviation or numerical symbol which can be set in Sequence settings). Then you select Asset category. It is optional step but it would be used to enter method defaults. \n"
-"\n"
-"Then you go to methods creation. Asset can have many methods. They can be used when asset is a set of several elements. Fe. Computer set consisting PC, screen and printer. When they have the same depreciation rule they can be in one method (invoice lines assigned to the same method). If they have different depreciation rules they have to be in different methods. \n"
-"\n"
-"As a first step in creation of method select Method Type. After Method Type selection many fields can be filled automatically. First system creates the method Name from Method Type Code, Asset name and Asset Code. It would simplify Method selection in invoice line. Then system fills other fields according to method type defaults. There are accounts, calculation methods and other values. You can change Method name and other default settings before asset saving but when you select Method type again (even to the same type) these fields will be reverted back to defaults.\n"
-"\n"
-"5. As buying is the most common way to possess the asset you usually have to assign the created asset method to supplier invoice line. So when you create the draft supplier invoice you have to open the invoice line and select the created asset method. Notice that after method selection the invoice line account would be changed to Asset Account which was set in Asset method. Then when you create the invoice the asset state changes to Normal, Asset method state changes to Open and method is ready for depreciation.\n"
-"\n"
-"When asset purchase is subject of refund and asset should change the value according to that you should assign Refund line to asset method as you did during Purchasing. Method value will be reflected to the refund value.\n"
-"\n"
-"When an asset should consist few elements and these elements will be depreciated the same way (with the same rules) you can assignt few invoice lines to the same method. (From the same invoice or another). But if elements depreciation rules differs you should create separate methods for these elements.\n"
-"\n"
-"6. To make asset calculation choose \"Financial Management - Periodical Processing - Assets Calculation - Compute Assets\". You have to select period of calculation and date of postings. Selected period is also used as posting period so Date must be in Period. Then you can select Asset Category and Method Type which you would like to compute. Remember that Categories are hierarchical and work for all children. \n"
-"\n"
-"7. When you possesed the asset different way than purchasing (by own production or investment) or you wish to continue depreciation started in other system you can use wizard Initial Values. If you continue depreciation you can enter:\n"
-"    a. Base Value as starting Total.\n"
-"    b. Expense Value as depreciation already made.\n"
-"    c. Intervals Before as number of intervals already calculated.\n"
-"You can also Enter Base Value only as Residual left from previous depreciation (don't enter Expense Value and Intervals Before in such case).\n"
-"\n"
-"You can use this wizard also to make starting account move if asset was produced by you or is a result of investment recorded previously in other accounts.\n"
-"\n"
-"Remember that Wizards allows you to make note about previous depreciation in history entry. You can use Notes field for that.\n"
-"\n"
-"8. When asset is to be sold you can assign appropriate method to the Customer invoice line. System will make needed postings and stop the asset method.\n"
-"\n"
-"9. If you wish to revalue the method you can use Revalue Method button. Select parameters for postings and for asset history.\n"
-"\n"
-"10. If you wish to abandon the asset you can use Abandon Method button. Parameters in wizard are described in labels.\n"
-"\n"
-"11. You can wish suppress or resume the depreciation. You can use Suppress and Resume buttons for that. If method has state \"Suppressed\" it is not calculated.\n"
-"\n"
-"12. Some local rules require to trace the asset localisation. You can use for that the button \"Change Localisation\" on asset tab \"Other Information\". This wizard will change localisation text and make proper entry in asset history.\n"
-"\n"
-"Remarks:\n"
-"- All wizard actions are traced in Asset history. You can use Asset history as Asset registry.\n"
-"- Period in Method is used as indication of starting interval. If you have monthly periods, Intervals per Year is 4 (quarterly) and you set period July or August the calculation will start on September anyway. Depreciation is calculated always in last period of interval. If you set Intervals per Year to 1 (yearly depreciation) system calculates asset in 4th quarter or in December. In last case it calculates depreciation for whole year. If you wish to calculate different interval in first December than in following Decembers you can try to change method parameters using Change Parameters wizard at appropriate moment.\n"
-"- If you make mistake in depreciations or in wizard actions you can delete created accounting moves usual way in Financial menu. They are in draft state after creation so they can be deleted. You can recreate depreciation moves in Compute Asset wizard. Deleting the moves created by wizards doesn't delete asset history entries.\n"
-"- You can also manually create account moves for special postings not covered by this module functionality. In such case you have to assign move lines to asset method. You can use this possibility to add tax depreciation: \n"
-"    a. Create special method type for tax. \n"
-"    b. Create tax method for asset.\n"
-"    c. Create manually initial account move.\n"
-"    d. Create account move lines with proper accounts for assets.\n"
-"    e. Assign account move lines to asset method.\n"
-"    f. Use periodical depreciation computing as usual.\n"
-"  You can try to use Initial Values wizard instead of points c, d, e.\n"
-"\n"
-"- Unit of Production method. If you are not satisfied with any calculation method functionality or you wish to have individual depreciation schedule for method you can adopt Unit of Production calculation method for that:\n"
-"    a. Select Units of Production as Computation Method\n"
-"    b. Enter 100 in Life Quantity in method.\n"
-"    c. On Usage tab use Create Usage Line wizard to create usage entries for the method.\n"
-"    d. Enter percentage values as usage entries.\n"
-"Usage values can be entered in method tab Usage or in menu \"Financial Management - Periodical Processing - Assets Calculation - Method Usage\". Second method is recommended for use before every period computation.\n"
-"    "
-msgstr ""
-"Gestión financiera y contable de activost.\n"
-"    Permite definir\n"
-"    * Activos.\n"
-"    * Periodo de uso y método del activo.\n"
-"    * Categoría de activo. \n"
-"    * Tipos de método del activo\n"
-"    * Cuentas por defecto para métodos y categorías\n"
-"    * Métodos de depreciación:\n"
-"        - Lineal\n"
-"        - Declining-Balance\n"
-"        - Suma de dígitos del año\n"
-"        - Unidades de producción - este método puede ser usado para una planificación individual de depreciación.\n"
-"        - Progresivo\n"
-"    * Parámetros de los métodos:\n"
-"	- Intervalo de inicio (periodo)\n"
-"	- Numero de intervalos de depreciación\n"
-"	- Number of intervals per year\n"
-"	- Factor progresivo para el método Declining-Balance\n"
-"	- Valor de salvedad\n"
-"	- Cantidad de vida por unidad para el método de unidades de producción\n"
-"    * Funcionalidad:\n"
-"	- Definir el activo en la factura de compra\n"
-"	- Ajustar el valor del activo en el reembolso de la compra\n"
-"	- Entrada periodica de unidades de producción\n"
-"	- Cálculo periódico de activos\n"
-"	- Factura de venta para la amortización y hace las últimas entradas\n"
-"    * Asistentes:\n"
-"	- Valores iniciales para continuar la depreciación desde un sistema previo\n"
-"	- Revalorización\n"
-"	- Abandono\n"
-"	- Cambio de parámetros de método\n"
-"	- Suprimir y Reasumir depreciación\n"
-"	- Cambio de localización\n"
-"\n"
-"Este módulo está basado en el módulo original de Tiny account_asset version 1.0 del mismo nombre \"Financial and accounting asset management\".\n"
-"\n"
-"El propósito del módulo es ayudar a la gestión de activos fijo e integrar esta gestión dentro del sistema contable.\n"
-"\n"
-"Terminos usados en el modulo:\n"
-"- Activo - Producto o conjunto de productos usados internamente en la compañía durante un largo tiempo que deben ser incluidos en el registro de activos.\n"
-"- Categoría de activos - Término para agrupar activos dentro de una estructura jerárquica.\n"
-"- Método de activo - Reglas de cálculo de la depreciación. Un activo puede tener varios métodos. Para cada elemento de activo o para cada tipo de depreciación (coste e impuestos).\n"
-"- Tipo de método - Usado para la diferenciación de tipos de método y para la configuración por defecto. \n"
-"- Configuración por defecto del método - Configuración asignada a los tipos de método (y categorías) simplificando la creación de la configuración del método.\n"
-"\n"
-"Uso del módulo:\n"
-"====================\n"
-"Configuración inicial:\n"
-"1. Crear categoría de activos (opcional)\n"
-"2. Crear tipos de método (opcional)\n"
-"3. Especificar configuración por defecto (opcional)\n"
-"\n"
-"Actividades usuales:\n"
-"4. Crear activo \n"
-"5. Comprar activo \n"
-"6. Calcular depreciación del activo\n"
-"\n"
-"Actividades menos usuales:\n"
-"7. Adquisición de activo \n"
-"8. Venta de activo \n"
-"9. Revalorización de activo\n"
-"10. Abandono de activo\n"
-"11. Suprimir y reasumir la depreciación\n"
-"12. Cambio de localización\n"
-"\n"
-"============================\n"
-"1. Crear categorías de activos en menu \"Gestión financiera - Configuracion - Activos - Categorías de activos\". Las categorías pueden ser jerárquicas. Leer a continuación como trabajan las jerarquías para métodos por defecto y para cálculos periódicos. Usted puede revisar la jerarquía de categorías en el menú  \"Gestión financiera - Configuracion - Activos - Estructura de categorías\"\n"
-"\n"
-"2. Crear tipos de método en el menu \"Gestión financiera - Configuracion - Activos - Tipos de método de activos\". Debería crear un tipo de métido para cada clase de depreciación. P.e. puede usar la depreciación rápida para equipos informáticos y depreciación lenta para activos inmobiliarios. Puede también crear diferentes tipos por depreciación del coste y para depreciación de impuestos (si usa depreciación de impuestos).\n"
-"\n"
-"3. Crear valores por defecto en métodos en menu \"Gestión financiera - Configuracion - Activos - Valores por defecto en métodos \".  Puede crear configuraciones por defecto solo para un tipo de método o para el par de tipos de métido y categoría de activo. Se sugiere al administrador contable diseñar una jerarquía de categorías de activos y asignar valores por defecto a las categorías y a los tipos de método antes de iniciar el sistema. Si está bien diseñado los contables tendrán un trabajo más simplificado y con menos errores más tarde. Todas las cuentas, métodos de cálculo y otros parámetros se crearán automáticamente durante la creación del activo. Note que como las categorías son jerárquicas los valores por defecto trabajarán también de forma jerárquica para todas sus categorías hijas. Significa que si no hay valores por defecto para un par de tipo de método y categoría, el sistema busca por pares de tipos de método y padre de categoría. Busca por dicho par hasta la raíz de la categoría.\n"
-"\n"
-"4. Crear activo en el menu \"Gestión financiera - Configuracion - Activos - Activos\" o en \"Gestión financiera - Activos - Activos\". En el formulario de activos debería especificar el nombre del activo, el código del activo (abreviación o símbolo numérico que puede ser especificado en la configuración de secuencias). Después seleccione la categoría de activo. Es un paso opcional pero será usado para meter valores por defecto en el método.  \n"
-"\n"
-"Posteriormente debe ir a la creación del método. El activo puede tener varios métodos. Pueden ser usados cuando el activo es un conjunto de varios elementos. P.e. Un conjunto de ordenador consiste en PC, pantalla e impresora. Cuando tienen la misma regla de depreciación pueden estar en un único método (las líneas de factura serán asignadas al mismo método). Si tienen distintas reglas de depreciación deberán estar en distintos métodos.  \n"
-"\n"
-"Como un primer paso en la creación del método seleccione tipo de método. Después de la selección del tipo de método algunos campos pueden ser rellenados automáticamente. Primero, el sistema crea el nombre del método desde el código del tipo de método, nombre de activo y código de activo. Simplificará la selección del método en la línea de factura. El sistema también rellena otros campos en función de las configuraciones por defecto del método. Hay cuentas, métodos de cálculo y otros valores. Usted puede cambiar el nombre del método y otros valores por defecto antes de salvar el activo pero al seleccionar el tipo de método otra vez (incluso del mismo tipo) estos campos serán vueltos a asignar con los valores por defecto. \n"
-"\n"
-"5. Como comprar es el método más usual para poseer el activo, deberá habitualmente asignar el método de activo en la factura de compra. Cuando cree la factura de compra borrador deberá abrir las líneas de la factura y seleccionar el método de activo. Una vez seleccionado el método, la cuenta de la línea de factura cambiará a la cuenta de activo que se haya establecido en el método de activo. Al crear la factura, el estado del activo cambia a Normal, el estado del método cambia a Abierto y el método está listo para la depreciación \n"
-"\n"
-"Cuando la compra del activo es susceptible de devolución y el activo debería cambiar el valor acorde a esto, deberá asociar la línea de devolución al método de activo como hizo durante la compra. El valor del método deberá ser reflejado en el valor reenbolsado. \n"
-"\n"
-"Cuando un activo contiene varios elementos y estos elementos deben ser depreciados de la misma forma (con las mismas reglas) puede asignar varias líneas de factura al mismo método (de la misma factura u otra). Pero si la depreciación de los elementos difiere deberá crear distintos métodos para estos elementos.\n"
-"\n"
-"6. Para realizar el cálculo de activos escoja   \"Gestión financiera -  Procesamiento periódico - Cálculo de activos - Calcular activos\". Debe seleccionar el periodo de cálculo y fecha de registro. El periodo seleccionado también es usado como periodo de registro por lo que la fecha debe ser única en el periodo. Después, puede seleccionar la categoría de activo y el tipo de método que le gustaría calcular. Recuerde que las categorías son jerárquicas y funciona para sus hijos. \n"
-"\n"
-"7.Cuando adquiera el activo de forma distinta a la compra (por su propia producción o inversión) o desea continuar la depreciación iniciada en otro sistema puede utilizar los asistentes de valores iniciales. Si continúa la depreciación puede establecer:\n"
-"    a. Valor de base de un total inicial.\n"
-"    b. Valor del gasto como una depreciación ya realizada.\n"
-"    c. Intervalos anteriores como número de intervalos ya calculados. \n"
-"Puede también introducir un valor base como residual resultante de una depreciación previa (No introduzca el valor de gasto e intervalos anteriores en este caso).\n"
-"\n"
-"Puede utilizar también este asistente para realizar el asiento de inicio si el activo fue producido por usted o es el resultado de una inversión grabada previamente en otras cuentas.\n"
-"\n"
-"Recuerde que los asistentes le permiten anotar sobre depreciaciones anteriores en la entrada de histórico. Puede usar el campo notas para esto.\n"
-"\n"
-"8. Cuando el activo debe ser vendido puede asignar el método aproviado en la factura de venta. El sistema hará los registros necesarios y parará el método de activo.\n"
-"\n"
-"9. Si desea revalorizar el método debe usar el botón revalorizar método. Seleccione los parámetros para el registro y el histórico del activo.\n"
-"\n"
-"10. Si desea abandar el activo puede usar el botón abandonar método. Los parámetros del asistente están descritos en las etiquetas.\n"
-"\n"
-"11. Puede querer suprimir o You can wish suppress or reasumir la depreciación. Puede utilizar los botones suprimir y reasumir para esto. Si el método tiene el estado \"Suprimido\" No es calculado.\n"
-"\n"
-"12. Algunas reglas locales requieren trazar la localización del activo. Puede utilizar para esto el botón \"Cambiar localización\" en la solapa  \"Otra Informacion\" del activo. Este asistente cambiará el testo de la localización y realizará la entrada apropiada en el histórico del activo.\n"
-"\n"
-"Puntualizaciones:\n"
-"- Todas las acciones en asistentes son trazados en el histórico del activo. Puede utilizar el histórico del activo como registro del activo.\n"
-"- Los periodos en métodos son usados como indicador del intervalo de inicio. Si tiene periodos mensuales, el número de intervalos anual es 4 (trimestral) y especifica el periodo Julio o Agosto, el cálculo empezará en de cualquier forma en septiembre. La depreciación es calculada siempre en el último periodo del intervalo. Si configura intervalos anuales a 1 (depreciación anual) el sistema calcula activos en el cuarto perdiodo o en diciembre. En el último caso calcula la depreciación para todo el año. Si requiere calcular diferentes intervalos a principcios de diciembre como en siguientes diciembres, puede tratar de cambiar los parámetros del métdodo usando el asistente de cambiar parámetros en el momento apropiado. \n"
-"- Si realiza errores en la deprecicación o en el asistente de acciones puede borrar los movimientos contrables creados, como haría normalmente en el menú de gestión financiera. Estarán en estado borrador cuando se crean por lo que pueden ser borrados. Puede volver a crear los movimientos de amortización con el asistente de calcular activo. Borrar los movimientos creados por los asistentes no borra las entradas en el histórico de activos.\n"
-"- Puede también crear movimientos manualmente para casos funcionales no cubiertos por este módulo. En este caso debe asignar los movimientos al método de activo. Puede usar esta posibilidad para añadir la depreciación de impuestos: \n"
-"    a. Cree un método especial para impuestos. \n"
-"    b. Cree un método de impuesto para el activo .\n"
-"    c. Cree un asiento de inicio manual.\n"
-"    d. Cree líneas de asiento con las cuentas apropiadas para amortizaciones.\n"
-"    e. Asigne las líneas de asiento al método de activo.\n"
-"    f. Utilice el cálculo de la depreciación periódica de la forma habitual.\n"
-"  Puede tratar de usar el asistente de valores iniciales en vez de los puntos c, d, e.\n"
-"\n"
-"- Método de unidad de producción. Si no le satisface la funcionalidad de ningún método de cálculo o desea tener un calendario individual de depreciación para el método puede adoptar el método de cálculo Unidad de producción:\n"
-"    a. Seleccione el método de cálculo unidades de producción. \n"
-"    b. Introduzca 100 en cantidad de vida del metodo.\n"
-"    c. En la solapa de uso utilice el asistente crear línea de uso para crear líneas de uso para el método.\n"
-"    d. Introduzca valores porcentaje en las entradas de uso.\n"
-"Los valores de uso pueden ser introducidos en la solapa uso  o en el menú  \"Gestión financiera - Procesamiento periódico - Cálculo de activo - Método de uso\". El segundo método es recomendado para usar antes de cualquier cálculo de periodo.\n"
-"    "
-
-#. module: account_asset
 #: wizard_field:account.asset.abandon,init,whole_asset:0
 #: wizard_field:account.asset.close,init,whole_asset:0
 #: wizard_field:account.asset.resume,init,whole_asset:0
@@ -1109,7 +935,7 @@ msgstr "Todos los métodos"
 #: code:addons/account_asset/wizard/wizard_asset_modify.py:0
 #, python-format
 msgid "Modification of "
-msgstr "Modificación de"
+msgstr "Modificación de "
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -1129,11 +955,15 @@ msgstr "Categorías hijas"
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
 #, python-format
-msgid "Product \"%s\" is assigned to Asset Method \"%s\". But this method has no Sale Residual Account to make asset moves."
-msgstr "El producto \"%s\" está asignado al método de activo \"%s\" pero este método no tiene cuenta de saldo residual para realizar los movimientos del activo."
+msgid ""
+"Product \"%s\" is assigned to Asset Method \"%s\". But this method has no "
+"Sale Residual Account to make asset moves."
+msgstr ""
+"El producto \"%s\" está asignado al método de activo \"%s\" pero este método "
+"no tiene cuenta de saldo residual para realizar los movimientos del activo."
 
 #. module: account_asset
-#: field:account.asset.history,user_id:0
+#: field:account.asset.property.history,user_id:0
 msgid "User"
 msgstr "Usuario"
 
@@ -1166,16 +996,27 @@ msgid "Asset Method Name"
 msgstr "Nombre método de activo"
 
 #. module: account_asset
-#: help:account.asset.method,account_expense_id:0
-#: help:account.asset.method.defaults,account_expense_id:0
-msgid "Select account used for depreciation expense (write-off). If you use direct method of depreciation this account should be the same as Asset Account."
-msgstr "Seleccione la cuenta usada para el gasto de depreciación. si usa el método directo de depreciación esta cuenta debería ser la misma que la cuenta del activo."
+#: model:ir.module.module,description:account_asset.module_meta_information
+msgid ""
+"Financial and accounting asset management.\n"
+"    Allows to define\n"
+"    * Asset category. \n"
+"    * Assets.\n"
+"    *Asset usage period and property.\n"
+"    "
+msgstr ""
+"Gestión financiera y contable de activos.\n"
+"  Permite definir\n"
+"  * Categorías de activo. \n"
+"  * Activos.\n"
+"  * Período y propiedades del activo usado.\n"
+"    "
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Cannot post in closed period !"
-msgstr "No puede imputar en un periodo cerrado !"
+msgstr "¡No se puede fijar en un periodo cerrado!"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -1190,8 +1031,13 @@ msgstr "Cuenta de activo"
 
 #. module: account_asset
 #: wizard_view:account.asset.initial,init:0
-msgid "Wizard for starting values of asset coming from production or investment. Use it also when you continue asset management from another system."
-msgstr "Asistente para valores iniciales del acivo que vienen de producción o inversiones. Uselo también cuando continue la gestión de activos desde otro sistema."
+msgid ""
+"Wizard for starting values of asset coming from production or investment. "
+"Use it also when you continue asset management from another system."
+msgstr ""
+"Asistente para valores iniciales del activo que provienen de producción o "
+"inversiones. Úselo también cuando continúe la gestión de activos desde otro "
+"sistema."
 
 #. module: account_asset
 #: field:account.asset.method,account_residual_id:0
@@ -1200,6 +1046,7 @@ msgid "Sale Residual Account"
 msgstr "Cuenta de saldo residual"
 
 #. module: account_asset
+#: wizard_view:account.asset.close,init:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_close
 msgid "Close asset"
 msgstr "Activo cerrado"
@@ -1207,7 +1054,7 @@ msgstr "Activo cerrado"
 #. module: account_asset
 #: help:account.asset.method,period_id:0
 msgid "Select period indicating first interval."
-msgstr "Selecciione el periodo indicando el primer intervalo"
+msgstr "Seleccione el periodo indicando el primer intervalo"
 
 #. module: account_asset
 #: wizard_view:account.asset.modify,init:0
@@ -1215,14 +1062,16 @@ msgid "Method Modyfying"
 msgstr "Modificación del método"
 
 #. module: account_asset
-#: field:account.asset.asset,history_ids:0
+#: field:account.asset.property,history_ids:0
 msgid "History"
 msgstr "Historia"
 
 #. module: account_asset
 #: help:account.asset.asset,partner_id:0
 msgid "If Date field is empty this field will be filled by first purchase."
-msgstr "Si el campo fecha está vacío este campo será rellenado por la primera compra."
+msgstr ""
+"Si el campo fecha está vacío, este campo será rellenado por la primera "
+"compra."
 
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_asset_method_usage
@@ -1233,7 +1082,7 @@ msgstr "Uso del método de activo"
 #: selection:account.asset.method,method:0
 #: selection:account.asset.method.defaults,method:0
 msgid "Declining-Balance"
-msgstr "Declining-Balance"
+msgstr "Balance-Declinado"
 
 #. module: account_asset
 #: selection:account.asset.method,state:0
@@ -1247,19 +1096,15 @@ msgid "Abandonment"
 msgstr "Abandono"
 
 #. module: account_asset
-#: wizard_field:account.asset.abandon,init,period_id:0
+#: field:account.asset.asset,period_id:0
 #: wizard_field:account.asset.compute,init,period_id:0
-#: wizard_field:account.asset.initial,init,period_id:0
-#: field:account.asset.method,period_id:0
-#: field:account.asset.method.usage,period_id:0
-#: wizard_field:account.asset.reval,init,period_id:0
 msgid "Period"
 msgstr "Período"
 
 #. module: account_asset
 #: help:account.asset.method,account_actif_id:0
 msgid "Select account used for depreciation amounts."
-msgstr "Seleccione la cuenta usada para los importes de depreciación."
+msgstr "Seleccione la cuenta usada para los importes de amortización."
 
 #. module: account_asset
 #: field:account.asset.method,method_progress_factor:0
@@ -1274,20 +1119,27 @@ msgstr "Parámetros del método a modificar"
 
 #. module: account_asset
 #: help:account.asset.initial,init,period_id:0
-msgid "Period for posting. Consider which period to use for this posting. It should be probably some additional period before current depreciation start."
-msgstr "Periodo para imputar. Considere que periodo usar para esta imputación. Sería probable algunos periodos adicionales antes de iniciar la actual depreciación."
+msgid ""
+"Period for posting. Consider which period to use for this posting. It should "
+"be probably some additional period before current depreciation start."
+msgstr ""
+"Periodo para fijar. Considere que periodo usar para la fijación. "
+"Probablemente será algunos periodos posteriores de iniciar la actual "
+"amortización."
 
 #. module: account_asset
 #: help:account.asset.usage.createlines,init,value:0
-msgid "Value of Unit of Production. This value has to be changed before asset calculation but could be some indication for entering later on."
-msgstr "Valor de la unidad de producción. Este valor debe ser cambiado antes del cálculo de activo pero puede haber alguna indicación para introducirlo después."
+msgid ""
+"Value of Unit of Production. This value has to be changed before asset "
+"calculation but could be some indication for entering later on."
+msgstr ""
+"Valor de la unidad de producción. Este valor debe ser cambiado antes del "
+"cálculo de activo pero puede haber alguna indicación para introducirlo "
+"después."
 
 #. module: account_asset
-#: field:account.asset.asset,category_id:0
-#: view:account.asset.category:0
-#: field:account.asset.category,name:0
-#: wizard_field:account.asset.compute,init,category_id:0
-#: field:account.asset.method.defaults,asset_category:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
 msgid "Asset Category"
 msgstr "Categoría de activo"
 
@@ -1298,20 +1150,16 @@ msgid "Changing of method parameters to:"
 msgstr "Cambiando los parámetros del método a:"
 
 #. module: account_asset
-#: wizard_button:account.asset.abandon,init,end:0
 #: wizard_button:account.asset.close,init,end:0
 #: wizard_button:account.asset.compute,init,end:0
-#: wizard_button:account.asset.initial,init,end:0
-#: wizard_button:account.asset.localisation,init,end:0
 #: wizard_button:account.asset.modify,init,end:0
-#: wizard_button:account.asset.resume,init,end:0
-#: wizard_button:account.asset.reval,init,end:0
-#: wizard_button:account.asset.usage.createlines,init,end:0
 msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: account_asset
+#: selection:account.asset.asset,state:0
 #: wizard_button:account.asset.compute,asset_compute,end:0
+#: selection:account.asset.property,state:0
 msgid "Close"
 msgstr "Cerrar"
 
@@ -1322,7 +1170,7 @@ msgid "Set New Localisation"
 msgstr "Establecer nueva localización"
 
 #. module: account_asset
-#: selection:account.asset.method,state:0
+#: selection:account.asset.property,state:0
 msgid "Open"
 msgstr "Abrir"
 
@@ -1333,8 +1181,12 @@ msgstr "Código de activo"
 
 #. module: account_asset
 #: help:account.asset.initial,init,intervals_before:0
-msgid "Number of intervals calculated already before asset is managed in this system."
-msgstr "Número de intervalos calculados ya antes de la gestión de activos en este sistema."
+msgid ""
+"Number of intervals calculated already before asset is managed in this "
+"system."
+msgstr ""
+"Número de intervalos ya calculados antes de la gestión del activo en este "
+"sistema."
 
 #. module: account_asset
 #: wizard_view:account.asset.localisation,init:0
@@ -1344,12 +1196,15 @@ msgstr "Cambio localización"
 #. module: account_asset
 #: selection:account.asset.history,type:0
 msgid "Depr. Resuming"
-msgstr "Reactivación Depr"
+msgstr "Reactivación amort."
 
 #. module: account_asset
 #: constraint:ir.model:0
-msgid "The Object name must start with x_ and not contain any special character !"
-msgstr "¡El nombre del objeto debe empezar con x_ y no contener ningún carácter especial!"
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+"¡El nombre del objeto debe empezar con x_ y no contener ningún carácter "
+"especial!"
 
 #. module: account_asset
 #: model:ir.module.module,shortdesc:account_asset.module_meta_information
@@ -1359,7 +1214,7 @@ msgstr "Gestión del activo"
 #. module: account_asset
 #: help:account.asset.method.defaults,account_abandon_id:0
 msgid "Select account used for abandonment loss amount."
-msgstr "Seleccione la cuenta usada para el importe perdido de abandono."
+msgstr "Seleccione la cuenta usada para el importe pérdida por abandono."
 
 #. module: account_asset
 #: wizard_view:account.asset.resume,init:0
@@ -1384,7 +1239,6 @@ msgstr ""
 
 #. module: account_asset
 #: wizard_view:account.asset.close,init:0
-#: wizard_view:account.asset.resume,init:0
 msgid "General information"
 msgstr "Información general"
 
@@ -1400,13 +1254,25 @@ msgstr ""
 
 #. module: account_asset
 #: help:account.invoice.line,asset_method_id:0
-msgid "Select the asset depreciation method if you wish to assign the purchase invoice line to fixed asset. If method doesn't exists yet you will have to create it and probably the asset itself too. After selecting the asset method the invoice line account should change according to the asset method settings but please check it before creating the invoice."
-msgstr "Seleccione el método de depreciación del activo si quiere asignar a la línea de factura de compra a un activo fijo. Si el método no existe todavía tendrá que crearlo y probablemente el activo en sí también. Después de seleccionar el método de activo la cuenta de la línea de factura debería cambiar de acuerdo a la configuración del método de activo pero por favor, verifíquelo antes de crear la factura."
+msgid ""
+"Select the asset depreciation method if you wish to assign the purchase "
+"invoice line to fixed asset. If method doesn't exists yet you will have to "
+"create it and probably the asset itself too. After selecting the asset "
+"method the invoice line account should change according to the asset method "
+"settings but please check it before creating the invoice."
+msgstr ""
+"Seleccione el método de amortización del activo si quiere asignar a la línea "
+"de factura de compra a un activo fijo. Si el método no existe todavía tendrá "
+"que crearlo y probablemente el activo en sí también. Después de seleccionar "
+"el método de activo la cuenta de la línea de factura debería cambiar de "
+"acuerdo a la configuración del método de activo pero por favor, verifíquelo "
+"antes de crear la factura."
 
 #. module: account_asset
 #: help:account.asset.compute,init,method_type_id:0
 msgid "If empty all method types will be calculated for assets."
-msgstr "Si está vacío todos los tipos de métodos serán calculados para los activos."
+msgstr ""
+"Si está vacío todos los tipos de métodos serán calculados para los activos."
 
 #. module: account_asset
 #: view:account.asset.method.type:0
@@ -1416,8 +1282,7 @@ msgid "Asset Method Types"
 msgstr "Tipos métodos de activo"
 
 #. module: account_asset
-#: selection:account.asset.method,method:0
-#: selection:account.asset.method.defaults,method:0
+#: selection:account.asset.property,method:0
 msgid "Progressive"
 msgstr "Progresivo"
 
@@ -1432,7 +1297,7 @@ msgid "Method State"
 msgstr "Estado método"
 
 #. module: account_asset
-#: field:account.asset.method,name:0
+#: field:account.asset.property,name:0
 msgid "Method name"
 msgstr "Nombre del método"
 
@@ -1456,11 +1321,10 @@ msgstr "Método de activo"
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "You can dalete method only in Draft state !"
-msgstr "Puede borrar métodos solo en estado borrador !"
+msgstr "¡Sólo puede borrar métodos en estado borrador!"
 
 #. module: account_asset
-#: field:account.asset.method,journal_id:0
-#: field:account.asset.method.defaults,journal_id:0
+#: field:account.asset.property,journal_id:0
 msgid "Journal"
 msgstr "Diario"
 
@@ -1479,7 +1343,7 @@ msgstr "Método amortización activo"
 #: field:account.asset.method.defaults,method_period:0
 #: wizard_field:account.asset.modify,init,method_period:0
 msgid "Intervals per Year"
-msgstr "Intervalos por año."
+msgstr "Intervalos por ejercicio."
 
 #. module: account_asset
 #: field:account.asset.method,method_type:0
@@ -1496,7 +1360,7 @@ msgstr "Movimientos creados"
 #. module: account_asset
 #: wizard_field:account.asset.usage.createlines,init,interval:0
 msgid "Entries per Year"
-msgstr "Asientos por año"
+msgstr "Asientos por ejercicio"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -1531,13 +1395,15 @@ msgstr "Valor gasto"
 #. module: account_asset
 #: wizard_view:account.asset.initial,init:0
 msgid "But for purchased assets use invoice line assignment."
-msgstr "Pero para los activos de compra utilice la asignación de línea de factura."
+msgstr ""
+"Pero para los activos de compra utilice la asignación de línea de factura."
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
 #, python-format
 msgid "Error ! Number of intervals per year must be 1, 2, 3, 4, 6 or 12."
-msgstr "Error ! El número de intervalos por año debe ser 1, 2, 3, 4, 6 or 12."
+msgstr ""
+"¡Error! El número de intervalos por ejercicio debe ser 1, 2, 3, 4, 6 o 12."
 
 #. module: account_asset
 #: wizard_field:account.asset.usage.createlines,init,fiscal_year:0
@@ -1557,8 +1423,13 @@ msgstr "Método abandono"
 
 #. module: account_asset
 #: help:account.asset.method,intervals_before:0
-msgid "Number of intervals calculated before asset is managed in this system. Used with Initial Values wizard. If you start asset in this system keep zero."
-msgstr "Número de intervalos calculados antes de que el activo sea gestionado en el sistema. Utilizado con el asistente de valores iniciales. Si inicia el activo en este sistema ponga cero."
+msgid ""
+"Number of intervals calculated before asset is managed in this system. Used "
+"with Initial Values wizard. If you start asset in this system keep zero."
+msgstr ""
+"Número de intervalos calculados antes de que el activo sea gestionado en "
+"este sistema. Utilizado con el asistente de valores iniciales. Si inicia el "
+"activo en este sistema déjelo a cero."
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
@@ -1577,12 +1448,12 @@ msgstr "¡Error!"
 #. module: account_asset
 #: wizard_button:account.asset.initial,init,asset_reval:0
 msgid "Set Initials"
-msgstr "Inicialice"
+msgstr "Fijar valores iniciales"
 
 #. module: account_asset
 #: field:account.asset.history,change_expense:0
 msgid "Expense Change"
-msgstr "Cambio de divisas"
+msgstr "Cambio de gastos"
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
@@ -1603,7 +1474,7 @@ msgstr "Cálculo activos"
 #: selection:account.asset.method,method:0
 #: selection:account.asset.method.defaults,method:0
 msgid "Straight-Line"
-msgstr "Straight-Line"
+msgstr "Línea-recta"
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -1612,12 +1483,19 @@ msgid "Change Localisation"
 msgstr "Cambio localización"
 
 #. module: account_asset
-#: wizard_field:account.asset.abandon,init,date:0
+#: help:account.asset.method,account_expense_id:0
+#: help:account.asset.method.defaults,account_expense_id:0
+msgid ""
+"Select account used for depreciation expense (write-off). If you use direct "
+"method of depreciation this account should be the same as Asset Account."
+msgstr ""
+"Seleccione la cuenta usada para el gasto de amortización. Si usa el método "
+"directo de amortización esta cuenta debería ser la misma que la cuenta del "
+"activo."
+
+#. module: account_asset
 #: field:account.asset.asset,date:0
-#: wizard_field:account.asset.compute,init,date:0
-#: field:account.asset.history,date:0
-#: wizard_field:account.asset.initial,init,date:0
-#: wizard_field:account.asset.reval,init,date:0
+#: field:account.asset.property.history,date:0
 msgid "Date"
 msgstr "Fecha"
 
@@ -1625,13 +1503,13 @@ msgstr "Fecha"
 #: field:account.asset.method.defaults,account_impairment_id:0
 #: wizard_field:account.asset.reval,init,acc_impairment:0
 msgid "Impairment Account"
-msgstr "Impairment Account"
+msgstr "Cuenta de deterioro"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
 #, python-format
 msgid "Product name: "
-msgstr "Nombre producto:"
+msgstr "Nombre producto: "
 
 #. module: account_asset
 #: wizard_field:account.asset.compute,init,method_type_id:0
@@ -1642,8 +1520,11 @@ msgstr "Tipo método de activo"
 
 #. module: account_asset
 #: help:account.asset.asset,date:0
-msgid "Set this date or leave it empty to allow system set the first purchase date."
-msgstr "Ponga esta fecha o déjela vacía para permitir al sistema asignar la primera fecha de compra."
+msgid ""
+"Set this date or leave it empty to allow system set the first purchase date."
+msgstr ""
+"Introduzca esta fecha o déjela vacía para permitir al sistema asignar la "
+"primera fecha de compra."
 
 #. module: account_asset
 #: field:account.asset.asset,amount_total:0
@@ -1657,12 +1538,581 @@ msgstr "Valor entrada"
 
 #. module: account_asset
 #: help:account.asset.method,method_period:0
-msgid "Specify the number of depreciations to be made in year. This number cannot be less then number of periods in year."
-msgstr "Especifique el número de depreciaciones para ser hechas en el año. Este número no puede ser inferior al número de periodos en el año."
+msgid ""
+"Specify the number of depreciations to be made in year. This number cannot "
+"be less then number of periods in year."
+msgstr ""
+"Indique el número de amortizaciones a realizar durante el ejercicio fiscal. "
+"Este número no puede ser inferior al número de periodos en el ejercicio "
+"fiscal."
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
 #: wizard_view:account.asset.reval,init:0
 msgid "Revaluation"
-msgstr "Reevaluación"
+msgstr "Revalorización"
 
+#~ msgid "Linear"
+#~ msgstr "Lineal"
+
+#~ msgid "Reason"
+#~ msgstr "Razón"
+
+#~ msgid "Change history"
+#~ msgstr "Cambio histórico"
+
+#~ msgid "Depreciation entries"
+#~ msgstr "Asiento de dotación a la amortización"
+
+#~ msgid "Period per interval"
+#~ msgstr "Período por intervalo"
+
+#~ msgid "Depreciation duration"
+#~ msgstr "Plazo de amortización"
+
+#~ msgid "Cumul. value"
+#~ msgstr "Valor acumulado"
+
+#~ msgid "Asset property"
+#~ msgstr "Propiedad del activo"
+
+#~ msgid "Confirm asset"
+#~ msgstr "Confirmar activo"
+
+#~ msgid "Ending period"
+#~ msgstr "Período final"
+
+#~ msgid "Depr. method type"
+#~ msgstr "Tipo de método de amortización"
+
+#~ msgid "Asset board"
+#~ msgstr "Tablero de activos"
+
+#~ msgid "Global state"
+#~ msgstr "Estado global"
+
+#~ msgid "Delay"
+#~ msgstr "Retrasar"
+
+#~ msgid "Asset Entries"
+#~ msgstr "Asientos de activo"
+
+#~ msgid "Sequence"
+#~ msgstr "Secuencia"
+
+#~ msgid "End of asset"
+#~ msgstr "Final de activo"
+
+#~ msgid "Direct"
+#~ msgstr "Directo"
+
+#~ msgid "Indirect"
+#~ msgstr "Indirecto"
+
+#~ msgid "Asset Hierarchy"
+#~ msgstr "Jerarquía de activos"
+
+#~ msgid "Asset properties to modify"
+#~ msgstr "Propiedades de activos para modificar"
+
+#~ msgid "Number of interval"
+#~ msgstr "Numero de intervalo"
+
+#~ msgid "Change duration"
+#~ msgstr "cambio de duración"
+
+#~ msgid "Asset Value"
+#~ msgstr "valor de activos"
+
+#~ msgid "Depreciation board"
+#~ msgstr "cuadro de drepeciación"
+
+#~ msgid "Asset name"
+#~ msgstr "nombre de activos"
+
+#~ msgid "Accounts information"
+#~ msgstr "información de cuentas"
+
+#~ msgid "Computation method"
+#~ msgstr "metodo de computación"
+
+#~ msgid "Asset account"
+#~ msgstr "cuenta de activos"
+
+#~ msgid "Depreciation methods"
+#~ msgstr "Metodos de drepreciación"
+
+#~ msgid "Assets methods"
+#~ msgstr "metodos activos"
+
+#~ msgid ""
+#~ "Financial and accounting asset management.\n"
+#~ "    Allows to define\n"
+#~ "    * Assets.\n"
+#~ "    * Asset usage period and method.\n"
+#~ "    * Asset category. \n"
+#~ "    * Asset method types\n"
+#~ "    * Default accounts for methods and categories\n"
+#~ "    * Depreciation methods:\n"
+#~ "        - Straight-Line\n"
+#~ "        - Declining-Balance\n"
+#~ "        - Sum of Year Digits\n"
+#~ "        - Units of Production - this method can be used for individual "
+#~ "depreciation schedule.\n"
+#~ "        - Progressive\n"
+#~ "    * Method Parameters:\n"
+#~ "\t- Starting interval (period)\n"
+#~ "\t- Number of depreciation intervals\n"
+#~ "\t- Number of intervals per year\n"
+#~ "\t- Progressive factor for Declining-Balance method\n"
+#~ "\t- Salvage Value\n"
+#~ "\t- Life Quantity for Unit of Production method\n"
+#~ "    * Functionality:\n"
+#~ "\t- Defining the asset in invoice when purchasing\n"
+#~ "\t- Adjusting the asset value in purchasing Refund\n"
+#~ "\t- Periodical entering of units of production\n"
+#~ "\t- Periodical asset calculation\n"
+#~ "\t- Sales invoice stops the depreciation and make final postings\n"
+#~ "    * Wizards:\n"
+#~ "\t- Initial Values for continuing depreciation from previous system\n"
+#~ "\t- Revaluation\n"
+#~ "\t- Abandonment\n"
+#~ "\t- Method parameters changing\n"
+#~ "\t- Suppressing and Resuming depreciation\n"
+#~ "\t- Localisation changing\n"
+#~ "\n"
+#~ "This module is based on original Tiny module account_asset version 1.0 of "
+#~ "the same name \"Financial and accounting asset management\".\n"
+#~ "\n"
+#~ "Purpose of the module is to aid fixed assets management and integrate this "
+#~ "management into the accounting system.\n"
+#~ "\n"
+#~ "Terms used in the module:\n"
+#~ "- Asset - product or set of products which are used internally in company "
+#~ "for longer time and must be taken into asset registry.\n"
+#~ "- Asset Category - Term for grouping assets into hierarchical structure.\n"
+#~ "- Asset Method - Calculation rules of depreciation. Asset can have few "
+#~ "methods. For each asset element or for each kind of depreciation (cost and "
+#~ "tax).\n"
+#~ "- Method Type - Used for differentiation of method types and for default "
+#~ "settings. \n"
+#~ "- Method Defaults - Settings assigned to method types (and categories) "
+#~ "simplifying creation of asset settings.\n"
+#~ "\n"
+#~ "Usage of the module:\n"
+#~ "====================\n"
+#~ "Introduction settings:\n"
+#~ "1. Creating Asset categories (optional)\n"
+#~ "2. Creating Method Types (optional)\n"
+#~ "3. Setting Method Defaults (optional)\n"
+#~ "\n"
+#~ "Usual activities:\n"
+#~ "4. Creating Asset\n"
+#~ "5. Purchasing Asset\n"
+#~ "6. Calculating Asset depreciation\n"
+#~ "\n"
+#~ "Rare activities:\n"
+#~ "7. Acquiring asset \n"
+#~ "8. Sale of asset\n"
+#~ "9. Revaluation of asset\n"
+#~ "10. Asset abandonment\n"
+#~ "11. Suppressing and resuming the depreciation\n"
+#~ "12. Changing a localisation\n"
+#~ "\n"
+#~ "============================\n"
+#~ "1. Create Asset categories in menu \"Financial Management - Configuration - "
+#~ "Assets - Asset Categories\". Categories can be hierarchical. Read farther "
+#~ "how hierarchy works for Method Defaults and for Periodical Calculation. You "
+#~ "can review hierarchy of categories in menu \"Financial Management - "
+#~ "Configuration - Assets - Category Structure\"\n"
+#~ "\n"
+#~ "2. Create Method types in menu \"Financial Management - Configuration - "
+#~ "Assets - Asset Method Types\". You should create method type for every kind "
+#~ "of depreciation. Fe. you use fast depreciation for computer equipment and "
+#~ "slow depreciation for buildings. You can also create different types for "
+#~ "cost depreciation and for tax depreciation (if you use tax depreciation).\n"
+#~ "\n"
+#~ "3. Create Method Defaults in menu \"Financial Management - Configuration - "
+#~ "Assets - Asset Method Defaults\". You can create default settings for method "
+#~ "type only or for pairs of method type and asset category. It is suggested to "
+#~ "accounting manager to design asset categories hierarchy and assign defaults "
+#~ "to categories and method types before system start. If it will be well "
+#~ "designed accountants will have simplified and more error-proof job later on. "
+#~ "All accounts, calculation methods and other parameters will be entered "
+#~ "automatically during asset creation. Note that as Categories are "
+#~ "hierarchical the defaults will work also hierarchical for all children "
+#~ "categories. It means that if there is no defaults line for certain pair of "
+#~ "Method Type and Category system look for pairs of Method Type and parent "
+#~ "Category. It looks for such pair till root of Category.\n"
+#~ "\n"
+#~ "4. Create asset in menu \"Financial Management - Configuration - Assets - "
+#~ "Assets\" or in \"Financial Management - Assets - Assets\". In Asset form you "
+#~ "should enter the name of asset, asset code (abbreviation or numerical symbol "
+#~ "which can be set in Sequence settings). Then you select Asset category. It "
+#~ "is optional step but it would be used to enter method defaults. \n"
+#~ "\n"
+#~ "Then you go to methods creation. Asset can have many methods. They can be "
+#~ "used when asset is a set of several elements. Fe. Computer set consisting "
+#~ "PC, screen and printer. When they have the same depreciation rule they can "
+#~ "be in one method (invoice lines assigned to the same method). If they have "
+#~ "different depreciation rules they have to be in different methods. \n"
+#~ "\n"
+#~ "As a first step in creation of method select Method Type. After Method Type "
+#~ "selection many fields can be filled automatically. First system creates the "
+#~ "method Name from Method Type Code, Asset name and Asset Code. It would "
+#~ "simplify Method selection in invoice line. Then system fills other fields "
+#~ "according to method type defaults. There are accounts, calculation methods "
+#~ "and other values. You can change Method name and other default settings "
+#~ "before asset saving but when you select Method type again (even to the same "
+#~ "type) these fields will be reverted back to defaults.\n"
+#~ "\n"
+#~ "5. As buying is the most common way to possess the asset you usually have to "
+#~ "assign the created asset method to supplier invoice line. So when you create "
+#~ "the draft supplier invoice you have to open the invoice line and select the "
+#~ "created asset method. Notice that after method selection the invoice line "
+#~ "account would be changed to Asset Account which was set in Asset method. "
+#~ "Then when you create the invoice the asset state changes to Normal, Asset "
+#~ "method state changes to Open and method is ready for depreciation.\n"
+#~ "\n"
+#~ "When asset purchase is subject of refund and asset should change the value "
+#~ "according to that you should assign Refund line to asset method as you did "
+#~ "during Purchasing. Method value will be reflected to the refund value.\n"
+#~ "\n"
+#~ "When an asset should consist few elements and these elements will be "
+#~ "depreciated the same way (with the same rules) you can assignt few invoice "
+#~ "lines to the same method. (From the same invoice or another). But if "
+#~ "elements depreciation rules differs you should create separate methods for "
+#~ "these elements.\n"
+#~ "\n"
+#~ "6. To make asset calculation choose \"Financial Management - Periodical "
+#~ "Processing - Assets Calculation - Compute Assets\". You have to select "
+#~ "period of calculation and date of postings. Selected period is also used as "
+#~ "posting period so Date must be in Period. Then you can select Asset Category "
+#~ "and Method Type which you would like to compute. Remember that Categories "
+#~ "are hierarchical and work for all children. \n"
+#~ "\n"
+#~ "7. When you possesed the asset different way than purchasing (by own "
+#~ "production or investment) or you wish to continue depreciation started in "
+#~ "other system you can use wizard Initial Values. If you continue depreciation "
+#~ "you can enter:\n"
+#~ "    a. Base Value as starting Total.\n"
+#~ "    b. Expense Value as depreciation already made.\n"
+#~ "    c. Intervals Before as number of intervals already calculated.\n"
+#~ "You can also Enter Base Value only as Residual left from previous "
+#~ "depreciation (don't enter Expense Value and Intervals Before in such case).\n"
+#~ "\n"
+#~ "You can use this wizard also to make starting account move if asset was "
+#~ "produced by you or is a result of investment recorded previously in other "
+#~ "accounts.\n"
+#~ "\n"
+#~ "Remember that Wizards allows you to make note about previous depreciation in "
+#~ "history entry. You can use Notes field for that.\n"
+#~ "\n"
+#~ "8. When asset is to be sold you can assign appropriate method to the "
+#~ "Customer invoice line. System will make needed postings and stop the asset "
+#~ "method.\n"
+#~ "\n"
+#~ "9. If you wish to revalue the method you can use Revalue Method button. "
+#~ "Select parameters for postings and for asset history.\n"
+#~ "\n"
+#~ "10. If you wish to abandon the asset you can use Abandon Method button. "
+#~ "Parameters in wizard are described in labels.\n"
+#~ "\n"
+#~ "11. You can wish suppress or resume the depreciation. You can use Suppress "
+#~ "and Resume buttons for that. If method has state \"Suppressed\" it is not "
+#~ "calculated.\n"
+#~ "\n"
+#~ "12. Some local rules require to trace the asset localisation. You can use "
+#~ "for that the button \"Change Localisation\" on asset tab \"Other "
+#~ "Information\". This wizard will change localisation text and make proper "
+#~ "entry in asset history.\n"
+#~ "\n"
+#~ "Remarks:\n"
+#~ "- All wizard actions are traced in Asset history. You can use Asset history "
+#~ "as Asset registry.\n"
+#~ "- Period in Method is used as indication of starting interval. If you have "
+#~ "monthly periods, Intervals per Year is 4 (quarterly) and you set period July "
+#~ "or August the calculation will start on September anyway. Depreciation is "
+#~ "calculated always in last period of interval. If you set Intervals per Year "
+#~ "to 1 (yearly depreciation) system calculates asset in 4th quarter or in "
+#~ "December. In last case it calculates depreciation for whole year. If you "
+#~ "wish to calculate different interval in first December than in following "
+#~ "Decembers you can try to change method parameters using Change Parameters "
+#~ "wizard at appropriate moment.\n"
+#~ "- If you make mistake in depreciations or in wizard actions you can delete "
+#~ "created accounting moves usual way in Financial menu. They are in draft "
+#~ "state after creation so they can be deleted. You can recreate depreciation "
+#~ "moves in Compute Asset wizard. Deleting the moves created by wizards doesn't "
+#~ "delete asset history entries.\n"
+#~ "- You can also manually create account moves for special postings not "
+#~ "covered by this module functionality. In such case you have to assign move "
+#~ "lines to asset method. You can use this possibility to add tax depreciation: "
+#~ "\n"
+#~ "    a. Create special method type for tax. \n"
+#~ "    b. Create tax method for asset.\n"
+#~ "    c. Create manually initial account move.\n"
+#~ "    d. Create account move lines with proper accounts for assets.\n"
+#~ "    e. Assign account move lines to asset method.\n"
+#~ "    f. Use periodical depreciation computing as usual.\n"
+#~ "  You can try to use Initial Values wizard instead of points c, d, e.\n"
+#~ "\n"
+#~ "- Unit of Production method. If you are not satisfied with any calculation "
+#~ "method functionality or you wish to have individual depreciation schedule "
+#~ "for method you can adopt Unit of Production calculation method for that:\n"
+#~ "    a. Select Units of Production as Computation Method\n"
+#~ "    b. Enter 100 in Life Quantity in method.\n"
+#~ "    c. On Usage tab use Create Usage Line wizard to create usage entries for "
+#~ "the method.\n"
+#~ "    d. Enter percentage values as usage entries.\n"
+#~ "Usage values can be entered in method tab Usage or in menu \"Financial "
+#~ "Management - Periodical Processing - Assets Calculation - Method Usage\". "
+#~ "Second method is recommended for use before every period computation.\n"
+#~ "    "
+#~ msgstr ""
+#~ "Gestión financiera y contable de activost.\n"
+#~ "    Permite definir\n"
+#~ "    * Activos.\n"
+#~ "    * Periodo de uso y método del activo.\n"
+#~ "    * Categoría de activo. \n"
+#~ "    * Tipos de método del activo\n"
+#~ "    * Cuentas por defecto para métodos y categorías\n"
+#~ "    * Métodos de depreciación:\n"
+#~ "        - Lineal\n"
+#~ "        - Declining-Balance\n"
+#~ "        - Suma de dígitos del año\n"
+#~ "        - Unidades de producción - este método puede ser usado para una "
+#~ "planificación individual de depreciación.\n"
+#~ "        - Progresivo\n"
+#~ "    * Parámetros de los métodos:\n"
+#~ "\t- Intervalo de inicio (periodo)\n"
+#~ "\t- Numero de intervalos de depreciación\n"
+#~ "\t- Number of intervals per year\n"
+#~ "\t- Factor progresivo para el método Declining-Balance\n"
+#~ "\t- Valor de salvedad\n"
+#~ "\t- Cantidad de vida por unidad para el método de unidades de producción\n"
+#~ "    * Funcionalidad:\n"
+#~ "\t- Definir el activo en la factura de compra\n"
+#~ "\t- Ajustar el valor del activo en el reembolso de la compra\n"
+#~ "\t- Entrada periodica de unidades de producción\n"
+#~ "\t- Cálculo periódico de activos\n"
+#~ "\t- Factura de venta para la amortización y hace las últimas entradas\n"
+#~ "    * Asistentes:\n"
+#~ "\t- Valores iniciales para continuar la depreciación desde un sistema "
+#~ "previo\n"
+#~ "\t- Revalorización\n"
+#~ "\t- Abandono\n"
+#~ "\t- Cambio de parámetros de método\n"
+#~ "\t- Suprimir y Reasumir depreciación\n"
+#~ "\t- Cambio de localización\n"
+#~ "\n"
+#~ "Este módulo está basado en el módulo original de Tiny account_asset version "
+#~ "1.0 del mismo nombre \"Financial and accounting asset management\".\n"
+#~ "\n"
+#~ "El propósito del módulo es ayudar a la gestión de activos fijo e integrar "
+#~ "esta gestión dentro del sistema contable.\n"
+#~ "\n"
+#~ "Terminos usados en el modulo:\n"
+#~ "- Activo - Producto o conjunto de productos usados internamente en la "
+#~ "compañía durante un largo tiempo que deben ser incluidos en el registro de "
+#~ "activos.\n"
+#~ "- Categoría de activos - Término para agrupar activos dentro de una "
+#~ "estructura jerárquica.\n"
+#~ "- Método de activo - Reglas de cálculo de la depreciación. Un activo puede "
+#~ "tener varios métodos. Para cada elemento de activo o para cada tipo de "
+#~ "depreciación (coste e impuestos).\n"
+#~ "- Tipo de método - Usado para la diferenciación de tipos de método y para la "
+#~ "configuración por defecto. \n"
+#~ "- Configuración por defecto del método - Configuración asignada a los tipos "
+#~ "de método (y categorías) simplificando la creación de la configuración del "
+#~ "método.\n"
+#~ "\n"
+#~ "Uso del módulo:\n"
+#~ "====================\n"
+#~ "Configuración inicial:\n"
+#~ "1. Crear categoría de activos (opcional)\n"
+#~ "2. Crear tipos de método (opcional)\n"
+#~ "3. Especificar configuración por defecto (opcional)\n"
+#~ "\n"
+#~ "Actividades usuales:\n"
+#~ "4. Crear activo \n"
+#~ "5. Comprar activo \n"
+#~ "6. Calcular depreciación del activo\n"
+#~ "\n"
+#~ "Actividades menos usuales:\n"
+#~ "7. Adquisición de activo \n"
+#~ "8. Venta de activo \n"
+#~ "9. Revalorización de activo\n"
+#~ "10. Abandono de activo\n"
+#~ "11. Suprimir y reasumir la depreciación\n"
+#~ "12. Cambio de localización\n"
+#~ "\n"
+#~ "============================\n"
+#~ "1. Crear categorías de activos en menu \"Gestión financiera - Configuracion -"
+#~ " Activos - Categorías de activos\". Las categorías pueden ser jerárquicas. "
+#~ "Leer a continuación como trabajan las jerarquías para métodos por defecto y "
+#~ "para cálculos periódicos. Usted puede revisar la jerarquía de categorías en "
+#~ "el menú  \"Gestión financiera - Configuracion - Activos - Estructura de "
+#~ "categorías\"\n"
+#~ "\n"
+#~ "2. Crear tipos de método en el menu \"Gestión financiera - Configuracion - "
+#~ "Activos - Tipos de método de activos\". Debería crear un tipo de métido para "
+#~ "cada clase de depreciación. P.e. puede usar la depreciación rápida para "
+#~ "equipos informáticos y depreciación lenta para activos inmobiliarios. Puede "
+#~ "también crear diferentes tipos por depreciación del coste y para "
+#~ "depreciación de impuestos (si usa depreciación de impuestos).\n"
+#~ "\n"
+#~ "3. Crear valores por defecto en métodos en menu \"Gestión financiera - "
+#~ "Configuracion - Activos - Valores por defecto en métodos \".  Puede crear "
+#~ "configuraciones por defecto solo para un tipo de método o para el par de "
+#~ "tipos de métido y categoría de activo. Se sugiere al administrador contable "
+#~ "diseñar una jerarquía de categorías de activos y asignar valores por defecto "
+#~ "a las categorías y a los tipos de método antes de iniciar el sistema. Si "
+#~ "está bien diseñado los contables tendrán un trabajo más simplificado y con "
+#~ "menos errores más tarde. Todas las cuentas, métodos de cálculo y otros "
+#~ "parámetros se crearán automáticamente durante la creación del activo. Note "
+#~ "que como las categorías son jerárquicas los valores por defecto trabajarán "
+#~ "también de forma jerárquica para todas sus categorías hijas. Significa que "
+#~ "si no hay valores por defecto para un par de tipo de método y categoría, el "
+#~ "sistema busca por pares de tipos de método y padre de categoría. Busca por "
+#~ "dicho par hasta la raíz de la categoría.\n"
+#~ "\n"
+#~ "4. Crear activo en el menu \"Gestión financiera - Configuracion - Activos - "
+#~ "Activos\" o en \"Gestión financiera - Activos - Activos\". En el formulario "
+#~ "de activos debería especificar el nombre del activo, el código del activo "
+#~ "(abreviación o símbolo numérico que puede ser especificado en la "
+#~ "configuración de secuencias). Después seleccione la categoría de activo. Es "
+#~ "un paso opcional pero será usado para meter valores por defecto en el "
+#~ "método.  \n"
+#~ "\n"
+#~ "Posteriormente debe ir a la creación del método. El activo puede tener "
+#~ "varios métodos. Pueden ser usados cuando el activo es un conjunto de varios "
+#~ "elementos. P.e. Un conjunto de ordenador consiste en PC, pantalla e "
+#~ "impresora. Cuando tienen la misma regla de depreciación pueden estar en un "
+#~ "único método (las líneas de factura serán asignadas al mismo método). Si "
+#~ "tienen distintas reglas de depreciación deberán estar en distintos métodos.  "
+#~ "\n"
+#~ "\n"
+#~ "Como un primer paso en la creación del método seleccione tipo de método. "
+#~ "Después de la selección del tipo de método algunos campos pueden ser "
+#~ "rellenados automáticamente. Primero, el sistema crea el nombre del método "
+#~ "desde el código del tipo de método, nombre de activo y código de activo. "
+#~ "Simplificará la selección del método en la línea de factura. El sistema "
+#~ "también rellena otros campos en función de las configuraciones por defecto "
+#~ "del método. Hay cuentas, métodos de cálculo y otros valores. Usted puede "
+#~ "cambiar el nombre del método y otros valores por defecto antes de salvar el "
+#~ "activo pero al seleccionar el tipo de método otra vez (incluso del mismo "
+#~ "tipo) estos campos serán vueltos a asignar con los valores por defecto. \n"
+#~ "\n"
+#~ "5. Como comprar es el método más usual para poseer el activo, deberá "
+#~ "habitualmente asignar el método de activo en la factura de compra. Cuando "
+#~ "cree la factura de compra borrador deberá abrir las líneas de la factura y "
+#~ "seleccionar el método de activo. Una vez seleccionado el método, la cuenta "
+#~ "de la línea de factura cambiará a la cuenta de activo que se haya "
+#~ "establecido en el método de activo. Al crear la factura, el estado del "
+#~ "activo cambia a Normal, el estado del método cambia a Abierto y el método "
+#~ "está listo para la depreciación \n"
+#~ "\n"
+#~ "Cuando la compra del activo es susceptible de devolución y el activo debería "
+#~ "cambiar el valor acorde a esto, deberá asociar la línea de devolución al "
+#~ "método de activo como hizo durante la compra. El valor del método deberá ser "
+#~ "reflejado en el valor reenbolsado. \n"
+#~ "\n"
+#~ "Cuando un activo contiene varios elementos y estos elementos deben ser "
+#~ "depreciados de la misma forma (con las mismas reglas) puede asignar varias "
+#~ "líneas de factura al mismo método (de la misma factura u otra). Pero si la "
+#~ "depreciación de los elementos difiere deberá crear distintos métodos para "
+#~ "estos elementos.\n"
+#~ "\n"
+#~ "6. Para realizar el cálculo de activos escoja   \"Gestión financiera -  "
+#~ "Procesamiento periódico - Cálculo de activos - Calcular activos\". Debe "
+#~ "seleccionar el periodo de cálculo y fecha de registro. El periodo "
+#~ "seleccionado también es usado como periodo de registro por lo que la fecha "
+#~ "debe ser única en el periodo. Después, puede seleccionar la categoría de "
+#~ "activo y el tipo de método que le gustaría calcular. Recuerde que las "
+#~ "categorías son jerárquicas y funciona para sus hijos. \n"
+#~ "\n"
+#~ "7.Cuando adquiera el activo de forma distinta a la compra (por su propia "
+#~ "producción o inversión) o desea continuar la depreciación iniciada en otro "
+#~ "sistema puede utilizar los asistentes de valores iniciales. Si continúa la "
+#~ "depreciación puede establecer:\n"
+#~ "    a. Valor de base de un total inicial.\n"
+#~ "    b. Valor del gasto como una depreciación ya realizada.\n"
+#~ "    c. Intervalos anteriores como número de intervalos ya calculados. \n"
+#~ "Puede también introducir un valor base como residual resultante de una "
+#~ "depreciación previa (No introduzca el valor de gasto e intervalos anteriores "
+#~ "en este caso).\n"
+#~ "\n"
+#~ "Puede utilizar también este asistente para realizar el asiento de inicio si "
+#~ "el activo fue producido por usted o es el resultado de una inversión grabada "
+#~ "previamente en otras cuentas.\n"
+#~ "\n"
+#~ "Recuerde que los asistentes le permiten anotar sobre depreciaciones "
+#~ "anteriores en la entrada de histórico. Puede usar el campo notas para esto.\n"
+#~ "\n"
+#~ "8. Cuando el activo debe ser vendido puede asignar el método aproviado en la "
+#~ "factura de venta. El sistema hará los registros necesarios y parará el "
+#~ "método de activo.\n"
+#~ "\n"
+#~ "9. Si desea revalorizar el método debe usar el botón revalorizar método. "
+#~ "Seleccione los parámetros para el registro y el histórico del activo.\n"
+#~ "\n"
+#~ "10. Si desea abandar el activo puede usar el botón abandonar método. Los "
+#~ "parámetros del asistente están descritos en las etiquetas.\n"
+#~ "\n"
+#~ "11. Puede querer suprimir o You can wish suppress or reasumir la "
+#~ "depreciación. Puede utilizar los botones suprimir y reasumir para esto. Si "
+#~ "el método tiene el estado \"Suprimido\" No es calculado.\n"
+#~ "\n"
+#~ "12. Algunas reglas locales requieren trazar la localización del activo. "
+#~ "Puede utilizar para esto el botón \"Cambiar localización\" en la solapa  "
+#~ "\"Otra Informacion\" del activo. Este asistente cambiará el testo de la "
+#~ "localización y realizará la entrada apropiada en el histórico del activo.\n"
+#~ "\n"
+#~ "Puntualizaciones:\n"
+#~ "- Todas las acciones en asistentes son trazados en el histórico del activo. "
+#~ "Puede utilizar el histórico del activo como registro del activo.\n"
+#~ "- Los periodos en métodos son usados como indicador del intervalo de inicio. "
+#~ "Si tiene periodos mensuales, el número de intervalos anual es 4 (trimestral) "
+#~ "y especifica el periodo Julio o Agosto, el cálculo empezará en de cualquier "
+#~ "forma en septiembre. La depreciación es calculada siempre en el último "
+#~ "periodo del intervalo. Si configura intervalos anuales a 1 (depreciación "
+#~ "anual) el sistema calcula activos en el cuarto perdiodo o en diciembre. En "
+#~ "el último caso calcula la depreciación para todo el año. Si requiere "
+#~ "calcular diferentes intervalos a principcios de diciembre como en siguientes "
+#~ "diciembres, puede tratar de cambiar los parámetros del métdodo usando el "
+#~ "asistente de cambiar parámetros en el momento apropiado. \n"
+#~ "- Si realiza errores en la deprecicación o en el asistente de acciones puede "
+#~ "borrar los movimientos contrables creados, como haría normalmente en el menú "
+#~ "de gestión financiera. Estarán en estado borrador cuando se crean por lo que "
+#~ "pueden ser borrados. Puede volver a crear los movimientos de amortización "
+#~ "con el asistente de calcular activo. Borrar los movimientos creados por los "
+#~ "asistentes no borra las entradas en el histórico de activos.\n"
+#~ "- Puede también crear movimientos manualmente para casos funcionales no "
+#~ "cubiertos por este módulo. En este caso debe asignar los movimientos al "
+#~ "método de activo. Puede usar esta posibilidad para añadir la depreciación de "
+#~ "impuestos: \n"
+#~ "    a. Cree un método especial para impuestos. \n"
+#~ "    b. Cree un método de impuesto para el activo .\n"
+#~ "    c. Cree un asiento de inicio manual.\n"
+#~ "    d. Cree líneas de asiento con las cuentas apropiadas para "
+#~ "amortizaciones.\n"
+#~ "    e. Asigne las líneas de asiento al método de activo.\n"
+#~ "    f. Utilice el cálculo de la depreciación periódica de la forma "
+#~ "habitual.\n"
+#~ "  Puede tratar de usar el asistente de valores iniciales en vez de los "
+#~ "puntos c, d, e.\n"
+#~ "\n"
+#~ "- Método de unidad de producción. Si no le satisface la funcionalidad de "
+#~ "ningún método de cálculo o desea tener un calendario individual de "
+#~ "depreciación para el método puede adoptar el método de cálculo Unidad de "
+#~ "producción:\n"
+#~ "    a. Seleccione el método de cálculo unidades de producción. \n"
+#~ "    b. Introduzca 100 en cantidad de vida del metodo.\n"
+#~ "    c. En la solapa de uso utilice el asistente crear línea de uso para "
+#~ "crear líneas de uso para el método.\n"
+#~ "    d. Introduzca valores porcentaje en las entradas de uso.\n"
+#~ "Los valores de uso pueden ser introducidos en la solapa uso  o en el menú  "
+#~ "\"Gestión financiera - Procesamiento periódico - Cálculo de activo - Método "
+#~ "de uso\". El segundo método es recomendado para usar antes de cualquier "
+#~ "cálculo de periodo.\n"
+#~ "    "

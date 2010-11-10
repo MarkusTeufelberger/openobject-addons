@@ -1,0 +1,272 @@
+--- ../5.0/sale/sale.py	2010-10-19 11:40:49.627417000 +0200
++++ ./sale/sale.py	2010-10-20 17:23:18.894572312 +0200
+@@ -590,94 +559,40 @@
+                 return False
+             return canceled
+ 
+-    def action_ship_create(self, cr, uid, ids, *args):
+-        picking_id = False
+-        company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+-        for order in self.browse(cr, uid, ids, context={}):
+-            output_id = order.shop_id.warehouse_id.lot_output_id.id
+-            picking_id = False
++    def _create_picking(self, cr, uid, order_id, context=None):
++        """
++        Create an empty picking
++        
++        @param order_id: Order ID
++        @return: Picking ID
++        """
++        order = self.browse(cr, uid, [order_id], context=context)[0]
++        netsvc.Logger().notifyChannel("sale", netsvc.LOG_DEBUG,
++            "Creating a new picking for Sale Order %d" % order_id)
++        return self.pool.get('stock.picking').create(cr, uid,
++            {
++                'origin': order.name,
++                'type': 'out',
++                'state': 'auto',
++                'move_type': order.picking_policy,
++                'sale_id': order.id,
++                'address_id': order.partner_shipping_id.id,
++                'note': order.note,
++                'invoice_state': (order.order_policy == 'picking' and '2binvoiced') or 'none',
++            }, context=context)
++        
++    def action_ship_create(self, cr, uid, ids, context=None):
++        line_obj = self.pool.get('sale.order.line')
++        for order in self.browse(cr, uid, ids, context=context):
++            picking_id = None
++            dates_planned = line_obj._get_dates_planned(cr, uid,
++                [line.id for line in order.order_line],
++                context=context)
+             for line in order.order_line:
+-                proc_id = False
+-                date_planned = DateTime.now() + DateTime.DateTimeDeltaFromDays(line.delay or 0.0)
+-                date_planned = (date_planned - DateTime.DateTimeDeltaFromDays(company.security_lead)).strftime('%Y-%m-%d %H:%M:%S')
+-                if line.state == 'done':
+-                    continue
+-                if line.product_id and line.product_id.product_tmpl_id.type in ('product', 'consu'):
+-                    location_id = order.shop_id.warehouse_id.lot_stock_id.id
+-                    if not picking_id:
+-                        loc_dest_id = order.partner_id.property_stock_customer.id
+-                        picking_id = self.pool.get('stock.picking').create(cr, uid, {
+-                            'origin': order.name,
+-                            'type': 'out',
+-                            'state': 'auto',
+-                            'move_type': order.picking_policy,
+-                            'sale_id': order.id,
+-                            'address_id': order.partner_shipping_id.id,
+-                            'note': order.note,
+-                            'invoice_state': (order.order_policy=='picking' and '2binvoiced') or 'none',
+-
+-                        })
+-
+-                    move_id = self.pool.get('stock.move').create(cr, uid, {
+-                        'name': line.name[:64],
+-                        'picking_id': picking_id,
+-                        'product_id': line.product_id.id,
+-                        'date_planned': date_planned,
+-                        'product_qty': line.product_uom_qty,
+-                        'product_uom': line.product_uom.id,
+-                        'product_uos_qty': line.product_uos_qty,
+-                        'product_uos': (line.product_uos and line.product_uos.id)\
+-                                or line.product_uom.id,
+-                        'product_packaging': line.product_packaging.id,
+-                        'address_id': line.address_allotment_id.id or order.partner_shipping_id.id,
+-                        'location_id': location_id,
+-                        'location_dest_id': output_id,
+-                        'sale_line_id': line.id,
+-                        'tracking_id': False,
+-                        'state': 'draft',
+-                        #'state': 'waiting',
+-                        'note': line.notes,
+-                    })
+-                    proc_id = self.pool.get('mrp.procurement').create(cr, uid, {
+-                        'name': order.name,
+-                        'origin': order.name,
+-                        'date_planned': date_planned,
+-                        'product_id': line.product_id.id,
+-                        'product_qty': line.product_uom_qty,
+-                        'product_uom': line.product_uom.id,
+-                        'product_uos_qty': (line.product_uos and line.product_uos_qty)\
+-                                or line.product_uom_qty,
+-                        'product_uos': (line.product_uos and line.product_uos.id)\
+-                                or line.product_uom.id,
+-                        'location_id': order.shop_id.warehouse_id.lot_stock_id.id,
+-                        'procure_method': line.type,
+-                        'move_id': move_id,
+-                        'property_ids': [(6, 0, [x.id for x in line.property_ids])],
+-                    })
+-                    wf_service = netsvc.LocalService("workflow")
+-                    wf_service.trg_validate(uid, 'mrp.procurement', proc_id, 'button_confirm', cr)
+-                    self.pool.get('sale.order.line').write(cr, uid, [line.id], {'procurement_id': proc_id})
+-                elif line.product_id and line.product_id.product_tmpl_id.type == 'service':
+-                    proc_id = self.pool.get('mrp.procurement').create(cr, uid, {
+-                        'name': line.name,
+-                        'origin': order.name,
+-                        'date_planned': date_planned,
+-                        'product_id': line.product_id.id,
+-                        'product_qty': line.product_uom_qty,
+-                        'product_uom': line.product_uom.id,
+-                        'location_id': order.shop_id.warehouse_id.lot_stock_id.id,
+-                        'procure_method': line.type,
+-                        'property_ids': [(6, 0, [x.id for x in line.property_ids])],
+-                    })
+-                    self.pool.get('sale.order.line').write(cr, uid, [line.id], {'procurement_id': proc_id})
+-                    wf_service = netsvc.LocalService("workflow")
+-                    wf_service.trg_validate(uid, 'mrp.procurement', proc_id, 'button_confirm', cr)
+-                else:
+-                    #
+-                    # No procurement because no product in the sale.order.line.
+-                    #
+-                    pass
+-
++                record_ids = line_obj._create_move_procurement(cr, uid, line.id,
++                   picking_id, dates_planned[line.id], context=context)
++                if 'picking_id' in record_ids:
++                    picking_id = record_ids['picking_id']
+             val = {}
+             if picking_id:
+                 wf_service = netsvc.LocalService("workflow")
+@@ -691,8 +606,7 @@
+                         if (not line.invoiced) and (line.state not in ('cancel', 'draft')):
+                             val['state'] = 'manual'
+                             break
+-            self.write(cr, uid, [order.id], val)
+-
++            self.write(cr, uid, [order.id], val, context=context)
+         return True
+ 
+     def action_ship_end(self, cr, uid, ids, context={}):
+@@ -722,9 +636,9 @@
+             partnertype = 'customer'
+             eventtype = 'sale'
+             event = {
+-                'name': 'Order: '+name,
++                'name': 'Order: ' + name,
+                 'som': False,
+-                'description': 'Order '+str(inv['id']),
++                'description': 'Order ' + str(inv['id']),
+                 'document': '',
+                 'partner_id': part,
+                 'date': time.strftime('%Y-%m-%d'),
+@@ -750,6 +664,119 @@
+ # - update it on change product and unit price
+ # - use it in report if there is a uos
+ class sale_order_line(osv.osv):
++        
++    def _create_move_procurement(self, cr, uid, line_id, picking_id,
++                                 date_planned, context=None):
++        """
++        Create a stock move and/or a procurement for a sale order line
++        
++        @param line_id: The Sale Order Line's ID
++        @param picking_id: The ID of the picking for this Sale Order, or None if none exist
++        @param date_planned: The date this line should be shipped
++        @return: A dictionary containing one or more of the following keys: 
++                 'picking_id': ID of the newly created picking for this Sale Order
++                 'move_id': ID of the newly created move for this line
++                 'proc_id': ID of the newly created procurement for this line
++        """
++        logger=netsvc.Logger()
++        line = self.browse(cr, uid, [line_id], context=context)[0]
++
++        if not line.product_id:
++            # No procurement and no move because no product was specified
++            logger.notifyChannel("sale", netsvc.LOG_DEBUG,
++                "Nothing to do in Line %d in Sale Order %d" % (line.id,
++                                                               line.order_id.id))
++            return {}
++        res = {}
++        if line.product_id.product_tmpl_id.type in ('product', 'consu'):
++            # Make a procurement and a stock move for physical products
++            location_id = line.order_id.shop_id.warehouse_id.lot_stock_id.id
++            output_id = line.order_id.shop_id.warehouse_id.lot_output_id.id
++            if picking_id is None:
++                picking_id = self.pool.get('sale.order')._create_picking(cr,
++                    uid, line.order_id.id, context=context)
++                res['picking_id'] = picking_id
++            logger.notifyChannel("sale", netsvc.LOG_DEBUG,
++                "Recording Stock Move and Procurement for Line %d in Sale Order %d"
++                 % (line.id, line.order_id.id))
++            move_id = self.pool.get('stock.move').create(cr, uid, {
++                'name': line.name[:64],
++                'picking_id': picking_id,
++                'product_id': line.product_id.id,
++                'date_planned': date_planned,
++                'product_qty': line.product_uom_qty,
++                'product_uom': line.product_uom.id,
++                'product_uos_qty': line.product_uos_qty,
++                'product_uos': (line.product_uos and line.product_uos.id)\
++                        or line.product_uom.id,
++                'product_packaging': line.product_packaging.id,
++                'address_id': line.address_allotment_id.id or line.order_id.partner_shipping_id.id,
++                'location_id': location_id,
++                'location_dest_id': output_id,
++                'sale_line_id': line.id,
++                'tracking_id': False,
++                'state': 'draft',
++                #'state': 'waiting',
++                'note': line.notes,
++            }, context=context)
++            res['move_id'] = move_id
++            proc_id = self.pool.get('mrp.procurement').create(cr, uid, {
++                'name': line.order_id.name,
++                'origin': line.order_id.name,
++                'date_planned': date_planned,
++                'product_id': line.product_id.id,
++                'product_qty': line.product_uom_qty,
++                'product_uom': line.product_uom.id,
++                'product_uos_qty': (line.product_uos and line.product_uos_qty)\
++                        or line.product_uom_qty,
++                'product_uos': (line.product_uos and line.product_uos.id)\
++                        or line.product_uom.id,
++                'location_id': line.order_id.shop_id.warehouse_id.lot_stock_id.id,
++                'procure_method': line.type,
++                'move_id': move_id,
++                'property_ids': [(6, 0, [x.id for x in line.property_ids])],
++            }, context=context)
++            wf_service = netsvc.LocalService("workflow")
++            wf_service.trg_validate(uid, 'mrp.procurement', proc_id, 'button_confirm', cr)
++            self.write(cr, uid, [line.id], {'procurement_id': proc_id})
++            res['proc_id'] = proc_id
++        elif line.product_id.product_tmpl_id.type == 'service':
++            # Record a procurement only for services
++            logger.notifyChannel("sale", netsvc.LOG_DEBUG,
++                "Recording Procurement only for Line %d in Sale Order %d"
++                 % (line.id, line.order_id.id))
++            proc_id = self.pool.get('mrp.procurement').create(cr, uid, {
++                'name': line.name,
++                'origin': line.order_id.name,
++                'date_planned': date_planned,
++                'product_id': line.product_id.id,
++                'product_qty': line.product_uom_qty,
++                'product_uom': line.product_uom.id,
++                'location_id': line.order_id.shop_id.warehouse_id.lot_stock_id.id,
++                'procure_method': line.type,
++                'property_ids': [(6, 0, [x.id for x in line.property_ids])],
++            }, context=context)
++            res['proc_id'] = proc_id
++            self.write(cr, uid, [line.id], {'procurement_id': proc_id})
++            wf_service = netsvc.LocalService("workflow")
++            wf_service.trg_validate(uid, 'mrp.procurement', proc_id, 'button_confirm', cr)
++        return res
++
++    def _get_dates_planned(self, cr, uid, ids, context=None):
++        """
++        Compute the dates when lines should be shipped
++        
++        @param ids: list of Sale Order Line IDs for which you want dates
++        @return: a dictionary of dates by line ID
++        """
++        res = {}
++        company = self.pool.get('res.users').browse(cr, uid, uid).company_id
++        for line in self.browse(cr, uid, ids, context=context):
++            date_planned = DateTime.now() + DateTime.DateTimeDeltaFromDays(line.delay or 0.0)
++            date_planned = (date_planned - DateTime.DateTimeDeltaFromDays(company.security_lead)).strftime('%Y-%m-%d %H:%M:%S')
++            res[line.id] = date_planned
++        return res
++
+     def _amount_line_net(self, cr, uid, ids, field_name, arg, context):
+         res = {}
+         for line in self.browse(cr, uid, ids):

@@ -2,7 +2,28 @@
 <openerp>
 <data>
 
-
+    <record model="ir.ui.view" id="portal_scrum_project_form">
+        <field name="name">scrum.project.form</field>
+        <field name="model">scrum.project</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="portal_scrum_project_form" />
+        <field name="arch" type="xml">
+            <field name="sprint_size" position="replace" >
+            </field>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="portal_scrum_project_form">
+        <field name="name">scrum.project.form</field>
+        <field name="model">scrum.project</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="portal_scrum_project_form" />
+        <field name="arch" type="xml">
+            <field name="product_owner_id" position="replace" >
+            </field>
+        </field>
+    </record>
+    
     <record model="ir.ui.view" id="portal_scrum_project_form">
         <field name="name">scrum.project.form</field>
         <field name="model">scrum.project</field>
@@ -16,6 +37,7 @@
             </field>
         </field>
     </record>
+    
 
     <!--<record model="ir.ui.view" id="portal_scrum_project_tree">
         <field name="name">scrum.project.tree</field>

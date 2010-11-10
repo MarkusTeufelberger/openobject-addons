@@ -1,0 +1,131 @@
+# Spanish translation for openobject-addons
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-11-12 17:15+0000\n"
+"PO-Revision-Date: 2010-07-24 04:46+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-08-10 03:48+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: product_category_extended
+#: view:product.category:0
+msgid "Information"
+msgstr "Información"
+
+#. module: product_category_extended
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: product_category_extended
+#: field:product.category,uos_id:0
+msgid "Unit of Sale"
+msgstr "Unidad de venta"
+
+#. module: product_category_extended
+#: field:product.category,purchase_taxes_ids:0
+msgid "Purchase Taxes"
+msgstr "Impuestos de compras"
+
+#. module: product_category_extended
+#: field:product.category,uom_po_id:0
+msgid "Purchase UoM"
+msgstr "UdM de compra"
+
+#. module: product_category_extended
+#: view:product.category:0
+msgid "Secondary Unit (UoS)"
+msgstr "Unidad secundaria (UdV)"
+
+#. module: product_category_extended
+#: model:ir.module.module,description:product_category_extended.module_meta_information
+msgid ""
+"\n"
+"    Add On Change on product category to:\n"
+"    * Fill sales and purchase taxes on product.\n"
+"    * Add default UOM on product\n"
+"    "
+msgstr ""
+"\n"
+"    Añade método \"On Change\" (al cambiar) en la categoría de producto "
+"para:\n"
+"* Rellenar impuestos de venta y compra en el producto\n"
+"* Añadir UdM por defecto en el producto\n"
+"    "
+
+#. module: product_category_extended
+#: view:product.category:0
+msgid "Sales taxes"
+msgstr "Impuestos de venta"
+
+#. module: product_category_extended
+#: view:product.category:0
+msgid "Purchases taxes"
+msgstr "Impuestos de compra"
+
+#. module: product_category_extended
+#: field:product.category,uom_id:0
+msgid "Default UoM"
+msgstr "UdM por defecto"
+
+#. module: product_category_extended
+#: view:product.category:0
+msgid "General"
+msgstr "General"
+
+#. module: product_category_extended
+#: view:product.category:0
+msgid "Sale and Purchase Unit (UoM)"
+msgstr "Unidad de compra y venta (UdM)"
+
+#. module: product_category_extended
+#: code:addons/product_category_extended/object/product.py:0
+#, python-format
+msgid "Caution"
+msgstr "Cuidado"
+
+#. module: product_category_extended
+#: help:product.category,uos_coeff:0
+#: help:product.category,uos_id:0
+msgid "See product definition"
+msgstr "Ver definición del producto"
+
+#. module: product_category_extended
+#: field:product.category,uos_coeff:0
+msgid "UOM -> UOS Coeff"
+msgstr "Coef. UdM -> UdV"
+
+#. module: product_category_extended
+#: code:addons/product_category_extended/object/product.py:0
+#, python-format
+msgid ""
+"\"\"The product category have been changed, thanks to control\n"
+"* Sales and Purchases Taxes\n"
+"* Unit sales and stock\n"
+"* The price with return unit\"\""
+msgstr ""
+"La categoría de producto se ha cambiado, gracias por verificar:\n"
+"* Los impuestos de compra y venta\n"
+"* La unidad de venta y stock\n"
+"* El precio con retorno unidad"
+
+#. module: product_category_extended
+#: field:product.category,sale_taxes_ids:0
+msgid "Sales Taxes"
+msgstr "Impuestos de ventas"
+
+#. module: product_category_extended
+#: model:ir.module.module,shortdesc:product_category_extended.module_meta_information
+msgid "Product Category Extended"
+msgstr "Categoría de producto extendida"

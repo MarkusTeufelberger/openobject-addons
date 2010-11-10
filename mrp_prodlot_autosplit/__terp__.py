@@ -22,7 +22,7 @@
     "version" : "0.9.0",
     "author" : "Raphaël Valyi",
     "website" : "http://www.akretion.com",
-    "depends" : ["product", "stock"],
+    "depends" : ['mrp'],
     "category" : "Generic Modules/Inventory Control",
     "description":"""Turns production lot tracking numbers into unique per product instance code (serial number).
     Moreover, it

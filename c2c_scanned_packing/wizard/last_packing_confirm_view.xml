@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>   
+         
+        <record id="view_last_packing_confirm" model="ir.ui.view">
+            <field name="name">Last Product to Scan</field>
+            <field name="model">last.packing.confirm</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="last packing Confirmation">
+                    <group col="2" colspan="4">
+                        <label string="The packing is complete" colspan="4"/>
+                    </group>
+                    <group col="3" colspan="4">                                            
+                        <button icon='gtk-ok' special="cancel"
+                            string="Ok" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="act_last_packing_confirm" model="ir.actions.act_window">
+            <field name="name">Last Product to Scan</field>
+            <field name="res_model">last.packing.confirm</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_last_packing_confirm"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>          

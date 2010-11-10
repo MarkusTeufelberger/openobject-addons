@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+ 	<!-- stock.config.scanner -->
+	<record id="view_scanner_config" model="ir.ui.view">
+		<field name="name">stock.scanner.config</field>
+		<field name="model">stock.scanner.config</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+            <form string="Scanner Config">
+                <field name="name"/>
+                <field name="active" />
+                <field name="default" />
+    			<field name="auto_create_lot"/>
+    			<field name="fill_quantity"/>
+                <newline/>
+                <separator string="Input Packing Reports" colspan="2"/>
+                <separator string="Output Packing Reports" colspan="2"/>
+                <field name="input_reports_ids" nolabel="1" colspan="2" />
+                <field name="output_reports_ids" nolabel="1" colspan="2" />
+			</form>
+		</field>
+	</record>
+
+    <record id="view_scanner_config_tree" model="ir.ui.view">
+		<field name="name">stock.scanner.config.tree</field>
+		<field name="model">stock.scanner.config</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+            <tree string="Scanner Config">
+                <field name="name"/>
+    			<field name="auto_create_lot"/>
+			</tree>
+		</field>
+	</record>
+
+
+    <record id="action_stock_scanner_config_form" model="ir.actions.act_window">
+            <field name="name">Stock Scanner Configuration</field>
+            <field name="res_model">stock.scanner.config</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+    </record>
+    <menuitem action="action_stock_scanner_config_form" id="menu_action_stock_scanner_form" parent="stock.menu_stock_configuration"/>
+
+
+
+    <!-- nan.stock.picking.partial.wizard -->
+	<record id="stock_scanner_picking_form" model="ir.ui.view">
+		<field name="name">nan.stock.picking.scanner.confirm.wizard</field>
+		<field name="model">nan.stock.picking.scanner.confirm.wizard</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Partial Picking" col="2">
+				<label string="Are you sure you want to confirm this picking?" colspan="2"/>
+				<label string="" colspan="2"/>
+                <group col="6" colspan="4">
+                    <button name="action_force_scanner_confirm" string="Force Confirm" type="object" />
+                    <label colspan="3"/>
+    				<button special="cancel" string="Cancel" icon="gtk-cancel"/>
+	    			<button name="action_scanner_confirm" string="Confirm" type="object" icon="gtk-ok"/>
+
+                </group>
+			</form>
+		</field>
+	</record>
+	<record id="action_stock_picking_scanner_confirm" model="ir.actions.act_window">
+		<field name="name">Confirm Scanner Picking</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">nan.stock.picking.scanner.confirm.wizard</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+    <!-- Stock picking out -->
+	<record id="nan_stock_scanner_view_out_remove_buttons" model="ir.ui.view">
+		<field name="name">stock.picking.out.form.remove.buttons</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_out_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//form/notebook/page/group[@col='10']" position="replace">
+			</xpath>
+		</field>
+	</record>
+
+
+	<record id="nan_stock_scanner_out_view_add_buttons" model="ir.ui.view">
+		<field name="name">stock.picking.out.form.add.buttons</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_out_form"/>
+		<field name="arch" type="xml">
+			<form string="Packing list" position="inside">
+				<group col="10" colspan="4">
+					<field name="state" readonly="1"/>
+					<button name="draft_force_assign" states="draft" string="Process Later" type="object"/>
+					<button name="draft_validate" states="draft" string="Process Now" type="object"/>
+					<button name="action_assign" states="confirmed" string="Check Availability" type="object"/>
+					<button name="force_assign" states="confirmed" string="Force Availability" type="object" groups="base.group_extended"/>
+					<!-- Hide Partial Picking Button
+					<button name="%(stock.partial_picking)d" states="assigned" string="Products Received" type="action"/>
+					-->
+					<button name="button_cancel" states="assigned,confirmed,draft" string="Cancel"/>
+					<!-- action added by nan_stock_scanner module -->
+                    <button name="%(action_stock_picking_scanner_confirm)d" states="assigned,confirmed" string="Confirm scanned products" type="action" />
+				</group>
+			</form>
+		</field>
+	</record>
+
+
+    <record id="nan_stock_scanner_out_view" model="ir.ui.view">
+		<field name="name">stock.picking.out.form.scanner</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_out_form"/>
+		<field name="arch" type="xml">
+			<page string="General Information" position="before">
+				<page string="Pending Moves">
+					<group col="6" colspan="4">
+						<field name="scanned_product_id" colspan="3" on_change="on_change_scanned_product(scanned_product_id,scanned_quantity,context)"/>
+						<field name="scanned_quantity"/>
+						<button name="action_scanned" string="Accept" type="object" states="assigned"  use="{'shortcut': 'F3'}"/>
+
+					</group>
+					<separator string="Pending Stock Moves" colspan="4"/>
+					<field name="pending_move_line_ids" colspan="4" nolabel="1">
+						<form string="Pending Stock Moves">
+							<field name="name"/>
+							<field name="product_id"/>
+							<field name="product_qty"/>
+							<field name="product_uom"/>
+                                                        <field name="received_quantity"/>
+							<field name="pending_quantity"/>
+						</form>
+						<tree string="Pending Stock Moves">
+							<field name="name"/>
+							<field name="product_id"/>
+							<field name="product_qty"/>
+							<field name="product_uom"/>
+							<field name="pending_quantity"/>
+						</tree>
+					</field>
+				</page>
+			</page>
+		</field>
+	</record>
+
+
+
+	<!-- stock.picking -->
+	<record id="nan_stock_scanner_view_remove_buttons" model="ir.ui.view">
+		<field name="name">stock.picking.in.form.remove.buttons</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_in_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//form/notebook/page/group[@col='10']" position="replace">
+			</xpath>
+		</field>
+	</record>
+
+
+	<record id="nan_stock_scanner_view_add_buttons" model="ir.ui.view">
+		<field name="name">stock.picking.in.form.add.buttons</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_in_form"/>
+		<field name="arch" type="xml">
+			<form string="Input Packing List" position="inside">
+				<group col="10" colspan="4">
+					<field name="state" readonly="1"/>
+					<button name="draft_force_assign" states="draft" string="Process Later" type="object"/>
+					<button name="draft_validate" states="draft" string="Process Now" type="object"/>
+					<button name="action_assign" states="confirmed" string="Check Availability" type="object"/>
+					<button name="force_assign" states="confirmed" string="Force Availability" type="object" groups="base.group_extended"/>
+					<!-- Hide Partial Picking Button
+					<button name="%(stock.partial_picking)d" states="assigned" string="Products Received" type="action"/>
+					-->
+					<button name="button_cancel" states="assigned,confirmed,draft" string="Cancel"/>
+					<!-- action added by nan_stock_scanner module -->
+                    <button name="%(action_stock_picking_scanner_confirm)d" states="assigned,confirmed" string="Confirm scanned products" type="action"/>
+				</group>
+			</form>
+		</field>
+	</record>
+
+	<record id="nan_stock_scanner_view" model="ir.ui.view">
+		<field name="name">stock.picking.in.form.scanner</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_in_form"/>
+		<field name="arch" type="xml">
+			<page string="General Information" position="before">
+				<page string="Pending Moves">
+					<group col="6" colspan="4">
+						<field name="scanned_product_id" colspan="3" on_change="on_change_scanned_product(scanned_product_id,scanned_quantity,context)"/>
+						<field name="scanned_quantity"/>
+                        <field name="scanned_lot_ref"/>
+                        <field name="scanned_dluo"/>
+                        <field name="scanned_packaging_id" domain="[('product_id','=',scanned_product_id)]"/>
+                        <field name="scanned_ean"  on_change="onchange_scanned_ean( scanned_product_id, scanned_ean,context)" />
+						<button name="action_scanned" string="Accept" type="object" states="assigned,confirmed" />
+
+					</group>
+					<separator string="Pending Stock Moves" colspan="4"/>
+					<field name="pending_move_line_ids" colspan="4" nolabel="1">
+						<form string="Pending Stock Moves">
+							<field name="name"/>
+							<field name="product_id"/>
+							<field name="product_qty"/>
+							<field name="product_uom"/>
+                                                        <field name="received_quantity"/>
+							<field name="pending_quantity"/>
+						</form>
+						<tree string="Pending Stock Moves">
+							<field name="name"/>
+							<field name="product_id"/>
+							<field name="product_qty"/>
+							<field name="product_uom"/>
+							<field name="pending_quantity"/>
+						</tree>
+					</field>
+				</page>
+			</page>
+		</field>
+	</record>
+
+	<record id="nan_stock_scanner_view_quantities" model="ir.ui.view">
+		<field name="name">stock.picking.in.form.quantities</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="nan_stock_scanner_view"/>
+		<field name="arch" type="xml">
+			<field name="product_uos_qty" position="after">
+				<field name="received_quantity"/>
+				<field name="pending_quantity"/>
+			</field>
+		</field>
+	</record>
+
+	<record id="nan_stock_scanner_view_tree_quantities" model="ir.ui.view">
+		<field name="name">stock.picking.in.tree.quantities</field>
+		<field name="model">stock.picking</field>
+		<field name="type">tree</field>
+		<field name="inherit_id" ref="stock.view_picking_in_form"/>
+		<field name="arch" type="xml">
+  		<xpath expr="//form/notebook/page[@string='General Information']/field[@name='move_lines']/tree/field[@name='product_qty']" position="after">
+  					<field name="received_quantity"/>
+	  			<field name="pending_quantity"/>
+
+			</xpath>
+		</field>
+	</record>
+
+
+
+
+	<!-- product.supplierinfo -->
+	<record id="product_supplierinfo_form_view_barcode" model="ir.ui.view">
+		<field name="name">product.supplierinfo.form.view</field>
+		<field name="model">product.supplierinfo</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+		<field name="arch" type="xml">
+			<field name="product_code" position="after">
+				<field name="product_barcode"/>
+			</field>
+		</field>
+	</record>
+</data>
+</openerp>
+

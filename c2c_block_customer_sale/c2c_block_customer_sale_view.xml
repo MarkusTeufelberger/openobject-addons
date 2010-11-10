@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <!-- Inherit partner form view -->
+    
+        <record id="view_res_partner_inherit_form" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <field name="credit_limit" position="after">
+                   <field name="block_sales"/>
+                </field>                
+            </field>                                                                       
+        </record>
+        
+        <!-- Inherit Sale Order form -->
+        
+        <record id="view_order_form_block_sale_form" model="ir.ui.view">
+            <field name="name">sale.order.block.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+               <button name="order_confirm" states="draft" string="Confirm Order" icon="gtk-execute" position="replace">
+                    <button  string="Confirm Order" name="%(action_customer_credit_warning)d" states="draft" type="action" icon="gtk-execute"/>
+               </button>
+            </field>
+        </record>
+                   
+	    <record id="sale.action_order_form" model="ir.actions.act_window">
+	      <field name="type">ir.actions.act_window</field>
+          <field name="res_model">sale.order</field>
+          <field name="view_type">form</field>
+	      <field name="auto_refresh">0</field>
+	    </record> 
+	    
+       <wizard id="act_c2c_block_customer_non_confirmed_form" model="sale.order" name="c2c_block_customer_sale.non.confirmed.order" string="Sales order in Waiting Confirmation"/>
+       <menuitem action="act_c2c_block_customer_non_confirmed_form" icon="STOCK_JUSTIFY_FILL" id="menu_c2c_block_customer_non_confirmed_form" parent="sale.menu_sale_root" type="wizard"/>
+	           
+        
+</data>
+</openerp>       

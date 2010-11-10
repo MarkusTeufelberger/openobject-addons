@@ -5,16 +5,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-02-25 14:39+0000\n"
-"PO-Revision-Date: 2010-09-02 14:22+0000\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-02-24 18:39+0000\n"
+"PO-Revision-Date: 2010-08-19 15:07+0000\n"
 "Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-03 03:57+0000\n"
+"X-Launchpad-Export-Date: 2010-09-29 05:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: internetdomain
@@ -159,11 +159,6 @@ msgid "Configuration"
 msgstr "Configuració"
 
 #. module: internetdomain
-#: constraint:ir.cron:0
-msgid "Invalid arguments"
-msgstr "Arguments no vàlids"
-
-#. module: internetdomain
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
 msgstr "XML invàlid per a la definició de la vista!"
@@ -265,7 +260,6 @@ msgstr "Empresa"
 #. module: internetdomain
 #: view:internetdomain.domain:0
 #: field:internetdomain.domain,renewal_ids:0
-#: model:ir.actions.act_window,name:internetdomain.act_domain_2_renewals
 #: model:ir.model,name:internetdomain.model_internetdomain_renewal
 #: model:ir.ui.menu,name:internetdomain.menu_internetdomain_renewal
 msgid "Renewals"
@@ -275,3 +269,6 @@ msgstr "Renovacions"
 #: wizard_field:internetdomain.renewal.make_invoice,init,price:0
 msgid "Price"
 msgstr "Preu"
+
+#~ msgid "Invalid arguments"
+#~ msgstr "Arguments no vàlids"

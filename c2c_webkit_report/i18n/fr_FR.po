@@ -392,7 +392,7 @@ msgid "WebKit invoice"
 msgstr "facture WebKit"
 
 #. module: c2c_webkit_report
-#: field:ir.header_webkit,magrin_bottom:0
+#: field:ir.header_webkit,margin_bottom:0
 msgid "Bottom Margin (mm)"
 msgstr "Marge du bas (mm)"
 
@@ -402,7 +402,7 @@ msgid "Open added action"
 msgstr "Open ajouté action"
 
 #. module: c2c_webkit_report
-#: field:ir.header_webkit,magrin_right:0
+#: field:ir.header_webkit,margin_right:0
 msgid "Right Margin (mm)"
 msgstr "Marge de droite (mm)"
 
@@ -555,7 +555,7 @@ msgid "The embeeded lib are not anymore present for security reasons"
 msgstr "The embeeded lib are not anymore present for security reasons"
 
 #. module: c2c_webkit_report
-#: field:ir.header_webkit,magrin_left:0
+#: field:ir.header_webkit,margin_left:0
 msgid "Left Margin (mm)"
 msgstr "Left Margin (mm)"
 

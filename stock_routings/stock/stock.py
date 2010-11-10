@@ -81,7 +81,7 @@ class stock_picking(osv.osv):
                 'vessel_name' : fields.char('Vessel Name', size=128,),
                 'voyage_number' : fields.char('Voyage Number', size=64,),
                 'shipping_company' : fields.char('Shipping Line', size=128,),
-                'kind_transport': fields.selection([('Stock move','Stock Move'),('By air','By Air'),('By sea','By Sea'),('By road','By Road')],'Transportation Type', required=True),
+                'kind_transport': fields.selection([('Stock move','Stock Move'),('By air','By Air'),('By sea','By Sea'),('By road','By Road'),('By feeder', 'By Feeder')],'Transportation Type', required=True),
 #                'forwarder' : fields.many2one('res.partner','Forwarder agent'),
                 'forwarder' : fields.char('Forwarder agent', size=128),
                 'departure_date' : fields.date('Estimated Time of Departure'),
@@ -140,7 +140,7 @@ class stock_move(osv.osv):
     
     _columns={
               'picking_date' : fields.date('Picking Date'),
-              'container_id' : fields.char('Container ID', size=128,),
+              'container_id' : fields.char('Container id / Box id', size=128,),
               'state': fields.selection([('draft','Draft'),('waiting','Waiting'),('confirmed','Confirmed'),('assigned','Available'),('done','Received'),('cancel','Canceled')], 'Status', readonly=True, select=True),
               'product_qty': fields.float('Quantity', required=True,states={'confirmed': [('readonly', True)],'assigned': [('readonly', True)],'flottant': [('readonly', True)],'underway': [('readonly', True)],'unproduction': [('readonly', True)],'cancel': [('readonly', True)]}),
               'date_planned': fields.date('Date', required=True, help="Scheduled date for the movement of the products or real date if the move is done."),

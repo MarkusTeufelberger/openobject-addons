@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2008-2009 Syleam (<http://syleam.fr>). All Rights Reserved
 #    $Id$
 #
@@ -24,6 +24,7 @@ from osv import osv
 from osv import fields
 from tools.translate import _
 from tools import ustr
+from math import ceil
 
 import time
 
@@ -75,7 +76,7 @@ class crm_case_work(osv.osv):
                         _('Analytic account must be defined on partner !'))
 
                 if not obj_case.section_id.account_id:
-                    raise osv.except_osv(_('Bad Configuration !'), 
+                    raise osv.except_osv(_('Bad Configuration !'),
                         _('No default analytic account on this section !'))
 
                 out_account_id = obj_case.section_id.account_id.id
@@ -144,7 +145,7 @@ class crm_case_work(osv.osv):
             if line_id:
                 obj = self.pool.get('hr.analytic.timesheet')
                 if 'name' in vals:
-                    vals_line['name'] = self._get_analytic_account_name(cr, uid, vals, case_id=case.id)
+                    vals_line['name'] = self._get_analytic_account_name(cr, uid, vals, case_id=case.case_id.id)
                 if 'user_id' in vals:
                     vals_line['user_id'] = vals['user_id']
                 if 'date' in vals:
@@ -176,6 +177,23 @@ class crm_case(osv.osv):
         'analytic_account_id' : fields.many2one('account.analytic.account', 'Contract', help='Link to an Analytic Account'),
     }
 
+    def create(self, cr, uid, vals, context=None):
+        """
+        If calculate_duration is pass on the context, all time enter on the crm.case.work
+        are sum and save it on duration field
+        """
+        if context is None:
+            context = {}
+        if context.get('calculate_duration', False):
+            if vals.get('timesheet_ids', False):
+                duration = 0.0
+                for t in vals['timesheet_ids']:
+                    if t[2]:
+                        # Add hours of timesheet modified
+                        duration += t[2]['hours']
+                vals['duration'] = duration
+        return super(crm_case, self).create(cr, uid, vals, context)
+
     def write(self, cr, uid, ids, vals, context=None):
         """
         If calculate_duration is pass on the context, all time enter on the crm.case.work
@@ -184,21 +202,38 @@ class crm_case(osv.osv):
         if not context:
             context = {}
         if context.get('calculate_duration', False):
+            crm_case_work_obj = self.pool.get('crm.case.work')
             unlink_ids = []
+            write_ids = []
             if vals.get('timesheet_ids', False):
                 for z in vals['timesheet_ids']:
                     if not z[2]:
+                        # check if this timesheet is to unlink
                         unlink_ids.append(z[1])
+                    elif z[1]:
+                        # check if this timesheet is to modify
+                        write_ids.append(z[1])
             for id in ids:
                 case = self.browse(cr, uid, id, context=context)
                 duration = 0.0
                 for c in case.timesheet_ids:
-                    if c.id not in unlink_ids:
+                    if c.id not in unlink_ids and c.id not in write_ids:
+                        # Add hours for timesheet not unlinked or modified
                         duration += c.hours
                 if vals.get('timesheet_ids', False):
                     for t in vals['timesheet_ids']:
                         if t[2]:
+                            # Add hours of timesheet modified
                             duration += t[2]['hours']
+                vals_case_id = {}
+                vals_case_id['case_id'] = id
+                account_id = crm_case_work_obj._get_analytic_account_id(cr, uid, vals_case_id, context)
+                account_analytic_obj = self.pool.get('account.analytic.account')
+                if account_id:
+                    rounding = account_analytic_obj.read(cr, uid, account_id, ['rounding_duration'])['rounding_duration']
+                    if rounding:
+                        # Rounding duration
+                        duration = ceil((duration * 100) / (rounding * 100)) * rounding
                 vals['duration'] = duration
         return super(crm_case, self).write(cr, uid, ids, vals, context)
 

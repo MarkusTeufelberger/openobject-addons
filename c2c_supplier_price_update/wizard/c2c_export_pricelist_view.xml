@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    <!-- Export pricelist Wizard form -->
+
+          <record id="view_c2c_export_pricelist" model="ir.ui.view">
+            <field name="name">c2c.export.pricelist.form</field>
+            <field name="model">c2c.export.pricelist</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export Pricelist">
+                    <group colspan="4" >
+                          <separator string="" colspan="4"/>
+                          <field name="data"/> 
+                          <field name="name" colspan="2"/>
+                          <field name="format" colspan="2"/>
+                    </group>
+                   <separator string="" colspan="4"/>
+                   <group colspan="4" col="6">
+                        <button  icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button  icon="gtk-ok" name="export_data" string="Export" type="object"/>
+                   </group>
+               </form>
+            </field>
+        </record>
+
+    <!--  Action of Export Pricelist wizard -->
+
+    <record id="action_c2c_export_pricelist" model="ir.actions.act_window">
+        <field name="name">Export Pricelist</field>
+        <field name="res_model">c2c.export.pricelist</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+       <field name="view_id" ref="view_c2c_export_pricelist"/>
+       <field name="target">new</field>
+    </record>  
+   
+    <menuitem  id="menu_export_pricelist" name="Export Pricelist" action="action_c2c_export_pricelist" parent="product.menu_product_pricelist_main"/>
+      
+    
+    </data>
+</openerp>    

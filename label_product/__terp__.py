@@ -30,7 +30,8 @@
     to print. Adds a button on pickings to automatically fill in this grid
     from their data.
 
-    NOTE: Needs the --enable-code-actions parameter for the server.
+    NOTE: The basic functionality works as it is but the button on pickings
+    needs the --enable-code-actions parameter for the server.
     Compatibility: tested with OpenERP v5.0
     """,
     "depends" : ["label", "product"],

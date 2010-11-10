@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="base_sale_multichannels_view_shop_form_inherit">
+            <field name="name">base_sale_multichannels_view_shop_form_inherit</field>
+            <field name="model">sale.shop</field>
+            <field name="inherit_id" ref="sale.view_shop_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field  name="last_products_export_date" position="after">
+                    <group col="4" colspan="4">
+                        <button name="export_link" string="Export product link informations" type="object" />
+                        <field name="last_product_link_export" />
+                    </group>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="base_sale_multichannels_view_shop_core_form_inherit">
+            <field name="name">base_sale_multichannels_view_shop_core_form_inherit</field>
+            <field name="model">external.referential</field>
+            <field name="inherit_id" ref="magentoerpconnect.magerp_instances_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="sync_products" string="6 - Import Products" colspan="2" type="object" position="after">
+                        <button name="import_link" colspan="2" string="7 import product link informations !!import is destructive" type="object" />
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>
