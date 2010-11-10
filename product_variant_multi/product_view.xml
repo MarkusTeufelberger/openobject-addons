@@ -10,20 +10,6 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<record id="action_variant_1" model="ir.actions.act_window.view">
-			<field eval="1" name="sequence" />
-			<field name="view_mode">tree</field>
-			<field name="act_window_id" ref="product_variant" />
-			<field name="view_id" ref="product.product_variant_tree_view" />
-		</record>
-
-		<record id="action_variant_2" model="ir.actions.act_window.view">
-			<field eval="2" name="sequence" />
-			<field name="view_mode">form</field>
-			<field name="act_window_id" ref="product_variant" />
-			<field name="view_id" ref="product.product_variant_form_view" />
-		</record>
-
 		<record id="product_template" model="ir.actions.act_window">
 			<field name="name">Product Templates</field>
 			<field name="type">ir.actions.act_window</field>
@@ -124,6 +110,8 @@
 			</field>
 		</record>
 
+<!-- TODO remove useless view of product.template in the module product or fusion this view with the existing view in product, it's depend how the inheritage on this view will be managed by the other module-->
+
 		<record id="product_variant_multi.product_template_form_view" model="ir.ui.view">
 			<field name="name">product_variant_multi.product.template.form</field>
 			<field name="model">product.template</field>
@@ -177,23 +165,69 @@
 				</xpath>
 			</field>
 		</record>
-
-		<record id="product_variant_multi.product_product_form_view" model="ir.ui.view">
-			<field name="name">product_variant_multi.product.product.form</field>
-			<field name="model">product.product</field>
-			<field name="type">form</field>
-			<field name="inherit_id" ref="product.product_variant_form_view" />
-			<field name="arch" type="xml">
-				<field name="price_extra" position="after">
-				    <field name="name" readonly="1" />
-					<field name="standard_price" readonly="1" />
-					<field name="cost_price_extra" />
-					<field name="list_price" string="Template price" readonly="1" />
-					<field name="dimension_value_ids" context="{'product_tmpl_id':product_tmpl_id}"/>
-				</field>
-			</field>
+		
+		<!-- TODO remove useless view of product.product in the module product or move this correct view in product, it's depend how the heritage on this view will be managed by the other module -->
+		
+		<record id="product_variant_form_view" model="ir.ui.view">
+            <field name="name">product.variant.form</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product Variant">
+                    <group name='description' colspan="2" col="2">
+                    	<separator string="Description" colspan="2"/>
+	                    <field name="product_tmpl_id" select="1"/>
+	                    <field name="active" select="1"/>
+	                    <field name="variants" select="1"/>
+	                    <field name="default_code" select="1"/>
+	                </group>
+	                <group name='price' colspan="2" col="2">
+                    	<separator string="Price" colspan="2"/>
+                    	<field name="list_price" string="Template Sale Price" readonly="1"/>
+	                    <field name="price_margin" select="1"/>
+	                    <field name="price_extra" select="1"/>
+	                    <field name="cost_price_extra"/>
+	                </group>
+		            <group name='dimension' colspan="2" col="2"/>	
+	                    <separator string="Dimension" colspan="4"/>                 
+	                	<field name="dimension_value_ids" context="{'product_tmpl_id':product_tmpl_id}"/>
+	                <group/>
+	                
+	        	</form>
+            </field>
+        </record>
+        
+        <record id="product_variant_tree_view" model="ir.ui.view">
+            <field name="name">product.variant.tree</field>
+            <field name="model">product.product</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product Variant">
+                    <field name="product_tmpl_id"/>
+                    <field name="active"/>
+                    <field name="variants"/>
+                    <field name="default_code"/>
+                    <field name="price_margin"/>
+                    <field name="price_extra"/>
+                    <field name="cost_price_extra"/>
+                </tree>
+            </field>
+        </record>
+	
+		<record id="action_variant_1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="act_window_id" ref="product_variant" />
+			<field name="view_id" ref="product_variant_tree_view" />
 		</record>
-		
-		
+
+		<record id="action_variant_2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="act_window_id" ref="product_variant" />
+			<field name="view_id" ref="product_variant_form_view" />
+		</record>
+	
+	
 	</data>
 </openerp>
