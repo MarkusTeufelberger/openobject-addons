@@ -109,7 +109,7 @@ class installer:
 		
 		
 		print "getting Pentaho Data Integration (Kettle) from the Internet, this can take a while (>80Mo)..."
-		urllib.urlretrieve('http://sourceforge.net/projects/pentaho/files/Data%20Integration/4.0.1-stable/pdi-ce-4.0.1-stable.tar.gz/download', kettle_root_directory + 'kettle.tar.gz')
+		urllib.urlretrieve('http://sourceforge.net/projects/pentaho/files/Data%20Integration/4.1.0-RC1/pdi-ce-4.1.0-RC1.tar.gz/download', kettle_root_directory + 'kettle.tar.gz')
 		try:
 		    tar = tarfile.open(kettle_root_directory + 'kettle.tar.gz', 'r:gz')
 		    for item in tar:
@@ -121,16 +121,16 @@ class installer:
 		
 
 		print "getting TerminatOOOR plugin from the Internet, this can take a while (>10Mo)..."
-		urllib.urlretrieve('http://github.com/downloads/rvalyi/terminatooor/terminatooor1.1.0.zip', kettle_root_directory + 'terminatooor.zip')
+		urllib.urlretrieve('http://github.com/downloads/rvalyi/terminatooor/terminatooor1.2.1.zip', kettle_root_directory + 'terminatooor.zip')
 		unzipper = unzip()
-		unzipper.extract(kettle_root_directory + 'terminatooor.zip', kettle_root_directory + 'data-integration/plugins/steps/termintatooor')
+		unzipper.extract(kettle_root_directory + 'terminatooor.zip', kettle_root_directory + 'data-integration/plugins/steps/terminatooor')
 		
-		shutil.move(kettle_root_directory + 'data-integration/plugins/steps/termintatooor/jruby-ooor.jar', kettle_root_directory + 'data-integration/libext/jruby-ooor.jar')
-		os.mkdir(kettle_root_directory + '/transformations/')
+		shutil.move(kettle_root_directory + 'data-integration/plugins/steps/terminatooor/jruby-ooor.jar', kettle_root_directory + 'data-integration/libext/jruby-ooor.jar')
+		os.mkdir(kettle_root_directory + '/data-integration/openerp_tmp/')
 		
 		if install_agilebi:
-			print "getting the AgileBI plugin from the Internet, this can take a while (>40Mo)..."
-			urllib.urlretrieve('ftp://download.pentaho.org/client/agile-bi/pmv-1.0.1-stable.zip', kettle_root_directory + 'agilebi.zip')
+			print "getting the AgileBI plugin from the Internet, this can take a while (>80Mo)..."
+			urllib.urlretrieve('ftp://download.pentaho.org/client/agile-bi/pmv-1.0.2-RC1.zip', kettle_root_directory + 'agilebi.zip')
 			unzipper.extract(kettle_root_directory + 'agilebi.zip', kettle_root_directory + 'data-integration/plugins/spoon')
 
 
