@@ -185,11 +185,15 @@
 			<field name="inherit_id" ref="product.product_variant_form_view" />
 			<field name="arch" type="xml">
 				<field name="price_extra" position="after">
+				    <field name="name" readonly="1" />
 					<field name="standard_price" readonly="1" />
+					<field name="cost_price_extra" />
 					<field name="list_price" string="Template price" readonly="1" />
 					<field name="dimension_value_ids" context="{'product_tmpl_id':product_tmpl_id}"/>
 				</field>
 			</field>
 		</record>
+		
+		
 	</data>
 </openerp>

@@ -161,12 +161,6 @@ product_template()
 class product_product(osv.osv):
     _inherit = "product.product"
 
-    def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=80):
-        res = super(product_product, self).name_search(cr, uid, name, args, operator, context, limit)
-        ids = self.search(cr, uid, [('variants', 'ilike', name)])
-        res2 = [(x['id'],x['name']) for x in self.read(cr, uid, ids, ['name'])]
-        return res + res2
-
     def _variant_name_get(self, cr, uid, ids, name, arg, context={}):
         res = {}
         for product in self.browse(cr, uid, ids, context):
@@ -176,6 +170,13 @@ class product_product(osv.osv):
             r = [x[1] for x in r]
             res[product.id] = (product.variant_model_name_separator or '').join(r)
         return res
+
+    def _build_product_name(self, cr, uid, ids, name, arg, context={}):
+        res={}
+        for product in self.browse(cr, uid, ids, context=context): #['id', 'product_tmpl_id', 'variants'],
+            res[product.id] = product.product_tmpl_id.name + ' ' + product.variants
+        return res
+        
 
     def _get_products_from_dimension(self, cr, uid, ids, context={}):
         result = []
@@ -245,6 +246,11 @@ class product_product(osv.osv):
         return super(product_product, self).copy(cr, uid, id, default, context)
 
     _columns = {
+        'name' : fields.function(_build_product_name, method=True, type='char', size=128, string='Name', readonly=True,
+            store={
+                'product.product': (_get_products_from_product, ['variants'], 15),
+                'product.template': (_get_products_from_product_template, ['name'], 15),
+            }),
         'dimension_value_ids': fields.many2many('product.variant.dimension.value', 'product_product_dimension_rel', 'product_id','dimension_id', 'Dimensions', domain="[('product_tmpl_id','=',product_tmpl_id)]"),
         'cost_price_extra' : fields.float('Purchase Extra Cost', digits=(16, int(config['price_accuracy']))),
         'variants': fields.function(_variant_name_get, method=True, type='char', size=128, string='Variants', readonly=True,
