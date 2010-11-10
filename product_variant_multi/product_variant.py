@@ -92,12 +92,16 @@ class product_template(osv.osv):
         'variant_ids':fields.one2many('product.product', 'product_tmpl_id', 'Variants'),
         'variant_model_name':fields.char('Variant Model Name', size=64, required=True, help='[NAME] will be replaced by the name of the dimension and [VALUE] by is value. Example of Variant Model Name : "[NAME] - [VALUE]"'),
         'variant_model_name_separator':fields.char('Variant Model Name Separator', size=64, help= 'Add a separator between the elements of the variant name'),
+        'code_generator' : fields.char('Code Generator', size=64, help='enter the model for the product code, all parameter between [my_field] will be replace by the product field. Example product_code model : prefix_[variants]_suffixe ==> result : prefix_2S2T_suffix')
     }
     
     _defaults = {
         'variant_model_name': lambda *a: '[NAME] - [VALUE]',
         'variant_model_name_separator': lambda *a: ' - ',
                 }
+    def get_products_from_product_template(self, cr, uid, ids, context={}):
+        product_tmpl = self.read(cr, uid, ids, ['variant_ids'], context=context)
+        return [id for vals in product_tmpl for id in vals['variant_ids']]
     
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
@@ -155,6 +159,21 @@ class product_template(osv.osv):
                 logger.notifyChannel('product_variant_multi', netsvc.LOG_INFO, "product created : %s" % (count,))
         return True
 
+    def button_generate_product_code(self, cr, uid, ids, context={}):
+        product_obj = self.pool.get('product.product')
+        for product_temp in self.read(cr, uid, ids, ['code_generator'], context):
+            base_code = product_temp['code_generator']
+            fields = [x.split(']')[0] for x in base_code.split('[') if ']' in x]
+            if fields:
+                product_ids = self.get_products_from_product_template(cr, uid, [product_temp['id']], context=context)
+                for product_id in product_ids:
+                    product_code = base_code
+                    product_fields = product_obj.read(cr, uid, product_id, fields, context=context)
+                    del product_fields['id']
+                    for key in product_fields:
+                        product_code = product_code.replace('[' + str(key) + ']', str(product_fields[key]))
+                    product_obj.write(cr, uid, [product_id], {'default_code' : product_code})
+        
 product_template()
 
 
@@ -193,8 +212,7 @@ class product_product(osv.osv):
         return result
 
     def _get_products_from_product_template(self, cr, uid, ids, context={}):
-        product_tmpl = self.pool.get('product.template').read(cr, uid, ids, ['variant_ids'], context=context)
-        return [id for vals in product_tmpl for id in vals['variant_ids']]
+        return  self.pool.get('product.template').get_products_from_product_template(cr, uid, ids, context=context)
     
     def _check_dimension_values(self, cr, uid, ids): # TODO: check that all dimension_types of the product_template have a corresponding dimension_value ??
         for p in self.browse(cr, uid, ids, {}):

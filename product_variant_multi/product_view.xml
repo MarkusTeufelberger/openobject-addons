@@ -153,6 +153,8 @@
 							<field name="variant_model_name" colspan="4"/>
 							<field name="variant_model_name_separator" colspan="4"/>
 							<button name="button_generate_variants" string="Generate ->" type="object" colspan="4"/>
+							<field name="code_generator" colspan="4"/>
+							<button name="button_generate_product_code" string="Build Code ->" type="object" colspan="4"/>
 						</group>
 						<field name="variant_ids" string="Variants" nolabel="1">
 							<tree string="Variants">
