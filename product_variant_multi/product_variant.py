@@ -32,6 +32,7 @@ class product_variant_dimension_type(osv.osv):
     _description = "Dimension Type"
 
     _columns = {
+        'description': fields.char('Description', size=64),
         'name' : fields.char('Dimension', size=64),
         'sequence' : fields.integer('Sequence', help="The product 'variants' code will use this to order the dimension values"),
         'value_ids' : fields.one2many('product.variant.dimension.value', 'dimension_id', 'Dimension Values'),
