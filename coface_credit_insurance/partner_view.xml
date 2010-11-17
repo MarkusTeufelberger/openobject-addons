@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+ 		<record id="view_partner_credit_insurance_form" model="ir.ui.view">
+            <field name="name">res.partner.credit.insurance.form</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="priority">15</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                    <page string="Credit Insurance" position="inside">
+                        <separator string="Coface Partner Properties" colspan="2"/>
+                        	<field name="coface_ref" colspan="2"/>
+                   <group col="4" colspan="4">
+                        	<field name="coface_identifier_type_1"/>
+                        	<field name="coface_identifier_1"/>
+                        	<field name="coface_identifier_type_2"/>
+                        	<field name="coface_identifier_2"/>
+                        	<field name="coface_identifier_type_3"/>
+                        	<field name="coface_identifier_3"/>
+                    </group>
+                    <field name="coface_credit_history_ids" nolabel="1"/>
+                </page>
+                </notebook>
+            </field>
+        </record>
+        
+ 		<record id="view_coface_credit_history_form" model="ir.ui.view">
+            <field name="name">coface.credit.history.form</field>
+            <field name="model">coface.credit.history</field>
+            <field name="type">tree</field>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+            	<tree string="Coface History">
+	            	<field name="coface_product"/>
+	            	<field name="coface_rating"/>
+	            	<field name="coface_credit_limit"/>
+	            	<field name="coface_status_date"/>
+	            	<field name="coface_status"/>
+	            </tree>
+        	</field>
+        </record>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+		
+	</data>
+</openerp>
