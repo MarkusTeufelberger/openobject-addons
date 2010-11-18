@@ -84,7 +84,7 @@ class wizard_hr_holidays_evaluation(osv.osv_memory):
         obj_contract = self.pool.get('hr.contract')
         obj_self = self.browse(cr, uid, ids, context = context)[0]
         group_ids = obj_self.hr_timesheet_group_id.id
-        obj_ids = obj_contract.search(cr, uid, [('working_hours_per_day_id', '=', group_ids)])
+        obj_ids = obj_contract.search(cr, uid, [('working_hours_per_day', '=', group_ids)])
 
         for rec_con in obj_contract.browse(cr,uid,obj_ids):
             emp_id = rec_con.employee_id.id
