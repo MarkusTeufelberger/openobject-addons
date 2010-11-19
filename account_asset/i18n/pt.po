@@ -1,0 +1,1439 @@
+# Portuguese translation for openobject-addons
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-05-27 15:57+0000\n"
+"PO-Revision-Date: 2010-11-18 16:57+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Portuguese <pt@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-11-19 05:00+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: account_asset
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list_normal
+msgid "Open Assets"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.usage.createlines,init,interval:0
+msgid "How many usage entries are you going to make per year?"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,value_residual:0
+msgid "Residual Value"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,account_expense_id:0
+#: field:account.asset.method.defaults,account_expense_id:0
+msgid "Depr. Expense Account"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"You cannot assign Product \"%s\" to Asset Method \"%s\". This method is in "
+"Draft state or is inactive (sold or abandoned)."
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Date must be in the period !"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.method.defaults:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_method_defaults_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_method_defaults_form
+msgid "Asset Method Defaults"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+#: field:account.asset.asset,name:0
+#: field:account.asset.board,asset_id:0
+#: field:account.asset.property,asset_id:0
+#: field:account.invoice.line,asset_id:0
+#: field:account.move.line,asset_id:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_form
+#: model:ir.model,name:account_asset.model_account_asset_asset
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_form
+msgid "Asset"
+msgstr ""
+
+#. module: account_asset
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+#: field:account.asset.method,usage_ids:0
+#: field:account.asset.method.usage,usage:0
+msgid "Usage"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,account_analytic_id:0
+#: help:account.asset.method,journal_analytic_id:0
+msgid "Not implemented yet."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method.defaults,account_abandon_id:0
+msgid "Abandonment Account"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Intervals per Year: "
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,journal_analytic_id:0
+#: field:account.asset.method.defaults,journal_analytic_id:0
+msgid "Analytic Journal"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.property.history:0
+#: model:ir.model,name:account_asset.model_account_asset_property_history
+msgid "Asset history"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.reval,init,expense_value:0
+msgid "Increasing Expense Value"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.abandon,init,whole_asset:0
+msgid "Abandon all methods of this asset."
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,life:0
+msgid ""
+"Quantity of production which make the asset method used up. Used only in "
+"Units of Production computation method and cannot be zero in this case."
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.category:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
+msgid "Asset Categories"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+#: field:account.asset.asset,entry_ids:0
+#: wizard_field:account.asset.compute,asset_compute,move_ids:0
+msgid "Entries"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.initial,init,value:0
+msgid "Initial Base Value of method."
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.compute,asset_compute:0
+msgid "Generated entries"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.compute,asset_compute:0
+#: wizard_view:account.asset.compute,init:0
+msgid "Asset Computation"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.modify,init:0
+#: wizard_button:account.asset.modify,init,asset_modify:0
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_modify
+msgid "Modify asset"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Purchase"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method.defaults,asset_category:0
+msgid ""
+"Select the asset category for this set of defaults. If no selection defined "
+"defaults will concern to all methods of selected type."
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_initial.py:0
+#, python-format
+msgid "Inital values for asset: "
+msgstr ""
+
+#. module: account_asset
+#: wizard_button:account.asset.compute,asset_compute,asset_open:0
+msgid "Open entries"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list
+#: model:ir.ui.menu,name:account_asset.menu_finance_Assets
+#: model:ir.ui.menu,name:account_asset.menu_finance_config_Assets
+msgid "Assets"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,account_actif_id:0
+#: field:account.asset.method.defaults,account_actif_id:0
+msgid "Depreciation Account"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method.defaults,method_type:0
+msgid "Select method type for this set of defaults."
+msgstr ""
+
+#. module: account_asset
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_draft
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list_draft
+msgid "Draft Assets"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.usage.createlines,init:0
+msgid "Creation of Usage Lines"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.modify,init:0
+#: wizard_field:account.asset.modify,init,note:0
+#: view:account.asset.property.history:0
+msgid "Notes"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Number of Intervals: "
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Clear Draft and Close"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Sale"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.abandon,init,date:0
+#: help:account.asset.compute,init,date:0
+#: help:account.asset.reval,init,date:0
+msgid "Efective date for accounting move."
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Parameters set to:"
+msgstr ""
+
+#. module: account_asset
+#: wizard_button:account.asset.close,init,asset_suppress:0
+msgid "Suppress Depreciation"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.method,method:0
+#: selection:account.asset.method.defaults,method:0
+msgid "Units of Production"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Other Information"
+msgstr ""
+
+#. module: account_asset
+#: wizard_button:account.asset.abandon,init,asset_abandon:0
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_abandon
+msgid "Abandon"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Closing"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Warning !"
+msgstr ""
+
+#. module: account_asset
+#: model:ir.model,name:account_asset.model_account_asset_method_defaults
+msgid "Asset Method Delfaults"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method.defaults,method_progress_factor:0
+msgid "Progressive factor"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.history,method_end:0
+#: field:account.asset.method,method_end:0
+msgid "Ending Date"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Error ! You can not create recursive categories."
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.reval,init,value:0
+msgid "Increasing Base Value"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,account_analytic_id:0
+#: field:account.asset.method.defaults,account_analytic_id:0
+msgid "Analytic Account"
+msgstr ""
+
+#. module: account_asset
+#: wizard_button:account.asset.usage.createlines,init,asset_reval:0
+msgid "Create Lines"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Accounts"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Depreciation Methods"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,account_residual_id:0
+msgid ""
+"Select account used for residual when asset is sold. You can change the "
+"account before sale operation."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,life:0
+#: wizard_field:account.asset.modify,init,life:0
+msgid "Life Quantity"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,partner_id:0
+msgid "Partner"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method.defaults,method_progress_factor:0
+msgid ""
+"Specify the factor of progression in depreciation. It is used in Declining-"
+"Balance method. When linear depreciation is 20% per year, and you want apply "
+"Double-Declining Balance you should choose Declining-Balance method and "
+"enter 0,40 (40%) as Progressive factor."
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Transfer"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Progressive Factor: "
+msgstr ""
+
+#. module: account_asset
+#: help:account.move.line,asset_method_id:0
+msgid ""
+"Assign the asset as depreciation method if move line concerns the asset."
+msgstr ""
+
+#. module: account_asset
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_resume
+msgid "Resume asset"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.abandon,init,acc_abandon:0
+msgid "Abandon Account"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.method.usage:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_method_usage_periodical_entry
+#: model:ir.ui.menu,name:account_asset.menu_asset_method_usage
+msgid "Method Usage"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method.defaults,account_impairment_id:0
+msgid "Select account used for impairment amount. Used in revaluation."
+msgstr ""
+
+#. module: account_asset
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: account_asset
+#: wizard_button:account.asset.modify,init,asset_modify:0
+msgid "Modify Method"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,method:0
+#: field:account.asset.method.defaults,method:0
+msgid "Computation Method"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,method_salvage:0
+msgid "Value planned to be residual after full depreciation process"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.initial,init,acc_impairment:0
+msgid "Asset Counter Account"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Life Quantity: "
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_reval.py:0
+#, python-format
+msgid "Asset revalued because: "
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method.usage,period_id:0
+msgid "Select period which usage concerns."
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.abandon,init,period_id:0
+#: help:account.asset.compute,init,period_id:0
+#: help:account.asset.reval,init,period_id:0
+msgid "Calculated period and period for posting."
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.usage.createlines,init,fiscal_year:0
+msgid "Choose fiscal year for entries."
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method.defaults,account_residual_id:0
+msgid "Select account used for sale residual."
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.method.usage:0
+msgid "Method usage"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Depr. Suppression"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.abandon,init,acc_abandon:0
+msgid "Account for asset loss amount."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,method_salvage:0
+#: wizard_field:account.asset.modify,init,method_salvage:0
+msgid "Salvage Value"
+msgstr ""
+
+#. module: account_asset
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_usage_createlines
+msgid "Usage Lines"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.initial,init,date:0
+msgid "Efective date for posting."
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_close.py:0
+#, python-format
+msgid "Suppressed because: "
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.history,invoice_id:0
+msgid "Invoice"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method.usage,usage:0
+msgid "Specify usage quantity in selected period."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,method_delay:0
+#: field:account.asset.method.defaults,method_delay:0
+#: wizard_field:account.asset.modify,init,method_delay:0
+msgid "Number of Intervals"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.initial,init,expense_value:0
+msgid ""
+"Initial Value of method expenses. There are sum of depreciations made before "
+"this system asset management."
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.close,init:0
+msgid "Method Suppression"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Asset Description"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.compute,asset_compute:0
+#: wizard_view:account.asset.compute,init:0
+#: wizard_button:account.asset.compute,init,asset_compute:0
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_compute
+#: model:ir.ui.menu,name:account_asset.menu_wizard_asset_compute
+msgid "Compute assets"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,method_delay:0
+msgid ""
+"How many intervals this asset is to be calculated in its life. If asset was "
+"calculated in other system before specify Intervals Before too."
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.reval,init,value:0
+msgid ""
+"Value to be added to method base value. In Direct method it is increasing of "
+"book value. In Indirect method it is increasing of cost basis. Negative "
+"value means decreasing."
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Change Parameters"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.history,type:0
+msgid "Entry Type"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.method:0
+msgid "Assets Methods"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,account_asset_id:0
+#: help:account.asset.method.defaults,account_asset_id:0
+msgid ""
+"Select account used for cost basis of asset. It will be applied into invoice "
+"line when you select this asset in invoice line."
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_localisation.py:0
+#, python-format
+msgid "Asset transfered because: "
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Settings Change"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.category,parent_id:0
+msgid "Parent Category"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.property.history,name:0
+msgid "History name"
+msgstr ""
+
+#. module: account_asset
+#: wizard_button:account.asset.reval,init,asset_reval:0
+msgid "Revalue"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"This wizard works only when asset have just Draft and Closed methods !"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Create Usage Lines"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.initial,init,value:0
+msgid "Base Value"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.initial,init,intervals_before:0
+#: field:account.asset.method,intervals_before:0
+msgid "Intervals Before"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.compute,init,category_id:0
+msgid ""
+"If empty all categories assets will be calculated. If you use hierarchical "
+"categories all children of selected category be calculated."
+msgstr ""
+
+#. module: account_asset
+#: wizard_button:account.asset.resume,init,asset_resume:0
+msgid "Resume Depreciation"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Suppress Method"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Depreciation Board"
+msgstr ""
+
+#. module: account_asset
+#: model:ir.actions.act_window,name:account_asset.asset_category_action
+#: model:ir.ui.menu,name:account_asset.menu_asset_category_action
+msgid "Assets Category Structure"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.asset,localisation:0
+msgid ""
+"Set this field before asset coonfirming. Later on you will have to use "
+"Change Localisation button."
+msgstr ""
+
+#. module: account_asset
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_reval
+msgid "Revaluate"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,method_progress_factor:0
+msgid ""
+"Specify the factor of progression in depreciation. Used in Declining-Balance "
+"and Progressive method only. When linear depreciation is 20% per year, and "
+"you want apply Double-Declining Balance you should choose Declining-Balance "
+"method and enter 0,40 (40%) as Progressive factor."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method.type,name:0
+msgid "Asset Method Type Name"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.reval,init:0
+msgid "Revaluation entry"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.reval,init,acc_impairment:0
+msgid "Account for impairment loss amount."
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "You can dalete assets only in Draft state !"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.reval,init,expense_value:0
+msgid ""
+"Value to be added to asset expenses. Used only in indirect method. In direct "
+"method ignored."
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method.defaults,account_actif_id:0
+msgid "Select account used for depreciation amount."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,date:0
+msgid "Date Created"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Intervals Before: "
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.method,method:0
+#: selection:account.asset.method.defaults,method:0
+msgid "Sum of Years Digits"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_resume.py:0
+#, python-format
+msgid "Resuming because: "
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,category_id:0
+#: view:account.asset.category:0
+#: field:account.asset.category,name:0
+#: model:ir.model,name:account_asset.model_account_asset_category
+msgid "Asset category"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"\n"
+"Price: "
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"You cannot assign Product \"%s\" to Asset Method \"%s\". This method is "
+"already depreciated or is inactive (sold or abandoned)."
+msgstr ""
+
+#. module: account_asset
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_initial
+msgid "Initial"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.initial,init:0
+msgid "Initial entry"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,amount_residual:0
+msgid "Residual"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,note:0
+#: field:account.asset.category,note:0
+#: field:account.asset.property.history,note:0
+msgid "Note"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.asset,state:0
+#: selection:account.asset.property,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,state:0
+msgid ""
+"Open - Ready for calculation.\n"
+"Suppressed - Not calculated.\n"
+"Depreciated - Depreciation finished but method exists (can be sold or "
+"abandoned).\n"
+"Closed - Asset method doesn't exist (sold or abandoned)."
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.asset,state:0
+#: selection:account.asset.method,state:0
+msgid "Closed"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.asset,state:0
+msgid ""
+"Normal - Asset contains active methods (opened, suppressed or depreciated).\n"
+"Closed - Asset doesn't exist. All methods are sold or abandoned."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.property.history,asset_property_id:0
+msgid "Method"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Purchase Refund"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.asset,state:0
+msgid "Normal"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Initial Value"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,state:0
+msgid "Asset State"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.localisation,init,localisation:0
+msgid "Enter New localisation"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,localisation:0
+msgid "Localisation"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.abandon,init,whole_asset:0
+#: wizard_field:account.asset.close,init,whole_asset:0
+#: wizard_field:account.asset.resume,init,whole_asset:0
+msgid "All Methods"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_modify.py:0
+#, python-format
+msgid "Modification of "
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Resume Method"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,active:0
+msgid "Active"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.category,child_ids:0
+msgid "Children Categories"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"Product \"%s\" is assigned to Asset Method \"%s\". But this method has no "
+"Sale Residual Account to make asset moves."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.property.history,user_id:0
+msgid "User"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_usage_createlines.py:0
+#, python-format
+msgid "year %s !"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+#: view:account.asset.history:0
+msgid "Asset History"
+msgstr ""
+
+#. module: account_asset
+#: field:account.invoice.line,asset_method_id:0
+msgid "Asset Method"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+#: wizard_view:account.asset.initial,init:0
+msgid "Initial Values"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,method_ids:0
+msgid "Asset Method Name"
+msgstr ""
+
+#. module: account_asset
+#: model:ir.module.module,description:account_asset.module_meta_information
+msgid ""
+"Financial and accounting asset management.\n"
+"    Allows to define\n"
+"    * Asset category. \n"
+"    * Assets.\n"
+"    *Asset usage period and property.\n"
+"    "
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Cannot post in closed period !"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Summary"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,account_asset_id:0
+#: field:account.asset.method.defaults,account_asset_id:0
+msgid "Asset Account"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.initial,init:0
+msgid ""
+"Wizard for starting values of asset coming from production or investment. "
+"Use it also when you continue asset management from another system."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,account_residual_id:0
+#: field:account.asset.method.defaults,account_residual_id:0
+msgid "Sale Residual Account"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.close,init:0
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_close
+msgid "Close asset"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,period_id:0
+msgid "Select period indicating first interval."
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.modify,init:0
+msgid "Method Modyfying"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.property,history_ids:0
+msgid "History"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.asset,partner_id:0
+msgid "If Date field is empty this field will be filled by first purchase."
+msgstr ""
+
+#. module: account_asset
+#: model:ir.model,name:account_asset.model_account_asset_method_usage
+msgid "Asset Method Usage"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.method,method:0
+#: selection:account.asset.method.defaults,method:0
+msgid "Declining-Balance"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.method,state:0
+msgid "Suppressed"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.abandon,init:0
+#: selection:account.asset.history,type:0
+msgid "Abandonment"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,period_id:0
+#: wizard_field:account.asset.compute,init,period_id:0
+msgid "Period"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,account_actif_id:0
+msgid "Select account used for depreciation amounts."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,method_progress_factor:0
+#: wizard_field:account.asset.modify,init,method_progress_factor:0
+msgid "Progressive Factor"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.modify,init:0
+msgid "Method parameters to modify"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.initial,init,period_id:0
+msgid ""
+"Period for posting. Consider which period to use for this posting. It should "
+"be probably some additional period before current depreciation start."
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.usage.createlines,init,value:0
+msgid ""
+"Value of Unit of Production. This value has to be changed before asset "
+"calculation but could be some indication for entering later on."
+msgstr ""
+
+#. module: account_asset
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
+msgid "Asset Category"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Changing of method parameters to:"
+msgstr ""
+
+#. module: account_asset
+#: wizard_button:account.asset.close,init,end:0
+#: wizard_button:account.asset.compute,init,end:0
+#: wizard_button:account.asset.modify,init,end:0
+msgid "Cancel"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.asset,state:0
+#: wizard_button:account.asset.compute,asset_compute,end:0
+#: selection:account.asset.property,state:0
+msgid "Close"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.localisation,init:0
+#: wizard_button:account.asset.localisation,init,asset_modify:0
+msgid "Set New Localisation"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.property,state:0
+msgid "Open"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,code:0
+msgid "Asset Code"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.initial,init,intervals_before:0
+msgid ""
+"Number of intervals calculated already before asset is managed in this "
+"system."
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.localisation,init:0
+msgid "Localisation Changing"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+msgid "Depr. Resuming"
+msgstr ""
+
+#. module: account_asset
+#: constraint:ir.model:0
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+
+#. module: account_asset
+#: model:ir.module.module,shortdesc:account_asset.module_meta_information
+msgid "Asset management"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method.defaults,account_abandon_id:0
+msgid "Select account used for abandonment loss amount."
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.resume,init:0
+msgid "Method Resuming"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_abandon.py:0
+#, python-format
+msgid "Asset abandoned because: "
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid ""
+"\n"
+"   Salvage Value: "
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.close,init:0
+msgid "General information"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid ""
+"]\n"
+"Invoice date: "
+msgstr ""
+
+#. module: account_asset
+#: help:account.invoice.line,asset_method_id:0
+msgid ""
+"Select the asset depreciation method if you wish to assign the purchase "
+"invoice line to fixed asset. If method doesn't exists yet you will have to "
+"create it and probably the asset itself too. After selecting the asset "
+"method the invoice line account should change according to the asset method "
+"settings but please check it before creating the invoice."
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.compute,init,method_type_id:0
+msgid "If empty all method types will be calculated for assets."
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.method.type:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_method_type_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_method_type_form
+msgid "Asset Method Types"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.property,method:0
+msgid "Progressive"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,sequence:0
+msgid "Seq."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,state:0
+msgid "Method State"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.property,name:0
+msgid "Method name"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.abandon,init,name:0
+#: wizard_field:account.asset.close,init,name:0
+#: wizard_field:account.asset.initial,init,name:0
+#: wizard_field:account.asset.localisation,init,name:0
+#: wizard_field:account.asset.modify,init,name:0
+#: wizard_field:account.asset.resume,init,name:0
+#: wizard_field:account.asset.reval,init,name:0
+msgid "Description"
+msgstr ""
+
+#. module: account_asset
+#: model:ir.model,name:account_asset.model_account_asset_method
+msgid "Asset method"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "You can dalete method only in Draft state !"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.property,journal_id:0
+msgid "Journal"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.category,code:0
+msgid "Asset Category Code"
+msgstr ""
+
+#. module: account_asset
+#: field:account.move.line,asset_method_id:0
+msgid "Asset Depr. Method"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,method_period:0
+#: field:account.asset.method.defaults,method_period:0
+#: wizard_field:account.asset.modify,init,method_period:0
+msgid "Intervals per Year"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,method_type:0
+#: field:account.asset.method.defaults,method_type:0
+msgid "Method Type"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/wizard/wizard_asset_compute.py:0
+#, python-format
+msgid "Created moves"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.usage.createlines,init,interval:0
+msgid "Entries per Year"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "Revalue Method"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method.type,code:0
+msgid "Asset Method Type Code"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.initial,init,acc_impairment:0
+msgid "Counter account for base value."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.history,change_total:0
+msgid "Total Change"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method,value_total:0
+msgid "Gross Value"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.initial,init,expense_value:0
+msgid "Expense Value"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.initial,init:0
+msgid "But for purchased assets use invoice line assignment."
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Error ! Number of intervals per year must be 1, 2, 3, 4, 6 or 12."
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.usage.createlines,init,fiscal_year:0
+msgid "Fiscal Year"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.method,state:0
+msgid "Depreciated"
+msgstr ""
+
+#. module: account_asset
+#: wizard_view:account.asset.abandon,init:0
+#: view:account.asset.asset:0
+msgid "Abandon Method"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,intervals_before:0
+msgid ""
+"Number of intervals calculated before asset is managed in this system. Used "
+"with Initial Values wizard. If you start asset in this system keep zero."
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#, python-format
+msgid "Asset transfered to: "
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset.py:0
+#: code:addons/account_asset/account_asset_invoice.py:0
+#: code:addons/account_asset/wizard/wizard_asset_usage_createlines.py:0
+#, python-format
+msgid "Error !"
+msgstr ""
+
+#. module: account_asset
+#: wizard_button:account.asset.initial,init,asset_reval:0
+msgid "Set Initials"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.history,change_expense:0
+msgid "Expense Change"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.asset,state:0
+msgid "View"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+msgid "General info"
+msgstr ""
+
+#. module: account_asset
+#: model:ir.ui.menu,name:account_asset.menu_finance_periodical_assets
+msgid "Assets Calculation"
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.method,method:0
+#: selection:account.asset.method.defaults,method:0
+msgid "Straight-Line"
+msgstr ""
+
+#. module: account_asset
+#: view:account.asset.asset:0
+#: model:ir.actions.wizard,name:account_asset.wizard_asset_localisation
+msgid "Change Localisation"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,account_expense_id:0
+#: help:account.asset.method.defaults,account_expense_id:0
+msgid ""
+"Select account used for depreciation expense (write-off). If you use direct "
+"method of depreciation this account should be the same as Asset Account."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,date:0
+#: field:account.asset.property.history,date:0
+msgid "Date"
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.method.defaults,account_impairment_id:0
+#: wizard_field:account.asset.reval,init,acc_impairment:0
+msgid "Impairment Account"
+msgstr ""
+
+#. module: account_asset
+#: code:addons/account_asset/account_asset_invoice.py:0
+#, python-format
+msgid "Product name: "
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.compute,init,method_type_id:0
+#: view:account.asset.method.type:0
+#: model:ir.model,name:account_asset.model_account_asset_method_type
+msgid "Asset Method Type"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.asset,date:0
+msgid ""
+"Set this date or leave it empty to allow system set the first purchase date."
+msgstr ""
+
+#. module: account_asset
+#: field:account.asset.asset,amount_total:0
+msgid "Total"
+msgstr ""
+
+#. module: account_asset
+#: wizard_field:account.asset.usage.createlines,init,value:0
+msgid "Entry Value"
+msgstr ""
+
+#. module: account_asset
+#: help:account.asset.method,method_period:0
+msgid ""
+"Specify the number of depreciations to be made in year. This number cannot "
+"be less then number of periods in year."
+msgstr ""
+
+#. module: account_asset
+#: selection:account.asset.history,type:0
+#: wizard_view:account.asset.reval,init:0
+msgid "Revaluation"
+msgstr ""
