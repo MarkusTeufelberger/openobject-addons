@@ -97,21 +97,21 @@ class SmtpClient(osv.osv):
 #        result = override_password(result)
 #        return result
     
-    def write(self, cr, user, ids, vals, context=None):
-        flag = False
-        if vals.get('password', False) != False:
-            for pass_char in vals.get('password'):
-                if pass_char != '*':
-                    flag= True
-                    break
-
-            if flag:    
-                vals['password'] = base64.b64encode(vals.get('password'))
-            else:
-                del vals['password']    
-            
-        res = super(SmtpClient, self).write(cr, user, ids, vals, context)
-        return res
+#    def write(self, cr, user, ids, vals, context=None):
+#        flag = False
+#        if vals.get('password', False) != False:
+#            for pass_char in vals.get('password'):
+#                if pass_char != '*':
+#                    flag= True
+#                    break
+#
+#            if flag:    
+#                vals['password'] = base64.b64encode(vals.get('password'))
+#            else:
+#                del vals['password']    
+#            
+#        res = super(SmtpClient, self).write(cr, user, ids, vals, context)
+#        return res
             
     def change_email(self, cr, uid, ids, email):
         ptrn = re.compile('(\w+@\w+(?:\.\w+)+)')
@@ -445,7 +445,21 @@ class report_smtp_server(osv.osv):
         'history':fields.char('History',size=64, readonly=True),
         'no':fields.integer('Total No.',readonly=True),
     }
-    def init(self, cr):
+    def init(self, cr):#    def write(self, cr, user, ids, vals, context=None):
+#        flag = False
+#        if vals.get('password', False) != False:
+#            for pass_char in vals.get('password'):
+#                if pass_char != '*':
+#                    flag= True
+#                    break
+#
+#            if flag:    
+#                vals['password'] = base64.b64encode(vals.get('password'))
+#            else:
+#                del vals['password']    
+#            
+#        res = super(SmtpClient, self).write(cr, user, ids, vals, context)
+#        return res
          cr.execute("""
             create or replace view report_smtp_server as (
                    select min(h.id) as id, c.id as server_id, h.name as history, h.name as name, count(h.name) as no  from email_smtpclient c inner join email_smtpclient_history h on c.id=h.server_id group by h.name, c.id

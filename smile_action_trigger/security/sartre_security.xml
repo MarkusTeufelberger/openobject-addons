@@ -7,7 +7,7 @@
 		<record model="ir.ui.menu" id="sartre_rule_menu">
 			<field name="groups_id" eval="[(6,0, [ref('base.group_system')])]"/>
 		</record>
-		
+
 		<!-- Set object permissions -->
 
 		<record id="ir_model_access_sartre_rule_group_system" model="ir.model.access">
