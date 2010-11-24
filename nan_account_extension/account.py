@@ -54,5 +54,24 @@ class account_move(osv.osv):
 
 account_move()
 
+class account_account(osv.osv):
+    _inherit = 'account.account'
+
+    def copy(self, cr, uid, id, default={}, context={}, done_list=[], local=False):
+        account = self.browse(cr, uid, id, context=context)
+        new_child_ids = []
+        if not default:
+            default = {}
+        default = default.copy()
+        default['code'] = (account['code'] or '') + '(copy)'
+        if not local:
+            done_list = []
+        if account.id in done_list:
+            return False
+        done_list.append(account.id)
+        default['child_parent_ids'] = [(6, 0, [])]
+        return super(account_account, self).copy(cr, uid, id, default, context=context)
+account_account()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
