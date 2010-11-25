@@ -41,6 +41,7 @@
     'depends': ['async_messaging'],
     'init_xml': [],
     'update_xml': [
+        'security/ir.model.access.csv',
         'demo_view.xml',
     ],
     'demo_xml': [],

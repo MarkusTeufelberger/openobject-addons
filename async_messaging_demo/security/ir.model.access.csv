@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_async_messaging_demo","async.messaging.demo","model_async_messaging_demo",,1,1,1,1
+"access_async_messaging_demo_dest","async.messaging.demo.dest","model_async_messaging_demo_destination",,1,1,1,1
+"access_async_messaging_demo_text","async.messaging.demo.text","model_async_messaging_demo_text",,1,1,1,1
+"access_async_messaging_demo_object","async.messaging.demo.object","model_async_messaging_demo_object",,1,1,1,1
