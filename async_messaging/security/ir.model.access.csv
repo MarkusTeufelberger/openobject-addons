@@ -1,0 +1,2 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_stomp_connection_parameter","stomp.connection.parameter","model_stomp_connection_parameter",,1,0,0,0
