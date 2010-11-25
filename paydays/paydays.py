@@ -34,7 +34,7 @@ class account_payment_term(osv.osv):
             return True
         # Admit space, dash and colon separators.
         days = days.replace(' ','-').replace(',','-')
-        days = days.split('-')	
+        days = [x.strip() for x in days.split('-') if x]
         try:
             days = [int(x) for x in days]
         except:
