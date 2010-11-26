@@ -25,6 +25,7 @@ from lxml import etree
 import netsvc
 import pooler
 from osv import osv, fields
+from tools.safe_eval import safe_eval
 
 #modify netsvc.Agent to stop the STOMPAgents, too
 #don't know how to do this in a cleaner way
@@ -81,8 +82,8 @@ class STOMPAgent(object):
             'ssl_ca_certs',
             'ssl_cert_validator'
             ):
-            if hasattr(self.config, param):
-                kwargs[param] = getattr(self.config, param)
+            if param in self.config:
+                kwargs[param] = safe_eval(self.config[param])
         return kwargs
 
     def stop(self):
@@ -276,9 +277,18 @@ class mbi(osv.osv):
                 netsvc.Agent._messaging_agents.add(agent)
                 mbi._sending_agents[name] = agent
                 for param in company.stomp_connection_parameter_ids:
-                    mbi._listening_agents[name].config[param.name] \
+                    mbi._sending_agents[name].config[param.name] \
                         = param.value
         mbi._sending_agents_ready = True
+
+    def stop_all_agents(self):
+        for agent in mbi._listening_agents.values():
+            agent.stop()
+        mbi._listening_agents = {}
+        for agent in mbi._sending_agents.values():
+            agent.stop()
+        mbi._sending_agents = {}
+        netsvc.Agent._messaging_agents = set()
 
 mbi()
 
@@ -314,5 +324,32 @@ class stomp_connection_parameter(osv.osv):
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
     }
+
+    def create(self, cr, uid, vals, context=None):
+        """Reset agents to use the new connection parameters."""
+        res = super(stomp_connection_parameter, self).create(cr, uid,
+            vals, context)
+        mbi_obj = self.pool.get('mbi')
+        mbi_obj.stop_all_agents()
+        mbi_obj.setup_sending_agents(cr, uid)
+        return res
+
+    def write(self, cr, uid, ids, vals, context=None):
+        """Reset agents to use the new connection parameters."""
+        res = super(stomp_connection_parameter, self).write(cr, uid, ids,
+            vals, context)
+        mbi_obj = self.pool.get('mbi')
+        mbi_obj.stop_all_agents()
+        mbi_obj.setup_sending_agents(cr, uid)
+        return res
+
+    def unlink(self, cr, uid, ids, context=None):
+        """Reset agents to use the new connection parameters."""
+        res = super(stomp_connection_parameter, self).unlink(cr, uid, ids,
+            context)
+        mbi_obj = self.pool.get('mbi')
+        mbi_obj.stop_all_agents()
+        mbi_obj.setup_sending_agents(cr, uid)
+        return res
 
 stomp_connection_parameter()
