@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.5-bzr\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2009-09-06 17:05+0000\n"
-"PO-Revision-Date: 2010-09-22 09:28+0000\n"
-"Last-Translator: nva (Open ERP) <Unknown>\n"
+"PO-Revision-Date: 2010-11-26 18:03+0000\n"
+"Last-Translator: Numérigraphe <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-16 05:25+0000\n"
+"X-Launchpad-Export-Date: 2010-11-27 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: point_of_sale_extension
@@ -71,7 +71,7 @@ msgstr "Numéro de pièce"
 #. module: point_of_sale_extension
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr "Nom de modèle invalide pour l'action définit"
+msgstr "Nom de modèle incorrect dans la définition de l'action"
 
 #. module: point_of_sale_extension
 #: wizard_field:pos.payment2,ask_pay,payment_date:0
