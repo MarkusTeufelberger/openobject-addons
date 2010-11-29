@@ -29,10 +29,10 @@ class product_product(osv.osv):
     _inherit = "product.product"
     
     def _get_products_from_product(self, cr, uid, ids, context={}):
-        return super(product_product, self)._get_products_from_product(cr, uid, ids, context=context)
+        return super(product_product, self.pool.get('product.product'))._get_products_from_product(cr, uid, ids, context=context)
     
     def _get_products_from_product_template(self, cr, uid, ids, context={}):
-        return super(product_product, self)._get_products_from_product_template(cr, uid, ids, context=context)
+        return super(product_product, self.pool.get('product.product'))._get_products_from_product_template(cr, uid, ids, context=context)
         
     def _build_product_name(self, cr, uid, ids, name, arg, context={}):
         res={}
