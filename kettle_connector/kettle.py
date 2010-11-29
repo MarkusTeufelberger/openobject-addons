@@ -126,12 +126,15 @@ class kettle_task(osv.osv):
     }
         
     def attach_file_to_task(self, cr, uid, id, datas_fname, attach_name, delete = False, context = None):
+        obj_att = self.pool.get('ir.attachment')
         if not context:
             context = {}
         context.update({'default_res_id' : id, 'default_res_model': 'kettle.task'})
         datas = base64.encodestring(open(context['kettle_dir'] + '/' + datas_fname,'rb').read())
         os.remove(context['kettle_dir'] + '/' + datas_fname)
-        attachment_id = self.pool.get('ir.attachment').create(cr, uid, {'name': attach_name, 'datas': datas, 'datas_fname': datas_fname.split("/").pop()}, context)
+        #For a strange reason I can not apply directly the method create without error if the datas_fname have an extension
+        attachment_id = obj_att.create(cr, uid, {'name': attach_name, 'datas': datas}, context)
+        obj_att.write(cr, uid, [attachment_id], {'datas_fname': datas_fname.split("/").pop()}, context)
         return attachment_id
     
     def attach_output_file_to_task(self, cr, uid, id, datas_fname, attach_name, delete = False, context = None):
@@ -188,7 +191,7 @@ class kettle_task(osv.osv):
                     logger.notifyChannel('kettle-connector', netsvc.LOG_INFO, "the task " + task['name'] + " can't be executed because the anyone File was uploaded")
                     continue
                 else:
-                    context['filter'].update({'AUTO_REP_file_in' : str(context['input_filename']), 'AUTO_REP_file_in_name' : str(context['input_filename'])})
+                    context['filter'].update({'AUTO_REP_file_in' : str(context['input_filename']), 'AUTO_REP_file_in_name' : str(context['input_filename'].split("/").pop())})
             
             context = self.execute_python_code(cr, uid, id, 'before', context)
             
