@@ -122,14 +122,14 @@
 					<page string="Variants">
 						<field name="dimension_type_ids" widget="one2many_list" nolabel="1">
 							<tree string="Dimension types">
-							    <field name="description" />
 								<field name="name" />
+								<field name="description" />
 								<field name="allow_custom_value" />
 								<field name="mandatory_dimension" />
 							</tree>
 							<form string="Variant Type">
-							    <field name="description" />
 								<field name="name" />
+								<field name="description" />
 								<field name="sequence" />
 								<field name="allow_custom_value" />
 								<field name="mandatory_dimension" />
@@ -181,6 +181,7 @@
                     <group name='description' colspan="2" col="2">
                     	<separator string="Description" colspan="2"/>
 	                    <field name="product_tmpl_id" select="1"/>
+	                    <field name="name" select="1"/>
 	                    <field name="active" select="1"/>
 	                    <field name="variants" select="1"/>
 	                    <field name="default_code" select="1"/>
@@ -207,6 +208,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Product Variant">
+                    <field name="name"/>
                     <field name="product_tmpl_id"/>
                     <field name="active"/>
                     <field name="variants"/>

@@ -194,7 +194,7 @@ class product_product(osv.osv):
     def _build_product_name(self, cr, uid, ids, name, arg, context={}):
         res={}
         for product in self.browse(cr, uid, ids, context=context): #['id', 'product_tmpl_id', 'variants'],
-            res[product.id] = product.product_tmpl_id.name + ' ' + product.variants
+            res[product.id] = (product.product_tmpl_id.name or '' )+ ' ' + (product.variants or '')
         return res
         
 
