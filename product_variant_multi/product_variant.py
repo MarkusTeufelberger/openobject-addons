@@ -177,7 +177,7 @@ class product_product(osv.osv):
         vals = text.split('[_')
         description = ''
         for val in vals:
-            if ']' in val:
+            if '_]' in val:
                 sub_val = val.split('_]')
                 description += str(safe_eval(sub_val[0], {'o' :o, 'context':context})) + sub_val[1]
             else:
