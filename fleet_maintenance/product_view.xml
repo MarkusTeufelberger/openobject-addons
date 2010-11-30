@@ -13,7 +13,19 @@
                 </field>
             </field>
         </record>
-        
+
+        <record id="view_product_template_fleet_maintenance_form" model="ir.ui.view">
+            <field name="name">view_product_template_fleet_maintenance_form</field>
+            <field name="model">product.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <field name="rental" position="after">
+                    <field name="is_maintenance" />
+                </field>
+            </field>
+        </record>
+
         <record id="view_product_fleet_maitenance_form2" model="ir.ui.view">
             <field name="name">product.form.fleet_maintenance.inherit2</field>
             <field name="model">product.template</field>
