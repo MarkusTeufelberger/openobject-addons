@@ -24,8 +24,6 @@ from osv import osv, fields
 import netsvc
 # Lib to translate error messages
 from tools.translate import _
-# Lib to eval python code with security
-from tools.safe_eval import safe_eval
 
 
 class product_template(osv.osv):
@@ -39,17 +37,6 @@ product_template()
 
 class product_product(osv.osv):
     _inherit = "product.product"
-    
-    def parse(self, cr, uid, o, text, context=None):
-        vals = text.split('[_')
-        description = ''
-        for val in vals:
-            if ']' in val:
-                sub_val = val.split('_]')
-                description += str(safe_eval(sub_val[0], {'o' :o, 'context':context})) + sub_val[1]
-            else:
-                description += val
-        return description
         
     def _get_products_from_product(self, cr, uid, ids, context=None):
         #for a strange reason calling super with self doesn't work. maybe an orm bug
