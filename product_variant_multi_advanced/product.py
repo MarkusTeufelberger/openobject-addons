@@ -31,19 +31,9 @@ from tools.safe_eval import safe_eval
 class product_template(osv.osv):
     _inherit = "product.template"
     
-    def write(self, cr, uid, ids, vals, context=None):
-        res = super(product_template, self).write(cr, uid, ids, vals, context=context)
-        if vals.get('description_sale', False):
-            product_ids = self.get_products_from_product_template(cr, uid, ids, context=context)
-            self.pool.get('product.product').build_product_sale_description(cr, uid, product_ids, vals['description_sale'], context=context)
-        return res
-    
-    def create(self, cr, uid, vals, context=None):
-        res = super(product_template, self).create(cr, uid, vals, context=context)
-        if vals.get('description_sale', False):
-            product_ids = self.get_products_from_product_template(cr, uid, ids, context=context)
-            self.pool.get('product.product').build_product_sale_description(cr, uid, product_ids, vals['description_sale'], context=context)
-        return res
+    def button_generate_product_sale_description(self, cr, uid, ids, context=None):
+        product_ids = self.get_products_from_product_template(cr, uid, ids, context=context)
+        self.pool.get('product.product').build_product_sale_description(cr, uid, product_ids, context=context) 
     
 product_template()
 
@@ -56,7 +46,7 @@ class product_product(osv.osv):
         for val in vals:
             if ']' in val:
                 sub_val = val.split('_]')
-                description += str(safe_eval(sub_val[0], {'o' :o, 'context':context})) + sub_sub_val[1]
+                description += str(safe_eval(sub_val[0], {'o' :o, 'context':context})) + sub_val[1]
             else:
                 description += val
         return description
@@ -75,11 +65,15 @@ class product_product(osv.osv):
             res[product.id] = (product.product_tmpl_id.name or '' )+ ' ' + (product.variants or '')
         return res
     
-    def build_product_sale_description(self, cr, uid, ids, description_template, context=None):
-        res={}
-        for product in self.browse(cr, uid, ids, context=context):
-            description = self.parse(cr, uid, product, description_template, context=context)
-            self.write(cr, uid, product.id, {'description_sale':description}, context=context)
+    def build_product_sale_description(self, cr, uid, ids, context=None):
+        obj_lang=self.pool.get('res.lang')
+        lang_ids = obj_lang.search(cr, uid, [], context=context)
+        lang_code = [x['code'] for x in obj_lang.read(cr, uid, lang_ids, ['code'], context=context)]
+        for code in lang_code:
+            context['lang'] = code
+            for product in self.browse(cr, uid, ids, context=context):
+                description = self.parse(cr, uid, product, product.product_tmpl_id.description_sale, context=context)
+                self.write(cr, uid, product.id, {'description_sale':description}, context=context)
         return True
     
     _columns = {
