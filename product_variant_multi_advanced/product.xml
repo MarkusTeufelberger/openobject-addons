@@ -6,8 +6,20 @@
 -->
 
 <openerp>
-<data>
-
-
-</data>
+    <data>
+        <record id="view_product_variant_multi_advanced_form" model="ir.ui.view">
+            <field name="name">view.product.variant.multi.advanced.product.variant.form</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product_variant_multi.product_variant_form_view" />
+            <field name="arch" type="xml">
+                <group name="price" position="after">
+                    <group name='sale description' colspan="2" col="2"> 
+                        <separator string="Sale description" colspan="4"/>                 
+                        <field name="description_sale" nolabel="1"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
 </openerp>
