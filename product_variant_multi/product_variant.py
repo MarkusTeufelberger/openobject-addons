@@ -179,7 +179,7 @@ class product_product(osv.osv):
         for val in vals:
             if '_]' in val:
                 sub_val = val.split('_]')
-                description += str(safe_eval(sub_val[0], {'o' :o, 'context':context})) + sub_val[1]
+                description += (safe_eval(sub_val[0], {'o' :o, 'context':context}) or '' ) + sub_val[1]
             else:
                 description += val
         return description
@@ -216,7 +216,7 @@ class product_product(osv.osv):
         return result
 
     def _get_products_from_product_template(self, cr, uid, ids, context={}):
-        return  self.pool.get('product.template').get_products_from_product_template(cr, uid, ids, context=context)
+        return self.pool.get('product.template').get_products_from_product_template(cr, uid, ids, context=context)
     
     def _check_dimension_values(self, cr, uid, ids): # TODO: check that all dimension_types of the product_template have a corresponding dimension_value ??
         for p in self.browse(cr, uid, ids, {}):
