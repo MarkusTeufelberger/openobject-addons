@@ -67,7 +67,7 @@ class product_product(osv.osv):
         'name' : fields.function(_build_product_name, method=True, type='char', size=128, string='Name', readonly=True,
             store={
                 'product.product': (_get_products_from_product, ['variants'], 15),
-                'product.template': (_get_products_from_product_template, ['name'], 15),
+                'product.template': (_get_products_from_product_template, ['name', 'variant_model_name', 'variant_model_name_separator'], 15),
             }),
             
         'description_sale': fields.text('Sale Description',translate=True, readonly=True),
