@@ -27,10 +27,24 @@ from osv import osv,fields
 class res_partner(osv.osv):
     _inherit = 'res.partner'
 
+    def _compute_credit_limit(self, cr, uid, ids, context=None):
+        result = {}
+        for partner_id in ids:
+            related_credit_lines = self.pool.get('coface.credit.history').search(cr, uid, [('partner_id', '=', partner_id)], order='create_date')
+            print """related_credit_lines""", related_credit_lines
+            if not related_credit_lines: result[partner_id] = 0
+            for lines in related_credit_lines:
+                credit_limit = lines.coface_credit_limit
+            result[partner_id] = 0.0
+        return result
+
+
+
     _columns = {
         'coface_identifier': fields.char('Coface EASY number', size=16, help="EASY number of the partner"),
-        'coface_country': fields.char('Partner country', size=32, help="Country of the partner, imported from Coface database."),
-        'credit_limit': fields.float(string='Credit Limit', readyonly=1), # readyonly=1 ????
+        'coface_partner_name': fields.char('Coface partner name', size=32, help="Country of the partner, imported from Coface database."),
+        'coface_partner_country': fields.char('Coface partner country', size=32, help="Country of the partner, imported from Coface database."),
+        'credit_limit': fields.function(_compute_credit_limit, method=True, string='Credit Limit', type='float', store=True, help="Credit limit for this partner. Only relevant for customer partners."),
         'coface_identifier_type_1': fields.char('Legal identifier type 1', size=32),
         'coface_identifier_type_2': fields.char('Legal identifier type 2', size=32),
         'coface_identifier_type_3': fields.char('Legal identifier type 3', size=32),
@@ -39,7 +53,8 @@ class res_partner(osv.osv):
         'coface_identifier_3': fields.char('Legal identifier 3', size=32),
         'coface_credit_history_ids': fields.one2many('coface.credit.history', 'partner_id', 'Credit History'),
     }
-    
+
+
 res_partner()
 
 
@@ -48,9 +63,12 @@ res_partner()
 class coface_credit_history(osv.osv):
     _name = "coface.credit.history"
     _description = 'coface credit amount and insurance history'
-    
+
     _columns = {
         'partner_id': fields.many2one('res.partner', 'Partner', required=True, ondelete='cascade'),
+        # START of the list of fields that are checked before creating a new
+        # Coface credit history line i.e. if one of those field is updated by Coface
+        # a new Coface history line is created
         'coface_product': fields.char('Coface product', size=32, required=1, help="Coface insurance product, for example : Agrément, Accord Express, Garantie @rating, ..."),
         'coface_rating': fields.char('Coface rating', size=6, help="Coface rating. Possible values : X, R, NR, @, @@, @@@. Empty in case of 'Agrément'."),
         'coface_requested_amount': fields.integer('Requested amount', help="In case of 'Agrément', contains the coverage amount that we requested. Empty if not an 'Agrément'."),
@@ -60,8 +78,9 @@ class coface_credit_history(osv.osv):
         'coface_credit_limit_cur': fields.char('Credit limit currency', size=3, help="Currency of the credit limit. Should always be 'EUR'."),
         'coface_decision_status': fields.char('Decision status', size=20, help="Status of Coface's decision."),
         'coface_decision_type': fields.char('Decision type', size=128, help="Type of Coface's decision."),
+        'coface_effective_date': fields.date('Effective date', help="Coface's decision takes effect from that date."),
+        # END of the list
         'coface_decision_details': fields.text('Decision details', help="Details about Coface's decision. Usually gives the reason why Coface refused the coverage."),
-        'coface_decision_date': fields.date('Decision date', help="Coface's decision takes effect from that date."),
         'create_date': fields.datetime('Creation date', help="Date when the Coface credit history line was created in the database."),
         'coface_file_date': fields.date('Coface file date', help="Date of Coface file which triggered the creation of this Coface credit history line."),
         }

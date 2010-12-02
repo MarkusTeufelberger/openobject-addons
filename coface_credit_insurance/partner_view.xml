@@ -13,7 +13,8 @@
                     <page string="Credit Insurance" position="inside">
                         <separator string="Coface partner properties" colspan="4"/>
                         <field name="coface_identifier" />
-                        <field name="coface_country" readonly="1"/>
+                        <field name="coface_partner_name" readonly="1"/>
+                        <field name="coface_partner_country" readonly="1"/>
                         <group col="4" colspan="4">
                             <field name="coface_identifier_type_1" readonly="1"/>
                             <field name="coface_identifier_1" readonly="1"/>
