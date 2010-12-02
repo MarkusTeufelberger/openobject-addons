@@ -66,7 +66,10 @@
                     <field name="coface_decision_date" readonly="1" />
                     <field name="coface_decision_status" readonly="1" />
                     <field name="coface_decision_type" readonly="1" />
-                    <field name="coface_decision_details" readonly="1" />
+                    <field name="coface_decision_details" readonly="1" colspan="4"/>
+                    <separator string="Technical info" colspan="4"/>
+                    <field name="create_date" readonly="1" />
+                    <field name="coface_file_date" readonly="1" />
                 </form>
             </field>
         </record>

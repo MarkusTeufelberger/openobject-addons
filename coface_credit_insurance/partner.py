@@ -62,6 +62,8 @@ class coface_credit_history(osv.osv):
         'coface_decision_type': fields.char('Decision type', size=128, help="Type of Coface's decision."),
         'coface_decision_details': fields.text('Decision details', help="Details about Coface's decision. Usually gives the reason why Coface refused the coverage."),
         'coface_decision_date': fields.date('Decision date', help="Coface's decision takes effect from that date."),
+        'create_date': fields.datetime('Creation date', help="Date when the Coface credit history line was created in the database."),
+        'coface_file_date': fields.date('Coface file date', help="Date of Coface file which triggered the creation of this Coface credit history line."),
         }
 
 coface_credit_history()
