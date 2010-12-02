@@ -54,11 +54,9 @@ class async_messaging_demo(osv.osv):
         doc = etree.Element('message')
         doc.set('type', 'create')
         obj = self.pool.get(obj_name)
-        for obj_id in obj_ids:
-            xml = obj.obj_to_xml(cr, uid, [obj_id], obj_name, xml_bindings)
-            doc.append(xml)
+        doc.extend(obj.obj_to_xml(cr, uid, obj_ids, obj_name, xml_bindings))
         msg = etree.tostring(doc, pretty_print=True,
-                encoding='utf-8', xml_declaration=True)
+            encoding='utf-8', xml_declaration=True)
         self.send_message(cr, uid, ids, msg)
 
 async_messaging_demo()

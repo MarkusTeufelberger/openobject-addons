@@ -20,7 +20,7 @@
 
 {
     'name': 'Asynchronous Messaging Demo Application',
-    'version': '1.0',
+    'version': '1.1',
     'author': 'Gábor Dukai',
     'website' : 'http://exploringopenerp.blogspot.com',
     'category': 'Generic Modules',

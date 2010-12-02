@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    Copyright (C) 2010 Gábor Dukai (gdukai@gmail.com)
 #    Copyright (C) 2009 Ville D'ouro (<http://villedouro.com.br>). All Rights Reserved
 #    $Id$
 #
@@ -84,104 +84,111 @@ def obj_to_xml(obj, cr, uid, ids, root_tag, bindings, context=None):
             columns.append(rule)
 
     # Build data set
-    data = obj.read(cr, uid, ids, columns, context=context)[0]
+    datas = obj.read(cr, uid, ids, columns, context=context)
 
     # Build translation data
     if context is None:
         context = {}
     lang_obj = obj.pool.get('res.lang')
     fields = obj.fields_get(cr, uid)
-    translatable = [k for k, v in fields.iteritems() if 'translate' in v and v['translate']]
-    lang_ids = lang_obj.search(cr, uid, [('translatable', '=', True)])
-    lang_codes = [v['code'] for v in lang_obj.read(cr, uid, lang_ids, ['code']) if v['code'] != 'en_US']
-    lang_data = {}
-    for lang in lang_codes:
-        d = context.copy()
-        d.update({'lang': lang})
-        lang_data[lang] = obj.read(cr, uid, ids, translatable, context=d)[0]
+    translatable = [k for k, v in fields.iteritems()
+        if 'translate' in v and v['translate']]
+    binding_fields = [rule if isinstance(rule, basestring) else rule[0]
+        for rule in bindings]
+    translatable = list(set(translatable).intersection(set(binding_fields)))
+    if translatable:
+        lang_ids = lang_obj.search(cr, uid, [('translatable', '=', True)])
+        lang_codes = [v['code']
+            for v in lang_obj.read(cr, uid, lang_ids, ['code'])
+            if v['code'] != 'en_US']
+        lang_datas = {}
+        for lang in lang_codes:
+            d = context.copy()
+            d.update({'lang': lang})
+            lang_datas[lang] = obj.read(cr, uid, ids, translatable, context=d)
 
-    # create document
-    root = etree.Element(unicode(root_tag))
+    res = []
+    for i, data in enumerate(datas):
+        # create document
+        root = etree.Element(unicode(root_tag))
 
-    # do the binding for each binding rule
-    for rule in bindings:
-        # get the binding column
-        if type(rule) == tuple:
-            col = rule[0]
-        else:
-            col = rule
+        # do the binding for each binding rule
+        for rule in bindings:
+            # get the binding column
+            col = rule if isinstance(rule, basestring) else rule[0]
 
-        # get the element name
-        if type(rule) == tuple and len(rule) > 1:
-            ename = rule[1]
-        else:
-            ename = col
+            # get the element name
+            if type(rule) == tuple and len(rule) > 1:
+                ename = rule[1]
+            else:
+                ename = col
 
-        # get the subcol if necessary
-        if type(rule) == tuple and len(rule) > 2 and type(rule[2]) == str:
-            subcol = rule[2]
-        else:
-            subcol = None
+            # get the subcol if necessary
+            if type(rule) == tuple and len(rule) > 2 and type(rule[2]) == str:
+                subcol = rule[2]
+            else:
+                subcol = None
 
-        # get the bindings for deep serialization
-        if type(rule) == tuple and len(rule) > 2 and type(rule[2]) == list:
-            deep_bindings = rule[2]
-        else:
-            deep_bindings = None
+            # get the bindings for deep serialization
+            if type(rule) == tuple and len(rule) > 2 and type(rule[2]) == list:
+                deep_bindings = rule[2]
+            else:
+                deep_bindings = None
 
-        # Create the element
-        e = etree.SubElement(root,unicode(ename))
+            # Create the element
+            e = etree.SubElement(root, unicode(ename))
 
-        # Append the value to the xml element
-        def append(elem, value):
+            # Append the value to the xml element
+            def append(elem, value):
 
-            if deep_bindings:
-                if value:
-                    # seek relation object (very specific to OpenObject's ORM)
-                    rel_obj_name = obj.fields_get(cr, uid, [col])[col]['relation']
-                    rel_obj = obj.pool.get(rel_obj_name)
+                if deep_bindings:
+                    if value:
+                        # seek relation object (very specific to OpenObject's ORM)
+                        rel_obj_name = obj.fields_get(cr, uid, [col])[col]['relation']
+                        rel_obj = obj.pool.get(rel_obj_name)
 
-                    # get xml fragment from recursion
-                    frag_root = obj_to_xml(rel_obj, cr, uid, [value], 'root', deep_bindings)
+                        # get xml fragment from recursion
+                        frag_root = obj_to_xml(rel_obj, cr, uid, [value], 'root', deep_bindings)[0]
 
-                    # append children
-                    for el in frag_root:
-                        elem.append(el)
+                        # append children
+                        for el in frag_root:
+                            elem.append(el)
 
-            elif subcol:
-                if value:
-                    # seek relation object (very specific to OpenObject's ORM)
-                    rel_field = obj.fields_get(cr, uid, [col])[col]
-                    rel_obj_name = rel_field['relation']
-                    rel_obj = obj.pool.get(rel_obj_name)
+                elif subcol:
+                    if value:
+                        # seek relation object (very specific to OpenObject's ORM)
+                        rel_field = obj.fields_get(cr, uid, [col])[col]
+                        rel_obj_name = rel_field['relation']
+                        rel_obj = obj.pool.get(rel_obj_name)
 
-                    # query for value
-                    sub_value = rel_obj.read(cr, uid, [value], [subcol])[0][subcol]
-                    elem.text = unicode(sub_value)
+                        # query for value
+                        sub_value = rel_obj.read(cr, uid, [value], [subcol])[0][subcol]
+                        elem.text = unicode(sub_value)
+
+                else:
+                    # OpenObject return False if the relation is not defined.
+                    # we should print False only if a boolean field. Else
+                    # print nothing
+                    if value or obj.fields_get(cr, uid, [col])[col]['type'] == 'boolean':
+                        elem.text = unicode(value)
+                        if col in translatable:
+                            for lang in lang_datas:
+                                elem.set(lang, lang_datas[lang][i][col])
+
+            # Parse according to data return type
+            if type(data[col]) == list:
+                for _id in data[col]:
+                    e_item = etree.SubElement(e,u'item')
+                    append(e_item, _id)
+
+            elif type(data[col]) == tuple:
+                append(e, data[col][0])
 
             else:
-                # OpenObject return False if the relation is not defined.
-                # we should print False only if a boolean field. Else
-                # print nothing
-                if value or obj.fields_get(cr, uid, [col])[col]['type'] == 'boolean':
-                    elem.text = unicode(value)
-                    if col in translatable:
-                        for lang in lang_data:
-                            elem.set(lang, lang_data[lang][col])
+                append(e, data[col])
 
-        # Parse according to data return type
-        if type(data[col]) == list:
-            for _id in data[col]:
-                e_item = etree.SubElement(e,u'item')
-                append(e_item, _id)
-
-        elif type(data[col]) == tuple:
-            append(e, data[col][0])
-
-        else:
-            append(e, data[col])
-
-    return root
+        res.append(root)
+    return res
 
 def xml_to_vals(obj, cr, uid, xml, bindings, _type=None, idfield='global_id', recursion=False):
     """
