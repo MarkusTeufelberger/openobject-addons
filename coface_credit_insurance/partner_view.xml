@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
- 		<record id="view_partner_credit_insurance_form" model="ir.ui.view">
+        <!-- Add tab in partner form view -->
+        <record id="view_partner_credit_insurance_form" model="ir.ui.view">
             <field name="name">res.partner.credit.insurance.form</field>
             <field name="model">res.partner</field>
             <field name="type">form</field>
@@ -11,37 +11,66 @@
             <field name="arch" type="xml">
                 <notebook>
                     <page string="Credit Insurance" position="inside">
-                        <separator string="Coface Partner Properties" colspan="2"/>
-                        	<field name="coface_ref" colspan="2"/>
-                   <group col="4" colspan="4">
-                        	<field name="coface_identifier_type_1"/>
-                        	<field name="coface_identifier_1"/>
-                        	<field name="coface_identifier_type_2"/>
-                        	<field name="coface_identifier_2"/>
-                        	<field name="coface_identifier_type_3"/>
-                        	<field name="coface_identifier_3"/>
-                    </group>
-                    <field name="coface_credit_history_ids" nolabel="1"/>
-                </page>
+                        <separator string="Coface partner properties" colspan="4"/>
+                        <field name="coface_identifier" />
+                        <field name="coface_country" readonly="1"/>
+                        <group col="4" colspan="4">
+                            <field name="coface_identifier_type_1" readonly="1"/>
+                            <field name="coface_identifier_1" readonly="1"/>
+                            <field name="coface_identifier_type_2" readonly="1"/>
+                            <field name="coface_identifier_2" readonly="1"/>
+                            <field name="coface_identifier_type_3" readonly="1"/>
+                            <field name="coface_identifier_3" readonly="1"/>
+                        </group>
+                        <field name="coface_credit_history_ids" nolabel="1" colspan="4" />
+                    </page>
                 </notebook>
             </field>
         </record>
-        
- 		<record id="view_coface_credit_history_form" model="ir.ui.view">
-            <field name="name">coface.credit.history.form</field>
+
+        <!-- Tree view for credit history -->
+        <record id="view_coface_credit_history_tree" model="ir.ui.view">
+            <field name="name">coface.credit.history.tree</field>
             <field name="model">coface.credit.history</field>
             <field name="type">tree</field>
             <field name="priority">15</field>
             <field name="arch" type="xml">
-            	<tree string="Coface History">
-	            	<field name="coface_product"/>
-	            	<field name="coface_rating"/>
-	            	<field name="coface_credit_limit"/>
-	            	<field name="coface_status_date"/>
-	            	<field name="coface_status"/>
-	            </tree>
-        	</field>
+                <tree string="Coface credit history">
+                    <field name="coface_request_date"/>
+                    <field name="coface_product"/>
+                    <field name="coface_rating"/>
+                    <field name="coface_credit_limit"/>
+                    <field name="coface_decision_date"/>
+                    <field name="coface_decision_status"/>
+                </tree>
+            </field>
         </record>
-        
-	</data>
+
+        <!-- Form view for credit history -->
+        <record id="view_coface_credit_history_form" model="ir.ui.view">
+            <field name="name">coface.credit.history.form</field>
+            <field name="model">coface.credit.history</field>
+            <field name="type">form</field>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+                <form string="Coface credit history">
+                    <separator string="Request to Coface" colspan="4"/>
+                    <field name="coface_request_date" readonly="1" />
+                    <field name="coface_product" readonly="1" />
+                    <field name="coface_requested_amount" readonly="1" />
+                    <field name="coface_requested_amount_cur" readonly="1" />
+                    <separator string="Answer from Coface" colspan="4"/>
+                    <field name="coface_rating" readonly="1" />
+                    <field name="coface_credit_limit" readonly="1" />
+                    <field name="coface_credit_limit_cur" readonly="1" />
+                    <field name="coface_decision_date" readonly="1" />
+                    <field name="coface_decision_status" readonly="1" />
+                    <field name="coface_decision_type" readonly="1" />
+                    <field name="coface_decision_details" readonly="1" />
+                </form>
+            </field>
+        </record>
+
+
+    </data>
 </openerp>
