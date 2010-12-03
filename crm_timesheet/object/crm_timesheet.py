@@ -141,7 +141,7 @@ class crm_case_work(osv.osv):
         vals_line = {}
 
         for case in self.pool.get('crm.case.work').browse(cr, uid, ids):
-            line_id = case.hr_analytic_timesheet_id
+            line_id = vals.get('hr_analytic_timesheet_id',case.hr_analytic_timesheet_id)
             if line_id:
                 obj = self.pool.get('hr.analytic.timesheet')
                 if 'name' in vals:
