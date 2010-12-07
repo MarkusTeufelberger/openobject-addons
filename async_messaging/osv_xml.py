@@ -85,6 +85,7 @@ def obj_to_xml(obj, cr, uid, ids, root_tag, bindings, context=None):
 
     # Build data set
     datas = obj.read(cr, uid, ids, columns, context=context)
+    datas = dict([(r['id'], r) for r in datas])
 
     # Build translation data
     if context is None:
@@ -106,9 +107,10 @@ def obj_to_xml(obj, cr, uid, ids, root_tag, bindings, context=None):
             d = context.copy()
             d.update({'lang': lang})
             lang_datas[lang] = obj.read(cr, uid, ids, translatable, context=d)
+            lang_datas[lang] = dict([(r['id'], r) for r in lang_datas[lang]])
 
     res = []
-    for i, data in enumerate(datas):
+    for obj_id, data in datas.iteritems():
         # create document
         root = etree.Element(unicode(root_tag))
 
@@ -173,7 +175,7 @@ def obj_to_xml(obj, cr, uid, ids, root_tag, bindings, context=None):
                         elem.text = unicode(value)
                         if col in translatable:
                             for lang in lang_datas:
-                                elem.set(lang, lang_datas[lang][i][col])
+                                elem.set(lang, lang_datas[lang][obj_id][col])
 
             # Parse according to data return type
             if type(data[col]) == list:

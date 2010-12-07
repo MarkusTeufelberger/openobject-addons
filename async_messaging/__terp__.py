@@ -20,7 +20,7 @@
 
 {
     'name': 'Asynchronous Messaging with STOMP Base Module',
-    'version': '1.1',
+    'version': '1.15',
     'author': 'Gábor Dukai',
     'website' : 'http://exploringopenerp.blogspot.com',
     'category': 'Generic Modules',
