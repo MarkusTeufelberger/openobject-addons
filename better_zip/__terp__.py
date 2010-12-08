@@ -22,7 +22,6 @@
     'version' : '0.1',
     'depends' : [
                  'base',
-                 'wingo_partner_mgmt', 
                  ],
     'author' : 'Camptocamp',
     'description': """This introduce a better zip/npa management system""",
