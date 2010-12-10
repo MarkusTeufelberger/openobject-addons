@@ -1,0 +1,438 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.6\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-11-23 17:22+0000\n"
+"PO-Revision-Date: 2010-12-09 22:07+0000\n"
+"Last-Translator: Luniz <luniz52@hotmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-10 05:12+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: account_payment_paypal
+#: field:account.payment.paypal.import.config,account_expenditure_id:0
+msgid "Payment fee account"
+msgstr "Canta de taxa de pagamento"
+
+#. module: account_payment_paypal
+#: wizard_view:account_payment_paypal.import_paypal,import:0
+#: model:ir.module.module,shortdesc:account_payment_paypal.module_meta_information
+msgid "Import Paypal Payments"
+msgstr "Importar Pagamentos Payal"
+
+#. module: account_payment_paypal
+#: constraint:ir.model:0
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+"O nome do Objecto de começar com x__ e não pode conter nenhum caracter "
+"especial !"
+
+#. module: account_payment_paypal
+#: wizard_field:account_payment_paypal.import_paypal,import,note:0
+msgid "Log"
+msgstr "Registro"
+
+#. module: account_payment_paypal
+#: field:account.payment.paypal.import.config,invoice_date_accuracy:0
+msgid "Invoice date accuracy"
+msgstr "Precisão da data da factura"
+
+#. module: account_payment_paypal
+#: model:ir.actions.act_window,name:account_payment_paypal.action_account_payment_paypal_import_config
+#: model:ir.ui.menu,name:account_payment_paypal.menu_account_payment_paypal_import_config
+msgid "Paypal Payment Import Configuration"
+msgstr "Importar Configuração de Pagameto Paypal"
+
+#. module: account_payment_paypal
+#: model:ir.actions.wizard,name:account_payment_paypal.wizard_account_payment_paypal_import
+msgid "Import paypal payments"
+msgstr "Importar pagamentos paypal"
+
+#. module: account_payment_paypal
+#: wizard_field:account_payment_paypal.import_paypal,init,file:0
+msgid "Bank Statements File"
+msgstr "Ficheiro de declarações bancária"
+
+#. module: account_payment_paypal
+#: help:account.payment.paypal.import.config,invoice_amount_accuracy:0
+msgid ""
+"Payment amount accuracy (% ratio between 0-1) on searching an invoice to "
+"reconcile."
+msgstr ""
+"Precisão do montante de pagamento (% relacção entre 0-1) na busca de uma "
+"factura para reconciliar."
+
+#. module: account_payment_paypal
+#: wizard_button:account_payment_paypal.import_paypal,init,import:0
+msgid "Import"
+msgstr "Importar"
+
+#. module: account_payment_paypal
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nome do modelo inválido na definição da acção."
+
+#. module: account_payment_paypal
+#: wizard_field:account_payment_paypal.import_paypal,init,config_id:0
+msgid "Config"
+msgstr "Configurar"
+
+#. module: account_payment_paypal
+#: help:account.payment.paypal.import.config,invoice_reconcile:0
+msgid ""
+"Check this box when, if an invoice to reconcile have not found by the Paypal "
+"transaction ID, you want to find an open invoice with same partner, same "
+"amount+-accuracy, same date+-accuracy and payment type 'PAYPAL'."
+msgstr ""
+"Verifique esta caixa quando, se uma factura para reconciliar não tiver sido "
+"encontrada pelo ID da trasação Paypal, quer encontrar uma factura aberta com "
+"o mesmo terceiro, mesmo montante+-precisão, mesma data+-precisãp e tipo de "
+"pagamente 'PAYPAL'."
+
+#. module: account_payment_paypal
+#: help:account.payment.paypal.import.config,invoice_date_accuracy:0
+msgid ""
+"Payment date accuracy (number of days) on searching an invoice to reconcile."
+msgstr ""
+"Precisão da data de pagamento (número de dias) em busca de uma factura para "
+"reconciliar."
+
+#. module: account_payment_paypal
+#: field:account.payment.paypal.import.config,invoice_amount_accuracy:0
+msgid "Invoice amount accuracy (%)"
+msgstr "Precisão do montante da factura (%)"
+
+#. module: account_payment_paypal
+#: help:account.payment.paypal.import.config,account_expenditure_id:0
+msgid "Account for the Paypal fees."
+msgstr "Conta para as taxas Paypal."
+
+#. module: account_payment_paypal
+#: view:account.payment.paypal.import.config:0
+msgid "Reconcile Paypal payments with invoices"
+msgstr "Reconciliar pagamentos Paypal com facturas"
+
+#. module: account_payment_paypal
+#: field:account.payment.paypal.import.config,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: account_payment_paypal
+#: wizard_field:account_payment_paypal.import_paypal,import,state:0
+msgid "Result"
+msgstr "Resultado"
+
+#. module: account_payment_paypal
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML Inválido para a Arquitectura de Vista !"
+
+#. module: account_payment_paypal
+#: wizard_button:account_payment_paypal.import_paypal,import,end:0
+msgid "Ok"
+msgstr "Ok"
+
+#. module: account_payment_paypal
+#: field:account.payment.paypal.import.config,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: account_payment_paypal
+#: wizard_field:account_payment_paypal.import_paypal,init,name:0
+msgid "File name"
+msgstr "Nome do ficheiro"
+
+#. module: account_payment_paypal
+#: help:account.payment.paypal.import.config,status_completed:0
+msgid ""
+"Check this box if you want to process only the Paypal transactions with the "
+"status field = 'Completed'."
+msgstr ""
+"Verifique esta caixa se quer somente processar transações Paypal com o campo "
+"estado = 'Completado'"
+
+#. module: account_payment_paypal
+#: wizard_view:account_payment_paypal.import_paypal,import:0
+msgid "Import result of Paypal payments:"
+msgstr "Importar resultade de pagamentos Paypal:"
+
+#. module: account_payment_paypal
+#: view:account.payment.paypal.import.config:0
+msgid "Paypal Configuration"
+msgstr "Configuração Paypal"
+
+#. module: account_payment_paypal
+#: model:ir.model,name:account_payment_paypal.model_account_payment_paypal_import_config
+msgid "Paypal payments Configuration"
+msgstr "Configuração de pagamentos Paypal"
+
+#. module: account_payment_paypal
+#: model:ir.module.module,description:account_payment_paypal.module_meta_information
+msgid ""
+"Import Paypal Payments from a CSV file.\n"
+"\n"
+"Adds a wizard in bank statements to select a CSV file with Paypal payments "
+"lines like this:\n"
+"\n"
+"Date, Time, Time Zone, Name, Type, Status, Currency, Gross, Fee, Net, From "
+"Email Address, To Email Address, Transaction ID, Counterparty Status, "
+"Address Status, Item Title, Item ID, Shipping and Handling Amount, Insurance "
+"Amount, Sales Tax, Option 1 Name, Option 1 Value, Option 2 Name, Option 2 "
+"Value, Auction Site, Buyer ID, Item URL, Closing Date, Escrow Id, Invoice "
+"Id, Reference Txn ID, Invoice Number, Custom Number, Receipt ID, Balance, "
+"Address Line 1, Address Line 2/District, Town/City, "
+"State/Province/Region/County/Territory/Prefecture/Republic, Zip/Postal Code, "
+"Country, Contact Phone Number, \n"
+"\"25/03/2009\",\"23:45:35\",\"GMT+02:00\",\"Computer Company\",\"Web Accept "
+"Payment Received\",\"Completed\",\"EUR\",\"20,00\",\"-"
+"0,89\",\"19,11\",\"from1@email.com\",\"to@email.com\",\"0LN645674B531493M\","
+"\"Non-U.S. - Verified\",\"Non-U.S.\",\"Item1 "
+"title\",\"1\",\"0,00\",\"\",\"0,00\",\"usr\",\"45678\",\"\",\"\",\"\",\"\",\""
+"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"1.315,74\",\"address1\",\"\",\"city1"
+"\",\"state1\",\"zip1\",\"country1\",\"\",\n"
+"\"28/03/2009\",\"21:58:54\",\"GMT+02:00\",\"John Smith\",\"Web Accept "
+"Payment Received\",\"Completed\",\"USD\",\"20,00\",\"-"
+"0,94\",\"19,06\",\"from2@email.com\",\"to@email.com\",\"6V823569E37342433\","
+"\"Verified\",\"Confirmed\",\"Item 2 "
+"title\",\"1\",\"0,00\",\"\",\"0,00\",\"usr\",\"34567\",\"\",\"\",\"\",\"\",\""
+"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"20.979,99\",\"address2\",\"\",\"city2"
+"\",\"state2\",\"zip2\",\"country2\",\"\",\n"
+"\n"
+"These fields are optional: Address Line 1, Address Line 2/District, "
+"Town/City, State/Province/Region/County/Territory/Prefecture/Republic, "
+"Zip/Postal Code, Country, Contact Phone Number.\n"
+"\n"
+"Only the Paypal payment lines with the same currency as the bank statement "
+"are imported. And if 'Status completed' option is checked, only the Paypal "
+"payment lines with status field = 'Completed' are imported.\n"
+"\n"
+"Paypal transactions are classified as:\n"
+"    * customer: 'Type' in ['Web Accept Payment Received', 'Payment "
+"Received', 'Subscription Payment Received', 'Refund']\n"
+"    * supplier: 'Type' in ['Credit']\n"
+"    * general: Other cases, 'Type' in ['Transfer', 'Chargeback Settlement', "
+"...]\n"
+"\n"
+"Tries to fill the partner and invoice to conciliate from the Paypal "
+"transaction ID. If not, try to find the partner with the from (customer) or "
+"to (supplier) email addresses (from1@email.com or to@email.com in the "
+"example) and, if the 'Search invoice to reconcile' option is checked, try to "
+"conciliate it with an open invoice with the same partner, same amount+-"
+"accuracy, same date+-accuracy and payment type 'PAYPAL'.\n"
+"\n"
+"The from/to Paypal email address (it can be considered as a Paypal account) "
+"is searched in the partner bank account field (the bank name of Paypal "
+"accounts must be 'PAYPAL').\n"
+"\n"
+"First we must define a Paypal importation configuration:\n"
+"    * The account for the Paypal fees.\n"
+"    * If you want to insert the Paypal transactions in the bank statement or "
+"only show the warning or error messages.\n"
+"    * If you want to reconcile with open invoices (giving an amount and date "
+"accuracy to search the invoices).\n"
+msgstr ""
+"Importar Pagamentos Paypal a partir de um ficheiro CSV.\n"
+"\n"
+"Adiciona um assistente na declaração bancária para selecionar um ficheiro "
+"CSV com linhas de pagamentos Paypal assim:\n"
+"\n"
+"Data, Tempo, Fuso Horário, Nome, Tipo, Estado, Moeda, Bruto, Taxa, Líquido, "
+"A partir do Endereço de Email, Para o Endereço de Email, ID da Transação, "
+"Estado da Contraparte, Estado do Endereço, Título do Item, ID do Item, "
+"Montante do Aluguer e Manuseo, Seguro do Montante, Imposto de Vendas, Nome "
+"da Opção 1, Valor da Opção 1, Nome da Opção 2, Valor da Opção 2, Site de "
+"Leilão, ID do Comprador, URL do Item, Fechar Data, ID da Custódia, ID da "
+"Factura, ID de Referência Txn, Número da Factura, Número Personalizado, ID "
+"de Recepção, Balancete, Linha do Endereço 1, Linha do Endereço 2, Distrito "
+"Cidade/Cidade, Estado/Provincia/Região/País/Território/Prefeitura/Republica, "
+"Código Postal/Zp, País, Número de Telefone do Dontacto\n"
+"\"25/03/2009\",\"23:45:35\",\"GMT+02:00\",\"Empresa de "
+"Informática\",\"Aceita Recebimento do pagamento "
+"Wev\",\"Completado\",\"EUR\",\"20,00\",\"-"
+"0,89\",\"19,11\",\"from1@email.com\",\"to@email.com\",\"0LN645674B531493M\","
+"\"Não-U.S. - Verificado\",\"Não-U.S.\",\"título do "
+"item1\",\"1\",\"0,00\",\"\",\"0,00\",\"usr\",\"45678\",\"\",\"\",\"\",\"\",\""
+"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"1.315,74\",\"endereço "
+"1\",\"\",\"cidade 1\",\"estado 1\",\"zip1\",\"país1\",\"\",\n"
+"\"28/03/2009\",\"21:58:54\",\"GMT+02:00\",\"John Smith\",\"Aceita "
+"Recibimento de Pagamento Web\",\"Completado\",\"USD\",\"20,00\",\"-"
+"0,94\",\"19,06\",\"from2@email.com\",\"to@email.com\",\"6V823569E37342433\","
+"\"Verificado\",\"Confirmado\",\"título do item "
+"2\",\"1\",\"0,00\",\"\",\"0,00\",\"usr\",\"34567\",\"\",\"\",\"\",\"\",\"\","
+"\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"20.979,99\",\"endereço "
+"2\",\"\",\"cidade 2\",\"estado 2\",\"zip2\",\"país2\",\"\",\n"
+"\n"
+"Estes campos são opcionais: Linha de Endereço 1 Linha de Endereço "
+"2/Distrito, Cidade/Cidade, "
+"Estado/Provincia/Região/País/Territorio/Prefeitura/República, Código "
+"Postal/ZIP, Número do Telefone do Contacto.\n"
+"\n"
+"Somente as linhas de pagamento Paypal com a mesma moeda com a declaração "
+"bancária são importados. E se a opção 'Estado completado' é verificado, "
+"somento as linhas de pagamento Paypal com campo estado = 'Completado' são "
+"inmportados.\n"
+"\n"
+"Transações Paypal são classificados como:\n"
+"    * cliente: 'Tipo' em ['Aceita Recibimento de Pagamento  Web', 'Pagamento "
+"Recebido', 'Recebido Subscrição de Pagameto', 'Reembolso']\n"
+"    * fornecedor: 'Tipo' em ['Crédito']\n"
+"    * geral: Outros casos, 'Tipo' em ['Transferência', 'Recarregamento da "
+"Liquidação', ...]\n"
+"\n"
+"Exprimente preencher o terceiro e factura para conciliar a partir do ID da "
+"transação Paypal. Se não, tente encontrar o terceiro com o formulário "
+"(cliente) ou para (fornecedor) endereço de emal (como exemplo "
+"from1@email.com ou to@email.com) e se a opção 'Procura de factura oara "
+"reconciliar' esta verificada, tente conciliar com uma factura aberta com o "
+"mesmo terceiro, mesmo montante+-precisão, mesma data+-precisão e tipo de "
+"pagamento 'PAYPAL'.\n"
+"\n"
+"A partir/endereço de email para Paypal (pode ser considerado como uma conta "
+"Paypal) é procurado no campo da conta bancário do terceiro (o nome do banco "
+"das contas Paypal precisam ser 'PAYPAL').\n"
+"\n"
+"Primeiro precisamos definir um importação da configuração Paypal:\n"
+"    * A conta para as taxas Paypal.\n"
+"    * Se quer inserir as transações Paypal na declaração bancária ou somente "
+"apresentar o aviso ou mensagens de erro.\n"
+"    * Se quer reconciliar as facturas abertas (fornecer um montante e data "
+"precisa para procurar as facturas).\n"
+
+#. module: account_payment_paypal
+#: field:account.payment.paypal.import.config,invoice_reconcile:0
+msgid "Search invoice to reconcile"
+msgstr "Procurar factura para reconciliar"
+
+#. module: account_payment_paypal
+#: help:account.payment.paypal.import.config,activate_insert:0
+msgid ""
+"Check this box if you want to insert the Paypal transactions in the bank "
+"statement. If not, it only shows the warning or error messages."
+msgstr ""
+"Verifique esta caixa se quer inserir transações Paypal no extrato bancário. "
+"Se não, somente apresentará o aviso ou mensagens de erro."
+
+#. module: account_payment_paypal
+#: field:account.payment.paypal.import.config,activate_insert:0
+msgid "Active Insert"
+msgstr "Activar Inserir"
+
+#. module: account_payment_paypal
+#: field:account.payment.paypal.import.config,status_completed:0
+msgid "Status completed"
+msgstr "Estado completado"
+
+#. module: account_payment_paypal
+#: wizard_view:account_payment_paypal.import_paypal,init:0
+msgid "Bank statements import Paypal"
+msgstr "Importal Paypal de declarações Bancária"
+
+#. module: account_payment_paypal
+#: wizard_button:account_payment_paypal.import_paypal,init,end:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/wizard/paypal.py:0
+#, python-format
+msgid "Warning"
+msgstr "Aviso"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/wizard/paypal.py:0
+#, python-format
+msgid "You must define a Paypal configuration."
+msgstr "Precisa definir uma configuração Paypal"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid ""
+"Wrong import\n"
+"\n"
+"Summary:\n"
+" "
+msgstr ""
+"Importação errada\n"
+"\n"
+"Resumo:\n"
+" "
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid ""
+"The bank statement is alredy confirmed. It can not be imported from file."
+msgstr ""
+"A declaração bancária já se encontra confirmada. Não pode ser importada a "
+"partir de um ficheiro."
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid "Bank type PAYPAL not found"
+msgstr "Tipo Paypal bancário não encontrado"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid ""
+"\n"
+"WARNING: Paypal payment with Transaction ID %s is repeated,"
+msgstr ""
+"\n"
+"AVISO: Pagamento Paypal com o ID %s de Transação é repitido,"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid ""
+"\n"
+"WARNING: Invoice with Transaction ID %s not found,"
+msgstr ""
+"\n"
+"AVISO: Factura com Transação ID %s não encontrado,"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid ""
+"\n"
+"WARNING: Invoice %s and its payment have a difference %f,"
+msgstr ""
+"\n"
+"AVISO: FActura %s e o seu pagamento tem uma diferença de %f,"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid ""
+"Successful import.\n"
+"\n"
+"Summary:\n"
+" Total added payments: %d\n"
+msgstr ""
+"Importação bem sucedida.\n"
+"\n"
+"Resumo:\n"
+" Total de pagamentos adicionados: %d\n"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid ""
+"Active Insert disabled, nothing has been added/updated.\n"
+"\n"
+"Summary:\n"
+" Total added payments: %d\n"
+msgstr ""
+"Activar Inserir desacticado, nada foi adicionado/actualizado.\n"
+"\n"
+"Resumo:\n"
+" Total de pagamentos adicionados:%d\n"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid "Total not added payments: %d\n"
+msgstr "Total pagamentos não adicionados: %d\n"
+
+#. module: account_payment_paypal
+#: code:extra-addons/account_payment_paypal/paypal.py:0
+msgid "Success"
+msgstr "Sucesso"
