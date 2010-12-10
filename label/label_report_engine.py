@@ -268,6 +268,7 @@ class report_label_xsl(report_rml):
         xml='''<?xml version="1.0" encoding="UTF-8" ?>
 <objects>%s%s</objects>''' % (report_xml, info_xml)
         #print xml
+        xml = xml.replace("&", "&amp;") 
         return xml
 
 class report_label_rml(report_sxw):
