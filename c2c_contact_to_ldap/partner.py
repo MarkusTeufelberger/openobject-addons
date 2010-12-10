@@ -5,6 +5,8 @@
 # All Right Reserved
 #
 # Author : Nicolas Bessi (Camptocamp), Thanks to Laurent Lauden for his code adaptation
+# Active directory Donor: M. Benadiba (Informatique Assistances.fr)
+
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -44,7 +46,7 @@ import sys
 class LdapConnMApper(object):
     """LdapConnMApper: push specific fields from the Terp Partner_contacts to the
         LDAP schema inetOrgPerson. Ldap bind options are stored in company.r"""
-    def __init__(self):
+    def __init__(self, cr, uid, osv, context=None):
         self.USER_DN = ''
         self.CONTACT_DN = ''
         self.LDAP_SERVER = ''
@@ -53,7 +55,6 @@ class LdapConnMApper(object):
         self.connexion = ''
         self.ACTIVDIR = False
     
-    def init_connexion(self,cr,uid,context,osv):
         "Initialize connexion to ldap by using parameter set in the current user compagny"
         #getting ldap pref
         user = osv.pool.get('res.users').browse(cr, uid, uid, context=context)
@@ -95,6 +96,8 @@ class Contact_to_ldap_addressLdap(osv.osv):
     ldapMapper = None
         
     def create(self, cr, uid, vals, context={}):
+        self.getconn(cr, uid, {})
+        
         ids = None
         self.validate_entries(vals,cr,uid,ids)
 
@@ -109,6 +112,7 @@ class Contact_to_ldap_addressLdap(osv.osv):
         return tmp_id
     
     def write(self, cr, uid, ids, vals, context={}) :
+        self.getconn(cr, uid, {})
         if isinstance(ids, (int, long)):
             ids = [ids]
         self.validate_entries(vals,cr,uid,ids)
@@ -128,6 +132,7 @@ class Contact_to_ldap_addressLdap(osv.osv):
         return succes
 
     def unlink(self, cr, uid, ids,context={}):
+        self.getconn(cr, uid, {})
         if isinstance(ids, (int, long)):
             ids = [ids]
         if self.ldaplinkactive(cr,uid,context):
@@ -228,7 +233,7 @@ class Contact_to_ldap_addressLdap(osv.osv):
             if context.has_key('init_mode') and context['init_mode'] :
                 return False
             tmp = self.read(cr, uid, ids, [key], context={})
-            if tmp[key] :
+            if tmp.get(key,False) :
                 dico[att_name] = tmp[key]
                 
     def unUnicodize(self, indict) :
@@ -320,7 +325,7 @@ class Contact_to_ldap_addressLdap(osv.osv):
         if not vals['lastname'] :
             vals['lastname'] = part_name
         contact_obj = {
-        'objectclass' : ['organizationalPerson', 'inetOrgPerson'],
+        'objectclass' : ['inetOrgPerson'],
         'uid': ['terp_'+str(id)],
         'ou':[conn.OU],
         'cn':[cn],
@@ -331,18 +336,16 @@ class Contact_to_ldap_addressLdap(osv.osv):
 
         if not vals['street2']:
             vals['street2'] = ''
-
-        contact_obj['street'] = vals['street'] + ' ' + vals['street2']
-        #Aesa specific for outlook
-        contact_obj['postalAddress'] = vals['street'] + ' ' + vals['street2']
-        if conn.ACTIVDIR :
+        street_key = 'street'
+        if self.getconn(cr, uid, {}).ACTIVDIR :
+            #ENTERING THE M$ Realm And it sucks
+            #We manage the address
+            street_key = 'streetAddress'
+            contact_obj[street_key] = vals['street'] + "\r\n" + vals['street2']
+            #we modifiy the class
+            contact_obj['objectclass'] = ['top','person','organizationalPerson','inetOrgPerson','user']
+            #we handle the country
             if 'country_id' in vals.keys() and vals['country_id'] :
-                vals['country_id'] = self.pool.get('res.country').browse(
-                                                                            cr, 
-                                                                            uid, 
-                                                                            vals['country_id']
-                                                                            ).code
-            else : 
                 country =  self.browse(
                                         cr, 
                                         uid, 
@@ -350,17 +353,38 @@ class Contact_to_ldap_addressLdap(osv.osv):
                                     ).country_id
                 if country :
                     vals['country_id'] = country.name
+                    vals['c'] = country.code
                 else : 
                     vals['country_id'] = False
-            if vals['country_id'] :
+                    vals['c'] = False
+            if vals.get('country_id', False) :
                 self.getVals('co','country_id', vals, contact_obj, uid, id, cr, context)
-        self.getVals('givenName', 'firstname',vals, contact_obj, uid, id, cr, context)
-        ##AESA Specific replacing o by company
-        self.getVals('mail', 'email',vals, contact_obj, uid, id, cr, context)
-        if conn.ACTIVDIR :
+                self.getVals('c','c', vals, contact_obj, uid, id, cr, context)
+            #we compute the diplay name
+            vals['display'] = '%s %s'%(vals['partner'], contact_obj['cn'][0])
+            #we get the title
+            if self.browse(cr, uid, id).function :
+                contact_obj['description'] = self.browse(cr, uid, id).function.name
+            #we replace carriage return 
+            if vals.get('comment', False):
+                vals['comment'] = vals['comment'].replace("\n","\r\n")
+            #Active directory specific fields
             self.getVals('company','partner' ,vals, contact_obj, uid, id, cr, context)
+            self.getVals('info','comment' ,vals, contact_obj, uid, id, cr, context)
+            self.getVals('displayName','partner' ,vals, contact_obj, uid, id, cr, context)
+            ##Web site management
+            if self.browse(cr, uid, id).partner_id.website:
+                vals['website'] = self.browse(cr, uid, id).partner_id.website
+                self.getVals('wWWHomePage','website' ,vals, contact_obj, uid, id, cr, context)
+                del(vals['website'])
+            self.getVals('title','title' ,vals, contact_obj, uid, id, cr, context)        
         else :
+            contact_obj[street_key] = vals['street'] + "\n" + vals['street2']
             self.getVals('o','partner' ,vals, contact_obj, uid, id, cr, context)
+            
+        #Common attributes    
+        self.getVals('givenName', 'firstname',vals, contact_obj, uid, id, cr, context)
+        self.getVals('mail', 'email',vals, contact_obj, uid, id, cr, context)
         self.getVals('telephoneNumber', 'phone',vals, contact_obj, uid, id, cr, context)
         self.getVals('l', 'city',vals, contact_obj, uid, id, cr, context)
         self.getVals('facsimileTelephoneNumber', 'fax',vals, contact_obj, uid, id, cr, context)
@@ -373,13 +397,18 @@ class Contact_to_ldap_addressLdap(osv.osv):
     def saveLdapContact(self,id,vals,cr,uid,context):
         "save openerp adress to ldap"
         contact_obj = self.mappLdapObject(id,vals,cr,uid,context)
-        #print contact_obj
         conn = self.connectToLdap(cr,uid,context={})
         try:
-            conn.connexion.add_s(
-                                    "uid=terp_%s,ou=%s,%s"%(str(id), conn.OU, conn.CONTACT_DN), 
-                                    ldap.modlist.addModlist(contact_obj)
-                                )
+            if self.getconn(cr, uid, context).LDAP_SERVER:
+                conn.connexion.add_s(
+                                        "CN=%s,OU=%s,%s"%(contact_obj['cn'][0], conn.OU, conn.CONTACT_DN), 
+                                        ldap.modlist.addModlist(contact_obj)
+                                    )  
+            else:
+                conn.connexion.add_s(
+                                        "uid=terp_%s,OU=%s,%s"%(str(id), conn.OU, conn.CONTACT_DN), 
+                                        ldap.modlist.addModlist(contact_obj)
+                                    )
         except Exception, e:
             raise e
         conn.connexion.unbind_s()
@@ -393,7 +422,17 @@ class Contact_to_ldap_addressLdap(osv.osv):
             self.saveLdapContact(id,vals,cr,uid,context)
             return
         contact_obj = self.mappLdapObject(id,vals,cr,uid,context)
-        modlist = ldap.modlist.modifyModlist(old_contatc_obj[1], contact_obj)
+        if conn.ACTIVDIR:
+            modlist = []
+            for key, val in contact_obj.items() :
+               if key in ('cn','uid','objectclass') :
+                   continue
+               if isinstance(val, list):
+                   val = val[0]
+               modlist.append((ldap.MOD_REPLACE, key, val))
+        else :
+            modlist = ldap.modlist.modifyModlist(old_contatc_obj[1], contact_obj)
+
         try:
             conn.connexion.modify_s(old_contatc_obj[0], modlist)
             conn.connexion.unbind_s()
@@ -405,9 +444,7 @@ class Contact_to_ldap_addressLdap(osv.osv):
         conn = self.connectToLdap(cr,uid,context={})
         to_delete = None
         try:
-            #print 'removing object in ldap'
             to_delete = self.getLdapContact(conn,id)
-            #print 'removing object in ldap done'
         except ldap.NO_SUCH_OBJECT:
             print 'no object to delete in ldap'
         except Exception, e :
@@ -436,9 +473,9 @@ class Contact_to_ldap_addressLdap(osv.osv):
         return company.ldap_active
         
     def getconn(self, cr, uid, context) :
-        "Singelton for LdapConnMApper"
+        "LdapConnMApper"
         if not self.ldapMapper :
-            self.ldapMapper = LdapConnMApper()
+            self.ldapMapper = LdapConnMApper(cr, uid, self)
         return self.ldapMapper   
           
     def connectToLdap(self, cr, uid, context):
@@ -446,7 +483,6 @@ class Contact_to_ldap_addressLdap(osv.osv):
         #getting ldap pref
         if not self.ldapMapper :
             self.getconn(cr, uid, context)
-        self.ldapMapper.init_connexion(cr,uid,context,self)
         self.ldapMapper.get_connexion()
         return self.ldapMapper
 

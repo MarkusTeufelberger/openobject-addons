@@ -5,6 +5,8 @@
 # All Right Reserved
 #
 # Author : Nicolas Bessi (Camptocamp), Thanks to Laurent Lauden for his code adaptation
+# Active directory Donor: M. Benadiba (Informatique Assistances.fr)
+
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential

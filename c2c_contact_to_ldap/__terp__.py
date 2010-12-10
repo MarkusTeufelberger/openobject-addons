@@ -5,6 +5,7 @@
 # All Right Reserved
 #
 # Author : Nicolas Bessi (Camptocamp), Thanks to Laurent Lauden for his code adaptation
+# Active directory Donor: M. Benadiba (Informatique Assistances.fr)
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -37,6 +38,8 @@
     "category" : "Generic Modules/Misc",
     "website": "http://www.camptocamp.com",
     "description": """
+    
+!!!!!TO BE REFACTORED!!!!!!
 Live partner address synchronization through a LDAP module (inetOrgPerson). 
 Tiny becomes the master of the LDAP. Each time an addresse is deleted, created or updated the same is done in the ldap (a new record is pushed).
 The LDAP configuration is done in the company view. There can be one different LDAP per company! Do not forget to activate
@@ -59,10 +62,10 @@ rédaction des mails. De plus, de nombreux systèmes de téléphonie utilisent m
 (click to dial ou remontée de fiche).
 
 
---!!!!!!! V5 change log 
+--V5 change log 
 added OU specification
 Unicode support --> Has python ldap does not support unicode we try to decode sting if it fail we transliterate values
-Active Directory Support 
+Active Directory Support for Windows server 2003, Try 20008 at your own risk
 
 """,
     "init_xml" : [
