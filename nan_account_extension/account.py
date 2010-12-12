@@ -52,7 +52,50 @@ class account_move(osv.osv):
 
         return super(account_move, self).name_search(cr, user, name, args, operator, context, limit)
 
+    def write(self, cr, uid, ids, vals, context=None):
+        if context is None:
+            context = {}
+
+        move_line_values = {}
+        if 'journal_id' in vals:
+            move_line_values['journal_id'] = vals['journal_id'],
+        if 'period_id' in vals:
+            move_line_values['period_id'] = vals['period_id'],
+
+        if move_line_values:
+            ctx = context.copy()
+            ctx['propagate_journal_period'] = False
+            line_ids = []
+            for move in self.browse(cr, uid, ids, context):
+                line_ids += [x.id for x in move.line_id]
+            self.pool.get('account.move.line').write(cr, uid, line_ids, move_line_values, ctx)
+            
+        return super(account_move, self).write(cr, uid, ids, vals, context)
+
 account_move()
+
+class account_move_line(osv.osv):
+    _inherit = 'account.move.line'
+
+    def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
+        if context is None:
+            context = {}
+        if context.get('propagate_journal_period',True):
+            move_values = {}
+            if 'journal_id' in vals:
+                move_values['journal_id'] = vals['journal_id']
+            if 'period_id' in vals:
+                move_values['period_id'] = vals['period_id']
+
+            if move_values:
+                move_ids = []
+                for move_line in self.browse(cr, uid, ids, context):
+                    move_ids.append( move_line.move_id.id )
+                self.pool.get('account.move').write(cr, uid, move_ids, move_values, context)
+        return super(account_move_line, self).write(cr, uid, ids, vals, context, check, update_check)
+
+account_move_line()
+    
 
 class account_account(osv.osv):
     _inherit = 'account.account'
