@@ -27,15 +27,17 @@ from osv import osv,fields
 class res_partner(osv.osv):
     _inherit = 'res.partner'
 
-    def _compute_credit_limit(self, cr, uid, ids, context=None):
+    def _compute_credit_limit(self, cr, uid, ids, name, arg, context=None):
+        coface_history_obj = self.pool.get('coface.credit.history')
         result = {}
         for partner_id in ids:
-            related_credit_lines = self.pool.get('coface.credit.history').search(cr, uid, [('partner_id', '=', partner_id)], order='create_date')
+            related_credit_lines = coface_history_obj.search(cr, uid, [('partner_id', '=', partner_id)], order='create_date')
             print """related_credit_lines""", related_credit_lines
-            if not related_credit_lines: result[partner_id] = 0
-            for lines in related_credit_lines:
-                credit_limit = lines.coface_credit_limit
-            result[partner_id] = 0.0
+            if not related_credit_lines:
+                result[partner_id] = 0
+            else:
+                result[partner_id] =  coface_history_obj.read(cr, uid, related_credit_lines.pop(), ['coface_credit_limit'], context=context)['coface_credit_limit']
+                print 'credit limit', result[partner_id]
         return result
 
 
@@ -44,6 +46,7 @@ class res_partner(osv.osv):
         'coface_identifier': fields.char('Coface EASY number', size=16, help="EASY number of the partner"),
         'coface_partner_name': fields.char('Coface partner name', size=32, help="Country of the partner, imported from Coface database."),
         'coface_partner_country': fields.char('Coface partner country', size=32, help="Country of the partner, imported from Coface database."),
+        #TAKE care the function is store with the param "=True", so after creating a new credit history line you have to save the partner. In the case of using the automatique import or a create from the partner view the partner is saved after creating the line
         'credit_limit': fields.function(_compute_credit_limit, method=True, string='Credit Limit', type='float', store=True, help="Credit limit for this partner. Only relevant for customer partners."),
         'coface_identifier_type_1': fields.char('Legal identifier type 1', size=32),
         'coface_identifier_type_2': fields.char('Legal identifier type 2', size=32),
