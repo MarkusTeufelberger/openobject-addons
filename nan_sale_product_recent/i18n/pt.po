@@ -1,0 +1,49 @@
+# Portuguese translation for openobject-addons
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-03-20 23:03+0000\n"
+"PO-Revision-Date: 2010-12-20 10:17+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Portuguese <pt@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-21 13:38+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: nan_sale_product_recent
+#: model:ir.module.module,description:nan_sale_product_recent.module_meta_information
+msgid ""
+"This module adds a new field in sale order lines to allow choosing only the "
+"products the partner has ordered sometime in the past. This is useful for "
+"companies in which partners tend to ask always the same products but don't "
+"know the code or remember the exact model."
+msgstr ""
+
+#. module: nan_sale_product_recent
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: nan_sale_product_recent
+#: model:ir.module.module,shortdesc:nan_sale_product_recent.module_meta_information
+msgid "Sale Recent Product"
+msgstr ""
+
+#. module: nan_sale_product_recent
+#: field:sale.order.line,recent_product_id:0
+msgid "Recent Product"
+msgstr ""
+
+#. module: nan_sale_product_recent
+#: help:sale.order.line,recent_product_id:0
+msgid ""
+"Here you will only find products this partner has ordered sometime in the "
+"past."
+msgstr ""
