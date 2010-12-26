@@ -486,6 +486,16 @@ class ir_documentation_paragraph(osv.osv):
             text = text.split('\n')
             text = '\n  '.join( text )
             text = '.. Note:: `(%s) <openerp://client/action?%s>`_ %s' % (_('edit'), urllib.urlencode(action), text)
+
+        # Remove '.. End of file' comments because if they're added in a .. toctree, entries below it
+        # are not processed and the same could happen in other places.
+        new_text = []
+        text = text.split('\n')
+        for line in text:
+            if line.startswith('.. End of file '):
+                continue
+            new_text.append( line )
+        text = '\n'.join( new_text )
         return text
 
     def is_title(self, text):
