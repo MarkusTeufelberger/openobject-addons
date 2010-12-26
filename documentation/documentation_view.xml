@@ -20,6 +20,7 @@
 				<field name="type" select="1"/>
 				<field name="parent_id" select="2"/>
 				<field name="source_module_id" select="2"/>
+				<field name="owner_id" select="2"/>
 				<field name="active" select="2"/>
 				<field name="text" select="1" colspan="4"/>
 				<group col="6" colspan="4">
@@ -116,6 +117,67 @@
         id="menu_documentation_paragraph"
         parent="menu_documentation_configuration"
 	sequence="1"/>
+
+    <record model="ir.actions.act_window" id="action_documentation_my_notes_view">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.documentation.paragraph</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+	<field name="domain">[('owner_id','=',uid)]</field>
+    </record>
+    <menuitem
+        name="My Notes"
+        action="action_documentation_my_notes_view"
+        id="menu_documentation_my_notes"
+        parent="menu_documentation_configuration"
+	sequence="0"/>
+
+    <!-- Rendered Paragraphs -->
+    <record model="ir.ui.view" id="documentation_paragraph_rendered_form">
+        <field name="name">ir.documentation.paragraph.rendered.form</field>
+        <field name="model">ir.documentation.paragraph.rendered</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Documentation Rendered Paragraph">
+		<group col="6">
+			<field name="user_id"/>
+			<field name="filename"/>
+			<field name="sequence"/>
+		</group>
+		<field name="text" colspan="4"/>
+		<field name="image" widget="image" img_width="800" img_height="600" nolabel="1" colspan="4"/>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="documentation_screenshot_tree">
+        <field name="name">ir.documentation.screenshot.tree</field>
+        <field name="model">ir.documentation.screenshot</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Documentation Screenshot">
+		<field name="reference"/>
+		<field name="paragraph_id"/>
+		<field name="view_id"/>
+		<field name="user_id"/>
+		<field name="field"/>
+		<field name="image"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_documentation_screenshot_view">
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.documentation.screenshot</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Documentation Screenshots"
+        action="action_documentation_screenshot_view"
+        id="menu_documentation_screenshot"
+        parent="menu_documentation_configuration"
+	sequence="3"
+	/>
 
     <!-- index -->
     <record model="ir.ui.view" id="documentation_index_tree">

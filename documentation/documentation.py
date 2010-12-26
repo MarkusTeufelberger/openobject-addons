@@ -28,6 +28,7 @@ import random
 import tools
 import re
 import psycopg2
+import urllib
 from xml import dom
 from lxml import etree
 from osv import osv
@@ -62,6 +63,8 @@ class ir_documentation_paragraph(osv.osv):
         return ref[2]
 
     def _menu_references(self, cr, uid, text, context=None):
+        text = text or ''
+
         references = {}
         menus = re.findall('%s *m *: *\S* *%s' % (ReferenceTag, ReferenceTag), text)
         for ref in menus:
@@ -84,6 +87,8 @@ class ir_documentation_paragraph(osv.osv):
         return references
 
     def _view_references(self, cr, uid, text, context=None):
+        text = text or ''
+
         references = {}
         views = re.findall('%s *v *: *\S* *(?:: *\S* *)?%s' % (ReferenceTag, ReferenceTag), text)
         for ref in views:
@@ -109,6 +114,8 @@ class ir_documentation_paragraph(osv.osv):
         return references
 
     def _field_references(self, cr, uid, text, context=None):
+        text = text or ''
+
         references = {}
         fields = re.findall('%s *f *: *\S* *(?:: *\S* *)?%s' % (ReferenceTag, ReferenceTag), text)
         for ref in fields:
@@ -165,7 +172,7 @@ class ir_documentation_paragraph(osv.osv):
 
     _columns = {
         'identifier': fields.char('Identifier', size=200, required=True, help='Unique internal identifier'),
-        'module_id': fields.many2one('ir.module.module', 'Module', required=True, ondelete='cascade', help='Module this paragraph pertains. For example, if module X provides documentation for module Y, here you will find Y.'),
+        'module_id': fields.many2one('ir.module.module', 'Module', ondelete='cascade', help='Module this paragraph pertains. For example, if module X provides documentation for module Y, here you will find Y.'),
         'filename': fields.char('File Name', size=500, help='File name where this paragraph will be stored to (if Inherit field is empty)'),
         'text': fields.text('Text', translate=True, help='Paragraph body'),
         'type': fields.selection([('title','Title'),('paragraph','Paragraph'),
@@ -185,7 +192,8 @@ class ir_documentation_paragraph(osv.osv):
         'view_ids': fields.one2many('ir.documentation.view', 'paragraph_id', 'Views', help='Views referenced in the paragraph.'),
         'menu_ids': fields.one2many('ir.documentation.menu', 'paragraph_id', 'Menus', help='Menu entries referenced in the paragraph.'),
         'active': fields.boolean('Active'),
-        'source_module_id': fields.many2one('ir.module.module', 'Source Module', required=True, ondelete='cascade', help='Module where the documentation file really resides. For example, if module X provides documentation for module Y, here you will find X.'),
+        'source_module_id': fields.many2one('ir.module.module', 'Source Module', ondelete='cascade', help='Module where the documentation file really resides. For example, if module X provides documentation for module Y, here you will find X.'),
+        'owner_id': fields.many2one('res.users', 'Owner', help='Owner or user that created the paragraph. Used for user comments and notes.')
     }
     _defaults = {
         'active': lambda *a: True,
@@ -313,6 +321,14 @@ class ir_documentation_paragraph(osv.osv):
             finally:
                 f.close()
 
+            # Do not import documentation if the given module is not available or installed
+            module_ids = self.pool.get('ir.module.module').search(cr, uid, [('name','=',module)], context=context)
+            if not module_ids:
+                continue
+            module_state = self.pool.get('ir.module.module').browse(cr, uid, module_ids[0], context).state
+            if not module_state in ('installed','to upgrade','to remove'):
+                continue
+
             db_filename = filename.replace( os.path.join(doc_directory,''), '')
             sequence = self.import_rst(cr, uid, module, rst, db_filename, doc_directory, source_module, context, sequence)
 
@@ -378,16 +394,27 @@ class ir_documentation_paragraph(osv.osv):
         if context is None:
             context = {}
 
-        text = paragraph.text
+        text = paragraph.text or ''
         # Replace field references
         for field in paragraph.field_ids:
             if not field.field_id:
                 continue
 
-            if field.help:
-                field_description = self.pool.get('ir.translation')._get_source(cr, uid, '%s,%s' % (field.field_id.model_id.model,field.field_id.name), 'help', context.get('lang','en_US'))
+            field_description = ''
+            language = context.get('lang','en_US')
+            if language == 'en_US':
+                model = self.pool.get(field.field_id.model_id.model)
+                if model and field.field_id.name in model._columns:
+                    if field.help:
+                        field_description = model._columns[field.field_id.name].help
+                    else:
+                        field_description = model._columns[field.field_id.name].string
             else:
-                field_description = self.pool.get('ir.translation')._get_source(cr, uid, '%s,%s' % (field.field_id.model_id.model,field.field_id.name), 'field', context.get('lang','en_US'))
+                if field.help:
+                    field_description = self.pool.get('ir.translation')._get_source(cr, uid, '%s,%s' % (field.field_id.model_id.model,field.field_id.name), 'help', language)
+                else:
+                    field_description = self.pool.get('ir.translation')._get_source(cr, uid, '%s,%s' % (field.field_id.model_id.model,field.field_id.name), 'field', language)
+
             text = text.replace(field.reference, field_description)
 
             # Add anchor at the beginning of the paragraph
@@ -420,15 +447,65 @@ class ir_documentation_paragraph(osv.osv):
             text = anchor + text
 
         # Replace images
-        if '.. image::' in paragraph.text:
+        if paragraph.text and '.. image::' in paragraph.text:
             idx = paragraph.text.index('.. image::')
             text = text[:idx + len('.. image::')]
             text += ' paragraph_image_%d.png' % paragraph.id
 
+        #if not paragraph.text and paragraph.image:
+            #paragraph.text = '.. image:: paragraph_image_%d.png\n' % paragraph.id
+
+        # Add '+' symbol for users to add their own notes
+        if self.is_title( text ):
+            triple = [x for x in text.split('\n') if x]
+            title = triple[-2]
+
+            new_paragraph_id = self.create_id(cr, uid, '', _('After %s') % title, context)
+            domain = "[('identifier','=','%s'),('type','=','paragraph'),('position','=','after'),('inherit_id','=',%d),('owner_id','=',%d)]" % (new_paragraph_id, paragraph.id, uid)
+            action = {
+                'type': 'ir.actions.act_window',
+                'res_model': 'ir.documentation.paragraph',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'domain': domain,
+            }
+
+            triple[-2] += ' `+ <openerp://client/action?%s>`_ ' % urllib.urlencode( action )
+            text = '\n'.join( triple )
+
+        # User notes must be prepended by rST nodes syntax
+        if not paragraph.module_id and paragraph.owner_id and paragraph.owner_id.id == uid:
+            action = {
+                'type': 'ir.actions.act_window',
+                'res_model': 'ir.documentation.paragraph',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_id': paragraph.id,
+            }
+            # Paragraphs in notes must be indented with two spaces.
+            text = text.split('\n')
+            text = '\n  '.join( text )
+            text = '.. Note:: `(%s) <openerp://client/action?%s>`_ %s' % (_('edit'), urllib.urlencode(action), text)
         return text
+
+    def is_title(self, text):
+        if not text:
+            return False
+
+        symbols = '=-~'
+        last_line = [x for x in text.split('\n') if x][-1]
+        if last_line:
+            if last_line == last_line[0] * len(last_line):
+                return True
+        return False
 
     def export_rst_helper(self, cr, uid, main_paragraph, before, text, after, context):
         for paragraph in main_paragraph.inheriting_ids:
+            # Only include paragraphs corresponding to modules installed in the database
+            if paragraph.module_id:
+                if not paragraph.module_id.state in ('installed','to upgrade', 'to remove'):
+                    continue
+
             partext = self._replace_references( cr, uid, paragraph, context )
 
             if paragraph.position == 'before':
@@ -447,6 +524,10 @@ class ir_documentation_paragraph(osv.osv):
         return text
 
     def export_rst(self, cr, uid, context):
+        """
+        Generates all rst and image files from the database into a temporary directory.
+        """
+
         inherits = []
         documentation = {}
 
@@ -455,8 +536,9 @@ class ir_documentation_paragraph(osv.osv):
         ids = self.search(cr, uid, [('inherit_id','=',False)], order='filename, sequence', context=context)
         for paragraph in self.browse(cr, uid, ids, context):
             # Take into account documentation of installed modules only
-            if paragraph.module_id.state != 'installed':
-                continue
+            if paragraph.module_id:
+                if not paragraph.module_id.state in ('installed','to upgrade','to remove'):
+                    continue
             before = []
             after = []
             partext = self._replace_references(cr, uid, paragraph, context)
@@ -550,8 +632,10 @@ class ir_documentation_paragraph(osv.osv):
         sphinx = Sphinx( srcdir, srcdir, outdir, outdir, 'latex' )
         sphinx.build()
 
-        print "Source dir: ", srcdir
-        print "Output dir: ", outdir
+        logger = netsvc.Logger()
+        logger.notifyChannel('documentation', netsvc.LOG_INFO, "Source dir: %s" % srcdir)
+        logger.notifyChannel('documentation', netsvc.LOG_INFO, "Output dir: %s" % outdir)
+
         import subprocess
         subprocess.call(['pdflatex', os.path.join( outdir, 'OpenERP.tex' )], cwd=outdir)
         
@@ -567,6 +651,22 @@ class ir_documentation_paragraph(osv.osv):
             pdf = None
         return pdf
 
+    def update_html(self, cr, uid, context):
+        """
+        Ensures documentation is up to date.
+        """
+        cr.execute("SELECT MAX(GREATEST(create_date, write_date)) FROM ir_documentation_paragraph")
+        import_timestamp = cr.fetchone()[0]
+
+        cr.execute("SELECT MAX(GREATEST(create_date, write_date)) FROM ir_documentation_screenshot WHERE user_id=%d" % uid)
+        screenshot_timestamp = cr.fetchone()[0]
+
+        cr.execute("SELECT MIN(LEAST(create_date, write_date)) FROM ir_documentation_file WHERE user_id=%d" % uid)
+        generation_timestamp = cr.fetchone()[0]
+        if generation_timestamp < max(import_timestamp, screenshot_timestamp):
+            self.export_to_html(cr, uid, context)
+            return True
+        return False
 
     def export_to_html(self, cr, uid, context):
         srcdir = self.export_rst(cr, uid, context)
@@ -574,6 +674,8 @@ class ir_documentation_paragraph(osv.osv):
         from sphinx.application import Sphinx
 
         outdir = tempfile.mkdtemp()
+        # By now we must use 'singlehtml' because although we can browse the plain 'html' version
+        # we cannot find a field or view because we're currently using the anchor only.
         #sphinx = Sphinx( srcdir, srcdir, outdir, outdir, 'html' )
         sphinx = Sphinx( srcdir, srcdir, outdir, outdir, 'singlehtml' )
         sphinx.build()
@@ -588,13 +690,14 @@ class ir_documentation_paragraph(osv.osv):
                 f.close()
 
                 self.pool.get('ir.documentation.file').create(cr, uid, {
-                    'filename': full.strip( outdir ),
+                    'filename': full[len(outdir)+1:],
                     'data': data,
                     'user_id': uid,
                 }, context)
 
-        print "Source dir: ", srcdir
-        print "Output dir: ", outdir
+        logger = netsvc.Logger()
+        logger.notifyChannel('documentation', netsvc.LOG_INFO, "Source dir: %s" % srcdir)
+        logger.notifyChannel('documentation', netsvc.LOG_INFO, "Output dir: %s" % outdir)
 
 
     def import_rst(self, cr, uid, default_module, rst, filename, path, source_module, context, sequence=1):
@@ -613,8 +716,31 @@ class ir_documentation_paragraph(osv.osv):
             raise osv.except_osv(_('Documentation Error'), _('Source module "%s" does not exist') % source_module )
         source_module_id = source_module_ids[0]
 
+        literal_block = False
+        literal_indent = 0
+
+        # Always add a comment at the end of the file so it's easy to append subsections 
+        rst += '\n.. End of file %s\n' % filename
+
         for line in rst.split('\n'):
             stripped = line.strip()
+
+            if stripped == '::':
+                literal_block = True
+                literal_indent = 0
+
+            if literal_block:
+                text += line + '\n'
+                indent = len(line) - len( line.lstrip(' ') )                
+                if not literal_indent:
+                    literal_indent = indent
+                    continue
+                elif indent != 0:
+                    # TODO: We should check if indent is the same as the one of the previous
+                    # paragraph instead of checking it is equal to 0. But that complicates things
+                    # a little bit more, so let's concentrate on other things first.
+                    continue
+                literal_block = False
 
             if stripped.startswith( IdentifierTag ) and stripped.endswith( IdentifierTag ):
                 id = stripped.strip(IdentifierTag)
@@ -626,7 +752,7 @@ class ir_documentation_paragraph(osv.osv):
                     id = self.create_id( cr, uid, default_module, stripped, context )
                     if id:
                         automatic_id = True
-                        #print "Paragraph has no identifier, one was created: %s" % id
+                        #logger.notifyChannel('documentation', netsvc.LOG_INFO, "Paragraph has no identifier, one was created: %s" % id)
                 text += line + '\n'
                 continue
 
@@ -639,7 +765,7 @@ class ir_documentation_paragraph(osv.osv):
                 continue
 
             if not id:
-                print "No valid ID could be created for paragraph:%s\n%s\n%s" % (IdentifierTag, text, IdentifierTag)
+                logger.notifyChannel('documentation', netsvc.LOG_WARNING, "No valid ID could be created for paragraph:%s\n%s\n%s" % (IdentifierTag, text, IdentifierTag))
 
             if ':' in id:
                 if len(id.split(':')) != 3:
@@ -697,18 +823,21 @@ class ir_documentation_paragraph(osv.osv):
             image_data = False
             if '.. image::' in text:
                 idx = text.index('.. image::')
-                image = text[idx + len('.. image::'):].strip()
+                image = text[idx + len('.. image::'):]
+                image = image.split('\n')[0]
+                image = image.strip()
                 image = os.path.join( path, image )
                 if os.path.exists( image ):
-                    logger.notifyChannel('documentation', netsvc.LOG_INFO, "Image file %s not found." % module)
                     f = open(image)
                     try:
                         image_data = f.read()
                     finally:
                         f.close()
                     image_data = base64.encodestring( image_data )
+                else:
+                    logger.notifyChannel('documentation', netsvc.LOG_WARNING, "Image file %s not found." % image)
 
-            record_id = self.create(cr, uid, {
+            record = {
                'identifier': id,
                'inherit_id': inherit_id,
                'position': position,
@@ -719,17 +848,34 @@ class ir_documentation_paragraph(osv.osv):
                'text': ctools.normalize( text ),
                'image': image_data,
                'source_module_id': source_module_id,
-            }, context)
-            paragraph = self.browse(cr, uid, id, context)
+            }
 
-            # Ensure paragraphs will be exported to translation templates by adding all paragraphs
-            # to ir.model.data
-            self.pool.get('ir.model.data').create(cr, uid, {
-                'module': source_module_id,
-                'model': 'ir.documentation.paragraph',
-                'name': '%s_%s' % (module, id),
-                'res_id': record_id,
-            }, context)
+            data_ids = self.pool.get('ir.model.data').search(cr, uid, [
+                ('module','=',source_module_id),
+                ('model','=','ir.documentation.paragraph'),
+                ('name','=', '%s_%s' % (module,id))
+            ], context=context)
+            if data_ids:
+                data = self.pool.get('ir.model.data').browse(cr, uid, data_ids[0], context)
+                paragraph_ids = self.pool.get('ir.documentation.paragraph').search(cr, uid, [('id','=',data.res_id)], context=context)
+                if paragraph_ids:
+                    self.write(cr, uid, paragraph_ids, record, context)
+                else:
+                    self.pool.get('ir.model.data').unlink(cr, uid, data_ids, context)
+                    data_ids = None
+
+            if not data_ids:
+                record_id = self.create(cr, uid, record, context)
+                # Ensure paragraphs will be exported to translation templates by adding all paragraphs
+                # to ir.model.data
+                self.pool.get('ir.model.data').create(cr, uid, {
+                    'module': source_module_id,
+                    'model': 'ir.documentation.paragraph',
+                    'name': '%s_%s' % (module, id),
+                    'res_id': record_id,
+                }, context)
+
+            paragraph = self.browse(cr, uid, id, context)
 
             sequence += 1
             text = ''
@@ -807,6 +953,10 @@ class ir_documentation_file(osv.osv):
     }
 
     def get(self, cr, uid, path, context):
+        if path == '/index.html':
+            # Ensure documentation is up-to-date
+            self.pool.get('ir.documentation.paragraph').update_html(cr, uid, context)
+
         path = path.lstrip('/')
         ids = self.search(cr, uid, [('user_id','=',uid),('filename','=',path)], context=context)
         if not ids:
@@ -815,5 +965,28 @@ class ir_documentation_file(osv.osv):
         return file.data
 
 ir_documentation_file()
+
+class ir_documentation_paragraph_rendered(osv.osv):
+    _name = 'ir.documentation.paragraph.rendered'
+    _description = 'Documentation Rendered Paragraph'
+
+    _columns = {
+        'paragraph_ids': fields.many2many('ir.documentation.paragraph', 'documentation_paragraph_rendered_rel', 'rendered_id', 'paragraph_id', 'Paragraphs', help='All paragraphs that created this paragraph (original paragraph + inheriting ones).'),
+        'user_id': fields.many2one('res.users', 'User', required=True, ondelete='cascade'),
+        'filename': fields.char('Filename', size=500, required=True),
+        'source_text': fields.text('Source Text', help='Source paragraph content in rsT'),
+        'rendered_text': fields.text('Rendered Text', help='Rendered paragraph content'),
+        'sequence': fields.integer('Sequence', required=True),
+        'menu_ids': fields.many2many('ir.documentation.menu', 'rendered_menu_rel', 'rendered_id', 'screenshot_id', 'Menus', help=''),
+        'field_ids': fields.many2many('ir.documentation.field', 'rendered_field_rel', 'rendered_id', 'field_id', 'Fields', help=''),
+        'view_ids': fields.many2many('ir.documentation.view', 'rendered_view_rel', 'rendered_id', 'view_id', 'Views', help=''),
+    }
+
+    _sql_constraints = [ 
+        ('file_user_seq_uniq', 'unique (user_id,filename,sequence)', 'Sequence number must be unique per file and user!') 
+    ]
+
+ir_documentation_paragraph_rendered()
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

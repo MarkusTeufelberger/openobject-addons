@@ -39,19 +39,19 @@ class documentation_import_wizard(osv.osv_memory):
 
 documentation_import_wizard()
 
-class documentation_generate_wizard(osv.osv_memory):
-    _name='documentation.generate.wizard'
+class documentation_build_wizard(osv.osv_memory):
+    _name='documentation.build.wizard'
 
     _columns = {
     }
 
-    def action_generate(self, cr, uid, ids, context=None):
+    def action_build(self, cr, uid, ids, context=None):
         self.pool.get('ir.documentation.paragraph').export_to_html(cr, uid, context)
         return {}
 
     def action_cancel(self, cr, uid, ids, context=None):
         return {}
 
-documentation_generate_wizard()
+documentation_build_wizard()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
