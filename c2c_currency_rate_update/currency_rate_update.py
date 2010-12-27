@@ -12,6 +12,8 @@
 #  - if company_currency <> CHF, you can now update CHF via Admin.ch webservice
 #    (same for EUR with ECB webservice and PLN with NBP webservice)
 #  For more details, see Launchpad bug #645263
+#  - mecanism to check if rates given by the webservice are "fresh" enough to be
+#    written in OpenERP ('max_delta_days' parameter for each currency update service)
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -36,14 +38,9 @@
 #
 ##############################################################################
 
-# TODO : think about this problem :
-# the result of the webservice query creates an entry in res.currency.rate
-# with date = today... but the rate given by the webservice may be dated
-# of the previous trading day
-# I have added a log message for that, but I think we need to find a better idea
-
 # TODO "nice to have" : restain the list of currencies that can be added for
 # a webservice to the list of currencies supported by the Webservice
+# TODO : implement max_delta_days for Yahoo webservice
 
 from osv import osv, fields
 import time
@@ -86,8 +83,12 @@ class Currency_rate_update_service(osv.osv):
                                                     'linked company',
                                                     ),
                     ##note fileds that will be used as a logger
-                    'note':fields.text('update notice')
+                    'note':fields.text('update notice'),
+                    'max_delta_days': fields.integer('Max delta days', required=True, help="If the time delta between the rate date given by the webservice and the current date exeeds this value, then the currency rate is not updated in OpenERP."),
                 }
+    _defaults = {
+            'max_delta_days': lambda *a: 4,
+    }
     _sql_constraints = [
                             (
                                 'curr_service_unique', 
@@ -95,6 +96,17 @@ class Currency_rate_update_service(osv.osv):
                                 _('You can use a service one time per company !')
                             )
                         ]
+
+    def _check_max_delta_days(self, cr, uid, ids):
+        for i in ids:
+            value_to_check = self.read(cr, uid, i, ['max_delta_days'])['max_delta_days']
+            if value_to_check >= 0:
+                return True
+            else: return False
+
+    _constraints = [
+        (_check_max_delta_days, "'Max delta days' must be >= 0", ['max_delta_days']),
+    ]
 
 Currency_rate_update_service()
 
@@ -179,13 +191,15 @@ class Currency_rate_update(osv.osv):
             #we fetch the main currency. The main rate should be set at  1.00
             main_curr = comp.currency_id.code
             for service in comp.services_to_use :
-                note = service.note and service.note or ''
+                print "comp.services_to_use =", comp.services_to_use
+                note = service.note or ''
                 try :
-                    ## we initalize the class taht will handle the request
+                    ## we initalize the class that will handle the request
                     ## and return a dict of rate
                     getter = factory.register(service.service)
+                    print "getter =", getter
                     curr_to_fetch = map(lambda x : x.code, service.currency_to_update)
-                    res, log_info = getter.get_updated_currency(curr_to_fetch, main_curr)
+                    res, log_info = getter.get_updated_currency(curr_to_fetch, main_curr, service.max_delta_days)
                     rate_name = time.strftime('%Y-%m-%d')
                     for curr in service.currency_to_update :
                         if curr.code == main_curr :
@@ -310,7 +324,7 @@ class Curreny_getter_interface(object) :
     ##updated currency this arry will contain the final result
     updated_currency = {}
     
-    def get_updated_currency(self, currency_array, main_currency) :
+    def get_updated_currency(self, currency_array, main_currency, max_delta_days) :
         """Interface method that will retrieve the currency
            This function has to be reinplemented in child"""
         raise AbstractMethodError
@@ -332,13 +346,25 @@ class Curreny_getter_interface(object) :
             raise osv.except_osv('Error !', self.MOD_NAME+'Unable to import urllib !')
         except IOError:
             raise osv.except_osv('Error !', self.MOD_NAME+'Web Service does not exist !')
-            
+
+    def check_rate_date(self, rate_date, max_delta_days):
+        """Check date constrains. WARN : rate_date must be of datetime type"""
+        days_delta = (datetime.today() - rate_date).days
+        if days_delta > max_delta_days:
+            raise Exception('The rate date from ECB (%s) is %d days away from today, which is over the limit (%d days). Rate not updated in OpenERP.'%(rate_date, days_delta, max_delta_days))
+        # We always have a warning when rate_date <> today
+        rate_date_str = datetime.strftime(rate_date, '%Y-%m-%d')
+        if rate_date_str != datetime.strftime(datetime.today(), '%Y-%m-%d'):
+            self.log_info = "WARNING : the rate date from ECB (%s) is not today's date" % rate_date_str
+            netsvc.Logger().notifyChannel("rate_update", netsvc.LOG_WARNING, "the rate date from ECB (%s) is not today's date" % rate_date_str)
+
+
 #Yahoo ###################################################################################     
 class Yahoo_getter(Curreny_getter_interface) :
     """Implementation of Currency_getter_factory interface
     for Yahoo finance service"""
         
-    def get_updated_currency(self, currency_array, main_currency):
+    def get_updated_currency(self, currency_array, main_currency, max_delta_days):
         """implementation of abstract method of Curreny_getter_interface"""
         self.validate_cur(main_currency)
         url='http://download.finance.yahoo.com/d/quotes.txt?s="%s"=X&f=sl1c1abg'
@@ -369,7 +395,7 @@ class Admin_ch_getter(Curreny_getter_interface) :
         res['rate_ref'] = float((dom.xpath(xpath_rate_ref, namespaces=ns)[0]).split(' ')[0])
         return res
 
-    def get_updated_currency(self, currency_array, main_currency):
+    def get_updated_currency(self, currency_array, main_currency, max_delta_days):
         """implementation of abstract method of Curreny_getter_interface"""
         url='http://www.afd.admin.ch/publicdb/newdb/mwst_kurse/wechselkurse.php'
         #we do not want to update the main currency
@@ -384,9 +410,8 @@ class Admin_ch_getter(Curreny_getter_interface) :
         logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "Admin.ch sent a valid XML file")
         adminch_ns = {'def': 'http://www.afd.admin.ch/publicdb/newdb/mwst_kurse'}
         rate_date = dom.xpath('/def:wechselkurse/def:datum/text()', namespaces=adminch_ns)[0]
-        if rate_date != datetime.strftime(datetime.today(), '%Y-%m-%d'):
-            self.log_info = "WARNING : the rate date from Admin.ch (%s) is not today's date" % rate_date
-            logger.notifyChannel("rate_update", netsvc.LOG_WARNING, "the rate date from Admin.ch (%s) is not today's date" % rate_date)
+        rate_date_datetime = datetime.strptime(rate_date, '%Y-%m-%d')
+        self.check_rate_date(rate_date_datetime, max_delta_days)
         #we dynamically update supported currencies
         self.supported_currency_array = dom.xpath("/def:wechselkurse/def:devise/@code", namespaces=adminch_ns)
         self.supported_currency_array = [x.upper() for x in self.supported_currency_array]
@@ -427,7 +452,7 @@ class ECB_getter(Curreny_getter_interface) :
         res['rate_currency'] = float(dom.xpath(xpath_curr_rate, namespaces=ns)[0])
         return res
 
-    def get_updated_currency(self, currency_array, main_currency):
+    def get_updated_currency(self, currency_array, main_currency, max_delta_days):
         """implementation of abstract method of Curreny_getter_interface"""
         url='http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
         # Important : as explained on the ECB web site, the currencies are
@@ -447,9 +472,8 @@ class ECB_getter(Curreny_getter_interface) :
         logger.notifyChannel("rate_update", netsvc.LOG_DEBUG, "ECB sent a valid XML file")
         ecb_ns = {'gesmes': 'http://www.gesmes.org/xml/2002-08-01', 'def': 'http://www.ecb.int/vocabulary/2002-08-01/eurofxref'}
         rate_date = dom.xpath('/gesmes:Envelope/def:Cube/def:Cube/@time', namespaces=ecb_ns)[0]
-        if rate_date != datetime.strftime(datetime.today(), '%Y-%m-%d'):
-            self.log_info = "WARNING : the rate date from ECB (%s) is not today's date" % rate_date
-            logger.notifyChannel("rate_update", netsvc.LOG_WARNING, "the rate date from ECB (%s) is not today's date" % rate_date)
+        rate_date_datetime = datetime.strptime(rate_date, '%Y-%m-%d')
+        self.check_rate_date(rate_date_datetime, max_delta_days)
         #we dynamically update supported currencies
         self.supported_currency_array = dom.xpath("/gesmes:Envelope/def:Cube/def:Cube/def:Cube/@currency", namespaces=ecb_ns)
         self.supported_currency_array.append('EUR')
@@ -486,7 +510,7 @@ class PL_NBP_getter(Curreny_getter_interface) :   # class added according to pol
         res['rate_ref'] = float(dom.xpath(xpath_rate_ref, namespaces=ns)[0])
         return res
 
-    def get_updated_currency(self, currency_array, main_currency):
+    def get_updated_currency(self, currency_array, main_currency, max_delta_days):
         """implementation of abstract method of Curreny_getter_interface"""
         url='http://www.nbp.pl/kursy/xml/LastA.xml'    # LastA.xml is always the most recent one
         #we do not want to update the main currency
@@ -507,9 +531,8 @@ class PL_NBP_getter(Curreny_getter_interface) :   # class added according to pol
         #self.log_info = self.log_info + " " + node.getElementsByTagName('data_publikacji')[0].childNodes[0].data    # END Polish - rates table name
 
         rate_date = dom.xpath('/tabela_kursow/data_publikacji/text()', namespaces=ns)[0]
-        if rate_date != datetime.strftime(datetime.today(), '%Y-%m-%d'):
-            self.log_info = "WARNING : the rate date from NBP.pl (%s) is not today's date" % rate_date
-            logger.notifyChannel("rate_update", netsvc.LOG_WARNING, "the rate date from NBP.pl (%s) is not today's date" % rate_date)
+        rate_date_datetime = datetime.strptime(rate_date, '%Y-%m-%d')
+        self.check_rate_date(rate_date_datetime, max_delta_days)
         #we dynamically update supported currencies
         self.supported_currency_array = dom.xpath('/tabela_kursow/pozycja/kod_waluty/text()', namespaces=ns)
         self.supported_currency_array.append('PLN')
