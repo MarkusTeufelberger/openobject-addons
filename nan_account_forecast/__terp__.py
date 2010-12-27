@@ -28,26 +28,19 @@
 ##############################################################################
 
 {
-    "name" : "NaN Account Extension",
+    "name" : "NaN Account Forecast",
     "version" : "1.0",
     "author" : "NaN",
     "category" : "Accounting",
-    "website": "http://www.nan-tic.com",
-    "description": """\
-This module adds some new features to account module, including:
-- Automatic partner account creation, update and removal.
-- Avoids duplicate supplier invoices by checking no other invoice has the same partner, date and reference when the user tries to create the invoice.
-- Allows searching draft account moves by adding the corresponding '*' before the ID.
-- Ensures both Journal and Period are always consistent among account move and all its move lines. If the user changes Journal or Period in a move the change will be propagated to all lines and vice-versa.
-""",
+    "website": "http://www.NaN-tic.com",
+    "description": "This provides a jasper report in account move lines for viewing payments and receivables grouped by date. The module does not provide any wizard with default filters as it expects users to create their own filters and select the ones to be printed.",
     "depends" : [
         'account',
+        'jasper_reports',
 	],
     "init_xml" : [],
     "update_xml" : [
-        'account_view.xml',
-        'company_view.xml',
-        'partner_view.xml',
+        'account_forecast_report.xml',
     ],
     "demo_xml" : [],
     "active": False,

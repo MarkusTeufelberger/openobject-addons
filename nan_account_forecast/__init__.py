@@ -1,4 +1,3 @@
-# -*- encoding: latin-1 -*-
 ##############################################################################
 #
 # Copyright (c) 2010 NaN Projectes de Programari Lliure, S.L. All Rights Reserved.
@@ -27,31 +26,4 @@
 #
 ##############################################################################
 
-{
-    "name" : "NaN Account Extension",
-    "version" : "1.0",
-    "author" : "NaN",
-    "category" : "Accounting",
-    "website": "http://www.nan-tic.com",
-    "description": """\
-This module adds some new features to account module, including:
-- Automatic partner account creation, update and removal.
-- Avoids duplicate supplier invoices by checking no other invoice has the same partner, date and reference when the user tries to create the invoice.
-- Allows searching draft account moves by adding the corresponding '*' before the ID.
-- Ensures both Journal and Period are always consistent among account move and all its move lines. If the user changes Journal or Period in a move the change will be propagated to all lines and vice-versa.
-""",
-    "depends" : [
-        'account',
-	],
-    "init_xml" : [],
-    "update_xml" : [
-        'account_view.xml',
-        'company_view.xml',
-        'partner_view.xml',
-    ],
-    "demo_xml" : [],
-    "active": False,
-    "installable": True,
-}
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -7,7 +7,7 @@
 		<field name="model">documentation.import.wizard</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<form string="Import Documentation Wizard" col="2">
+			<form string="Import Documentation" col="2">
 				<label string="This wizard will import OpenERP documentation for all currently installed modules." colspan="2"/>
 				<newline/>
 				<label string=""/>
@@ -18,7 +18,7 @@
 		</field>
 	</record>
 	<record id="action_documentation_import_wizard" model="ir.actions.act_window">
-		<field name="name">Import Documentation Wizard</field>
+		<field name="name">Import Documentation</field>
 		<field name="type">ir.actions.act_window</field>
 		<field name="res_model">documentation.import.wizard</field>
 		<field name="view_type">form</field>
@@ -29,33 +29,33 @@
 	<menuitem parent="menu_documentation_configuration" action="action_documentation_import_wizard" id="menu_documentation_import_wizard"/>
 
 
-	<!-- documentation.generate.wizard -->
+	<!-- documentation.build.wizard -->
 
-	<record model="ir.ui.view" id="documentation_generate_wizard_form">
-		<field name="name">documentation.generate.wizard.form</field>
-		<field name="model">documentation.generate.wizard</field>
+	<record model="ir.ui.view" id="documentation_build_wizard_form">
+		<field name="name">documentation.build.wizard.form</field>
+		<field name="model">documentation.build.wizard</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<form string="Generate Documentation Wizard" col="2">
-				<label string="This wizard will generate OpenERP documentation for all currently installed modules." colspan="2"/>
+			<form string="Build Documentation" col="2">
+				<label string="This wizard will build OpenERP documentation for all currently installed modules." colspan="2"/>
 				<newline/>
 				<label string=""/>
 				<newline/>
-				<button icon="gtk-ok" name="action_generate" string="Generate" type="object"/>
+				<button icon="gtk-ok" name="action_build" string="Build" type="object"/>
 				<button icon="gtk-cancel" special="cancel" type="object" name="action_cancel" string="Cancel"/>
 			</form>
 		</field>
 	</record>
-	<record id="action_documentation_generate_wizard" model="ir.actions.act_window">
-		<field name="name">Generate Documentation Wizard</field>
+	<record id="action_documentation_build_wizard" model="ir.actions.act_window">
+		<field name="name">Build Documentation</field>
 		<field name="type">ir.actions.act_window</field>
-		<field name="res_model">documentation.generate.wizard</field>
+		<field name="res_model">documentation.build.wizard</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">form</field>
 		<field name="target">new</field>
 	</record>
 
-	<menuitem parent="menu_documentation_configuration" action="action_documentation_generate_wizard" id="menu_documentation_generate_wizard"/>
+	<menuitem parent="menu_documentation_configuration" action="action_documentation_build_wizard" id="menu_documentation_build_wizard"/>
 
 </data>
 </openerp>
