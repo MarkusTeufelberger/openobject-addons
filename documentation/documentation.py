@@ -333,7 +333,7 @@ class ir_documentation_paragraph(osv.osv):
             sequence = self.import_rst(cr, uid, module, rst, db_filename, doc_directory, source_module, context, sequence)
 
     def _import_documentation(self, cr, uid, context):
-        cr.execute('DELETE FROM ir_documentation_paragraph')
+        cr.execute('DELETE FROM ir_documentation_paragraph WHERE owner_id IS NULL')
 
         addons = tools.config['addons_path']
         modules = glob.glob( os.path.join( addons, '*' ) )
@@ -594,6 +594,8 @@ class ir_documentation_paragraph(osv.osv):
             f.close()
 
         for filename in documentation:
+            if not filename:
+                continue
             f = codecs.open( os.path.join( srcdir, filename ), 'w', 'utf-8' )
             try:
                 f.write( documentation[filename] )
