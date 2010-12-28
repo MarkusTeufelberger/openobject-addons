@@ -4,8 +4,8 @@
 .. http://creativecommons.org/licenses/by-sa/3.0/
 
 
-OpenERP Book
-============
+Manual OpenERP
+==============
 
 .. :Release: |version|
 :Fecha: |today|

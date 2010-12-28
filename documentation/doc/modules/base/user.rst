@@ -3,9 +3,9 @@
 .. Esta documentación está sujeta a una licencia Creative Commons Attribution-ShareAlike 
 .. http://creativecommons.org/licenses/by-sa/3.0/
 
-============
-Users Manual
-============
+=================
+Manual de usuario
+=================
 
 .. toctree::
    :maxdepth: 2
