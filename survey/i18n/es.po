@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-16 05:24+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:59+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: survey
@@ -26,8 +26,6 @@ msgstr ""
 msgid "Surveys"
 msgstr "Encuestas"
 
-#. module: survey
-#: model:ir.actions.report.xml,name:survey.survey
 msgid "Survey Analysis Report"
 msgstr "Informe de análisis de encuestas"
 
@@ -61,14 +59,9 @@ msgstr "Líneas histórico"
 msgid "Body"
 msgstr "Cuerpo"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_view_survey_name
-#: model:ir.ui.menu,name:survey.menu_run_survey_form
 msgid "Give Survey Response"
 msgstr "Responder la encuesta"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.act_survey_question
 msgid "All Questions"
 msgstr "Todas las preguntas"
 
@@ -82,8 +75,6 @@ msgstr "Fecha apertura de encuesta"
 msgid "survey.name.wiz"
 msgstr "encuesta.nombre.asist"
 
-#. module: survey
-#: view:survey:0
 msgid "Users Details"
 msgstr "Detalles usuarios"
 
@@ -96,8 +87,6 @@ msgstr "Detalles usuarios"
 msgid "Survey Question"
 msgstr "Pregunta de la encuesta"
 
-#. module: survey
-#: help:survey,response_user:0
 msgid "Set to one if  you require only one response per user"
 msgstr "Establecer a uno si sólo necesita una respuesta por usuario"
 
@@ -117,8 +106,6 @@ msgstr "Histórico encuestas"
 msgid "Notes"
 msgstr "Notas"
 
-#. module: survey
-#: field:survey.question,tot_resp:0
 msgid "Total Response"
 msgstr "Respuesta total"
 
@@ -154,19 +141,12 @@ msgstr "¡ Advertencia !"
 msgid "Send reminder for existing user"
 msgstr "Enviar recordatorio para usuario existente"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_new_survey_question_form
-#: model:ir.ui.menu,name:survey.menu_new_survey_question_form1
 msgid "New Survey Question"
 msgstr "Nueva pregunta de encuesta"
 
-#. module: survey
-#: view:survey.response:0
 msgid "Skip"
 msgstr "Saltar"
 
-#. module: survey
-#: wizard_field:wizard.send.invitation,init,partner_ids:0
 msgid "Partner"
 msgstr "Empresa"
 
@@ -176,8 +156,6 @@ msgstr "Empresa"
 msgid "Subject"
 msgstr "Asunto"
 
-#. module: survey
-#: field:survey,max_response_limit:0
 msgid "Maximum Response Limit"
 msgstr "Límite respuesta máxima"
 
@@ -186,8 +164,6 @@ msgstr "Límite respuesta máxima"
 msgid "From"
 msgstr "De"
 
-#. module: survey
-#: field:survey.response,response_type:0
 msgid "Response Type"
 msgstr ""
 
@@ -203,25 +179,19 @@ msgstr ""
 #: field:survey.question.column.heading,question_id:0
 #: field:survey.response.line,question_id:0
 msgid "Question"
-msgstr ""
+msgstr "Pregunta"
 
 #. module: survey
 #: view:survey.send.invitation:0
 msgid "Send"
-msgstr ""
+msgstr "Enviar"
 
-#. module: survey
-#: field:survey.answer,response:0
 msgid "#Response"
 msgstr ""
 
-#. module: survey
-#: field:survey.response,response_answer_ids:0
 msgid "Response Answer"
 msgstr ""
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Response Summary"
 msgstr ""
 
@@ -229,31 +199,23 @@ msgstr ""
 #: view:survey.send.invitation:0
 #: field:survey.send.invitation,send_mail:0
 msgid "Send mail for new user"
-msgstr ""
+msgstr "Enviar email para nuevo usuario"
 
-#. module: survey
-#: code:addons/survey/survey.py:0
 #, python-format
 msgid "Error !"
 msgstr ""
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Skipped Question"
 msgstr ""
 
-#. module: survey
-#: wizard_button:wizard.send.invitation,send,end:0
 msgid "_Ok"
 msgstr ""
 
 #. module: survey
 #: selection:survey.response,response_type:0
 msgid "Link"
-msgstr ""
+msgstr "Vínculo"
 
-#. module: survey
-#: model:ir.ui.menu,name:survey.menu_survey_config
 msgid "Configuration"
 msgstr ""
 
@@ -265,26 +227,17 @@ msgstr ""
 #. module: survey
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr ""
+msgstr "¡XML no válido para la estructura de la vista!"
 
-#. module: survey
-#: model:ir.model,name:survey.model_survey_response_answer
-#: view:survey.response.answer:0
 msgid "Survey Response Answer"
 msgstr ""
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Page :-"
 msgstr ""
 
-#. module: survey
-#: field:survey,response_user:0
 msgid "Maximum Response per User"
 msgstr ""
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Total Started Survey :-"
 msgstr ""
 
@@ -292,15 +245,11 @@ msgstr ""
 #: field:survey.response.answer,comment_field:0
 #: view:survey.response.line:0
 msgid "Comment"
-msgstr ""
+msgstr "Comentario"
 
-#. module: survey
-#: field:survey.response,date_modify:0
 msgid "Modify Date"
 msgstr ""
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Answered Question"
 msgstr ""
 
@@ -308,65 +257,61 @@ msgstr ""
 #: code:addons/survey/wizard/survey_selection.py:0
 #, python-format
 msgid "You can not give response for this survey more than %s times"
-msgstr ""
+msgstr "No puede responder esta encuesta más de %s veces"
 
 #. module: survey
 #: selection:survey.response,response_type:0
 msgid "Manually"
-msgstr ""
+msgstr "Manualmente"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_survey_form1
 msgid "All Surveys"
 msgstr ""
 
 #. module: survey
 #: field:survey,users:0
 msgid "Users"
-msgstr ""
+msgstr "Usuarios"
 
 #. module: survey
 #: view:survey.send.invitation:0
 msgid "Message"
-msgstr ""
+msgstr "Mensaje"
 
 #. module: survey
 #: field:survey.name.wiz,page_no:0
 msgid "Page Number"
-msgstr ""
+msgstr "Número de página"
 
 #. module: survey
 #: field:survey.send.invitation.log,note:0
 msgid "Log"
-msgstr ""
+msgstr "Registro (Log)"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_survey_question_form
 msgid "All Survey Questions"
 msgstr ""
 
 #. module: survey
 #: field:survey,date_close:0
 msgid "Survey Close Date"
-msgstr ""
+msgstr "Fecha de cierre encuestas"
 
 #. module: survey
 #: view:survey.browse.answer:0
 #: view:survey.name.wiz:0
 msgid "Start"
-msgstr ""
+msgstr "Inicio"
 
 #. module: survey
 #: selection:survey,state:0
 #: selection:survey.request,state:0
 #: selection:survey.response.line,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Borrador"
 
 #. module: survey
 #: selection:survey,state:0
 msgid "Closed"
-msgstr ""
+msgstr "Cerrada"
 
 #. module: survey
 #: view:survey:0
@@ -388,32 +333,28 @@ msgstr ""
 #: field:survey.send.invitation,partner_ids:0
 #: field:survey.tbl.column.heading,response_table_id:0
 msgid "Answer"
-msgstr ""
+msgstr "Respuesta"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_survey_page_form
 msgid "All Survey Pages"
 msgstr ""
 
 #. module: survey
 #: field:survey.name.wiz,store_ans:0
 msgid "Store Answer"
-msgstr ""
+msgstr "Guardar respuesta"
 
 #. module: survey
 #: field:survey,state:0
 #: field:survey.response,state:0
 #: field:survey.response.line,state:0
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #. module: survey
 #: model:ir.module.module,shortdesc:survey.module_meta_information
 msgid "Survey Module"
-msgstr ""
+msgstr "Módulo encuestas"
 
-#. module: survey
-#: model:ir.module.module,description:survey.module_meta_information
 msgid ""
 "\n"
 "    This module is used for surveing. It depends on the answers or reviews "
@@ -431,7 +372,7 @@ msgstr ""
 #: view:survey:0
 #: view:survey.name.wiz:0
 msgid "Survey Details"
-msgstr ""
+msgstr "Detalles encuesta"
 
 #. module: survey
 #: view:survey:0
@@ -446,38 +387,26 @@ msgstr ""
 #: field:survey.request,user_id:0
 #: field:survey.response,user_id:0
 msgid "User"
-msgstr ""
+msgstr "Usuario"
 
 #. module: survey
 #: field:res.users,survey_id:0
 msgid "Groups"
-msgstr ""
+msgstr "Grupos"
 
-#. module: survey
-#: view:survey:0
-#: view:survey.page:0
-#: view:survey.question:0
-#: field:survey.question,response_ids:0
-#: view:survey.response:0
-#: field:survey.response.answer,response_id:0
 msgid "Response"
 msgstr ""
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_new_survey_form1
-#: model:ir.ui.menu,name:survey.menu_new_survey_form
 msgid "New Survey"
 msgstr ""
 
-#. module: survey
-#: model:ir.ui.menu,name:survey.main_menu_survey
 msgid "Survey Management"
 msgstr ""
 
 #. module: survey
 #: selection:survey.response.line,state:0
 msgid "Skiped"
-msgstr ""
+msgstr "Omitido"
 
 #. module: survey
 #: model:ir.model,name:survey.model_survey_answer
@@ -487,10 +416,8 @@ msgstr ""
 #: view:survey.response.answer:0
 #: view:survey.response.line:0
 msgid "Survey Answer"
-msgstr ""
+msgstr "Respuesta encueta"
 
-#. module: survey
-#: code:addons/survey/wizard/wizard_survey.py:0
 #, python-format
 msgid "Attention!"
 msgstr ""
@@ -514,17 +441,15 @@ msgstr ""
 #: field:survey.request,survey_id:0
 #: field:survey.response,survey_id:0
 msgid "Survey"
-msgstr ""
+msgstr "Encuesta"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Total Completed Survey :-"
 msgstr ""
 
 #. module: survey
 #: view:survey:0
 msgid "History"
-msgstr ""
+msgstr "Historial"
 
 #. module: survey
 #: view:survey:0
@@ -532,25 +457,21 @@ msgstr ""
 #: view:survey.page:0
 #: view:survey.question:0
 msgid "Seq"
-msgstr ""
+msgstr "Secuencia"
 
 #. module: survey
 #: field:survey,tot_comp_survey:0
 msgid "Total Completed Survey"
-msgstr ""
+msgstr "Total encuestas completadas"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Response Percentage"
 msgstr ""
 
 #. module: survey
 #: field:survey.question.wiz,name:0
 msgid "Number"
-msgstr ""
+msgstr "Número"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Survey Title :-"
 msgstr ""
 
@@ -558,10 +479,8 @@ msgstr ""
 #: view:survey.request:0
 #: selection:survey.request,state:0
 msgid "Done"
-msgstr ""
+msgstr "Realizado"
 
-#. module: survey
-#: code:addons/survey/survey.py:0
 #, python-format
 msgid "'\" + que_rec[0]['question'] + \"' This question requires an answer."
 msgstr ""
@@ -575,33 +494,32 @@ msgstr ""
 #: view:survey.print.statistics:0
 #: view:survey.send.invitation:0
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: survey
 #: view:survey:0
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #. module: survey
 #: view:survey:0
 #: selection:survey,state:0
 msgid "Open"
-msgstr ""
+msgstr "Abrir"
 
 #. module: survey
 #: field:survey,tot_start_survey:0
 msgid "Total Started Survey"
-msgstr ""
+msgstr "Totalencuestas empezadas"
 
 #. module: survey
 #: constraint:ir.model:0
 msgid ""
 "The Object name must start with x_ and not contain any special character !"
 msgstr ""
+"¡El nombre del objeto debe empezar con x_ y no contener ningún carácter "
+"especial!"
 
-#. module: survey
-#: model:ir.model,name:survey.model_survey_response
-#: view:survey.response:0
 msgid "Survey Response"
 msgstr ""
 
@@ -614,31 +532,29 @@ msgstr ""
 #: view:survey:0
 #: field:survey,responsible_id:0
 msgid "Responsible"
-msgstr ""
+msgstr "Responsable"
 
 #. module: survey
 #: selection:survey.response.line,state:0
 msgid "Answered"
-msgstr ""
+msgstr "Contestadas"
 
 #. module: survey
 #: view:survey:0
 msgid "Other"
-msgstr ""
+msgstr "Otros"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_view_survey_send_invitation
 #: view:survey.send.invitation:0
 msgid "Send Invitation"
-msgstr ""
+msgstr "Enviar invitación"
 
 #. module: survey
 #: field:survey,title:0
 msgid "Survey Title"
-msgstr ""
+msgstr "Titulo de la encuesta"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "%"
 msgstr ""
 
@@ -649,16 +565,13 @@ msgstr ""
 #: field:survey.page,note:0
 #: view:survey.response.line:0
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #. module: survey
 #: view:survey.name.wiz:0
 msgid "Select Survey"
-msgstr ""
+msgstr "Seleccionar encuesta"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_new_survey_page_form
-#: model:ir.ui.menu,name:survey.menu_new_survey_page_form1
 msgid "New Survey Page"
 msgstr ""
 
@@ -673,15 +586,13 @@ msgstr ""
 #: model:ir.actions.report.xml,name:survey.survey_browse_response
 #: field:survey.browse.answer,response_id:0
 msgid "Survey Answers"
-msgstr ""
+msgstr "Respuestas encuesta"
 
 #. module: survey
 #: view:survey.page:0
 msgid "#Questions"
-msgstr ""
+msgstr "#Preguntas"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Que:"
 msgstr ""
 
@@ -690,23 +601,23 @@ msgstr ""
 #: view:survey.question:0
 #: field:survey.response.line,page_id:0
 msgid "Page"
-msgstr ""
+msgstr "Página"
 
 #. module: survey
 #: view:survey.send.invitation.log:0
 msgid "User creation"
-msgstr ""
+msgstr "Creación usuario"
 
 #. module: survey
 #: field:survey.answer,sequence:0
 #: field:survey.question,sequence:0
 msgid "Sequence"
-msgstr ""
+msgstr "Secuencia"
 
 #. module: survey
 #: view:survey.send.invitation.log:0
 msgid "Results :"
-msgstr ""
+msgstr "Resultados :"
 
 #. module: survey
 #: code:addons/survey/wizard/survey_send_invitation.py:0
@@ -717,13 +628,13 @@ msgstr ""
 #. module: survey
 #: view:survey.send.invitation:0
 msgid "Select Partner"
-msgstr ""
+msgstr "Seleccionar empresa"
 
 #. module: survey
 #: field:survey.response,date_create:0
 #: field:survey.response.line,date_create:0
 msgid "Create Date"
-msgstr ""
+msgstr "Fecha creación"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_survey_page_form
@@ -731,10 +642,8 @@ msgstr ""
 #: model:ir.ui.menu,name:survey.menu_survey_page_form1
 #: view:survey.page:0
 msgid "Survey Pages"
-msgstr ""
+msgstr "Páginas encuesta"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Response Count"
 msgstr ""
 

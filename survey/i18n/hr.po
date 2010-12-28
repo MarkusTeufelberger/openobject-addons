@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-16 05:24+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:59+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: survey
@@ -26,8 +26,6 @@ msgstr ""
 msgid "Surveys"
 msgstr "Upitnici"
 
-#. module: survey
-#: model:ir.actions.report.xml,name:survey.survey
 msgid "Survey Analysis Report"
 msgstr "Izvještaj po analizi Upitnika"
 
@@ -61,14 +59,9 @@ msgstr "Povijesni niz"
 msgid "Body"
 msgstr "Tijelo"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_view_survey_name
-#: model:ir.ui.menu,name:survey.menu_run_survey_form
 msgid "Give Survey Response"
 msgstr "Give Survey Response"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.act_survey_question
 msgid "All Questions"
 msgstr "Sva Pitanja"
 
@@ -82,8 +75,6 @@ msgstr "Datum otvaranja Upitnika"
 msgid "survey.name.wiz"
 msgstr "survey.name.wiz"
 
-#. module: survey
-#: view:survey:0
 msgid "Users Details"
 msgstr "Detalji o Korisnicima"
 
@@ -96,8 +87,6 @@ msgstr "Detalji o Korisnicima"
 msgid "Survey Question"
 msgstr "Pitanja Upitnika"
 
-#. module: survey
-#: help:survey,response_user:0
 msgid "Set to one if  you require only one response per user"
 msgstr "Postavite na jedan, ako tražite samo jedan odgovor korisnika"
 
@@ -117,8 +106,6 @@ msgstr "Povijest Upitnika"
 msgid "Notes"
 msgstr "Bilješke"
 
-#. module: survey
-#: field:survey.question,tot_resp:0
 msgid "Total Response"
 msgstr "Ukupni odaziv"
 
@@ -154,19 +141,12 @@ msgstr "Upozorenje!"
 msgid "Send reminder for existing user"
 msgstr "Pošalji podsjetnik postojećem korisniku"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_new_survey_question_form
-#: model:ir.ui.menu,name:survey.menu_new_survey_question_form1
 msgid "New Survey Question"
 msgstr "Novo pitanje Upitnika"
 
-#. module: survey
-#: view:survey.response:0
 msgid "Skip"
 msgstr "Preskoči"
 
-#. module: survey
-#: wizard_field:wizard.send.invitation,init,partner_ids:0
 msgid "Partner"
 msgstr "Partner"
 
@@ -176,8 +156,6 @@ msgstr "Partner"
 msgid "Subject"
 msgstr "Predmet"
 
-#. module: survey
-#: field:survey,max_response_limit:0
 msgid "Maximum Response Limit"
 msgstr "Granica maksimalnog odziva"
 
@@ -186,8 +164,6 @@ msgstr "Granica maksimalnog odziva"
 msgid "From"
 msgstr "Od"
 
-#. module: survey
-#: field:survey.response,response_type:0
 msgid "Response Type"
 msgstr "Tip odziva"
 
@@ -210,18 +186,12 @@ msgstr "Pitanje"
 msgid "Send"
 msgstr "Pošalji"
 
-#. module: survey
-#: field:survey.answer,response:0
 msgid "#Response"
 msgstr "#Response"
 
-#. module: survey
-#: field:survey.response,response_answer_ids:0
 msgid "Response Answer"
 msgstr "Odgovor na odaziv"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Response Summary"
 msgstr "Sažetak Odziva"
 
@@ -231,19 +201,13 @@ msgstr "Sažetak Odziva"
 msgid "Send mail for new user"
 msgstr "Pošalji mail novom korisniku"
 
-#. module: survey
-#: code:addons/survey/survey.py:0
 #, python-format
 msgid "Error !"
 msgstr "Greška !"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Skipped Question"
 msgstr "Preskočeno pitanje"
 
-#. module: survey
-#: wizard_button:wizard.send.invitation,send,end:0
 msgid "_Ok"
 msgstr "_Ok"
 
@@ -252,8 +216,6 @@ msgstr "_Ok"
 msgid "Link"
 msgstr "Veza"
 
-#. module: survey
-#: model:ir.ui.menu,name:survey.menu_survey_config
 msgid "Configuration"
 msgstr "Konfiguracija"
 
@@ -267,24 +229,15 @@ msgstr "survey.question.wiz"
 msgid "Invalid XML for View Architecture!"
 msgstr "Nepravilan XML format za View Architecture!"
 
-#. module: survey
-#: model:ir.model,name:survey.model_survey_response_answer
-#: view:survey.response.answer:0
 msgid "Survey Response Answer"
 msgstr "Odgovor Upitnika"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Page :-"
 msgstr "Stranica :-"
 
-#. module: survey
-#: field:survey,response_user:0
 msgid "Maximum Response per User"
 msgstr "Maksimalni odaziv po korisniku"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Total Started Survey :-"
 msgstr "Ukupno pokrenuto Upitnika :-"
 
@@ -294,13 +247,9 @@ msgstr "Ukupno pokrenuto Upitnika :-"
 msgid "Comment"
 msgstr "Komentar"
 
-#. module: survey
-#: field:survey.response,date_modify:0
 msgid "Modify Date"
 msgstr "Izmijeni datum"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Answered Question"
 msgstr "Odgovoreno pitanje"
 
@@ -315,8 +264,6 @@ msgstr "Na ovo pitanje ne možete odgovoriti više od %s puta"
 msgid "Manually"
 msgstr "Manualno"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_survey_form1
 msgid "All Surveys"
 msgstr "Svi Upitnici"
 
@@ -340,8 +287,6 @@ msgstr "Broj stranice"
 msgid "Log"
 msgstr "Zapis"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_survey_question_form
 msgid "All Survey Questions"
 msgstr "Sva pitanja upitnika"
 
@@ -390,8 +335,6 @@ msgstr "Zaključen"
 msgid "Answer"
 msgstr "Odgovor"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_survey_page_form
 msgid "All Survey Pages"
 msgstr "Sve stranice upitnika"
 
@@ -412,8 +355,6 @@ msgstr "Status"
 msgid "Survey Module"
 msgstr "Modul Upitnika"
 
-#. module: survey
-#: model:ir.module.module,description:survey.module_meta_information
 msgid ""
 "\n"
 "    This module is used for surveing. It depends on the answers or reviews "
@@ -461,24 +402,12 @@ msgstr "Korisnik"
 msgid "Groups"
 msgstr "Grupe"
 
-#. module: survey
-#: view:survey:0
-#: view:survey.page:0
-#: view:survey.question:0
-#: field:survey.question,response_ids:0
-#: view:survey.response:0
-#: field:survey.response.answer,response_id:0
 msgid "Response"
 msgstr "Odziv"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_new_survey_form1
-#: model:ir.ui.menu,name:survey.menu_new_survey_form
 msgid "New Survey"
 msgstr "Novi Upitnik"
 
-#. module: survey
-#: model:ir.ui.menu,name:survey.main_menu_survey
 msgid "Survey Management"
 msgstr "Upravljanje Anketama"
 
@@ -497,8 +426,6 @@ msgstr "Preskočen"
 msgid "Survey Answer"
 msgstr "Odgovor Upitnika"
 
-#. module: survey
-#: code:addons/survey/wizard/wizard_survey.py:0
 #, python-format
 msgid "Attention!"
 msgstr "Pažnja!"
@@ -524,8 +451,6 @@ msgstr "Pažnja!"
 msgid "Survey"
 msgstr "Upitnik"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Total Completed Survey :-"
 msgstr "Ukupno ispunjeno Upitnika :-"
 
@@ -547,8 +472,6 @@ msgstr "Seq"
 msgid "Total Completed Survey"
 msgstr "Ukupno ispunjeno Upitnika"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Response Percentage"
 msgstr "Postotak odziva"
 
@@ -557,8 +480,6 @@ msgstr "Postotak odziva"
 msgid "Number"
 msgstr "Broj"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Survey Title :-"
 msgstr "Naziv upitnika :-"
 
@@ -568,8 +489,6 @@ msgstr "Naziv upitnika :-"
 msgid "Done"
 msgstr "Gotovo"
 
-#. module: survey
-#: code:addons/survey/survey.py:0
 #, python-format
 msgid "'\" + que_rec[0]['question'] + \"' This question requires an answer."
 msgstr "'\" + que_rec[0]['question'] + \"' Ovo pitanje zahtijeva odgovor."
@@ -608,9 +527,6 @@ msgid ""
 msgstr ""
 "Naziv Objekta mora početi s x_ i ne smije sadržavati bilo koji posebni znak !"
 
-#. module: survey
-#: model:ir.model,name:survey.model_survey_response
-#: view:survey.response:0
 msgid "Survey Response"
 msgstr "Odziv na Upitnik"
 
@@ -646,8 +562,6 @@ msgstr "Poslan poziv"
 msgid "Survey Title"
 msgstr "Naziv Upitnika"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "%"
 msgstr "%"
 
@@ -665,9 +579,6 @@ msgstr "Opis"
 msgid "Select Survey"
 msgstr "Odaberi Upitnik"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_new_survey_page_form
-#: model:ir.ui.menu,name:survey.menu_new_survey_page_form1
 msgid "New Survey Page"
 msgstr "Nova stranica Upitnika"
 
@@ -689,8 +600,6 @@ msgstr "Odgovori Upitnika"
 msgid "#Questions"
 msgstr "#Questions"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Que:"
 msgstr "Que:"
 
@@ -742,8 +651,6 @@ msgstr "Kreiraj datum"
 msgid "Survey Pages"
 msgstr "Stranice Upitnika"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Response Count"
 msgstr "Broj odziva"
 
