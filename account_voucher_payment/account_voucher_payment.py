@@ -144,8 +144,20 @@ class account_voucher(osv.osv):
             }
             if inv.type in ('rec_voucher', 'bank_rec_voucher', 'journal_pur_voucher', 'journal_voucher'):
                 move_line['debit'] = inv.amount
+                sign = 1
             else:
                 move_line['credit'] = inv.amount * (-1)
+                sign = -1
+
+            if inv.currency_id.id != company_currency:
+                amount_currency = inv['amount'] * sign,
+                currency_id = inv.currency_id.id
+            else:
+                amount_currency = False
+                currency_id = False
+                
+            move_line['currency_id'] = currency_id
+            move_line['amount_currency'] = amount_currency
             self.pool.get('account.move.line').create(cr, uid, move_line)
             id_mapping_dict = {}
             unrec_lines = {}
@@ -168,9 +180,19 @@ class account_voucher(osv.osv):
                 if line.type == 'dr':
                     move_line['debit'] = line.amount or False
                     amount=line.amount
+                    sign = 1
                 elif line.type == 'cr':
                     move_line['credit'] = line.amount or False
                     amount=line.amount * (-1)
+                    sign = -1
+                if inv.currency_id.id != company_currency:
+                    amount_currency = line.amount * sign,
+                    currency_id = inv.currency_id.id
+                else:
+                    amount_currency = False
+                    currency_id = False                    
+                move_line['currency_id'] = currency_id
+                move_line['amount_currency'] = amount_currency
                 ml_id=self.pool.get('account.move.line').create(cr, uid, move_line)
                 id_mapping_dict[line.id] = ml_id
                 total = 0.0
@@ -217,7 +239,6 @@ class account_voucher(osv.osv):
             
             for line in obj.line_id :
                 cr.execute('insert into voucher_id (account_id,rel_account_move) values (%s, %s)',(int(ids[0]),int(line.id)))
-                
         return True
 
 account_voucher()
