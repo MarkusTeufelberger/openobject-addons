@@ -90,7 +90,8 @@ class account_move_line(osv.osv):
             if move_values:
                 move_ids = []
                 for move_line in self.browse(cr, uid, ids, context):
-                    move_ids.append( move_line.move_id.id )
+                    if ('journal_id' in move_values and move_line.journal_id.id != move_values['journal_id']) or ('period_id' in move_values and move_line.period_id.id != move_values['period_id']):
+                        move_ids.append( move_line.move_id.id )
                 self.pool.get('account.move').write(cr, uid, move_ids, move_values, context)
         return super(account_move_line, self).write(cr, uid, ids, vals, context, check, update_check)
 
