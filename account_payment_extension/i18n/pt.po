@@ -2,19 +2,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.10\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-06-02 08:55+0000\n"
+"POT-Creation-Date: 2010-10-06 01:50+0000\n"
 "PO-Revision-Date: 2010-12-09 20:44+0000\n"
 "Last-Translator: Luniz <luniz52@hotmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-30 05:04+0000\n"
+"X-Launchpad-Export-Date: 2010-12-31 05:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_to_pay
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_to_pay
 msgid "Invoice payments to pay"
 msgstr "Factura de pagamento para pagar"
 
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_pay_payments
 msgid "Payable payment orders"
 msgstr "Ordens de pagamento pagavéis"
 
@@ -49,10 +54,9 @@ msgid "All received and to receive invoice payments"
 msgstr "Todas as facturas de pagamentos recebidos e para receber"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type
+#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type_form
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
 #: view:payment.type:0
-#: help:payment.type,name:0
 msgid "Payment Type"
 msgstr "Tipo de Pagamento"
 
@@ -83,6 +87,9 @@ msgstr "Rascunho de ordem de pagamento recebível"
 msgid "Rec. payment order"
 msgstr "Ordem de pagamento recebível"
 
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_draft
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_draft
 msgid "Draft pay. payment order"
 msgstr "Rascunho de ordem de pagamento pagável"
 
@@ -153,6 +160,8 @@ msgstr "Descrição"
 msgid "Payable"
 msgstr "Pagável"
 
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_rec_payments
 msgid "Receivable payment orders"
 msgstr "Ordens de pagamento recebível"
 
@@ -161,6 +170,13 @@ msgstr "Ordens de pagamento recebível"
 #, python-format
 msgid "Account move line \"%s\" is not valid"
 msgstr "Linha do movimento da conta \"%s\" não é válido"
+
+#. module: account_payment_extension
+#: wizard_button:populate_payment_ext,init,end:0
+#: wizard_button:populate_payment_ext,search,end:0
+#: wizard_button:populate_statement_ext,init,end:0
+msgid "_Cancel"
+msgstr "_Cancel"
 
 #. module: account_payment_extension
 #: field:payment.order,payment_type_name:0
@@ -188,9 +204,15 @@ msgstr "Preencher pagamento para pagar"
 msgid "Select invoices to pay/receive payment"
 msgstr "Seleccionar facturas de pagamento para pagar/receber"
 
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_open
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_open
 msgid "Pay. payment orders to validate"
 msgstr "Ordens de pagamento pagáveis para validar"
 
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_tree_new
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_form_new
 msgid "New Pay. payment Order"
 msgstr "Nova Ordem de pagamento pagável"
 
@@ -229,8 +251,7 @@ msgid "Create Account Moves"
 msgstr "Criar Movimentos de Conta"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_done_payments
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_done_payments
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
 msgid "Done payments"
 msgstr "Pagamentos concluídos"
 
@@ -246,7 +267,6 @@ msgstr "Pagamentos Recebíveis não reconciliados"
 
 #. module: account_payment_extension
 #: field:payment.order,name:0
-#: field:payment.type,name:0
 msgid "Name"
 msgstr "Nome"
 
@@ -266,9 +286,9 @@ msgid "Default"
 msgstr "Padrão"
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,search:0
-msgid "_Search"
-msgstr "_Search"
+#: wizard_button:populate_payment_ext,search,create:0
+msgid "_Add to payment order"
+msgstr "Adicionar para ordem de pagamento"
 
 #. module: account_payment_extension
 #: field:payment.line,payment_move_id:0
@@ -276,20 +296,25 @@ msgid "Payment Move"
 msgstr "Movimento do Pagamento"
 
 #. module: account_payment_extension
-#: field:account.move.line,partner_bank_id:0
+#: field:account.move.line,partner_bank:0
 msgid "Bank Account"
 msgstr "Conta Bancária"
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,search,create:0
-msgid "_Add to payment order"
-msgstr "Adicionar para ordem de pagamento"
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
+msgid "Receivable payments"
+msgstr "Pagamentos Recebível"
 
 #. module: account_payment_extension
 #: code:addons/account_payment_extension/payment.py:0
 #, python-format
 msgid "Invalid action!"
 msgstr "Acção inválida!"
+
+#. module: account_payment_extension
+#: wizard_button:populate_payment_ext,init,search:0
+msgid "_Search"
+msgstr "_Search"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable_unreconciled
@@ -333,8 +358,7 @@ msgid "Account Payment Extension"
 msgstr "Extensão da Conta de Pagamento"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_invoice_payments
 msgid "Invoice payments"
 msgstr "Factura de pagamentos"
 
@@ -353,8 +377,8 @@ msgstr "Todos os pagamentos recebíveis concluídos"
 #. module: account_payment_extension
 #: field:account.invoice,payment_type:0
 #: field:account.move.line,payment_type:0
-#: model:ir.model,name:account_payment_extension.model_payment_type
-#: field:payment.mode,type:0
+#: field:res.partner,payment_type_customer:0
+#: field:res.partner,payment_type_supplier:0
 msgid "Payment type"
 msgstr "Tipo de pagamento"
 
@@ -375,9 +399,9 @@ msgid "Payable invoice payments"
 msgstr "Factura de pagamentos pagáveis"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
-msgid "Receivable payments"
-msgstr "Pagamentos Recebível"
+#: help:populate_payment_ext,init,show_refunds:0
+msgid "Indicates if search should include refunds."
+msgstr ""
 
 #. module: account_payment_extension
 #: help:payment.type,note:0
@@ -412,11 +436,9 @@ msgstr ""
 "Para escrever se suporte de cheque de papel tiver sido recebido por exemplo."
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,end:0
-#: wizard_button:populate_payment_ext,search,end:0
-#: wizard_button:populate_statement_ext,init,end:0
-msgid "_Cancel"
-msgstr "_Cancel"
+#: wizard_field:populate_payment_ext,init,show_refunds:0
+msgid "Show Refunds"
+msgstr ""
 
 #. module: account_payment_extension
 #: field:account.move.line,received_check:0

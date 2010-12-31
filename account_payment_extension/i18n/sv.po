@@ -7,19 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openobject-addons\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-06-02 08:55+0000\n"
+"POT-Creation-Date: 2010-10-06 01:50+0000\n"
 "PO-Revision-Date: 2010-11-22 19:38+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-30 05:04+0000\n"
+"X-Launchpad-Export-Date: 2010-12-31 05:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments_to_pay
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments_to_pay
 msgid "Invoice payments to pay"
 msgstr ""
 
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_pay_payments
 msgid "Payable payment orders"
 msgstr ""
 
@@ -52,10 +57,9 @@ msgid "All received and to receive invoice payments"
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type
+#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type_form
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
 #: view:payment.type:0
-#: help:payment.type,name:0
 msgid "Payment Type"
 msgstr ""
 
@@ -86,6 +90,9 @@ msgstr ""
 msgid "Rec. payment order"
 msgstr ""
 
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_draft
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_draft
 msgid "Draft pay. payment order"
 msgstr ""
 
@@ -154,6 +161,8 @@ msgstr ""
 msgid "Payable"
 msgstr ""
 
+#. module: account_payment_extension
+#: model:ir.ui.menu,name:account_payment_extension.menu_rec_payments
 msgid "Receivable payment orders"
 msgstr ""
 
@@ -161,6 +170,13 @@ msgstr ""
 #: code:addons/account_payment_extension/payment.py:0
 #, python-format
 msgid "Account move line \"%s\" is not valid"
+msgstr ""
+
+#. module: account_payment_extension
+#: wizard_button:populate_payment_ext,init,end:0
+#: wizard_button:populate_payment_ext,search,end:0
+#: wizard_button:populate_statement_ext,init,end:0
+msgid "_Cancel"
 msgstr ""
 
 #. module: account_payment_extension
@@ -189,9 +205,15 @@ msgstr ""
 msgid "Select invoices to pay/receive payment"
 msgstr ""
 
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_open
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_open
 msgid "Pay. payment orders to validate"
 msgstr ""
 
+#. module: account_payment_extension
+#: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_tree_new
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_form_new
 msgid "New Pay. payment Order"
 msgstr ""
 
@@ -228,8 +250,7 @@ msgid "Create Account Moves"
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_done_payments
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_done_payments
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
 msgid "Done payments"
 msgstr ""
 
@@ -245,7 +266,6 @@ msgstr ""
 
 #. module: account_payment_extension
 #: field:payment.order,name:0
-#: field:payment.type,name:0
 msgid "Name"
 msgstr ""
 
@@ -265,8 +285,8 @@ msgid "Default"
 msgstr ""
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,search:0
-msgid "_Search"
+#: wizard_button:populate_payment_ext,search,create:0
+msgid "_Add to payment order"
 msgstr ""
 
 #. module: account_payment_extension
@@ -275,19 +295,24 @@ msgid "Payment Move"
 msgstr ""
 
 #. module: account_payment_extension
-#: field:account.move.line,partner_bank_id:0
+#: field:account.move.line,partner_bank:0
 msgid "Bank Account"
 msgstr ""
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,search,create:0
-msgid "_Add to payment order"
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
+msgid "Receivable payments"
 msgstr ""
 
 #. module: account_payment_extension
 #: code:addons/account_payment_extension/payment.py:0
 #, python-format
 msgid "Invalid action!"
+msgstr ""
+
+#. module: account_payment_extension
+#: wizard_button:populate_payment_ext,init,search:0
+msgid "_Search"
 msgstr ""
 
 #. module: account_payment_extension
@@ -332,8 +357,7 @@ msgid "Account Payment Extension"
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments
+#: model:ir.ui.menu,name:account_payment_extension.menu_finance_invoice_payments
 msgid "Invoice payments"
 msgstr ""
 
@@ -350,8 +374,8 @@ msgstr ""
 #. module: account_payment_extension
 #: field:account.invoice,payment_type:0
 #: field:account.move.line,payment_type:0
-#: model:ir.model,name:account_payment_extension.model_payment_type
-#: field:payment.mode,type:0
+#: field:res.partner,payment_type_customer:0
+#: field:res.partner,payment_type_supplier:0
 msgid "Payment type"
 msgstr ""
 
@@ -372,8 +396,8 @@ msgid "Payable invoice payments"
 msgstr ""
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
-msgid "Receivable payments"
+#: help:populate_payment_ext,init,show_refunds:0
+msgid "Indicates if search should include refunds."
 msgstr ""
 
 #. module: account_payment_extension
@@ -408,10 +432,8 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,end:0
-#: wizard_button:populate_payment_ext,search,end:0
-#: wizard_button:populate_statement_ext,init,end:0
-msgid "_Cancel"
+#: wizard_field:populate_payment_ext,init,show_refunds:0
+msgid "Show Refunds"
 msgstr ""
 
 #. module: account_payment_extension
