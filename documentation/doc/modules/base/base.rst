@@ -190,6 +190,21 @@ Administración del sistema
 
 Esta sección va dirigida a administradores y usuarios avanzados.
 
+El fichero de configuración
+===========================
+
+Es posible establecer algunos parámetros de configuración del servidor de OpenERP (openerp-server.py) mediante un fichero de configuración. Los parámetros aceptados en este fichero son los siguientes:
+
+port
+  Establece el puerto que se utilizará para escuchar las peticiones XML-RPC.
+
+netport
+  Establece el puerto que se utilizará para escuchar las peticiones Net-RPC.
+
+
+Menú Configuración
+==================
+
 Secuencias
 ----------
 
