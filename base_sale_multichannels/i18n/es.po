@@ -1,20 +1,19 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* base_sale_multichannels
+# 	* base_sale_multichannels
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2009-12-20 17:22+0000\n"
-"PO-Revision-Date: 2010-08-19 15:06+0000\n"
-"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
-"<jesteve@zikzakmedia.com>\n"
+"PO-Revision-Date: 2010-11-30 20:55+0000\n"
+"Last-Translator: Raimon Esteve (Zikzakmedia) <resteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-29 05:32+0000\n"
+"X-Launchpad-Export-Date: 2010-12-30 05:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: base_sale_multichannels
@@ -377,3 +376,89 @@ msgstr "Ventas Multi canal"
 #: view:sale.shop:0
 msgid "Orders"
 msgstr "Pedidos"
+
+#~ msgid "Payment Journal"
+#~ msgstr "Diario de pago"
+
+#~ msgid "Payment Type"
+#~ msgstr "Tipos de pago"
+
+#~ msgid "Validate Payment?"
+#~ msgstr "Validar el pago?"
+
+#~ msgid "Last Product Export  Time"
+#~ msgstr "Fecha última exportación de productos"
+
+#~ msgid "Export Shipping"
+#~ msgstr "Exporta envíos"
+
+#~ msgid "List of Payment Codes separated by ;"
+#~ msgstr "Lista de códigos de pago  separados con ;"
+
+#~ msgid "E-Commerce Payment Configuration"
+#~ msgstr "Configuración pagos de tienda virtual"
+
+#~ msgid "Invalid model name in the action definition."
+#~ msgstr "Nombre de modelo no válido para  la definición de la acción."
+
+#~ msgid "Validate Order?"
+#~ msgstr "Validar perdido?"
+
+#~ msgid "External Payment Method"
+#~ msgstr "Códigos de pago"
+
+#~ msgid "Create Invoice?"
+#~ msgstr "Crea factura?"
+
+#~ msgid "Validate Invoice?"
+#~ msgstr "Validar factura?"
+
+#~ msgid "Order Configuration"
+#~ msgstr "Configuración pedido"
+
+#~ msgid "You have to set a company for this OpenERP sale shop!"
+#~ msgstr "Debe seleccionar una compañía en la tienda (ventas)!"
+
+#~ msgid "Spree, Magento, Oscommerce... Payment Method"
+#~ msgstr "Spree, Magento, Oscommerce.. Métodos de pagos"
+
+#~ msgid "Need To Update"
+#~ msgstr "Requiere actualizar"
+
+#~ msgid "Not Implemented"
+#~ msgstr "No implementado"
+
+#~ msgid "Not Implemented in abstract base module!"
+#~ msgstr "No implementado en el módulo abstracto"
+
+#~ msgid "Payment Code"
+#~ msgstr "Códigos de pago"
+
+#~ msgid "Base Sale Payment Type"
+#~ msgstr "Tipos de pago"
+
+#~ msgid "Warning!"
+#~ msgstr "Atención!"
+
+#~ msgid "Auto-reconcile?"
+#~ msgstr "Conciliación automática?"
+
+#~ msgid "Check if Paid?"
+#~ msgstr "Comprueba si esta pagada?"
+
+#~ msgid "Worflow Option"
+#~ msgstr "Opción del flujo de trabajo"
+
+#~ msgid ""
+#~ "if true will try to reconcile the order payment statement and the open "
+#~ "invoice"
+#~ msgstr "si es cierto intentará conciliar el orden de pago y abrir la factura"
+
+#~ msgid "Last Images Export Time"
+#~ msgstr "Fecha última exportación de imágenes"
+
+#~ msgid "Payment Codes"
+#~ msgstr "Códigos de pago"
+
+#~ msgid "Account Option"
+#~ msgstr "Opciones de contabilidad"

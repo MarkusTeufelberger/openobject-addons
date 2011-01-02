@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!-- Wizards -->
+
+        <record id="text_wizard_form" model="ir.ui.view">
+            <field name="name">async.messaging.demo.text.form</field>
+            <field name="model">async.messaging.demo.text</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Send Text Message">
+                	<field name="text" colspan="4" nolabel="1"/>
+                	<group col="2" colspan="2">
+                        <button icon="gtk-cancel" special="cancel" string="Close"/>
+	                	<button name="action_send" string="Send" type="object" icon="gtk-ok"/>
+	                </group>
+				</form>
+            </field>
+        </record>
+
+        <record id="act_text_wizard" model="ir.actions.act_window">
+            <field name="name">Send Text</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">async.messaging.demo.text</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="object_wizard_form" model="ir.ui.view">
+            <field name="name">async.messaging.demo.object.form</field>
+            <field name="model">async.messaging.demo.object</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Send Object Message">
+                	<label string="NOTE: Although the framework supports it, you should only send simple fields because relation fields are not included in this demo." colspan="4"/>
+                	<field name="model_id"/>
+                	<field name="field_ids"/>
+					<field name="object_id_list"/>
+                	<group col="2" colspan="2">
+                        <button icon="gtk-cancel" special="cancel" string="Close"/>
+	                	<button name="action_send" string="Send" type="object" icon="gtk-ok"/>
+	                </group>
+				</form>
+            </field>
+        </record>
+
+        <record id="act_object_wizard" model="ir.actions.act_window">
+            <field name="name">Send Object</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">async.messaging.demo.object</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+<!-- Main object -->
+
+        <menuitem id="menu_messaging_demo_root" name="Messaging Demo"/>
+
+        <record id="view_demo_tree" model="ir.ui.view">
+            <field name="name">async.messaging.demo.tree</field>
+            <field name="model">async.messaging.demo</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Demos">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_demo_form" model="ir.ui.view">
+            <field name="name">async.messaging.demo.form</field>
+            <field name="model">async.messaging.demo</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Demo">
+                    <field name="name"/>
+                    <field name="destination_ids" nolabel="1" colspan="4"/>
+                	<group col="2" colspan="2">
+						<button name="%(act_text_wizard)d" string="Send Text" type="action" icon="gtk-execute"/>
+						<button name="%(act_object_wizard)d" string="Send Object" type="action" icon="gtk-execute"/>
+	                </group>
+					<separator string="Received Messages" colspan="4"/>
+					<label string="NOTE: The demo object needs to be reloaded to see the arrived messages, or turn on auto-refresh in the window action."/>
+					<label string="NOTE2: The receiver thread is scheduled to start every 5 minutes by default if not already running. If you've just loaded the DB, it's probably not running yet."/>
+                    <field name="log" nolabel="1" colspan="4"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_demo_destination_tree" model="ir.ui.view">
+            <field name="name">async.messaging.demo.destination.tree</field>
+            <field name="model">async.messaging.demo.destination</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Send To" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_demo_destination_form" model="ir.ui.view">
+            <field name="name">async.messaging.demo.destination.form</field>
+            <field name="model">async.messaging.demo.destination</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Demo">
+                    <field name="name"/>
+                </form>
+            </field>
+        </record>
+        <record id="action_demo_form" model="ir.actions.act_window">
+            <field name="name">Demos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">async.messaging.demo</field>
+            <field name="view_type">form</field>
+        </record>
+        <menuitem action="action_demo_form" id="menu_demo_form" parent="menu_messaging_demo_root"/>
+    </data>
+</openerp>

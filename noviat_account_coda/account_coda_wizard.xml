@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+    
+		<wizard
+		string="Import CODA File"
+		model="coda.bank.statement"
+		name="noviat.account.coda.import"
+		id="wizard_noviat_account_coda_import"/>
+
+    <wizard
+		string="Import CODA File"
+		model="account.coda"
+		name="noviat.account.coda.import"
+		id="wizard_noviat_account_coda_import_2"/>
+    
+  </data> 
+</openerp>

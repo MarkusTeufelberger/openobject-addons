@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.10\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-06-02 08:55:17+0000\n"
+"POT-Creation-Date: 2010-10-06 01:50:28+0000\n"
 "PO-Revision-Date: 2010-06-02 12:44+0200\n"
 "Last-Translator: Albert Cervera i Areny <albert@nan-tic.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -177,6 +177,13 @@ msgid "Account move line \"%s\" is not valid"
 msgstr "El apunte \"%s\" no es válido."
 
 #. module: account_payment_extension
+#: wizard_button:populate_payment_ext,init,end:0
+#: wizard_button:populate_payment_ext,search,end:0
+#: wizard_button:populate_statement_ext,init,end:0
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#. module: account_payment_extension
 #: field:payment.order,payment_type_name:0
 msgid "Payment type name"
 msgstr "Nombre tipo de pago"
@@ -281,9 +288,9 @@ msgid "Default"
 msgstr "Por defecto"
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,search:0
-msgid "_Search"
-msgstr "_Buscar"
+#: wizard_button:populate_payment_ext,search,create:0
+msgid "_Add to payment order"
+msgstr "_Añadir a la orden de pago"
 
 #. module: account_payment_extension
 #: field:payment.line,payment_move_id:0
@@ -296,15 +303,20 @@ msgid "Bank Account"
 msgstr "Cuenta bancaria"
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,search,create:0
-msgid "_Add to payment order"
-msgstr "_Añadir a la orden de pago"
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
+msgid "Receivable payments"
+msgstr "Cobros"
 
 #. module: account_payment_extension
 #: code:addons/account_payment_extension/payment.py:0
 #, python-format
 msgid "Invalid action!"
 msgstr "Acción no válida!"
+
+#. module: account_payment_extension
+#: wizard_button:populate_payment_ext,init,search:0
+msgid "_Search"
+msgstr "_Buscar"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable_unreconciled
@@ -388,9 +400,9 @@ msgid "Payable invoice payments"
 msgstr "Efectos de pago"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
-msgid "Receivable payments"
-msgstr "Cobros"
+#: help:populate_payment_ext,init,show_refunds:0
+msgid "Indicates if search should include refunds."
+msgstr "Indica si la búsqueda debería incluir facturas de abono."
 
 #. module: account_payment_extension
 #: help:payment.type,note:0
@@ -426,11 +438,9 @@ msgstr ""
 "ejemplo."
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,end:0
-#: wizard_button:populate_payment_ext,search,end:0
-#: wizard_button:populate_statement_ext,init,end:0
-msgid "_Cancel"
-msgstr "_Cancelar"
+#: wizard_field:populate_payment_ext,init,show_refunds:0
+msgid "Show Refunds"
+msgstr "Mostrar abonos"
 
 #. module: account_payment_extension
 #: field:account.move.line,received_check:0

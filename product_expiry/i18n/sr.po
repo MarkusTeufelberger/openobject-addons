@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-15 04:58+0000\n"
+"X-Launchpad-Export-Date: 2010-12-30 05:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: product_expiry
@@ -50,8 +50,6 @@ msgstr "Kravlje Mleko"
 msgid "Products date of expiry"
 msgstr "Datum isteka roka trajanja"
 
-#. module: product_expiry
-#: field:product.product,alert_time:0
 msgid "Product alert time"
 msgstr "Vreme alarma proizvoda"
 
@@ -74,14 +72,9 @@ msgid ""
 "industries: expiry date, alert date, date of removal, eso."
 msgstr ""
 
-#. module: product_expiry
-#: field:product.product,removal_time:0
 msgid "Product removal time"
 msgstr "Vreme uklanjanja proizvoda"
 
-#. module: product_expiry
-#: field:product.product,use_time:0
-#: field:stock.production.lot,dlc:0
 msgid "Product usetime"
 msgstr "Trajanje proizvoda"
 
@@ -100,8 +93,6 @@ msgstr ""
 msgid "Invalid XML for View Architecture!"
 msgstr "Nevažeći XML za pregled arhitekture"
 
-#. module: product_expiry
-#: field:product.product,life_time:0
 msgid "Product lifetime"
 msgstr "Rok Trajanja"
 

@@ -8,23 +8,23 @@ msgstr ""
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-07-12 16:18+0000\n"
 "PO-Revision-Date: 2010-07-29 09:47+0000\n"
-"Last-Translator: Borja López Soilán (Pexego) <borjals@pexego.es>\n"
+"Last-Translator: Borja López Soilán <borjalopezsoilan@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-29 05:33+0000\n"
+"X-Launchpad-Export-Date: 2010-12-30 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: purchase_payment
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr "¡XML inválido para la definición de la vista!"
+msgstr "¡XML no válido para la definición de la vista!"
 
 #. module: purchase_payment
 #: model:ir.module.module,shortdesc:purchase_payment.module_meta_information
 msgid "Purchase Payment Type and Terms"
-msgstr "Tipo de pago y plazo en compras"
+msgstr "Tipo y plazo de pago en compras"
 
 #. module: purchase_payment
 #: model:ir.module.module,description:purchase_payment.module_meta_information
@@ -44,17 +44,17 @@ msgid ""
 msgstr ""
 "Añade información de pago al proceso de compras.\n"
 "\n"
-"Añade el tipo de pago, plazo, y cuentas bancarias a las órdenes de compra.\n"
+"Añade el tipo de pago, plazo, y cuentas bancarias a los pedidos de compra.\n"
 "\n"
 "Permite establecer diferentes plazos de pago para las compras (las empresas\n"
-"tendrán plazo de pago y plazo de pago de proveedor).\n"
+"tendrán plazo de pago de cliente y plazo de pago de proveedor).\n"
 "\n"
 "Los valores por defecto para plazos de pago, tipo de pago y cuenta bancaria\n"
 "de la compra se tomarán de la empresa.\n"
-"Las facturas creadas desde órdenes de compra, o desde albaranes "
+"Las facturas creadas desde pedidos de compra, o desde albaranes "
 "relacionados\n"
-"con órdenes de compra heredarán esta información de pago de la orden de "
-"pago.\n"
+"con pedidos de compra heredarán esta información de pago para poder crear "
+"órdenes de pago.\n"
 
 #. module: purchase_payment
 #: constraint:ir.model:0
@@ -87,7 +87,7 @@ msgid ""
 "partner on purchases"
 msgstr ""
 "Este plazo de pago se usará en lugar del por defecto para la empresa actual "
-"en las compras"
+"en las compras."
 
 #. module: purchase_payment
 #: help:purchase.order,payment_term:0

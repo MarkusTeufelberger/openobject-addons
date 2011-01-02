@@ -5,5 +5,6 @@
 "access_ir_documentation_field","field","model_ir_documentation_field","base.group_user",1,1,1,1
 "access_ir_documentation_view","view","model_ir_documentation_view","base.group_user",1,1,1,1
 "access_ir_documentation_file","file","model_ir_documentation_file","base.group_user",1,1,1,1
-"access_documentation_generate_wizard","generate","model_documentation_generate_wizard","base.group_user",1,1,1,1
+"access_ir_documentation_paragraph_rendered","paragraph_rendered","model_ir_documentation_paragraph_rendered","base.group_user",1,1,1,1
+"access_documentation_build_wizard","build","model_documentation_build_wizard","base.group_user",1,1,1,1
 "access_documentation_import_wizard","import","model_documentation_import_wizard","base.group_user",1,1,1,1

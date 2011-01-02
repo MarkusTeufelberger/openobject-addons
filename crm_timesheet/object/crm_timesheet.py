@@ -129,6 +129,7 @@ class crm_case_work(osv.osv):
         vals_line['date'] = vals['date'][:10]
         vals_line['unit_amount'] = vals['hours']
         vals_line['amount'] = 00.0
+        vals_line['product_id'] = emp.product_id and emp.product_id.id or False
         timeline_id = obj.create(cr, uid, vals_line, {})
 
         vals_line['amount'] = (-1) * vals['hours'] * obj.browse(cr, uid, timeline_id).product_id.standard_price
@@ -141,7 +142,7 @@ class crm_case_work(osv.osv):
         vals_line = {}
 
         for case in self.pool.get('crm.case.work').browse(cr, uid, ids):
-            line_id = case.hr_analytic_timesheet_id
+            line_id = vals.get('hr_analytic_timesheet_id',case.hr_analytic_timesheet_id)
             if line_id:
                 obj = self.pool.get('hr.analytic.timesheet')
                 if 'name' in vals:

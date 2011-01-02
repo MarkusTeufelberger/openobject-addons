@@ -73,11 +73,11 @@ class sartre_operator(osv.osv):
         'native_operator': lambda * a: 'none',
         'value_age_filter': lambda * a: 'both',
         'expression': lambda * a: """# You can use the following variables
-#    - selected_field_value (current or old value according to the value age choosed by the user - value age filter == 'Both')
-#    - current_field_value (useful if value age filter != 'Both')
-#    - old_field_value (useful if value age filter != 'Both')
-#    - other_value (static or dynamic)
-# You must assign a boolean value to the variable "result"
+\n#    - selected_field_value (current or old value according to the value age choosed by the user - value age filter == 'Both')
+\n#    - current_field_value (useful if value age filter != 'Both')
+\n#    - old_field_value (useful if value age filter != 'Both')
+\n#    - other_value (static or dynamic)
+\n# You must assign a boolean value to the variable "result"
 """,
         'other_value_necessary': lambda * a: False,
     }
@@ -154,21 +154,21 @@ class sartre_rule(osv.osv):
             obj = self.pool.get(model)
             if trigger_function:
                 function_fields = [field for field in obj._columns if isinstance(obj._columns[field], (fields.function, fields.related, fields.property))]
-                res.setdefault('domain', {})['trigger_function_field_id'] = "[('model_id', '=', %s),('name', 'in', (%s))]" % (model_id, ','.join(map(str, function_fields)))
+                res.setdefault('domain', {})['trigger_function_field_id'] = "[('model_id', '=', %s),('name', 'in', %s)]" % (model_id, map(str, function_fields))
             if trigger_other:
                 method_names = [attr for attr in dir(obj.__class__) if inspect.ismethod(getattr(obj, attr))]
                 model_methods_pool = self.pool.get('ir.model.methods')
                 model_methods_ids = model_methods_pool.search(cr, uid, [('model_id', '=', model_id), ('name', 'in', method_names)])
                 existing_method_names = [method['name'] for method in model_methods_pool.read(cr, uid, model_methods_ids, ['name'])]
                 for method in method_names:
-                    method_args = inspect.getargspec(getattr(obj, method)).args
+                    method_args = inspect.getargspec(getattr(obj, method))[0]
                     if method not in ['create', 'write', 'unlink'] + existing_method_names and not method.startswith('__') and ('ids' in method_args or 'id' in method_args):
                         model_methods_pool.create(cr, uid, {'name': method, 'model_id': model_id})
         return res
 
     _columns = {
         'name': fields.char("Name", size=64, required=True),
-        'model_id': fields.many2one('ir.model', 'Object', required=True),
+        'model_id': fields.many2one('ir.model', 'Object', domain=[('osv_memory','=', False)], required=True, ondelete='cascade'),
         'active': fields.boolean("Active"),
         'trigger_create': fields.boolean("Creation"),
         'trigger_write': fields.boolean("Update"),
@@ -177,7 +177,7 @@ class sartre_rule(osv.osv):
         'trigger_login_readonly': fields.boolean("Trigger Login Readonly"),
         'trigger_function': fields.boolean("Function"),
         'trigger_function_type': fields.selection([('set', 'Manually'), ('get', 'Automatically'), ('both', 'Both')], "updated", size=16),
-        'trigger_function_field_id': fields.many2one('ir.model.fields', "Function field", domain="[('model_id', '=', model_id)]"),
+        'trigger_function_field_id': fields.many2one('ir.model.fields', "Function field", domain="[('model_id', '=', model_id)]", help="Function, related or property field"),
         'trigger_other': fields.boolean("Other methods", help="Only methods with an argument 'id' or 'ids' in their signatures"),
         'trigger_other_method_id': fields.many2one('ir.model.methods', "Object method", domain="[('model_id', '=', model_id)]"),
         'trigger_date': fields.boolean("Date"),
@@ -302,7 +302,6 @@ class sartre_rule(osv.osv):
                 active_object_ids = list(set(context['active_object_ids']))
                 condition = domain[index]
                 field = condition[0].replace('OLD_', '')
-                selected_values = 'OLD_' in condition[0] and old_values or current_values
                 prefix = ''
                 operator_symbol = condition[1]
                 if operator_symbol.startswith('not '): # Can accept 'not ==' instead of '<>' but can't accept '!='
@@ -313,16 +312,15 @@ class sartre_rule(osv.osv):
                 match = other_value and re.match('(\[\[.+?\]\])', other_value)
                 for object_id in list(active_object_ids):
                     if match:
-                        other_value = eval(str(match.group()[2:-2]).strip(), {'object': self.pool.get(rule.model_id.model).browse(cr, uid, object_id),
-                                                                               'context': context,
-                                                                               'time':time})
-                    current_field_value = object_id in current_values and field in current_values[object_id] and current_values[object_id][field]
-                    old_field_value = selected_field_value = current_field_value
+                        other_value = eval(str(match.group()[2:-2]).strip(), {
+                            'object': self.pool.get(rule.model_id.model).browse(cr, uid, object_id),
+                            'context': context,
+                            'time':time})
+                    current_field_value = current_values.get(object_id, {}).get(field, False)
+                    old_field_value = current_field_value
                     if object_id in old_values and field in old_values[object_id]:
                         old_field_value = old_values[object_id][field]
-                    if object_id in selected_values and field in selected_values[object_id]:
-                        selected_field_value = selected_values[object_id][field]
-                    localdict = {'selected_field_value': selected_field_value,
+                    localdict = {'selected_field_value': 'OLD_' in condition[0] and old_field_value or current_field_value,
                                  'current_field_value': current_field_value,
                                  'old_field_value': old_field_value,
                                  'other_value': other_value}
@@ -546,10 +544,10 @@ class sartre_execution(osv.osv):
 
 sartre_execution()
 
-def _check_method_based_trigger_rules(self, cr, uid, method, field_name=None, calculation_method=False):
+def _check_method_based_trigger_rules(self, cr, uid, method, field_name='', calculation_method=False):
     """Check method based trigger rules"""
     rule_ids = []
-    rule_obj = self.pool.get('sartre.rule')
+    rule_obj = hasattr(self, 'pool') and self.pool.get('sartre.rule') or pooler.get_pool(cr.dbname).get('sartre.rule')
     if rule_obj:
         # Search rules to execute
         rule_ids += hasattr(rule_obj, 'sartre_rules_cache') and method in rule_obj.sartre_rules_cache and self._name in rule_obj.sartre_rules_cache[method] and rule_obj.sartre_rules_cache[method][self._name] or []
@@ -563,7 +561,8 @@ def _check_method_based_trigger_rules(self, cr, uid, method, field_name=None, ca
 def sartre_decorator(original_method):
     def sartre_trigger(*args, **kwds):
         # Get arguments
-        args_names = inspect.getargspec(original_method).args
+        method_name = original_method.__name__
+        args_names = inspect.getargspec(original_method)[0]
         args_dict = {}.fromkeys(args_names, False)
         for arg in args_names:
             if args_names.index(arg) < len(args):
@@ -571,21 +570,32 @@ def sartre_decorator(original_method):
         self = args_dict.get('obj', False) or args_dict.get('self', False)
         cr = args_dict.get('cursor', False) or args_dict.get('cr', False)
         uid = args_dict.get('uid', False) or args_dict.get('user', False)
-        ids = args_dict.get('ids', [])
+        ids = args_dict.get('ids', []) or args_dict.get('id', [])
         if isinstance(ids, (int, long)):
             ids = [ids]
         context = dict(args_dict.get('context', {}) or {})
         args_ok = reduce(operator.__and__, map(bool, [self, cr, uid]))
         if args_ok:
+            # Case: trigger on function
+            field_name = ''
+            calculation_method = False
+            if method_name in ('get', 'set') and original_method.im_class == fields.function:
+                field_name = args_dict.get('name', '')
+                calculation_method = method_name
+                method_name = 'function'
             # Search trigger rules
             rule_ids = _check_method_based_trigger_rules(self, cr, uid, original_method.__name__)
             # Save old values if trigger rules exist
             if rule_ids and ids:
                 context.update({'active_object_ids': ids, 'old_values': _get_browse_record_dict(self, cr, uid, ids)})
+                # Case: trigger on unlink
+                if original_method.__name__ == 'unlink':
+                    self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context)
         # Execute original method
         result = original_method(*args, **kwds)
         # Run trigger rules if exists
-        if result and args_ok and rule_ids:
+        if result and args_ok and rule_ids and original_method.__name__ != 'unlink':
+            # Case: trigger on create
             if original_method.__name__ == 'create':
                 context['active_object_ids'] = [result]
             self.pool.get('sartre.rule').run_now(cr, uid, rule_ids, context=context)

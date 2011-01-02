@@ -21,7 +21,7 @@
 
 {
     "name" : "Server Actions R* Trigger Rules Engine (aka Sartre)",
-    "version" : "3.0",
+    "version" : "3.1",
     "author" : "Smile",
     "website": 'http://www.smile.fr',
     "category" : "Tools",

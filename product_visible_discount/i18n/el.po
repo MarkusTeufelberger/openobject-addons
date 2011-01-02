@@ -1,0 +1,53 @@
+# Greek translation for openobject-addons
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-12-28 18:35+0000\n"
+"PO-Revision-Date: 2010-11-11 16:08+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Greek <el@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-30 05:04+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: product_visible_discount
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "Λανθασμένο XML για προβολή Αρχιτεκτονικής"
+
+#. module: product_visible_discount
+#: model:ir.module.module,shortdesc:product_visible_discount.module_meta_information
+#: field:product.pricelist,visible_discount:0
+msgid "Visible Discount"
+msgstr "Ορατή έκπτωση"
+
+#. module: product_visible_discount
+#: model:ir.module.module,description:product_visible_discount.module_meta_information
+msgid ""
+"\n"
+"    This module use for calculate discount amount on Sale order line and "
+"invoice line  base on partner's pricelist\n"
+"    For that,On the pricelists form, new check box called \"Visible "
+"Discount\" is added.\n"
+"    Example:\n"
+"        For product PC1, listprice=450, for partner Asustek, his pricelist "
+"calculated is 225 for PC1\n"
+"        If the check box is ticked, we will have on the SO line (and so also "
+"on invoice line): Unit price=450, Discount=50,00, Net price=225\n"
+"        If the check box is NOT ticked, we will have on SO and Invoice "
+"lines: Unit price=225, Discount=0,00, Net price=225\n"
+"\n"
+"    "
+msgstr ""
+
+#. module: product_visible_discount
+#: model:ir.module.module,shortdesc:product_visible_discount.module_meta_information
+msgid "Visible Discount Module"
+msgstr ""

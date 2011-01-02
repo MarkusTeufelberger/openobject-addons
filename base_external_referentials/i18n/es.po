@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2009-12-20 17:21+0000\n"
-"PO-Revision-Date: 2010-08-19 15:07+0000\n"
+"PO-Revision-Date: 2010-12-28 12:42+0000\n"
 "Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-29 05:32+0000\n"
+"X-Launchpad-Export-Date: 2010-12-30 05:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: base_external_referentials
@@ -297,7 +297,7 @@ msgstr "Método borrado"
 #: selection:external.mapping.line,external_type:0
 #: selection:external.mappinglines.template,external_type:0
 msgid "Boolean"
-msgstr "Boolean"
+msgstr "Booleano"
 
 #. module: base_external_referentials
 #: field:ir.model.data,external_referential_id:0

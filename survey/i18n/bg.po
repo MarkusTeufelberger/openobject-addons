@@ -14,28 +14,28 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-29 05:32+0000\n"
+"X-Launchpad-Export-Date: 2010-12-30 05:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. module: survey
+#: model:ir.actions.act_window,name:survey.action_survey_form1
+#: model:ir.ui.menu,name:survey.menu_print_survey_form
+#: model:ir.ui.menu,name:survey.menu_reporting
 #: model:ir.ui.menu,name:survey.menu_survey_form
+#: model:ir.ui.menu,name:survey.menu_surveys
 msgid "Surveys"
 msgstr "Анкети"
 
-#. module: survey
-#: model:ir.actions.report.xml,name:survey.survey
 msgid "Survey Analysis Report"
 msgstr "Доклад от анализ на анкета"
 
 #. module: survey
-#: model:ir.actions.act_window,name:survey.act_survey_page_question
-#: model:ir.ui.menu,name:survey.menu_survey_question_form1
+#: model:ir.actions.act_window,name:survey.action_survey_question_form
 msgid "Survey Questions"
 msgstr "Въпроси на анкетата"
 
 #. module: survey
 #: view:survey:0
-#: view:survey.response:0
 msgid "Set to draft"
 msgstr "Промяна в проект"
 
@@ -55,18 +55,13 @@ msgid "History Lines"
 msgstr "Хронологични линии"
 
 #. module: survey
-#: wizard_field:wizard.send.invitation,init,mail:0
+#: field:survey.send.invitation,mail:0
 msgid "Body"
 msgstr "Тяло"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_view_survey_name
-#: model:ir.ui.menu,name:survey.menu_run_survey_form
 msgid "Give Survey Response"
 msgstr "Дайте отзив на анкета"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.act_survey_question
 msgid "All Questions"
 msgstr "Всички въпроси"
 
@@ -80,8 +75,6 @@ msgstr "Дата на отваряне на анкета"
 msgid "survey.name.wiz"
 msgstr "survey.name.wiz"
 
-#. module: survey
-#: view:survey:0
 msgid "Users Details"
 msgstr "Подробности за потребителите"
 
@@ -94,8 +87,6 @@ msgstr "Подробности за потребителите"
 msgid "Survey Question"
 msgstr "Въпрос от анкета"
 
-#. module: survey
-#: help:survey,response_user:0
 msgid "Set to one if  you require only one response per user"
 msgstr "Промени на едно, ако е нужен само по един отговор на потребител"
 
@@ -110,13 +101,11 @@ msgid "Survey History"
 msgstr "Хронология на анкета"
 
 #. module: survey
-#: field:survey.response,comment:0
 #: field:survey.response.answer,comment:0
+#: field:survey.response.line,comment:0
 msgid "Notes"
 msgstr "Бележки"
 
-#. module: survey
-#: field:survey.question,tot_resp:0
 msgid "Total Response"
 msgstr "Общо отзиви"
 
@@ -127,6 +116,8 @@ msgstr "Твои съобщения"
 
 #. module: survey
 #: selection:survey,state:0
+#: view:survey.request:0
+#: selection:survey.request,state:0
 msgid "Cancelled"
 msgstr "Отказани"
 
@@ -137,50 +128,42 @@ msgstr "Разреши поле за коментар"
 
 #. module: survey
 #: code:addons/survey/survey.py:0
+#: code:addons/survey/wizard/survey_answer.py:0
+#: code:addons/survey/wizard/survey_selection.py:0
+#: code:addons/survey/wizard/survey_send_invitation.py:0
 #, python-format
 msgid "Warning !"
 msgstr "Предупреждение !"
 
 #. module: survey
-#: wizard_view:wizard.send.invitation,init:0
-#: wizard_field:wizard.send.invitation,init,send_mail_existing:0
+#: view:survey.send.invitation:0
+#: field:survey.send.invitation,send_mail_existing:0
 msgid "Send reminder for existing user"
 msgstr "Изпрати напомняне за съществуващ потребител"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_new_survey_question_form
-#: model:ir.ui.menu,name:survey.menu_new_survey_question_form1
 msgid "New Survey Question"
 msgstr "Нов анкетен въпрос"
 
-#. module: survey
-#: view:survey.response:0
 msgid "Skip"
 msgstr "Пропусни"
 
-#. module: survey
-#: wizard_field:wizard.send.invitation,init,partner_ids:0
 msgid "Partner"
 msgstr "Партньор"
 
 #. module: survey
-#: wizard_field:wizard.send.invitation,init,mail_subject:0
-#: wizard_field:wizard.send.invitation,init,mail_subject_existing:0
+#: field:survey.send.invitation,mail_subject:0
+#: field:survey.send.invitation,mail_subject_existing:0
 msgid "Subject"
 msgstr "Относно"
 
-#. module: survey
-#: field:survey,max_response_limit:0
 msgid "Maximum Response Limit"
 msgstr "Максимално ограничение за отзиви"
 
 #. module: survey
-#: wizard_field:wizard.send.invitation,init,mail_from:0
+#: field:survey.send.invitation,mail_from:0
 msgid "From"
 msgstr "От"
 
-#. module: survey
-#: field:survey.response,response_type:0
 msgid "Response Type"
 msgstr "Тип отзив"
 
@@ -193,49 +176,38 @@ msgstr "Прехвърляне на страница"
 #: field:survey.answer,question_id:0
 #: field:survey.page,question_ids:0
 #: field:survey.question,question:0
-#: field:survey.response,question_id:0
+#: field:survey.question.column.heading,question_id:0
+#: field:survey.response.line,question_id:0
 msgid "Question"
 msgstr "Въпрос"
 
 #. module: survey
-#: wizard_button:wizard.send.invitation,init,send:0
+#: view:survey.send.invitation:0
 msgid "Send"
 msgstr "Изпрати"
 
-#. module: survey
-#: field:survey.answer,response:0
 msgid "#Response"
 msgstr "#Отзив"
 
-#. module: survey
-#: field:survey.response,response_answer_ids:0
 msgid "Response Answer"
 msgstr "Отговор на отзив"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Response Summary"
 msgstr "Обобщение на отзив"
 
 #. module: survey
-#: wizard_view:wizard.send.invitation,init:0
-#: wizard_field:wizard.send.invitation,init,send_mail:0
+#: view:survey.send.invitation:0
+#: field:survey.send.invitation,send_mail:0
 msgid "Send mail for new user"
 msgstr "Изпрати писмо за нов потребител"
 
-#. module: survey
-#: code:addons/survey/survey.py:0
 #, python-format
 msgid "Error !"
 msgstr "Грешка!"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Skipped Question"
 msgstr "Пропуснат въпрос"
 
-#. module: survey
-#: wizard_button:wizard.send.invitation,send,end:0
 msgid "_Ok"
 msgstr "_Ok"
 
@@ -244,8 +216,6 @@ msgstr "_Ok"
 msgid "Link"
 msgstr "Връзка"
 
-#. module: survey
-#: model:ir.ui.menu,name:survey.menu_survey_config
 msgid "Configuration"
 msgstr "Настройване"
 
@@ -259,44 +229,32 @@ msgstr "survey.question.wiz"
 msgid "Invalid XML for View Architecture!"
 msgstr "Невалиден XML за преглед на архитектурата"
 
-#. module: survey
-#: model:ir.model,name:survey.model_survey_response_answer
-#: view:survey.response.answer:0
 msgid "Survey Response Answer"
 msgstr "Отговор на отзив на анкета"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Page :-"
 msgstr "Страница :-"
 
-#. module: survey
-#: field:survey,response_user:0
 msgid "Maximum Response per User"
 msgstr "Максимален брой отзиви на потребител"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Total Started Survey :-"
 msgstr "Общо започнали анкетата :-"
 
 #. module: survey
-#: view:survey.response:0
+#: field:survey.response.answer,comment_field:0
+#: view:survey.response.line:0
 msgid "Comment"
 msgstr "Бележка"
 
-#. module: survey
-#: field:survey.response,date_modify:0
 msgid "Modify Date"
 msgstr "Дата на редактиране"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Answered Question"
 msgstr "Отговорен въпрос"
 
 #. module: survey
-#: code:addons/survey/survey.py:0
+#: code:addons/survey/wizard/survey_selection.py:0
 #, python-format
 msgid "You can not give response for this survey more than %s times"
 msgstr "Не можете да се отзовете на тази анкета повече от %s пъти"
@@ -306,19 +264,16 @@ msgstr "Не можете да се отзовете на тази анкета 
 msgid "Manually"
 msgstr "Ръчно"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_survey_form1
 msgid "All Surveys"
 msgstr "Всички анкети"
 
 #. module: survey
-#: view:survey:0
 #: field:survey,users:0
 msgid "Users"
 msgstr "Потребители"
 
 #. module: survey
-#: wizard_view:wizard.send.invitation,init:0
+#: view:survey.send.invitation:0
 msgid "Message"
 msgstr "Съобщение"
 
@@ -328,12 +283,10 @@ msgid "Page Number"
 msgstr "Номер на страница"
 
 #. module: survey
-#: wizard_field:wizard.send.invitation,send,note:0
+#: field:survey.send.invitation.log,note:0
 msgid "Log"
 msgstr "Дневник"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_survey_question_form
 msgid "All Survey Questions"
 msgstr "Всички въпроси на анкетата"
 
@@ -343,13 +296,15 @@ msgid "Survey Close Date"
 msgstr "Дата на затваряне на анкетата"
 
 #. module: survey
+#: view:survey.browse.answer:0
 #: view:survey.name.wiz:0
 msgid "Start"
 msgstr "Начало"
 
 #. module: survey
 #: selection:survey,state:0
-#: selection:survey.response,state:0
+#: selection:survey.request,state:0
+#: selection:survey.response.line,state:0
 msgid "Draft"
 msgstr "Чернова"
 
@@ -361,15 +316,25 @@ msgstr "Затворено"
 #. module: survey
 #: view:survey:0
 #: field:survey.answer,answer:0
+#: field:survey.name.wiz,response:0
 #: view:survey.page:0
+#: view:survey.print.answer:0
+#: field:survey.print.answer,response_ids:0
 #: view:survey.question:0
 #: field:survey.question,answer_choice_ids:0
+#: field:survey.request,response:0
+#: field:survey.response,question_ids:0
 #: field:survey.response.answer,answer_id:0
+#: field:survey.response.answer,response_id:0
+#: view:survey.response.line:0
+#: field:survey.response.line,response_answer_ids:0
+#: field:survey.response.line,response_id:0
+#: field:survey.response.line,response_table_ids:0
+#: field:survey.send.invitation,partner_ids:0
+#: field:survey.tbl.column.heading,response_table_id:0
 msgid "Answer"
 msgstr "Отговор"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_survey_page_form
 msgid "All Survey Pages"
 msgstr "Всички анкетни страници"
 
@@ -381,6 +346,7 @@ msgstr "Съхрани отговора"
 #. module: survey
 #: field:survey,state:0
 #: field:survey.response,state:0
+#: field:survey.response.line,state:0
 msgid "Status"
 msgstr "Състояние"
 
@@ -389,8 +355,6 @@ msgstr "Състояние"
 msgid "Survey Module"
 msgstr "Модул анкета"
 
-#. module: survey
-#: model:ir.module.module,description:survey.module_meta_information
 msgid ""
 "\n"
 "    This module is used for surveing. It depends on the answers or reviews "
@@ -421,13 +385,17 @@ msgid "Survey Details"
 msgstr "Подробности за анкета"
 
 #. module: survey
-#: field:survey.question,is_require_answer:0
+#: view:survey:0
+#: view:survey.page:0
+#: view:survey.question:0
 msgid "Required Answer"
 msgstr "Задължителен отговор"
 
 #. module: survey
 #: field:survey.history,user_id:0
-#: field:survey.response,response_id:0
+#: view:survey.request:0
+#: field:survey.request,user_id:0
+#: field:survey.response,user_id:0
 msgid "User"
 msgstr "Потребител"
 
@@ -436,58 +404,55 @@ msgstr "Потребител"
 msgid "Groups"
 msgstr "Групи"
 
-#. module: survey
-#: view:survey:0
-#: view:survey.page:0
-#: view:survey.question:0
-#: field:survey.question,response_ids:0
-#: view:survey.response:0
-#: field:survey.response.answer,response_id:0
 msgid "Response"
 msgstr "Отзив"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_new_survey_form1
-#: model:ir.ui.menu,name:survey.menu_new_survey_form
 msgid "New Survey"
 msgstr "Нова анкета"
 
-#. module: survey
-#: model:ir.ui.menu,name:survey.main_menu_survey
 msgid "Survey Management"
 msgstr "Управление на анкетите"
 
 #. module: survey
-#: selection:survey.response,state:0
+#: selection:survey.response.line,state:0
 msgid "Skiped"
 msgstr "Пропуснато"
 
 #. module: survey
 #: model:ir.model,name:survey.model_survey_answer
+#: model:ir.model,name:survey.model_survey_response_answer
 #: view:survey.answer:0
+#: view:survey.response:0
+#: view:survey.response.answer:0
+#: view:survey.response.line:0
 msgid "Survey Answer"
 msgstr "Отговор на анкета"
 
-#. module: survey
-#: code:addons/survey/wizard/wizard_survey.py:0
 #, python-format
 msgid "Attention!"
 msgstr "Внимание!"
 
 #. module: survey
+#: model:ir.actions.report.xml,name:survey.report_survey_form
 #: model:ir.model,name:survey.model_survey
-#: view:res.users:0
 #: view:survey:0
+#: view:survey.browse.answer:0
+#: field:survey.browse.answer,survey_id:0
 #: field:survey.history,survey_id:0
 #: view:survey.name.wiz:0
 #: field:survey.name.wiz,survey_id:0
+#: view:survey.page:0
 #: field:survey.page,survey_id:0
+#: view:survey.print:0
+#: field:survey.print,survey_ids:0
+#: field:survey.print.statistics,survey_ids:0
 #: field:survey.question,survey:0
+#: view:survey.request:0
+#: field:survey.request,survey_id:0
+#: field:survey.response,survey_id:0
 msgid "Survey"
 msgstr "Анкета"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Total Completed Survey :-"
 msgstr "Общо Довършени анкети :-"
 
@@ -509,8 +474,6 @@ msgstr "Поредност"
 msgid "Total Completed Survey"
 msgstr "Общо Довършени анкети"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Response Percentage"
 msgstr "Процент на отзивите"
 
@@ -519,26 +482,27 @@ msgstr "Процент на отзивите"
 msgid "Number"
 msgstr "Брой"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Survey Title :-"
 msgstr "Заглави на Анкетата :-"
 
 #. module: survey
-#: view:survey.response:0
+#: view:survey.request:0
+#: selection:survey.request,state:0
 msgid "Done"
 msgstr "Готово"
 
-#. module: survey
-#: code:addons/survey/survey.py:0
 #, python-format
 msgid "'\" + que_rec[0]['question'] + \"' This question requires an answer."
 msgstr "'\" + que_rec[0]['question'] + \"' Този въпрос изисква отговор."
 
 #. module: survey
 #: view:survey:0
+#: view:survey.browse.answer:0
 #: view:survey.name.wiz:0
-#: wizard_button:wizard.send.invitation,init,end:0
+#: view:survey.print:0
+#: view:survey.print.answer:0
+#: view:survey.print.statistics:0
+#: view:survey.send.invitation:0
 msgid "Cancel"
 msgstr "Отказ"
 
@@ -566,9 +530,6 @@ msgstr ""
 "Името на обекта трябва да започва с \"x_\" и да не съдържа никакви специални "
 "символи!"
 
-#. module: survey
-#: model:ir.model,name:survey.model_survey_response
-#: view:survey.response:0
 msgid "Survey Response"
 msgstr "Отзив на анкета"
 
@@ -578,12 +539,13 @@ msgid "#Avg"
 msgstr "#Средно"
 
 #. module: survey
+#: view:survey:0
 #: field:survey,responsible_id:0
 msgid "Responsible"
 msgstr "Отговорен"
 
 #. module: survey
-#: selection:survey.response,state:0
+#: selection:survey.response.line,state:0
 msgid "Answered"
 msgstr "Отговорено"
 
@@ -593,8 +555,8 @@ msgid "Other"
 msgstr "Друго"
 
 #. module: survey
-#: model:ir.actions.wizard,name:survey.wizard_send_invitation
-#: wizard_view:wizard.send.invitation,init:0
+#: model:ir.actions.act_window,name:survey.action_view_survey_send_invitation
+#: view:survey.send.invitation:0
 msgid "Send Invitation"
 msgstr "Изпрати покана"
 
@@ -603,18 +565,15 @@ msgstr "Изпрати покана"
 msgid "Survey Title"
 msgstr "Заглавие на анкета"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "%"
 msgstr "%"
 
 #. module: survey
-#: view:survey:0
 #: field:survey,note:0
 #: field:survey.name.wiz,note:0
 #: view:survey.page:0
 #: field:survey.page,note:0
-#: view:survey.response:0
+#: view:survey.response.line:0
 msgid "Description"
 msgstr "Описание"
 
@@ -623,9 +582,6 @@ msgstr "Описание"
 msgid "Select Survey"
 msgstr "Избери анкета"
 
-#. module: survey
-#: model:ir.actions.act_window,name:survey.action_new_survey_page_form
-#: model:ir.ui.menu,name:survey.menu_new_survey_page_form1
 msgid "New Survey Page"
 msgstr "Нова анкетна страница"
 
@@ -637,7 +593,8 @@ msgid "Survey Page"
 msgstr "Анкетна страница"
 
 #. module: survey
-#: model:ir.actions.act_window,name:survey.act_survey_answer
+#: model:ir.actions.report.xml,name:survey.survey_browse_response
+#: field:survey.browse.answer,response_id:0
 msgid "Survey Answers"
 msgstr "Отговори на анкетата"
 
@@ -646,58 +603,57 @@ msgstr "Отговори на анкетата"
 msgid "#Questions"
 msgstr "#Въпроси"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Que:"
 msgstr "Въпрос:"
 
 #. module: survey
 #: field:survey,page_ids:0
+#: view:survey.question:0
+#: field:survey.response.line,page_id:0
 msgid "Page"
 msgstr "Страница"
 
 #. module: survey
-#: wizard_view:wizard.send.invitation,send:0
+#: view:survey.send.invitation.log:0
 msgid "User creation"
 msgstr "Създаване на потребител"
 
 #. module: survey
 #: field:survey.answer,sequence:0
-#: field:survey.page,sequence:0
 #: field:survey.question,sequence:0
 msgid "Sequence"
 msgstr "Последователност"
 
 #. module: survey
-#: wizard_view:wizard.send.invitation,send:0
+#: view:survey.send.invitation.log:0
 msgid "Results :"
 msgstr "Резултати :"
 
 #. module: survey
-#: code:addons/survey/wizard/wizard_survey.py:0
+#: code:addons/survey/wizard/survey_send_invitation.py:0
 #, python-format
 msgid "%sSurvey is not in open state"
 msgstr "%sАнкетата не е в отворено състояние"
 
 #. module: survey
-#: wizard_view:wizard.send.invitation,init:0
+#: view:survey.send.invitation:0
 msgid "Select Partner"
 msgstr "Избери партньор"
 
 #. module: survey
 #: field:survey.response,date_create:0
+#: field:survey.response.line,date_create:0
 msgid "Create Date"
 msgstr "Дата на създаване"
 
 #. module: survey
-#: model:ir.actions.act_window,name:survey.act_survey_pages
+#: model:ir.actions.act_window,name:survey.action_survey_page_form
 #: model:ir.model,name:survey.model_survey_page
 #: model:ir.ui.menu,name:survey.menu_survey_page_form1
+#: view:survey.page:0
 msgid "Survey Pages"
 msgstr "Анкетни страници"
 
-#. module: survey
-#: rml:survey_analysis_report:0
 msgid "Response Count"
 msgstr "Брой на отзивите"
 

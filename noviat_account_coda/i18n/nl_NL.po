@@ -1,0 +1,551 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* noviat_account_coda
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.15\n"
+"Report-Msgid-Bugs-To: support@noviat.be\n"
+"POT-Creation-Date: 2010-12-04 18:40:54.716000\n"
+"PO-Revision-Date: 2010-12-04 18:40:54.716000\n"
+"Last-Translator: Luc De Meyer (Noviat nv/sa)\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: noviat_account_coda
+#: model:ir.ui.menu,name:noviat_account_coda.menu_manage_coda
+msgid "CODA Configuration"
+msgstr "CODA configuratie"
+
+#. module: noviat_account_coda
+#: model:ir.ui.menu,name:noviat_account_coda.menu_action_account_coda_trans_type_form
+msgid "CODA Transaction Types"
+msgstr "CODA verrichtingen - Types"
+
+#. module: noviat_account_coda
+#: model:ir.actions.act_window,name:noviat_account_coda.action_account_coda_trans_type_form
+msgid "CODA Transaction Types"
+msgstr "CODA verrichtingen - Types"
+
+#. module: noviat_account_coda
+#: view:account.coda.trans.type:0
+msgid "CODA Transaction Types"
+msgstr "CODA verrichtingen - Types"
+
+#. module: noviat_account_coda
+#: view:account.coda.trans.type:0
+msgid "CODA Transaction Type"
+msgstr "CODA verrichtingen - Type"
+
+#. module: noviat_account_coda
+#: model:ir.ui.menu,name:noviat_account_coda.menu_action_account_coda_trans_code_form
+msgid "CODA Transaction Codes"
+msgstr "CODA verrichtingen - Codes"
+
+#. module: noviat_account_coda
+#: model:ir.actions.act_window,name:noviat_account_coda.action_account_coda_trans_code_form
+msgid "CODA Transaction Codes"
+msgstr "CODA verrichtingen - Codes"
+
+#. module: noviat_account_coda
+#: view:account.coda.trans.code:0
+msgid "CODA Transaction Codes"
+msgstr "CODA verrichtingen - Codes"
+
+#. module: noviat_account_coda
+#: view:account.coda.trans.code:0
+msgid "CODA Transaction Code"
+msgstr "CODA verrichtingen - Code"
+
+#. module: noviat_account_coda
+#: model:ir.ui.menu,name:noviat_account_coda.menu_action_account_coda_trans_category_form
+msgid "CODA Transaction Categories"
+msgstr "CODA verrichtingen - Rubrieken"
+
+#. module: noviat_account_coda
+#: model:ir.actions.act_window,name:noviat_account_coda.action_account_coda_trans_category_form
+msgid "CODA Transaction Categories"
+msgstr "CODA verrichtingen - Rubrieken"
+
+#. module: noviat_account_coda
+#: view:account.coda.trans.category:0
+msgid "CODA Transaction Categories"
+msgstr "CODA verrichtingen - Rubrieken"
+
+#. module: noviat_account_coda
+#: view:account.coda.trans.category:0
+msgid "CODA Transaction Category"
+msgstr "CODA verrichtingen - Rubriek"
+
+#. module: noviat_account_coda
+#: model:ir.ui.menu,name:noviat_account_coda.menu_action_account_coda_comm_type_form
+msgid "CODA Structured Communication Types"
+msgstr "CODA verrichtingen - Gestructureerde mededelingen"
+
+#. module: noviat_account_coda
+#: model:ir.actions.act_window,name:noviat_account_coda.action_account_coda_comm_type_form
+msgid "CODA Structured Communication Types"
+msgstr "CODA verrichtingen - Gestructureerde mededelingen"
+
+#. module: noviat_account_coda
+#: view:account.coda.comm.type:0
+msgid "CODA Structured Communication Types"
+msgstr "CODA verrichtingen - Gestructureerde mededelingen"
+
+#. module: noviat_account_coda
+#: view:account.coda.comm.type:0
+msgid "CODA Structured Communication Type"
+msgstr "CODA verrichtingen - Gestructureerde mededeling"
+
+#. module: noviat_account_coda
+#: model:ir.ui.menu,name:noviat_account_coda.menu_account_coda
+msgid "CODA Processing"
+msgstr "CODA verwerking"
+
+#. module: noviat_account_coda
+#: model:ir.ui.menu,name:noviat_account_coda.menu_account_coda_wizard
+msgid "Import CODA Files"
+msgstr "Importeer CODA bestanden"
+
+#. module: noviat_account_coda
+#: model:ir.actions.wizard,name:noviat_account_coda.wizard_noviat_account_coda_import
+msgid "Import CODA File"
+msgstr "Importeer CODA bestand"
+
+#. module: noviat_account_coda
+#: model:ir.actions.wizard,name:noviat_account_coda.wizard_noviat_account_coda_import_2
+msgid "Import CODA File"
+msgstr "Importeer CODA bestand"
+
+#. module: noviat_account_coda
+#: view:account.coda:0
+msgid "CODA Files"
+msgstr "CODA bestanden"
+
+#. module: noviat_account_coda
+#: view:account.coda:0
+msgid "CODA File"
+msgstr "CODA bestand"
+
+#. module: noviat_account_coda
+#: view:account.coda:0
+msgid "Additional Information"
+msgstr "Bijkomende informatie"
+
+#. module: noviat_account_coda
+#: model:ir.ui.menu,name:noviat_account_coda.menu_imported_coda_files
+msgid "Imported CODA Files"
+msgstr "Geïmporteerde CODA bestanden"
+
+#. module: noviat_account_coda
+#: model:ir.actions.act_window,name:noviat_account_coda.action_imported_coda_files
+msgid "Imported CODA Files"
+msgstr "Geïmporteerde CODA bestanden"
+
+#. module: noviat_account_coda
+#: model:ir.ui.menu,name:noviat_account_coda.menu_coda_bank_statements
+msgid "CODA Bank Statements"
+msgstr "CODA dagafschriften"
+
+#. module: noviat_account_coda
+#: model:ir.actions.act_window,name:noviat_account_coda.action_coda_bank_statements
+msgid "CODA Bank Statements"
+msgstr "CODA dagafschriften"
+
+#. module: noviat_account_coda
+#: view:account.journal:0
+msgid "Bank Account Number for CODA Import Processing"
+msgstr "Nummer bankrekening voor CODA verwerking"
+
+#. module: noviat_account_coda
+#: view:account.bank.statement:0
+msgid "Bank Statements"
+msgstr "Afschriften"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement:0
+msgid "CODA Bank Statements"
+msgstr "CODA dagafschriften"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement:0
+msgid "CODA Bank Statement"
+msgstr "CODA dagafschrift"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement:0
+msgid "Transactions"
+msgstr "Verrichtingen"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement:0
+msgid "CODA Statement Lines"
+msgstr "CODA details"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement:0
+msgid "Generate Bank Statement"
+msgstr "Genereer bankafschrift"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement:0
+msgid "Cancel"
+msgstr "Annuleer"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement.line:0
+msgid "CODA Statement Lines"
+msgstr "CODA details"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement.line:0
+msgid "Glob. Amount"
+msgstr "Glob. bedrag"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement.line:0
+msgid "Glob. Lvl"
+msgstr "Glob. niveau"
+
+#. module: noviat_account_coda
+#: view:coda.bank.statement.line:0
+msgid "Notes"
+msgstr "Notities"
+
+#. module: noviat_account_coda
+#: model:ir.actions.act_window,name:noviat_account_coda.act_account_bank_statement_goto_coda_file
+msgid "CODA Data File"
+msgstr "CODA bestand"
+
+#. module: noviat_account_coda
+#: model:ir.actions.act_window,name:noviat_account_coda.act_account_bank_statement_goto_bank_statement
+msgid "Bank Statement"
+msgstr "Afschrift"
+
+#. module: noviat_account_coda
+#: field:account.coda,name:0
+msgid "CODA Filename"
+msgstr "CODA bestandsnaam"
+
+#. module: noviat_account_coda
+#: field:account.coda,coda_data:0
+msgid "CODA File"
+msgstr "CODA bestand"
+
+#. module: noviat_account_coda
+#: field:account.coda,statement_ids:0
+msgid "Generated CODA Bank Statements"
+msgstr "Gegenereerde CODA dagafschriften"
+
+#. module: noviat_account_coda
+#: field:account.coda,note:0
+msgid "Import Log"
+msgstr "Import log"
+
+#. module: noviat_account_coda
+#: field:account.coda,coda_creation_date:0
+msgid "CODA Creation Date"
+msgstr "Datum aanmaak CODA"
+
+#. module: noviat_account_coda
+#: field:account.coda,date:0
+msgid "Import Date"
+msgstr "Datum import"
+
+#. module: noviat_account_coda
+#: field:account.coda,user_id:0
+msgid "User"
+msgstr "Gebruiker"
+
+#. module: noviat_account_coda
+#: field:account.coda.trans.type,type:0
+msgid "Transaction Type"
+msgstr "CODA verrichtingen - Type"
+
+#. module: noviat_account_coda
+#: field:account.coda.trans.type,description:0
+msgid "Description"
+msgstr "Omschrijving"
+
+#. module: noviat_account_coda
+#: selection:account.coda.trans.code,type:0
+msgid "Transaction Code"
+msgstr "CODA verrichtingen - Code"
+
+#. module: noviat_account_coda
+#: selection:account.coda.trans.code,type:0
+msgid "Transaction Family"
+msgstr "CODA verrichtingen - Family"
+
+#. module: noviat_account_coda
+#: field:account.coda.trans.code,parent_id:0
+msgid "Family"
+msgstr "Familie"
+
+#. module: noviat_account_coda
+#: field:account.coda.trans.code,description:0
+msgid "Description"
+msgstr "Omschrijving"
+
+#. module: noviat_account_coda
+#: field:account.coda.trans.code,comment:0
+msgid "Comment"
+msgstr "Toelichting"
+
+#. module: noviat_account_coda
+#: field:account.coda.trans.category,category:0
+msgid "Transaction Category"
+msgstr "CODA verrichtingen - Rubriek"
+
+#. module: noviat_account_coda
+#: field:account.coda.trans.category,description:0
+msgid "Description"
+msgstr "Omschrijving"
+
+#. module: noviat_account_coda
+#: field:account.coda.comm.type,code:0
+msgid "Structured Communication Type"
+msgstr "Type gestructureerde mededeling"
+
+#. module: noviat_account_coda
+#: field:account.coda.comm.type,description:0
+msgid "Description"
+msgstr "Omschrijving"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,name:0
+msgid "Name"
+msgstr "Naam"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,date:0
+msgid "Date"
+msgstr "Datum"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,coda_id:0
+msgid "CODA Data File"
+msgstr "CODA bestand"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,journal_id:0
+msgid "Journal"
+msgstr "Dagboek"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,period_id:0
+msgid "Period"
+msgstr "Periode"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,balance_start:0
+msgid "Starting Balance"
+msgstr "Beginsaldo"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,balance_end_real:0
+msgid "Ending Balance"
+msgstr "Eindsaldo"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,balance_end:0
+msgid "Balance"
+msgstr "Saldo"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,line_ids:0
+msgid "CODA Bank Statement lines"
+msgstr "CODA details"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,state:0
+msgid "State"
+msgstr "Status"
+
+#. module: noviat_account_coda
+#: selection:coda.bank.statement,state:0
+msgid "Draft"
+msgstr "Concept"
+
+#. module: noviat_account_coda
+#: selection:coda.bank.statement,state:0
+msgid "Done"
+msgstr "Verwerkt"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement,currency:0
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: noviat_account_coda
+#: field:account.bank.statement,coda_statement_id:0
+msgid "associated CODA bank statement"
+msgstr "bijhorend CODA dagafschrift"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,name:0
+msgid "Name"
+msgstr "Naam"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,sequence:0
+msgid "Sequence"
+msgstr "Volgorde"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,date:0
+msgid "Date"
+msgstr "Datum"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,account_id:0
+msgid "Account"
+msgstr "Grootboekrekening"
+
+#. module: noviat_account_coda
+#: selection:coda.bank.statement.line,type:0
+msgid "Supplier"
+msgstr "Leverancier"
+
+#. module: noviat_account_coda
+#: selection:coda.bank.statement.line,type:0
+msgid "Customer"
+msgstr "Klant"
+
+#. module: noviat_account_coda
+#: selection:coda.bank.statement.line,type:0
+msgid "General"
+msgstr "Algemeen"
+
+#. module: noviat_account_coda
+#: selection:coda.bank.statement.line,type:0
+msgid "Globalisation"
+msgstr "Globalisatie"
+
+#. module: noviat_account_coda
+#: selection:coda.bank.statement.line,type:0
+msgid "Information"
+msgstr "Informatie"
+
+#. module: noviat_account_coda
+#: selection:coda.bank.statement.line,type:0
+msgid "Communication"
+msgstr "Mededeling"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,globalisation_level:0
+msgid "Globalisation Level"
+msgstr "Globalisatie niveau"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,globalisation_amount:0
+msgid "Globalisation Amount"
+msgstr "Globalisatie bedrag"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,amount:0
+msgid "Amount"
+msgstr "Bedrag"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,statement_id:0
+msgid "CODA Bank Statement"
+msgstr "CODA dagafschrift"
+
+#. module: noviat_account_coda
+#: field:coda.bank.statement.line,note:0
+msgid "Notes"
+msgstr "Notities"
+
+#. module: noviat_account_coda
+#: wizard_view:noviat.account.coda.import,init:0
+msgid "Import CODA File"
+msgstr "Importeer CODA bestand"
+
+#. module: noviat_account_coda
+#: wizard_view:noviat.account.coda.import,init:0
+msgid "Select Details"
+msgstr "Selecteer details"
+
+#. module: noviat_account_coda
+#: wizard_view:noviat.account.coda.import,init:0
+msgid "Select your file :"
+msgstr "Selecteer uw bestand:"
+
+#. module: noviat_account_coda
+#: wizard_field:noviat.account.coda.import,init,coda_data:0
+msgid "CODA File"
+msgstr "CODA bestand"
+
+#. module: noviat_account_coda
+#: wizard_field:noviat.account.coda.import,init,coda_fname:0
+msgid "CODA Filename"
+msgstr "CODA bestandsnaam"
+
+#. module: noviat_account_coda
+#: wizard_field:noviat.account.coda.import,init,def_payable:0
+msgid "Default Payable Account"
+msgstr "Default rekening leveranciers"
+
+#. module: noviat_account_coda
+#: wizard_field:noviat.account.coda.import,init,def_receivable:0
+msgid "Default Receivable Account"
+msgstr "Default rekening klanten"
+
+#. module: noviat_account_coda
+#: wizard_view:noviat.account.coda.import,extraction:0
+msgid "Import CODA File"
+msgstr "Importeer CODA bestand"
+
+#. module: noviat_account_coda
+#: wizard_view:noviat.account.coda.import,extraction:0
+msgid "Results :"
+msgstr "Resultaat :"
+
+#. module: noviat_account_coda
+#: wizard_field:noviat.account.coda.import,extraction:0
+msgid "Log"
+msgstr "Log"
+
+#. module: noviat_account_coda
+#: wizard_button:noviat.account.coda.import,extraction,end:0
+msgid "_Close"
+msgstr "_Sluiten"
+
+#. module: noviat_account_coda
+#: wizard_button:noviat.account.coda.import,extraction,open:0
+msgid "_View Statement(s)"
+msgstr "_Bekijk afschrift(en)"
+
+#. module: noviat_account_coda
+#: code:addons/noviat_account_coda/wizard/account_coda_import.py:0
+#, python-format
+msgid "CODA File is Imported  :"
+msgstr "Het CODA bestand is geimporteerd  :"
+
+#. module: noviat_account_coda
+#: code:addons/noviat_account_coda/wizard/account_coda_import.py:0
+#, python-format
+msgid "\n\nNumber of statements : "
+msgstr "\n\nAantal afschriften : "
+
+#. module: noviat_account_coda
+#: code:addons/noviat_account_coda/wizard/account_coda_import.py:0
+#, python-format
+msgid "\n\nBank Journal: %s\nCODA Sequence Number: %s\nAccount Number: %s\nAccount Holder Name: %s\nDate: %s, Starting Balance:  %.2f, Ending Balance: %.2f"
+msgstr "\n\nFinancieel dagboek: %s\nCODA volgnummer: %s\nBankrekeningnummer: %s\nNaam rekeninghouder: %s\nDatum: %s, Oud saldo:  %.2f, Nieuw saldo: %.2f"
+
+#. module: noviat_account_coda
+#: code:addons/noviat_account_coda/wizard/account_coda_import.py:0
+#, python-format
+msgid "Partner name: %s \nPartner Account Number: %s\nTransaction Type: %s - %s\nTransaction Family: %s - %s\nTransaction Code: %s - %s\nTransaction Category: %s - %s\nStructured Communication Type: %s - %s\nCommunication: %s\nValuta Date: %s\nEntry Date: %s \n"
+msgstr "Naam Partner: %s \nBankrekeningnummer partner: %s\nVerrichtingstype: %s - %s\nVerrichtingsfamilie: %s - %s\nVerrichtingscode: %s - %s\nVerrichtingsrubriek: %s - %s\nType gestructureerde mededeling: %s - %s\nMededeling: %s\nValutadatum: %s\nBoekingsdatum: %s \n"
+

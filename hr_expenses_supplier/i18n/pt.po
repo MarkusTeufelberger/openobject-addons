@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-09-04 17:40+0000\n"
+"PO-Revision-Date: 2010-12-03 01:12+0000\n"
+"Last-Translator: Luniz <luniz52@hotmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-30 05:04+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. module: hr_expenses_supplier
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML Inválido para a Arquitectura de Vista!"
+
+#. module: hr_expenses_supplier
+#: model:ir.module.module,shortdesc:hr_expenses_supplier.module_meta_information
+msgid "HR Expenses Supplier"
+msgstr "RH Despesas de Fornecedor"
+
+#. module: hr_expenses_supplier
+#: model:ir.module.module,description:hr_expenses_supplier.module_meta_information
+msgid ""
+"\n"
+"    Add supplier on expenses lines for generate invoice supplier\n"
+"    if the employe didn't paid the expenses but the society\n"
+"    "
+msgstr ""
+"\n"
+"    Adicionar fornecedor nas linhas de despesas para gerar uma factura de "
+"fornecedor\n"
+"    se o colaborador não pagou as despesas mas a sociedade\n"
+"    "
+
+#. module: hr_expenses_supplier
+#: field:hr.expense.line,partner_id:0
+msgid "Supplier"
+msgstr "Fornecedor"

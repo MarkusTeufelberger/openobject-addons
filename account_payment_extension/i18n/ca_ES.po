@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.0-rc1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-06-02 08:55:17+0000\n"
+"POT-Creation-Date: 2010-10-06 01:50:28+0000\n"
 "PO-Revision-Date: 2010-06-02 12:57+0200\n"
 "Last-Translator: Albert Cervera i Areny <albert@nan-tic.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -177,6 +177,13 @@ msgid "Account move line \"%s\" is not valid"
 msgstr "L'apunt \"%s\" no és vàlid."
 
 #. module: account_payment_extension
+#: wizard_button:populate_payment_ext,init,end:0
+#: wizard_button:populate_payment_ext,search,end:0
+#: wizard_button:populate_statement_ext,init,end:0
+msgid "_Cancel"
+msgstr "_Cancel·la"
+
+#. module: account_payment_extension
 #: field:payment.order,payment_type_name:0
 msgid "Payment type name"
 msgstr "Nom tipus de pagament"
@@ -281,9 +288,9 @@ msgid "Default"
 msgstr "Per defecte"
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,search:0
-msgid "_Search"
-msgstr "_Cerca"
+#: wizard_button:populate_payment_ext,search,create:0
+msgid "_Add to payment order"
+msgstr "_Afegir a l'ordre de pagament"
 
 #. module: account_payment_extension
 #: field:payment.line,payment_move_id:0
@@ -296,15 +303,20 @@ msgid "Bank Account"
 msgstr "Compte bancari"
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,search,create:0
-msgid "_Add to payment order"
-msgstr "_Afegir a l'ordre de pagament"
+#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
+msgid "Receivable payments"
+msgstr "Cobraments"
 
 #. module: account_payment_extension
 #: code:addons/account_payment_extension/payment.py:0
 #, python-format
 msgid "Invalid action!"
 msgstr "Acció no vàlida!"
+
+#. module: account_payment_extension
+#: wizard_button:populate_payment_ext,init,search:0
+msgid "_Search"
+msgstr "_Cerca"
 
 #. module: account_payment_extension
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_payments_receivable_unreconciled
@@ -388,9 +400,9 @@ msgid "Payable invoice payments"
 msgstr "Efectes de pagament"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payments_receivable
-msgid "Receivable payments"
-msgstr "Cobraments"
+#: help:populate_payment_ext,init,show_refunds:0
+msgid "Indicates if search should include refunds."
+msgstr "Indica si la cerca ha d'incloure factures d'abonament."
 
 #. module: account_payment_extension
 #: help:payment.type,note:0
@@ -425,11 +437,9 @@ msgstr ""
 "Serveix per indicar que s'ha rebut un xec en suport paper, per exemple."
 
 #. module: account_payment_extension
-#: wizard_button:populate_payment_ext,init,end:0
-#: wizard_button:populate_payment_ext,search,end:0
-#: wizard_button:populate_statement_ext,init,end:0
-msgid "_Cancel"
-msgstr "_Cancel·la"
+#: wizard_field:populate_payment_ext,init,show_refunds:0
+msgid "Show Refunds"
+msgstr "Mostra abonaments"
 
 #. module: account_payment_extension
 #: field:account.move.line,received_check:0
