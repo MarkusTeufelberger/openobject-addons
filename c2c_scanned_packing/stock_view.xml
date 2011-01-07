@@ -14,7 +14,7 @@
         </record>
         
         <record id="stock.action_picking_tree" model="ir.actions.act_window">
-            <field name="auto_refresh">3</field>
+            <field name="auto_refresh">0</field>
         </record>
     </data>
 </openerp>
