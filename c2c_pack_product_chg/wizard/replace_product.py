@@ -25,31 +25,36 @@ class replace_product(osv.osv_memory):
     _name = "replace.product"
     _description = "Replace Product"
     _columns = {
-        'product_id': fields.many2one('product.product', 'Replace by product', required=True, help="Choose which products will replace the original one."),
+        'product_id': fields.many2one('product.product', 'Replace by product', required=True, help="Choose which product will replace the original one."),
     }
 
     def replace(self, cr, uid, data, context=None):
-          rec_id = context and context.get('active_ids', False)
-          move_obj = self.pool.get('stock.move')
-          partner_obj = self.pool.get('res.partner')
-          ctx ={}
-          prod_id = self.browse(cr, uid, data[0], context).product_id or False
-          for move in move_obj.browse(cr, uid, rec_id):
-              if move.state in ['done','cancel']:
-                    raise osv.except_osv(_('Error!'),  _('You cannot replace a product on a delivred or canceled move !'))
-              if not prod_id:
-                  raise osv.except_osv(_('Error!'),  _('You must choose a product !'))
-              if move.picking_id.address_id.partner_id:
-                    lang = partner_obj.browse(cr, uid, move.picking_id.address_id.partner_id.id).lang
-                    ctx = {'lang': lang}              
-              line_name = self.pool.get('product.product').name_get(cr, uid, [prod_id.id], context=ctx)[0][1]
-              # Make the replacement of the product. Store the old one !
-              move_obj.write(cr, uid, [move.id], {
-                      'product_id': prod_id.id,
-                      'old_product_id': move.product_id.id,
-                      'name' : line_name[:64],
-                  })
-          return {}
+        rec_id = context and context.get('active_ids', False)
+        move_obj = self.pool.get('stock.move')
+        partner_obj = self.pool.get('res.partner')
+        ctx ={}
+        prod_id = self.browse(cr, uid, data[0], context).product_id or False
+        for move in move_obj.browse(cr, uid, rec_id):
+            if move.state in ['done','cancel']:
+                raise osv.except_osv(_('Error!'),  _('You cannot replace a product on a delivered or canceled move !'))
+            if not prod_id:
+                raise osv.except_osv(_('Error!'),  _('You must choose a product !'))
+            if move.picking_id.address_id.partner_id:
+                lang = partner_obj.browse(cr, uid, move.picking_id.address_id.partner_id.id).lang
+                ctx = {'lang': lang}
+            line_name = self.pool.get('product.product').name_get(cr, uid, [prod_id.id], context=ctx)[0][1]
+              
+            data = {'product_id': prod_id.id,
+                    'name': line_name[:64]
+                }
+                    
+            #  Store the replaced product (only once to keep the product ordered by the client if many replacements)
+            if not move.old_product_id:
+                data['old_product_id'] = move.product_id.id
+              
+            # Make the replacement of the product.
+            move_obj.write(cr, uid, [move.id], data)
+        return {}
 
 replace_product()
 
