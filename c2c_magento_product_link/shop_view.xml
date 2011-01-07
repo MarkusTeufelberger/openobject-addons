@@ -4,7 +4,7 @@
         <record model="ir.ui.view" id="base_sale_multichannels_view_shop_form_inherit">
             <field name="name">base_sale_multichannels_view_shop_form_inherit</field>
             <field name="model">sale.shop</field>
-            <field name="inherit_id" ref="sale.view_shop_form" />
+            <field name="inherit_id" ref="base_sale_multichannels.base_sale_multichannels_view_shop_form" />
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field  name="last_products_export_date" position="after">

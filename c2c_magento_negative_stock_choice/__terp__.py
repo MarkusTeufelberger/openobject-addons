@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Author Nicolas Bessi. Copyright Camptocamp SA
+#    Author Guewen Baconnier. Copyright Camptocamp SA
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,20 +18,21 @@
 #
 ##############################################################################
 {
-    'name' : 'Magento product link',
-    'version' : '0.1',
-    'depends' : ['base','account', 'product','magentoerpconnect', 'base_sale_multichannels'],
+    'name' : 'c2c_magento_negative_stock_choice',
+    'version' : '1',
+    'depends' : ['base','product','magentoerpconnect', 'stock', 'c2c_bom_stock'],
     'author' : 'Camptocamp',
-    'description': """Add support for cross selling, equivalences, related product 
-    No support for multi store. 
-    TO DO :
-    - Do real sychronisation not push pull
-    - Access Rules
-    
+    'description': """ Customisation of Magento OpenERP Connector.
+Choose the Magento behavior for Out of Stock Products : 
+ - No Negative Stock Allowed
+ - Negative Stock Allowed
+ - Negative Stock Allowed (but warn customer)
+The behavior can be chosen separately on each product.
     """,
     'website': 'http://www.camptocamp.com',
     'init_xml': [],
-    'update_xml': ['product_view.xml','shop_view.xml'],
+    'update_xml': ['product_view.xml', 
+                  ],
     'demo_xml': [],
     'installable': True,
     'active': False,

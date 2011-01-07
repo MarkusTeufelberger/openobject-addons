@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Author Nicolas Bessi. Copyright Camptocamp SA
+#    Author Guewen Baconnier. Copyright Camptocamp SA
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,22 +17,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name' : 'Magento product link',
-    'version' : '0.1',
-    'depends' : ['base','account', 'product','magentoerpconnect', 'base_sale_multichannels'],
-    'author' : 'Camptocamp',
-    'description': """Add support for cross selling, equivalences, related product 
-    No support for multi store. 
-    TO DO :
-    - Do real sychronisation not push pull
-    - Access Rules
-    
-    """,
-    'website': 'http://www.camptocamp.com',
-    'init_xml': [],
-    'update_xml': ['product_view.xml','shop_view.xml'],
-    'demo_xml': [],
-    'installable': True,
-    'active': False,
-}
+
+from osv import osv, fields
+
+class Product(osv.osv):
+    " Inherit product to add the sequence on the Magento SKU field"
+    _inherit = 'product.product'
+
+    _columns = {
+                'magento_sku':fields.char('Magento SKU', size=64, readonly=True),
+                }
+
+    _defaults = {
+                 'magento_sku':lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'product.magento.sku'),
+                }
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        if not context:
+            context = {}
+        if not default:
+            default = {}
+
+        default['magento_sku'] = self.pool.get('ir.sequence').get(cr, uid, 'product.magento.sku')
+
+        return super(Product, self).copy(cr, uid, id, default=default, context=context)
+
+Product()

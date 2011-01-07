@@ -18,20 +18,20 @@
 #
 ##############################################################################
 {
-    'name' : 'Magento product link',
-    'version' : '0.1',
-    'depends' : ['base','account', 'product','magentoerpconnect', 'base_sale_multichannels'],
+    'name' : 'c2c_magento_set_and_pack_product',
+    'version' : '1',
+    'depends' : ['base','account', 'product','magentoerpconnect'],
     'author' : 'Camptocamp',
-    'description': """Add support for cross selling, equivalences, related product 
-    No support for multi store. 
-    TO DO :
-    - Do real sychronisation not push pull
-    - Access Rules
-    
-    """,
+    'description': """Management of products for Magento: 
+Define in a Magento's attribute if the product is : 
+ - a normal product
+ - a pack (Phantom BoM)
+ - a set (Normal BoM)
+""",
     'website': 'http://www.camptocamp.com',
     'init_xml': [],
-    'update_xml': ['product_view.xml','shop_view.xml'],
+    'update_xml': ['product_view.xml', 
+                  ],
     'demo_xml': [],
     'installable': True,
     'active': False,

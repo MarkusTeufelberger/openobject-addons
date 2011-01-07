@@ -18,20 +18,25 @@
 #
 ##############################################################################
 {
-    'name' : 'Magento product link',
-    'version' : '0.1',
-    'depends' : ['base','account', 'product','magentoerpconnect', 'base_sale_multichannels'],
+    'name' : 'c2c_magento_shipping',
+    'version' : '1',
+    'depends' : ['base', 'stock', 'base_sale_multichannels', 'magentoerpconnect', ],
     'author' : 'Camptocamp',
-    'description': """Add support for cross selling, equivalences, related product 
-    No support for multi store. 
-    TO DO :
-    - Do real sychronisation not push pull
-    - Access Rules
-    
-    """,
+    'description': """Customisation of the Magento ERP Connector module for the shippings.
+ - The signature of the Magento's method sales_order_shipment.create is modified to send the modified products and their quantity
+ - Inform Magento if a packing is the last one
+ - Send the packings in the right order from first to last
+ - Remove the components of a bills of materials in an sale order if their price is 0.0. 
+
+Works with a Magento customisation to handle shippings the same way!
+
+The magento method sales_order_shipment.create is modified to handle the product changement and the "last packing" information.
+It sends the pack and its components with a 0.0 price because it needs to have all the products in the sale order in order to have correct shipments.
+
+""",
     'website': 'http://www.camptocamp.com',
     'init_xml': [],
-    'update_xml': ['product_view.xml','shop_view.xml'],
+    'update_xml': [],
     'demo_xml': [],
     'installable': True,
     'active': False,

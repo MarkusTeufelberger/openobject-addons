@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Author Nicolas Bessi. Copyright Camptocamp SA
+#    Author Guewen Baconnier. Copyright Camptocamp SA
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,22 +17,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name' : 'Magento product link',
-    'version' : '0.1',
-    'depends' : ['base','account', 'product','magentoerpconnect', 'base_sale_multichannels'],
-    'author' : 'Camptocamp',
-    'description': """Add support for cross selling, equivalences, related product 
-    No support for multi store. 
-    TO DO :
-    - Do real sychronisation not push pull
-    - Access Rules
-    
-    """,
-    'website': 'http://www.camptocamp.com',
-    'init_xml': [],
-    'update_xml': ['product_view.xml','shop_view.xml'],
-    'demo_xml': [],
-    'installable': True,
-    'active': False,
-}
+
+import netsvc
+import time
+
+from osv import fields, osv
+from tools.translate import _
+
+class Product(osv.osv):
+    """ Inherit product to remove the images when duplicating a media otherwise
+    Magento will link the same image to the 2 products"""
+    _inherit = 'product.product'
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        if not context:
+            context = {}
+        if not default:
+            default = {}
+            
+        default['image_ids'] = False
+
+        return super(Product, self).copy(cr, uid, id, default=default, context=context)   
+           
+Product()
