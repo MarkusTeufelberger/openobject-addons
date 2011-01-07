@@ -16,6 +16,8 @@
                           <field name="name" colspan="2"/>
                     </group>
                    <separator string="" colspan="4"/>
+                   <label>Help: All the products prices are exported. Warning, you will need all the prices values on the import file because the import is destructive: ALL PRICES VALUES WILL BE UPDATED FOR ONE SUPPLIER, THOSE WHICH ARE NOT IN THE FILE WILL BE DELETED (aught the product is in the import file).</label>
+                   <separator string="" colspan="4"/>
                    <group colspan="4" col="6">
                         <button  icon="gtk-cancel" special="cancel" string="Cancel"/>
                         <button  icon="gtk-ok" name="action_import" string="Import" type="object"/>
