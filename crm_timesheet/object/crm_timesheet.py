@@ -185,9 +185,9 @@ class crm_case(osv.osv):
         """
         if context is None:
             context = {}
-        if context.get('calculate_duration', False) or self.pool.get('crm.case.section').read(
+        if context.get('calculate_duration', False) or (vals.get('section_id', False) and self.pool.get('crm.case.section').read(
                 cr, uid, vals['section_id'], ['calculate_duration'], context=context
-                )['calculate_duration']:
+                )['calculate_duration']):
             if vals.get('timesheet_ids', False):
                 duration = 0.0
                 for t in vals['timesheet_ids']:
