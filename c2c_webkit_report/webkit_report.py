@@ -149,22 +149,22 @@ class WebKitParser(report_sxw):
                 if webkit_header.margin_top == 0.01:
                     command.append('--margin-top 0')
                 else :
-                    command.append('--margin-top %s'%(webkit_header.margin_top))
+                    command.append(('--margin-top %s'%(webkit_header.margin_top)).replace(',', '.'))
             if webkit_header.margin_bottom :
                 if webkit_header.margin_bottom == 0.01:
                     command.append('--margin-bottom 0')
                 else :
-                    command.append('--margin-bottom %s'%(webkit_header.margin_bottom))
+                    command.append(('--margin-bottom %s'%(webkit_header.margin_bottom)).replace(',', '.'))
             if webkit_header.margin_left :
                 if webkit_header.margin_left == 0.01:
                     command.append('--margin-left 0')
                 else :                
-                    command.append('--margin-left %s'%(webkit_header.margin_left))
+                    command.append(('--margin-left %s'%(webkit_header.margin_left)).replace(',', '.'))
             if webkit_header.margin_right :
                 if webkit_header.margin_right == 0.01:
                     command.append('--margin-right 0')
                 else :
-                    command.append('--margin-right %s'%(webkit_header.margin_right))
+                    command.append(('--margin-right %s'%(webkit_header.margin_right)).replace(',', '.'))
             if webkit_header.orientation :
                 command.append("--orientation '%s'"%(webkit_header.orientation))
             if webkit_header.format :
@@ -182,6 +182,7 @@ class WebKitParser(report_sxw):
             try:
                 status = commands.getstatusoutput(generate_command)
                 if status[0] :
+                    print status
                     raise osv.except_osv(
                                     _('Webkit raise an error' ), 
                                     status[1]
