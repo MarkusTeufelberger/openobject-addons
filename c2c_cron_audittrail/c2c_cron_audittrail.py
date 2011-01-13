@@ -60,7 +60,9 @@ class c2c_cron_audittrail(osv.osv):
                 time_after = datetime.now()
                 duration = time_after-time_before
                 duration = duration.seconds/60
-                self.write(cr, uid, [job['id']], {'funct_message': function, 'duration':duration, 'state': 'ok'},context={'call_from_self':True}) 
+                #we use cursor as parent ir_cron class write function call the netsvc cancel function
+                cr.execute("update ir_cron set funct_message = %s, duration = %s, state='ok' where id = %s", (function, duration, job['id']))  
+                #self.write(cr, uid, [job['id']], {'funct_message': function, 'duration':duration, 'state': 'ok'},context={'call_from_self':True}) 
                 #Normally if clause is not needed
                 ##To be sure that parallel process will never be overlapping in one DB
                 if key in self.RUNNING_CRON:
@@ -68,7 +70,9 @@ class c2c_cron_audittrail(osv.osv):
             except Exception, e:
                 if key in self.RUNNING_CRON:
                     self.RUNNING_CRON.remove(key)
-                self.write(cr, uid, [job['id']], {'state': 'cancel', 'funct_message': e}, context={'call_from_self':True})
+                #we use cursor as parent ir_cron class write function call the netsvc cancel function
+                cr.execute("update ir_cron set state = 'cancel', funct_message = %s  where id = %s", (e,job['id']))   
+                #self.write(cr, uid, [job['id']], {'state': 'cancel', 'funct_message': e}, context={'call_from_self':True})
                 self._logger.notifyChannel('timers', netsvc.LOG_ERROR, "Job call of self.pool.get('%s').%s(cr, uid, *%r) failed" % job['model'], job['function'], job['args'])
                 self._logger.notifyChannel('timers', netsvc.LOG_ERROR, tools.exception_to_unicode(e))
             finally:
@@ -79,12 +83,13 @@ class c2c_cron_audittrail(osv.osv):
                 if not numbercall:
                     addsql = ', active=False'
                 # we do not use ORM due to strange behavior when active = False 
+
+                cr.execute("update ir_cron set nextcall=%s, numbercall=%s"+addsql+" where id=%s", (nextcall.strftime('%Y-%m-%d %H:%M:%S'), numbercall, job['id']))
                 self._logger.notifyChannel('timers', netsvc.LOG_INFO, "Job call of self.pool.get('%s').%s(cr, uid, *%r) finished and reschedule at %s"\
                     % (job['model'], job['function'], job['args'], nextcall))
-                cr.execute("update ir_cron set nextcall=%s, numbercall=%s"+addsql+" where id=%s", (nextcall.strftime('%Y-%m-%d %H:%M:%S'), numbercall, job['id']))
                 cr.commit()
-                self._poolJobs(db_name)
                 cr.close()                
+                self._poolJobs(db_name)
                 
                  
 
@@ -129,20 +134,17 @@ class c2c_cron_audittrail(osv.osv):
             cr.close()
             
     def create(self, cr, uid, vals, context=None):
-        if not context.get('call_from_self', False):            
-            self.RUNNING_CRON=[]           
+        self.RUNNING_CRON=[]
         res = super(c2c_cron_audittrail, self).create(cr, uid, vals, context=context) 
         return res
         
     def write(self, cr, user, ids, vals, context=None):
-        if not context.get('call_from_self', False):            
-            self.RUNNING_CRON=[]   
+        self.RUNNING_CRON=[]   
         res = super(c2c_cron_audittrail, self).write(cr, user, ids, vals, context=context)
         return res
         
     def unlink(self, cr, uid, ids, context=None):
-        if not context.get('call_from_self', False):            
-            self.RUNNING_CRON=[]     
+        self.RUNNING_CRON=[]     
         res = super(c2c_cron_audittrail, self).unlink(cr, uid, ids, context=context)
         return res
                     
