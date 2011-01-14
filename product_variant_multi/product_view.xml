@@ -115,8 +115,9 @@
 						<form string="Variant Value">
 							<field name="name" />
 							<field name="sequence" />
-							<field name="price_extra" />
-							<field name="price_margin" />
+							<field name="price_extra" string="Sale Price Extra"/>
+							<field name="price_margin" string="Sale Price Margin"/>
+							<field name="cost_price_extra"/>
 						</form>
 					</field>
 				</form>
@@ -148,12 +149,14 @@
 										<field name="sequence" />
 										<field name="price_extra" />
 										<field name="price_margin" />
+										<field name="cost_price_extra"/>
 									</tree>
 									<form string="Variant Value">
 										<field name="name" />
 										<field name="sequence" />
 										<field name="price_extra" />
 										<field name="price_margin" />
+										<field name="cost_price_extra"/>
 									</form>
 								</field>
 							</form>

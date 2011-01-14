@@ -69,8 +69,9 @@ class product_variant_dimension_value(osv.osv):
     _columns = {
         'name' : fields.char('Dimension Value', size=64, required=True),
         'sequence' : fields.integer('Sequence'),
-        'price_extra' : fields.float('Price Extra', digits=(16, int(config['price_accuracy']))),
-        'price_margin' : fields.float('Price Margin', digits=(16, int(config['price_accuracy']))),
+        'price_extra' : fields.float('Sale Price Extra', digits=(16, int(config['price_accuracy']))),
+        'price_margin' : fields.float('Sale Price Margin', digits=(16, int(config['price_accuracy']))),
+        'cost_price_extra' : fields.float('Purchase Extra Cost', digits=(16, int(config['price_accuracy']))),
         'dimension_id' : fields.many2one('product.variant.dimension.type', 'Dimension Type', required=True, ondelete='cascade'),
         'product_tmpl_id': fields.related('dimension_id', 'product_tmpl_id', type="many2one", relation="product.template", string="Product Template", store=True),
         'dimension_sequence': fields.related('dimension_id', 'sequence', string="Related Dimension Sequence",#used for ordering purposes in the "variants"
@@ -206,8 +207,7 @@ class product_product(osv.osv):
 
     def price_get(self, cr, uid, ids, ptype='list_price', context={}):
         result = super(product_product, self).price_get(cr, uid, ids, ptype, context)
-        
-        if ptype == 'list_price':
+        if ptype == 'list_price': #TODO check if the price_margin on the dimension is very usefull, maybe we will remove it
             product_uom_obj = self.pool.get('product.uom')
             for product in self.browse(cr, uid, ids, context=context):
                 dimension_extra = 0.0
@@ -221,6 +221,20 @@ class product_product(osv.osv):
                 
                 result[product.id] += dimension_extra
 
+        if ptype == 'standard_price':
+            product_uom_obj = self.pool.get('product.uom')
+            for product in self.browse(cr, uid, ids, context=context):
+                dimension_extra = 0.0
+                for dim in product.dimension_value_ids:
+                    dimension_extra += dim.cost_price_extra
+                
+                if 'uom' in context:
+                    uom = product.uos_id or product.uom_id
+                    dimension_extra = product_uom_obj._compute_price(cr, uid,
+                            uom.id, dimension_extra, context['uom'])
+                
+                result[product.id] += dimension_extra
+                
         return result
 
     def copy(self, cr, uid, id, default=None, context=None):
@@ -232,6 +246,7 @@ class product_product(osv.osv):
 
     _columns = {
         'dimension_value_ids': fields.many2many('product.variant.dimension.value', 'product_product_dimension_rel', 'product_id','dimension_id', 'Dimensions', domain="[('product_tmpl_id','=',product_tmpl_id)]"),
+        'cost_price_extra' : fields.float('Purchase Extra Cost', digits=(16, int(config['price_accuracy']))),
         'variants': fields.function(_variant_name_get, method=True, type='char', size=128, string='Variants', readonly=True,
             store={
                 'product.variant.dimension.type': (_get_products_from_dimension, None, 10),
