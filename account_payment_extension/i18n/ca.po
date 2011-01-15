@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-14 06:06+0000\n"
+"X-Launchpad-Export-Date: 2011-01-15 06:15+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 "Language: ca\n"
 
@@ -540,8 +540,14 @@ msgstr ""
 #~ msgid "Payments to pay"
 #~ msgstr "Efectes pendents de pagament"
 
+#~ msgid "All paid and to pay payments"
+#~ msgstr "Tots els efectes de pagament"
+
 #~ msgid "Payments to receive"
 #~ msgstr "Efectes pendents de cobrament"
+
+#~ msgid "All received and to receive payments"
+#~ msgstr "Tots els efectes de cobrament"
 
 #~ msgid "Require Bank Account"
 #~ msgstr "Requereix compte bancari"
