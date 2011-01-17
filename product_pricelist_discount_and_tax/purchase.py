@@ -3,7 +3,7 @@
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Copyright (C) 2010 Gábor Dukai (gdukai@gmail.com)
+#    Copyright (C) 2010-2011 Gábor Dukai (gdukai@gmail.com)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ class purchase_order_line(osv.osv):
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom,
             partner_id, date_order=False, fiscal_position=False):
         """Original overridden to call price_get_improved() instead of price_get()
-        and set the discount field."""        
+        and set the discount field."""
         if not pricelist:
             raise osv.except_osv(_('No Pricelist !'), _('You have to select a pricelist in the purchase form !\nPlease set one before choosing a product.'))
         if not  partner_id:
@@ -51,7 +51,7 @@ class purchase_order_line(osv.osv):
             uom = prod_uom_po
         if not date_order:
             date_order = time.strftime('%Y-%m-%d')
-        
+
         qty = qty or 1.0
         seller_delay = 0
         for s in prod.seller_ids:
@@ -66,7 +66,7 @@ class purchase_order_line(osv.osv):
                     'uom': uom,
                     'date': date_order,
                     })[pricelist]
-        price = price_res['price']                    
+        price = price_res['price']
         dt = (DateTime.now() + DateTime.RelativeDateTime(days=int(seller_delay) or 0.0)).strftime('%Y-%m-%d %H:%M:%S')
         prod_name = prod.partner_ref
 
@@ -77,7 +77,7 @@ class purchase_order_line(osv.osv):
             'product_uom': uom}}
         #dukai
         if 'discount' in price_res:
-            res['value']['discount'] = price_res['discount']     
+            res['value']['discount'] = price_res['discount']
 
         taxes = self.pool.get('account.tax').browse(cr, uid,map(lambda x: x.id, prod.supplier_taxes_id))
         fpos = fiscal_position and self.pool.get('account.fiscal.position').browse(cr, uid, fiscal_position) or False
