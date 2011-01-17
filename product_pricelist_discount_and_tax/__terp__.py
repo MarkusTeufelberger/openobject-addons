@@ -19,7 +19,7 @@
 ##############################################################################
 {
     "name": "Price list discount and tax handling",
-    "version": "1.11",
+    "version": "1.12",
     "author": "Gábor Dukai",
     "website" : "http://exploringopenerp.blogspot.com",
     "category": "Generic Modules/Inventory Control",
