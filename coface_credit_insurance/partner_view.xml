@@ -38,9 +38,10 @@
             <field name="arch" type="xml">
                 <tree string="Coface credit history">
                     <field name="coface_request_date"/>
-                    <field name="coface_product"/>
+                    <field name="name"/>
                     <field name="coface_rating"/>
                     <field name="coface_credit_limit"/>
+                    <field name="coface_credit_limit_cur"/>
                     <field name="coface_effective_date"/>
                     <field name="coface_decision_status"/>
                 </tree>
@@ -57,7 +58,7 @@
                 <form string="Coface credit history">
                     <separator string="Request to Coface" colspan="4"/>
                     <field name="coface_request_date" readonly="1" />
-                    <field name="coface_product" readonly="1" />
+                    <field name="name" readonly="1" />
                     <field name="coface_requested_amount" readonly="1" />
                     <field name="coface_requested_amount_cur" readonly="1" />
                     <separator string="Answer from Coface" colspan="4"/>

@@ -1342,7 +1342,7 @@ elsif coface_identifier
            coface_credit_history_id = coface_credit_history_list.last()
            cl =  CofaceCreditHistory.find(coface_credit_history_id)
            test = [
-                   [cl.coface_product, (coface_product || false)],#0
+                   [cl.name, (coface_product || false)],#0
                    [cl.coface_rating, (coface_rating || false)],#1
                    [cl.coface_requested_amount, (coface_requested_amount || 0)],#2
                    [cl.coface_requested_amount_cur, (coface_requested_amount_cur || false)],#3
@@ -1367,7 +1367,7 @@ elsif coface_identifier
             coface_line = CofaceCreditHistory.new({
                                 :partner_id=&gt;partner.id,
                                 :coface_file_date=&gt;coface_file_date,
-                                :coface_product=&gt;coface_product,
+                                :name=&gt;coface_product,
                                 :coface_rating=&gt;coface_rating,
                                 :coface_requested_amount=&gt;coface_requested_amount,
                                 :coface_requested_amount_cur=&gt;coface_requested_amount_cur,
