@@ -1,0 +1,4 @@
+'REPLACE_coface_login' : 'your_login',
+'REPLACE_coface_password':'your_password',
+'REPLACE_contract_number':'your_contract_number',
+
