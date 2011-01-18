@@ -1385,7 +1385,7 @@ elsif coface_identifier
 							})
            coface_line.save
         end
-        partner.save
+        partner.save({}, false)
     end
 end
 
