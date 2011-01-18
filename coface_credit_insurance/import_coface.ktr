@@ -1308,7 +1308,7 @@
     <compatible>N</compatible>
     <jsScripts>      <jsScript>        <jsScript_type>1</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>Ooor.new({:models=&gt;[&apos;res.partner&apos;, &apos;coface.credit.history&apos;], :url =&gt; &apos;http:&#47;&#47;localhost:8069&#47;xmlrpc&apos;, :database =&gt; &apos;AUTO_REP_db_erp&apos;, :username =&gt; &apos;AUTO_REP_user_erp&apos;, :password =&gt; &apos;AUTO_REP_db_pass_erp&apos;})
+        <jsScript_script>Ooor.new({:models=&gt;[&apos;res.partner&apos;, &apos;coface.credit.history&apos;], :url =&gt; &apos;AUTO_REP_erp_url&apos;, :database =&gt; &apos;AUTO_REP_db_erp&apos;, :username =&gt; &apos;AUTO_REP_user_erp&apos;, :password =&gt; &apos;AUTO_REP_db_pass_erp&apos;})
 require &apos;tools&apos;
 Last_coface_identifier=&apos;&apos;</jsScript_script>
       </jsScript>      <jsScript>        <jsScript_type>0</jsScript_type>
