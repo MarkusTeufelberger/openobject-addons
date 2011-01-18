@@ -32,18 +32,21 @@ class res_partner(osv.osv):
         result = {}
         for partner_id in ids:
             related_credit_lines = coface_history_obj.search(cr, uid, [('partner_id', '=', partner_id)], order='create_date')
-            print """related_credit_lines""", related_credit_lines
             if not related_credit_lines:
                 result[partner_id] = 0
             else:
                 result[partner_id] =  coface_history_obj.read(cr, uid, related_credit_lines.pop(), ['coface_credit_limit'], context=context)['coface_credit_limit']
-                print 'credit limit', result[partner_id]
         return result
 
+    def _check_coface_identifier(self, cr, uid, ids, context=None):
+        for identifier in self.read(cr, uid, ids, context=context):
+            if identifier and not (identifier.isdigit() and len(identifier) == 14):
+                return False
+        return True 
 
 
     _columns = {
-        'coface_identifier': fields.char('Coface EASY number', size=16, help="EASY number of the partner"),
+        'coface_identifier': fields.char('Coface EASY number', size=14, help="EASY number of the partner"),
         'coface_partner_name': fields.char('Coface partner name', size=32, help="Country of the partner, imported from Coface database."),
         'coface_partner_country': fields.char('Coface partner country', size=32, help="Country of the partner, imported from Coface database."),
         #TAKE care the function is store with the param "=True", so after creating a new credit history line you have to save the partner. In the case of using the automatique import or a create from the partner view the partner is saved after creating the line
@@ -56,7 +59,9 @@ class res_partner(osv.osv):
         'coface_identifier_3': fields.char('Legal identifier 3', size=32),
         'coface_credit_history_ids': fields.one2many('coface.credit.history', 'partner_id', 'Credit History'),
     }
-
+    _constraints = [
+        (_check_coface_identifier, 'Coface identifier must have 14 digits', ['coface_identifier']),
+    ]
 
 res_partner()
 

@@ -202,12 +202,12 @@
       </field>
       <field>
         <name>Numéro EASY</name>
-        <type>Integer</type>
-        <format>#</format>
+        <type>String</type>
+        <format/>
         <currency>€</currency>
         <decimal>,</decimal>
         <group> </group>
-        <length>15</length>
+        <length>14</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1377,7 +1377,7 @@ elsif coface_identifier
                                 :coface_decision_status=&gt;coface_decision_status,
                                 :coface_decision_type=&gt;coface_decision_type,
                                 :coface_effective_date=&gt;coface_effective_date,
-                                :coface_decision_details=&gt;(coface_decision_details_1 || &apos;&apos;) + (coface_decision_details_2 || &apos;&apos;) + (coface_decision_details_3 || &apos;&apos;)
+                                :coface_decision_details=&gt;(coface_decision_details_1 &amp;&amp; (coface_decision_details_1 + &quot;\n&quot; ) || &apos;&apos;) + (coface_decision_details_2 &amp;&amp; (coface_decision_details_2 + &quot;\n&quot; ) || &apos;&apos;) + (coface_decision_details_3 &amp;&amp; (coface_decision_details_3 + &quot;\n&quot; ) || &apos;&apos;)
 							})
            coface_line.save
         end
@@ -1477,7 +1477,7 @@ end
     <fields>
       <field>
         <name>executionDate</name>
-        <ascending>Y</ascending>
+        <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
     </fields>
