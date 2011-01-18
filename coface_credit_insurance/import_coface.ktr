@@ -1308,17 +1308,21 @@
     <compatible>N</compatible>
     <jsScripts>      <jsScript>        <jsScript_type>1</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>Ooor.new({:models=&gt;[&apos;res.partner&apos;, &apos;coface.credit.history&apos;], :url =&gt; &apos;AUTO_REP_erp_url&apos;, :database =&gt; &apos;AUTO_REP_db_erp&apos;, :username =&gt; &apos;AUTO_REP_user_erp&apos;, :password =&gt; &apos;AUTO_REP_db_pass_erp&apos;})
+        <jsScript_script>puts &apos;load&apos;
+Ooor.new({:models=&gt;[&apos;res.partner&apos;, &apos;coface.credit.history&apos;], :url =&gt; &apos;AUTO_REP_erp_url&apos;, :database =&gt; &apos;AUTO_REP_db_erp&apos;, :username =&gt; &apos;AUTO_REP_user_erp&apos;, :password =&gt; &apos;AUTO_REP_db_pass_erp&apos;})
+puts &apos;loaded&apos;
 require &apos;tools&apos;
 Last_coface_identifier=&apos;&apos;</jsScript_script>
       </jsScript>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Item_0</jsScript_name>
         <jsScript_script>
 if Last_coface_identifier == coface_identifier
-    Tools.error(&quot;un doublon est présent dans votre import veuillez vérifier le fichier csv, #{coface_identifier}&quot;, AUTO_REP_attachment_id)
+    Tools.error(&quot;un doublon est présent dans votre import veuillez vérifier le fichier csv, #{coface_identifier}&quot;, AUTO_REP_kettle_task_attachment_id)
     raise &quot;error&quot;
 elsif coface_identifier
-    partner = ResPartner.find(:all, :domain=&gt;[[&apos;coface_identifier&apos;, &apos;=&apos;, coface_identifier]])
+    partner = ResPartner.find(:all, :domain=&gt;[[&apos;coface_identifier&apos;, &apos;=&apos;, coface_identifier]], 
+                                :fields=&gt;[&apos;name&apos;, &apos;coface_partner_country&apos;, &apos;coface_partner_name&apos;, &apos;coface_identifier_type_1&apos;, &apos;coface_identifier_1&apos;, 
+                                          &apos;coface_identifier_type_2&apos;, &apos;coface_identifier_2&apos;, &apos;coface_identifier_type_3&apos;, &apos;coface_identifier_3&apos;])
     print &apos;partner&apos;, partner
     partner = partner[0]
     if partner
