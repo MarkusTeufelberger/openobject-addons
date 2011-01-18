@@ -1,3 +1,5 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 "read_coface_credit_history","Read coface credit history","model_coface_credit_history","base.group_user",1,0,0,0
 "delete_coface_credit_history","Delete coface credit history","model_coface_credit_history","account.group_account_manager",1,0,0,1
+"import_coface_credit_history","Full right on coface credit history","model_coface_credit_history","group_coface_import",1,1,1,1
+"import_coface_partner","Write on partner for coface import","base.model_res_partner","group_coface_import",1,1,0,0

@@ -1,0 +1,10 @@
+<openerp>
+<data noupdate="1">
+
+<!-- New group dedicated to the import of Coface data -->
+<record id="group_coface_import" model="res.groups">
+    <field name="name">Coface import</field>
+</record>
+
+</data>
+</openerp>

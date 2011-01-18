@@ -26,13 +26,13 @@
     "depends" : ["base"],
     "author" : "Anevia",
     "description": """This module imports the credit insurance information from Coface's webservice and write them to the partner form in OpenERP.
-    It uses Kettle (ETL of the Pentaho project) with OOOR (OpenObject On Rails) to connect to the webservice and parse the CSV file of Coface.
+    It uses Kettle (ETL of the Pentaho project) with OOOR (OpenObject On Rails) to connect to the webservice and parses the CSV file of Coface.
 """,
     "website" : "http://www.anevia.com/",
     "category" : "Generic Modules/Others",
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ["partner_view.xml", "security/ir.model.access.csv"],
+    "update_xml" : ["partner_view.xml", "security/import_coface_group.xml", "security/ir.model.access.csv"],
     "active": False,
     "installable": True,
 
