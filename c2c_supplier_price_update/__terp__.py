@@ -20,16 +20,16 @@
 
 {
     'name': 'Supplier Price Update',
-    'version': '0.1',
+    'version': '0.2',
     'category': 'Generic Modules/Others',
     'description': """
-       This module update pricelist using Import/Export wizard. This concern the update of supplier info part
-       of the product form (where we can set price / quantity). The match of the product are made on the EAN13 Code 
-       of the product.
+       This module update pricelist using Import/Export wizards. This concern the update of supplier info part
+       of the product form (where we can set price / quantity). The match of the product are made on the product id.
+       It can also update the ean13 and the product code.
        
        This two wizard are for 
        1) To export the current product price list
-       2) To import the new product price list.
+       2) To import the new product price list and update ean13 / code
               
        Export/import is available in CSV or Excel. 
        Excel needs PyExcelerator.

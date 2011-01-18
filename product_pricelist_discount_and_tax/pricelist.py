@@ -3,7 +3,7 @@
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Copyright (C) 2010 Gábor Dukai (gdukai@gmail.com)
+#    Copyright (C) 2010-2011 Gábor Dukai (gdukai@gmail.com)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -40,18 +40,18 @@ class product_pricelist(osv.osv):
     _inherit = 'product.pricelist'
 
     _columns = {
-        'visible_discount': fields.boolean('Visible Discount'),        
+        'visible_discount': fields.boolean('Visible Discount'),
         'price_tax_included': fields.boolean('Price Tax Included'),
     }
-    
+
     _defaults = {
          'visible_discount': lambda *a: True,
     }
-    
+
     def price_get_improved(self, cr, uid, ids, prod_id, qty, partner=None, context=None):
         '''
-        This is a copy of the price_get() method from the product module. It returns 
-        {'price': price, 
+        This is a copy of the price_get() method from the product module. It returns
+        {'price': price,
          'base': base of that price,
          'price_tax_include': is tax included in that resulted price}
         dictionaries instead of a plain price.
@@ -62,7 +62,8 @@ class product_pricelist(osv.osv):
             'date': Date of the pricelist (%Y-%m-%d),
         }
         '''
-        context = context or {}
+        if context is None:
+            context = {}
         currency_obj = self.pool.get('res.currency')
         product_obj = self.pool.get('product.product')
         supplierinfo_obj = self.pool.get('product.supplierinfo')
@@ -139,7 +140,7 @@ class product_pricelist(osv.osv):
                         #dukai
                         res2 = self.price_get_improved(cr, uid,
                                 [res['base_pricelist_id']], prod_id,
-                                qty)[res['base_pricelist_id']]
+                                qty, context=context)[res['base_pricelist_id']]
                         ptype_src = self.browse(cr, uid,
                                 res['base_pricelist_id']).currency_id.id
                         price = currency_obj.compute(cr, uid, ptype_src,
@@ -148,7 +149,7 @@ class product_pricelist(osv.osv):
                 elif res['base'] == -2:
                     where = []
                     if partner:
-                        where = [('name', '=', partner) ] 
+                        where = [('name', '=', partner) ]
                     sinfo = supplierinfo_obj.search(cr, uid,
                             [('product_id', '=', tmpl_id)] + where)
                     price = 0.0
@@ -213,10 +214,10 @@ class product_pricelist(osv.osv):
                 product = product_obj.browse(cr, uid, prod_id)
                 uom = product.uos_id or product.uom_id
                 #dukai
-                uom_obj = self.pool.get('product.uom')                
+                uom_obj = self.pool.get('product.uom')
                 for k in result[id]:
                     result[id][k] = uom_obj._compute_price(cr,
-                        uid, uom.id, result[id][k], context['uom'])        
-        return result    
+                        uid, uom.id, result[id][k], context['uom'])
+        return result
 
 product_pricelist()

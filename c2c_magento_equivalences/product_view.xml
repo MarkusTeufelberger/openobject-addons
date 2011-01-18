@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <record model="ir.ui.view" id="product_custom_product_equivalences">
+        <!-- must be unique in this module. -->
+        <field name="name">product.normal.form.custom.inherit</field>
+        <field name="model">product.product</field>
+        <!--parent python entity -->
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <!-- modulename.view -->
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Equivalences">
+                    <separator string="Equivalence" colspan="4"/>
+                    <field name="c2c_debonix_equiv" on_change="onchange_equiv(c2c_debonix_equiv)" select="2"/>
+                    <separator string="Compatibility" colspan="4"/>
+                    <field name="c2c_debonix_compatibility" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+    </data>
+</openerp>

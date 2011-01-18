@@ -3,7 +3,7 @@
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Copyright (C) 2010 Gábor Dukai (gdukai@gmail.com)
+#    Copyright (C) 2010-2011 Gábor Dukai (gdukai@gmail.com)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@ from osv import osv
 
 class mrp_procurement(osv.osv):
     _inherit = 'mrp.procurement'
-    
+
     def action_po_assign(self, cr, uid, ids, context={}):
         """Original overridden to call price_get_improved() instead of price_get()
-        and set the discount field."""        
+        and set the discount field."""
         purchase_id = False
         company = self.pool.get('res.users').browse(cr, uid, uid, context).company_id
         for procurement in self.browse(cr, uid, ids):
@@ -46,7 +46,7 @@ class mrp_procurement(osv.osv):
                 qty=max(qty,procurement.product_id.seller_ids[0].qty)
 
             #dukai
-            price_res = self.pool.get('product.pricelist').price_get_improved(cr, uid, [pricelist_id], procurement.product_id.id, qty, False, {'uom': uom_id})[pricelist_id]
+            price_res = self.pool.get('product.pricelist').price_get_improved(cr, uid, [pricelist_id], procurement.product_id.id, qty, partner_id, {'uom': uom_id})[pricelist_id]
             price = price_res['price']
 
             newdate = DateTime.strptime(procurement.date_planned, '%Y-%m-%d %H:%M:%S')
@@ -55,7 +55,7 @@ class mrp_procurement(osv.osv):
 
             #Passing partner_id to context for purchase order line integrity of Line name
             context.update({'lang':partner.lang, 'partner_id':partner_id})
-            
+
             product=self.pool.get('product.product').browse(cr,uid,procurement.product_id.id,context=context)
 
             line = {

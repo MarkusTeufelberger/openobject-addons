@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.10\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-10-06 01:50+0000\n"
-"PO-Revision-Date: 2010-12-30 22:12+0000\n"
+"PO-Revision-Date: 2011-01-13 21:51+0000\n"
 "Last-Translator: Albert Cervera i Areny - http://www.NaN-tic.com <albert@nan-"
 "tic.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-31 05:39+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-18 05:30+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 "Language: ca\n"
 
 #. module: account_payment_extension
@@ -61,9 +61,10 @@ msgid "All received and to receive invoice payments"
 msgstr "Todos los efectos cobrados y a cobrar"
 
 #. module: account_payment_extension
-#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type_form
-#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type_form
+#: model:ir.actions.act_window,name:account_payment_extension.action_payment_type
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_payment_type
 #: view:payment.type:0
+#: help:payment.type,name:0
 msgid "Payment Type"
 msgstr "Tipo de pago"
 
@@ -256,7 +257,8 @@ msgid "Create Account Moves"
 msgstr "Crear asientos contables"
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_finance_payments
+#: model:ir.actions.act_window,name:account_payment_extension.action_done_payments
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_done_payments
 msgid "Done payments"
 msgstr "Pagos/cobros realizados"
 
@@ -272,6 +274,7 @@ msgstr "Cobros no conciliados"
 
 #. module: account_payment_extension
 #: field:payment.order,name:0
+#: field:payment.type,name:0
 msgid "Name"
 msgstr "Nombre"
 
@@ -301,7 +304,7 @@ msgid "Payment Move"
 msgstr "Asiento del pago"
 
 #. module: account_payment_extension
-#: field:account.move.line,partner_bank:0
+#: field:account.move.line,partner_bank_id:0
 msgid "Bank Account"
 msgstr "Cuenta bancaria"
 
@@ -363,7 +366,8 @@ msgid "Account Payment Extension"
 msgstr "Extensión de pagos contables (Tesorería)"
 
 #. module: account_payment_extension
-#: model:ir.ui.menu,name:account_payment_extension.menu_finance_invoice_payments
+#: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments
+#: model:ir.ui.menu,name:account_payment_extension.menu_action_invoice_payments
 msgid "Invoice payments"
 msgstr "Efectos"
 
@@ -382,8 +386,8 @@ msgstr "Todos los cobros realizados"
 #. module: account_payment_extension
 #: field:account.invoice,payment_type:0
 #: field:account.move.line,payment_type:0
-#: field:res.partner,payment_type_customer:0
-#: field:res.partner,payment_type_supplier:0
+#: model:ir.model,name:account_payment_extension.model_payment_type
+#: field:payment.mode,type:0
 msgid "Payment type"
 msgstr "Tipo de pago"
 
@@ -406,7 +410,7 @@ msgstr "Efectos de pago"
 #. module: account_payment_extension
 #: help:populate_payment_ext,init,show_refunds:0
 msgid "Indicates if search should include refunds."
-msgstr "Indica si la búsqueda debería incluir facturas de abono."
+msgstr "Indica si la búsqueda debe incluir abonos."
 
 #. module: account_payment_extension
 #: help:payment.type,note:0
@@ -534,6 +538,21 @@ msgstr ""
 "orden de pago. \"Por extracto bancario\" esperará a que el usuario "
 "introduzca los pagos en el extracto bancario. \"Por pago directo\" marcará "
 "todas las líneas como pagadas cuando se realice la orden."
+
+#~ msgid "Payments to pay"
+#~ msgstr "Efectos pendientes de pago"
+
+#~ msgid "All paid and to pay payments"
+#~ msgstr "Todos los efectos de pago"
+
+#~ msgid "Payments to receive"
+#~ msgstr "Efectos pendientes de cobro"
+
+#~ msgid "All received and to receive payments"
+#~ msgstr "Todos los efectos de cobro"
+
+#~ msgid "Require Bank Account"
+#~ msgstr "Requerir cuenta bancaria"
 
 #~ msgid ""
 #~ "Ensure all lines in the payment order have a bank account when proposing "

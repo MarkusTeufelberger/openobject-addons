@@ -32,6 +32,8 @@ class crm_section_analytic_account(osv.osv):
                 ondelete='cascade', select=True, help='If account is empty, it must defined on partner'),
         'req_partner': fields.boolean('Account required on partner', 
                 help='Analytic accound is required on partner form'),
+        'calculate_duration': fields.boolean('Calculate Duration ?',
+                help="Calculate duration from timesheet to duration's field.",),
     }
 
 crm_section_analytic_account()

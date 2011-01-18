@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    <!-- Inherited ir cron form view -->
+    
+        <record id="view_ir_cron_inherit_form" model="ir.ui.view">
+            <field name="name">ir.cron.form</field>
+            <field name="model">ir.cron</field>
+            <field name="inherit_id" ref="base.ir_cron_view"/>
+            <field name="arch" type="xml">
+                <page string="Technical Data" position="inside">
+                   <group colspan="4" col="4">
+                       <separator string="Cron Specific Info" colspan="4"/>
+                       <field name="action_name"/>
+                       <field name="duration" widget="float_time"/>
+                       <field name="state"/>
+                       <field name="funct_message"/>
+                   </group>
+                </page>                
+            </field>                                                                       
+        </record>
+        
+        <record id="view_ir_cron_inherit_tree" model="ir.ui.view">
+            <field name="name">ir.cron.tree</field>
+            <field name="model">ir.cron</field>
+            <field name="inherit_id" ref="base.ir_cron_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="numbercall" position="after">
+                   <field name="state"/>
+                   <field name="duration" widget="float_time"/>
+                </field>       
+            </field>                                                                       
+        </record>
+        
+    </data>
+</openerp>
+        

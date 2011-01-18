@@ -1,0 +1,27 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="currency_del_img">
+            <field name="name">res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <notebook  position="inside">
+            		<page string="Magento medias support">
+            		<field name ="ftp_active"/>
+            		<separator string="FTP/SFTP" colspan="4" />
+                    <field name="ftp_server" attrs="{'readonly':[('ftp_active', '=', False)], 'required':[('ftp_active', '=', True)]}"/>
+                    <field name="ftp_cwd" attrs="{'readonly':[('ftp_active', '=', False)]}"/>
+                    <field name="ftp_login" attrs="{'readonly':[('ftp_active', '=', False)], 'required':[('ftp_active', '=', True)]}"/>
+                    <field name="ftp_password" attrs="{'readonly':[('ftp_active', '=', False)]}"/>
+                    <field name="ftp_tsl" attrs="{'readonly':[('ftp_active', '=', False)]}"/>
+                    <field name="ftp_ssh" attrs="{'readonly':[('ftp_active', '=', False)]}"/>
+            		<separator string="Medias configuration" colspan="4" />                    
+                    <field name="local_media_repository"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</openerp>
+

@@ -108,6 +108,7 @@ Some additional features, mainly related to OpenERP, where added:
                      ],
         "update_xml" : [
                      'report_xml_view.xml',
+                     'security/ir.model.access.csv'
                         ],
         "installable": True
 }

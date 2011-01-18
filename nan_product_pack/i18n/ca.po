@@ -6,52 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-09-25 19:42+0000\n"
-"PO-Revision-Date: 2010-10-01 12:00+0000\n"
-"Last-Translator: OpenERP Administrators <Unknown>\n"
+"POT-Creation-Date: 2011-01-15 11:45+0000\n"
+"PO-Revision-Date: 2011-01-17 06:32+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-30 05:07+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
-
-#. module: nan_product_pack
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
-msgstr "XML invàlid per a la definició de la vista!"
-
-#. module: nan_product_pack
-#: model:ir.module.module,description:nan_product_pack.module_meta_information
-msgid ""
-"Allows configuring products as a collection of other products. If such a "
-"product is added in a sale order, all the products of the packed will be "
-"added automatically (when storing the order) as children of the pack product."
-msgstr ""
-"Permet configurar els productes com col.leccions d'altres productes. Si "
-"s'afegeix un producte d'aquest tipus en una comanda de venda, tots els "
-"productes del paquet s'afegiran automàticament (quan es guardi la comanda) "
-"com a fills del producte principal."
-
-#. module: nan_product_pack
-#: view:product.pack.line:0
-msgid "Pack Product Lines"
-msgstr "Línies del paquet de productes"
-
-#. module: nan_product_pack
-#: field:product.pack.line,quantity:0
-msgid "Quantity"
-msgstr "Quantitat"
-
-#. module: nan_product_pack
-#: field:sale.order.line,pack_child_line_ids:0
-msgid "Lines in pack"
-msgstr "Línies en el paquet"
-
-#. module: nan_product_pack
-#: view:product.product:0
-msgid "Multi-Pack"
-msgstr "Paquet"
+"X-Launchpad-Export-Date: 2011-01-18 05:33+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #. module: nan_product_pack
 #: constraint:ir.model:0
@@ -62,14 +26,31 @@ msgstr ""
 "especial!"
 
 #. module: nan_product_pack
-#: field:product.pack.line,parent_product_id:0
-msgid "Parent Product"
-msgstr "Producte pare"
+#: help:product.product,stock_depends:0
+msgid "Mark if pack stock is calcualted from component stock"
+msgstr ""
+"Marqueu aquest camp si l'estoc del paquet es calcula a partir de l'estoc "
+"dels components."
+
+#. module: nan_product_pack
+#: field:sale.order.line,pack_child_line_ids:0
+msgid "Lines in pack"
+msgstr "Línies en el paquet"
+
+#. module: nan_product_pack
+#: help:sale.order.line,pack_depth:0
+msgid "Depth of the product if it is part of a pack."
+msgstr "Profunditat del producte si forma part d'un paquet."
 
 #. module: nan_product_pack
 #: field:product.pack.line,product_id:0
 msgid "Product"
 msgstr "Producte"
+
+#. module: nan_product_pack
+#: view:product.pack.line:0
+msgid "Pack Product Lines"
+msgstr "Línies del paquet de productes"
 
 #. module: nan_product_pack
 #: view:product.product:0
@@ -81,9 +62,44 @@ msgstr ""
 "s'afegiran automàticament quan creeu un nou pressupost o comanda."
 
 #. module: nan_product_pack
-#: help:sale.order.line,pack_depth:0
-msgid "Depth of the product if it is part of a pack."
-msgstr "Profunditat del producte si forma part d'un paquet."
+#: model:ir.module.module,description:nan_product_pack.module_meta_information
+msgid ""
+"\n"
+"Allows configuring products as a collection of other products. If such a "
+"product is added in a sale order, all the products of the pack will be added "
+"automatically (when storing the order) as children of the pack product.\n"
+"\n"
+"The module has been made compatible with nan_external_prices and containts "
+"code to specifically handle when the module is available but they're still "
+"independent and there are no dependencies between them.\n"
+"        "
+msgstr ""
+"\n"
+"Permet configurar els productes com col·leccions d'altres productes. Si "
+"s'afegeix un producte d'aquest tipus en una comanda de venda, tots els "
+"productes del paquet s'afegiran automàticament (quan es guardi la comanda) "
+"com a fills del producte principal.\n"
+"\n"
+"Aquest mòdul és compatible amb nan_external_prices i conté codi per "
+"funcionar quan està instal·lat encara que ambdós són encara independents i "
+"no hi ha dependències entre ells.\n"
+"        "
+
+#. module: nan_product_pack
+#: view:product.product:0
+#: field:sale.order.line,pack_parent_line_id:0
+msgid "Pack"
+msgstr "Paquet"
+
+#. module: nan_product_pack
+#: model:ir.model,name:nan_product_pack.model_product_pack_line
+msgid "product.pack.line"
+msgstr "producte.paquet.línea"
+
+#. module: nan_product_pack
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML no vàlid per a la definició de la vista!"
 
 #. module: nan_product_pack
 #: model:ir.module.module,shortdesc:nan_product_pack.module_meta_information
@@ -91,24 +107,35 @@ msgid "Product Pack"
 msgstr "Paquet de productes"
 
 #. module: nan_product_pack
+#: field:product.product,stock_depends:0
+msgid "Stock depends of components"
+msgstr "Estoc depen dels components"
+
+#. module: nan_product_pack
+#: help:sale.order.line,pack_parent_line_id:0
+msgid "The pack that contains this product."
+msgstr "El paquet que conté aquest producte."
+
+#. module: nan_product_pack
 #: field:sale.order.line,pack_depth:0
 msgid "Depth"
 msgstr "Profunditat"
 
 #. module: nan_product_pack
-#: model:ir.model,name:nan_product_pack.model_product_pack_line
-msgid "product.pack.line"
-msgstr "product.pack.line"
+#: help:product.product,pack_fixed_price:0
+msgid ""
+"Mark this field if the public price of the pack should be fixed. Do not mark "
+"it if the price should be calculated from the sum of the prices of the "
+"products in the pack."
+msgstr ""
+"Marqueu aquest camp si el preu de venda del paquet ha de ser fix. No ho "
+"marqueu si el preu s'ha de calcular a partir de la suma dels preus dels "
+"productes del paquet."
 
 #. module: nan_product_pack
-#: view:product.pack.line:0
-msgid "Pack Product Line"
-msgstr "Línia de paquet de productes"
-
-#. module: nan_product_pack
-#: help:sale.order.line,pack_parent_line_id:0
-msgid "The pack that contains this product."
-msgstr "El paquet que conté aquest product."
+#: field:product.pack.line,quantity:0
+msgid "Quantity"
+msgstr "Quantitat"
 
 #. module: nan_product_pack
 #: view:product.product:0
@@ -117,27 +144,43 @@ msgid "Pack Products"
 msgstr "Productes del paquet"
 
 #. module: nan_product_pack
+#: field:product.pack.line,parent_product_id:0
+msgid "Parent Product"
+msgstr "Producte pare"
+
+#. module: nan_product_pack
 #: field:product.product,pack_fixed_price:0
 msgid "Pack has fixed price"
 msgstr "El paquet té un preu fix"
 
 #. module: nan_product_pack
-#: field:sale.order.line,pack_parent_line_id:0
-msgid "Pack"
-msgstr "Paquet"
-
-#. module: nan_product_pack
-#: help:product.product,pack_fixed_price:0
-msgid ""
-"Mark this field if the public price of the pack should be fixed. Do not mark "
-"it if the price should be calculated from the sum of all products in the "
-"pack."
-msgstr ""
-"Marqueu aquest camp si el preu de venda del paquet ha de ser fix. No ho "
-"marqueu si el preu s'ha de calcular a partir de la suma dels preus dels "
-"productes del paquet."
+#: view:product.pack.line:0
+msgid "Pack Product Line"
+msgstr "Línia de paquet de productes"
 
 #. module: nan_product_pack
 #: help:product.product,pack_line_ids:0
 msgid "List of products that are part of this pack."
 msgstr "Llista de productes que formen part del paquet."
+
+#~ msgid "Multi-Pack"
+#~ msgstr "Paquet"
+
+#~ msgid ""
+#~ "Allows configuring products as a collection of other products. If such a "
+#~ "product is added in a sale order, all the products of the packed will be "
+#~ "added automatically (when storing the order) as children of the pack product."
+#~ msgstr ""
+#~ "Permet configurar els productes com col.leccions d'altres productes. Si "
+#~ "s'afegeix un producte d'aquest tipus en una comanda de venda, tots els "
+#~ "productes del paquet s'afegiran automàticament (quan es guardi la comanda) "
+#~ "com a fills del producte principal."
+
+#~ msgid ""
+#~ "Mark this field if the public price of the pack should be fixed. Do not mark "
+#~ "it if the price should be calculated from the sum of all products in the "
+#~ "pack."
+#~ msgstr ""
+#~ "Marqueu aquest camp si el preu de venda del paquet ha de ser fix. No ho "
+#~ "marqueu si el preu s'ha de calcular a partir de la suma dels preus dels "
+#~ "productes del paquet."

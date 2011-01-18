@@ -20,7 +20,7 @@
 {
     'name' : 'Magento product link',
     'version' : '0.1',
-    'depends' : ['base','account', 'product','magentoerpconnect'],
+    'depends' : ['base','account', 'product','magentoerpconnect', 'base_sale_multichannels'],
     'author' : 'Camptocamp',
     'description': """Add support for cross selling, equivalences, related product 
     No support for multi store. 

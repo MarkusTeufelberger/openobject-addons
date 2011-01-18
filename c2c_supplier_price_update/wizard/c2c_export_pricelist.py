@@ -105,7 +105,8 @@ class c2c_export_pricelist(osv.osv_memory):
                 
         keys=['','']
         file_csv=StringIO.StringIO()
-        keys=['EAN13', 'Supplier', 'Supplier Delay', 'Supplier Min. Qty', 'Supplier Code', 'Supplier Name', 'Quantity', 'Price']
+        # header of the csv        
+        keys=['id', 'EAN13', 'Company Code', 'Supplier Code', 'Supplier Delay', 'Supplier Min. Qty', 'Supplier Product Code', 'Supplier Product Name', 'Quantity', 'Price']
         #Encode keys        
         key_values = [tools.ustr(k).encode('utf-8') for k in keys]
         
@@ -116,15 +117,17 @@ class c2c_export_pricelist(osv.osv_memory):
         writer=csv.writer(file_csv, delimiter= ';', lineterminator='\r\n')
         writer.writerow(keys)
 
-        prod_ids = product_obj.search(cr, uid, [('ean13', '!=', False)])
+        prod_ids = product_obj.search(cr, uid, [])
         for prod in product_obj.browse(cr, uid, prod_ids):
             row_lst = []
             row = []
+            row.append(prod.id)
+            row.append(prod.ean13 or ' ')
+            row.append(prod.default_code) or ' '
             if prod.seller_ids:
                for seller in prod.seller_ids:
                     for supplier in seller.pricelist_ids:
-                        row.append(prod.ean13 or ' ')
-                        row.append(seller.name.name or '')
+                        row.append(seller.name.ref or '')
                         row.append(seller.delay or ' ')
                         row.append(seller.qty or ' ')
                         row.append(seller.product_name or ' ')
@@ -134,8 +137,7 @@ class c2c_export_pricelist(osv.osv_memory):
                         row_lst.append(row)
                         writer.writerow(row)
             else:
-                row.append(prod.ean13 or ' ')
-                row.append('-')
+                row.append('')
                 row.append('')
                 row.append('')
                 row.append('')
@@ -144,7 +146,7 @@ class c2c_export_pricelist(osv.osv_memory):
                 row.append('')
                 row_lst.append(row)
                 writer.writerow(row)
-                        
+
         if excel_enabled:                          
             for row_num,row_values in enumerate(row_lst):
                 row_num+=1 #start at row 1

@@ -180,12 +180,14 @@ class crm_case(osv.osv):
 
     def create(self, cr, uid, vals, context=None):
         """
-        If calculate_duration is pass on the context, all time enter on the crm.case.work
+        If calculate_duration is pass on the context or indicate in section, all time enter on the crm.case.work
         are sum and save it on duration field
         """
         if context is None:
             context = {}
-        if context.get('calculate_duration', False):
+        if context.get('calculate_duration', False) or (vals.get('section_id', False) and self.pool.get('crm.case.section').read(
+                cr, uid, vals['section_id'], ['calculate_duration'], context=context
+                )['calculate_duration']):
             if vals.get('timesheet_ids', False):
                 duration = 0.0
                 for t in vals['timesheet_ids']:
@@ -197,25 +199,24 @@ class crm_case(osv.osv):
 
     def write(self, cr, uid, ids, vals, context=None):
         """
-        If calculate_duration is pass on the context, all time enter on the crm.case.work
+        If calculate_duration is pass on the context or indicate in section, all time enter on the crm.case.work
         are sum and save it on duration field
         """
         if not context:
             context = {}
-        if context.get('calculate_duration', False):
-            crm_case_work_obj = self.pool.get('crm.case.work')
-            unlink_ids = []
-            write_ids = []
-            if vals.get('timesheet_ids', False):
-                for z in vals['timesheet_ids']:
-                    if not z[2]:
-                        # check if this timesheet is to unlink
-                        unlink_ids.append(z[1])
-                    elif z[1]:
-                        # check if this timesheet is to modify
-                        write_ids.append(z[1])
-            for id in ids:
-                case = self.browse(cr, uid, id, context=context)
+        for case in self.browse(cr, uid, ids, context=context):
+            if context.get('calculate_duration', False) or case.section_id.calculate_duration:
+                crm_case_work_obj = self.pool.get('crm.case.work')
+                unlink_ids = []
+                write_ids = []
+                if vals.get('timesheet_ids', False):
+                    for z in vals['timesheet_ids']:
+                        if not z[2]:
+                            # check if this timesheet is to unlink
+                            unlink_ids.append(z[1])
+                        elif z[1]:
+                            # check if this timesheet is to modify
+                            write_ids.append(z[1])
                 duration = 0.0
                 for c in case.timesheet_ids:
                     if c.id not in unlink_ids and c.id not in write_ids:
@@ -227,7 +228,7 @@ class crm_case(osv.osv):
                             # Add hours of timesheet modified
                             duration += t[2]['hours']
                 vals_case_id = {}
-                vals_case_id['case_id'] = id
+                vals_case_id['case_id'] = case.id
                 account_id = crm_case_work_obj._get_analytic_account_id(cr, uid, vals_case_id, context)
                 account_analytic_obj = self.pool.get('account.analytic.account')
                 if account_id:

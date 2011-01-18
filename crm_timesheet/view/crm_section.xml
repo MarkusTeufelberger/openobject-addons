@@ -11,7 +11,8 @@
                 <notebook position="inside">
                     <page string="Analytic">
                         <field name="account_id" colspan="4"/>
-                        <field name="req_partner" colspan="4"/>
+                        <field name="req_partner" colspan="2"/>
+                        <field name="calculate_duration" colspan="2"/>
                     </page>
                 </notebook>
             </field>

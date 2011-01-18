@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.14\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-09-25 23:52+0000\n"
+"POT-Creation-Date: 2011-01-08 12:25+0000\n"
 "PO-Revision-Date: 2010-09-29 19:57+0000\n"
 "Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-30 05:04+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-18 05:30+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #. module: crm_timesheet
 #: constraint:ir.model:0
@@ -57,6 +57,11 @@ msgstr "El compte analític ha de ser definit en el client!"
 #, python-format
 msgid "Error !"
 msgstr "Error!"
+
+#. module: crm_timesheet
+#: help:crm.case.section,calculate_duration:0
+msgid "Calculate duration from timesheet to duration's field."
+msgstr ""
 
 #. module: crm_timesheet
 #: view:account.analytic.account:0
@@ -114,6 +119,11 @@ msgstr "Resum treball CRM"
 #: field:crm.case.work,hours:0
 msgid "Time spent"
 msgstr "Temps consumit"
+
+#. module: crm_timesheet
+#: field:crm.case.work,name:0
+msgid "Work summary"
+msgstr "Resum del treball"
 
 #. module: crm_timesheet
 #: help:crm.case.section,account_id:0
@@ -200,9 +210,9 @@ msgid "No default analytic account on this section !"
 msgstr "No existeix compte analític per defecte en aquesta secció!"
 
 #. module: crm_timesheet
-#: field:crm.case.work,name:0
-msgid "Work summary"
-msgstr "Resum del treball"
+#: field:crm.case.section,calculate_duration:0
+msgid "Calculate Duration ?"
+msgstr ""
 
 #. module: crm_timesheet
 #: field:res.partner.crm.analytic,partner_id:0
