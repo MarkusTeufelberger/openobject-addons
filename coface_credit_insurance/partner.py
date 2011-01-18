@@ -39,10 +39,10 @@ class res_partner(osv.osv):
         return result
 
     def _check_coface_identifier(self, cr, uid, ids, context=None):
-        for identifier in self.read(cr, uid, ids, context=context):
-            if identifier and not (identifier.isdigit() and len(identifier) == 14):
+        for coface in self.read(cr, uid, ids, ['coface_identifier'], context=context):
+            if coface['coface_identifier'] and not (coface['coface_identifier'].isdigit() and len(coface['coface_identifier']) == 14):
                 return False
-        return True 
+        return True
 
 
     _columns = {
