@@ -192,6 +192,10 @@ class product_product(osv.osv):
             self.write(cr, uid, product.id, {'default_code':default_code}, context=context)
         return True
 
+    def product_ids_variant_changed(self, cr, uid, ids, res, context=None):
+        '''it's a hook for product_variant_multi advanced'''
+        return True
+
     def _variant_name_get(self, cr, uid, ids, name, arg, context={}):
         res = {}
         for product in self.browse(cr, uid, ids, context):
@@ -200,6 +204,7 @@ class product_product(osv.osv):
             r.sort()
             r = [x[1] for x in r]
             res[product.id] = (product.variant_model_name_separator or '').join(r)
+        self.product_ids_variant_changed(cr, uid, ids, res, context=context)
         return res
         
 
