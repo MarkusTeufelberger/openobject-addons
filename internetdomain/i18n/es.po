@@ -5,16 +5,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-02-24 18:39+0000\n"
-"PO-Revision-Date: 2010-08-19 15:06+0000\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-02-25 14:39+0000\n"
+"PO-Revision-Date: 2011-01-18 00:19+0000\n"
 "Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 05:31+0000\n"
+"X-Launchpad-Export-Date: 2011-01-19 05:11+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #. module: internetdomain
@@ -159,6 +159,11 @@ msgid "Configuration"
 msgstr "Configuración"
 
 #. module: internetdomain
+#: constraint:ir.cron:0
+msgid "Invalid arguments"
+msgstr "Argumentos no válidos"
+
+#. module: internetdomain
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
 msgstr "¡XML inválido para la definición de la vista!"
@@ -225,7 +230,7 @@ msgstr "DNS Secundario"
 #. module: internetdomain
 #: field:internetdomain.domain,partner_address_id:0
 msgid "Partner Contact"
-msgstr "Contacto"
+msgstr "Contacto empresa"
 
 #. module: internetdomain
 #: view:internetdomain.domain:0
@@ -260,6 +265,7 @@ msgstr "Empresa"
 #. module: internetdomain
 #: view:internetdomain.domain:0
 #: field:internetdomain.domain,renewal_ids:0
+#: model:ir.actions.act_window,name:internetdomain.act_domain_2_renewals
 #: model:ir.model,name:internetdomain.model_internetdomain_renewal
 #: model:ir.ui.menu,name:internetdomain.menu_internetdomain_renewal
 msgid "Renewals"
@@ -269,6 +275,3 @@ msgstr "Renovaciones"
 #: wizard_field:internetdomain.renewal.make_invoice,init,price:0
 msgid "Price"
 msgstr "Precio"
-
-#~ msgid "Invalid arguments"
-#~ msgstr "Argumentos no válidos"
