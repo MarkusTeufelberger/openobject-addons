@@ -95,12 +95,14 @@ class product_template(osv.osv):
         'variant_ids':fields.one2many('product.product', 'product_tmpl_id', 'Variants'),
         'variant_model_name':fields.char('Variant Model Name', size=64, required=True, help='[NAME] will be replaced by the name of the dimension and [VALUE] by is value. Example of Variant Model Name : "[NAME] - [VALUE]"'),
         'variant_model_name_separator':fields.char('Variant Model Name Separator', size=64, help= 'Add a separator between the elements of the variant name'),
-        'code_generator' : fields.char('Code Generator', size=64, help='enter the model for the product code, all parameter between [_o.my_field_] will be replace by the product field. Example product_code model : prefix_[_o.variants_]_suffixe ==> result : prefix_2S2T_suffix')
+        'code_generator' : fields.char('Code Generator', size=64, help='enter the model for the product code, all parameter between [_o.my_field_] will be replace by the product field. Example product_code model : prefix_[_o.variants_]_suffixe ==> result : prefix_2S2T_suffix'),
+        'is_multi_variants' : fields.boolean('Is Multi Variants?'),
     }
     
     _defaults = {
         'variant_model_name': lambda *a: '[NAME] - [VALUE]',
         'variant_model_name_separator': lambda *a: ' - ',
+        'is_multi_variants' : lambda *a: False,
                 }
     def get_products_from_product_template(self, cr, uid, ids, context={}):
         product_tmpl = self.read(cr, uid, ids, ['variant_ids'], context=context)

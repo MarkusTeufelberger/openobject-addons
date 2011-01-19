@@ -13,14 +13,44 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="product_variant_multi.product_variant_form_view" />
             <field name="arch" type="xml">
-                <group name="price" position="after">
-                    <group name='sale description' colspan="2" col="2"> 
-                        <separator string="Sale description" colspan="4"/>                 
-                        <field name="description_sale" nolabel="1"/>
+                <data>
+                    <group name="price" position="after">
+                        <group name='sale description' colspan="2" col="2"> 
+                            <separator string="Sale description" colspan="4"/>                 
+                            <field name="description_sale" nolabel="1" attrs="{'readonly':[('is_multi_variants','=',True)]}"/>
+                        </group>
                     </group>
-                </group>
+
+                    <field name="name" position="replace">
+                        <field name="name" select="1" attrs="{'required':[('is_multi_variants','=',False)], 'readonly':[('is_multi_variants','=',True)]}"/>
+                        <field name="is_multi_variants" invisible="True"/>
+                    </field>
+                </data>
             </field>
         </record>
+
+
+
+        <record id="view_product_normal_multi_advanced_form_view" model="ir.ui.view">
+            <field name="name">view.product.normal.multi.advanced.form</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="arch" type="xml">
+                <data>
+                    <field name="name" position="replace">
+                        <field name="name" select="1" attrs="{'required':[('is_multi_variants','=',False)], 'readonly':[('is_multi_variants','=',True)]}"/>
+                        <field name="is_multi_variants" invisible="True"/>
+                    </field>
+
+                    <field name="description_sale" position="replace">
+                        <field name="description_sale" nolabel="1" colspan="4" attrs="{'readonly':[('is_multi_variants','=',True)]}"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+
         
         <record id="view_product_template_variant_multi_advanced_form" model="ir.ui.view">
             <field name="name">view.product.template.variant.multi.advanced.product.variant.form</field>
