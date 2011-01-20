@@ -60,7 +60,8 @@ class product_template(osv.osv):
                 ctx = context.copy()
                 ctx['iamthechild'] = True
                 for product_tmpl in self.read(cr, uid, ids_simple, ['variant_ids'], context=context):
-                    obj_product.write(cr, uid, [product_tmpl['variant_ids'][0]], vals_to_write, context=ctx)            
+                    if product_tmpl['variant_ids']:
+                        obj_product.write(cr, uid, [product_tmpl['variant_ids'][0]], vals_to_write, context=ctx)          
 
         if ids_multi_variants and vals.get('name', False):
             product_ids = self.get_products_from_product_template(cr, uid, ids_multi_variants, context=context)
