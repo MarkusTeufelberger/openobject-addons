@@ -118,55 +118,61 @@
 			<field name="type">form</field>
 			<field name="inherit_id" ref="product.product_template_form_view" />
 			<field name="arch" type="xml">
-				<xpath expr="/form/notebook" position="inside">
-					<page string="Variants">
-						<field name="dimension_type_ids" widget="one2many_list" nolabel="1">
-							<tree string="Dimension types">
-								<field name="name" />
-								<field name="description" />
-								<field name="allow_custom_value" />
-								<field name="mandatory_dimension" />
-							</tree>
-							<form string="Variant Type">
-								<field name="name" />
-								<field name="description" />
-								<field name="sequence" />
-								<field name="allow_custom_value" />
-								<field name="mandatory_dimension" />
-								<field name="value_ids" nolabel="1" colspan="4">
-									<tree string="Variant Value" editable="bottom">
-										<field name="name" />
-										<field name="sequence" />
-										<field name="price_extra" />
-										<field name="price_margin" />
-										<field name="cost_price_extra"/>
-									</tree>
-									<form string="Variant Value">
-										<field name="name" />
-										<field name="sequence" />
-										<field name="price_extra" />
-										<field name="price_margin" />
-										<field name="cost_price_extra"/>
-									</form>
-								</field>
-							</form>
-						</field>
-						<group>
-							<field name="variant_model_name" colspan="4"/>
-							<field name="variant_model_name_separator" colspan="4"/>
-							<button name="button_generate_variants" string="Generate ->" type="object" colspan="4"/>
-							<field name="code_generator" colspan="4"/>
-							<button name="button_generate_product_code" string="Build Code ->" type="object" colspan="4"/>
-						</group>
-						<field name="variant_ids" string="Variants" nolabel="1">
-							<tree string="Variants">
-								<field name="code" />
-								<field name="name" />
-								<field name="variants" string="Dimension Values" />
-							</tree>
-						</field>
-					</page>
-				</xpath>
+                <data>
+                    <field name="name" position="after">
+                        <field name="is_multi_variants"/>
+                    </field>
+
+				    <xpath expr="/form/notebook" position="inside">
+					    <page string="Variants" attrs="{'invisible':[('is_multi_variants','=',False)]}">
+						    <field name="dimension_type_ids" widget="one2many_list" nolabel="1">
+							    <tree string="Dimension types">
+								    <field name="name" />
+								    <field name="description" />
+								    <field name="allow_custom_value" />
+								    <field name="mandatory_dimension" />
+							    </tree>
+							    <form string="Variant Type">
+								    <field name="name" />
+								    <field name="description" />
+								    <field name="sequence" />
+								    <field name="allow_custom_value" />
+								    <field name="mandatory_dimension" />
+								    <field name="value_ids" nolabel="1" colspan="4">
+									    <tree string="Variant Value" editable="bottom">
+										    <field name="name" />
+										    <field name="sequence" />
+										    <field name="price_extra" />
+										    <field name="price_margin" />
+										    <field name="cost_price_extra"/>
+									    </tree>
+									    <form string="Variant Value">
+										    <field name="name" />
+										    <field name="sequence" />
+										    <field name="price_extra" />
+										    <field name="price_margin" />
+										    <field name="cost_price_extra"/>
+									    </form>
+								    </field>
+							    </form>
+						    </field>
+						    <group>
+							    <field name="variant_model_name" colspan="4"/>
+							    <field name="variant_model_name_separator" colspan="4"/>
+							    <button name="button_generate_variants" string="Generate ->" type="object" colspan="4"/>
+							    <field name="code_generator" colspan="4"/>
+							    <button name="button_generate_product_code" string="Build Code ->" type="object" colspan="4"/>
+						    </group>
+						    <field name="variant_ids" string="Variants" nolabel="1">
+							    <tree string="Variants">
+								    <field name="code" />
+								    <field name="name" />
+								    <field name="variants" string="Dimension Values" />
+							    </tree>
+						    </field>
+					    </page>
+				    </xpath>
+                </data>
 			</field>
 		</record>
 		
