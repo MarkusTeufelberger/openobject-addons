@@ -185,6 +185,8 @@ class product_product(osv.osv):
     _inherit = "product.product"
 
     def parse(self, cr, uid, o, text, context=None):
+        if not text:
+            return ''
         vals = text.split('[_')
         description = ''
         for val in vals:
@@ -289,7 +291,7 @@ class product_product(osv.osv):
         'variants': fields.function(_variant_name_get, method=True, type='char', size=128, string='Variants', readonly=True,
             store={
                 'product.variant.dimension.type': (_get_products_from_dimension, None, 10),
-                'product.product': (_get_products_from_product, ['product_tmpl_id'], 10),
+                'product.product': (_get_products_from_product, ['product_tmpl_id', 'dimension_value_ids'], 10),
                 'product.template': (_get_products_from_product_template, ['variant_model_name', 'variant_model_name_separator'], 10),
             }),
     }
