@@ -1,0 +1,175 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* product_variant_configurator
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.15\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-01-21 09:34:40+0000\n"
+"PO-Revision-Date: 2011-01-21 09:34:40+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,configurator_id:0
+msgid "product_variant_configurator Test"
+msgstr "product_variant_configurator Test"
+
+#. module: product_variant_configurator
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "The Object name must start with x_ and not contain any special character !"
+
+#. module: product_variant_configurator
+#: field:sale.order.line,dimension_custom_value_ids:0
+msgid "Dimension Custom Values"
+msgstr "Dimension Custom Values"
+
+#. module: product_variant_configurator
+#: field:sale.order.line.dimension_custom_values,mrp_production_id:0
+msgid "Production Order"
+msgstr "Production Order"
+
+#. module: product_variant_configurator
+#: model:ir.module.module,shortdesc:product_variant_configurator.module_meta_information
+msgid "Products with multi-level variants configurator"
+msgstr "Products with multi-level variants configurator"
+
+#. module: product_variant_configurator
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Invalid model name in the action definition."
+
+#. module: product_variant_configurator
+#: model:ir.module.module,description:product_variant_configurator.module_meta_information
+msgid "Product Variant Configurator. Assists the product variant selection in the sale order form.\n"
+"For each product template dimension a dimension value is asked. Then the matching product variants\n"
+"are proposed for selection.\n"
+"Should be used along with the product_variant_multi module.\n"
+"Might not work well in the web-client due to web-client current limitations.\n"
+"\n"
+"Please notice that the product configurator user interface could me more user friendly\n"
+"if some OpenObject framework enhancements were implemented, especially:\n"
+"- allow select box widget to select dimension values instead of many2one popups:\n"
+"https://blueprints.launchpad.net/openobject-server/+spec/dynamic-domain-on-selection-widget\n"
+"- automatically select the product variant if unique once dimensions are set:\n"
+"https://blueprints.launchpad.net/openobject-server/+spec/form-parent-field-update-on-change\n"
+""
+msgstr "Product Variant Configurator. Assists the product variant selection in the sale order form.\n"
+"For each product template dimension a dimension value is asked. Then the matching product variants\n"
+"are proposed for selection.\n"
+"Should be used along with the product_variant_multi module.\n"
+"Might not work well in the web-client due to web-client current limitations.\n"
+"\n"
+"Please notice that the product configurator user interface could me more user friendly\n"
+"if some OpenObject framework enhancements were implemented, especially:\n"
+"- allow select box widget to select dimension values instead of many2one popups:\n"
+"https://blueprints.launchpad.net/openobject-server/+spec/dynamic-domain-on-selection-widget\n"
+"- automatically select the product variant if unique once dimensions are set:\n"
+"https://blueprints.launchpad.net/openobject-server/+spec/form-parent-field-update-on-change\n"
+""
+
+#. module: product_variant_configurator
+#: field:sale.order.line.dimension_custom_values,sale_order_line_id:0
+msgid "Sale Order Line"
+msgstr "Sale Order Line"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.configurator,dimension_configuration_line_ids:0
+msgid "Configurator Lines"
+msgstr "Configurator Lines"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,dimension_custom_value:0
+#: field:sale.order.line.dimension_custom_values,custom_value:0
+msgid "Custom Value"
+msgstr "Custom Value"
+
+#. module: product_variant_configurator
+#: model:ir.model,name:product_variant_configurator.model_product_variant_configurator_configurator
+msgid "product_variant_configurator.configurator"
+msgstr "product_variant_configurator.configurator"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,allow_custom_value:0
+msgid "Allow custom values ?"
+msgstr "Allow custom values ?"
+
+#. module: product_variant_configurator
+#: view:sale.order:0
+#: view:sale.order.line:0
+msgid "Dimension / Value"
+msgstr "Dimension / Value"
+
+#. module: product_variant_configurator
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "Invalid XML for View Architecture!"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.configurator,product_variant_id:0
+msgid "Product Variant"
+msgstr "Product Variant"
+
+#. module: product_variant_configurator
+#: view:sale.order:0
+#: view:sale.order.line:0
+msgid "Dimension Customizations"
+msgstr "Dimension Customizations"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,dimension_type_value_id:0
+msgid "Dimension Value"
+msgstr "Dimension Value"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.configurator,product_tmpl_id:0
+msgid "Product Template"
+msgstr "Product Template"
+
+#. module: product_variant_configurator
+#: model:ir.model,name:product_variant_configurator.model_product_variant_configurator_line
+msgid "product_variant_configurator.line"
+msgstr "product_variant_configurator.line"
+
+#. module: product_variant_configurator
+#: view:product_variant_configurator.configurator:0
+msgid "Dimension"
+msgstr "Dimension"
+
+#. module: product_variant_configurator
+#: model:ir.model,name:product_variant_configurator.model_sale_order_line_dimension_custom_values
+msgid "sale.order.line.dimension_custom_values"
+msgstr "sale.order.line.dimension_custom_values"
+
+#. module: product_variant_configurator
+#: view:product_variant_configurator.configurator:0
+msgid "Validate order line"
+msgstr "Validate order line"
+
+#. module: product_variant_configurator
+#: view:product_variant_configurator.configurator:0
+msgid "Cancel"
+msgstr "Cancel"
+
+#. module: product_variant_configurator
+#: model:ir.actions.act_window,name:product_variant_configurator.product_variant_configurator_action
+msgid "product_variant_configurator_action"
+msgstr "product_variant_configurator_action"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,dimension_type_id:0
+#: field:sale.order.line.dimension_custom_values,dimension_type_id:0
+msgid "Dimension Type"
+msgstr "Dimension Type"
+
+#. module: product_variant_configurator
+#: view:product_variant_configurator.configurator:0
+msgid "Product Configurator"
+msgstr "Product Configurator"
+
