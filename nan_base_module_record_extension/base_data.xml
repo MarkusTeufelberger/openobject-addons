@@ -1,0 +1,10 @@
+<openerp>
+<data noupdate="1">
+	<!-- base.module.record.set -->
+	<record model="base.module.record.set" id="data_base_module_record_set_permissions">
+		<field name="name">Security Permissions</field>
+		<field name="model_ids" eval="[(6,0,[ref('base.model_res_users'),ref('base.model_res_groups'),ref('base.model_ir_model_access'),ref('base.model_ir_rule'),ref('base.model_res_roles')])]"/>
+	</record>
+</data>
+</openerp>
+
