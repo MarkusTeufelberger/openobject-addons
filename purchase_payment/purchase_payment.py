@@ -158,19 +158,24 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
-            date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
+            date_invoice=False, payment_term=False, partner_bank=False, company_id=False):
         """
         Extend the onchange to use the supplier payment terms if this is
         a purchase invoice.
         """
 
-        result = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type, partner_id,
-                            date_invoice=False, payment_term=False, partner_bank=False, company_id=False)
+        try:
+            # Try this call in case multi_company_account module is installed.
+            result = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type, partner_id,
+                            date_invoice, payment_term, partner_bank, company_id)
+        except:
+            result = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type, partner_id,
+                            date_invoice, payment_term, partner_bank)
 
         #
         # Set the correct payment term
         #
-        partner_payment_term_id = None
+        partner_payment_term_id = False
         if partner_id:
             partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('in_invoice', 'in_refund'):
@@ -195,3 +200,5 @@ class account_invoice(osv.osv):
         return result
 
 account_invoice()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
