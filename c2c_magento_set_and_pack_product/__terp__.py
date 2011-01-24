@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Author Nicolas Bessi. Copyright Camptocamp SA
+#    Author Joël Grand-Guillaume and Guewen Baconnier. Copyright Camptocamp SA
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,17 +20,20 @@
 {
     'name' : 'c2c_magento_set_and_pack_product',
     'version' : '1',
-    'depends' : ['base','account', 'product','magentoerpconnect'],
+    'depends' : ['base', 'product', 'magentoerpconnect', 'c2c_magento_product_components'],
     'author' : 'Camptocamp',
     'description': """Management of products for Magento: 
 Define in a Magento's attribute if the product is : 
  - a normal product
  - a pack (Phantom BoM)
  - a set (Normal BoM)
+The name of the attribute to synchronize with Magento is defined in settings/external.mappinglines.template.csv
+Needs customization in Magento which define how to handle each type of product. 
 """,
     'website': 'http://www.camptocamp.com',
     'init_xml': [],
     'update_xml': ['product_view.xml', 
+                   'settings/external.mappinglines.template.csv'
                   ],
     'demo_xml': [],
     'installable': True,

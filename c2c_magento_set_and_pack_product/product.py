@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Author Nicolas Bessi. Copyright Camptocamp SA
+#    Author Joël Grand-Guillaume and Guewen Baconnier. Copyright Camptocamp SA
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -28,73 +28,64 @@ class Product(osv.osv):
     " Inherit product to manage set and packs on products "
     _inherit = 'product.product'
 
-    def _get_type_and_components(self, cr, uid, ids, field_names=None, arg=False, context={}):
-        bom_obj=self.pool.get('mrp.bom')
-        if not field_names:
-            field_names=[]
+    def _get_type(self, cr, uid, ids, field_names=None, arg=False, context=None):
+        if context is None:
+            context = {}
+        if field_names is None:
+            field_names = []           
+        bom_obj = self.pool.get('mrp.bom')
         res = {}
-        # TODO: search the attribute id by it's code !
-        # 256 is the ID for the attribute zdbx_default_set_or_pack & 0,1,2 the value
-        simple_product_id = self.pool.get('magerp.product_attribute_options').search(cr,uid,[('attribute_id','=',256),('value','=',0)])
-        set_product_id = self.pool.get('magerp.product_attribute_options').search(cr,uid,[('attribute_id','=',256),('value','=',1)])
-        pack_product_id = self.pool.get('magerp.product_attribute_options').search(cr,uid,[('attribute_id','=',256),('value','=',2)])
-        att_values_ids = {'0':simple_product_id,'1':set_product_id,'2':pack_product_id}
-        # Initialize with simple product, with no components
-        for id in ids:
-            res[id]={}.fromkeys(field_names)
-            res[id]['components_lists'] = ''
-            res[id]['simple_set_or_pack'] = '0'
-        # Take all concerned product with BoM
-        bom_ids = bom_obj.search(cr,uid,[('product_id','in',ids),('bom_id','=',False)])
-        boms = bom_obj.browse(cr,uid,bom_ids)
-        for bom in boms:
-            components = []
-            for line in bom.bom_lines:
-                 components.append(line.product_id.magento_sku)
-            res[bom.product_id.id]['components_lists'] =  ','.join(map(str,components))
-
-            if bom.type == 'normal':
-                res[bom.product_id.id]['simple_set_or_pack'] = '1'
-            elif bom.type == 'phantom':
-                res[bom.product_id.id]['simple_set_or_pack'] = '2'
-            # Update related attrs
-            # TODO : Remove, this was to handle this without the x_magerp_zdbx_default_set_pack attrs
-            # in OpenERP
-            tmp=att_values_ids[res[bom.product_id.id]['simple_set_or_pack']]
-            if type(tmp) == list:
-                tmp=tmp[0]
-            self.write(cr,uid,bom.product_id.id,{'x_magerp_zdbx_default_sku_coffrets':res[bom.product_id.id]['components_lists'],'x_magerp_zdbx_default_set_pack':tmp})
-        return res
-    
-    def _get_concerned_boms(self, cr, uid, ids, context={}):
-        bom_ids = {}
-        product_ids=[]
-        bom_obj=self.pool.get('mrp.bom')
-        bom_ids=bom_obj.search(cr,uid,[('product_id','in',ids)])
         
-        for bom in bom_obj.browse(cr, uid, ids):
-            product_ids.append(bom.product_id.id)
-        if product_ids:
-            cr.execute("update product_product set write_date = now() where id in (%s)"%(','.join(map(str,product_ids))))
-        return product_ids
+        # Initialize with simple product
+        for id in ids:
+            res[id] = False
+        
+        # Take all concerned product which have a BoM
+        bom_ids = bom_obj.search(cr, uid, [('product_id', 'in', ids),
+                                           ('bom_id', '=', False)])
 
-    _columns = {'simple_set_or_pack': fields.function(_get_type_and_components, method='simple_set_or_pack', type='selection', string='Manage product type as (value)',
-                            selection=[('0','Simple product with no BoM'),('1','Set Product (Normal BoM)'),('2','Pack Product (Phantom BoM)')],
-                            help="Function field linked with the 'zdbx_default_set_pack' magento attribute. How to deal with the product, store :\
-0 for simple (no BoM), 1 for set (Normal BoM), 2 for pack (Phantom BoM).", 
-                            multi=True,
-                            store = {
-                                'product.product': (lambda self, cr, uid, ids, c={}: ids, ['bom_ids'], 10),
-                                'mrp.bom': (_get_concerned_boms, ['type', 'bom_lines'], 10),
-                            }),
-                'components_lists': fields.function(_get_type_and_components, method='simple_set_or_pack', type='char', size=256, string='Components list',
-                            help="List of components of this product taken from the BoM (separation with ';'). Only one level deep, not recursive",
-                            multi=True,
-                            store = {
-                                'product.product': (lambda self, cr, uid, ids, c={}: ids, ['bom_ids'], 10),
-                                'mrp.bom': (_get_concerned_boms, ['type', 'bom_lines'], 10),
-                            }),
+        for bom in bom_obj.browse(cr, uid, bom_ids):                                           
+            if bom.type == 'normal':
+                res[bom.product_id.id] = 'set'
+            elif bom.type == 'phantom':
+                res[bom.product_id.id] = 'pack'
+        
+        return res
+
+    def _get_store_boms(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        product_obj = self.pool.get('product.product')
+        bom_ids = product_obj._get_concerned_boms(cr, uid, ids, context)
+        return bom_ids
+
+    _columns = {'simple_set_or_pack': 
+                    fields.function(
+                        _get_type, 
+                        method=True,
+                        type='selection',
+                        string='Manage product type as (value)',
+                        selection=[(False, 'Simple product with no BoM'),
+                                   ('set','Set Product (Normal BoM)'),
+                                   ('pack','Pack Product (Phantom BoM)')],
+                        help="Function field linked with a magento attribute. Used on Magento to handle the products.", 
+                        store={
+                            'product.product': (lambda self, cr, uid, ids, c={}: ids, ['bom_ids'], 10),
+                            'mrp.bom': (_get_store_boms, ['type'], 10),
+                        }),                 
                 }
                 
 Product()
 
+class MrpBom(osv.osv):
+    "Inherit mrp.bom to reset the pack and components infos on product when a BoM is deleted"
+    _inherit = "mrp.bom"
+    
+    def unlink(self, cr, uid, ids, context=None):
+        for bom in self.pool.get('mrp.bom').browse(cr, uid, ids):
+            if bom.product_id.simple_set_or_pack:
+                self.pool.get('product.product').write(cr, uid, bom.product_id.id,{'simple_set_or_pack': False,})
+        
+        return super(MrpBom, self).unlink(cr, uid, ids, context)
+    
+MrpBom()    

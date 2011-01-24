@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-    <record model="ir.ui.view" id="product_custom_product">
+    <record model="ir.ui.view" id="product_custom_product_set_pack">
         <!-- must be unique in this module. -->
         <field name="name">product.normal.form.custom.inherit</field>
         <field name="model">product.product</field>
@@ -10,14 +10,9 @@
         <!-- modulename.view -->
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <page string="Information" position="inside">
-                <group colspan="2" col="2" name="magento">
-                    <separator string="Magento Pack and Sets Management" colspan="2"/>
-                    <field name="simple_set_or_pack" />
-                    <field name="components_lists" />
-                 </group>            
-            </page>            
-            
+            <group colspan="2" col="2" name="magento" position="inside">
+                <field name="simple_set_or_pack" />
+             </group>            
         </field>
     </record>
     </data>
