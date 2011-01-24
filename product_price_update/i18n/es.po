@@ -1,0 +1,144 @@
+# Spanish translation for openobject-addons
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-05-25 15:17+0000\n"
+"PO-Revision-Date: 2011-01-23 22:05+0000\n"
+"Last-Translator: Ana Juaristi Olalde <ajuaristio@gmail.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-01-24 05:08+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
+
+#. module: product_price_update
+#: field:product.price.update.wizard.done,updated_field:0
+msgid "Updated price type"
+msgstr "Tipo de precio actualizado"
+
+#. module: product_price_update
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML no válido para la arquitectura de la vista!"
+
+#. module: product_price_update
+#: view:product.price.update.wizard.done:0
+msgid "End"
+msgstr "fin"
+
+#. module: product_price_update
+#: view:product.price.update.wizard:0
+#: field:product.price.update.wizard,categ_ids:0
+msgid "Select Product Categories"
+msgstr "Seleccione categorías de productos"
+
+#. module: product_price_update
+#: model:ir.module.module,description:product_price_update.module_meta_information
+msgid ""
+"\n"
+"    The aim of this module is to allow the automatic update of the price "
+"fields of products.\n"
+"    * added a new pricelist type called 'Internal Pricelist' (currently, we "
+"have only 2 pricelist types: Sale and Purchase Pricelist)\n"
+"    * Created a wizard button in the menu Products>Pricelist called 'Update "
+"Product Prices'\n"
+"    * After filling in the wizard form and clicking on 'Update', it will "
+"change the selected price field of all products in the categories that we "
+"were selected in the wizard.\n"
+"    "
+msgstr ""
+"\n"
+"    El objetivo de este módulo es permitir la actualización automática del "
+"campo precio de los productos\n"
+"* Añadido una nuevo tipo de tarifa denominado 'tarifa interna'. "
+"(Actualmente, sólo tenemos 2 tipos de tarifa: tarifa de venta y tarifa de "
+"compra)\n"
+"* Creado un nuevo asistente en el menú productos / tarifas denominado "
+"'Actualiza precios de producto'\n"
+"* Despues de rellenar el formulario del asistente y hacer click en "
+"'actualizar', cambiará el campo precio seleccionado para todos los productos "
+"en las categorías que hemos seleccionado en el asistente.\n"
+"    "
+
+#. module: product_price_update
+#: model:ir.actions.act_window,name:product_price_update.action_price_update_wizard
+#: model:ir.ui.menu,name:product_price_update.menu_wizard_pricelist_update
+#: view:product.price.update.wizard:0
+msgid "Update Product Prices"
+msgstr "Actualizar precios de producto"
+
+#. module: product_price_update
+#: view:product.price.update.wizard:0
+#: field:product.price.update.wizard,price_type_id:0
+msgid "Price to Update"
+msgstr "Precio a actualizar"
+
+#. module: product_price_update
+#: model:ir.model,name:product_price_update.model_product_price_update_wizard
+msgid "product.price.update.wizard"
+msgstr ""
+
+#. module: product_price_update
+#: view:product.price.update.wizard:0
+msgid "Update"
+msgstr "Actualizar"
+
+#. module: product_price_update
+#: field:product.price.update.wizard.done,updated_products:0
+msgid "Number of updated products"
+msgstr "Número de productos actualizados"
+
+#. module: product_price_update
+#: model:ir.module.module,shortdesc:product_price_update.module_meta_information
+msgid "Product price update"
+msgstr "Actualizar precio de producto"
+
+#. module: product_price_update
+#: model:ir.model,name:product_price_update.model_product_price_update_wizard_done
+msgid "product.price.update.wizard.done"
+msgstr ""
+
+#. module: product_price_update
+#: view:product.price.update.wizard:0
+#: field:product.price.update.wizard,pricelist_id:0
+msgid "Select a Pricelist"
+msgstr "Seleccione una tarifa"
+
+#. module: product_price_update
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo inválido en la definición de la acción."
+
+#. module: product_price_update
+#: view:product.price.update.wizard.done:0
+msgid "Updated the price of products"
+msgstr "Precio de productos actualizados"
+
+#. module: product_price_update
+#: view:product.price.update.wizard:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: product_price_update
+#: constraint:ir.model:0
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+"El nombre del objeto debe empezar con x_ y no debe contener ningún carácter "
+"especial!"
+
+#. module: product_price_update
+#: field:product.price.update.wizard,upgrade:0
+msgid "Update child categories"
+msgstr "Actualizar categorías hijas"
+
+#. module: product_price_update
+#: model:product.pricelist.type,name:product_price_update.pricelist_type_internal
+msgid "Internal Pricelist"
+msgstr "Tarifa interna"
