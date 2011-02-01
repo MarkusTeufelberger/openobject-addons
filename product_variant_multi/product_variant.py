@@ -267,7 +267,7 @@ class product_product(osv.osv):
             for product in self.browse(cr, uid, ids, context=context):
                 dimension_extra = 0.0
                 for dim in product.dimension_value_ids:
-                    dimension_extra += dim.cost_price_extra
+                    dimension_extra += product.cost_price_extra + dim.cost_price_extra
                 
                 if 'uom' in context:
                     uom = product.uos_id or product.uom_id
