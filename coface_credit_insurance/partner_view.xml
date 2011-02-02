@@ -42,7 +42,7 @@
                     <field name="name"/>
                     <field name="coface_rating"/>
                     <field name="coface_credit_limit"/>
-                    <field name="coface_credit_limit_cur" string="Cur."/>
+                    <field name="coface_credit_limit_cur" string="Currency"/>
                     <field name="coface_effective_date"/>
                     <field name="coface_decision_status"/>
                     <field name="coface_decision_type"/>

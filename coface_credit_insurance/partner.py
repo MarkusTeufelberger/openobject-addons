@@ -71,7 +71,7 @@ res_partner()
 class coface_credit_history(osv.osv):
     _name = "coface.credit.history"
     _description = 'coface credit amount and insurance history'
-    _order = 'coface_file_date'
+    _order = 'coface_file_date desc'
 
     _columns = {
         'partner_id': fields.many2one('res.partner', 'Partner', required=True, ondelete='cascade'),
