@@ -80,11 +80,6 @@ class kettle_transformation(osv.osv):
         raise osv.except_osv('KETTLE ERROR', 'An error occurred, please look in the kettle log')
     
     def execute_transformation(self, cr, uid, id, attachment_id, context):
-        print 'cr.name', cr.dbname
-        print "str(config['port'])", str(config['port'])
-        print "context['default_res_id']", context['default_res_id']
-        print "str(id)", str(id)
-
         log_file_name = cr.dbname + '_' + str(config['port']) + '_'+ str(context['default_res_id']) + '_' + str(id) + '_DATE_' + context['start_date'].replace(' ', '_') + ".log"
         transfo = self.browse(cr, uid, id, context)
         kettle_dir = transfo.server_id.kettle_dir
@@ -102,11 +97,13 @@ class kettle_transformation(osv.osv):
         logger.notifyChannel('kettle-connector', netsvc.LOG_INFO, "start kettle task : open kettle log with tail -f " + kettle_dir +'/openerp_tmp/' + log_file_name)
         cmd = "cd " + kettle_dir + "; nohup sh pan.sh -file=openerp_tmp/" + filename + " > openerp_tmp/" + log_file_name
         os_result = os.system(cmd)
-        
+        note = self.pool.get('ir.attachment').read(cr, uid, attachment_id, ['description'], context)['description']
         if os_result != 0:
-            prefixe_log_name = "[ERROR]"
+            if note and "___NO_DATA_FOUND___: " in note:
+                prefixe_log_name = "[SUCCESS] no data found "
+            else:
+                prefixe_log_name = "[ERROR]"
         else:
-            note = self.pool.get('ir.attachment').read(cr, uid, attachment_id, ['description'], context)['description']
             if note and 'WARNING' in note:
                 prefixe_log_name = "[WARNING]"
             else:
