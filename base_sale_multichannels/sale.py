@@ -326,7 +326,8 @@ class sale_order(osv.osv):
                                 'ref': payment_ref,
                                 'amount': amount,
                                 'partner_id': partner_id,
-                                'account_id': account_id
+                                'account_id': account_id,
+                                'date' : date,
                                }
         statement_line_id = self.pool.get('account.bank.statement.line').create(cr, uid, statement_line_vals, context)
         if should_validate:
