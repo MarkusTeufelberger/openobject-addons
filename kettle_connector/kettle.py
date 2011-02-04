@@ -79,10 +79,16 @@ class kettle_transformation(osv.osv):
         logger.notifyChannel('kettle-connector', netsvc.LOG_ERROR, 'An error occurred, please look in the kettle log')
         raise osv.except_osv('KETTLE ERROR', 'An error occurred, please look in the kettle log')
     
-    def execute_transformation(self, cr, uid, id, log_file_name, attachment_id, context):
+    def execute_transformation(self, cr, uid, id, attachment_id, context):
+        print 'cr.name', cr.dbname
+        print "str(config['port'])", str(config['port'])
+        print "context['default_res_id']", context['default_res_id']
+        print "str(id)", str(id)
+
+        log_file_name = cr.dbname + '_' + str(config['port']) + '_'+ str(context['default_res_id']) + '_' + str(id) + '_DATE_' + context['start_date'].replace(' ', '_') + ".log"
         transfo = self.browse(cr, uid, id, context)
         kettle_dir = transfo.server_id.kettle_dir
-        filename = transfo.filename
+        filename = cr.dbname + '_' + str(config['port']) + '_' + str(context['default_res_id']) + '_' + str(id) + '_' + '_DATE_' + context['start_date'].replace(' ', '_') + transfo.filename
         logger = netsvc.Logger()
         transformation_temp = open(kettle_dir + '/openerp_tmp/'+ filename, 'w')
         
@@ -177,8 +183,7 @@ class kettle_task(osv.osv):
         user = self.pool.get('res.users').browse(cr, uid, uid, context)
         for id in ids:
             context.update({'default_res_id' : id, 'default_res_model': 'kettle.task', 'start_date' : time.strftime('%Y-%m-%d %H:%M:%S')})
-            log_file_name = 'TASK_LOG_ID' + str(id) + '_DATE_' + context['start_date'].replace(' ', '_') + ".log"
-            attachment_id = self.pool.get('ir.attachment').create(cr, uid, {'name': log_file_name}, context)
+            attachment_id = self.pool.get('ir.attachment').create(cr, uid, {'name': 'TASK_LOG_IN_PROGRESS'+context['start_date']}, context)
             cr.commit()
             
             context['filter'] = {
@@ -208,7 +213,7 @@ class kettle_task(osv.osv):
             context = self.execute_python_code(cr, uid, id, 'before', context)
             
             context['filter'].update(eval('{' + str(task['parameters'] or '')+ '}'))
-            res = self.pool.get('kettle.transformation').execute_transformation(cr, uid, task['transformation_id'][0], log_file_name, attachment_id, context)
+            res = self.pool.get('kettle.transformation').execute_transformation(cr, uid, task['transformation_id'][0], attachment_id, context)
 
             context = self.execute_python_code(cr, uid, id, 'after', context)
             
