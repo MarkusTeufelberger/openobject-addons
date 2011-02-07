@@ -59,7 +59,7 @@ class wizard_vat_report(wizard.interface):
             mod_obj = pooler.get_pool(cr.dbname).get('ir.model.data')
             act_obj = pooler.get_pool(cr.dbname).get('ir.actions.act_window')
 
-            result = mod_obj._get_id(cr, uid, 'c2c_vat_report_payment', 'action_vat_mod_tree')
+            result = mod_obj._get_id(cr, uid, 'c2c_cash_based_vat_report', 'action_vat_mod_tree')
             id = mod_obj.read(cr, uid, [result], ['res_id'])[0]['res_id']
             result = act_obj.read(cr, uid, [id], context=context)[0]
             result['context'] = str({'date_from': data['form']['date_from'],'date_to':data['form']['date_to'],'company_id':data['form']['company_id']})

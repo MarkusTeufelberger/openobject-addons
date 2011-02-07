@@ -101,5 +101,5 @@ class VATReportPaymentReport(report_sxw.rml_parse):
 
 
 report_sxw.report_sxw('report.account.vat.payment.declaration', 'account.tax.code',
-	'addons/c2c_vat_report_payment/report/vat_report_payment.rml', parser=VATReportPaymentReport, header=False)
+	'addons/c2c_cash_based_vat_report/report/vat_report_payment.rml', parser=VATReportPaymentReport, header=False)
 
