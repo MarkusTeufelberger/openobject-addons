@@ -29,7 +29,7 @@
         "name" : "VAT report based on payments",
         "description" : """
 VAT report based on payments.
-Replace the existing report on Financial management > Reporting > Taxes reports > Print Taxes Report when the "base on : Payments" is selected.
+Replace the existing report on Financial management > Reporting > Cahs base report.
 Needs Postgresql >= 8.4        
         """,
         "version" : "1.0",
