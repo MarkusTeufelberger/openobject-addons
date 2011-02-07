@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_tax_code_payment_tree" model="ir.ui.view">
+            <field name="name">account.tax.code.tree</field>
+            <field name="model">account.tax.code</field>
+            <field name="type">tree</field>
+            <field name="field_parent">child_ids</field>
+            <field name="priority">200</field>
+            <field name="arch" type="xml">
+                <tree string="Account Tax Code" toolbar="1">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="sum_p1"/>
+                    <field name="sum_period_date"/>
+                    <field name="sum_p2"/>
+                    <field name="sum_diff_total"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+
+       <record id="action_vat_mod_tree" model="ir.actions.act_window">
+            <field name="name">Cash-based VAT</field>
+            <field name="res_model">account.tax.code</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="view_tax_code_payment_tree"/>
+            <field name="domain">[('parent_id','=',False)]</field>
+        </record>
+        <menuitem action="action_vat_mod_tree" id="menu_action_vat_mod_tree" parent="account.account_account_menu"/>
+
+
+
+
+
+
+
+
+    </data>
+</openerp>

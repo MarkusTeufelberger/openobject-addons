@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <wizard
+            id="account_vat_report"
+            model="vat.report.line"
+            name="account_vat_report"
+            string="Cash-based VAT"
+            menu="False"
+            />
+
+        <menuitem
+            icon="STOCK_INDENT"
+            action="account_vat_report"
+            id="c2c_vat_payment_report_menu_item"
+            type="wizard"
+            parent="account.menu_finance_reporting"
+        />
+    </data>
+</openerp>
