@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.6\n"
+"Project-Id-Version: OpenERP Server 5.0.14\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-12-02 12:41:57+0000\n"
-"PO-Revision-Date: 2009-12-02 12:41:57+0000\n"
+"POT-Creation-Date: 2011-01-16 20:25:52+0000\n"
+"PO-Revision-Date: 2011-01-16 20:25:52+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,119 +19,119 @@ msgstr ""
 #: wizard_field:open_risk_window,init,draft_invoices_amount:0
 #: field:res.partner,draft_invoices_amount:0
 msgid "Draft Invoices"
-msgstr ""
+msgstr "Draft Invoices"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,total_debt:0
 #: field:res.partner,total_debt:0
 msgid "Total Debt"
-msgstr ""
+msgstr "Total Debt"
 
 #. module: nan_partner_risk
 #: view:sale.order:0
 msgid "Approve Order"
-msgstr ""
+msgstr "Approve Order"
 
 #. module: nan_partner_risk
 #: wizard_view:open_risk_window,init:0
 msgid "Risk Information"
-msgstr ""
+msgstr "Risk Information"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,pending_amount:0
 #: field:res.partner,pending_amount:0
 msgid "Unexpired Pending Payments"
-msgstr ""
+msgstr "Unexpired Pending Payments"
 
 #. module: nan_partner_risk
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr ""
+msgstr "Invalid model name in the action definition."
 
 #. module: nan_partner_risk
 #: model:ir.actions.wizard,name:nan_partner_risk.open_risk_wizard
 #: view:res.partner:0
 msgid "View Risk Information"
-msgstr ""
+msgstr "View Risk Information"
 
 #. module: nan_partner_risk
 #: model:ir.module.module,shortdesc:nan_partner_risk.module_meta_information
 msgid "Partner Risk Analysis"
-msgstr ""
+msgstr "Partner Risk Analysis"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,total_risk_percent:0
 #: field:res.partner,total_risk_percent:0
 msgid "Credit Usage (%)"
-msgstr ""
+msgstr "Credit Usage (%)"
 
 #. module: nan_partner_risk
 #: view:sale.order:0
 msgid "Confirm Order"
-msgstr ""
+msgstr "Confirm Order"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,available_risk:0
 #: field:res.partner,available_risk:0
 msgid "Available Credit"
-msgstr ""
+msgstr "Available Credit"
 
 #. module: nan_partner_risk
 #: code:addons/nan_partner_risk/risk.py:0
 #, python-format
 msgid "Warning: Credit Limit Exceeded.\n\nThis partner has a credit limit of %(limit).2f and already has a debt of %(debt).2f."
-msgstr ""
+msgstr "Warning: Credit Limit Exceeded.\n\nThis partner has a credit limit of %(limit).2f and already has a debt of %(debt).2f."
 
 #. module: nan_partner_risk
 #: view:sale.order:0
 msgid "Cancel Order"
-msgstr ""
+msgstr "Cancel Order"
 
 #. module: nan_partner_risk
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr ""
+msgstr "Invalid XML for View Architecture!"
 
 #. module: nan_partner_risk
 #: field:sale.order,amount_invoiced:0
 #: field:sale.order.line,amount_invoiced:0
 msgid "Invoiced Amount"
-msgstr ""
+msgstr "Invoiced Amount"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,unpayed_amount:0
 #: field:res.partner,unpayed_amount:0
 msgid "Expired Unpaid Payments"
-msgstr ""
+msgstr "Expired Unpaid Payments"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,circulating_amount:0
 #: field:res.partner,circulating_amount:0
 msgid "Payments Sent to Bank"
-msgstr ""
+msgstr "Payments Sent to Bank"
 
 #. module: nan_partner_risk
 #: code:addons/nan_partner_risk/risk.py:0
 #, python-format
 msgid "Credit Limit Exceeded"
-msgstr ""
+msgstr "Credit Limit Exceeded"
 
 #. module: nan_partner_risk
 #: model:ir.actions.act_window,name:nan_partner_risk.action_order_wait_risk
 #: model:ir.ui.menu,name:nan_partner_risk.menu_action_order_wait_risk
 msgid "Waiting Risk Approval"
-msgstr ""
+msgstr "Waiting Risk Approval"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,credit_limit:0
 msgid "Credit Limit"
-msgstr ""
+msgstr "Credit Limit"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,pending_orders_amount:0
 #: field:res.partner,pending_orders_amount:0
 msgid "Uninvoiced Orders"
-msgstr ""
+msgstr "Uninvoiced Orders"
 
 #. module: nan_partner_risk
 #: model:ir.module.module,description:nan_partner_risk.module_meta_information
@@ -139,10 +139,13 @@ msgid "This module adds a new button in the partner form to analyze current stat
 "It reports current information regarding amount of debt in invoices, orders, etc.\n"
 "\n"
 "It also modifies the workflow of sale orders by adding a new step when partner's risk is exceeded."
-msgstr ""
+msgstr "This module adds a new button in the partner form to analyze current state of a partner risk.\n"
+"It reports current information regarding amount of debt in invoices, orders, etc.\n"
+"\n"
+"It also modifies the workflow of sale orders by adding a new step when partner's risk is exceeded."
 
 #. module: nan_partner_risk
 #: wizard_button:open_risk_window,init,end:0
 msgid "Close"
-msgstr ""
+msgstr "Close"
 

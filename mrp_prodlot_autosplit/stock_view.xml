@@ -125,7 +125,78 @@
 			</field>
 		</record>
 
+	<!-- Wizard to help users input production lots in batch -->
 
+	<record id="view_stock_picking_prodlot_selection" model="ir.ui.view">
+		<field name="name">stock.picking.prodlot.selection</field>
+		<field name="model">stock.picking.prodlot.selection</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Select Production Lots">
+				<field name="product_id" colspan="4"/>
+				<field name="first_lot"/>
+				<field name="last_lot"/>
+				<button type="object" name="action_cancel" string="Cancel" icon="gtk-cancel" special="cancel" colspan="2"/>
+				<button type="object" name="action_accept" string="Accept" icon="gtk-ok" colspan="2"/>
+			</form>
+		</field>
+	</record>
 
-	</data>
+	<record model="ir.actions.act_window" id="action_prodlot_selection">
+		<field name="name">Select Production Lots</field>
+		<field name="res_model">stock.picking.prodlot.selection</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+	<record id="view_picking_form" model="ir.ui.view">
+		<field name="name">stock.picking.form.prodlot.selection</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/group/label[@colspan='6']" position="replace">
+				<label colspan="5"/>
+				<button type="action" name="%(action_prodlot_selection)d" string="Spread Production Lots" states="draft,confirmed,assigned"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="view_picking_in_form" model="ir.ui.view">
+		<field name="name">stock.picking.in.form.prodlot.selection</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_in_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/group/label[@colspan='5']" position="replace">
+				<label colspan="4"/>
+				<button type="action" name="%(action_prodlot_selection)d" string="Spread Production Lots" states="draft,confirmed,assigned"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="view_picking_out_form" model="ir.ui.view">
+		<field name="name">stock.picking.out.form</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_out_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/group/label[@colspan='6']" position="replace">
+				<label colspan="5"/>
+				<button type="action" name="%(action_prodlot_selection)d" string="Spread Production Lots" states="draft,confirmed,assigned"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="view_picking_delivery_form" model="ir.ui.view">
+		<field name="name">stock.picking.delivery.form</field>
+		<field name="model">stock.picking</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="stock.view_picking_delivery_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/group/label[@colspan='6']" position="replace">
+				<label colspan="5"/>
+				<button type="action" name="%(action_prodlot_selection)d" string="Spread Production Lots" states="draft,confirmed,assigned"/>
+			</xpath>
+		</field>
+	</record>
+</data>
 </openerp>

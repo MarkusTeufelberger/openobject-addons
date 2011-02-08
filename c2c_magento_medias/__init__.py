@@ -21,3 +21,4 @@ import product_image
 import company
 import mag_sale
 import wizard
+import product

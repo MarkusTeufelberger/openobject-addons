@@ -65,16 +65,25 @@ class kettle_transformation(osv.osv):
         }
     
     def error_wizard(self, cr, uid, id, context):
+        logger = netsvc.Logger()
         error_description = self.pool.get('ir.attachment').read(cr, uid, id, ['description'], context)['description']
-        if error_description and "USER_ERROR" in error_description:
-            raise osv.except_osv('USER_ERROR', error_description)
-        else:
-            raise osv.except_osv('KETTLE ERROR', 'An error occurred, please look in the kettle log')
+        if error_description:
+            if "___USER_ERROR___: " in error_description:
+                message = error_description.split("___USER_ERROR___: ")[1].split("\n")[0]
+                logger.notifyChannel('kettle-connector', netsvc.LOG_ERROR, "User Error " + message)
+                raise osv.except_osv('USER_ERROR', message)
+            if "___NO_DATA_FOUND___: " in error_description:
+                message = error_description.split("___NO_DATA_FOUND___: ")[1].split("\n")[0]
+                logger.notifyChannel('kettle-connector', netsvc.LOG_INFO, "empty stream " + message)
+                return 'empty_stream'
+        logger.notifyChannel('kettle-connector', netsvc.LOG_ERROR, 'An error occurred, please look in the kettle log')
+        raise osv.except_osv('KETTLE ERROR', 'An error occurred, please look in the kettle log')
     
-    def execute_transformation(self, cr, uid, id, log_file_name, attachment_id, context):
+    def execute_transformation(self, cr, uid, id, attachment_id, context):
+        log_file_name = cr.dbname + '_' + str(config['port']) + '_'+ str(context['default_res_id']) + '_' + str(id) + '_DATE_' + context['start_date'].replace(' ', '_') + ".log"
         transfo = self.browse(cr, uid, id, context)
         kettle_dir = transfo.server_id.kettle_dir
-        filename = transfo.filename
+        filename = cr.dbname + '_' + str(config['port']) + '_' + str(context['default_res_id']) + '_' + str(id) + '_' + '_DATE_' + context['start_date'].replace(' ', '_') + transfo.filename
         logger = netsvc.Logger()
         transformation_temp = open(kettle_dir + '/openerp_tmp/'+ filename, 'w')
         
@@ -88,22 +97,23 @@ class kettle_transformation(osv.osv):
         logger.notifyChannel('kettle-connector', netsvc.LOG_INFO, "start kettle task : open kettle log with tail -f " + kettle_dir +'/openerp_tmp/' + log_file_name)
         cmd = "cd " + kettle_dir + "; nohup sh pan.sh -file=openerp_tmp/" + filename + " > openerp_tmp/" + log_file_name
         os_result = os.system(cmd)
-        
+        note = self.pool.get('ir.attachment').read(cr, uid, attachment_id, ['description'], context)['description']
         if os_result != 0:
-            prefixe_log_name = "[ERROR]"
+            if note and "___NO_DATA_FOUND___: " in note:
+                prefixe_log_name = "[SUCCESS] no data found "
+            else:
+                prefixe_log_name = "[ERROR]"
         else:
-            note = self.pool.get('ir.attachment').read(cr, uid, attachment_id, ['description'], context)['description']
             if note and 'WARNING' in note:
                 prefixe_log_name = "[WARNING]"
             else:
                 prefixe_log_name = "[SUCCESS]"
-        
-        self.pool.get('ir.attachment').write(cr, uid, [attachment_id], {'datas': base64.encodestring(open(kettle_dir +"/openerp_tmp/" + log_file_name, 'rb').read()), 'datas_fname': 'Task.log', 'name' : prefixe_log_name + 'TASK_LOG'}, context)
+        self.pool.get('ir.attachment').write(cr, uid, [attachment_id], {'datas': base64.encodestring(open(kettle_dir +"/openerp_tmp/" + log_file_name, 'rb').read()), 'datas_fname': 'Task.log', 'name' : prefixe_log_name + 'TASK_LOG_'+context['start_date'].replace(' ', '_')}, context)
         cr.commit()
         os.remove(kettle_dir +"/openerp_tmp/" + log_file_name)
         os.remove(kettle_dir + '/openerp_tmp/'+ filename)
         if os_result != 0:
-            self.error_wizard(cr, uid, attachment_id, context)
+            return self.error_wizard(cr, uid, attachment_id, context)
         logger.notifyChannel('kettle-connector', netsvc.LOG_INFO, "kettle task finish with success")
      
 kettle_transformation()
@@ -135,7 +145,7 @@ class kettle_task(osv.osv):
         os.remove(context['kettle_dir'] + '/' + datas_fname)
         #For a strange reason I can not apply directly the method create without error if the datas_fname have an extension
         attachment_id = obj_att.create(cr, uid, {'name': attach_name, 'datas': datas}, context)
-        obj_att.write(cr, uid, [attachment_id], {'datas_fname': datas_fname.split("/").pop()}, context)
+        obj_att.write(cr, uid, [attachment_id], {'datas_fname': context.get('force_attach_name', datas_fname.split("/").pop())}, context)
         return attachment_id
     
     def attach_output_file_to_task(self, cr, uid, id, datas_fname, attach_name, delete = False, context = None):
@@ -147,6 +157,9 @@ class kettle_task(osv.osv):
             if filename in file:
                 filename_completed = file
         if filename_completed:
+            note = self.pool.get('ir.attachment').read(cr, uid, context['attachment_id'], ['description'], context)['description']
+            if '___OUTPUT_FILE_NAME__: ' in note:
+                context['force_attach_name'] = note.split('___OUTPUT_FILE_NAME__: ')[1].split("\n")[0]
             self.attach_file_to_task(cr, uid, id, 'openerp_tmp/'+  filename_completed, attach_name, delete, context)
         else:
             raise osv.except_osv('USER ERROR', 'the output file was not found, are you sure that you transformation will give you an output file?')
@@ -167,8 +180,7 @@ class kettle_task(osv.osv):
         user = self.pool.get('res.users').browse(cr, uid, uid, context)
         for id in ids:
             context.update({'default_res_id' : id, 'default_res_model': 'kettle.task', 'start_date' : time.strftime('%Y-%m-%d %H:%M:%S')})
-            log_file_name = 'TASK_LOG_ID' + str(id) + '_DATE_' + context['start_date'].replace(' ', '_') + ".log"
-            attachment_id = self.pool.get('ir.attachment').create(cr, uid, {'name': log_file_name}, context)
+            attachment_id = self.pool.get('ir.attachment').create(cr, uid, {'name': 'TASK_LOG_IN_PROGRESS'+context['start_date']}, context)
             cr.commit()
             
             context['filter'] = {
@@ -177,7 +189,7 @@ class kettle_task(osv.osv):
                       'AUTO_REP_db_pass_erp': str(user.password),
                       'AUTO_REP_kettle_task_id' : str(id),
                       'AUTO_REP_kettle_task_attachment_id' : str(attachment_id),
-                      'AUTO_REP_erp_url' : "http://localhost:" + config['port'] + "/xmlrpc"
+                      'AUTO_REP_erp_url' : "http://localhost:" + str(config['port']) + "/xmlrpc"
                       }
             task = self.read(cr, uid, id, ['upload_file', 'parameters', 'transformation_id', 'output_file', 'name', 'server_id', 'last_date'], context)
             context['kettle_dir'] = self.pool.get('kettle.server').read(cr, uid, task['server_id'][0], ['kettle_dir'], context)['kettle_dir']
@@ -198,14 +210,15 @@ class kettle_task(osv.osv):
             context = self.execute_python_code(cr, uid, id, 'before', context)
             
             context['filter'].update(eval('{' + str(task['parameters'] or '')+ '}'))
-            self.pool.get('kettle.transformation').execute_transformation(cr, uid, task['transformation_id'][0], log_file_name, attachment_id, context)
+            res = self.pool.get('kettle.transformation').execute_transformation(cr, uid, task['transformation_id'][0], attachment_id, context)
 
             context = self.execute_python_code(cr, uid, id, 'after', context)
             
             if context.get('input_filename',False):
                 self.attach_file_to_task(cr, uid, id, context['input_filename'], '[FILE IN] FILE IMPORTED ' + context['start_date'], True, context)
         
-            if task['output_file']:
+            if task['output_file'] and not res =='empty_stream':
+                context['attachment_id'] = attachment_id
                 self.attach_output_file_to_task(cr, uid, id, context['filter']['AUTO_REP_file_out'], '[FILE OUT] FILE IMPORTED ' + context['start_date'], True, context)            
             
             self.write(cr, uid, [id], {'last_date' : context['start_date']})

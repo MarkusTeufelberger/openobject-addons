@@ -210,6 +210,7 @@ class crm_case(osv.osv):
                 unlink_ids = []
                 write_ids = []
                 if vals.get('timesheet_ids', False):
+                    duration = 0.0
                     for z in vals['timesheet_ids']:
                         if not z[2]:
                             # check if this timesheet is to unlink
@@ -217,26 +218,24 @@ class crm_case(osv.osv):
                         elif z[1]:
                             # check if this timesheet is to modify
                             write_ids.append(z[1])
-                duration = 0.0
-                for c in case.timesheet_ids:
-                    if c.id not in unlink_ids and c.id not in write_ids:
-                        # Add hours for timesheet not unlinked or modified
-                        duration += c.hours
-                if vals.get('timesheet_ids', False):
+                    for c in case.timesheet_ids:
+                        if c.id not in unlink_ids and c.id not in write_ids:
+                            # Add hours for timesheet not unlinked or modified
+                            duration += c.hours
                     for t in vals['timesheet_ids']:
                         if t[2]:
                             # Add hours of timesheet modified
                             duration += t[2]['hours']
-                vals_case_id = {}
-                vals_case_id['case_id'] = case.id
-                account_id = crm_case_work_obj._get_analytic_account_id(cr, uid, vals_case_id, context)
-                account_analytic_obj = self.pool.get('account.analytic.account')
-                if account_id:
-                    rounding = account_analytic_obj.read(cr, uid, account_id, ['rounding_duration'])['rounding_duration']
-                    if rounding:
-                        # Rounding duration
-                        duration = ceil((duration * 100) / (rounding * 100)) * rounding
-                vals['duration'] = duration
+                    vals_case_id = {}
+                    vals_case_id['case_id'] = case.id
+                    account_id = crm_case_work_obj._get_analytic_account_id(cr, uid, vals_case_id, context)
+                    account_analytic_obj = self.pool.get('account.analytic.account')
+                    if account_id:
+                        rounding = account_analytic_obj.read(cr, uid, account_id, ['rounding_duration'])['rounding_duration']
+                        if rounding:
+                            # Rounding duration
+                            duration = ceil((duration * 100) / (rounding * 100)) * rounding
+                    vals['duration'] = duration
         return super(crm_case, self).write(cr, uid, ids, vals, context)
 
 crm_case()

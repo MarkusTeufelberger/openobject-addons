@@ -1,0 +1,3 @@
+"id","type_id:id","model_id:id","external_field","type","external_type","in_function","out_function"
+"prd_custom_components","magentoerpconnect.magento1324","product.model_product_product","components_list","in_out","str",,"# Modify components_list to the name of your Magento attribute's name
+result=[('components_list', record['components_lists'])]"

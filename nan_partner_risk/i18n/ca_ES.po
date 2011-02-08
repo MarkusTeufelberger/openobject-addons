@@ -7,11 +7,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.5-bzr\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-12-02 12:41+0000\n"
+"POT-Creation-Date: 2011-01-16 20:25:52+0000\n"
 "PO-Revision-Date: 2010-08-31 08:23+0000\n"
-"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
-"<jesteve@zikzakmedia.com>\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) <jesteve@zikzakmedia."
+"com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -104,8 +105,7 @@ msgid "Invalid XML for View Architecture!"
 msgstr "﻿XML invàlid per a la definició de la vista!"
 
 #. module: nan_partner_risk
-#: field:sale.order,amount_invoiced:0
-#: field:sale.order.line,amount_invoiced:0
+#: field:sale.order,amount_invoiced:0 field:sale.order.line,amount_invoiced:0
 msgid "Invoiced Amount"
 msgstr "Import facturat"
 

@@ -22,7 +22,7 @@
 				<field name="source_module_id" select="2"/>
 				<field name="owner_id" select="2"/>
 				<field name="active" select="2"/>
-				<field name="text" select="1" colspan="4"/>
+				<field name="text" select="1" colspan="4" use="{'stylesheet': 'font-family: &quot;Courier New&quot;'}"/>
 				<group col="6" colspan="4">
 					<field name="image" widget="image"/>
 				</group>

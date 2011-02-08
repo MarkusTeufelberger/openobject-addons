@@ -104,14 +104,15 @@ class stock_move(osv.osv):
         return result
    
     def split_move_in_single(self, cr, uid, ids, context=None):
+        all_ids = ids[:]
         for move_id in ids:
             move = self.browse(cr, uid, move_id)
             qty = move.product_qty
             self.write(cr, uid, move.id, {'product_qty': 1, 'product_uos_qty': move.product_id.uos_coeff})
             while qty > 1:
-                self.copy(cr, uid, move.id, {'state': move.state, 'prodlot_id': None})
+                all_ids.append( self.copy(cr, uid, move.id, {'state': move.state, 'prodlot_id': None}) )
                 qty -= 1;
-        return True
+        return all_ids
 
 stock_move()
 
@@ -138,7 +139,7 @@ class stock_picking(osv.osv):
                        ((move.product_id.track_production and move.location_id.usage == 'production') or \
                         (move.product_id.track_production and move.location_dest_id.usage == 'production') or \
                         (move.product_id.track_incoming and move.location_id.usage == 'supplier') or \
-                        (move.product_id.track_outgoing and move.location_dest_id.usage == 'customer')) or True:
+                        (move.product_id.track_outgoing and move.location_dest_id.usage == 'customer')):
                             self.pool.get('stock.move').split_move_in_single(cr, uid, [move.id])
 
         return result

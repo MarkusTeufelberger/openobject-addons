@@ -19,8 +19,8 @@
 ##############################################################################
 {
     "name" : "Unique serial number management",
-    "version" : "0.9.0",
-    "author" : "Raphaël Valyi",
+    "version" : "1.0.0",
+    "author" : "Raphaël Valyi, NaN",
     "website" : "http://www.akretion.com",
     "depends" : ['mrp'],
     "category" : "Generic Modules/Inventory Control",
@@ -42,15 +42,12 @@
     It would basically simply merge the attributes given (redefined) in the original view XML and let inner content unchanged.
     Blueprint is registred here: https://blueprints.launchpad.net/openobject-server/+spec/merge-attributes-view-extension-point
     
-    Important Note 2: this module doesn't split product bill of materials in MRP since they don't use pickings
-    A good workaround when generating production orders manually one by one is too define several lines of individual products in nomemclatures
-    and produce 1 by 1 (if possible) to make it easier to encode unique prodlot in production orders too.
     We would also like to extend this module to split automatic production orders (from MRP engine) into several individual production orders in order
     to make it easy to encode the serial numbers in the production. Let us know if you would like that simple extension to be made.
     """,
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ["product_view.xml", "stock_view.xml", "company_view.xml"],
+    "update_xml" : ["product_view.xml", "stock_view.xml", "company_view.xml", "stock_view.xml"],
     "active": False,
     "installable": True
 }

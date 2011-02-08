@@ -326,7 +326,8 @@ class sale_order(osv.osv):
                                 'ref': payment_ref,
                                 'amount': amount,
                                 'partner_id': partner_id,
-                                'account_id': account_id
+                                'account_id': account_id,
+                                'date' : date,
                                }
         statement_line_id = self.pool.get('account.bank.statement.line').create(cr, uid, statement_line_vals, context)
         if should_validate:
@@ -354,9 +355,10 @@ class sale_order(osv.osv):
         
                     if order.order_policy == 'manual':
                         if payment_settings.create_invoice:
-                           invoice_id = self.pool.get('sale.order').action_invoice_create(cr, uid, [order_id])
-                           if payment_settings.validate_invoice:
-                               wf_service.trg_validate(uid, 'account.invoice', invoice_id, 'invoice_open', cr)
+                            wf_service.trg_validate(uid, 'sale.order', order_id, 'manual_invoice', cr)
+                            for invoice in self.browse(cr, uid, order_id).invoice_ids:
+                                if payment_settings.validate_invoice:
+                                    wf_service.trg_validate(uid, 'account.invoice', invoice.id, 'invoice_open', cr)
         
                     # IF postpaid DO NOTHING
         

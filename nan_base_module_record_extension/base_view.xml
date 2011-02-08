@@ -1,0 +1,88 @@
+<openerp>
+<data>
+	<!-- base.module.record.set -->
+	<record model="ir.ui.view" id="base_module_record_set_form">
+		<field name="name">base.module.record.set.form</field>
+		<field name="model">base.module.record.set</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Module Record Set" >
+				<field name="name" colspan="4" select="1"/>
+				<field name="model_ids" colspan="4" select="1"/>
+				<field name="backup_ids" colspan="4" select="1"/>
+				<button icon="gtk-save" name="action_create_backup" string="Create Backup" type="object" colspan="4"/>
+			</form>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="base_module_record_set_tree">
+		<field name="name">base.module.record.set.tree</field>
+		<field name="model">base.module.record.set</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree string="Model Record Set" >
+				<field name="name"/>
+				<field name="model_ids"/>
+				<field name="backup_ids"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_base_module_record_set">
+		<field name="name">Module Record Set</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">base.module.record.set</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	<menuitem 
+		action="action_base_module_record_set" 
+		id="menu_action_base_module_record_set" 
+		parent="base_module_record.menu_wizard_base_mod_rec_rec"
+		/>
+
+	<!-- base.module.record.set.backup -->
+	<record model="ir.ui.view" id="base_module_record_set_backup_form">
+		<field name="name">base.module.record.set.backup.form</field>
+		<field name="model">base.module.record.set.backup</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Module Record Set Backup" >
+				<field name="name" select="1"/>
+				<field name="set_id" select="1"/>
+				<field name="xml"/>
+				<field name="timestamp" select="1"/>
+				<field name="model_ids" colspan="4" select="1"/>
+				<button icon="STOCK_CONVERT" name="action_restore" string="Restore Backup" type="object" colspan="3"/>
+				<button icon="gtk-cancel" name="action_restore_and_remove" string="Restore Backup &amp; Clear" type="object" colspan="1"/>
+			</form>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="base_module_record_set_backup_tree">
+		<field name="name">base.module.record.set.backup.tree</field>
+		<field name="model">base.module.record.set.backup</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree string="Model Record Set Backup" >
+				<field name="name"/>
+				<field name="set_id"/>
+				<field name="xml"/>
+				<field name="timestamp"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_base_module_record_set_backup">
+		<field name="name">Module Record Set</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">base.module.record.set.backup</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	<menuitem 
+		action="action_base_module_record_set_backup" 
+		id="menu_action_base_module_record_set_backup" 
+		parent="menu_action_base_module_record_set" 
+		/>
+</data>
+</openerp>
+

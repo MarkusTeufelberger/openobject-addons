@@ -1,0 +1,6 @@
+"id","type_id:id","model_id:id","external_field","type","external_type","in_function","out_function"
+"prd_custom_set_or_pack","magentoerpconnect.magento1324","product.model_product_product","set_or_pack","in_out","str",," # Modify x_magerp_set_or_pack and set_or_pack to the name of your Magento attribute's name
+if record.get('simple_set_or_pack',False):
+	option=self.pool.get('magerp.product_attribute_options').browse(cr, uid, record['set_or_pack'][0])
+	if option:
+		result=[('set_or_pack',option.value)]"

@@ -131,7 +131,7 @@ class product_product(osv.osv):
             context={}
         context['is_multi_variants']=True
         obj_lang=self.pool.get('res.lang')
-        lang_ids = obj_lang.search(cr, uid, [], context=context)
+        lang_ids = obj_lang.search(cr, uid, [('translatable','=',True)], context=context)
         lang_code = [x['code'] for x in obj_lang.read(cr, uid, lang_ids, ['code'], context=context)]
         for code in lang_code:
             context['lang'] = code

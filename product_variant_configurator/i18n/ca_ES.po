@@ -1,0 +1,175 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* product_variant_configurator
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.15\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-01-21 09:34:40+0000\n"
+"PO-Revision-Date: 2011-01-21 11:11+0100\n"
+"Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,configurator_id:0
+msgid "product_variant_configurator Test"
+msgstr "Test producte_variant_configurador"
+
+#. module: product_variant_configurator
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "El nom de l'objecte deu començar amb x_ i no ha de contenir cap caràcter especial!"
+
+#. module: product_variant_configurator
+#: field:sale.order.line,dimension_custom_value_ids:0
+msgid "Dimension Custom Values"
+msgstr "Valors personalitzats de dimensió"
+
+#. module: product_variant_configurator
+#: field:sale.order.line.dimension_custom_values,mrp_production_id:0
+msgid "Production Order"
+msgstr "Ordre de producció"
+
+#. module: product_variant_configurator
+#: model:ir.module.module,shortdesc:product_variant_configurator.module_meta_information
+msgid "Products with multi-level variants configurator"
+msgstr "Configurador productes amb variants multi-nivell"
+
+#. module: product_variant_configurator
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nom de model no vàlid a la definició de l'acció."
+
+#. module: product_variant_configurator
+#: model:ir.module.module,description:product_variant_configurator.module_meta_information
+msgid ""
+"Product Variant Configurator. Assists the product variant selection in the sale order form.\n"
+"For each product template dimension a dimension value is asked. Then the matching product variants\n"
+"are proposed for selection.\n"
+"Should be used along with the product_variant_multi module.\n"
+"Might not work well in the web-client due to web-client current limitations.\n"
+"\n"
+"Please notice that the product configurator user interface could me more user friendly\n"
+"if some OpenObject framework enhancements were implemented, especially:\n"
+"- allow select box widget to select dimension values instead of many2one popups:\n"
+"https://blueprints.launchpad.net/openobject-server/+spec/dynamic-domain-on-selection-widget\n"
+"- automatically select the product variant if unique once dimensions are set:\n"
+"https://blueprints.launchpad.net/openobject-server/+spec/form-parent-field-update-on-change\n"
+msgstr ""
+"Configurador de variants de producte. Ajuda a seleccionar les variants del producte en el formulari de la comanda de venda.\n"
+"Per a cada dimensió de plantilla d'un producte se li demana un valor de la dimensió. Després es proposen les variants del producte\n"
+"que concorden per a la seva selecció.\n"
+"S'ha d'utilitzar juntament amb el mòdul product_variant_multi.\n"
+"Pot no funcionar bé en el client web a causa de les limitacions actuals del client web.\n"
+"\n"
+"Tingueu en compte que la interfície d'usuari del configurador de productes podria ser més fàcil d'usar\n"
+"si es portessin a terme algunes millores de l'entorn OpenObject, en especial:\n"
+"- Permetre al widget de selecció seleccionar els valors de dimensió en lloc d'usar les finestres emergents many2one:\n"
+"https://blueprints.launchpad.net/openobject-server/+spec/dynamic-domain-on-selection-widget\n"
+"- Seleccionar automàticament la variant de producte si s'indiquen valors de dimensió únics:\n"
+"https://blueprints.launchpad.net/openobject-server/+spec/form-parent-field-update-on-change\n"
+
+#. module: product_variant_configurator
+#: field:sale.order.line.dimension_custom_values,sale_order_line_id:0
+msgid "Sale Order Line"
+msgstr "Línia comanda de venda"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.configurator,dimension_configuration_line_ids:0
+msgid "Configurator Lines"
+msgstr "Línies configurador"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,dimension_custom_value:0
+#: field:sale.order.line.dimension_custom_values,custom_value:0
+msgid "Custom Value"
+msgstr "Valor personalitzat"
+
+#. module: product_variant_configurator
+#: model:ir.model,name:product_variant_configurator.model_product_variant_configurator_configurator
+msgid "product_variant_configurator.configurator"
+msgstr "producte_variant_configurador.configurador"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,allow_custom_value:0
+msgid "Allow custom values ?"
+msgstr "Permetre valors personalitzats?"
+
+#. module: product_variant_configurator
+#: view:sale.order:0
+#: view:sale.order.line:0
+msgid "Dimension / Value"
+msgstr "Dimensió / Valor"
+
+#. module: product_variant_configurator
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "XML no vàlid per a l'arquitectura de la vista!"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.configurator,product_variant_id:0
+msgid "Product Variant"
+msgstr "Variant de producte"
+
+#. module: product_variant_configurator
+#: view:sale.order:0
+#: view:sale.order.line:0
+msgid "Dimension Customizations"
+msgstr "Personalitzacions dimensió"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,dimension_type_value_id:0
+msgid "Dimension Value"
+msgstr "Valor de dimensió"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.configurator,product_tmpl_id:0
+msgid "Product Template"
+msgstr "Plantilla de producte"
+
+#. module: product_variant_configurator
+#: model:ir.model,name:product_variant_configurator.model_product_variant_configurator_line
+msgid "product_variant_configurator.line"
+msgstr "producte_variant_configurador.línia"
+
+#. module: product_variant_configurator
+#: view:product_variant_configurator.configurator:0
+msgid "Dimension"
+msgstr "Dimensió"
+
+#. module: product_variant_configurator
+#: model:ir.model,name:product_variant_configurator.model_sale_order_line_dimension_custom_values
+msgid "sale.order.line.dimension_custom_values"
+msgstr "comanda.venda.línia.valors_personalitzats_dimensió"
+
+#. module: product_variant_configurator
+#: view:product_variant_configurator.configurator:0
+msgid "Validate order line"
+msgstr "Valida línia comanda"
+
+#. module: product_variant_configurator
+#: view:product_variant_configurator.configurator:0
+msgid "Cancel"
+msgstr "Cancel·la"
+
+#. module: product_variant_configurator
+#: model:ir.actions.act_window,name:product_variant_configurator.product_variant_configurator_action
+msgid "product_variant_configurator_action"
+msgstr "producte_variant_configurador_acció"
+
+#. module: product_variant_configurator
+#: field:product_variant_configurator.line,dimension_type_id:0
+#: field:sale.order.line.dimension_custom_values,dimension_type_id:0
+msgid "Dimension Type"
+msgstr "Tipus de dimensió"
+
+#. module: product_variant_configurator
+#: view:product_variant_configurator.configurator:0
+msgid "Product Configurator"
+msgstr "Configurador producte"
+

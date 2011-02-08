@@ -115,6 +115,15 @@ class product_template(osv.osv):
         default.update({'variant_ids':False,})
         return super(product_template, self).copy(cr, uid, id, default, context)
 
+    def copy_translations(self, cr, uid, old_id, new_id, context=None):
+        if context is None:
+            context = {}
+        # avoid recursion through already copied records in case of circular relationship
+        seen_map = context.setdefault('__copy_translations_seen',{})
+        if old_id in seen_map.setdefault(self._name,[]):
+            return
+        seen_map[self._name].append(old_id)
+        return super(product_product, self).copy_translations(cr, uid, old_id, new_id, context=context)
 
     def _create_variant_list(self, cr, uid, vals, context=None):
         
@@ -176,6 +185,8 @@ class product_product(osv.osv):
     _inherit = "product.product"
 
     def parse(self, cr, uid, o, text, context=None):
+        if not text:
+            return ''
         vals = text.split('[_')
         description = ''
         for val in vals:
@@ -256,7 +267,7 @@ class product_product(osv.osv):
             for product in self.browse(cr, uid, ids, context=context):
                 dimension_extra = 0.0
                 for dim in product.dimension_value_ids:
-                    dimension_extra += dim.cost_price_extra
+                    dimension_extra += product.cost_price_extra + dim.cost_price_extra
                 
                 if 'uom' in context:
                     uom = product.uos_id or product.uom_id
@@ -280,7 +291,7 @@ class product_product(osv.osv):
         'variants': fields.function(_variant_name_get, method=True, type='char', size=128, string='Variants', readonly=True,
             store={
                 'product.variant.dimension.type': (_get_products_from_dimension, None, 10),
-                'product.product': (_get_products_from_product, ['product_tmpl_id'], 10),
+                'product.product': (_get_products_from_product, ['product_tmpl_id', 'dimension_value_ids'], 10),
                 'product.template': (_get_products_from_product_template, ['variant_model_name', 'variant_model_name_separator'], 10),
             }),
     }

@@ -76,6 +76,8 @@ class Product(osv.osv):
 
         default['magento_sku'] = False
         default['default_code'] = False
+        # set magento exportable to false to avoid export of a product without SKU
+        default['magento_exportable'] = False        
 
         return super(Product, self).copy(cr, uid, id, default=default, context=context)
 
