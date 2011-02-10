@@ -136,22 +136,22 @@ class kettle_task(osv.osv):
         'last_date' : fields.datetime('Last Execution'),
     }
         
-    def attach_file_to_task(self, cr, uid, id, datas_fname, attach_name, delete = False, context = None):
+    def attach_file_to_task(self, cr, uid, id, file_path, attach_name, delete = False, context = None):
         obj_att = self.pool.get('ir.attachment')
         if not context:
             context = {}
         context.update({'default_res_id' : id, 'default_res_model': 'kettle.task'})
-        datas = base64.encodestring(open(context['kettle_dir'] + '/' + datas_fname,'rb').read())
-        os.remove(context['kettle_dir'] + '/' + datas_fname)
-        #For a strange reason I can not apply directly the method create without error if the datas_fname have an extension
+        datas = base64.encodestring(open(file_path,'rb').read())
+        os.remove(file_path)
+        #For a strange reason I can not apply directly the method create without error if the file_path have an extension
         attachment_id = obj_att.create(cr, uid, {'name': attach_name, 'datas': datas}, context)
-        obj_att.write(cr, uid, [attachment_id], {'datas_fname': context.get('force_attach_name', datas_fname.split("/").pop())}, context)
+        obj_att.write(cr, uid, [attachment_id], {'datas_fname': context.get('force_attach_name', file_path.split("/").pop())}, context)
         return attachment_id
     
-    def attach_output_file_to_task(self, cr, uid, id, datas_fname, attach_name, delete = False, context = None):
+    def attach_output_file_to_task(self, cr, uid, id, file_path, attach_name, delete = False, context = None):
         filename_completed = False
-        filename = datas_fname.split('/').pop()
-        dir = context['kettle_dir']+'/openerp_tmp'
+        filename = file_path.split('/').pop()
+        dir = file_path[0:-len(filename)]
         files = os.listdir(dir)
         for file in files:
             if filename in file:
@@ -160,7 +160,7 @@ class kettle_task(osv.osv):
             note = self.pool.get('ir.attachment').read(cr, uid, context['attachment_id'], ['description'], context)['description']
             if '___OUTPUT_FILE_NAME__: ' in note:
                 context['force_attach_name'] = note.split('___OUTPUT_FILE_NAME__: ')[1].split("\n")[0]
-            self.attach_file_to_task(cr, uid, id, 'openerp_tmp/'+  filename_completed, attach_name, delete, context)
+            self.attach_file_to_task(cr, uid, id, dir+filename_completed, attach_name, delete, context)
         else:
             raise osv.except_osv('USER ERROR', 'the output file was not found, are you sure that you transformation will give you an output file?')
         
@@ -205,7 +205,7 @@ class kettle_task(osv.osv):
                     logger.notifyChannel('kettle-connector', netsvc.LOG_INFO, "the task " + task['name'] + " can't be executed because the anyone File was uploaded")
                     continue
                 else:
-                    context['filter'].update({'AUTO_REP_file_in' : str(context['input_filename']), 'AUTO_REP_file_in_name' : str(context['input_filename'].split("/").pop())})
+                    context['filter'].update({'AUTO_REP_file_in' : str(context['input_filename'])})
             
             context = self.execute_python_code(cr, uid, id, 'before', context)
             
@@ -244,11 +244,11 @@ class kettle_wizard(osv.osv_memory):
 
     def _save_file(self, cr, uid, id, vals, context):
         kettle_dir = self.pool.get('kettle.task').browse(cr, uid, context['active_id'], ['server_id'], context).server_id.kettle_dir
-        filename = kettle_dir + '/openerp_tmp/' + str(vals['filename'])
+        filename = kettle_dir + '/openerp_tmp/' + vals['filename']
         fp = open(filename,'wb+')
         fp.write(base64.decodestring(vals['file']))
         fp.close()
-        return 'openerp_tmp/' + vals['filename']
+        return filename
 
     def action_start_task(self, cr, uid, id, context):
         wizard = self.read(cr, uid, id,context=context)[0]
