@@ -183,6 +183,7 @@ class kettle_task(osv.osv):
             attachment_id = self.pool.get('ir.attachment').create(cr, uid, {'name': 'TASK_LOG_IN_PROGRESS'+context['start_date']}, context)
             cr.commit()
             
+            #set parameter
             context['filter'] = {
                       'AUTO_REP_db_erp': str(cr.dbname),
                       'AUTO_REP_user_erp': str(user.login),
@@ -199,7 +200,7 @@ class kettle_task(osv.osv):
                 
             if task['output_file']:
                 context['filter'].update({'AUTO_REP_file_out' : str('openerp_tmp/output_'+ task['name'] + context['start_date'])})
-                
+            
             if task['upload_file']: 
                 if not (context and context.get('input_filename',False)):
                     logger.notifyChannel('kettle-connector', netsvc.LOG_INFO, "the task " + task['name'] + " can't be executed because the anyone File was uploaded")
@@ -207,13 +208,28 @@ class kettle_task(osv.osv):
                 else:
                     context['filter'].update({'AUTO_REP_file_in' : str(context['input_filename'])})
             
+            #execute python code
             context = self.execute_python_code(cr, uid, id, 'before', context)
-            
+            if context.get('stop', False):
+                if context['stop'] == 'raise':
+                    raise osv.except_osv('Error !', context.get('stop_message', 'An error occure during the execution of the python code'))
+                if context['stop'] == 'ok':
+                    self.pool.get('ir.attachment').unlink(cr, uid, [attachment_id])
+                    return True
+
+            #launch the kettle transformation
             context['filter'].update(eval('{' + str(task['parameters'] or '')+ '}'))
             res = self.pool.get('kettle.transformation').execute_transformation(cr, uid, task['transformation_id'][0], attachment_id, context)
 
+            #execute python code
             context = self.execute_python_code(cr, uid, id, 'after', context)
+            if context.get('stop', False):
+                if context['stop'] == 'raise':
+                    raise osv.except_osv('Error !', context.get('stop_message', 'An error occure during the execution of the python code'))
+                if context['stop'] == 'ok':
+                    return True
             
+            #attach file
             if context.get('input_filename',False):
                 self.attach_file_to_task(cr, uid, id, context['input_filename'], '[FILE IN] FILE IMPORTED ' + context['start_date'], True, context)
         
