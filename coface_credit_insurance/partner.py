@@ -79,7 +79,7 @@ class coface_credit_history(osv.osv):
         # Coface credit history line i.e. if one of those field is updated by Coface
         # a new Coface history line is created
         'name': fields.char('Coface product', size=32, required=1, help="Coface insurance product, for example : Agrément, Accord Express, Garantie @rating, ..."),
-        'coface_rating': fields.char('Coface rating', size=6, help="Possible values :\nX = refused\nNR = 7 000 €\nR = 10 000 €\n@ = 20 000 €\n@@ = 50 000 €\n@@@ = 100 000 €\nIf the Coface product is 'Agrément', the 'Coface rating' is NOT the amount of credit insurance."),
+        'coface_rating': fields.char('Coface rating', size=6, help="Possible values :\nX = 0 €\nNR = 10 000 €\nR = 10 000 €\n@ = 20 000 €\n@@ = 50 000 €\n@@@ = 100 000 €\nIf the Coface product is 'Agrément', the 'Coface rating' is NOT the amount of credit insurance."),
         'coface_requested_amount': fields.integer('Requested amount', help="In case of 'Agrément', contains the coverage amount that we requested. Empty if not an 'Agrément'."),
         'coface_requested_amount_cur': fields.char('Requested amount currency', size=3, help="Currency of the requested amount. Should always be 'EUR'."), # we should point to res_currency ??
         'coface_request_date': fields.date('Request date', help="Date of the coverage request."),
