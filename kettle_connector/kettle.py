@@ -158,7 +158,7 @@ class kettle_task(osv.osv):
                 filename_completed = file
         if filename_completed:
             note = self.pool.get('ir.attachment').read(cr, uid, context['attachment_id'], ['description'], context)['description']
-            if '___OUTPUT_FILE_NAME__: ' in note:
+            if note and '___OUTPUT_FILE_NAME__: ' in note:
                 context['force_attach_name'] = note.split('___OUTPUT_FILE_NAME__: ')[1].split("\n")[0]
             self.attach_file_to_task(cr, uid, id, dir+filename_completed, attach_name, delete, context)
         else:
@@ -199,7 +199,7 @@ class kettle_task(osv.osv):
                 context['filter']['AUTO_REP_last_date'] = task['last_date']
                 
             if task['output_file']:
-                context['filter'].update({'AUTO_REP_file_out' : str('openerp_tmp/output_'+ task['name'] + context['start_date'])})
+                context['filter'].update({'AUTO_REP_file_out' : str(context['kettle_dir'] + '/'+ 'openerp_tmp/output_'+ task['name'] + context['start_date'])})
             
             if task['upload_file']: 
                 if not (context and context.get('input_filename',False)):
