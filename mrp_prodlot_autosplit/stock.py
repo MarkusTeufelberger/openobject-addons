@@ -2,6 +2,8 @@
 ##############################################################################
 #
 #    Copyright (C) 2008 Raphaël Valyi
+#    Copyright (C) 2011 Anevia S.A. - Ability to group invoice lines
+#              written by Alexis Demeaulte <alexis.demeaulte@anevia.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,6 +23,7 @@ from osv import fields, osv
 import tools
 import ir
 import pooler
+import hashlib
 from tools.translate import _
 
 
@@ -143,6 +146,87 @@ class stock_picking(osv.osv):
                             self.pool.get('stock.move').split_move_in_single(cr, uid, [move.id])
 
         return result
+
+    # Because stock move line can be splitted by the module, we merge
+    # invoice lines (if option 'is_group_invoice_line' is activated for the company)
+    # at the following conditions :
+    #   - the product is the same and
+    #   - the discount is the same and
+    #   - the unit price is the same and
+    #   - the description is the same and
+    #   - taxes are the same
+    #   - they are from the same sale order lines (requires extra-code)
+    # we merge invoice line together and do the sum of quantity and
+    # subtotal.
+    def action_invoice_create(self, cursor, user, ids, journal_id=False,
+        group=False, type='out_invoice', context=None):
+
+        invoice_dict = super(stock_picking, self).action_invoice_create(cursor, user,
+            ids, journal_id, group, type, context)
+
+
+        user_inst = self.pool.get('res.users').browse(cursor, user, user)
+        if not user_inst.company_id.is_group_invoice_line:
+            return invoice_dict
+
+
+        for picking_key in invoice_dict:
+            invoice = self.pool.get('account.invoice').browse(cursor, user, invoice_dict[picking_key])
+
+            new_line_list = {}
+
+            for line in invoice.invoice_line:
+
+                # Build a key
+                key = str(line.product_id.id) + ";" \
+                    + str(line.discount) + ";" \
+                    + str(line.price_unit) + ";" \
+                    + str(line.name) + ";"
+
+                # Add the tax key part
+                tax_tab = []
+                for tax in line.invoice_line_tax_id:
+                    tax_tab.append(tax.id)
+                tax_tab.sort()
+                for tax in tax_tab:
+                    key = key + str(tax) + ";"
+
+                # Add the sale order line part but check if the field exist because
+                # it's install by a specific no-trunk-community-addons
+                if self.pool.get('ir.model.fields').search(cursor, user, [('name', '=', 
+                        'sale_order_lines'), ('model', '=', 'account.invoice.line')]) != []:
+                    order_line_tab = []
+                    for order_line in line.sale_order_lines:
+                        order_line_tab.append(order_line.id)
+                    order_line_tab.sort()
+                    for order_line in order_line_tab:
+                        key = key + str(order_line) + ";"
+
+
+                # Get the hash of the key
+                hash_key = hashlib.sha224(key).hexdigest()
+
+                # Check if the key already exist
+                if not new_line_list.has_key(hash_key):
+                    new_line_list[hash_key] = {
+                        'id': line.id,
+                        'quantity': line.quantity,
+                        'price_subtotal': line.price_subtotal,
+                    }
+
+                else:
+                    new_line_list[hash_key]['quantity'] = new_line_list[hash_key]['quantity'] + line.quantity
+                    new_line_list[hash_key]['price_subtotal'] = new_line_list[hash_key]['price_subtotal'] \
+                                                            +  line.price_subtotal
+                    self.pool.get('account.invoice.line').unlink(cursor, user, line.id)
+
+            # Write modifications made on invoice lines
+            for hash_key in new_line_list:
+                line_id = new_line_list[hash_key]['id']
+                del new_line_list[hash_key]['id']
+                self.pool.get('account.invoice.line').write(cursor, user, line_id, new_line_list[hash_key])
+
+        return invoice_dict
 
 stock_picking()
 

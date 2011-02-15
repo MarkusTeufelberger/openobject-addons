@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
-#    Copyright (C) 2010 Anevia. All Rights Reserved
+#    OpenERP, Open Source Management Solution
+#    Copyright (C) 2010-2011 Anevia. All Rights Reserved
 #    $Id$
 #    (written by Sebastien Beau sebastien.beau@akretion.com.br)
 #
@@ -26,10 +26,12 @@ from osv import osv,fields
 class company(osv.osv):
     _inherit = 'res.company'
     _columns = {
-        'autosplit_is_active': fields.boolean('Active auto split', help="active the autosplit function for picking"),
+        'autosplit_is_active': fields.boolean('Active auto split', help="Active the automatic split of move lines on the pickings."),
+        'is_group_invoice_line': fields.boolean('Group invoice lines', help="If active, OpenERP will group the identical invoice lines. If inactive, each move line will generate one invoice line."),
     }
     _defaults = {
         'autosplit_is_active': lambda *a: True,
+        'is_group_invoice_line': lambda *a: True,
     }
 company()
 
