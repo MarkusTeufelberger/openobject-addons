@@ -1,0 +1,108 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* label_slcs
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.11\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-10-04 17:13+0000\n"
+"PO-Revision-Date: 2011-02-15 17:03+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-02-16 05:18+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
+
+#. module: label_slcs
+#: code:addons/label_slcs/label_template.py:0
+#, python-format
+msgid ""
+"For Mako documentation visit http://www.makotemplates.org/docs/syntax.html\n"
+msgstr ""
+"Para documentación Mako visite "
+"http://www.makotemplates.org/docs/syntax.html\n"
+
+#. module: label_slcs
+#: code:addons/label_slcs/label_template.py:0
+#, python-format
+msgid "The whole template handling logic is in a mako file,\n"
+msgstr ""
+"La plantilla entera que gestiona la lógica está en un fichero mako,\n"
+
+#. module: label_slcs
+#: constraint:report.label:0
+msgid "Error! Some sizes do not have the unit (cm or in) at the end."
+msgstr "¡Error! Algunos tamaños no tienen la unidad (cm o in) al final."
+
+#. module: label_slcs
+#: model:ir.module.module,description:label_slcs.module_meta_information
+msgid ""
+"\n"
+"    Adds support for SLCS command label templates that are used\n"
+"    with Bixolon (Samsung) label printers.\n"
+"\n"
+"    The whole SLCS-related logic is in a mako template file which\n"
+"    makes it flexible to work with.\n"
+"\n"
+"    To send the generated command file to the printer, use the\n"
+"    printjob module.\n"
+"\n"
+"    Compatibility: tested with OpenERP v5.0\n"
+"    "
+msgstr ""
+"\n"
+"    Añade soporte para plantillas de etiquetas con comandos SLCS que se "
+"usan\n"
+"    con impresoras de etiquetas Bixolon (Samsung).\n"
+"\n"
+"    Toda la lógica relacionada con SLCS está en un fichero plantilla mako el "
+"cuál\n"
+"    permite trabajar de forma flexible.\n"
+"\n"
+"    Para enviar el fichero de comandos generado a la impresora, utilice el\n"
+"    módulo printjob.\n"
+"\n"
+"    Compatibilidad: Testeado con OpenERP v5.0\n"
+"    "
+
+#. module: label_slcs
+#: code:addons/label_slcs/label_template.py:0
+#, python-format
+msgid "To access variables put \n"
+msgstr "Para acceder a variables introduzca \n"
+
+#. module: label_slcs
+#: code:addons/label_slcs/label_template.py:0
+#, python-format
+msgid "look at label_slcs/report/label_template.txt to see how it works.\n"
+msgstr "mire label_slcs/report/label_template.txt para ver como funciona.\n"
+
+#. module: label_slcs
+#: code:addons/label_slcs/label_template.py:0
+#, python-format
+msgid "You can write here SLCS commands directly.\n"
+msgstr "Aquí puede escribir comandos SLCS directamente.\n"
+
+#. module: label_slcs
+#: constraint:report.pagesize:0
+msgid "Error! The page sizes do not have the unit (cm or in) at the end."
+msgstr ""
+"¡Error! Los tamaños de página no tienen la unidad (cm o in) al final."
+
+#. module: label_slcs
+#: code:addons/label_slcs/label_template.py:0
+#, python-format
+msgid ""
+"<%page args=\"object, col, vals, font, splittext, user\" /> at the "
+"beginning.\n"
+msgstr ""
+"<%page args=\"object, col, vals, font, splittext, user\" /> al principio.\n"
+
+#. module: label_slcs
+#: model:ir.module.module,shortdesc:label_slcs.module_meta_information
+msgid "Label printing SLCS language support"
+msgstr "Soporte idioma SLCS para la impresión de etiquetas"
