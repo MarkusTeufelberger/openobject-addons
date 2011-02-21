@@ -24,7 +24,8 @@ import netsvc
 from tools.translate import _
 #from datetime import datetime
 import time
-
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 class external_shop_group(external_osv.external_osv):
     _name = 'external.shop.group'
@@ -336,14 +337,19 @@ class sale_order(osv.osv):
 
 
     def oe_status(self, cr, uid, order_id, paid = True, context = None):
+        logger = netsvc.Logger()
         wf_service = netsvc.LocalService("workflow")
         order = self.browse(cr, uid, order_id, context)
         payment_settings = self.payment_code_to_payment_settings(cr, uid, order.ext_payment_method, context)
-                
         if payment_settings: 
             if payment_settings.check_if_paid and not paid:
-                #TODO add update function indeed if automatique import is used sometime you will import an order which is not in a stable state (ex : the order is not payed (waiting for paypal confirmation), and can be payed or canceled later by your e-commerce website)
-                self.write(cr, uid, order.id, {'need_to_update': True})
+                if order.state == 'draft' and datetime.strptime(order.date_order, '%Y-%m-%d') < datetime.now() - relativedelta(days=payment_settings.days_before_order_cancel or 30):
+                    wf_service.trg_validate(uid, 'sale.order', order.id, 'cancel', cr)
+                    self.write(cr, uid, order.id, {'need_to_update': False})
+                    #TODO eventually call a trigger to cancel the order in the external system too
+                    logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "order %s canceled in OpenERP because older than % days and still not confirmed" % (order.id, payment_settings.days_before_order_cancel or 30))
+                else:
+                    self.write(cr, uid, order.id, {'need_to_update': True})
             else:
                 if payment_settings.validate_order:
                     wf_service.trg_validate(uid, 'sale.order', order.id, 'order_confirm', cr)
@@ -418,6 +424,7 @@ class base_sale_payment_type(osv.osv):
         'create_invoice': fields.boolean('Create Invoice?'),
         'validate_invoice': fields.boolean('Validate Invoice?'),
         'check_if_paid': fields.boolean('Check if Paid?'),
+        'days_before_order_cancel': fields.integer('Days Delay before Cancel', help='number of days before an unpaid order will be cancelled at next status update from Magento'),
         'invoice_date_is_order_date' : fields.boolean('Force Invoice Date?', help="If it's check the invoice date will be the same as the order date"),
     }
     
