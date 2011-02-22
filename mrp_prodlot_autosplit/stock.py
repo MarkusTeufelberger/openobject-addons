@@ -178,10 +178,10 @@ class stock_picking(osv.osv):
             for line in invoice.invoice_line:
 
                 # Build a key
-                key = str(line.product_id.id) + ";" \
-                    + str(line.discount) + ";" \
-                    + str(line.price_unit) + ";" \
-                    + str(line.name) + ";"
+                key = unicode(line.product_id.id) + ";" \
+                    + unicode(line.discount) + ";" \
+                    + unicode(line.price_unit) + ";" \
+                    + line.name + ";"
 
                 # Add the tax key part
                 tax_tab = []
@@ -189,7 +189,7 @@ class stock_picking(osv.osv):
                     tax_tab.append(tax.id)
                 tax_tab.sort()
                 for tax in tax_tab:
-                    key = key + str(tax) + ";"
+                    key = key + unicode(tax) + ";"
 
                 # Add the sale order line part but check if the field exist because
                 # it's install by a specific no-trunk-community-addons
@@ -200,11 +200,11 @@ class stock_picking(osv.osv):
                         order_line_tab.append(order_line.id)
                     order_line_tab.sort()
                     for order_line in order_line_tab:
-                        key = key + str(order_line) + ";"
+                        key = key + unicode(order_line) + ";"
 
 
                 # Get the hash of the key
-                hash_key = hashlib.sha224(key).hexdigest()
+                hash_key = hashlib.sha224(key.encode('utf8')).hexdigest()
 
                 # Check if the key already exist
                 if not new_line_list.has_key(hash_key):
