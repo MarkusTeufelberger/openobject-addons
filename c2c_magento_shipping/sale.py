@@ -81,30 +81,31 @@ class SaleOrder(osv.osv):
         """ Creation of the sale order. Delete components of a BoM with 0.0 price."""
         product_obj = self.pool.get('product.product')
         
-        for array_line in vals['order_line'][:]: # iterate over a copy of order lines to not delete lines on the original during the loop
-            line = array_line[2] # key 2 because vals['order_line'] = [0, 0, {values}]
-            product_id = line['product_id']
-            # search if product is a BoM if it is, loop on other products
-            # to search for his components to drop
-            product = product_obj.browse(cr, uid, product_id)
-            
-            if not product.bom_ids:
-                continue
-            
-            # compute the list of products components of the BoM
-            bom_prod_ids = []
-            for bom in product.bom_ids:
-                [bom_prod_ids.append(bom_line.product_id.id) for bom_line in bom.bom_lines]
-            
-            for other_array_line in vals['order_line'][:]: 
-                other_line = other_array_line[2]
-                if other_line['product_id'] == product_id:
+        if vals.get('order_line', False):
+            for array_line in vals['order_line'][:]: # iterate over a copy of order lines to not delete lines on the original during the loop
+                line = array_line[2] # key 2 because vals['order_line'] = [0, 0, {values}]
+                product_id = line['product_id']
+                # search if product is a BoM if it is, loop on other products
+                # to search for his components to drop
+                product = product_obj.browse(cr, uid, product_id)
+                
+                if not product.bom_ids:
                     continue
                 
-                # remove the lines of the bom where the price is 0.0
-                # because we don't want to remove it if it is ordered alone
-                if other_line['product_id'] in bom_prod_ids and not other_line['price_unit']:
-                    vals['order_line'].remove(other_array_line)
+                # compute the list of products components of the BoM
+                bom_prod_ids = []
+                for bom in product.bom_ids:
+                    [bom_prod_ids.append(bom_line.product_id.id) for bom_line in bom.bom_lines]
+                
+                for other_array_line in vals['order_line'][:]: 
+                    other_line = other_array_line[2]
+                    if other_line['product_id'] == product_id:
+                        continue
+                    
+                    # remove the lines of the bom where the price is 0.0
+                    # because we don't want to remove it if it is ordered alone
+                    if other_line['product_id'] in bom_prod_ids and not other_line['price_unit']:
+                        vals['order_line'].remove(other_array_line)
 
         return super(SaleOrder, self).create(cr, uid, vals, context=context)
     
