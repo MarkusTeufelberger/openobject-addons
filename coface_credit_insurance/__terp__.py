@@ -20,15 +20,18 @@
 #########################################################################
 
 {
-    "name" : "Import of Coface credit assurance information",
+    "name" : "Import of Coface credit insurance information",
     "version" : "1.0",
     "license": "AGPL-3",
     "depends" : ["base"],
-    "author" : "Anevia",
+    "author" : "Akretion, Anevia",
     "description": """This module imports the credit insurance information from Coface's webservice and write them to the partner form in OpenERP.
-    It uses Kettle (ETL of the Pentaho project) with OOOR (OpenObject On Rails) to connect to the webservice and parses the CSV file of Coface.
+
+It uses Kettle (ETL of the Pentaho project) with OOOR (OpenObject On Rails) to connect to Coface's webservice and parse the CSV file sent by the webservice. It will use the EASY number to match the companies listed in the CSV file with the Partners of OpenERP. We suggest to use the module 'kettle_connector' (extra-addons) to make it easier to run the import regularly and have access to the logs.
+
+Additionnal information about this Coface-OpenERP connector can be found here : http://www.akretion.com/opensource-contributions/openerp-coface-connector/
 """,
-    "website" : "http://www.anevia.com/",
+    "website" : "http://www.akretion.com/",
     "category" : "Generic Modules/Others",
     "init_xml" : [],
     "demo_xml" : [],
