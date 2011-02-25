@@ -106,7 +106,7 @@ class WebKitParser(report_sxw):
                             )
         return False
         
-    def genreate_pdf(self, comm_path, report_xml, header, footer, html_list, webkit_header=False):
+    def generate_pdf(self, comm_path, report_xml, header, footer, html_list, webkit_header=False):
         """Call webkit in order to generate pdf"""
         if not webkit_header:
             webkit_header = report_xml.webkit_header
@@ -204,7 +204,8 @@ class WebKitParser(report_sxw):
             pass
         os.unlink(out)
         return pdf
-
+    # Typo Error Backward compatibility    
+    genreate_pdf = generate_pdf
     def translate_call(self, src):
         """Translate String."""
         ir_translation = self.pool.get('ir.translation')
@@ -326,7 +327,7 @@ class WebKitParser(report_sxw):
                                         )
             return (deb, 'html')
         bin = self.get_lib(cursor, uid, company.id)
-        pdf = self.genreate_pdf(bin, report_xml, head, foot, [html])
+        pdf = self.generate_pdf(bin, report_xml, head, foot, [html])
         return (pdf, 'pdf')
 
     def create_source_webkit(self, cursor, uid, ids, data, report_xml, context=None):
