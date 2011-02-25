@@ -206,6 +206,7 @@ class WebKitParser(report_sxw):
         return pdf
     # Typo Error Backward compatibility    
     genreate_pdf = generate_pdf
+    
     def translate_call(self, src):
         """Translate String."""
         ir_translation = self.pool.get('ir.translation')
