@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 05:32+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-02-25 04:53+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #. module: label
 #: code:addons/label/label_report_engine.py:0
@@ -54,7 +54,7 @@ msgstr ""
 "Falta sentencia(s) %endfor ."
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Helvetica-Bold"
 msgstr "Helvetica-Bold"
 
@@ -64,7 +64,7 @@ msgid "Sort field 2"
 msgstr "Campo a ordenar 2"
 
 #. module: label
-#: field:label.wizard,printer_bottom:0
+#: wizard_field:res.partner.address.label,init,printer_bottom:0
 msgid "Bottom"
 msgstr "Inferior"
 
@@ -74,7 +74,7 @@ msgid "Label Wizard"
 msgstr "Asistente etiqueta"
 
 #. module: label
-#: field:label.wizard,font_type:0
+#: wizard_field:res.partner.address.label,init,font_type:0
 msgid "Font Type"
 msgstr "Tipo de letra"
 
@@ -112,12 +112,12 @@ msgid "Deletion of Record failed"
 msgstr "Ha fallado la eliminación del registro"
 
 #. module: label
-#: view:label.wizard:0
+#: wizard_view:res.partner.address.label,init:0
 msgid "First Label"
 msgstr "Primera etiqueta"
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Courier-BoldOblique"
 msgstr "Courier-BoldOblique"
 
@@ -133,7 +133,7 @@ msgid "Sort field 3"
 msgstr "Campo a ordenar 3"
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Helvetica-BoldOblique"
 msgstr "Helvetica-BoldOblique"
 
@@ -157,12 +157,12 @@ msgid "Label Details"
 msgstr "Detalles etiqueta"
 
 #. module: label
-#: selection:label.wizard,font_size:0
+#: selection:res.partner.address.label,init,font_size:0
 msgid "8"
 msgstr "8"
 
 #. module: label
-#: selection:label.wizard,state:0
+#: wizard_view:res.partner.address.label,notify_left:0
 msgid ""
 "Printer left margin bigger than (left label margin + label width). Try again."
 msgstr ""
@@ -194,7 +194,7 @@ msgstr ""
 "style=\"default\">Ref.:</para>\n"
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Helvetica"
 msgstr "Helvetica"
 
@@ -278,12 +278,12 @@ msgstr ""
 "(Sólo los campos one2many y many2many se pueden utilizar para tablas)."
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Times-BoldItalic"
 msgstr "Times-BoldItalic"
 
 #. module: label
-#: field:label.wizard,printer_right:0
+#: wizard_field:res.partner.address.label,init,printer_right:0
 msgid "Right"
 msgstr "Derecho"
 
@@ -318,7 +318,7 @@ msgid "Label Template"
 msgstr "Plantilla etiqueta"
 
 #. module: label
-#: model:ir.ui.menu,name:label.label_reports_menu
+#: model:ir.actions.wizard,name:label.res_partner_address_report
 msgid "Labels"
 msgstr "Etiquetas"
 
@@ -345,12 +345,12 @@ msgid "This field shows the model you willbe using for your table."
 msgstr "Este campo muestra el modelo que se utilizará para su tabla."
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Times-Roman"
 msgstr "Times-Roman"
 
 #. module: label
-#: field:label.wizard,label_format:0
+#: wizard_field:res.partner.address.label,init,label_format:0
 msgid "Label Format"
 msgstr "Formato de etiqueta"
 
@@ -365,7 +365,7 @@ msgid "Default Label Format"
 msgstr "Formato etiqueta por defecto"
 
 #. module: label
-#: field:label.wizard,first_row:0
+#: wizard_field:res.partner.address.label,init,first_row:0
 msgid "First Row"
 msgstr "Primera fila"
 
@@ -447,7 +447,7 @@ msgid "Name of Template"
 msgstr "Nombre de plantilla"
 
 #. module: label
-#: selection:label.wizard,font_size:0
+#: selection:res.partner.address.label,init,font_size:0
 msgid "7"
 msgstr "7"
 
@@ -495,7 +495,7 @@ msgid "Report Style Sheets"
 msgstr "Hojas de estilo de informe"
 
 #. module: label
-#: selection:label.wizard,state:0
+#: wizard_view:res.partner.address.label,notify_bottom:0
 msgid ""
 "Printer bottom margin bigger than (bottom label margin + label height). Try "
 "again."
@@ -569,7 +569,7 @@ msgstr ""
 "(Nota: Si no hay valores asegúrese de escoger el modelo correcto)"
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Times-Bold"
 msgstr "Times-Bold"
 
@@ -630,7 +630,7 @@ msgstr ""
 "label/custom_reports."
 
 #. module: label
-#: field:label.wizard,printer_top:0
+#: wizard_field:res.partner.address.label,init,printer_top:0
 msgid "Top"
 msgstr "Superior"
 
@@ -695,7 +695,7 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Courier"
 msgstr "Courier"
 
@@ -725,7 +725,7 @@ msgid "  <lineStyle kind='GRID' colorName='black' tickness='1'/>"
 msgstr "  <lineStyle kind='GRID' colorName='black' tickness='1'/>"
 
 #. module: label
-#: selection:label.wizard,font_size:0
+#: selection:res.partner.address.label,init,font_size:0
 msgid "6"
 msgstr "6"
 
@@ -754,7 +754,7 @@ msgid "Manufacturer"
 msgstr "Fabricante"
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Courier-Oblique"
 msgstr "Courier-Oblique"
 
@@ -791,7 +791,7 @@ msgstr ""
 "Valor numérico terminado con la unidad (cm o in). Por ejemplo 0.3cm o 0.2in"
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Courier-Bold"
 msgstr "Courier-Bold"
 
@@ -821,37 +821,37 @@ msgid "Expression"
 msgstr "Expresión"
 
 #. module: label
-#: field:label.wizard,printer_left:0
+#: wizard_field:res.partner.address.label,init,printer_left:0
 msgid "Left"
 msgstr "Izquierdo"
 
 #. module: label
-#: selection:label.wizard,font_size:0
+#: selection:res.partner.address.label,init,font_size:0
 msgid "11"
 msgstr "11"
 
 #. module: label
-#: selection:label.wizard,font_size:0
+#: selection:res.partner.address.label,init,font_size:0
 msgid "10"
 msgstr "10"
 
 #. module: label
-#: selection:label.wizard,font_size:0
+#: selection:res.partner.address.label,init,font_size:0
 msgid "12"
 msgstr "12"
 
 #. module: label
-#: field:label.wizard,first_col:0
+#: wizard_field:res.partner.address.label,init,first_col:0
 msgid "First Column"
 msgstr "Primera columna"
 
 #. module: label
-#: selection:label.wizard,font_size:0
+#: selection:res.partner.address.label,init,font_size:0
 msgid "14"
 msgstr "14"
 
 #. module: label
-#: view:label.wizard:0
+#: wizard_view:res.partner.address.label,init:0
 msgid "Printer Margins"
 msgstr "Márgenes impresora"
 
@@ -890,7 +890,7 @@ msgid "Close"
 msgstr "Cerrar"
 
 #. module: label
-#: selection:label.wizard,state:0
+#: wizard_view:res.partner.address.label,notify_top:0
 msgid ""
 "Printer top margin bigger than (top label margin + label height). Try again."
 msgstr ""
@@ -912,7 +912,7 @@ msgstr ""
 "especial!"
 
 #. module: label
-#: view:label.wizard:0
+#: wizard_view:res.partner.address.label,init:0
 msgid "Label Char Font"
 msgstr "Letra de las etiquetas"
 
@@ -1101,7 +1101,7 @@ msgid "Insert Table"
 msgstr "Insertar tabla"
 
 #. module: label
-#: selection:label.wizard,font_size:0
+#: selection:res.partner.address.label,init,font_size:0
 msgid "9"
 msgstr "9"
 
@@ -1115,8 +1115,8 @@ msgstr ""
 "Por ejemplo, A4 es 29.7cm y letter es 11in"
 
 #. module: label
-#: field:report.label,name:0
 #: field:report.label.manufacturer,name:0
+#: field:report.label,name:0
 #: field:report.pagesize,name:0
 msgid "Name"
 msgstr "Nombre"
@@ -1132,12 +1132,12 @@ msgid "Fields used to sort the labels"
 msgstr "Campos utilizados para ordenar las etiquetas"
 
 #. module: label
-#: field:label.wizard,font_size:0
+#: wizard_field:res.partner.address.label,init,font_size:0
 msgid "Font Size"
 msgstr "Tamaño de letra"
 
 #. module: label
-#: selection:label.wizard,state:0
+#: wizard_view:res.partner.address.label,notify_right:0
 msgid ""
 "Printer right margin bigger than (right label margin + label width). Try "
 "again."
@@ -1146,7 +1146,7 @@ msgstr ""
 "anchura etiqueta). Pruebe de nuevo."
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Times-Italic"
 msgstr "Times-Italic"
 
@@ -1156,7 +1156,7 @@ msgid "Model"
 msgstr "Modelo"
 
 #. module: label
-#: selection:label.wizard,font_type:0
+#: selection:res.partner.address.label,init,font_type:0
 msgid "Helvetica-Oblique"
 msgstr "Helvetica-Oblique"
 
