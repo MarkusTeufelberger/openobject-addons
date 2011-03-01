@@ -1,0 +1,24 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="abacus_conf_panel">
+            <field name="name">res.company.rounding.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Invoice rounding">
+                        <group colspan="4">
+                            <field name="rounding" />
+                            <field name="rounding_policy" />
+                            <newline/>
+                            <field name="rounding_account"  />
+                            <field name="rounding_name" />
+                            <field name="rounding_in_line"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</openerp>
