@@ -34,6 +34,14 @@ class Invoice(osv.osv):
             invoice = self.browse(cursor, uid, inv_id)
             if invoice.type != 'out_invoice':
                 continue
+            to_del = inv_line_obj.search(
+                        cursor, 
+                        uid, 
+                        [('invoice_id','=',invoice.id),('rounding_line','=',True)]
+            )
+            if to_del:
+                inv_line_obj.unlink(cursor, uid, to_del)
+                invoice = self.browse(cursor, uid, inv_id)
             if company.rounding_policy == 'even':
                 rounded_amount = round(invoice.amount_total*factor)/factor
             if company.rounding_policy == 'up':
@@ -46,13 +54,6 @@ class Invoice(osv.osv):
                 lang = invoice.partner_id.lang
                 label = self.pool.get('res.company').browse(cursor, uid, company.id, {'lang':lang}).rounding_name
                 if company.rounding_in_line :
-                    to_del = inv_line_obj.search(
-                        cursor, 
-                        uid, 
-                        [('invoice_id','=',invoice.id),('rounding_line','=',True)]
-                    )
-                    if to_del:
-                        inv_line_obj.unlink(cursor, uid, to_del)
                     inv_line_obj.create(cursor, uid, {
                                                       'invoice_id':invoice.id,
                                                       'name': label,
@@ -68,6 +69,7 @@ class Invoice(osv.osv):
                                                   'name': label,
                                                   'amount':round_correction,
                                                   'account_id':company.rounding_account.id
+                                                  
                                                 }
                     )
         return res
