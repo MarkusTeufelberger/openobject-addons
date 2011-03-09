@@ -11,7 +11,7 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <page string="Information" position="inside">
-                <group colspan="2" col="2" name="magento">
+                <group colspan="2" col="2" name="magento_components">
                     <separator string="Magento components" colspan="2"/>
                     <field name="components_lists" />
                  </group>            

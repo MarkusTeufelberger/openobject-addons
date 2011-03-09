@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 05:31+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-02-25 04:51+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #. module: product_expiry
 #: field:stock.production.lot,alert_date:0
@@ -51,6 +51,8 @@ msgstr "Lait de vache"
 msgid "Products date of expiry"
 msgstr "Dates de péremption des produits"
 
+#. module: product_expiry
+#: field:product.product,alert_time:0
 msgid "Product alert time"
 msgstr "Durée avant alerte"
 
@@ -74,9 +76,13 @@ msgid ""
 "industries: expiry date, alert date, date of removal, eso."
 msgstr ""
 
+#. module: product_expiry
+#: field:product.product,removal_time:0
 msgid "Product removal time"
 msgstr "Durée avant retrait"
 
+#. module: product_expiry
+#: field:product.product,use_time:0
 msgid "Product usetime"
 msgstr "Durée limite d'utilisation optimale"
 
@@ -95,6 +101,8 @@ msgstr ""
 msgid "Invalid XML for View Architecture!"
 msgstr "XML non valide pour l'architecture de la vue"
 
+#. module: product_expiry
+#: field:product.product,life_time:0
 msgid "Product lifetime"
 msgstr "Durée limite de consommation"
 

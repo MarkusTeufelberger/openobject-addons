@@ -6,11 +6,11 @@
         <field name="name">product.normal.form.custom.inherit</field>
         <field name="model">product.product</field>
         <!--parent python entity -->
-        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="inherit_id" ref="c2c_magento_product_components.product_custom_product_components"/>
         <!-- modulename.view -->
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <group colspan="2" col="2" name="magento" position="inside">
+            <group colspan="2" col="2" name="magento_components" position="inside">
                 <field name="simple_set_or_pack" />
              </group>            
         </field>

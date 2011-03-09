@@ -20,7 +20,7 @@
 {
     'name' : 'c2c_magento_init_stock',
     'version' : '1',
-    'depends' : ['base', 'stock', 'magentoerpconnect', ],
+    'depends' : ['base', 'stock', 'magentoerpconnect', 'c2c_magento_negative_stock_choice'],
     'author' : 'Camptocamp',
     'description': """ Customisation of the Magento ERP Connector Module. 
 Update products on Magento to initiate the "Manage Stock" field to True on stockable products which have not stock movement.

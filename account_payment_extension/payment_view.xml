@@ -51,7 +51,7 @@
         <field name="name">res.partner.form.payment_type1</field>
         <field name="model">res.partner</field>
         <field name="type">form</field>
-        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <field name="property_account_receivable" position="after">
                 <field name="payment_type_customer" />
@@ -63,7 +63,7 @@
         <field name="name">res.partner.form.payment_type2</field>
         <field name="model">res.partner</field>
         <field name="type">form</field>
-        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <field name="property_account_payable" position="after">
                 <field name="payment_type_supplier" />

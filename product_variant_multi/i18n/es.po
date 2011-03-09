@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-21 04:55+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-02-25 04:54+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #. module: product_variant_multi
 #: view:product.variant.dimension.type:0
@@ -96,7 +96,7 @@ msgstr "Dimensiones"
 #: model:ir.ui.menu,name:product_variant_multi.menu_variant_dimension_types
 #: field:product.template,dimension_type_ids:0
 msgid "Dimension Types"
-msgstr "Tipos de dimensiones"
+msgstr "Tipos de dimensión"
 
 #. module: product_variant_multi
 #: view:product.product:0
@@ -242,7 +242,7 @@ msgstr "Tipo de variante"
 #: model:ir.actions.act_window,name:product_variant_multi.product_template
 #: model:ir.ui.menu,name:product_variant_multi.menu_template
 msgid "Product Templates"
-msgstr "Plantilla de producto"
+msgstr "Plantillas de producto"
 
 #. module: product_variant_multi
 #: model:ir.ui.menu,name:product_variant_multi.menu_variant_dimension

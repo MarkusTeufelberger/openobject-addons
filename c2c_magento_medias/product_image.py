@@ -179,18 +179,24 @@ class ProductImages(magerp_osv.magerp_osv):
             return True
 
         def create_image(cr, uid, image):
-            result = conn.call('catalog_product_attribute_media.create',
-                  [image.product_id.magento_sku,
-                   {'file':{
-                            # send file name without extension
-                            'name': os.path.splitext(os.path.basename(image.filename))[0],
-                            'content': self.get_image(cr, uid, image.id),
-                            'mime': image.filename and mimetypes.guess_type(image.filename)[0] or 'image/jpeg',
-                            }
-                   }
-                   ])
-            self.write(cr, uid, image.id, {'mage_file':result,'sync_status':True})
-            cr.commit()
+            result = False
+            content = self.get_image(cr, uid, image.id)
+            
+            if content:
+                result = conn.call('catalog_product_attribute_media.create',
+                      [image.product_id.magento_sku,
+                       {'file':{
+                                # send file name without extension
+                                'name': os.path.splitext(os.path.basename(image.filename))[0],
+                                'content': content,
+                                'mime': image.filename and mimetypes.guess_type(image.filename)[0] or 'image/jpeg',
+                                }
+                       }
+                       ])
+                self.write(cr, uid, image.id, {'mage_file':result,'sync_status':True})
+                cr.commit()
+            else:
+                logger.notifyChannel('Medias creation', netsvc.LOG_ERROR, "The content of the file: %s is empty on product %s (sku : %s)" % (each.filename, each.product_id.name, each.product_id.magento_sku))
             return result
 
         def update_image(content, image):
@@ -246,7 +252,7 @@ class ProductImages(magerp_osv.magerp_osv):
 
     def create(self, cr, uid, vals, context=None):
         """Prevent the creation of other files than images when the ftp is not active."""
-        if not context:
+        if context is None:
             context = {}
 	        
         user = self.pool.get('res.users').browse(cr, uid, uid)
@@ -278,7 +284,7 @@ class ProductImages(magerp_osv.magerp_osv):
             except Exception, e:
                 raise Exception('Can not unlink file '+ file +' '+str(e))
 
-        if not context:
+        if context is None:
             context = {}
 
         logger = netsvc.Logger()

@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-02-04 05:09+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-02-25 04:51+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #. module: product_expiry
 #: field:stock.production.lot,alert_date:0
@@ -34,6 +34,8 @@ msgstr ""
 msgid "Dates"
 msgstr ""
 
+#. module: product_expiry
+#: constraint:product.template:0
 msgid "Error: UOS must be in a different category than the UOM"
 msgstr ""
 
@@ -47,9 +49,13 @@ msgstr "İnek Sütü"
 msgid "Products date of expiry"
 msgstr "Ürün son kullanma tarihi"
 
+#. module: product_expiry
+#: field:product.product,alert_time:0
 msgid "Product alert time"
 msgstr ""
 
+#. module: product_expiry
+#: constraint:product.template:0
 msgid ""
 "Error: The default UOM and the purchase UOM must be in the same category."
 msgstr ""
@@ -66,9 +72,13 @@ msgid ""
 "industries: expiry date, alert date, date of removal, eso."
 msgstr ""
 
+#. module: product_expiry
+#: field:product.product,removal_time:0
 msgid "Product removal time"
 msgstr ""
 
+#. module: product_expiry
+#: field:product.product,use_time:0
 msgid "Product usetime"
 msgstr ""
 
@@ -82,9 +92,13 @@ msgstr ""
 msgid "DLUO"
 msgstr ""
 
+#. module: product_expiry
+#: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
 msgstr ""
 
+#. module: product_expiry
+#: field:product.product,life_time:0
 msgid "Product lifetime"
 msgstr ""
 

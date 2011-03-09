@@ -21,18 +21,19 @@
 import netsvc
 import time
 
+from magentoerpconnect import magerp_osv
 from osv import fields, osv
 from tools.translate import _
 
-class Product(osv.osv):
+class Product(magerp_osv.magerp_osv):
     """ Inherit product to remove the images when duplicating a media otherwise
     Magento will link the same image to the 2 products"""
     _inherit = 'product.product'
 
     def copy(self, cr, uid, id, default=None, context=None):
-        if not context:
+        if context is None:
             context = {}
-        if not default:
+        if context is None:
             default = {}
             
         default['image_ids'] = False
