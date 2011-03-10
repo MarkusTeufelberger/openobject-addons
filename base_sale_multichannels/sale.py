@@ -242,7 +242,7 @@ class sale_shop(external_osv.external_osv):
                 if ids:
                     id = ids[0]
                     order = self.pool.get('sale.order').browse(cr, uid, id, context)            
-                    order_ext_id = result[1].split('sale.order_')[1]
+                    order_ext_id = result[1].split('sale_order/')[1]
                     self.update_shop_orders(cr, uid, order, order_ext_id, context)
                     logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully updated order with OpenERP id %s and ext id %s in external sale system" % (id, order_ext_id))
             self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_update_order_export_date': time.strftime('%Y-%m-%d %H:%M:%S')})
