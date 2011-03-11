@@ -45,6 +45,15 @@ class hr_analytic_timesheet(osv.osv):
                company_id=self.pool.get('res.users').browse(cr, uid, uid, context).company_id.id
                res = self.pool.get('account.analytic.line').on_change_unit_amount(cr, uid, id, prod_id, unit_amount,company_id,unit, context)
         return res
+        
+        
+    def create(self, cr, uid, vals, context={}):
+        res = super(hr_analytic_timesheet, self).create(cr, uid, vals, context)
+        line = self.pool.get('hr.analytic.timesheet').browse(cr,uid,res,context)
+        line.write({'amount':line.amount},context)
+        return res
+
+
 
 hr_analytic_timesheet()
 
