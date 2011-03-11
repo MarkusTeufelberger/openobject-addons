@@ -58,13 +58,14 @@ class project_work(osv.osv):
         vals_line['journal_id'] = result['journal_id']
         vals_line['amount'] = 00.0
         vals_line['product_uom_id'] = result['product_uom_id']
-        timeline_id = obj.create(cr, uid, vals_line, {})
+        
+        timeline_id = obj.create(cr, uid, vals_line.copy(), {})
 
         # Compute based on pricetype
-        amount_unit=obj.on_change_unit_amount(cr, uid, line_id, 
-            vals_line['product_id'], vals_line['unit_amount'], unit, context)
+        amount_unit=obj.on_change_unit_amount(cr, uid, timeline_id, 
+            vals_line['product_id'], vals_line['unit_amount'], vals_line['product_uom_id'])
         
-        vals_line['amount'] = (-1) * vals['hours']* (unit_amount or 0.0)
+        vals_line['amount'] =  amount_unit['value']['amount'] or 0.0
         
         obj.write(cr, uid,[timeline_id], vals_line, {})
         vals['hr_analytic_timesheet_id'] = timeline_id
@@ -94,13 +95,14 @@ class project_work(osv.osv):
                 vals_line['unit_amount'] = vals['hours']
                 # Compute based on pricetype
                 amount_unit=obj.on_change_unit_amount(cr, uid, line_id, 
-                     vals_line['product_id'], vals_line['unit_amount'], unit, context)
+                     vals_line['product_id'], vals_line['unit_amount'], vals_line['product_uom_id'], context)
                
-                vals_line['amount'] = (-1) * vals['hours'] * (amount_unit or 0.0)
+                vals_line['amount'] = amount_unit['value']['amount'] or 0.0
 
             obj.write(cr, uid, [line_id], vals_line, {})
 
         return super(project_work,self).write(cr, uid, ids, vals, context)
 
+project_work()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
