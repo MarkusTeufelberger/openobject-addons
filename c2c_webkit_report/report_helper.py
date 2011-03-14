@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com)
 # All Right Reserved
 #
 # Author : Nicolas Bessi (Camptocamp)
@@ -29,48 +29,39 @@
 #
 ##############################################################################
 
-import netsvc
-from osv import fields, osv
 import pooler
-import base64
+
 
 class WebKitHelper(object):
-    """Set of usefull report helper"""
+    """Set of useful report helpers."""
+
     def __init__(self, cursor, uid, report_id, context):
-        "constructor"
+        """Constructor."""
         self.cursor = cursor
         self.uid = uid
         self.pool = pooler.get_pool(self.cursor.dbname)
         self.report_id = report_id
-        
-    def embeed_image(self, extention, img, width=0, height=0) :
-        "Transform a DB image into an embeeded HTML image"
+
+    def embed_image(self, extension, img, width=0, height=0) :
+        """Transform a DB image into an embedded HTML image."""
         try:
-            if width :
-                width = 'width="%spx"'%(width)
-            else :
-                width = ' '
-            if height :
-                height = 'width="%spx"'%(height)
-            else :
-                height = ' '
-            toreturn = '<img %s %s src="data:image/%s;base64,%s">'%(
-                width,
-                height,
-                extention, 
-                str(img))
-            return toreturn
+            size = ''
+            if width:
+                size += ' width="%spx"' % width
+            if height:
+                size += ' height="%spx"' % height
+            return ('<img%s src="data:image/%s;base64,%s">' %
+                    (size, extension, img))
         except Exception, exp:
             print exp
             return 'No image'
-            
-            
+
     def get_logo_by_name(self, name):
-        """Return logo by name"""
+        """Return logo by name."""
         header_obj = self.pool.get('ir.header_img')
         header_img_id = header_obj.search(
-                                            self.cursor, 
-                                            self.uid, 
+                                            self.cursor,
+                                            self.uid,
                                             [('name','=',name)]
                                         )
         if not header_img_id :
@@ -80,9 +71,12 @@ class WebKitHelper(object):
 
         head = header_obj.browse(self.cursor, self.uid, header_img_id)
         return (head.img, head.extention)
-            
-    def embeed_logo_by_name(self, name, width=0, height=0) :
-        """Return HTML embeeded logo by name"""
-        img, extention = self.get_logo_by_name(name)
-        return self.embeed_image(extention, img, width, height)
-        
+
+    def embed_logo_by_name(self, name, width=0, height=0):
+        """Return HTML embedded logo by name."""
+        img, extension = self.get_logo_by_name(name)
+        return self.embed_image(extension, img, width, height)
+
+    # Preserve the typo for backward compatibility
+    embeed_image = embed_image
+    embeed_logo_by_name = embed_logo_by_name

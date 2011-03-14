@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com) 
+# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com)
 # All Right Reserved
 #
 # Author : Nicolas Bessi (Camptocamp)
@@ -28,32 +28,34 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
-import re
-import sys
-import platform
 import os
+import re
 import tempfile
+import time
+import commands
+
+from mako.template import Template
+
+import pooler
+import netsvc
 import report
 from report.report_sxw import *
 from osv import osv
-from tools.translate import _
-import time
-from mako.template import Template
-import inspect
-import pooler
-from report_helper import WebKitHelper
-import netsvc
-import pooler
 from tools.config import config
-import commands
-from lxml import etree
-import ir
-import inspect
+from tools.translate import _
+
+from report_helper import WebKitHelper
 
 logger = netsvc.Logger()
 
 
-string_re = re.compile(r'_(.\".[a-z A-Z 0-9]*)')
+def mako_template(text):
+    """Build a Mako template.
+
+    This template uses UTF-8 encoding
+    """
+    # default_filters=['unicode', 'h'] can be used to set global filters
+    return Template(text, input_encoding='utf-8', output_encoding='utf-8')
 
 
 class WebKitParser(report_sxw):
@@ -67,12 +69,11 @@ class WebKitParser(report_sxw):
         report_sxw.__init__(self, name, table, rml, parser, 
             header, store)
 
-        
     def get_lib(self, cursor, uid, company) :
         """Return the lib wkhtml path"""
         #TODO Detect lib in system first
         path = self.pool.get('res.company').read(cursor, uid, company, ['lib_path',])
-        
+
         if path['lib_path']:
             path = path['lib_path'].replace(u' ','')
         else :
@@ -102,10 +103,10 @@ class WebKitParser(report_sxw):
                             'or download it from here: '+
                             'http://code.google.com/p/wkhtmltopdf/downloads/list.'+
                             ' You can set executable path into the company'),
-                            _('The embeeded lib are not anymore present for security reasons')
+                            _('The embedded lib are not anymore present for security reasons')
                             )
         return False
-        
+
     def generate_pdf(self, comm_path, report_xml, header, footer, html_list, webkit_header=False):
         """Call webkit in order to generate pdf"""
         if not webkit_header:
@@ -120,8 +121,11 @@ class WebKitParser(report_sxw):
                 command = [comm_path]
             else:
                 command = ['wkhtmltopdf']
-                    
-            command.append('-q')
+
+            command.append('--quiet')
+            # default to UTF-8 encoding.  Use <meta charset="latin-1"> to override.
+            command.append("--encoding 'utf-8'")
+
             if header :
                 head_file = file( os.path.join(
                                       tmp_dir,
@@ -144,7 +148,7 @@ class WebKitParser(report_sxw):
                 foot_file.close()
                 file_to_del.append(foot_file.name)
                 command.append("--footer-html '%s'"%(foot_file.name))
-                
+
             if webkit_header.margin_top :
                 if webkit_header.margin_top == 0.01:
                     command.append('--margin-top 0')
@@ -204,9 +208,9 @@ class WebKitParser(report_sxw):
             pass
         os.unlink(out)
         return pdf
-    # Typo Error Backward compatibility    
+    # Typo Error Backward compatibility 
     genreate_pdf = generate_pdf
-    
+
     def translate_call(self, src):
         """Translate String."""
         ir_translation = self.pool.get('ir.translation')
@@ -217,7 +221,6 @@ class WebKitParser(report_sxw):
         if not res :
             res = src
         return res
-
 
     # override needed to keep the attachments' storing procedure
     def create_single_pdf(self, cursor, uid, ids, data, report_xml, 
@@ -234,7 +237,7 @@ class WebKitParser(report_sxw):
         self.pool = pooler.get_pool(cursor.dbname)
         objs = self.getObjects(cursor, uid, ids, context)
         self.parser_instance.set_context(objs, data, ids, report_xml.report_type)
-        template =  False
+        template = None
         if report_xml.report_webkit :
             path = os.path.join(config['addons_path'], report_xml.report_webkit)
             if os.path.exists(path) :
@@ -279,20 +282,17 @@ class WebKitParser(report_sxw):
             css = ''
         user = self.pool.get('res.users').browse(cursor, uid, uid)
         company= user.company_id
-        parse_template = template
-        #default_filters=['unicode', 'entity'] can be used to set global filter
-        body_mako_tpl = Template(parse_template ,input_encoding='utf-8')
-        
-        
+        body_mako_tpl = mako_template(template)
+
         helper = WebKitHelper(cursor, uid, report_xml.id, context)
-        
+
         html = body_mako_tpl.render(
                                     helper=helper, 
                                     css=css,
                                     _=self.translate_call,
                                     **self.parser_instance.localcontext
                                     )
-        head_mako_tpl = Template(header, input_encoding='utf-8')
+        head_mako_tpl = mako_template(header)
         head = head_mako_tpl.render(
                                     company=company, 
                                     time=time, 
@@ -304,7 +304,7 @@ class WebKitParser(report_sxw):
                                 )
         foot = False
         if footer :
-            foot_mako_tpl = Template(footer ,input_encoding='utf-8')
+            foot_mako_tpl = mako_template(footer)
             foot = foot_mako_tpl.render(
                                         company=company, 
                                         time=time, 
@@ -313,7 +313,6 @@ class WebKitParser(report_sxw):
                                         formatLang=self.parser_instance.formatLang,
                                         setLang=self.parser_instance.setLang,
                                         _=self.translate_call,
-                                        
                                         )
         if report_xml.webkit_debug :
             deb = head_mako_tpl.render(
@@ -377,7 +376,7 @@ class WebKitParser(report_sxw):
                 except Exception, exp:
                     import traceback, sys
                     tb_s = reduce(lambda x, y: x+y, traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
-                    netsvc.Logger().notifyChannel(
+                    logger.notifyChannel(
                                                     'report', 
                                                     netsvc.LOG_ERROR, 
                                                     str(exp)
