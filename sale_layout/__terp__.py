@@ -40,7 +40,8 @@
     "update_xml" : [
 #        "security/ir.model.access.csv",
         "sale_layout_view.xml",
-        "sale_layout_report.xml",
+# Remove the native sale_layout report -- AdL 16/3/2011 ticket #304
+#        "sale_layout_report.xml",
     ],
     "active": False,
     "installable": True
