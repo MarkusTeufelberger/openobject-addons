@@ -22,7 +22,9 @@
 {
     "name" : "Sale Order Layout Improvement",
     "version" : "1.0",
-    "depends" : ["base", "sale", "account_invoice_layout"],
+# Remove dependancy on account_invoice_layout -- AdL ticket #304
+#    "depends" : ["base", "sale", "account_invoice_layout"],
+    "depends" : ["base", "sale"],
     "author" : "Tiny",
     "description": """
     This module provides some features to improve the layout of the Sale Order.

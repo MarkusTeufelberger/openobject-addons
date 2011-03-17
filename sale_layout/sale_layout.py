@@ -92,7 +92,9 @@ class sale_order_line(osv.osv):
     
 
     _name = "sale.order.line"
-    _order = "order_id, sequence asc"
+    # Ticket #304 : add "id asc", so that the position of subtotal line in the report is 
+    # fully predictable -- AdL
+    _order = "order_id, sequence asc, id asc"
     _description = "Sale Order line"
     _inherit = "sale.order.line"
     _columns = {

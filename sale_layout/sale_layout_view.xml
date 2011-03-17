@@ -106,7 +106,7 @@
                                     <field name="price_unit"/>
                                     <field name="price_net"/>
                                     <field name="price_subtotal"/>
-                                    <field name="sequence"/>
+                                    <field name="sequence" invisible="1"/> <!-- Trac #304 AdL -->
                                 </tree>
 					</field>
 				</xpath>
