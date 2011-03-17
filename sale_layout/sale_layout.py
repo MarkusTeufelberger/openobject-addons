@@ -104,7 +104,9 @@ class sale_order_line(osv.osv):
                 ('text','Note'),
                 ('subtotal','Sub Total'),
                 ('line','Separator Line'),
-                ('break','Page Break'),]
+# Ticket #304 page break not possible with aeroo reports, so I comment it -- AdL
+#                ('break','Page Break'),]
+                ]
             ,'Layout Type', select=True, required=True),
         'sequence': fields.integer('Sequence Number'), 
         'price_unit': fields.float('Unit Price', digits=(16, int(config['price_accuracy']))),
