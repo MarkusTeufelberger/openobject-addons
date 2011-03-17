@@ -234,7 +234,7 @@ class ir_model_data(osv.osv):
     def init(self, cr):
         #FIXME: migration workaround: we changed the ir_model_data usage to make standard CSV import work again
         cr.execute("update ir_model_data set name = replace(name, '_mag_order', '/mag-order') where module ilike 'extref%';")
-        cr.execute("update ir_model_data set name = replace(name, '_([1-9])', E'/\\1') where module ilike 'extref%';")
+        cr.execute("update ir_model_data set name = regexp_replace(name, E'_([1-9])', E'/\\1') where module ilike 'extref%';")
         cr.execute("update ir_model_data set name = replace(name,'.', '_') where module ilike 'extref%';")
         cr.execute("update ir_model_data set module = replace(module, '.','/') where module ilike 'extref%';")
         return True
