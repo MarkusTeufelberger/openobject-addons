@@ -62,6 +62,7 @@ label_wizard_product()
 
 class label_wizard_product_line(osv.osv_memory):
     _name = 'label.wizard.product.line'
+    _max_count = 300
 
     _columns = {
         'wizard_id': fields.many2one('label.wizard.product', 'Wizard',
