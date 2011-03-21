@@ -11,6 +11,7 @@
                 <field name="manufacturing_lead" position="after">
                     <separator string="MRP prodlot autosplit" colspan="4"/>
                     <field name="autosplit_is_active"/>
+                    <field name="is_group_invoice_line"/>
                     <newline/>
                 </field>
             </field>
