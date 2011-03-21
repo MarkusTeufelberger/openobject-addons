@@ -18,7 +18,15 @@
 #
 ##############################################################################
 
-import product
-import stock
-import sale
-import delivery
+from osv import fields,osv
+from tools.translate import _
+
+class delivery_carrier(osv.osv):
+    _inherit = "delivery.carrier"
+
+    _columns = {
+        'magento_export_needs_tracking': fields.boolean('Export only shippings with a tracking number'),
+    }
+
+delivery_carrier()
+
