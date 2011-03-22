@@ -320,7 +320,7 @@ class WebKitParser(report_sxw):
                                         time=time, 
                                         helper=helper, 
                                         css=css, 
-                                        _debug=html,
+                                        _debug=html.decode(),
                                         formatLang=self.parser_instance.formatLang,
                                         setLang=self.parser_instance.setLang,
                                         _=self.translate_call,
