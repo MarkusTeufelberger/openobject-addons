@@ -25,7 +25,7 @@
 {
     "name" : "Attendances of Employees in Projects",
     "version" : "1.0",
-    "author" : "Zikzakmedia",
+    "author" : "Zikzakmedia SL",
 	"website" : "www.zikzakmedia.com",
     "license" : "GPL-3",
     "description" : """This module aims to manage employee's attendances in Projects.

@@ -25,7 +25,7 @@
 {
     "name" : "Import Paypal Payments",
     "version" : "1.0",
-    "author" : "Zikzakmedia",
+    "author" : "Zikzakmedia SL",
     "description" : """Import Paypal Payments from a CSV file.
 
 Adds a wizard in bank statements to select a CSV file with Paypal payments lines like this:

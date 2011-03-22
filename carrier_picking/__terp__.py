@@ -24,7 +24,7 @@
 {
     "name" : "Carrier picking adds carrier contact information",
     "version" : "0.1",
-    "author" : "Zikzakmedia",
+    "author" : "Zikzakmedia SL",
     "website" : "www.zikzakmedia.com",
     "license" : "GPL-3",
     "category" : "Generic Modules/Others",

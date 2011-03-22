@@ -23,7 +23,7 @@
 ##############################################################################
 {
     "name" : "Civil Engineering",
-    "author" : "Zikzakmedia",
+    "author" : "Zikzakmedia SL",
 	"website" : "www.zikzakmedia.com",
     "license" : "GPL-3",
     "category" : "Generic Modules/Projects & Services",

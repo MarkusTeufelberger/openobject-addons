@@ -74,6 +74,7 @@ class make_invoice(wizard.interface):
 
             invoices = []
 
+            date_due = time.strftime('%Y-%m-%d')
             if renewal.domain_id.partner_id.property_payment_term:
                 pterm_list= account_payment_term_obj.compute(cr, uid,
                     renewal.domain_id.partner_id.property_payment_term.id, value=1,
