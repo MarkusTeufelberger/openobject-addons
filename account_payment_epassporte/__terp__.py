@@ -25,7 +25,7 @@
 {
     "name" : "Import ePassporte Payments",
     "version" : "1.0",
-    "author" : "Zikzakmedia",
+    "author" : "Zikzakmedia SL",
     "description" : """Import ePassporte Payments from a CSV file.
 
 Adds a wizard in bank statements to select a CSV file with ePassporte payments lines like this:
