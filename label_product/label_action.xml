@@ -8,6 +8,8 @@ pick_obj = self.pool.get('stock.picking')
 lines = []
 for pick in pick_obj.browse(cr, uid, context['active_ids']):
 	for m in pick.move_lines:
+		if m.state == 'cancel':
+			continue
 		lines.append((0, 0, {
 			'product_id': m.product_id.id,
 			'quantity': m.product_qty,
