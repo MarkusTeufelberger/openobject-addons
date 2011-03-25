@@ -23,11 +23,11 @@
     'depends' : ['base', 'stock', 'magentoerpconnect', 'c2c_magento_negative_stock_choice'],
     'author' : 'Camptocamp',
     'description': """ Customisation of the Magento ERP Connector Module. 
-Update products on Magento to initiate the "Manage Stock" field to True on stockable products which have not stock movement.
+Update products on Magento to initiate the "Manage Stock" field to True once they have been created.
 Can be removed once bug lp:#667711 is closed.""",
     'website': 'http://www.camptocamp.com',
     'init_xml': [],
-    'update_xml': ['shop_view.xml'
+    'update_xml': [
                   ],
     'demo_xml': [],
     'installable': True,
