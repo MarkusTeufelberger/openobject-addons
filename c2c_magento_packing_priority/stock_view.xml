@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_picking_out_tree_priority" model="ir.ui.view">
+            <field name="name">stock.picking.out.tree.priority</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_out_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="name" position="before">
+                        <field name="priority"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_picking_out_form_priority" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.priority</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="origin" position="after">
+                        <field name="priority"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
