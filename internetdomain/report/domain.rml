@@ -100,10 +100,10 @@
           <para style="Table Contents">[[repeatIn(objects, 'o')]][[o.name]]</para>
         </td>
         <td>
-          <para style="Table Contents">[[time.strftime('%d-%m-%Y', time.strptime(o.date_create, '%Y-%m-%d'))]]</para>
+          <para style="Table Contents">[[o.date_create]]</para>
         </td>
         <td>
-          <para style="Table Contents">[[time.strftime('%d-%m-%Y', time.strptime(o.date_expire, '%Y-%m-%d'))]]</para>
+          <para style="Table Contents">[[o.date_expire]]</para>
         </td>
         <td>
           <para style="Table Contents">[[o.registrator_id.name]]</para>
