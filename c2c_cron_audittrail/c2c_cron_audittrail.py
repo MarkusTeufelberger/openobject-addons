@@ -4,6 +4,7 @@
 # Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com)
 # All Right Reserved
 # Author Nicolas Bessi
+# Contributor Florent Xicluna (Wingo SA)
 #
 ##############################################################################
 from datetime import datetime
