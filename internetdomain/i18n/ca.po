@@ -5,16 +5,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-03-29 11:10+0000\n"
-"PO-Revision-Date: 2010-09-02 14:22+0000\n"
-"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
-"<jesteve@zikzakmedia.com>\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-02-24 18:39+0000\n"
+"PO-Revision-Date: 2011-03-30 05:46+0000\n"
+"Last-Translator: Raimon Esteve (www.zikzakmedia.com) "
+"<resteve@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-30 05:00+0000\n"
+"X-Launchpad-Export-Date: 2011-03-31 04:54+0000\n"
 "X-Generator: Launchpad (build 12559)\n"
 
 #. module: internetdomain
@@ -22,21 +22,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:internetdomain.action_internetdomain_domain_action
 msgid "domain"
 msgstr "domini"
-
-#. module: internetdomain
-#: model:ir.module.module,description:internetdomain.module_meta_information
-msgid ""
-"\n"
-"Organize your domains and services\n"
-"Tools -> Domain\n"
-"* Domains\n"
-"* Renewals\n"
-"* Products/Services\n"
-"* Network\n"
-"* Send email expiration domain with Schuddle Action and Power Email\n"
-"* Invoice renewal domain\n"
-"    "
-msgstr ""
 
 #. module: internetdomain
 #: constraint:ir.model:0
@@ -52,10 +37,8 @@ msgid "Network"
 msgstr "Xarxa"
 
 #. module: internetdomain
-#: code:addons/internetdomain/internetdomain.py:0
 #: model:ir.module.module,shortdesc:internetdomain.module_meta_information
 #: view:res.company:0
-#, python-format
 msgid "Internet Domain"
 msgstr "Gestió de dominis"
 
@@ -71,17 +54,33 @@ msgid "Create invoices"
 msgstr "Crea factures"
 
 #. module: internetdomain
+#: model:ir.module.module,description:internetdomain.module_meta_information
+msgid ""
+"\n"
+"Organize your domains and services\n"
+"* Domains\n"
+"* Renewals\n"
+"* Products/Services\n"
+"* Network\n"
+"* Send email expiration domain with Schuddle Action and Power Email\n"
+"    "
+msgstr ""
+"\n"
+"Organitza els vostres dominis d'internet i serveis:\n"
+"* Dominis\n"
+"* Renovacions\n"
+"* Productes\n"
+"* Xarxa\n"
+"* Enviament de correu mitjançant Accions Planificades i Power Email\n"
+"    "
+
+#. module: internetdomain
 #: view:internetdomain.domain:0
 #: field:internetdomain.domain,comments:0
 #: view:internetdomain.renewal:0
 #: field:internetdomain.renewal,comments:0
 msgid "Comments"
 msgstr "Notes"
-
-#. module: internetdomain
-#: wizard_field:internetdomain.renewal.make_invoice,init,price:0
-msgid "Price"
-msgstr "Preu"
 
 #. module: internetdomain
 #: wizard_view:internetdomain.renewal.make_invoice,init:0
@@ -160,28 +159,11 @@ msgid "Configuration"
 msgstr "Configuració"
 
 #. module: internetdomain
-#: rml:internetdomain.domain:0
-msgid "Expired"
-msgstr ""
-
-#. module: internetdomain
-#: code:addons/internetdomain/internetdomain.py:0
-#, python-format
-msgid "Send email domain: %s"
-msgstr ""
-
-#. module: internetdomain
-#: constraint:ir.cron:0
-msgid "Invalid arguments"
-msgstr "Arguments no vàlids"
-
-#. module: internetdomain
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
 msgstr "XML invàlid per a la definició de la vista!"
 
 #. module: internetdomain
-#: rml:internetdomain.domain:0
 #: field:internetdomain.domain,registrator_id:0
 #: field:internetdomain.renewal,registrator_id:0
 msgid "Registrator"
@@ -191,11 +173,6 @@ msgstr "Registrador"
 #: field:internetdomain.domain,name:0
 msgid "Name"
 msgstr "Nom"
-
-#. module: internetdomain
-#: rml:internetdomain.domain:0
-msgid "Created"
-msgstr ""
 
 #. module: internetdomain
 #: field:internetdomain.domain,IP:0
@@ -234,7 +211,6 @@ msgid "Make invoice"
 msgstr "Crea factura"
 
 #. module: internetdomain
-#: rml:internetdomain.domain:0
 #: field:internetdomain.renewal,domain_id:0
 #: model:ir.ui.menu,name:internetdomain.menu_internetdomain
 #: model:ir.ui.menu,name:internetdomain.menu_internetdomain_domain
@@ -250,12 +226,6 @@ msgstr "DNS Secundari"
 #: field:internetdomain.domain,partner_address_id:0
 msgid "Partner Contact"
 msgstr "Contacte"
-
-#. module: internetdomain
-#: code:addons/internetdomain/wizard/make_invoice.py:0
-#, python-format
-msgid "Invoices"
-msgstr ""
 
 #. module: internetdomain
 #: view:internetdomain.domain:0
@@ -283,7 +253,6 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 #. module: internetdomain
-#: rml:internetdomain.domain:0
 #: field:internetdomain.domain,partner_id:0
 msgid "Partner"
 msgstr "Empresa"
@@ -291,28 +260,29 @@ msgstr "Empresa"
 #. module: internetdomain
 #: view:internetdomain.domain:0
 #: field:internetdomain.domain,renewal_ids:0
-#: model:ir.actions.act_window,name:internetdomain.act_domain_2_renewals
 #: model:ir.model,name:internetdomain.model_internetdomain_renewal
 #: model:ir.ui.menu,name:internetdomain.menu_internetdomain_renewal
 msgid "Renewals"
 msgstr "Renovacions"
 
 #. module: internetdomain
-#: code:addons/internetdomain/internetdomain.py:0
-#, python-format
-msgid ""
-"Not template configurated. Configure your company template or desactive "
-"Scheduled Actions"
-msgstr ""
+#: wizard_field:internetdomain.renewal.make_invoice,init,price:0
+msgid "Price"
+msgstr "Preu"
+
+#~ msgid "Invalid arguments"
+#~ msgstr "Arguments no vàlids"
 
 #~ msgid ""
 #~ "\n"
 #~ "Organize your domains and services\n"
+#~ "Tools -> Domain\n"
 #~ "* Domains\n"
 #~ "* Renewals\n"
 #~ "* Products/Services\n"
 #~ "* Network\n"
 #~ "* Send email expiration domain with Schuddle Action and Power Email\n"
+#~ "* Invoice renewal domain\n"
 #~ "    "
 #~ msgstr ""
 #~ "\n"
@@ -323,3 +293,22 @@ msgstr ""
 #~ "* Xarxa\n"
 #~ "* Enviament de correu mitjançant Accions Planificades i Power Email\n"
 #~ "    "
+
+#~ msgid "Expired"
+#~ msgstr "Venciment"
+
+#~ msgid "Send email domain: %s"
+#~ msgstr "Send email domain: %s"
+
+#~ msgid "Created"
+#~ msgstr "Data alta"
+
+#~ msgid "Invoices"
+#~ msgstr "Factures"
+
+#~ msgid ""
+#~ "Not template configurated. Configure your company template or desactive "
+#~ "Scheduled Actions"
+#~ msgstr ""
+#~ "Not template configurated. Configure your company template or desactive "
+#~ "Scheduled Actions"
