@@ -76,14 +76,14 @@ class external_osv(osv.osv):
                 ids = self.search(cr, uid, [('id', '=', claimed_oe_id)])
                 if ids:
                     return ids[0]
-                try:
-                    if context and context.get('alternative_key', False): #FIXME dirty fix for Magento product.info id/sku mix bug: https://bugs.launchpad.net/magentoerpconnect/+bug/688225
-                        id = context.get('alternative_key', False)
-                    result = self.get_external_data(cr, uid, self.external_connection(cr, uid, self.pool.get('external.referential').browse(cr, uid, external_referential_id)), external_referential_id, {}, {'id':id})
-                    if len(result['create_ids']) == 1:
-                        return result['create_ids'][0]
-                except Exception, error: #external system might return error because no such record exists
-                    print error
+            try:
+                if context and context.get('alternative_key', False): #FIXME dirty fix for Magento product.info id/sku mix bug: https://bugs.launchpad.net/magentoerpconnect/+bug/688225
+                    id = context.get('alternative_key', False)
+                result = self.get_external_data(cr, uid, self.external_connection(cr, uid, self.pool.get('external.referential').browse(cr, uid, external_referential_id)), external_referential_id, {}, {'id':id})
+                if len(result['create_ids']) == 1:
+                    return result['create_ids'][0]
+            except Exception, error: #external system might return error because no such record exists
+                print error
         return False
     
     def oevals_from_extdata(self, cr, uid, external_referential_id, data_record, key_field, mapping_lines, defaults, context):
