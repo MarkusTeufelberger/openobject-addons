@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-02-25 04:55+0000\n"
-"X-Generator: Launchpad (build 12351)\n"
+"X-Launchpad-Export-Date: 2011-04-16 05:25+0000\n"
+"X-Generator: Launchpad (build 12735)\n"
 "Language: ca\n"
 
 #. module: nan_account_bank_statement
@@ -73,7 +73,7 @@ msgid "Statement Line"
 msgstr "Línea de extracto"
 
 #. module: nan_account_bank_statement
-#: code:addons/nan_account_bank_statement/account_statement.py:0
+#: code:addons/nan_account_bank_statement/account_statement.py:243
 #, python-format
 msgid "Search by VAT error"
 msgstr "Error en la búsqueda por CIF/NIF"
@@ -84,7 +84,7 @@ msgid "Split Line Wizard"
 msgstr "Asistente de división de líneas"
 
 #. module: nan_account_bank_statement
-#: code:addons/nan_account_bank_statement/account_statement.py:0
+#: code:addons/nan_account_bank_statement/account_statement.py:233
 #, python-format
 msgid "Search by reference error"
 msgstr "Error en la búsqueda por referencia"
@@ -101,6 +101,7 @@ msgstr "action.statement.line.split.wizard"
 
 #. module: nan_account_bank_statement
 #: field:account.bank.statement.line.data,key:0
+#: field:account.bank.statement.line.rule,key:0
 msgid "Key"
 msgstr "Clave"
 
@@ -117,7 +118,8 @@ msgstr ""
 "\"reference\" en la línea con importe %.2f en el extracto %s."
 
 #. module: nan_account_bank_statement
-#: code:addons/nan_account_bank_statement/account_statement.py:0
+#: code:addons/nan_account_bank_statement/account_statement.py:253
+#: code:addons/nan_account_bank_statement/account_statement.py:263
 #, python-format
 msgid "Search by invoice error"
 msgstr "Error en la búsqueda por factura"
@@ -219,4 +221,4 @@ msgstr "Factura"
 #. module: nan_account_bank_statement
 #: view:account.bank.statement:0
 msgid "S_plit"
-msgstr ""
+msgstr "_Dividir"
