@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.14\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-11-04 15:38+0000\n"
-"PO-Revision-Date: 2011-02-15 14:10+0000\n"
-"Last-Translator: <> <>\n"
+"PO-Revision-Date: 2011-04-23 08:40+0000\n"
+"Last-Translator: simone.sandri <Unknown>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-16 05:26+0000\n"
-"X-Generator: Launchpad (build 12735)\n"
+"X-Launchpad-Export-Date: 2011-04-24 04:49+0000\n"
+"X-Generator: Launchpad (build 12758)\n"
 
 #. module: training
 #: view:training.course:0
@@ -378,7 +378,7 @@ msgstr "Permette di selezionare una offerta convalidata per questa sessione"
 #. module: training
 #: field:training.subscription,notification_active:0
 msgid "Notification Active"
-msgstr ""
+msgstr "Attiva Notifiche"
 
 #. module: training
 #: view:training.email.error:0
@@ -1516,7 +1516,7 @@ msgstr "Richieste da inviare"
 #: code:addons/training/training.py:3358
 #, python-format
 msgid "Invalid action !"
-msgstr ""
+msgstr "Azione non valida!"
 
 #. module: training
 #: model:ir.actions.report.xml,name:training.training_seance_presence_noshow_report
@@ -4394,7 +4394,7 @@ msgstr "Richieste in attesa di risposta"
 #: selection:training.participation,kind:0
 #: selection:training.participation.stakeholder,kind:0
 msgid "Exam"
-msgstr ""
+msgstr "Esame"
 
 #. module: training
 #: view:training.offer:0
