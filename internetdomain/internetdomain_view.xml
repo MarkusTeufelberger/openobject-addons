@@ -30,7 +30,20 @@
 				    </page>
 		
 				    <page string="Renewals">
-					    <field name="renewal_ids" nolabel="1"/>
+                        <field colspan="4" mode="tree,form" name="renewal_ids" nolabel="1">
+                            <form string="Renewals">
+                                <field name="registrator_id"/>
+			                    <field name="price_unit"/>
+			                    <field name="date_renewal"/>
+			                    <field name="date_expire"/>		
+                            </form>
+                            <tree string="Renewals">
+                                <field name="registrator_id"/>
+			                    <field name="price_unit"/>
+			                    <field name="date_renewal"/>
+			                    <field name="date_expire"/>	
+                            </tree>
+                        </field>
 				    </page>
 
 				    <page string="Products">

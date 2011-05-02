@@ -23,7 +23,7 @@
 {
 	"name" : "Company currency in invoices",
 	"version" : "1.0",
-	"author" : "Zikzakmedia",
+	"author" : "Zikzakmedia SL",
 	"website" : "http://www.zikzakmedia.com",
     "license" : "GPL-3",
 	"depends" : ["account"],

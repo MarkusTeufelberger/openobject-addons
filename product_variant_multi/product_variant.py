@@ -35,7 +35,7 @@ class product_variant_dimension_type(osv.osv):
 
     _columns = {
         'description': fields.char('Description', size=64, translate=True),
-        'name' : fields.char('Dimension', size=64),
+        'name' : fields.char('Dimension', size=64, required=True),
         'sequence' : fields.integer('Sequence', help="The product 'variants' code will use this to order the dimension values"),
         'value_ids' : fields.one2many('product.variant.dimension.value', 'dimension_id', 'Dimension Values'),
         'product_tmpl_id': fields.many2one('product.template', 'Product Template', required=True, ondelete='cascade'),
@@ -74,9 +74,9 @@ class product_variant_dimension_value(osv.osv):
         'sequence' : fields.integer('Sequence'),
         'price_extra' : fields.float('Sale Price Extra', digits=(16, int(config['price_accuracy']))),
         'price_margin' : fields.float('Sale Price Margin', digits=(16, int(config['price_accuracy']))),
-        'cost_price_extra' : fields.float('Purchase Extra Cost', digits=(16, int(config['price_accuracy']))),
+        'cost_price_extra' : fields.float('Cost Price Extra', digits=(16, int(config['price_accuracy']))),
         'dimension_id' : fields.many2one('product.variant.dimension.type', 'Dimension Type', required=True, ondelete='cascade'),
-        'product_tmpl_id': fields.related('dimension_id', 'product_tmpl_id', type="many2one", relation="product.template", string="Product Template", store=True),
+        'product_tmpl_id': fields.related('dimension_id', 'product_tmpl_id', type="many2one", relation="product.template", string="Product Template", store=True, readonly=True),
         'dimension_sequence': fields.related('dimension_id', 'sequence', string="Related Dimension Sequence",#used for ordering purposes in the "variants"
              store={
                 'product.variant.dimension.type': (_get_dimension_values, None, 10),
@@ -262,7 +262,7 @@ class product_product(osv.osv):
                 
                 result[product.id] += dimension_extra
 
-        if ptype == 'standard_price':
+        elif ptype == 'standard_price':
             product_uom_obj = self.pool.get('product.uom')
             for product in self.browse(cr, uid, ids, context=context):
                 dimension_extra = 0.0

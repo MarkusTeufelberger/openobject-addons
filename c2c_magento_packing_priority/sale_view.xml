@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_base_sale_payment_type_form_priority" model="ir.ui.view">
+            <field name="name">base.sale.payment.type.priority.form</field>
+            <field name="model">base.sale.payment.type</field>
+            <field name="inherit_id" ref="base_sale_multichannels.view_base_sale_payment_type_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <data>
+                    <form string="Payment Type" position="inside">
+                        <separator string="Packing Option" colspan="4" />
+                        <field name="packing_priority"/>
+                    </form>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_base_sale_payment_type_tree_priority" model="ir.ui.view">
+            <field name="name">base.sale.payment.type.priority.tree</field>
+            <field name="model">base.sale.payment.type</field>
+            <field name="inherit_id" ref="base_sale_multichannels.view_base_sale_payment_type_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="check_if_paid" position="after">
+                        <field name="packing_priority"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_order_form_priority" model="ir.ui.view">
+            <field name="name">sale.order.priority.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <separator colspan="4" string="Notes" position="before">
+                    <field name="packing_priority"/>
+                    <field name="ext_payment_method" readonly="true"/>
+                </separator>
+            </field>
+        </record>
+
+        <record id="action_picking_high_priority_confirmed" model="ir.actions.act_window">
+            <field name="name">High Priority Packings Not Available</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('type', '=', 'out'), ('state', '=', 'confirmed'), ('priority', '=', '3'), ('carrier_id', '!=', False)]</field>
+            <field name="context">{'contact_display': 'partner'}</field>
+        </record>
+
+        <record id="action_picking_tree2_out_view1_hpc" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.view_picking_out_tree"/>
+            <field name="act_window_id" ref="action_picking_high_priority_confirmed"/>
+        </record>
+        <record id="action_picking_tree2_out_view2_hpc" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_out_form"/>
+            <field name="act_window_id" ref="action_picking_high_priority_confirmed"/>
+        </record>
+        <record id="action_picking_tree2_out_view2_cal_hpc" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">calendar</field>
+            <field name="act_window_id" ref="action_picking_high_priority_confirmed"/>
+        </record>
+
+        <menuitem action="action_picking_high_priority_confirmed" id="menu_picking_high_priority_confirmed" parent="stock.menu_action_picking_tree"/>
+        
+    </data>
+</openerp>

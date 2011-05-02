@@ -401,22 +401,23 @@ class stock_picking( osv.osv ):
         sale_line_obj = self.pool.get( 'sale.order.line' )
         for pick_id, invoice_id in result.iteritems():
             pick_order = self.browse( cursor, user, pick_id, context )
-            sale = self.pool.get( 'sale.order' ).browse( cursor, user, pick_order.sale_id.id, context )
-            for invoice_line_id in invoice_line_obj.search( cursor, user, [ ( 'invoice_id', '=', invoice_id ) ] ):
-                invoiceline = invoice_line_obj.browse( cursor, user, invoice_line_id, context )
-                orderline_id = sale_line_obj.search( cursor, user, [ ( 'order_id', '=', sale.id ), ( 'product_id', '=', invoiceline.product_id.id ) ] )[ 0 ]
-                orderline = sale_line_obj.browse( cursor, user, orderline_id, context )
-                invoice_line_obj.write( cursor, user, [ invoice_line_id ], {
-                    'prices_used': orderline.prices_used,
-                    'external_tax_amount': orderline.external_tax_amount,
-                    'external_base_amount': orderline.external_base_amount,
+            if pick_order.sale_id: # Not all the pickings have a link to sale order, for example IN picking
+                sale = self.pool.get( 'sale.order' ).browse( cursor, user, pick_order.sale_id.id, context )
+                for invoice_line_id in invoice_line_obj.search( cursor, user, [ ( 'invoice_id', '=', invoice_id ) ] ):
+                    invoiceline = invoice_line_obj.browse( cursor, user, invoice_line_id, context )
+                    orderline_id = sale_line_obj.search( cursor, user, [ ( 'order_id', '=', sale.id ), ( 'product_id', '=', invoiceline.product_id.id ) ] )[ 0 ]
+                    orderline = sale_line_obj.browse( cursor, user, orderline_id, context )
+                    invoice_line_obj.write( cursor, user, [ invoice_line_id ], {
+                        'prices_used': orderline.prices_used,
+                        'external_tax_amount': orderline.external_tax_amount,
+                        'external_base_amount': orderline.external_base_amount,
+                    }, context )
+                self.pool.get( 'account.invoice' ).write( cursor, user, [ invoice_id ], {
+                    'prices_used': pick_order.sale_id.prices_used,
+                    'external_sale_base_amount' : pick_order.sale_id.external_sale_base_amount,
+                    'external_sale_tax_amount' : pick_order.sale_id.external_sale_tax_amount,
+                    'external_sale_total_amount' : pick_order.sale_id.external_sale_total_amount,
                 }, context )
-            self.pool.get( 'account.invoice' ).write( cursor, user, [ invoice_id ], {
-                'prices_used': pick_order.sale_id.prices_used,
-                'external_sale_base_amount' : pick_order.sale_id.external_sale_base_amount,
-                'external_sale_tax_amount' : pick_order.sale_id.external_sale_tax_amount,
-                'external_sale_total_amount' : pick_order.sale_id.external_sale_total_amount,
-            }, context )
     	return result
 
 stock_picking()

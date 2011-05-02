@@ -1,8 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution    
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
+#    OpenERP, Open Source Management Solution
+#    Copyright (c) 2011 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
+#                       Raimon Esteve <resteve@zikzakmedia.com>
 #    $Id$
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -74,6 +75,7 @@ class make_invoice(wizard.interface):
 
             invoices = []
 
+            date_due = time.strftime('%Y-%m-%d')
             if renewal.domain_id.partner_id.property_payment_term:
                 pterm_list= account_payment_term_obj.compute(cr, uid,
                     renewal.domain_id.partner_id.property_payment_term.id, value=1,

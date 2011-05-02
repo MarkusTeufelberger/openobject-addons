@@ -45,9 +45,9 @@ class Invoice(osv.osv):
             if company.rounding_policy == 'even':
                 rounded_amount = round(invoice.amount_total*factor)/factor
             if company.rounding_policy == 'up':
-                rounded_amount = ceil(round(invoice.amount_total*factor))/factor
+                rounded_amount = ceil(invoice.amount_total*factor)/factor
             if company.rounding_policy == 'down':
-                rounded_amount = floor(round(invoice.amount_total*factor))/factor
+                rounded_amount = floor(invoice.amount_total*factor)/factor
             qtz= Decimal('.'+(int(config['price_accuracy'])*'0'))
             round_correction = float(Decimal(str(rounded_amount)).quantize(qtz) - Decimal(str(invoice.amount_total)).quantize(qtz))
             if round_correction:

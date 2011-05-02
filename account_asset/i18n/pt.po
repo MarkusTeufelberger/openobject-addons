@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-02-25 04:53+0000\n"
-"X-Generator: Launchpad (build 12351)\n"
+"X-Launchpad-Export-Date: 2011-04-16 05:24+0000\n"
+"X-Generator: Launchpad (build 12735)\n"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
@@ -162,7 +162,7 @@ msgstr "Valor Base Inicial do Método."
 #. module: account_asset
 #: wizard_view:account.asset.compute,asset_compute:0
 msgid "Generated entries"
-msgstr "Gerar movimentos"
+msgstr "Movimentos gerados"
 
 #. module: account_asset
 #: wizard_view:account.asset.compute,asset_compute:0
@@ -580,7 +580,7 @@ msgstr "Descrição de Activos"
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_compute
 #: model:ir.ui.menu,name:account_asset.menu_wizard_asset_compute
 msgid "Compute assets"
-msgstr "Processados activos"
+msgstr "Processar activos"
 
 #. module: account_asset
 #: help:account.asset.method,method_delay:0
@@ -1093,7 +1093,7 @@ msgstr "Abandono"
 #: field:account.asset.asset,period_id:0
 #: wizard_field:account.asset.compute,init,period_id:0
 msgid "Period"
-msgstr "Periodo"
+msgstr "Período"
 
 #. module: account_asset
 #: help:account.asset.method,account_actif_id:0
@@ -1232,7 +1232,7 @@ msgstr ""
 #. module: account_asset
 #: wizard_view:account.asset.close,init:0
 msgid "General information"
-msgstr "Informação Geral"
+msgstr "Informação geral"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -1289,7 +1289,7 @@ msgstr "Estado Método"
 #. module: account_asset
 #: field:account.asset.property,name:0
 msgid "Method name"
-msgstr "Nome do Método"
+msgstr "Nome do método"
 
 #. module: account_asset
 #: wizard_field:account.asset.abandon,init,name:0
@@ -1538,3 +1538,84 @@ msgstr ""
 #: wizard_view:account.asset.reval,init:0
 msgid "Revaluation"
 msgstr "Reavaliação"
+
+#~ msgid "Change history"
+#~ msgstr "Histórico de alterações"
+
+#~ msgid "Linear"
+#~ msgstr "Linear"
+
+#~ msgid "Asset Value"
+#~ msgstr "Valor do Imobilizado"
+
+#~ msgid "Methods"
+#~ msgstr "Métodos"
+
+#~ msgid "State"
+#~ msgstr "Estado"
+
+#~ msgid "Analytic account"
+#~ msgstr "Conta analítica"
+
+#~ msgid "Other information"
+#~ msgstr "Outra informação"
+
+#~ msgid "Ending period"
+#~ msgstr "Período final"
+
+#~ msgid "Date created"
+#~ msgstr "Data de criação"
+
+#~ msgid "Close method"
+#~ msgstr "Método de fecho"
+
+#~ msgid "Net value"
+#~ msgstr "Valor líquido"
+
+#~ msgid "Computation method"
+#~ msgstr "Método de cálculo"
+
+#~ msgid "Sequence"
+#~ msgstr "Sequência"
+
+#~ msgid "Asset code"
+#~ msgstr "Código de imobilizado"
+
+#~ msgid "Total value"
+#~ msgstr "Valor total"
+
+#~ msgid "Indirect"
+#~ msgstr "Indirecto"
+
+#~ msgid "Direct"
+#~ msgstr "Directo"
+
+#~ msgid "Residual value"
+#~ msgstr "Valor residual"
+
+#~ msgid "Asset properties to modify"
+#~ msgstr "Propriedades do activo a modificar"
+
+#~ msgid "Gross value"
+#~ msgstr "Valor ilíquido"
+
+#~ msgid "Confirm asset"
+#~ msgstr "Confirmar activo"
+
+#~ msgid "Asset name"
+#~ msgstr "Nome do activo"
+
+#~ msgid "Asset account"
+#~ msgstr "Conta do activo"
+
+#~ msgid "Asset Entries"
+#~ msgstr "Entradas de Activos"
+
+#~ msgid "End of asset"
+#~ msgstr "Fim do activo"
+
+#~ msgid "Parent asset"
+#~ msgstr "Activo pai"
+
+#~ msgid "Asset Hierarchy"
+#~ msgstr "Hierarquia de Activos"

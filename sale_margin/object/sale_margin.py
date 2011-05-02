@@ -55,7 +55,10 @@ class sale_order_line(osv.osv):
             pa = (std_price*product_uom_qty)
             margin = round(pv -pa,int(config['price_accuracy']))
             res['value']['margin'] = margin
-            res['value']['marginpourcent'] = (((pv-pa)/pv)*100)
+            marginpourcent = 0.0
+            if pa <> 0.0:
+                marginpourcent = ((pv / pa) - 1) * 100
+            res['value']['marginpourcent'] = marginpourcent
             res['value']['purchase_price'] = std_price
         return res
 
@@ -77,7 +80,11 @@ class sale_order_line(osv.osv):
             pa = (std_price*product_uom_qty)
             margin = round(pv -pa,int(config['price_accuracy']))
             res['value']['margin'] = margin
-            res['value']['marginpourcent'] = (((pv-pa)/pv)*100)
+            marginpourcent = 0.0
+            if pa <> 0.0:
+                marginpourcent = ((pv / pa) - 1) * 100
+            res['value']['marginpourcent'] = marginpourcent
+            
             res['value']['purchase_price'] = std_price
         return res
 
@@ -106,7 +113,10 @@ class sale_order_line(osv.osv):
             pa = (std_price*res['value']['product_uos_qty'])
             margin = round(pv - pa,int(config['price_accuracy']))
             res['value']['margin'] = margin
-            res['value']['marginpourcent'] = (((pv-pa)/pv)*100)
+            marginpourcent = 0.0
+            if pa <> 0.0:
+                marginpourcent = ((pv / pa) - 1) * 100
+            res['value']['marginpourcent'] = marginpourcent
             res['value']['purchase_price'] = std_price
 
         return res

@@ -20,7 +20,7 @@
 
 {
     "name" : "Product label printing wizards",
-    "version" : "1.0",
+    "version" : "1.2",
     "author" : "Gábor Dukai",
     "website" : "http://exploringopenerp.blogspot.com",
     "license" : "GPL-3",
