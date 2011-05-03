@@ -38,7 +38,7 @@ class product_variant_dimension_type(osv.osv):
         'name' : fields.char('Dimension', size=64, required=True),
         'sequence' : fields.integer('Sequence', help="The product 'variants' code will use this to order the dimension values"),
         'value_ids' : fields.one2many('product.variant.dimension.value', 'dimension_id', 'Dimension Values'),
-        'product_tmpl_id': fields.many2one('product.template', 'Product Template', required=True, ondelete='cascade'),
+        'product_tmpl_id': fields.many2one('product.template', 'Product Template', ondelete='cascade'),
         'allow_custom_value': fields.boolean('Allow Custom Value', help="If true, custom values can be entered in the product configurator"),
         'mandatory_dimension': fields.boolean('Mandatory Dimension', help="If false, variant products will be created with and without this dimension"),
     }
@@ -63,11 +63,7 @@ class product_variant_dimension_value(osv.osv):
     _description = "Dimension Value"
 
     def _get_dimension_values(self, cr, uid, ids, context={}):
-        result = []
-        for type in self.pool.get('product.variant.dimension.type').browse(cr, uid, ids, context=context):
-            for value in type.value_ids:
-                result.append(value.id)
-        return result
+        return self.pool.get('product.variant.dimension.value').search(cr, uid, [('dimension_id', 'in', ids)], context=context)
 
     _columns = {
         'name' : fields.char('Dimension Value', size=64, required=True),
@@ -75,11 +71,11 @@ class product_variant_dimension_value(osv.osv):
         'price_extra' : fields.float('Sale Price Extra', digits=(16, int(config['price_accuracy']))),
         'price_margin' : fields.float('Sale Price Margin', digits=(16, int(config['price_accuracy']))),
         'cost_price_extra' : fields.float('Cost Price Extra', digits=(16, int(config['price_accuracy']))),
-        'dimension_id' : fields.many2one('product.variant.dimension.type', 'Dimension Type', required=True, ondelete='cascade'),
+        'dimension_id' : fields.many2one('product.variant.dimension.type', 'Dimension Type', ondelete='cascade'),
         'product_tmpl_id': fields.related('dimension_id', 'product_tmpl_id', type="many2one", relation="product.template", string="Product Template", store=True, readonly=True),
         'dimension_sequence': fields.related('dimension_id', 'sequence', string="Related Dimension Sequence",#used for ordering purposes in the "variants"
              store={
-                'product.variant.dimension.type': (_get_dimension_values, None, 10),
+                'product.variant.dimension.type': (_get_dimension_values, ['sequence'], 10),
             }),
     }
     _order = "dimension_sequence, sequence, name"
@@ -125,12 +121,12 @@ class product_template(osv.osv):
         seen_map[self._name].append(old_id)
         return super(product_product, self).copy_translations(cr, uid, old_id, new_id, context=context)
 
-    def _create_variant_list(self, cr, uid, vals, context=None):
-        
+    def _create_variant_list(self, cr, uid, ids, vals, context=None):
+
         def cartesian_product(args):
             if len(args) == 1: return [x and [x] or [] for x in args[0]]
             return [(i and [i] or []) + j for j in cartesian_product(args[1:]) for i in args[0]]
-        
+
         return cartesian_product(vals)
 
     def button_generate_variants(self, cr, uid, ids, context={}):
@@ -146,7 +142,7 @@ class product_template(osv.osv):
                     temp_val_list.pop()
 
             if temp_val_list:
-                list_of_variants = self._create_variant_list(cr, uid, temp_val_list, context)
+                list_of_variants = self._create_variant_list(cr, uid, ids, temp_val_list, context)
                 existing_product_ids = variants_obj.search(cr, uid, [('product_tmpl_id', '=', product_temp.id)])
                 existing_product_dim_value = variants_obj.read(cr, uid, existing_product_ids, ['dimension_value_ids'])
                 list_of_variants_existing = [x['dimension_value_ids'] for x in existing_product_dim_value]
