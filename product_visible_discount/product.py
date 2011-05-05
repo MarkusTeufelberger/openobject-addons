@@ -39,8 +39,9 @@ class product_pricelist(osv.osv):
     }
 
     _defaults = {
-         'visible_discount':lambda *a: True,
+         'visible_discount': lambda *a: True,
    }
+
 product_pricelist()
 
 class sale_order_line(osv.osv):
@@ -58,7 +59,7 @@ class sale_order_line(osv.osv):
         result=res['value']
         pricelist_obj=self.pool.get('product.pricelist')
         product_obj = self.pool.get('product.product')
-	item_obj = self.pool.get('product.pricelist.item')
+        item_obj = self.pool.get('product.pricelist.item')
         if product:
             if result.get('price_unit',False):
                 price=result['price_unit']
@@ -68,16 +69,37 @@ class sale_order_line(osv.osv):
             product = product_obj.browse(cr, uid, product, context)
             product_tmpl_id = product.product_tmpl_id.id
             res_price_get = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist], product.id, qty or 1.0, partner_id, {})
-	    item = item_obj.browse(cr, uid, res_price_get['item_id'][pricelist])
+            item = item_obj.browse(cr, uid, res_price_get['item_id'][pricelist])
 
-	    if item.base > 0:
+            if item.base > 0:
                 field_name = self.pool.get('product.price.type').browse(cr, uid, item.base).field
-	    else:
-		field_name = 'list_price'
+            else:
+                field_name = 'list_price'
 
             product_read = self.pool.get('product.template').read(cr, uid, product_tmpl_id, [field_name], context)
             list_price = product_read[field_name]
-
+            # Dirty hack to make product_visible_discount and product_variant_multi work together
+            # Sorry, I have no time to make a clean implementation
+            # -- AdL 4/5/2011
+            if field_name == 'usd_price_q1':
+                extra_field = 'usd_price_q1_extra'
+            elif field_name == 'usd_price_q2':
+                extra_field = 'usd_price_q2_extra'
+            elif field_name == 'usd_price_q3':
+                extra_field = 'usd_price_q3_extra'
+            elif field_name == 'usd_price_q4':
+                extra_field = 'usd_price_q4_extra'
+            elif field_name == 'other_price1':
+                extra_field = 'other_price1_extra'
+            elif field_name == 'other_price2':
+                extra_field = 'other_price2_extra'
+            elif field_name == 'other_price3':
+                extra_field = 'other_price3_extra'
+            elif field_name == 'other_price4':
+                extra_field = 'other_price4_extra'
+            else:
+                extra_field = 'price_extra'
+            list_price += self.pool.get('product.product').compute_product_dimension_extra_price(cr, uid, product.id, dim_price_extra=extra_field, context=context)
 
             pricelists=pricelist_obj.read(cr,uid,[pricelist],['visible_discount'])
             if(len(pricelists)>0 and pricelists[0]['visible_discount'] and list_price != 0):
@@ -100,22 +122,46 @@ class account_invoice_line(osv.osv):
         res=super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
 
 
-	def get_real_price(cr, uid, pricelist_id, product_id, qty, partner_id, context):
-	    res_price_get = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist_id], product_id, qty, partner_id, context)
+        def get_real_price(cr, uid, pricelist_id, product_id, qty, partner_id, context):
+            res_price_get = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist_id], product_id, qty, partner_id, context)
 
-    	    if res_price_get['item_id'][pricelist_id]:
-	        item_obj = self.pool.get('product.pricelist.item')
-	        item = item_obj.browse(cr, uid, res_price_get['item_id'][pricelist_id])
+            if res_price_get['item_id'][pricelist_id]:
+                item_obj = self.pool.get('product.pricelist.item')
+                item = item_obj.browse(cr, uid, res_price_get['item_id'][pricelist_id])
 
-		if item.base > 0:
-	            field_name = self.pool.get('product.price.type').browse(cr, uid, item.base).field
-		else:
-		    field_name = 'list_price'
+                if item.base > 0:
+                    field_name = self.pool.get('product.price.type').browse(cr, uid, item.base).field
+                else:
+                    field_name = 'list_price'
 
                 product_tmpl_id = self.pool.get('product.product').browse(cr, uid, product_id, context).product_tmpl_id.id
                 product_read = self.pool.get('product.template').read(cr, uid, product_tmpl_id, [field_name], context)
-	        return product_read[field_name]
-    
+                list_price = product_read[field_name]
+                # Dirty hack to make product_visible_discount and product_variant_multi work together
+                # Sorry, I have no time to make a clean implementation
+                # -- AdL 4/5/2011
+                if field_name == 'usd_price_q1':
+                    extra_field = 'usd_price_q1_extra'
+                elif field_name == 'usd_price_q2':
+                    extra_field = 'usd_price_q2_extra'
+                elif field_name == 'usd_price_q3':
+                    extra_field = 'usd_price_q3_extra'
+                elif field_name == 'usd_price_q4':
+                    extra_field = 'usd_price_q4_extra'
+                elif field_name == 'other_price1':
+                    extra_field = 'other_price1_extra'
+                elif field_name == 'other_price2':
+                    extra_field = 'other_price2_extra'
+                elif field_name == 'other_price3':
+                    extra_field = 'other_price3_extra'
+                elif field_name == 'other_price4':
+                    extra_field = 'other_price4_extra'
+                else:
+                    extra_field = 'price_extra'
+                list_price += self.pool.get('product.product').compute_product_dimension_extra_price(cr, uid, product.id, dim_price_extra=extra_field, context=context)
+ 
+            return list_price
+
         if product:
             product = self.pool.get('product.product').browse(cr, uid, product, context=context)
             result=res['value']
@@ -135,7 +181,7 @@ class account_invoice_line(osv.osv):
                         raise osv.except_osv(_('No Sale Pricelist Found '),_("You must first define a pricelist for Customer !"))
 
                     price_unit = self.pool.get('product.pricelist').price_get(cr, uid, [pricelist], product.id, qty or 1.0, partner_id, {'uom': uom})[pricelist]
-		    real_price = get_real_price(cr, uid, pricelist, product.id, qty or 1.0, partner_id, {'uom': uom})
+                    real_price = get_real_price(cr, uid, pricelist, product.id, qty or 1.0, partner_id, {'uom': uom})
 
             if pricelist:
                 pricelists=self.pool.get('product.pricelist').read(cr,uid,[pricelist],['visible_discount'])
