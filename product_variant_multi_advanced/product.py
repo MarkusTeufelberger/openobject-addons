@@ -57,7 +57,6 @@ class product_template(osv.osv):
         context['variants_values'] = {}
         for product in self.pool.get('product.product').read(cr, uid, product_ids, ['variants'], context=context):
             context['variants_values'][product['id']] = product['variants']
-        print "context =", context
         self.pool.get('product.product').build_product_name(cr, uid, product_ids, context=context)
         logger.notifyChannel('product_variant_multi_advanced', netsvc.LOG_INFO, "End of generation/update of product names.")
         return True
@@ -155,8 +154,6 @@ class product_product(osv.osv):
             for product in self.browse(cr, uid, ids, context=context):
                 new_field_value = eval("get_" + field + "(product)") # TODO convert to safe_eval
                 cur_field_value = safe_eval("product." + field, {'product': product})
-                print "cur_field_value =", cur_field_value
-                print "new_field_value", new_field_value
                 if new_field_value != cur_field_value:
                     self.write(cr, uid, product.id, {field: new_field_value}, context=context)
         return True
