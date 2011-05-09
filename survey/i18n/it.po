@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-addons\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-11-26 06:01+0000\n"
-"PO-Revision-Date: 2011-01-09 13:41+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2011-05-08 19:18+0000\n"
+"Last-Translator: simone.sandri <lexluxsox@hotmail.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-16 05:22+0000\n"
-"X-Generator: Launchpad (build 12735)\n"
+"X-Launchpad-Export-Date: 2011-05-09 04:47+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_survey_form1
@@ -63,7 +63,7 @@ msgid "Give Survey Response"
 msgstr ""
 
 msgid "All Questions"
-msgstr ""
+msgstr "Tutte Le Domande"
 
 #. module: survey
 #: field:survey,date_open:0
@@ -76,7 +76,7 @@ msgid "survey.name.wiz"
 msgstr "survey.name.wiz"
 
 msgid "Users Details"
-msgstr ""
+msgstr "Dettagli Utente"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_view_survey_question_message
@@ -184,7 +184,7 @@ msgid "New Survey Question"
 msgstr ""
 
 msgid "Skip"
-msgstr ""
+msgstr "Salta"
 
 msgid "Partner"
 msgstr ""
@@ -242,13 +242,13 @@ msgstr "Invia una mail ogni nuovo utente"
 
 #, python-format
 msgid "Error !"
-msgstr ""
+msgstr "Errore !"
 
 msgid "Skipped Question"
 msgstr ""
 
 msgid "_Ok"
-msgstr ""
+msgstr "_Ok"
 
 #. module: survey
 #: selection:survey.response,response_type:0
@@ -256,7 +256,7 @@ msgid "Link"
 msgstr ""
 
 msgid "Configuration"
-msgstr ""
+msgstr "Configurazione"
 
 #. module: survey
 #: model:ir.model,name:survey.model_survey_question_wiz
@@ -266,13 +266,13 @@ msgstr "survey.question.wiz"
 #. module: survey
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr ""
+msgstr "XML non valido per la struttura della Vista!"
 
 msgid "Survey Response Answer"
 msgstr ""
 
 msgid "Page :-"
-msgstr ""
+msgstr "Pagina :-"
 
 msgid "Maximum Response per User"
 msgstr ""
@@ -287,7 +287,7 @@ msgid "Comment"
 msgstr "Commento"
 
 msgid "Modify Date"
-msgstr ""
+msgstr "Modifica Data"
 
 msgid "Answered Question"
 msgstr ""
