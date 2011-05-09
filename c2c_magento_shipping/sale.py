@@ -31,12 +31,12 @@ class SaleShop(external_osv.external_osv):
     and here they are exported in their order. """
     _inherit = "sale.shop"
     
-    def export_shipping(self, cr, uid, ids, ctx):
+    def export_shipping(self, cr, uid, ids, context):
         """Export shipping in their order from first to last. Based on the backorder id.
         Only the SQL query is modified on that function"""
         logger = netsvc.Logger()
         for shop in self.browse(cr, uid, ids):
-            ctx['conn_obj'] = self.external_connection(cr, uid, shop.referential_id)
+            context['conn_obj'] = self.external_connection(cr, uid, shop.referential_id)
         
             cr.execute("""
                 select stock_picking.id, sale_order.id, count(pickings.id), stock_picking.backorder_id, delivery_carrier.magento_export_needs_tracking, stock_picking.carrier_tracking_ref
@@ -58,20 +58,19 @@ class SaleShop(external_osv.external_osv):
 
                 # only create shipping if a tracking number exists if the flag magento_export_needs_tracking is flagged on the delivery carrier
                 if not result[4] or result[5]:
-                    ext_shipping_id = self.pool.get('stock.picking').create_ext_shipping(cr, uid, result[0], picking_type, shop.referential_id.id, ctx)
+                    ext_shipping_id = self.pool.get('stock.picking').create_ext_shipping(cr, uid, result[0], picking_type, shop.referential_id.id, context)
 
                     if ext_shipping_id:
                         ir_model_data_vals = {
-                            'name': "stock_picking_" + str(ext_shipping_id),
+                            'name': "stock_picking/" + str(ext_shipping_id),
                             'model': "stock.picking",
                             'res_id': result[0],
                             'external_referential_id': shop.referential_id.id,
-                            'module': 'extref.' + shop.referential_id.name,
+                            'module': 'extref/' + shop.referential_id.name,
                           }
                         self.pool.get('ir.model.data').create(cr, uid, ir_model_data_vals)
                         logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully creating shipping with OpenERP id %s and ext id %s in external sale system" % (result[0], ext_shipping_id))
-    
-    
+
 SaleShop()
 
 class SaleOrder(osv.osv):
@@ -79,34 +78,38 @@ class SaleOrder(osv.osv):
     in the order. We have to do that because Magento send the pack and his components in the sale order.
     We only delete the components with a 0.0 price because one may order a component independently.
     """
-    
+
     _inherit = "sale.order"    
-    
+
     def create(self, cr, uid, vals, context={}):
         """ Creation of the sale order. Delete components of a BoM with 0.0 price."""
         product_obj = self.pool.get('product.product')
-        
+
         if vals.get('order_line', False):
             for array_line in vals['order_line'][:]: # iterate over a copy of order lines to not delete lines on the original during the loop
                 line = array_line[2] # key 2 because vals['order_line'] = [0, 0, {values}]
                 product_id = line['product_id']
+
+                if not product_id:
+                    continue                
+
                 # search if product is a BoM if it is, loop on other products
                 # to search for his components to drop
                 product = product_obj.browse(cr, uid, product_id)
-                
+
                 if not product.bom_ids:
                     continue
-                
+
                 # compute the list of products components of the BoM
                 bom_prod_ids = []
                 for bom in product.bom_ids:
                     [bom_prod_ids.append(bom_line.product_id.id) for bom_line in bom.bom_lines]
-                
+
                 for other_array_line in vals['order_line'][:]: 
                     other_line = other_array_line[2]
                     if other_line['product_id'] == product_id:
                         continue
-                    
+
                     # remove the lines of the bom where the price is 0.0
                     # because we don't want to remove it if it is ordered alone
                     if other_line['product_id'] in bom_prod_ids and not other_line['price_unit']:

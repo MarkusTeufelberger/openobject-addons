@@ -36,7 +36,7 @@ class stock_picking(osv.osv):
     }
 
     def create(self, cr, uid, vals, context=None):
-        if 'sale_id' in vals:
+        if 'sale_id' in vals and vals['sale_id']:
             sale_order_priority = self.pool.get('sale.order').read(cr, uid, vals['sale_id'], ['packing_priority'])
             if 'packing_priority' in sale_order_priority:
                 vals['priority'] = sale_order_priority['packing_priority']

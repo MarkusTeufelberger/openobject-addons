@@ -33,7 +33,7 @@ class Product(magerp_osv.magerp_osv):
     def copy(self, cr, uid, id, default=None, context=None):
         if context is None:
             context = {}
-        if context is None:
+        if default is None:
             default = {}
             
         default['image_ids'] = False
