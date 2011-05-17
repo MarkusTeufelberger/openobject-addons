@@ -8,13 +8,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2010-11-04 15:38+0000\n"
 "PO-Revision-Date: 2011-04-23 08:40+0000\n"
-"Last-Translator: simone.sandri <Unknown>\n"
+"Last-Translator: simone.sandri <lexluxsox@hotmail.it>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-24 04:49+0000\n"
-"X-Generator: Launchpad (build 12758)\n"
+"X-Launchpad-Export-Date: 2011-05-17 05:04+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #. module: training
 #: view:training.course:0
@@ -49,7 +49,7 @@ msgid "Fix"
 msgstr "Corretto"
 
 #. module: training
-#: code:addons/training/training.py:4714
+#: code:addons/training/training.py:4650
 #, python-format
 msgid "There is no group in this session !"
 msgstr "Non ci sono gruppi in questa Sessione!"
@@ -128,7 +128,7 @@ msgid "The delivery format of the offer or session"
 msgstr "Il formato consegna della Offerta o Sessione"
 
 #. module: training
-#: code:addons/training/training.py:4082
+#: code:addons/training/training.py:4018
 #, python-format
 msgid "The Payment Mode is not specified"
 msgstr "Il metodo di pagamento non è specificato"
@@ -155,7 +155,7 @@ msgid "All Subscription Lines to Invoice"
 msgstr "Tutte le linee del'Iscrizione da fatturare"
 
 #. module: training
-#: model:ir.actions.wizard,name:training.wizard_training_subscription_line_second
+#: model:ir.actions.act_window,name:training.training_subscription_second_line_action_wizard
 msgid "Subscription Second Line"
 msgstr "Iscrizione seconda linea"
 
@@ -272,7 +272,7 @@ msgid "Training place"
 msgstr "Luogo del Training"
 
 #. module: training
-#: wizard_view:training.course.create.block.offer,init:0
+#: view:training.create.block.offer:0
 #: view:training.offer:0
 msgid "Offer Description"
 msgstr "Descrizione Offerta"
@@ -295,7 +295,6 @@ msgstr "Conto Analitico"
 #: field:training.course.purchase_line,course_id:0
 #: view:training.offer:0
 #: field:training.offer.purchase.line,course_id:0
-#: view:training.participation:0
 #: field:training.participation,course_id:0
 #: selection:training.participation,kind:0
 #: view:training.participation.stakeholder:0
@@ -344,7 +343,7 @@ msgid "Total Confirmed Seats"
 msgstr "Totale posti confermati"
 
 #. module: training
-#: code:addons/training/training.py:3027
+#: code:addons/training/training.py:3000
 #: field:res.partner,notif_participant:0
 #: view:training.participation:0
 #: field:training.participation,job_id:0
@@ -475,18 +474,18 @@ msgid "Planned Sessions"
 msgstr "Sessioni pianificate"
 
 #. module: training
-#: code:addons/training/training_holiday.py:94
+#: code:addons/training/training_holiday.py:93
 #, python-format
 msgid "Can you give a right date ?"
 msgstr "Puoi fornire una data corretta?"
 
 #. module: training
-#: wizard_view:training.subscription.line_second,init:0
+#: view:training.subscription.second.line:0
 msgid "Mass Subscription Second Line"
 msgstr "Iscrizione di massa seconda linea"
 
 #. module: training
-#: code:addons/training/training.py:5226
+#: code:addons/training/wizard/subscription_cancelation.py:224
 #, python-format
 msgid "Cancelled by Postponement: %s"
 msgstr "Annullato per rinvio: %s"
@@ -539,7 +538,7 @@ msgid "_Draft"
 msgstr "_Bozza"
 
 #. module: training
-#: code:addons/training/training.py:4260
+#: code:addons/training/training.py:4196
 #, python-format
 msgid "The type of the course (%s) of this seance has no product defined"
 msgstr ""
@@ -567,11 +566,15 @@ msgstr "Permette di scrivere i requisiti dei corsi"
 
 #. module: training
 #: field:ir.attachment,state:0
+#: view:training.catalog:0
 #: field:training.catalog,state:0
+#: view:training.course:0
 #: field:training.course,state_course:0
 #: field:training.course.pending,state:0
 #: field:training.course.pending.wizard,state:0
+#: field:training.create.groups.wizard,state:0
 #: field:training.email,state:0
+#: view:training.offer:0
 #: field:training.offer,state:0
 #: view:training.participation.stakeholder:0
 #: field:training.participation.stakeholder,state:0
@@ -579,8 +582,8 @@ msgstr "Permette di scrivere i requisiti dei corsi"
 #: view:training.seance:0
 #: field:training.seance,state:0
 #: field:training.seance.generate.zip.wizard,state:0
-#: view:training.session:0
 #: field:training.session,state:0
+#: view:training.subscription:0
 #: field:training.subscription,state:0
 #: field:training.subscription.cancellation.wizard,state:0
 #: view:training.subscription.line:0
@@ -631,6 +634,7 @@ msgstr "Corsi collegati"
 
 #. module: training
 #: report:training.seance.support.delivery.report:0
+#: view:training.subscription:0
 msgid "Additional Information"
 msgstr "Informazioni addizionali"
 
@@ -662,7 +666,7 @@ msgid "Support"
 msgstr "Supporto"
 
 #. module: training
-#: code:addons/training/training.py:4720
+#: code:addons/training/training.py:4656
 #, python-format
 msgid ""
 "The defined groups for this session does not have the same number of seances "
@@ -694,8 +698,8 @@ msgid "Long Name"
 msgstr "Nome esteso"
 
 #. module: training
-#: code:addons/training/training.py:1902
-#: code:addons/training/training.py:2827
+#: code:addons/training/training.py:1869
+#: code:addons/training/training.py:2800
 #, python-format
 msgid "Selection Date"
 msgstr "Data di selezione"
@@ -737,13 +741,13 @@ msgid "Overall seats"
 msgstr "Posti globali"
 
 #. module: training
-#: code:addons/training/training.py:1298
+#: code:addons/training/training.py:1266
 #, python-format
 msgid "There is no Purchase Order for a request"
 msgstr "Non c'è l'ordine di Acquisto per la richiesta"
 
 #. module: training
-#: model:ir.actions.wizard,name:training.wizard_training_course_validate
+#: model:ir.actions.act_window,name:training.action_validate_courses
 msgid "Validate Course(s)"
 msgstr "Corso(i) Convalidati"
 
@@ -774,6 +778,7 @@ msgstr "Per Iscrizione"
 #: field:training.seance,user_id:0
 #: view:training.session:0
 #: field:training.session,user_id:0
+#: view:training.subscription:0
 msgid "Responsible"
 msgstr "Responsible"
 
@@ -841,7 +846,7 @@ msgid "Remuneration"
 msgstr "Retribuzione"
 
 #. module: training
-#: code:addons/training/training.py:4951
+#: code:addons/training/training.py:4887
 #, python-format
 msgid ""
 "You can not cancel this purchase line it is not the only one purchase order "
@@ -920,6 +925,7 @@ msgstr "Figlio"
 #: selection:training.catalog,state:0
 #: selection:training.course.pending,state:0
 #: selection:training.participation.stakeholder,state_seance:0
+#: view:training.seance:0
 #: selection:training.seance,state:0
 #: view:training.session:0
 #: selection:training.session,state:0
@@ -929,7 +935,7 @@ msgid "In Progress"
 msgstr "In corso"
 
 #. module: training
-#: code:addons/training/wizard/wizard_create_session.py:61
+#: code:addons/training/wizard/create_session.py:60
 #, python-format
 msgid "You can not create a session with a non-validated offer"
 msgstr "Non puoi creare la Sessione con una offerta non validata"
@@ -946,7 +952,7 @@ msgid "Wizard"
 msgstr "Procedura guidata"
 
 #. module: training
-#: code:addons/training/training.py:3028
+#: code:addons/training/training.py:3001
 #, python-format
 msgid " and "
 msgstr " e "
@@ -1011,7 +1017,8 @@ msgid "The course type's name"
 msgstr "Il nome del tipo di Corso"
 
 #. module: training
-#: wizard_field:training.course.create.offer,init,format_id:0
+#: field:training.create.block.offer,format_id:0
+#: field:training.create.offer,format_id:0
 #: view:training.offer:0
 #: field:training.offer,format_id:0
 #: view:training.offer.format:0
@@ -1031,8 +1038,7 @@ msgid "Mass Subscription Wizard"
 msgstr "Procedura guidata Iscrizioni di massa"
 
 #. module: training
-#: wizard_button:training.subscription.line_second,init,make_subscription:0
-#: wizard_button:training.subscription.session,init,make_subscription:0
+#: view:training.subscription.second.line:0
 msgid "Make Subscription"
 msgstr "Iscrizioni di massa"
 
@@ -1058,7 +1064,7 @@ msgid "res.partner.contact_technical_skill"
 msgstr "res.partner.contact_technical_skill"
 
 #. module: training
-#: code:addons/training/training.py:4362
+#: code:addons/training/training.py:4298
 #, python-format
 msgid "The type of the course (%s) of this seance hasn't a product"
 msgstr "Il tipo del Corso (%s) di questa Lezione non ha il prodotto"
@@ -1081,7 +1087,7 @@ msgid "Draft Sessions"
 msgstr "Sessioni bozza"
 
 #. module: training
-#: code:addons/training/wizard/wizard_create_offer.py:51
+#: code:addons/training/wizard/create_offer.py:41
 #, python-format
 msgid "Please, you can create an offer with a validated course"
 msgstr "Per favore, puoi creare una offerta con un Corso convalidato"
@@ -1129,6 +1135,8 @@ msgstr "Partecipanti assenti"
 #: field:training.course.pending,create_date:0
 #: field:training.email.error,create_date:0
 #: field:training.offer,create_date:0
+#: view:training.subscription:0
+#: view:training.subscription.line:0
 msgid "Create Date"
 msgstr "Data Creazione"
 
@@ -1164,7 +1172,7 @@ msgstr ""
 "e facilitarne la gestione"
 
 #. module: training
-#: code:addons/training/training.py:3404
+#: code:addons/training/training.py:3341
 #, python-format
 msgid "Please, Can you check the price list of the partner ?"
 msgstr "Per favore, puoi controllare il listino del Partner?"
@@ -1290,7 +1298,7 @@ msgid "Suppliers"
 msgstr "Fornitori"
 
 #. module: training
-#: code:addons/training/training.py:3390
+#: code:addons/training/training.py:3327
 #, python-format
 msgid "%(participant)s is already following the session \"%(session)s\""
 msgstr "%(participant)s segue già la Sessione \"%(session)s\""
@@ -1343,7 +1351,7 @@ msgid "Discount Invoice"
 msgstr "Fattura scontata"
 
 #. module: training
-#: code:addons/training/training.py:4696
+#: code:addons/training/training.py:4632
 #, python-format
 msgid "You have not selected a participant of this session"
 msgstr "Non hai selezionato i partecipanti di questa Sessione"
@@ -1385,7 +1393,7 @@ msgid "Duplicated"
 msgstr "Duplicata"
 
 #. module: training
-#: code:addons/training/training.py:3076
+#: code:addons/training/training.py:3043
 #, python-format
 msgid "Only draft subscriptions could be deleted !"
 msgstr ""
@@ -1512,8 +1520,8 @@ msgid "Requests to send"
 msgstr "Richieste da inviare"
 
 #. module: training
-#: code:addons/training/training.py:3076
-#: code:addons/training/training.py:3358
+#: code:addons/training/training.py:3043
+#: code:addons/training/training.py:3295
 #, python-format
 msgid "Invalid action !"
 msgstr "Azione non valida!"
@@ -1535,8 +1543,8 @@ msgid "Pricelist"
 msgstr "Listino"
 
 #. module: training
-#: model:ir.actions.wizard,name:training.wizard_create_session
-#: wizard_view:training.offer.create.session,init:0
+#: model:ir.actions.act_window,name:training.wizard_create_session
+#: view:training.session.create.wizard:0
 msgid "Plannify Session"
 msgstr "Pianifica Sessione"
 
@@ -1562,7 +1570,7 @@ msgid "Subscription Cancellation Wizard"
 msgstr "Procedura guidata cancellazione Iscrizioni"
 
 #. module: training
-#: code:addons/training/training.py:3025
+#: code:addons/training/training.py:2998
 #: model:ir.model,name:training.model_res_partner
 #: view:training.participation:0
 #: field:training.participation,partner_id:0
@@ -1578,8 +1586,8 @@ msgstr "Procedura guidata cancellazione Iscrizioni"
 #: field:training.subscription.line.second,partner_id:0
 #: view:training.subscription.mass.wizard:0
 #: field:training.subscription.mass.wizard,partner_id:0
-#: wizard_view:training.subscription.session,init:0
-#: wizard_field:training.subscription.session,init,partner_id:0
+#: view:training.subscription.session:0
+#: field:training.subscription.session,partner_id:0
 #, python-format
 msgid "Partner"
 msgstr "Partner"
@@ -1732,7 +1740,7 @@ msgid "training.config.penality"
 msgstr "training.config.penality"
 
 #. module: training
-#: code:addons/training/training.py:5188
+#: code:addons/training/wizard/subscription_cancelation.py:194
 #, python-format
 msgid "Replacement: %s %s -> %s %s"
 msgstr "Rimpiazzo: %s %s -> %s %s"
@@ -1754,7 +1762,7 @@ msgid "Sign"
 msgstr "Firma"
 
 #. module: training
-#: code:addons/training/training.py:2095
+#: code:addons/training/training.py:2062
 #, python-format
 msgid "You can not duplicate a session"
 msgstr "Non puoi duplicare la sessione"
@@ -1879,7 +1887,6 @@ msgid "The unique identifier is generated by the system (customizable)"
 msgstr "L'ID univo è generato dal sistema (personalizzabile)"
 
 #. module: training
-#: wizard_field:training.offer.create.session,init,date:0
 #: field:training.offer.purchase.line.log,date:0
 #: field:training.offer.purchase.line.update.wizard,date:0
 #: view:training.participation:0
@@ -1893,6 +1900,7 @@ msgstr "L'ID univo è generato dal sistema (personalizzabile)"
 #: report:training.seance.support.delivery.report:0
 #: view:training.session:0
 #: field:training.session,date:0
+#: field:training.session.create.wizard,date:0
 #: field:training.subscription.line,date:0
 msgid "Date"
 msgstr "Data"
@@ -1927,7 +1935,7 @@ msgid "Technical Skills"
 msgstr "Abilità Linguistiche"
 
 #. module: training
-#: code:addons/training/training.py:4702
+#: code:addons/training/training.py:4638
 #, python-format
 msgid "You have selected a session with a shared seance"
 msgstr "Hai selezionato una Sessione con Lezioni condivise"
@@ -1935,9 +1943,9 @@ msgstr "Hai selezionato una Sessione con Lezioni condivise"
 #. module: training
 #: view:training.course:0
 #: field:training.course,lang_id:0
-#: wizard_field:training.course.create.block.offer,init,lang_id:0
 #: field:training.course.offer.rel,lang_id:0
 #: field:training.course.pending,lang_id:0
+#: field:training.create.block.offer,lang_id:0
 #: view:training.offer:0
 #: field:training.offer,lang_id:0
 msgid "Language"
@@ -1960,9 +1968,7 @@ msgstr "Nuovo Catalogo"
 #: selection:training.course,state_course:0
 #: selection:training.course.pending,state:0
 #: selection:training.email,state:0
-#: view:training.offer:0
 #: selection:training.offer,state:0
-#: view:training.seance:0
 #: selection:training.seance,state_course:0
 msgid "Deprecated"
 msgstr "Disapprovato"
@@ -1999,7 +2005,7 @@ msgid "Session Offer"
 msgstr "Offerta Sessione"
 
 #. module: training
-#: code:addons/training/training.py:2860
+#: code:addons/training/training.py:2833
 #, python-format
 msgid "You can not suppress a seance with a invoiced subscription"
 msgstr "Non puoi cancellare una Lezione con Iscrizione fatturata"
@@ -2016,7 +2022,7 @@ msgid "This note will be show on notification emails"
 msgstr "Questa nota verrà mostrata sulle mail di notifica"
 
 #. module: training
-#: code:addons/training/training.py:965
+#: code:addons/training/training.py:941
 #, python-format
 msgid "%d seance(s) updated"
 msgstr "%d lezione(i) aggiornate"
@@ -2073,24 +2079,24 @@ msgstr "Sessioni Aperte -> Confermate"
 
 #. module: training
 #: view:training.catalog:0
-#: wizard_button:training.course.create.block.offer,init,end:0
-#: wizard_button:training.course.create.offer,init,end:0
 #: view:training.course.pending.wizard:0
-#: wizard_button:training.course.validate,init,end:0
-#: wizard_button:training.offer.create.session,init,end:0
+#: view:training.create.block.offer:0
+#: view:training.create.offer:0
 #: view:training.offer.purchase.line.update.wizard:0
 #: view:training.participation.reassign.wizard:0
 #: view:training.participation.stakeholder.request:0
 #: view:training.seance:0
 #: view:training.seance.generate.zip.wizard:0
 #: view:training.session:0
+#: view:training.session.create.wizard:0
 #: view:training.session.duplicate.wizard:0
 #: view:training.subscription:0
 #: view:training.subscription.cancellation.wizard:0
 #: view:training.subscription.line:0
-#: wizard_button:training.subscription.line.confirm,init,end:0
-#: wizard_button:training.subscription.line_second,init,end:0
-#: wizard_button:training.subscription.session,init,end:0
+#: view:training.subscription.line.confim:0
+#: view:training.subscription.second.line:0
+#: view:training.subscription.session:0
+#: view:validate.courses:0
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -2143,7 +2149,7 @@ msgid "Date Approved"
 msgstr "Data approvazione"
 
 #. module: training
-#: model:ir.actions.wizard,name:training.wizard_subscription_session
+#: view:training.subscription.session:0
 msgid "Create Subscription"
 msgstr "Crea Iscrizione"
 
@@ -2213,7 +2219,7 @@ msgid "Subscription Replacement"
 msgstr "Rimpiazzo Iscrizioni"
 
 #. module: training
-#: code:addons/training/training.py:3017
+#: code:addons/training/training.py:2990
 #, python-format
 msgid ""
 "No notification mode (HR and/or Participant) for this partner \"%s\", please "
@@ -2233,7 +2239,7 @@ msgid "Reply-to"
 msgstr "Rispondi a"
 
 #. module: training
-#: wizard_button:training.course.validate,init,validate_courses:0
+#: view:validate.courses:0
 msgid "Validate Courses"
 msgstr "Corsi convalidati"
 
@@ -2251,10 +2257,10 @@ msgstr "Sessioni collegate"
 #. module: training
 #: field:res.partner.contact_technical_skill,name:0
 #: view:training.course:0
-#: wizard_field:training.course.create.block.offer,init,name:0
 #: field:training.course.kind,name:0
 #: field:training.course.pending.reason,name:0
 #: field:training.course.theme,name:0
+#: field:training.create.block.offer,name:0
 #: field:training.email.layout,name:0
 #: field:training.email.sign,name:0
 #: field:training.email.stylegroup,name:0
@@ -2262,7 +2268,6 @@ msgstr "Sessioni collegate"
 #: field:training.holiday.period,name:0
 #: view:training.offer:0
 #: field:training.offer,name:0
-#: wizard_field:training.offer.create.session,init,name:0
 #: field:training.offer.format,name:0
 #: field:training.offer.kind,name:0
 #: field:training.offer.public.target,name:0
@@ -2272,17 +2277,18 @@ msgstr "Sessioni collegate"
 #: report:training.seance.presence.report:0
 #: view:training.session:0
 #: field:training.session,name:0
+#: field:training.session.create.wizard,name:0
 msgid "Name"
 msgstr "Nome"
 
 #. module: training
-#: code:addons/training/training.py:5225
+#: code:addons/training/wizard/subscription_cancelation.py:223
 #, python-format
 msgid "Created by Postponement of %s"
 msgstr "Creato dal rinvio di %s"
 
 #. module: training
-#: code:addons/training/training.py:1294
+#: code:addons/training/training.py:1262
 #, python-format
 msgid "The stakeholder %s %s has not a request"
 msgstr "Gli Interessati %s %s non hanno una richiesta"
@@ -2293,7 +2299,7 @@ msgid "Reports"
 msgstr "Report"
 
 #. module: training
-#: code:addons/training/training.py:5353
+#: code:addons/training/training.py:5040
 #, python-format
 msgid "You have selected the same seance"
 msgstr "Hai selezionato la stessa Lezione"
@@ -2338,6 +2344,7 @@ msgid "All Subscriptions"
 msgstr "Tutte le Iscrizioni"
 
 #. module: training
+#: code:addons/training/training.py:2124
 #: model:ir.actions.act_window,name:training.contact_subscription_link
 #: model:ir.actions.act_window,name:training.res_partner_subscription_act
 #: model:ir.actions.act_window,name:training.training_subscription_all_act
@@ -2345,6 +2352,7 @@ msgstr "Tutte le Iscrizioni"
 #: model:ir.ui.menu,name:training.training_subscription_management_subscription_mi
 #: view:training.session:0
 #: view:training.subscription:0
+#, python-format
 msgid "Subscriptions"
 msgstr "Iscrizioni"
 
@@ -2377,7 +2385,7 @@ msgid "An offer can contain some courses"
 msgstr "Una offerta può contenere alcuni Corsi"
 
 #. module: training
-#: code:addons/training/training.py:3803
+#: code:addons/training/training.py:3740
 #, python-format
 msgid "This Subscription line was invoiced or price is 0"
 msgstr ""
@@ -2410,7 +2418,6 @@ msgid "External Update Support (Pay)"
 msgstr "Supporto all'aggiornamento esterno (Pagato)"
 
 #. module: training
-#: view:training.seance:0
 #: field:training.seance,original_offer_id:0
 msgid "Original Offer"
 msgstr "Offerta Originale"
@@ -2603,7 +2610,7 @@ msgid "Was Present"
 msgstr "Era presente"
 
 #. module: training
-#: code:addons/training/training.py:1646
+#: code:addons/training/training.py:1613
 #, python-format
 msgid "Please, Can you configure the holidays ?"
 msgstr "Per favore, puoi configurare le festività / vacanze?"
@@ -2630,7 +2637,7 @@ msgid "Specialisation"
 msgstr "Specializzazione"
 
 #. module: training
-#: code:addons/training/training.py:2855
+#: code:addons/training/training.py:2828
 #, python-format
 msgid "You can not suppress a seance with a confirmed procurement"
 msgstr "Non puoi eliminare una Lezione con Approvvigionamento confermato"
@@ -2642,7 +2649,7 @@ msgid "The product for this purchase line"
 msgstr "Il prodotto per questa voce di acquisto"
 
 #. module: training
-#: code:addons/training/training.py:705
+#: code:addons/training/training.py:681
 #, python-format
 msgid "FAILED"
 msgstr "FALLITO"
@@ -2783,7 +2790,7 @@ msgid "Training Email Sign"
 msgstr "Firma per Email Training"
 
 #. module: training
-#: code:addons/training/training.py:2693
+#: code:addons/training/training.py:2666
 #, python-format
 msgid "There is at least a session in the \"Draft\" or \"Confirmed\" state"
 msgstr "C'è almeno una Sessione nello stato \"Bozza\" o \"Confermata\""
@@ -2823,7 +2830,7 @@ msgid "Kind"
 msgstr "Tipo"
 
 #. module: training
-#: code:addons/training/training.py:1936
+#: code:addons/training/training.py:1903
 #, python-format
 msgid "Please, do not forget to have the seances in your session"
 msgstr "Per favore, non dimenticare di mettere le Lezioni nella tua Sessione"
@@ -2860,9 +2867,8 @@ msgid "Style Group"
 msgstr "Stile Gruppo"
 
 #. module: training
-#: wizard_view:training.course.create.offer,init:0
-#: wizard_button:training.course.create.offer,init,create_offers:0
-#: wizard_view:training.course.validate,init:0
+#: view:training.create.block.offer:0
+#: view:training.create.offer:0
 msgid "Create Offers"
 msgstr "Crea Offerte"
 
@@ -2934,7 +2940,7 @@ msgstr "Il prezzo del supporto dei Corsi"
 #: field:training.course,category_id:0
 #: field:training.course.offer.rel,category_id:0
 #: view:training.course_category:0
-#: view:training.offer:0
+#: field:training.create.block.offer,product_line_id:0
 #: field:training.offer,product_line_id:0
 #: view:training.session:0
 #: field:training.session,offer_product_line_id:0
@@ -2965,7 +2971,7 @@ msgid "On All Seances"
 msgstr "Su tutte le Lezioni"
 
 #. module: training
-#: model:ir.ui.menu,name:training.subscription_new_folder_mi
+#: model:ir.actions.act_window,name:training.action_training_subscription_session
 msgid "Create Subscriptions"
 msgstr "Crea Iscrizioni"
 
@@ -3001,6 +3007,7 @@ msgstr "Allegato"
 
 #. module: training
 #: selection:training.participation.stakeholder,state_seance:0
+#: view:training.seance:0
 #: selection:training.seance,state:0
 #: view:training.session:0
 #: selection:training.session,state:0
@@ -3039,7 +3046,7 @@ msgid "Paid"
 msgstr "Pagato"
 
 #. module: training
-#: code:addons/training/training.py:3358
+#: code:addons/training/training.py:3295
 #, python-format
 msgid "Only draft subscription lines could be deleted !"
 msgstr ""
@@ -3070,7 +3077,7 @@ msgid "Active"
 msgstr "Attivo"
 
 #. module: training
-#: code:addons/training/training.py:3569
+#: code:addons/training/training.py:3506
 #, python-format
 msgid "Subscription line %s doesn't have any corresponding invoice line"
 msgstr ""
@@ -3145,8 +3152,8 @@ msgid "Opened Sessions"
 msgstr "Sessioni Aperte"
 
 #. module: training
-#: code:addons/training/training.py:3543
-#: code:addons/training/training.py:3810
+#: code:addons/training/training.py:3480
+#: code:addons/training/training.py:3747
 #: view:training.subscription.cancellation.wizard:0
 #: selection:training.subscription.cancellation.wizard,state:0
 #, python-format
@@ -3170,7 +3177,7 @@ msgid "_Validate"
 msgstr "_Convalida"
 
 #. module: training
-#: code:addons/training/training.py:1992
+#: code:addons/training/training.py:1959
 #, python-format
 msgid "There is a seance with a start date inferior to %(days)s day(s)"
 msgstr "C'è una Lezione con la data inizio inferiore a %(days)s giorno(i)"
@@ -3212,7 +3219,7 @@ msgid "Other"
 msgstr "Altro"
 
 #. module: training
-#: view:training.course:0
+#: selection:training.create.groups.wizard,state:0
 #: selection:training.participation,purchase_state:0
 #: view:training.participation.stakeholder:0
 #: selection:training.participation.stakeholder,state:0
@@ -3222,7 +3229,6 @@ msgstr "Altro"
 #: view:training.seance:0
 #: selection:training.seance,state:0
 #: field:training.session,done:0
-#: view:training.subscription:0
 #: selection:training.subscription,state:0
 #: view:training.subscription.cancellation.wizard:0
 #: view:training.subscription.line:0
@@ -3249,7 +3255,7 @@ msgid "Invoice"
 msgstr "Fattura"
 
 #. module: training
-#: code:addons/training/training.py:3486
+#: code:addons/training/training.py:3423
 #, python-format
 msgid "Please, Could you check the subscription of your contact(s)"
 msgstr "Per favore, puoi controllare l'iscrizione del contatto(i)"
@@ -3271,14 +3277,15 @@ msgstr "2 Ore"
 
 #. module: training
 #: selection:ir.attachment,state:0
+#: view:training.catalog:0
 #: selection:training.catalog,state:0
+#: view:training.course:0
 #: selection:training.course,state_course:0
 #: selection:training.course.pending,state:0
 #: selection:training.email,state:0
 #: view:training.offer:0
 #: selection:training.offer,state:0
 #: selection:training.participation.stakeholder.request,state:0
-#: view:training.seance:0
 #: selection:training.seance,state_course:0
 msgid "Validated"
 msgstr "Convalidata"
@@ -3336,8 +3343,8 @@ msgid "Year Generator"
 msgstr "Generatore Anno"
 
 #. module: training
-#: code:addons/training/training.py:1903
-#: code:addons/training/training.py:2828
+#: code:addons/training/training.py:1870
+#: code:addons/training/training.py:2801
 #, python-format
 msgid "You can not select this date because it is a public holiday"
 msgstr "Non puoi selezionare questa data perché è un giorno festivo"
@@ -3353,8 +3360,8 @@ msgid "Procurements Logs"
 msgstr "Log Approvvigionamenti"
 
 #. module: training
-#: code:addons/training/training.py:1660
-#: code:addons/training/training.py:2505
+#: code:addons/training/training.py:1627
+#: code:addons/training/training.py:2478
 #, python-format
 msgid "Class %d"
 msgstr "Classe %d"
@@ -3394,7 +3401,7 @@ msgid "Education Level"
 msgstr "Livello di Istruzione"
 
 #. module: training
-#: code:addons/training/wizard/wizard_create_block_offer.py:67
+#: code:addons/training/wizard/create_block_offer.py:50
 #, python-format
 msgid "Please, The state of all courses must be 'validated'"
 msgstr "Per favore, lo stato di tutti i corsi deve essere \"Convalidato\""
@@ -3403,6 +3410,8 @@ msgstr "Per favore, lo stato di tutti i corsi deve essere \"Convalidato\""
 #: field:document.price.component,product_id:0
 #: field:training.config.product,product_id:0
 #: field:training.course.purchase_line,product_id:0
+#: field:training.create.block.offer,product_id:0
+#: field:training.create.offer,product_id:0
 #: view:training.offer:0
 #: field:training.offer,product_id:0
 #: field:training.offer.purchase.line,product_id:0
@@ -3531,7 +3540,6 @@ msgid "Purchase Orders"
 msgstr "Ordini d'Acquisto"
 
 #. module: training
-#: view:training.participation:0
 #: field:training.participation,subscription_line_id:0
 #: field:training.participation.reassign.wizard,participation_sl:0
 #: view:training.subscription:0
@@ -3651,7 +3659,7 @@ msgstr "training.seance.generate.zip.wizard"
 #: model:ir.actions.act_window,name:training.training_subscription_mass_from_subscription_act
 #: model:ir.ui.menu,name:training.training_subscription_mass_mi
 #: view:training.subscription.mass.wizard:0
-#: wizard_view:training.subscription.session,init:0
+#: view:training.subscription.session:0
 msgid "Mass Subscription"
 msgstr "Iscrizione di massa"
 
@@ -3674,6 +3682,7 @@ msgstr "Iscrizioni bozza"
 #: field:training.participation,group_id:0
 #: view:training.participation.stakeholder:0
 #: field:training.participation.stakeholder,group_id:0
+#: view:training.seance:0
 #: field:training.seance,group_id:0
 #: field:training.session,group_ids:0
 #: field:training.session.duplicate.wizard,group_id:0
@@ -3707,6 +3716,7 @@ msgstr "Sessione Confermata -> Annullata"
 #: view:training.offer:0
 #: field:training.offer.purchase.line,offer_id:0
 #: field:training.offer.purchase.line.log,offer_id:0
+#: view:training.seance:0
 #: view:training.session:0
 #: field:training.session,offer_id:0
 #: view:training.subscription.line:0
@@ -3726,8 +3736,8 @@ msgid "Remuneration Form"
 msgstr "Modulo Compenso"
 
 #. module: training
-#: code:addons/training/wizard/wizard_subscription_line_change_participant.py:102
-#: code:addons/training/wizard/wizard_subscription_line_change_participant.py:122
+#: code:addons/training/wizard/subscription_line_change_participant.py:46
+#: code:addons/training/wizard/subscription_line_change_participant.py:65
 #, python-format
 msgid ""
 "You can not select a subscription with the following state: Done or Cancelled"
@@ -3818,20 +3828,18 @@ msgstr "Offerte Bozza"
 
 #. module: training
 #: selection:training.catalog,state:0
-#: view:training.course:0
 #: selection:training.participation,purchase_state:0
 #: view:training.participation.stakeholder:0
 #: selection:training.participation.stakeholder,state:0
 #: selection:training.participation.stakeholder,state_seance:0
 #: view:training.participation.stakeholder.request:0
 #: selection:training.participation.stakeholder.request,state:0
+#: view:training.seance:0
 #: selection:training.seance,state:0
 #: view:training.session:0
 #: selection:training.session,state:0
-#: view:training.subscription:0
 #: selection:training.subscription,state:0
 #: selection:training.subscription.cancellation.wizard,session_state:0
-#: view:training.subscription.line:0
 #: selection:training.subscription.line,session_state:0
 #: selection:training.subscription.line,state:0
 #: selection:training.subscription.line,subscription_state:0
@@ -3861,8 +3869,8 @@ msgid "Subscription Confirmed -> Cancelled"
 msgstr "Iscrizione Confermata -> Annullata"
 
 #. module: training
-#: model:ir.actions.wizard,name:training.wizard_training_subscription_line_confirm
-#: wizard_view:training.subscription.line.confirm,init:0
+#: model:ir.actions.act_window,name:training.action_training_subscription_line_confim
+#: view:training.subscription.line.confim:0
 msgid "Confirm Subscription Lines"
 msgstr "Conferma linee di Iscrizione"
 
@@ -3877,7 +3885,7 @@ msgid "Delivery format of the planned session"
 msgstr "Formato consegna delle Sessioni pianificate"
 
 #. module: training
-#: code:addons/training/wizard/wizard_create_block_offer.py:95
+#: code:addons/training/wizard/create_block_offer.py:85
 #, python-format
 msgid "Please, You have selected a course with a different language"
 msgstr "Per favore, hai selezionato un corso con una lingua differente"
@@ -3887,31 +3895,28 @@ msgstr "Per favore, hai selezionato un corso con una lingua differente"
 #: code:addons/training/partner.py:96
 #: code:addons/training/partner.py:184
 #: code:addons/training/partner.py:194
-#: code:addons/training/training.py:1645
-#: code:addons/training/training.py:1936
-#: code:addons/training/training.py:1941
-#: code:addons/training/training.py:1944
-#: code:addons/training/training.py:1984
-#: code:addons/training/training.py:1991
-#: code:addons/training/training.py:2692
-#: code:addons/training/training.py:2854
-#: code:addons/training/training.py:2859
-#: code:addons/training/training.py:3403
-#: code:addons/training/training.py:3486
-#: code:addons/training/training.py:4939
-#: code:addons/training/training.py:4950
-#: code:addons/training/training.py:5352
-#: code:addons/training/training_holiday.py:93
-#: code:addons/training/wizard/wizard_create_block_offer.py:67
-#: code:addons/training/wizard/wizard_create_block_offer.py:73
-#: code:addons/training/wizard/wizard_create_block_offer.py:95
-#: code:addons/training/wizard/wizard_create_offer.py:51
-#: code:addons/training/wizard/wizard_create_session.py:60
-#: code:addons/training/wizard/wizard_create_session.py:98
-#: code:addons/training/wizard/wizard_subscription_line_change_participant.py:101
-#: code:addons/training/wizard/wizard_subscription_line_change_participant.py:121
-#: code:addons/training/wizard/wizard_subscription_session.py:77
-#: code:addons/training/wizard/wizard_subscription_session.py:97
+#: code:addons/training/training.py:1612
+#: code:addons/training/training.py:1903
+#: code:addons/training/training.py:1908
+#: code:addons/training/training.py:1911
+#: code:addons/training/training.py:1951
+#: code:addons/training/training.py:1958
+#: code:addons/training/training.py:2665
+#: code:addons/training/training.py:2827
+#: code:addons/training/training.py:2832
+#: code:addons/training/training.py:3340
+#: code:addons/training/training.py:3423
+#: code:addons/training/training.py:4875
+#: code:addons/training/training.py:4886
+#: code:addons/training/training.py:5039
+#: code:addons/training/training_holiday.py:92
+#: code:addons/training/wizard/create_block_offer.py:50
+#: code:addons/training/wizard/create_block_offer.py:59
+#: code:addons/training/wizard/create_block_offer.py:85
+#: code:addons/training/wizard/create_offer.py:41
+#: code:addons/training/wizard/create_session.py:59
+#: code:addons/training/wizard/subscription_line_change_participant.py:45
+#: code:addons/training/wizard/subscription_line_change_participant.py:64
 #, python-format
 msgid "Warning"
 msgstr "Attenzione"
@@ -3932,11 +3937,11 @@ msgstr "Chiudi Iscrizioni"
 
 #. module: training
 #: field:training.group,session_id:0
-#: view:training.participation:0
 #: field:training.participation.reassign.wizard,participation_session_id:0
 #: view:training.participation.stakeholder.request:0
 #: field:training.participation.stakeholder.request,session_id:0
 #: report:training.presence.certificate:0
+#: view:training.seance:0
 #: view:training.session:0
 #: field:training.session.duplicate.wizard,session_id:0
 #: view:training.subscription:0
@@ -3958,8 +3963,8 @@ msgid "Is this subscription come from an online order"
 msgstr "Questa Iscrizione arriva da un ordine on line"
 
 #. module: training
-#: view:training.course:0
 #: selection:training.participation.stakeholder,state_seance:0
+#: view:training.seance:0
 #: selection:training.seance,state:0
 #: view:training.session:0
 #: selection:training.session,state:0
@@ -4084,7 +4089,7 @@ msgid "Catalog"
 msgstr "Catalogo"
 
 #. module: training
-#: code:addons/training/training.py:4940
+#: code:addons/training/training.py:4876
 #, python-format
 msgid ""
 "You can not approve this purchase line it is not the only one purchase order "
@@ -4121,7 +4126,7 @@ msgid "The state of the Subscription"
 msgstr "Lo stato delle Iscrizioni"
 
 #. module: training
-#: model:ir.actions.wizard,name:training.wizard_training_course_create_block_offer
+#: model:ir.actions.act_window,name:training.action_training_create_block_offer
 msgid "Create Block Offer"
 msgstr "Crea Blocco Offerta"
 
@@ -4175,7 +4180,7 @@ msgid "Unreachable couple trigger/target"
 msgstr "Coppia non raggiungibile trigger/target"
 
 #. module: training
-#: wizard_button:training.offer.create.session,init,create_session:0
+#: view:training.session.create.wizard:0
 msgid "Create Session"
 msgstr "Crea Sessione"
 
@@ -4200,7 +4205,7 @@ msgid "Email Style Groups"
 msgstr "Stile gruppo email"
 
 #. module: training
-#: code:addons/training/training.py:1985
+#: code:addons/training/training.py:1952
 #, python-format
 msgid "The number of participants is less than the required minimal limit"
 msgstr "Il numero dei partecipanti è minore del minimo numero richiesto"
@@ -4250,6 +4255,7 @@ msgstr "Sotto Corsi"
 
 #. module: training
 #: selection:training.participation.stakeholder,state_seance:0
+#: view:training.seance:0
 #: selection:training.seance,state:0
 #: view:training.session:0
 #: selection:training.session,state:0
@@ -4262,13 +4268,13 @@ msgstr "Aperta"
 #: model:ir.ui.menu,name:training.menu_partner_contact_form
 #: model:ir.ui.menu,name:training.partner_config_contact
 #: field:training.subscription.mass.wizard,job_ids:0
-#: wizard_view:training.subscription.session,init:0
-#: wizard_field:training.subscription.session,init,job_ids:0
+#: view:training.subscription.session:0
+#: field:training.subscription.session,job_ids:0
 msgid "Contacts"
 msgstr "Contatti"
 
 #. module: training
-#: code:addons/training/training.py:4399
+#: code:addons/training/training.py:4335
 #, python-format
 msgid ""
 "%(stakeholder)s is not available for seance \"%(this_seance)s\" because "
@@ -4321,12 +4327,12 @@ msgstr "Duplica"
 #: view:training.course:0
 #: selection:training.course,state_course:0
 #: selection:training.course.pending,state:0
+#: selection:training.create.groups.wizard,state:0
 #: selection:training.email,state:0
 #: view:training.offer:0
 #: selection:training.offer,state:0
 #: selection:training.participation.stakeholder,state:0
 #: selection:training.participation.stakeholder.request,state:0
-#: view:training.seance:0
 #: selection:training.seance,state_course:0
 #: view:training.session:0
 #: selection:training.session,state:0
@@ -4369,7 +4375,7 @@ msgid "Session Date"
 msgstr "Data Sessione"
 
 #. module: training
-#: code:addons/training/training.py:1302
+#: code:addons/training/training.py:1270
 #, python-format
 msgid "There is no Invoice for the Purchase Order for this request"
 msgstr "Non c'è fattura per l'ordine di acquisto per questa richiesta"
@@ -4407,7 +4413,7 @@ msgstr "Suggerimenti pedagogici"
 #: view:training.seance:0
 #: view:training.session:0
 #: view:training.subscription.line:0
-#: wizard_button:training.subscription.line.confirm,init,confirm:0
+#: view:training.subscription.line.confim:0
 msgid "Confirm"
 msgstr "Conferma"
 
@@ -4473,7 +4479,7 @@ msgstr ""
 "funziona con lo stato \"Corrente\""
 
 #. module: training
-#: code:addons/training/training.py:3864
+#: code:addons/training/training.py:3801
 #, python-format
 msgid "Select Analytic Journal from Financial Journals Configuration"
 msgstr ""
@@ -4518,25 +4524,25 @@ msgid "The name of the technical skill"
 msgstr "Il nome della abilità tecnica"
 
 #. module: training
-#: code:addons/training/training.py:1293
-#: code:addons/training/training.py:1297
-#: code:addons/training/training.py:1301
-#: code:addons/training/training.py:2094
-#: code:addons/training/training.py:3016
-#: code:addons/training/training.py:3390
-#: code:addons/training/training.py:3568
-#: code:addons/training/training.py:3803
-#: code:addons/training/training.py:3859
-#: code:addons/training/training.py:3864
-#: code:addons/training/training.py:4081
-#: code:addons/training/training.py:4259
-#: code:addons/training/training.py:4361
-#: code:addons/training/training.py:4399
-#: code:addons/training/training.py:4695
-#: code:addons/training/training.py:4701
-#: code:addons/training/training.py:4705
-#: code:addons/training/training.py:4713
-#: code:addons/training/training.py:4719
+#: code:addons/training/training.py:1261
+#: code:addons/training/training.py:1265
+#: code:addons/training/training.py:1269
+#: code:addons/training/training.py:2061
+#: code:addons/training/training.py:2989
+#: code:addons/training/training.py:3327
+#: code:addons/training/training.py:3505
+#: code:addons/training/training.py:3740
+#: code:addons/training/training.py:3796
+#: code:addons/training/training.py:3801
+#: code:addons/training/training.py:4017
+#: code:addons/training/training.py:4195
+#: code:addons/training/training.py:4297
+#: code:addons/training/training.py:4335
+#: code:addons/training/training.py:4631
+#: code:addons/training/training.py:4637
+#: code:addons/training/training.py:4641
+#: code:addons/training/training.py:4649
+#: code:addons/training/training.py:4655
 #, python-format
 msgid "Error"
 msgstr "Errore"
@@ -4547,7 +4553,7 @@ msgid "Portal - Create User"
 msgstr "Portale - Crea utente"
 
 #. module: training
-#: code:addons/training/training.py:3860
+#: code:addons/training/training.py:3797
 #, python-format
 msgid "The following course has not a valid duration '%s' (%d)"
 msgstr "Il seguente corso non ha una durata valida '%s' (%d)"
@@ -4573,7 +4579,7 @@ msgid "The year when the catalog has been published"
 msgstr "L'anno di quando il Catalogo è stato pubblicato"
 
 #. module: training
-#: code:addons/training/training.py:1941
+#: code:addons/training/training.py:1908
 #, python-format
 msgid "Please, you have at least a draft seance"
 msgstr "Per favore, c'è almeno una Lezione in bozza"
@@ -4676,7 +4682,7 @@ msgid "The language of the course"
 msgstr "La lingua del corso"
 
 #. module: training
-#: code:addons/training/training.py:1944
+#: code:addons/training/training.py:1911
 #, python-format
 msgid ""
 "Please, Check the date of your seances because there is one seance with a "
@@ -4751,14 +4757,14 @@ msgstr "Descrizione"
 #: model:ir.ui.menu,name:training.training_planning_session_future_all_mi
 #: view:training.catalog:0
 #: field:training.catalog,session_ids:0
-#: view:training.seance:0
+#: field:training.create.groups.wizard,session_ids:0
 #: field:training.seance,session_ids:0
 #: view:training.session:0
 #: view:training.subscription.mass.line:0
 #: view:training.subscription.mass.wizard:0
 #: field:training.subscription.mass.wizard,session_ids:0
-#: wizard_view:training.subscription.session,init:0
-#: wizard_field:training.subscription.session,init,line_ids:0
+#: view:training.subscription.session:0
+#: field:training.subscription.session,line_ids:0
 msgid "Sessions"
 msgstr "Sessioni"
 
@@ -4771,10 +4777,10 @@ msgstr "Data Sessione cambiata"
 #: field:training.config.product,type:0
 #: view:training.course:0
 #: field:training.course,course_type_id:0
-#: wizard_field:training.course.create.block.offer,init,type_id:0
 #: field:training.course.pending,type_id:0
 #: field:training.course.pending.wizard,type:0
 #: view:training.course_type:0
+#: field:training.create.block.offer,type_id:0
 #: view:training.offer:0
 #: field:training.offer,type_id:0
 msgid "Type"
@@ -4855,13 +4861,13 @@ msgid "Seance Next Date"
 msgstr "Lezione prossima data"
 
 #. module: training
-#: code:addons/training/training.py:4706
+#: code:addons/training/training.py:4642
 #, python-format
 msgid "You have to open all seances in this session"
 msgstr "Devi aprire tutte le Lezioni di questa Sessione"
 
 #. module: training
-#: wizard_view:training.offer.create.session,init:0
+#: view:training.session.create.wizard:0
 msgid "Can you select a date for the session ?"
 msgstr "Puoi selezionare una data per questa Sessione?"
 
@@ -4913,13 +4919,15 @@ msgid "subscription"
 msgstr "iscrizioni"
 
 #. module: training
-#: code:addons/training/wizard/wizard_create_block_offer.py:73
+#: code:addons/training/wizard/create_block_offer.py:59
 #, python-format
 msgid "You have selected a course with a different language"
 msgstr "Hai selezionato un corso con una lingua differente"
 
 #. module: training
+#: view:training.catalog:0
 #: field:training.catalog,year:0
+#: view:training.holiday.period:0
 #: field:training.holiday.period,year_id:0
 #: field:training.holiday.year,year:0
 #: field:training.holiday.year.wizard,year:0
