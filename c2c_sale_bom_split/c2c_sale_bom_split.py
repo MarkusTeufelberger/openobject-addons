@@ -131,7 +131,7 @@ class c2c_sale_bom_split(osv.osv):
         picking_obj = self.pool.get('stock.picking')
         move_obj = self.pool.get('stock.move')
         bom_obj = self.pool.get('mrp.bom')
-                      
+        proc_obj=self.pool.get('mrp.procurement')
         for order in self.browse(cr, uid, ids):
             # Take all related picking that are available
             picking_ids = picking_obj.search(cr,uid,[('sale_id','=',order.id),('state','not in',['cancel','done'])])
@@ -147,7 +147,8 @@ class c2c_sale_bom_split(osv.osv):
                 if bom_ids:
                     bom = bom_obj.browse(cr, uid, [bom_ids])[0]
                     if bom.type == 'phantom':
-
+                        # Take the linked procurement id
+                        proc_id = proc_obj.search(cr,uid,[('move_id','=',line.id)])
                         move_obj.write(cr, uid, [line.id], {'state': 'draft'})
                         move_obj.unlink(cr, uid, [line.id])
                         
@@ -171,7 +172,10 @@ class c2c_sale_bom_split(osv.osv):
                                     'sale_line_id': line.sale_line_id.id,
                                 })
                                 todo_moves.append(move)   
-            
+                # Attach the last created move to the procurement cause we have deleted the 
+                # original one
+                if proc_id:
+                    proc_obj.write(cr,uid,proc_id,{'move_id':move})
             move_obj.action_confirm(cr, uid, todo_moves)
             move_obj.action_assign(cr, uid, todo_moves)
             wf_service = netsvc.LocalService("workflow")
