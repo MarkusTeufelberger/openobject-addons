@@ -358,7 +358,7 @@ class WebKitParser(report_sxw):
                         if not brow_rec.datas:
                             continue
                         d = base64.decodestring(brow_rec.datas)
-                        results.append((d,'odt'))
+                        results.append((d,'pdf'))
                         continue
                 result = self.create_single_pdf(cursor, uid, [obj.id], data, report_xml, context)
                 try:
@@ -382,7 +382,20 @@ class WebKitParser(report_sxw):
                                                     str(exp)
                                                 )
                 results.append(result)
-
+            if len(results) == 1:
+                return results[0]
+            else:
+                if results[0][1]=='pdf':
+                    from report.pyPdf import PdfFileWriter, PdfFileReader
+                    output = PdfFileWriter()
+                    for r in results:
+                        reader = PdfFileReader(cStringIO.StringIO(r[0]))
+                        for page in range(reader.getNumPages()):
+                            output.addPage(reader.getPage(page))
+                    s = cStringIO.StringIO()
+                    output.write(s)
+                    return s.getvalue(), results[0][1]
+                
         return self.create_single_pdf(
                                         cursor, 
                                         uid, 
