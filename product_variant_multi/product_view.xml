@@ -43,8 +43,8 @@
                     <field name="dimension_id" invisible="not context.get('dimension_value_main_view', False)" />
                     <field name="name" />
                     <field name="sequence" />
-                    <field name="price_extra" />
                     <field name="cost_price_extra" />
+                    <field name="price_extra" />
                 </tree>
             </field>
         </record>
@@ -60,9 +60,9 @@
                     <newline />
                     <field name="name" select="1" />
                     <field name="sequence" />
+                    <field name="cost_price_extra" select="2" />
                     <field name="price_extra" select="2" />
                     <field name="price_margin" select="2" />
-                    <field name="cost_price_extra" select="2" />
                 </form>
             </field>
         </record>
@@ -145,9 +145,11 @@
 						    <group>
 							    <field name="variant_model_name" colspan="4"/>
 							    <field name="variant_model_name_separator" colspan="4"/>
-							    <button name="button_generate_variants" string="Generate ->" type="object" colspan="4"/>
 							    <field name="code_generator" colspan="4"/>
-							    <button name="button_generate_product_code" string="Build Code ->" type="object" colspan="4"/>
+							    <field name="variant_track_production" colspan="4"/>
+							    <field name="variant_track_incoming" colspan="4"/>
+							    <field name="variant_track_outgoing" colspan="4"/>
+							    <button name="button_generate_variants" string="Generate / Update variants ->" type="object" colspan="4"/>
 						    </group>
 						    <field name="variant_ids" string="Variants" nolabel="1">
 							    <tree string="Variants">
@@ -164,32 +166,35 @@
 		
 		<!-- TODO remove useless view of product.product in the module product or move this correct view in the module "product" -->
 		
-		<record id="product_variant_form_view" model="ir.ui.view">
+        <record id="product_variant_form_view" model="ir.ui.view">
             <field name="name">product.variant.form</field>
             <field name="model">product.product</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Product Variant">
-                    <group name='description' colspan="2" col="2">
-                    	<separator string="Description" colspan="2"/>
-	                    <field name="product_tmpl_id" select="1"/>
-	                    <field name="name" select="1"/>
-	                    <field name="active" select="1"/>
-	                    <field name="variants" select="1"/>
-	                    <field name="default_code" select="1"/>
-	                </group>
-	                <group name='price' colspan="2" col="2">
-                    	<separator string="Price" colspan="2"/>
-                    	<field name="list_price" string="Template Sale Price" readonly="1"/>
-	                    <field name="price_margin" select="1"/>
-	                    <field name="price_extra" select="1"/>
-	                    <field name="cost_price_extra"/>
-	                </group>
-		            <group name="dimension" colspan="2" col="2"/>
-	                    <separator string="Dimension" colspan="4"/>
-	                	<field name="dimension_value_ids" context="{'product_tmpl_id':product_tmpl_id}" />
-	                <group/>
-	        	</form>
+                    <field name="name" select="1"/>
+                    <field name="product_tmpl_id" select="1"/>
+                    <field name="variants" select="1"/>
+                    <field name="default_code" select="1"/>
+                    <field name="active" select="1"/>
+                    <newline />
+                    <notebook colspan="4">
+                        <page string="Dimensions">
+                            <field name="dimension_value_ids" context="{'product_tmpl_id':product_tmpl_id}" nolabel="1"/>
+                        </page>
+                        <page string="Price">
+                            <field name="list_price" string="Template Sale Price" readonly="1"/>
+                            <field name="price_margin" select="1"/>
+                            <field name="price_extra" select="1"/>
+                            <field name="cost_price_extra"/>
+                        </page>
+                        <page string="Lots">
+                            <field name="track_production" />
+                            <field name="track_incoming" />
+                            <field name="track_outgoing" />
+                        </page>
+                    </notebook>
+                </form>
             </field>
         </record>
 
