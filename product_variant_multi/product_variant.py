@@ -136,7 +136,6 @@ class product_template(osv.osv):
         return cartesian_product(vals)
 
     def button_generate_variants(self, cr, uid, ids, context=None):
-        print "button_generate_variants ids=", ids
         logger = netsvc.Logger()
         variants_obj = self.pool.get('product.product')
         temp_val_list=[]
@@ -144,16 +143,13 @@ class product_template(osv.osv):
         for product_temp in self.browse(cr, uid, ids, context):
 
             for temp_type in product_temp.dimension_type_ids:
-                print "dim =", temp_type.name
                 temp_val_list.append([temp_type_value.id for temp_type_value in temp_type.value_ids] + (not temp_type.mandatory_dimension and [None] or []))
                 # if last dimension_type has no dimension_value, we ignore it
                 if not temp_val_list[-1]:
                     temp_val_list.pop()
-                print "temp_val_list =", temp_val_list
 
             if temp_val_list:
                 list_of_variants = self._create_variant_list(cr, uid, ids, temp_val_list, context)
-                print "list_of_variants =", list_of_variants
                 existing_product_ids = variants_obj.search(cr, uid, [('product_tmpl_id', '=', product_temp.id)])
                 existing_product_dim_value = variants_obj.read(cr, uid, existing_product_ids, ['dimension_value_ids'])
                 list_of_variants_existing = [x['dimension_value_ids'] for x in existing_product_dim_value]
@@ -175,7 +171,6 @@ class product_template(osv.osv):
                     vals['product_tmpl_id'] = product_temp.id
                     vals['dimension_value_ids'] = [(6,0,variant)]
                     var_id=variants_obj.create(cr, uid, vals, {})
-                    print "AFTER Creation of product ", count
 
                     if count%50 == 0:
                         cr.commit()
@@ -218,7 +213,6 @@ class product_product(osv.osv):
         return self.parse(cr, uid, product_obj, code_generator, context=context)
 
     def build_product_code_and_properties(self, cr, uid, ids, context=None):
-        print "ENTERING build_product_code =", ids
         for product in self.browse(cr, uid, ids, context=context):
             new_default_code = self.generate_product_code(cr, uid, product, product.product_tmpl_id.code_generator, context=context)
             current_values = {
@@ -233,11 +227,8 @@ class product_product(osv.osv):
                 'track_outgoing': product.product_tmpl_id.variant_track_outgoing,
                 'track_incoming': product.product_tmpl_id.variant_track_incoming,
             }
-            print "current_values=", current_values
-            print "new_values=", new_values
             if new_values != current_values:
                 self.write(cr, uid, product.id, new_values, context=context)
-                print "write product_code for product =", product.id
         return True
 
     def product_ids_variant_changed(self, cr, uid, ids, res, context=None):
@@ -257,13 +248,10 @@ class product_product(osv.osv):
 
 
     def build_variants_name(self, cr, uid, ids, context=None):
-        print "ENTERING build_variants_name=", ids
         for product in self.browse(cr, uid, ids, context=context):
             new_variant_name = self.generate_variant_name(cr, uid, product.id, context=context)
-            print "new_variant_name =", new_variant_name
             if new_variant_name != product.variants:
                 self.write(cr, uid, product.id, {'variants': new_variant_name}, context=context)
-                print "write product_name for product =", new_variant_name
         return True
 
 
@@ -314,24 +302,18 @@ class product_product(osv.osv):
         if context is None:
             context = {}
         result = super(product_product, self).price_get(cr, uid, ids, ptype, context=context)
-        #print "ENTER price_get ids=", ids
-        #print "price_get ptype=", ptype
-        #print "START result =", result
         if ptype == 'list_price': #TODO check if the price_margin on the dimension is very usefull, maybe we will remove it
             result = self.compute_dimension_extra_price(cr, uid, ids, result, product_price_extra='price_extra', dim_price_margin='price_margin', dim_price_extra='price_extra', context=context)
 
         elif ptype == 'standard_price':
             result = self.compute_dimension_extra_price(cr, uid, ids, result, product_price_extra='cost_price_extra', dim_price_extra='cost_price_extra', context=context)
-        #print "EXIT price_get result =", result
         return result
 
     def _product_lst_price(self, cr, uid, ids, name, arg, context=None):
-        print "ENTER _product_lst_price ids=", ids
         if context is None:
             context = {}
         result = super(product_product, self)._product_lst_price(cr, uid, ids, name, arg, context=context)
         result = self.compute_dimension_extra_price(cr, uid, ids, result, product_price_extra='price_extra', dim_price_margin='price_margin', dim_price_extra='price_extra', context=context)
-        print "EXIT _product_lst_price result =", result
         return result
 
     def copy(self, cr, uid, id, default=None, context=None):
