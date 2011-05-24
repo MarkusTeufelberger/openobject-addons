@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data noupdate='1'>
+
+<!--product.product-->
+        <record model='csv.file' id='csv01'>
+            <field name='name'>product_csv_product</field>
+            <field name='path'>[EDIT]/openerp-server/bin/addons/product_csv/temp</field>
+            <field name='file'>product.csv</field>
+            <field name='file_csv_separator'>,</field>
+            <field name='header'></field>
+            <field name='quote'>"</field>
+            <field name='model_id' search="[('model','=','product.product')]" model='ir.model'/>
+            <field name='state'>done</field>
+            <field name='header'>1</field>
+        </record>
+
+		<record model="csv.file.field" id="csv_file_field_ean13">
+			<field eval="1" name="sku"/>
+			<field eval="&quot;&quot;&quot;ean13&quot;&quot;&quot;" name="name"/>
+			<field name="field_id" ref="product.field_product_product_ean13"/>
+			<field name="file_id" ref="product_csv.csv01"/>
+			<field eval="&quot;&quot;&quot;str&quot;&quot;&quot;" name="type"/>
+			<field name="sequence">0</field>
+		</record>
+
+<!--product.template-->
+        <record model='csv.file' id='csv02'>
+            <field name='name'>product_csv_product_template</field>
+            <field name='path'>[EDIT]/openerp-server/bin/addons/product_csv/temp</field>
+            <field name='file'>product.csv</field>
+            <field name='file_csv_separator'>,</field>
+            <field name='header'></field>
+            <field name='quote'>"</field>
+            <field name='model_id' search="[('model','=','product.template')]" model='ir.model'/>
+            <field name='state'>done</field>
+            <field name='header'>1</field>
+        </record>
+
+		<record model="csv.file.field" id="csv_file_field_name" >
+			<field eval="0" name="sku"/>
+			<field eval="&quot;&quot;&quot;name&quot;&quot;&quot;" name="name"/>
+			<field name="field_id" ref="product.field_product_template_name"/>
+			<field name="file_id" ref="product_csv.csv02"/>
+			<field eval="&quot;&quot;&quot;str&quot;&quot;&quot;" name="type"/>
+			<field name="sequence">1</field>
+		</record>
+
+		<record model="csv.file.field" id="csv_file_field_categ" >
+			<field eval="0" name="sku"/>
+			<field eval="&quot;&quot;&quot;categ&quot;&quot;&quot;" name="name"/>
+			<field name="field_id" ref="product.field_product_template_categ_id"/>
+			<field name="file_id" ref="product_csv.csv02"/>
+			<field eval="&quot;&quot;&quot;int&quot;&quot;&quot;" name="type"/>
+			<field name="sequence">2</field>
+            <field name='import_expression'>if incsv:
+    cat_ids = self.pool.get('product.category').search(cr, uid, [('name','=',incsv)])
+    if len(cat_ids)>0:
+        value = cat_ids[0]
+    else:
+        value = 1
+else:
+    value = 1</field>
+		</record>
+
+    </data>
+</openerp>
