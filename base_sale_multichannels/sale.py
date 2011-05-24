@@ -277,7 +277,7 @@ class sale_shop(external_osv.external_osv):
 
                 if ext_shipping_id:
                     ir_model_data_vals = {
-                        'name': "stock_picking_" + str(ext_shipping_id),
+                        'name': "stock_picking/" + str(ext_shipping_id),
                         'model': "stock.picking",
                         'res_id': result[0],
                         'external_referential_id': shop.referential_id.id,
