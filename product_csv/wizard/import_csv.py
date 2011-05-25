@@ -104,13 +104,15 @@ class product_import_csv_wizard(osv.osv_memory):
                 if len(product_ids) > 0:
                     try:
                         self.pool.get('product.product').write(cr, uid, product_ids, values)
-                        message = _("Row %s. SKU %s write.") % (i, values[sku_field])
+                        cr.commit()
+                        message = _("Row %s. SKU %s write Product IDs %s.") % (i, values[sku_field], product_ids)
                     except:
                         message = _("Row %s. Error SKU %s.") % (i, values[sku_field])
                 else:
                     try:
-                        self.pool.get('product.product').create(cr, uid, values)
-                        message = _("Row %s. SKU %s create.") % (i, values[sku_field])
+                        product_id = self.pool.get('product.product').create(cr, uid, values)
+                        cr.commit()
+                        message = _("Row %s. SKU %s create Product ID %s.") % (i, values[sku_field], product_id)
                     except:
                         message = _("Row %s. Error SKU %s.") % (i, values[sku_field])
                 logger.notifyChannel('Product CSV', netsvc.LOG_INFO, message)
