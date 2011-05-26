@@ -19,11 +19,12 @@
 ##############################################################################
 
 from osv import fields, osv
-from base_external_referentials import external_osv
 
 
-class product_link(external_osv.external_osv):
+class product_link(osv.osv):
+    """ Product links between products like cross-sell, up-sell, related"""
     _name = 'product.link'
+    _description = __doc__
     _rec_name = 'linked_product_id'
 
     def get_link_type_selection(self, cr, uid, context=None):
@@ -33,8 +34,21 @@ class product_link(external_osv.external_osv):
     _columns = {
         'product_id': fields.many2one('product.product', 'Source product', required=True),
         'linked_product_id': fields.many2one('product.product', 'Linked product', required=True),
-        'type': fields.selection(get_link_type_selection, 'Link type', required=True)
+        'type': fields.selection(get_link_type_selection, 'Link type', required=True),
     }
+
+    def init(self, cr):
+        # migration from c2c_magento_product_link
+        cr.execute('select * from ir_module_module where name=%s and state in %s',
+            ('c2c_magento_product_link', tuple(['installed', 'to upgrade'])))
+        if cr.fetchone():
+            cr.execute("""
+            insert into product_link (create_uid, create_date, type, product_id, linked_product_id)
+            select 1 as uid, now(), type, product_id, related_product from
+              (select type, product_id, related_product from magento_product_relation
+               except
+               select type, product_id, linked_product_id from product_link) diff;""")
+        return True
 
 product_link()
 
@@ -53,4 +67,3 @@ class product(osv.osv):
         }
 
 product()
-
