@@ -21,8 +21,7 @@
     "version" : "1.0",
     "depends" : [],
     "author" : "Sébastien Beau",
-    "description": """Automatique Scheduler Creator
-""",
+    "description": """Allows the automatic creation of a scheduler.""",
     "website" : "http://www.akretion.com/",
     "category" : "Customer Modules",
     "init_xml" : [],
