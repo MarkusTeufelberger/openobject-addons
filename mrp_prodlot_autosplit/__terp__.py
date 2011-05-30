@@ -47,7 +47,7 @@
     """,
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ["product_view.xml", "stock_view.xml", "company_view.xml", "stock_view.xml"],
+    "update_xml" : ["product_view.xml", "stock_view.xml", "company_view.xml"],
     "active": False,
     "installable": True
 }
