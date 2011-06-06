@@ -58,6 +58,9 @@ class product_import_csv_wizard(osv.osv_memory):
         form = self.browse(cr, uid, ids[0])
         data = base64.b64decode(form.file)
 
+        #Set user's current lang.
+        context['lang'] = self.pool.get('res.users').browse(cr, uid, uid).context_lang
+
         #check mapping product_csv. Match same name
         csv_ids = self.pool.get('csv.file').search(cr, uid, ['|',('name','=','product_csv_product'),('name','=','product_csv_product_template')])
         if len(csv_ids) != 2:
@@ -103,14 +106,14 @@ class product_import_csv_wizard(osv.osv_memory):
 
                 if len(product_ids) > 0:
                     try:
-                        self.pool.get('product.product').write(cr, uid, product_ids, values)
+                        self.pool.get('product.product').write(cr, uid, product_ids, values, context)
                         cr.commit()
                         message = _("Row %s. SKU %s write Product IDs %s.") % (i, values[sku_field], product_ids)
                     except:
                         message = _("Row %s. Error SKU %s.") % (i, values[sku_field])
                 else:
                     try:
-                        product_id = self.pool.get('product.product').create(cr, uid, values)
+                        product_id = self.pool.get('product.product').create(cr, uid, values, context)
                         cr.commit()
                         message = _("Row %s. SKU %s create Product ID %s.") % (i, values[sku_field], product_id)
                     except:

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.15\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-05-24 08:51:26+0000\n"
-"PO-Revision-Date: 2011-05-24 08:51:26+0000\n"
+"POT-Creation-Date: 2011-06-06 16:42:33+0000\n"
+"PO-Revision-Date: 2011-06-06 16:42:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,17 +33,6 @@ msgstr "Product CSV"
 #. module: product_csv
 #: code:addons/product_csv/wizard/import_csv.py:0
 #, python-format
-msgid "Row %s. SKU %s create."
-msgstr "Row %s. SKU %s create."
-
-#. module: product_csv
-#: model:ir.model,name:product_csv.model_product_import_csv
-msgid "product.import.csv"
-msgstr "product.import.csv"
-
-#. module: product_csv
-#: code:addons/product_csv/wizard/import_csv.py:0
-#, python-format
 msgid "Row %s. Error SKU %s."
 msgstr "Row %s. Error SKU %s."
 
@@ -63,29 +52,6 @@ msgid "Identification Product CSV"
 msgstr "Identification Product CSV"
 
 #. module: product_csv
-#: model:ir.module.module,description:product_csv.module_meta_information
-msgid "\n"
-"Import CSV file in product object:\n"
-"- Design mapping CSV to OpenERP fields (modify product.csv and product.csv.template at Administration/Customization/Database Structure/CSV File)\n"
-"- Mark in product.product SKU field mapping\n"
-"\n"
-"Remember after install rename Path and edit mapping CSV path and custom yours mapping fields. There are some default values:\n"
-"- product_csv_product\n"
-"- product_csv_product_template\n"
-"Don't delete it!\n"
-"    "
-msgstr "\n"
-"Import CSV file in product object:\n"
-"- Design mapping CSV to OpenERP fields (modify product.csv and product.csv.template at Administration/Customization/Database Structure/CSV File)\n"
-"- Mark in product.product SKU field mapping\n"
-"\n"
-"Remember after install rename Path and edit mapping CSV path and custom yours mapping fields. There are some default values:\n"
-"- product_csv_product\n"
-"- product_csv_product_template\n"
-"Don't delete it!\n"
-"    "
-
-#. module: product_csv
 #: code:addons/product_csv/wizard/import_csv.py:0
 #, python-format
 msgid "Error !"
@@ -103,20 +69,15 @@ msgid "There are not SKU Field available. Check it! See documentation product_cs
 msgstr "There are not SKU Field available. Check it! See documentation product_csv module"
 
 #. module: product_csv
-#: code:addons/product_csv/wizard/import_csv.py:0
-#, python-format
-msgid "Row %s. SKU %s write."
-msgstr "Row %s. SKU %s write."
-
-#. module: product_csv
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
 msgstr "Invalid XML for View Architecture!"
 
 #. module: product_csv
-#: model:ir.model,name:product_csv.model_import_csv_wizard
-msgid "import.csv.wizard"
-msgstr "import.csv.wizard"
+#: code:addons/product_csv/wizard/import_csv.py:0
+#, python-format
+msgid "Row %s. SKU %s create Product ID %s."
+msgstr "Row %s. SKU %s create Product ID %s."
 
 #. module: product_csv
 #: code:addons/product_csv/wizard/import_csv.py:0
@@ -171,4 +132,23 @@ msgstr "Close"
 #: model:ir.model,name:product_csv.model_product_import_csv_wizard
 msgid "product.import.csv.wizard"
 msgstr "product.import.csv.wizard"
+
+#. module: product_csv
+#: code:addons/product_csv/wizard/import_csv.py:0
+#, python-format
+msgid "Row %s. SKU %s write Product IDs %s."
+msgstr "Row %s. SKU %s write Product IDs %s."
+
+#. module: product_csv
+#: model:ir.module.module,description:product_csv.module_meta_information
+msgid "\n"
+"Import CSV file in product object:\n"
+"- Design mapping CSV to OpenERP fields (modify default product_csv_product and product_csv_product_template mapping at Administration/Customization/Database Structure/CSV File)\n"
+"- Mark in product_csv_product SKU field mapping\n"
+"    "
+msgstr "\n"
+"Import CSV file in product object:\n"
+"- Design mapping CSV to OpenERP fields (modify default product_csv_product and product_csv_product_template mapping at Administration/Customization/Database Structure/CSV File)\n"
+"- Mark in product_csv_product SKU field mapping\n"
+"    "
 
