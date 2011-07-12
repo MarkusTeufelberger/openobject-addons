@@ -1,0 +1,77 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_chart_of_taxes
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.14\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-07-08 09:42:01+0000\n"
+"PO-Revision-Date: 2011-07-08 09:42:01+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_chart_of_taxes
+#: model:ir.module.module,description:account_chart_of_taxes.module_meta_information
+msgid "Adds period filter in chart of taxes"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: view:account.tax.chart:0
+msgid "(If you do not select period it will take all open periods)"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: view:account.tax.chart:0
+msgid "Open Charts"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: view:account.tax.chart:0
+msgid "Account tax charts"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: field:account.tax.chart,period_id:0
+msgid "Period"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: model:ir.module.module,shortdesc:account_chart_of_taxes.module_meta_information
+msgid "Account chart of taxes extend"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: view:account.tax.chart:0
+msgid "Cancel"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: model:ir.actions.act_window,name:account_chart_of_taxes.action_account_tax_chart
+msgid "Chart of Taxes"
+msgstr ""
+
+#. module: account_chart_of_taxes
+#: model:ir.model,name:account_chart_of_taxes.model_account_tax_chart
+msgid "Account tax chart"
+msgstr ""
+
