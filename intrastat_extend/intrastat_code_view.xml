@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_report_intrastat_code_tree_add_uom" model="ir.ui.view">
+            <field name="name">report.intrastat.code.tree.add_uom</field>
+            <field name="model">report.intrastat.code</field>
+            <field name="inherit_id" ref="report_intrastat.view_report_intrastat_code_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="description" position="after">
+                    <field name="product_uom_desc"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_report_intrastat_code_form_add_uom" model="ir.ui.view">
+            <field name="name">report.intrastat.code.form.add_uom</field>
+            <field name="inherit_id" ref="report_intrastat.view_report_intrastat_code_form"/>
+            <field name="model">report.intrastat.code</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="description" position="after">
+                    <field name="product_uom_desc"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

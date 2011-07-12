@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <delete model="ir.ui.menu" id="report_intrastat.next_id_89"/>
+
+        <delete model="ir.ui.menu" id="report_intrastat.menu_report_intrastat"/>
+
+        <delete model="ir.actions.report.xml" id="report_intrastat.invoice_intrastat_id"/>
+
+        <record id="report_intrastat.view_report_intrastat_tree" model="ir.ui.view">
+            <field name="name">report.intrastat.view</field>
+            <field name="model">report.intrastat</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Intrastat Data">
+                    <field name="date_invoice" select="1"/>
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                    <field name="ref" select="1"/>
+                    <field name="intrastat_id" select="1"/>
+                    <field name="weight" />
+                    <field name="value"/>
+                    <field name="supply_units"/>
+                    <field name="currency_id" select="2"/>
+                    <field name="type" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

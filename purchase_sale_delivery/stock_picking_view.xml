@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_picking_in_tree_add_date_income" model="ir.ui.view">
+            <field name="name">stock.picking.in.tree.add_delivery_date</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_in_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="delivery_date"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_in_form_add_fields" model="ir.ui.view">
+            <field name="name">stock.picking.in.form.add_fields"</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="min_date" position="after">
+                    <field name="delivery_date"/>
+                    <field name="price_gross"/>
+                    <field name="incoterm_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_out_form_add_incoterm" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.add_incoterm</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="origin" position="after">
+                    <field name="incoterm_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_in_form_replace_partial_picking_button" model="ir.ui.view">
+            <field name="name">stock.picking.in.form.replace_partial_picking_button</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_in_form_add_fields"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="%(stock.partial_picking)d" position="replace">
+                    <button name="%(delivery_partial_picking)d" states="assigned" string="Products Received" type="action"/>
+                </button>
+            </field>
+        </record>
+
+        <record id="view_picking_form_replace_validate_button" model="ir.ui.view">
+            <field name="name">stock.picking.form.replace_validate_button</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="%(stock.partial_picking)d" position="replace">
+                    <button name="%(delivery_partial_picking)d" states="assigned" string="Validate" type="action"/>
+                </button>
+            </field>
+        </record>
+
+        <record id="view_picking_out_form_add_delivery_date" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.add_delivery_date"</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_out_form_add_incoterm"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="min_date" position="after">
+                    <field name="delivery_date"/>
+                    <field name="price_gross"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="vpicktree_add_delivery_date" model="ir.ui.view">
+            <field name="name">stock.picking.tree_add_delivery_date</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="min_date" position="after">
+                    <field name="delivery_date"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_form_add_delivery_date" model="ir.ui.view">
+            <field name="name">stock.picking.form.add_delivery_date</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_form_replace_validate_button"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="min_date" position="after">
+                    <field name="delivery_date" select="2"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="picking_in_form_action_external_del_invoice" model="ir.actions.act_window">
+            <field name="name">Wait external delivery invoice</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.picking</field>
+            <field name="domain">[('external_delivery_invoiced','=',False),('type','=','in')]</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="context">{'contact_display': 'partner'}</field>
+        </record>
+
+        <record id="action_picking_in_external_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.view_picking_in_tree"/>
+            <field name="act_window_id" ref="picking_in_form_action_external_del_invoice"/>
+        </record>
+        <record id="action_picking_in_external_from" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_in_form"/>
+            <field name="act_window_id" ref="picking_in_form_action_external_del_invoice"/>
+        </record>
+        <record id="action_picking_in_external_cal" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">calendar</field>
+            <field name="act_window_id" ref="picking_in_form_action_external_del_invoice"/>
+        </record>
+        <menuitem action="picking_in_form_action_external_del_invoice" id="menu_picking_in_external_del_invoices" parent="stock.menu_action_picking_tree4"/>
+
+
+        <record id="picking_out_form_action_external_del_invoice" model="ir.actions.act_window">
+            <field name="name">Wait external delivery invoice</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.picking</field>
+            <field name="domain">[('external_delivery_invoiced','=',False),('type','=','out')]</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="context">{'contact_display': 'partner'}</field>
+        </record>
+
+        <record id="action_picking_out_external_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.view_picking_out_tree"/>
+            <field name="act_window_id" ref="picking_out_form_action_external_del_invoice"/>
+        </record>
+        <record id="action_picking_out_external_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_out_form"/>
+            <field name="act_window_id" ref="picking_out_form_action_external_del_invoice"/>
+        </record>
+        <record id="action_picking_out_external_cal" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">calendar</field>
+            <field name="act_window_id" ref="picking_out_form_action_external_del_invoice"/>
+        </record>
+        <menuitem action="picking_out_form_action_external_del_invoice" id="menu_picking_out_external_del_invoices" parent="stock.menu_action_picking_tree"/>
+
+        <record id="view_picking_out_tree_add_external_invoiced" model="ir.ui.view">
+            <field name="name">stock.picking.out.tree.add_external_invoiced</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_out_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="invoice_state" position="after">
+                    <field name="external_delivery_invoiced" select="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_out_tree_add_delivery_date" model="ir.ui.view">
+            <field name="name">stock.picking.out.tree.add_delivery_date</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_out_tree_add_external_invoiced"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="delivery_date"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_out_form_add_tbcollected_field" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.add_tbcollected_field"</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_out_form_add_delivery_date"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <page string="Notes" position="before">
+                    <page string="External delivery expenses" groups="account.group_account_user">
+                        <field name="freight_tbcollected_id" colspan="4" nolabel="1"/>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="view_picking_out_form_change_partial_picking_button" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.change_partial_picking_button"</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_out_form_add_tbcollected_field"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="%(stock.partial_picking)d" position="replace">
+                    <button name="%(delivery_partial_picking)d" states="assigned" string="Packing Done" type="action"/>
+                </button>
+            </field>
+        </record>
+
+        <record id="view_picking_in_tree_add_external_invoiced" model="ir.ui.view">
+            <field name="name">stock.picking.in.tree.add_external_invoiced</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_in_tree_add_date_income"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="invoice_state" position="after">
+                    <field name="external_delivery_invoiced" select="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_in_form_add_tbcollected_field" model="ir.ui.view">
+            <field name="name">stock.picking.in.form.add_tbcollected_field</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_in_form_replace_partial_picking_button"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <page string="Notes" position="before">
+                    <page string="External delivery expenses" groups="account.group_account_user">
+                        <field name="freight_tbcollected_id" colspan="4" nolabel="1"/>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="view_picking_with_replace_carrier_out_form" model="ir.ui.view">
+            <field name="name">delivery.stock.picking_with_replace_carrier.out.form.view</field>
+            <field name="type">form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+            <field name="arch" type="xml">
+                <field name="carrier_id" position="replace">
+                    <field name="carrier_id2"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_with_replace_carrier_delivery_form" model="ir.ui.view">
+            <field name="name">delivery.stock.picking_with_replace_carrier.delivery.form.view</field>
+            <field name="type">form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="delivery.view_picking_withcarrier_delivery_form"/>
+            <field name="arch" type="xml">
+                <field name="carrier_id" position="replace">
+                    <field name="carrier_id2"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_withcarrier_in_form" model="ir.ui.view">
+            <field name="name">delivery.stock.picking_withcarrier.in.form.view</field>
+            <field name="type">form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_in_form_add_fields"/>
+            <field name="arch" type="xml">
+                <field name="address_id" position="after">
+                    <field name="carrier_id2"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

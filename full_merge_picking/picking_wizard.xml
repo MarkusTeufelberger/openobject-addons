@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <wizard
+            string="Merge pickings"
+            model="stock.picking"
+            menu="True"
+            name="cc.stock.picking.merge"
+            id="stock_picking_merge"
+            keyword="client_action_multi"
+            />
+
+    </data>
+</openerp>

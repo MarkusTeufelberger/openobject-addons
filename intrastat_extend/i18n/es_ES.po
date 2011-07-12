@@ -1,0 +1,75 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* intrastat_extend
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.12\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-08-16 11:16:25+0000\n"
+"PO-Revision-Date: 2010-08-16 13:16+0100\n"
+"Last-Translator: omar <omar@pexego.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: intrastat_extend
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: intrastat_extend
+#: help:res.partner,hs_intrastat:0
+msgid "If you select intrastat code, in reports it appears with all digits but if you select HS only was showed the first six characters of instrastat in reports."
+msgstr "Si tu seleccionas intrastat, en los informes este aparecerá con todos los dígitos, pero si tu seleccionas HS sólo se mostrarán los primeros seis caracteres del cógido intrastat en los informes."
+
+#. module: intrastat_extend
+#: field:res.partner,hs_intrastat:0
+msgid "Intrastat kind"
+msgstr "Tipo intrastat"
+
+#. module: intrastat_extend
+#: rml:stock.picking.list:0
+msgid "HS/Intrastat"
+msgstr "Intrastat/HS"
+
+#. module: intrastat_extend
+#: field:report.intrastat,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: intrastat_extend
+#: field:report.intrastat,date_invoice:0
+msgid "Invoice date"
+msgstr "Fecha factura"
+
+#. module: intrastat_extend
+#: model:ir.module.module,shortdesc:intrastat_extend.module_meta_information
+#: model:ir.module.module,description:intrastat_extend.module_meta_information
+msgid "Intrastat Extension"
+msgstr "Extensión Intrastat"
+
+#. module: intrastat_extend
+#: field:account.invoice.line,intrastat_id:0
+#: field:stock.move,intrastat_id:0
+msgid "Intrastat"
+msgstr "Intrastat"
+
+#. module: intrastat_extend
+#: field:report.intrastat.code,product_uom_desc:0
+msgid "Units"
+msgstr "Unidades"
+
+#. module: intrastat_extend
+#: code:addons/intrastat_extend/product.py:0
+#, python-format
+msgid "Cannot select an intrastat without code"
+msgstr "No puede seleccionar un registro intrastat sin código."
+
+#. module: intrastat_extend
+#: code:addons/intrastat_extend/product.py:0
+#, python-format
+msgid "Warning"
+msgstr "Aviso"

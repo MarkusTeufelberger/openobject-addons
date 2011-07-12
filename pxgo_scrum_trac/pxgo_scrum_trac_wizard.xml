@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Asistente de sincronización con Trac -->
+        <wizard id="wiz_pxgo_scrum_trac_sync"
+                model="scrum.project"
+                string="Synchronize with Trac"
+                name="pxgo_scrum_trac.trac_sync_wizard"/>
+
+        <menuitem action="wiz_pxgo_scrum_trac_sync"
+                id="menu_wiz_pxgo_scrum_trac_sync_from_conf"
+                parent="project.menu_definitions"
+                type="wizard"/>
+
+        <menuitem action="wiz_pxgo_scrum_trac_sync"
+                id="menu_wiz_pxgo_scrum_trac_sync_for_project"
+                parent="scrum.menu_action_scrum_project_form"
+                type="wizard"/>
+
+        <menuitem action="wiz_pxgo_scrum_trac_sync"
+                id="menu_wiz_pxgo_scrum_trac_sync_for_project"
+                parent="scrum.menu_action_sprint_form"
+                type="wizard"/>  
+
+
+    </data>
+</openerp>

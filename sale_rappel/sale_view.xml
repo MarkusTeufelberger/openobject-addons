@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_order_form_remove_amount_untaxed" model="ir.ui.view">
+            <field name="name">sale.order.form.remove_amount_untaxed</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="amount_untaxed" position="replace">
+                </field>
+            </field>
+        </record>
+
+        <record id="view_order_form_remove_amount_tax" model="ir.ui.view">
+            <field name="name">sale.order.form.remove_amount_tax</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="amount_tax" position="replace">
+                </field>
+            </field>
+        </record>
+
+        <record id="view_order_form_add_rappel_fields" model="ir.ui.view">
+            <field name="name">sale.order.form.add_rappel_fields</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="amount_total" position="replace">
+                    <group col="8" colspan="6">
+                        <field name="rappel_percentage"/>
+                        <field name="rappel_amount_untaxed"/>
+                        <field name="rappel_amount_tax"/>
+                        <field name="rappel_amount_total"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

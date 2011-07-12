@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista lista -->
+        <record id="view_pxgo_scrum_trac_ticket_sync_tree" model="ir.ui.view">
+            <field name="name">pxgo.scrum.trac.ticket_sync.tree</field>
+            <field name="model">pxgo.scrum.trac.ticket_sync</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Synchronized Tickets">
+                    <field name="project_id"/>
+                    <field name="ticket"/>
+                    <field name="sync_date"/>
+                    <field name="sync_action"/>
+                </tree>
+            </field>
+        </record>
+
+
+		<!-- Acción para el menú  -->
+		<record model="ir.actions.act_window" id="action_pxgo_scrum_trac_ticket_sync_tree">
+			<field name="name">Registro de sincronización con Trac</field>
+			<field name="type">ir.actions.act_window</field>
+            <field name="res_model">pxgo.scrum.trac.ticket_sync</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+		</record>
+
+		<!-- Menú -->
+		<menuitem id="menu_pxgo_scrum_trac_ticket_sync_tree"
+				  action="action_pxgo_scrum_trac_ticket_sync_tree"
+                  groups="project.group_project_user"
+                  parent="project.menu_definitions"
+				  sequence="900"/>
+
+		<!-- Menú -->
+		<menuitem id="menu_pxgo_scrum_trac_ticket_sync_tree"
+				  action="action_pxgo_scrum_trac_ticket_sync_tree"
+                  groups="project.group_project_user"
+                  parent="project.menu_definitions"
+				  sequence="900"/>
+
+    </data>
+</openerp>

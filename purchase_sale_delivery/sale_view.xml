@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_order_form_add_incoterm_field" model="ir.ui.view">
+            <field name="name">sale.order.form.add_incoterm_field</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="incoterm" position="replace">
+                    <field groups="base.group_extended" name="incoterm_id" widget="selection"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_order_form_add_delivery_price" model="ir.ui.view">
+            <field name="name">sale.order.form.add_delivery_price</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="view_order_form_add_incoterm_field"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="amount_total" position="after">
+                    <label string="" colspan="2"/>
+                    <field name="price_gross"/>
+                    <field name="delivery_price"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_order_form_add_external_delivery_cost_page" model="ir.ui.view">
+            <field name="name">sale.order.form.add_external_delivery_cost_pag</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="view_order_form_add_delivery_price"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <page string="Other data" position="after">
+                    <page string="External delivery expenses" groups="account.group_account_user">
+                        <field name="freight_tbcollected_id" colspan="4" nolabel="1"/>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="view_order_add_delivery_date" model="ir.ui.view">
+            <field name="name">view.sale.form.add_delivery_date</field>
+            <field name="type">form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="delivery.view_order_withcarrier_form"/>
+            <field name="arch" type="xml">
+                <field name="carrier_id" position="after">
+                    <field name="delivery_date" select="1"/>
+                    <field name="end_validity_date" select="2"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_order_tree_add_delivery_date" model="ir.ui.view">
+            <field name="name">sale.order.tree.add_delivery_date</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="model">sale.order</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="partner_shipping_id" position="after">
+                    <field name="delivery_date" select="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

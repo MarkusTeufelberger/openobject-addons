@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="purchase_order_form_add_income_date" model="ir.ui.view">
+            <field name="name">purchase.order.form.add_income_date</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <field name="location_id" position="after">
+                    <field name="date_income"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="purchase_order_tree_add_income_date" model="ir.ui.view">
+            <field name="name">purchase.order.tree.add_income_date</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="location_id" position="after">
+                    <field name="date_income"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_purchase_order_form_add_incoterm_carrier">
+            <field name="name">purchase.order_withcarrier_incoterm.form.view</field>
+            <field name="type">form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase_order_form_add_income_date" />
+            <field name="arch" type="xml">
+                <field name="partner_ref" position="after">
+                    <field name="carrier_id" />
+                    <field name="incoterm_id" widget="selection"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="purchase.purchase_order_calendar">
+            <field name="name">purchase.order.calendar</field>
+            <field name="model">purchase.order</field>
+            <field name="type">calendar</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="date_income" color="partner_id">
+                    <field name="name"/>
+                    <field name="amount_total"/>
+                    <field name="partner_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_purchase_order_form_add_delivery_expenses_page">
+            <field name="name">delivery.purchase.order.form.add_delivery_expenses_page</field>
+            <field name="type">form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="view_purchase_order_form_add_incoterm_carrier" />
+            <field name="arch" type="xml">
+                <page string="Delivery &amp; Invoices" position="after">
+                    <page string="External delivery expenses" groups="account.group_account_user">
+                        <field name="freight_tbcollected_id" colspan="4" nolabel="1"/>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_purchase_order_form_add_delivery_price">
+            <field name="name">delivery.purcahse.order.form.add_delivery_pricee</field>
+            <field name="type">form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="view_purchase_order_form_add_delivery_expenses_page" />
+            <field name="arch" type="xml">
+                <field name="state" position="before">
+                    <field name="delivery_price"/>
+                    <field name="price_gross"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="product_property_attributes_rel_form" model="ir.ui.view">
+			<field name="name">product.property.attributes.rel.form</field>
+			<field name="model">product.property.attributes.rel</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Product group of properties">
+                    <field name="property_group_id"/>
+                </form>
+			</field>
+		</record>
+
+        <record id="product_property_attributes_rel_tree" model="ir.ui.view">
+			<field name="name">product.property.attributes.rel.tree</field>
+			<field name="model">product.property.attributes.rel</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Product group of properties" editable="top">
+                    <field name="property_group_id"/>
+                </tree>
+			</field>
+		</record>
+
+    </data>
+</openerp>

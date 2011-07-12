@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <act_window domain="[('project_id', '=', active_id)]"  id="act_project_wikigroup" name="Documentation (wiki)" res_model="wiki.wiki" src_model="scrum.project" />
+        <act_window domain="[('sprint_id', '=', active_id)]"  id="act_sprint_wikigroup" name="Documentation (wiki)" res_model="wiki.wiki" src_model="scrum.sprint" />
+        <act_window domain="[('bl_id','=', active_id)]" context="{'bl_id':active_id}"  id="act_bl_wikigroup" name="Documentation (wiki)" res_model="wiki.wiki" src_model="scrum.product.backlog" />
+
+        <record model="ir.ui.view" id="view_wiki_project_form">
+            <field name="name">wiki.wiki.project.form</field>
+            <field name="model">wiki.wiki</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="wiki.view_wiki_form" />
+            <field name="arch" type="xml">
+                <field name="section" position="after">
+                    <group string ="Related objects" colspan="8" col="8">
+                        <field name="project_id" />
+                        <field name="sprint_id" />
+                        <field name="bl_id" />
+                    </group>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="wiki.view_wiki_history_tree">
+            <field name="name">wiki.wiki.history.tree</field>
+            <field name="model">wiki.wiki.history</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Wiki History">
+                    <field name="name"/>
+                    <field name="version"/>
+                    <field name="project_id" select="1"/>
+                    <field name="wiki_group_id" select="1"/>
+
+                    <field name="minor_edit" groups="base.group_extended"/>
+                    <field name="summary"/>
+                    <field name="create_date"/>
+                    <field name="write_uid"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="wiki.wiki_history_form">
+            <field name="name">wiki.wiki.history.form</field>
+            <field name="model">wiki.wiki.history</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Wiki History">
+                    <field name="wiki_id" select="1" colspan="4"/>
+                    <field name="summary" select="1" colspan="4"/>
+                    <field name="text_area" select="1" colspan="4" nolabel="1" widget="text_wiki"/>
+                    <field name="create_date" select="1" readonly="1"/>
+                    <field name="minor_edit" select="1" groups="base.group_extended"/>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
+

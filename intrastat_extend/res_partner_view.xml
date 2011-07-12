@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_partner_form_add_hs_instrastat_field" model="ir.ui.view">
+            <field name="name">res.partner.form.add_hs_instrastat_field</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="before">
+                    <field name="hs_intrastat"/>
+                </field>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

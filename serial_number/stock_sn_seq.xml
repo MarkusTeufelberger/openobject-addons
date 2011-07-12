@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record model="ir.sequence.type" id="seq_code_product_item">
+            <field name="name">Generic Serial Numbers</field>
+            <field name="code">generic.stock.sn.serial</field>
+        </record>
+
+        <record id="seq_serial_number" model="ir.sequence">
+            <field name="name">Generic Serial Number</field>
+            <field name="code">generic.stock.sn.serial</field>
+            <field name="prefix">COD</field>
+        </record>
+
+    </data>
+</openerp>

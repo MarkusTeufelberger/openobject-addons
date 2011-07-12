@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_wiki_from_backlog" model="ir.ui.view">
+            <field name="name">Generar pagina wiki </field>
+            <field name="model">wiki.from.backlog</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Generate wiki page for backlog">
+                    <separator colspan="4" string="Do you want generate or update the wiki page associated?"/>
+                    <field name="bl_id" />
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <button icon="gtk-cancel" special="cancel" string="No"/>
+                        <button icon="gtk-ok" name="update_wiki" string="Update" type="object"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+     
+        <act_window name="Update wiki page"
+        res_model="wiki.from.backlog"
+        src_model="scrum.product.backlog"
+        view_mode="form"
+        view_type="form"
+        target="new"
+        domain="[('bl_id', '=', active_id)]"
+        id="act_update_wiki_page"/>
+
+         <record model="ir.values" id="ir_update_wiki_page">
+            <field name="key2">tree_but_action</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="name">Update wiki page</field>
+            <field name="value" eval="'ir.actions.act_window,%d'%act_update_wiki_page"/>
+            <field name="object" eval="True"/>
+        </record>
+    </data>
+</openerp>

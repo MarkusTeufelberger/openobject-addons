@@ -1,0 +1,538 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* cc_purchase_sale_delivery
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.12\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-08-19 15:56:45+0000\n"
+"PO-Revision-Date: 2010-08-19 15:56:45+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cc_purchase_sale_delivery
+#: field:purchase.order,incoterm_id:0
+#: field:stock.picking,incoterm_id:0
+msgid "Incoterms"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/delivery_freight_tobe_collected.py:0
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_picking.py:0
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_sale_order.py:0
+#, python-format
+msgid "No grid available !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/delivery_grid.py:0
+#, python-format
+msgid "No price available !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/delivery_freight_tobe_collected.py:0
+#, python-format
+msgid "No shipping address available! Remember to save the line before pressing compute price button!"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/delivery_freight_tobe_collected.py:0
+#, python-format
+msgid "No address available !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:purchase.order,price_gross:0
+#: field:sale.order,price_gross:0
+#: field:stock.picking,price_gross:0
+msgid "Price gross"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:purchase.order,carrier_id:0
+msgid "Delivery method"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:stock.picking,carrier_id2:0
+msgid "Carrier"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/make_external_delivery_invoice.py:0
+#, python-format
+msgid "Only you can create external delivery invoice to out or in pickings with sale or purchase orders respectively."
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: help:sale.order,end_validity_date:0
+msgid "End of validity date"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: help:purchase.order,carrier_id:0
+msgid "Complete this field if you plan to invoice the shipping based on packings made."
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:sale.order,end_validity_date:0
+msgid "End date"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_picking.py:0
+#, python-format
+msgid "Unavailable type for picking !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/delivery_freight_tobe_collected.py:0
+#, python-format
+msgid "No shipping address available! Remember you to save the line before press compute price button!"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_button:cc_purchase_sale_delivery.delivery.purchase.order,init,delivery:0
+msgid "Create delivery line"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: model:ir.actions.wizard,name:cc_purchase_sale_delivery.wizard_deliver_picking_add
+#: model:ir.actions.wizard,name:cc_purchase_sale_delivery.wizard_purchase_deliver_line_add
+msgid "Add delivery line"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/make_external_delivery_invoice.py:0
+#, python-format
+msgid "Error !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_picking.py:0
+#, python-format
+msgid "Unavailable state for picking !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_view:cc_purchase_sale_delivery.stock.partial_picking,end2:0
+msgid "Packing result"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_field:cc_purchase_sale_delivery.stock.partial_picking,end2,back_order_notification:0
+msgid "Back Order"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: model:ir.module.module,shortdesc:cc_purchase_sale_delivery.module_meta_information
+msgid "Calor Color Purchase Sale Delivery"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_view:cc_purchase_sale_delivery.delivery.purchase.order,init:0
+msgid "Create deliveries"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:delivery.freight.tobe.collected,picking_id:0
+msgid "Picking"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_picking.py:0
+#, python-format
+msgid "Picking shouldn\'t be on cancel or done state"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_picking.py:0
+#, python-format
+msgid "\"\"<?xml version=\"1.0\"?>\n"
+"    <form string=\"Create deliveries\">\n"
+"        <separator colspan=\"4\" string=\"Delivery Method\" />\n"
+"        <field name=\"carrier_id\"/>\n"
+"    </form>\n"
+"    \"\""
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:delivery.freight.tobe.collected,sale_id:0
+msgid "Sale"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_picking.py:0
+#, python-format
+msgid "Only can add delivery lines to in or out pickings."
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_view:cc_purchase_sale_delivery.stock.partial_picking,end2:0
+msgid "The packing has been successfully made !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_button:cc_purchase_sale_delivery.delivery.picking,init,delivery:0
+msgid "Add Delivery Costs"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_field:cc_purchase_sale_delivery.delivery.picking,init,carrier_id:0
+#: wizard_view:cc_purchase_sale_delivery.delivery.purchase.order,init:0
+#: wizard_field:cc_purchase_sale_delivery.delivery.purchase.order,init,carrier_id:0
+msgid "Delivery Method"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/delivery_freight_tobe_collected.py:0
+#, python-format
+msgid "No address avaible !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_button:cc_purchase_sale_delivery.stock.partial_picking,init,split:0
+msgid "Make Picking"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: model:ir.module.module,description:cc_purchase_sale_delivery.module_meta_information
+msgid "Delivery cost and delivery management for purchases and sales of Calor Color"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_button:cc_purchase_sale_delivery.delivery.picking,init,end:0
+#: wizard_button:cc_purchase_sale_delivery.delivery.purchase.order,init,end:0
+#: wizard_button:cc_purchase_sale_delivery.stock.partial_picking,init,end:0
+#: wizard_button:freight.tobe.collected.make_invoice,init,end:0
+msgid "Cancel"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_button:cc_purchase_sale_delivery.stock.partial_picking,end2,end:0
+msgid "Close"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: help:sale.order,delivery_date:0
+#: help:stock.picking,delivery_date:0
+msgid "Planned date to delivery"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_sale_order.py:0
+#, python-format
+msgid "\"\"<?xml version=\"1.0\"?>\n"
+"    <form string=\"Create deliveries\">\n"
+"        <separator colspan=\"4\" string=\"Delivery Method\" />\n"
+"        <field name=\"carrier_id\" context=\"{'order_id': %d}\"/>\n"
+"    </form>\n"
+"    \"\""
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:purchase.order,date_income:0
+msgid "Income date"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: help:purchase.order,incoterm_id:0
+#: help:stock.picking,incoterm_id:0
+msgid "International commercial terms"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_EXW
+msgid "EX WORKS"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_FCA
+msgid "FREE CARRIER"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_FAS
+msgid "FREE ALONGSIDE SHIP"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_FOB
+msgid "FREE ON BOARD"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_CFR
+msgid "COST AND FREIGHT"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_CIF
+msgid "COST, INSURANCE AND FREIGHT"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_CPT
+msgid "CARRIAGE PAID TO"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_CIP
+msgid "CARRIAGE AND INSURANCE PAID TO"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_DAF
+msgid "DELIVERED AT FRONTIER"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_DES
+msgid "DELIVERED EX SHIP"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_DEQ
+msgid "DELIVERED EX QUAY"
+msgstr ""
+
+#. module: stock
+#: model:stock.incoterms,name:stock.incoterm_DDU
+msgid "DELIVERED DUTY UNPAID"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:purchase.order.line,shipment_line:0
+msgid "Shipment line"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:delivery.freight.tobe.collected,purchase_id:0
+msgid "Purchase"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_purchase_order.py:0
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_sale_order.py:0
+#, python-format
+msgid "Order not in draft state !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: view:delivery.freight.tobe.collected:0
+msgid "Compute price"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/delivery_freight_tobe_collected.py:0
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_purchase_order.py:0
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_sale_order.py:0
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_picking.py:0
+#, python-format
+msgid "No grid avaible !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:delivery.freight.tobe.collected,name:0
+msgid "Description"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase/delivery_freight_tobe_collected.py:0
+#, python-format
+msgid "Warning"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: view:purchase.order:0
+msgid "External delivery expenses"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:delivery.freight.tobe.collected,price:0
+msgid "Price"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/delivery_freight_tobe_collected.py:0
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_purchase_order.py:0
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_sale_order.py:0
+#, python-format
+msgid "No grid matching for this carrier !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:sale.order,delivery_date:0
+#: field:stock.picking,delivery_date:0
+msgid "Delivery date"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/delivery_freight_tobe_collected.py:0
+#, python-format
+msgid "Carrier isn\'t defined."
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: view:delivery.freight.tobe.collected:0
+#: field:purchase.order,freight_tbcollected_id:0
+msgid "Freight to be collected"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:delivery.freight.tobe.collected,carrier_id:0
+msgid "Carrier"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_purchase_order.py:0
+#: code:addons/cc_purchase_sale_delivery/wizard/delivery_sale_order.py:0
+#, python-format
+msgid "The order state have to be draft to add delivery lines."
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/wizard_partial_picking.py:0
+#, python-format
+msgid "Back Order %s Assigned to this Packing."
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: view:delivery.freight.tobe.collected:0
+msgid "Freights to be collected"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_button:freight.tobe.collected.make_invoice,init,invoice:0
+msgid "Create invoices"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:delivery.freight.tobe.collected,account_analytic_id:0
+msgid "Analytic account"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/wizard_partial_picking.py:0
+#, python-format
+msgid "Unit Price"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:purchase.order,external_delivery_invoiced:0
+msgid "External deliveries invoiced"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/wizard_partial_picking.py:0
+#, python-format
+msgid "UOM"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_view:freight.tobe.collected.make_invoice,init:0
+msgid "Create external delivery invoices"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_view:cc_purchase.stock.partial_picking,end2:0
+msgid "Packing result"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_field:cc_purchase.stock.partial_picking,end2,back_order_notification:0
+msgid "Back Order"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: model:ir.actions.act_window,name:cc_purchase.purchase_form_action_external_del_invoice
+#: model:ir.ui.menu,name:cc_purchase.menu_purchase_order_external_del_invoices
+msgid "Wait external delivery invoice"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/make_external_delivery_invoice.py:0
+#, python-format
+msgid "There is no expense account defined for this product: \"%s\" (id:%d)"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_view:freight.tobe.collected.make_invoice,init:0
+msgid "Do you really want to create the external delivery invoice(s) ?"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: model:ir.actions.wizard,name:cc_purchase.wizard_make_external_delivery_invoice
+msgid "Make external delivery invoices"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_view:cc_purchase.stock.partial_picking,end2:0
+msgid "The packing has been successfully made !"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_field:freight.tobe.collected.make_invoice,init,grouped:0
+msgid "Group the invoices"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:purchase.order,delivery_price:0
+#: field:sale.order,delivery_price:0
+msgid "External delivery"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:product.template,standard_delivery_price:0
+msgid "Delivery cost price"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: help:product.template,standard_delivery_price:0
+msgid "The cost of the product with a percentage of delivery cost."
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/wizard_partial_picking.py:0
+#, python-format
+msgid "<form string=\"Make packing\">"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_button:cc_purchase.stock.partial_picking,init,split:0
+msgid "Make Picking"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: code:addons/cc_purchase_sale_delivery/wizard/wizard_partial_picking.py:0
+#: field:delivery.freight.tobe.collected,currency_id:0
+#, python-format
+msgid "Currency"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: field:delivery.freight.tobe.collected,invoice_id:0
+msgid "Invoice"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_button:cc_purchase.stock.partial_picking,init,end:0
+#: wizard_button:freight.tobe.collected.make_invoice,init,end:0
+msgid "Cancel"
+msgstr ""
+
+#. module: cc_purchase_sale_delivery
+#: wizard_button:cc_purchase.stock.partial_picking,end2,end:0
+msgid "Close"
+msgstr ""

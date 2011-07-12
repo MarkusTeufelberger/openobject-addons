@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Product Backlogs -->
+
+        <record id="view_scrum_product_backlog_tree_add_code_field" model="ir.ui.view">
+            <field name="name">scrum.product.backlog.tree.inherit</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="scrum.view_scrum_product_backlog_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="code"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_scrum_product_backlog_tree_add_remaining_hours" model="ir.ui.view">
+            <field name="name">scrum.product.backlog.tree.add_remaining_hours</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="inherit_id" ref="scrum.view_scrum_product_backlog_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="planned_hours" position="after">
+                    <field name="remaining_hours" sum="Remaining hours" widget="float_time"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_scrum_product_backlog_form_add_code_field" model="ir.ui.view">
+            <field name="name">scrum.product.backlog.form.add_code_field</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="inherit_id" ref="scrum.view_scrum_product_backlog_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="code"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_scrum_product_backlog_form_add_code_trac_field" model="ir.ui.view">
+            <field name="name">scrum.product.backlog.form.add_code_trac_field</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="inherit_id" ref="scrum.view_scrum_product_backlog_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="code_trac"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_scrum_product_backlog_form_add_component_field" model="ir.ui.view">
+            <field name="name">scrum.product.backlog.form.add_component_field</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="inherit_id" ref="scrum.view_scrum_product_backlog_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="sprint_id" position="before">
+                    <field name="component_name"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_scrum_product_backlog_form_add_hours_fields" model="ir.ui.view">
+            <field name="name">scrum.product.backlog.form.add_hours_fields</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="inherit_id" ref="scrum.view_scrum_product_backlog_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="planned_hours" position="after">
+                    <field name="initial_estimation" widget="float_time"/>
+                    <field name="remaining_hours" widget="float_time"/>
+                    <field name="trac_ticket_url" widget="url"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Project -->
+
+        <record id="edit_project" model="ir.ui.view">
+            <field name="name">project.project.form.inherit</field>
+            <field name="model">scrum.project</field>
+            <field name="inherit_id" ref="scrum.view_scrum_project_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Trac" groups="project.group_project_manager">
+                        <field name="trac_project" select="1"/>
+                        <group string="Remote access" colspan="4">
+                            <field name="xmlrpc_url" colspan="4"/>
+                            <field name="xmlrpc_timezone_diff_hours"/>
+                        </group>
+                        <group string="Shortcuts" colspan="4">
+                            <field name="tickets_trac_url" colspan="4"/>
+                        </group>
+                        <group string="Maps ticket types" colspan="4">
+                            <field name="ticket_type_story" colspan="4"/>
+                            <field name="ticket_type_task" colspan="4"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="view_project" model="ir.ui.view">
+            <field name="name">project.project.tree.inherit</field>
+            <field name="model">scrum.project</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="trac_project"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

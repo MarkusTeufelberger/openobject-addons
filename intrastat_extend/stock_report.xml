@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report id="stock.report_picking_list" model="stock.picking" name="stock.picking.list" string="Packing list" rml="intrastat_extend/report/picking.rml"/>
+
+    </data>
+</openerp>

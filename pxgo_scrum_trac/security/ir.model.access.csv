@@ -1,0 +1,2 @@
+"id","name","model_id","group_id","perm_read","perm_write","perm_create","perm_unlink"
+"access_scrum_trac_ticket_sync_project_user","pxgo_scrum_trac_ticket_sync","pxgo_scrum_trac_ticket_sync","Project / User","True","True","True","True"

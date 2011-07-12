@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--
+        Invoices
+        -->
+
+        <record id="invoice_form_add_rappel_button" model="ir.ui.view">
+            <field name="name">account.invoice.form_add_rappel_button</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button string="Compute Taxes" position="after">
+                    <button colspan="2" name="button_reset_rappel" states="draft" string="Recompute Rappel" type="object" groups="base.group_user" />
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>

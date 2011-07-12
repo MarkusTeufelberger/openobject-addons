@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="serial_number_form" model="ir.ui.view">
+            <field name="name">serial.number.form</field>
+            <field name="model">serial.number</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Serial number">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="date"/>
+                    <separator string="Moves" colspan="4"/>
+                    <field name="move_ids" nolabel="1" colspan="4" readonly="True"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="serial_number_tree" model="ir.ui.view">
+            <field name="name">serial.number.tree</field>
+            <field name="model">serial.number</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Serial numbers">
+                    <field name="name" select="1"/>
+                    <field name="product_id" select="1"/>
+                    <field name="date" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mrp_serial_number_action" model="ir.actions.act_window">
+            <field name="name">Serial numbers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">serial.number</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="menu_mrp_serial_numbers"
+            name="Serial numbers"
+            parent="mrp.menu_mrp_configuration"
+            groups="product.group_product_manager"
+            action="mrp_serial_number_action"/>
+
+    </data>
+</openerp>

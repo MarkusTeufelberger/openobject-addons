@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_picking_form_add_intrastat_field" model="ir.ui.view">
+            <field name="name">stock.picking.form.add_intrastat_field</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/form/field[@name='product_uom']" position="after">
+                    <field name="intrastat_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_delivery_form_add_intrastat_field" model="ir.ui.view">
+            <field name="name">stock.picking.delivery.form.add_intrastat_field</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_delivery_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/form/field[@name='product_uom']" position="after">
+                    <field name="intrastat_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_out_form_add_intrastat_field" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.add_intrastat_field</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/form/field[@name='product_uom']" position="after">
+                    <field name="intrastat_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_in_form_add_intrastat_field" model="ir.ui.view">
+            <field name="name">stock.picking.in.form.add_intrastat_field</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/form/field[@name='product_uom']" position="after">
+                    <field name="intrastat_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_in_form_add_intrastat_field_moves_tree" model="ir.ui.view">
+            <field name="name">stock.picking.in.form.add_intrastat_field_moves_tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="view_picking_in_form_add_intrastat_field"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/tree/field[@name='product_uom']" position="after">
+                    <field name="intrastat_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_tree_add_intrastat_field" model="ir.ui.view">
+            <field name="name">stock.move.tree.add_intrastat_field</field>
+            <field name="model">stock.move</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_uom" position="after">
+                    <field name="intrastat_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_move_form_add_intrastat_field" model="ir.ui.view">
+            <field name="name">stock.move.form.add_intrastat_field</field>
+            <field name="model">stock.move</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="product_uom" position="after">
+                    <field name="intrastat_id"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

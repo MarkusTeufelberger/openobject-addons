@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+
+		<wizard
+			string="Delivery Costs"
+			model="sale.order"
+			name="cc_purchase_sale_delivery.delivery.sale.order"
+			id="delivery.wizard_deliver_line_add"
+			keyword="client_action_multi"/>
+
+	</data>
+</openerp>

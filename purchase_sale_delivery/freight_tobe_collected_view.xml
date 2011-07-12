@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+
+        <record id="delivery_freight_tobe_collected_tree" model="ir.ui.view">
+            <field name="name">delivery.freight.tobe.collected.tree</field>
+            <field name="model">delivery.freight.tobe.collected</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Freights to be collected" editable="top">
+                    <field name="name" select="1"/>
+                    <field name="carrier_id" select="1"/>
+                    <field name="price" select="1"/>
+                    <field name="currency_id" select="1"/>
+                    <field name="account_analytic_id" select="2"/>
+                    <button name="compute_delivery_price" type="object" string="Compute price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="delivery_freight_tobe_collected_form" model="ir.ui.view">
+            <field name="name">delivery.freight.tobe.collected.form</field>
+            <field name="model">delivery.freight.tobe.collected</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Freight to be collected">
+                    <field name="name"/>
+                    <field name="carrier_id"/>
+                    <field name="price"/>
+                    <field name="currency_id"/>
+                    <field name="account_analytic_id"/>
+                    <newline/>
+                    <button name="compute_delivery_price" type="object" string="Compute price"/>
+                </form>
+            </field>
+        </record>
+
+	</data>
+</openerp>

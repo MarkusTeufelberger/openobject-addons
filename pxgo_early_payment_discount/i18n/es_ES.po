@@ -1,0 +1,193 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* cc_early_payment_discount
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.12\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-08-13 11:07:24+0000\n"
+"PO-Revision-Date: 2010-08-13 13:18+0100\n"
+"Last-Translator: omar <omar@pexego.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: cc_early_payment_discount
+#: constraint:product.product:0
+msgid "Several properties for the same group of properties"
+msgstr "Demasiadas propiedades para el mismo grupo de propiedades."
+
+#. module: cc_early_payment_discount
+#: field:sale.order,early_payment_disc_untaxed:0
+msgid "Untaxed Amount E.P."
+msgstr "Base Imponible P.P."
+
+#. module: cc_early_payment_discount
+#: field:account.invoice,early_discount_amount:0
+#: field:sale.order,total_early_discount:0
+msgid "E.P. amount"
+msgstr "Importe P.P."
+
+#. module: cc_early_payment_discount
+#: help:account.invoice,early_discount_amount:0
+msgid "Early payment discount amount to apply."
+msgstr "Importe del descuento por pronto pago a aplicar."
+
+#. module: cc_early_payment_discount
+#: field:sale.order,early_payment_disc_tax:0
+msgid "Taxes E.P."
+msgstr "Impuestos P.P"
+
+#. module: cc_early_payment_discount
+#: field:sale.order,early_payment_disc_total:0
+msgid "With E.P."
+msgstr "Con P.P."
+
+#. module: cc_early_payment_discount
+#: rml:sale.order:0
+msgid "With E.P. :"
+msgstr "Con P.P. :"
+
+#. module: cc_early_payment_discount
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "¡El nombre del objeto debe empezar con x_ y no contener ningún carácter especial!"
+
+#. module: cc_early_payment_discount
+#: view:account.partner.payment.term.early.discount:0
+#: model:ir.model,name:cc_early_payment_discount.model_account_partner_payment_term_early_discount
+msgid "Early payment discounts"
+msgstr "Descuentos pronto pago"
+
+#. module: cc_early_payment_discount
+#: view:account.invoice:0
+msgid "Apply early payment disc."
+msgstr "Aplicar descuento P.P."
+
+#. module: cc_early_payment_discount
+#: help:product.category,property_account_sale_early_payment_disc:0
+msgid "This account will be used to input the early payments discount in sale"
+msgstr "Esta cuenta se usará para imputar los descuentos por pronto pago de las ventas."
+
+#. module: cc_early_payment_discount
+#: constraint:product.template:0
+msgid "Error: The default UOM and the purchase UOM must be in the same category."
+msgstr "Error: La UdM por defecto y la UdM de compra deben estar en la misma categoría."
+
+#. module: cc_early_payment_discount
+#: model:ir.module.module,description:cc_early_payment_discount.module_meta_information
+msgid "Allow set an early payment discount in sale orders."
+msgstr "Permite definir un descuento por pronto pago en las ventas."
+
+#. module: cc_early_payment_discount
+#: field:account.payment.term,early_payment_discount_ids:0
+#: field:res.partner,early_payment_discount_ids:0
+msgid "E.P. discounts"
+msgstr "Descuentos P.P."
+
+#. module: cc_early_payment_discount
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo no válido en la definición de acción."
+
+#. module: cc_early_payment_discount
+#: code:addons/cc_early_payment_discount/account_invoice.py:0
+#, python-format
+msgid "Cannot set early payment discount because now is impossible find the early payment account. Review invoice products categories have defined early payment account by default or early payment discount product have defined an output account."
+msgstr "No se puede definir un descuento por pronto pago, porque no fue posible encontrar la cuenta contable para imputarlo. Revisa que las categorías de los productos de la factura tengan definida la cuenta para pronto pago o que el producto 'descuento pronto pago', tenga definida la cuenta contable de salidas."
+
+#. module: cc_early_payment_discount
+#: code:addons/cc_early_payment_discount/account_invoice.py:0
+#, python-format
+msgid "Early payment disc. (%s)"
+msgstr "Desc. pronto pago(%s)"
+
+#. module: cc_early_payment_discount
+#: help:account.invoice,early_payment_discount:0
+#: view:account.partner.payment.term.early.discount:0
+#: code:addons/cc_early_payment_discount/account_invoice.py:0
+#: model:ir.module.module,shortdesc:cc_early_payment_discount.module_meta_information
+#: model:product.template,name:cc_early_payment_discount.product_rappel_product_template
+#: help:sale.order,early_payment_discount:0
+#, python-format
+msgid "Early payment discount"
+msgstr "Descuento por pronto pago."
+
+#. module: cc_early_payment_discount
+#: code:addons/cc_early_payment_discount/account_invoice.py:0
+#, python-format
+msgid "Warning"
+msgstr "Aviso"
+
+#. module: cc_early_payment_discount
+#: model:product.category,name:cc_early_payment_discount.category_system
+msgid "System products"
+msgstr "Productos de sistema"
+
+#. module: cc_early_payment_discount
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: cc_early_payment_discount
+#: field:account.partner.payment.term.early.discount,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: cc_early_payment_discount
+#: constraint:product.template:0
+msgid "Error: UOS must be in a different category than the UOM"
+msgstr "Error: La UdV debe estar en una categoría diferente que la UdM"
+
+#. module: cc_early_payment_discount
+#: code:addons/cc_early_payment_discount/account_invoice.py:0
+#, python-format
+msgid "Early payment disc. "
+msgstr "Desc. pronto pago "
+
+#. module: cc_early_payment_discount
+#: model:ir.actions.act_window,name:cc_early_payment_discount.action_payment_term_early_discount_form
+#: model:ir.ui.menu,name:cc_early_payment_discount.menu_action_payment_term_early_discount_form
+msgid "Early payment discounts"
+msgstr "Descuentos pronto pago"
+
+#. module: cc_early_payment_discount
+#: field:account.invoice,early_payment_discount:0
+#: field:account.partner.payment.term.early.discount,early_payment_discount:0
+#: field:sale.order,early_payment_discount:0
+msgid "E.P. disc.(%)"
+msgstr "Desc. P.P.(%)"
+
+#. module: cc_early_payment_discount
+#: constraint:product.category:0
+msgid "Error ! You can not create recursive categories."
+msgstr "¡Error! No puede crear categorías recursivas."
+
+#. module: cc_early_payment_discount
+#: field:account.partner.payment.term.early.discount,payment_term_id:0
+msgid "Payment Term"
+msgstr "Plazo de Pago"
+
+#. module: cc_early_payment_discount
+#: field:product.category,property_account_sale_early_payment_disc:0
+msgid "Sale early payment account"
+msgstr "Cuenta para el descuento por pronto pago"
+
+#. module: cc_early_payment_discount
+#: help:account.partner.payment.term.early.discount,early_payment_discount:0
+msgid "Percentage of discount for early payment."
+msgstr "Porcentaje de descuento por pronto pago."
+
+#. module: cc_early_payment_discount
+#: constraint:product.product:0
+msgid "Error: Invalid ean code"
+msgstr "Error: Código EAN erróneo"
+
+#. module: cc_early_payment_discount
+#: field:account.partner.payment.term.early.discount,partner_id:0
+msgid "Partner"
+msgstr "Empresa"
+

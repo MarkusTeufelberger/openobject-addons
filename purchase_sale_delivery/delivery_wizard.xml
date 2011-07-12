@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+
+		<wizard
+			string="Add delivery line"
+			model="purchase.order"
+			name="cc_purchase_sale_delivery.delivery.purchase.order"
+			id="wizard_purchase_deliver_line_add"
+			keyword="client_action_multi"/>
+
+        <wizard
+			string="Add delivery line"
+			model="stock.picking"
+			name="cc_purchase_sale_delivery.delivery.picking"
+			id="wizard_deliver_picking_add"
+			keyword="client_action_multi"/>
+
+        <wizard
+			string="Make external delivery invoices"
+			model="stock.picking"
+			name="freight.tobe.collected.make_invoice"
+			id="wizard_make_external_delivery_invoice"
+			keyword="client_action_multi"/>
+
+        <wizard
+			string="Partial packing"
+			model="stock.picking"
+			name="delivery_costs.partial.picking"
+			id="delivery_partial_picking"
+			multi="True"/>
+
+	</data>
+</openerp>

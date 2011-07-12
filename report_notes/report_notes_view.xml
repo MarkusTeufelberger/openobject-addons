@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_report_notes_tree" model="ir.ui.view">
+            <field name="name">view.report.notes.tree</field>
+            <field name="model">ir.act.report.xml.note</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Report notes">
+                    <field name="name" select="1"/>
+                    <field name="active" select="1" invisible="1"/>
+                    <field name="note" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_report_notes_form" model="ir.ui.view">
+            <field name="name">view.report.notes.form</field>
+            <field name="model">ir.act.report.xml.note</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Report note">
+                    <field name="name"/>
+                    <field name="active"/>
+                    <separator string="Note" colspan="4"/>
+                    <field name="note" colspan="4" nolabel="1"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_report_notes" model="ir.actions.act_window">
+            <field name="name">Report notes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ir.act.report.xml.note</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem parent="base.menu_config" name="Report notes" id="report_notes_menu"/>
+        <menuitem action="action_report_notes" id="menu_action_report_notes" parent="report_notes_menu"/>
+
+    </data>
+</openerp>

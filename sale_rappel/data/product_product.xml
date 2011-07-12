@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="category_system" model="product.category">
+            <field name="name">System products</field>
+        </record>
+    
+        <record id="product_rappel" model="product.product">
+            <field name="name">Rappel</field>
+            <field name="default_code">999</field>
+            <field name="active" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="sale_ok" eval="False"/>
+            <field name="type">service</field>
+            <field name="procure_method">make_to_stock</field>
+            <field name="categ_id" ref="category_system"/>
+            <field name="rental" eval="False"/>
+            <field name="property_stock_procurement" ref="stock.stock_location_stock"/>
+            <field name="property_stock_production" ref="stock.location_production"/>
+            <field name="property_stock_inventory" ref="stock.location_inventory"/>
+        </record>
+
+    </data>
+</openerp>

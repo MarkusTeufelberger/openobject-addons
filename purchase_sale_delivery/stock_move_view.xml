@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+
+    <record id="stock_move_ftree_view_aa_price_unit" model="ir.ui.view">
+        <field name="name">stock.move.tree.add_price_unit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="shipment_line" readonly="True"/>
+                <field name="price_unit" readonly="True"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_picking_in_form_add_price_unit" model="ir.ui.view">
+        <field name="name">stock.picking.in.form.add_price_unit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_in_form"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/tree/field[@name='state']" position="before">
+                <field name="shipment_line" readonly="True"/>
+                <field name="price_unit" readonly="True"/>
+            </xpath>
+        </field>
+    </record>
+
+
+  </data>
+</openerp>

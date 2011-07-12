@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="act_group_picking" model="workflow.activity">
+            <field name="wkf_id" ref="purchase.purchase_order"/>
+            <field name="name">group picking</field>
+            <field name="kind">subflow</field>
+            <field name="subflow_id" search="[('osv','=','stock.picking')]"/>
+            <field name="action">action_merge_picking_assign()</field>
+        </record>
+
+        <record id="act_new_group_picking" model="workflow.activity">
+            <field name="wkf_id" ref="purchase.purchase_order"/>
+            <field name="name">new group picking</field>
+        </record>
+
+        <record id="purchase.trans_picking_except_picking" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_picking"/>
+            <field name="act_to" ref="purchase.act_except_picking"/>
+            <field name="signal">subflow.cancel</field>
+            <field name="condition">not group_picking_ids</field>
+        </record>
+
+        <record id="trans_picking_group_picking" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_picking"/>
+            <field name="act_to" ref="act_group_picking"/>
+            <field name="signal">subflow.cancel</field>
+            <field name="condition">group_picking_ids</field>
+        </record>
+
+        <record id="trans_group_picking_except_picking" model="workflow.transition">
+            <field name="act_from" ref="act_group_picking"/>
+            <field name="act_to" ref="purchase.act_except_picking"/>
+            <field name="signal">subflow.cancel</field>
+            <field name="condition">check_can_cancel()</field>
+        </record>
+
+        <record id="trans_group_picking_new_group_picking" model="workflow.transition">
+            <field name="act_from" ref="act_group_picking"/>
+            <field name="act_to" ref="act_new_group_picking"/>
+            <field name="signal">subflow.cancel</field>
+            <field name="condition">not check_can_cancel()</field>
+        </record>
+
+        <record id="trans_new_group_picking_group_picking" model="workflow.transition">
+            <field name="act_from" ref="act_new_group_picking"/>
+            <field name="act_to" ref="act_group_picking"/>
+            <field name="condition">True</field>
+        </record>
+
+        <record id="trans_group_picking_picking_done" model="workflow.transition">
+            <field name="act_from" ref="act_group_picking"/>
+            <field name="act_to" ref="purchase.act_picking_done"/>
+            <field name="signal">subflow.done</field>
+        </record>
+
+    </data>
+</openerp>

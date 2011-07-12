@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="backlog_hg_form">
+            <field name="name">backlog.hg.form</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="scrum.view_scrum_product_backlog_form" />
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <newline />
+                        <group string="Source control" colspan="6" col="4">
+                            <field name="related_files_ids" colspan="4" nolabel="1" domain="[('project_id','=',project_id)]"/>
+                            <field name="hg_changeset_ids" colspan="4" nolabel="1" domain="[('project_id','=',project_id)]"/>
+                        </group>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_scrum_product_backlog_tree" model="ir.ui.view">
+            <field name="name">scrum.product.backlog.tree.inherit</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="scrum.view_scrum_product_backlog_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="code"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_scrum_product_backlog_form" model="ir.ui.view">
+            <field name="name">scrum.product.backlog.form.inherit</field>
+            <field name="model">scrum.product.backlog</field>
+            <field name="inherit_id" ref="scrum.view_scrum_product_backlog_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="code" select="1"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="scrum_project_hg_form">
+            <field name="name">scrum.project.hg.form</field>
+            <field name="model">scrum.project</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="scrum.view_scrum_project_form" />
+            <field name="arch" type="xml">
+                <page string="Notes" position="after">
+                        <page string="Mercurial">
+                            <field name="hg_repo_path"/>
+                            <button name="load_changeset" string="Loads log from repository" type="object" icon="gtk-execute" colspan="4"/>
+                        </page>
+                </page>
+            </field>
+        </record>
+
+
+       <record model="ir.ui.view" id="bl_file_tree">
+            <field name="name">bl.file.tree</field>
+            <field name="model">bl.file</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Source Files in Projects" >
+                    <field name="name" select="1" />
+                    <field name="project_id" select="1" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="bl_file_form">
+            <field name="name">bl.file.form</field>
+            <field name="model">bl.file</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Source Files in Projects" >
+                    <field name="name" readonly="1"/>
+                    <field name="project_id" readonly="1"/>
+                    <field name="backlog_ids" colspan="4" domain="[('project_id','=',project_id)]"/>
+                    <field name="hg_changeset_ids" colspan="4" readonly="1" domain="[('project_id','=',project_id)]"/>
+                </form>
+            </field>
+        </record>
+
+       <record id="action_bl_files" model="ir.actions.act_window">
+            <field name="name">Source Files</field>
+            <field name="res_model">bl.file</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
+       <!-- Formularios y menus para los changesets-->
+       <record model="ir.ui.view" id="hg_changeset_tree">
+            <field name="name">hg.changeset.tree</field>
+            <field name="model">hg.changeset</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Log from repositories" >
+                    <field name="name" select="1"/>
+                    <field name="project_id" select="1"/>
+                    <field name="description" select="1"/>
+                    <field name="user" select="1"/>
+                    <field name="date" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+         <record model="ir.ui.view" id="hg_changeset_form">
+            <field name="name">hg.changeset.form</field>
+            <field name="model">hg.changeset</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Log from repositories" >
+                    <field name="name" select="1" readonly="1"/>
+                    <field name="project_id" select="1" readonly="1"/>
+                    <field name="description" select="1" colspan="4" readonly="1"/>
+                    <field name="user" select="1" readonly="1"/>
+                    <field name="date" select="1" readonly="1"/>
+                    <newline />
+                    <field name="related_files_ids" domain="[('project_id','=',project_id)]"/>
+                    <field name="backlog_ids" domain="[('project_id','=',project_id)]"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hg_changesets" model="ir.actions.act_window">
+            <field name="name">Repository log</field>
+            <field name="res_model">hg.changeset</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Source code" id="menu_files_parent" parent="scrum.next_id_67" sequence= "90"/>
+        <menuitem action="action_bl_files" name="Source files" id="menu_files" parent="menu_files_parent" sequence= "90"/>
+        <menuitem action="action_hg_changesets" name="Repository logs" id="menu_log" parent="menu_files_parent" sequence= "95"/>
+
+
+        <act_window domain="[('project_id', '=', active_id)]" id="act_repository_log" name="Respository log" res_model="hg.changeset" src_model="scrum.project" />
+
+    </data>
+</openerp>
+
