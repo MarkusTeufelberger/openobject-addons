@@ -1,0 +1,152 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* cc_merge_picking
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.14\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-09-29 12:30+0000\n"
+"PO-Revision-Date: 2011-07-13 01:38+0000\n"
+"Last-Translator: Omar (Pexego) <bronxkds@hotmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-07-13 04:41+0000\n"
+"X-Generator: Launchpad (build 13168)\n"
+
+#. module: cc_merge_picking
+#: view:sale.order:0
+msgid "Picking groups"
+msgstr "Grupos albaranes"
+
+#. module: cc_merge_picking
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: cc_merge_picking
+#: code:addons/cc_merge_picking/wizard/pickings_merge_wzd.py:0
+#, python-format
+msgid "Any valid picking for merging !"
+msgstr "¡ Ningún albarán válido para agrupar !"
+
+#. module: cc_merge_picking
+#: field:stock.picking,purchase_ids:0
+msgid "Purchases"
+msgstr "Compras"
+
+#. module: cc_merge_picking
+#: code:addons/cc_merge_picking/wizard/pickings_merge_wzd.py:0
+#, python-format
+msgid "Pickings"
+msgstr "Albaranes"
+
+#. module: cc_merge_picking
+#: wizard_view:cc.stock.picking.merge,init:0
+msgid "* they belong to the same carrier"
+msgstr "* pertenecen al mismo transportista"
+
+#. module: cc_merge_picking
+#: wizard_view:cc.stock.picking.merge,init:0
+msgid "Please note that:"
+msgstr "Por favor tenga en cuenta que:"
+
+#. module: cc_merge_picking
+#: wizard_view:cc.stock.picking.merge,init:0
+msgid "* are going to the same partner address"
+msgstr "* van a la misma dirección de empresa"
+
+#. module: cc_merge_picking
+#: wizard_view:cc.stock.picking.merge,init:0
+msgid "* type is the same (in or out)"
+msgstr "* el tipo es el mismo (entrada o salida)"
+
+#. module: cc_merge_picking
+#: wizard_view:cc.stock.picking.merge,init:0
+msgid "- pickings will only be merged if:"
+msgstr "- los albaranes sólo se agruparán si:"
+
+#. module: cc_merge_picking
+#: wizard_view:cc.stock.picking.merge,init:0
+msgid "* their status is assigned or confirmed"
+msgstr "* su estado es asignado o confirmado"
+
+#. module: cc_merge_picking
+#: wizard_view:cc.stock.picking.merge,init:0
+msgid "* their invoice status isn't invoiced"
+msgstr "* su estado de factura no es facturado"
+
+#. module: cc_merge_picking
+#: code:addons/cc_merge_picking/purchase_order.py:0
+#, python-format
+msgid "You must first cancel all packing attached to this purchase order."
+msgstr ""
+"Debe primero cancelar todos los albaranes adjuntos a esta orden de compra."
+
+#. module: cc_merge_picking
+#: model:ir.module.module,shortdesc:cc_merge_picking.module_meta_information
+msgid "Merge picking"
+msgstr "Agrupar albaranes"
+
+#. module: cc_merge_picking
+#: wizard_view:cc.stock.picking.merge,init:0
+msgid "Are you sure you want to merge these pickings ?"
+msgstr "¿ Está seguro de que deseas agrupar estos albaranes ?"
+
+#. module: cc_merge_picking
+#: code:addons/cc_merge_picking/sale_order.py:0
+#, python-format
+msgid "Could not cancel sale order !"
+msgstr "¡ No puede cancelar la orden de venta !"
+
+#. module: cc_merge_picking
+#: model:ir.module.module,description:cc_merge_picking.module_meta_information
+msgid "Allow merge pickings, based on Axelor's module merge_picking"
+msgstr ""
+"Permite agrupar albaranes, basado en el módulo de Axelor merge_picking"
+
+#. module: cc_merge_picking
+#: field:stock.picking,sale_ids:0
+msgid "Sales"
+msgstr "Ventas"
+
+#. module: cc_merge_picking
+#: wizard_button:cc.stock.picking.merge,init,end:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: cc_merge_picking
+#: field:purchase.order,group_picking_ids:0
+#: field:sale.order,group_picking_ids:0
+msgid "Picking group"
+msgstr "Grupos albaranes"
+
+#. module: cc_merge_picking
+#: code:addons/cc_merge_picking/purchase_order.py:0
+#, python-format
+msgid "Could not cancel purchase order !"
+msgstr "¡ No puede cancelar la orden de compra !"
+
+#. module: cc_merge_picking
+#: code:addons/cc_merge_picking/wizard/pickings_merge_wzd.py:0
+#, python-format
+msgid "Cannot find any picking valid for merging from selected items."
+msgstr ""
+"No se puede encontrar ningún albarán válido para agrupar en los "
+"seleccionados."
+
+#. module: cc_merge_picking
+#: code:addons/cc_merge_picking/sale_order.py:0
+#, python-format
+msgid "You must first cancel all packing attached to this sale order."
+msgstr ""
+"Debe primero cancelar todos los albaranes adjuntos a esta órden de venta."
+
+#. module: cc_merge_picking
+#: wizard_view:cc.stock.picking.merge,init:0
+#: wizard_button:cc.stock.picking.merge,init,merge:0
+#: model:ir.actions.wizard,name:cc_merge_picking.stock_picking_merge
+msgid "Merge pickings"
+msgstr "Agrupar albaranes"
