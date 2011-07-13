@@ -1,6 +1,6 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* cc_early_payment_discount
+#	* pxgo_early_payment_discount
 #
 msgid ""
 msgstr ""
