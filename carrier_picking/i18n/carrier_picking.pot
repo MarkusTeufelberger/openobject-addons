@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.0\n"
+"Project-Id-Version: OpenERP Server 5.0.15\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-05-08 18:56:05+0000\n"
-"PO-Revision-Date: 2009-05-08 18:56:05+0000\n"
+"POT-Creation-Date: 2011-07-21 17:36:01+0000\n"
+"PO-Revision-Date: 2011-07-21 17:36:01+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,41 +18,118 @@ msgstr ""
 #. module: carrier_picking
 #: field:res.partner.address,plate:0
 msgid "Plate"
-msgstr ""
+msgstr "Plate"
 
 #. module: carrier_picking
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
-msgstr ""
-
-#. module: carrier_picking
-#: model:ir.module.module,description:carrier_picking.module_name_translation
-msgid "Carrier picking module:\n"
-"\n"
-"* Adds contact carrier in picking lists and a field to store additional information (like vehicle's plate) in partner addresses and picking lists"
-msgstr ""
-
-#. module: carrier_picking
-#: help:res.partner.address,plate:0
-msgid "Vehicle's plate"
-msgstr ""
-
-#. module: carrier_picking
-#: model:ir.module.module,shortdesc:carrier_picking.module_name_translation
-msgid "Carrier picking"
-msgstr ""
+#: field:product.template,from_country_id:0
+msgid "From Country"
+msgstr "From Country"
 
 #. module: carrier_picking
 #: field:stock.picking,address_carrier_id:0
 msgid "Carrier Address"
-msgstr ""
+msgstr "Carrier Address"
 
 #. module: carrier_picking
 #: field:stock.picking,carrier_name:0
 msgid "Carrier Info"
-msgstr ""
+msgstr "Carrier Info"
+
+#. module: carrier_picking
+#: field:product.template,to_country_id:0
+msgid "To Country"
+msgstr "To Country"
+
+#. module: carrier_picking
+#: field:product.template,to_zip:0
+msgid "To Zip"
+msgstr "To Zip"
+
+#. module: carrier_picking
+#: field:res.partner,shipping_agency:0
+#: field:stock.picking,shipping_agency_id:0
+msgid "Agency"
+msgstr "Agency"
+
+#. module: carrier_picking
+#: field:product.template,from_city:0
+msgid "From City"
+msgstr "From City"
+
+#. module: carrier_picking
+#: field:product.template,from_state_id:0
+msgid "From Fed. State"
+msgstr "From Fed. State"
+
+#. module: carrier_picking
+#: view:product.product:0
+#: field:product.template,shipping:0
+msgid "Shipping"
+msgstr "Shipping"
+
+#. module: carrier_picking
+#: field:product.template,from_zip:0
+msgid "From Zip"
+msgstr "From Zip"
+
+#. module: carrier_picking
+#: field:product.template,to_city:0
+msgid "To City"
+msgstr "To City"
+
+#. module: carrier_picking
+#: model:ir.module.module,shortdesc:carrier_picking.module_meta_information
+msgid "Carrier picking adds carrier contact information"
+msgstr "Carrier picking adds carrier contact information"
+
+#. module: carrier_picking
+#: field:product.template,to_state_id:0
+msgid "To Fed. State"
+msgstr "To Fed. State"
+
+#. module: carrier_picking
+#: field:res.partner,carrier:0
+#: field:stock.picking,carrier_id:0
+msgid "Carrier"
+msgstr "Carrier"
+
+#. module: carrier_picking
+#: help:res.partner,shipping_agency:0
+msgid "This partner is a shipping agency."
+msgstr "This partner is a shipping agency."
+
+#. module: carrier_picking
+#: help:res.partner,carrier:0
+msgid "This partner is a carrier."
+msgstr "This partner is a carrier."
+
+#. module: carrier_picking
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "Invalid XML for View Architecture!"
 
 #. module: carrier_picking
 #: help:stock.picking,carrier_name:0
 msgid "Additional carrier information (vehicle's plate, ...)"
-msgstr ""
+msgstr "Additional carrier information (vehicle's plate, ...)"
+
+#. module: carrier_picking
+#: model:ir.module.module,description:carrier_picking.module_meta_information
+msgid "Carrier picking module:\n"
+"* Allows to check the partners as shipping agencies or carriers.\n"
+"* Adds the shipping agency partner in picking lists.\n"
+"* Adds the carrier partner and carrier address in picking lists.\n"
+"* Adds a field to store the vehicle's plate (or other info) in partner addresses and picking lists.\n"
+"* Allows to check the products as a shipping products. You can store zip, city, state and country information for the from and to destination of the shipping product."
+msgstr "Carrier picking module:\n"
+"* Allows to check the partners as shipping agencies or carriers.\n"
+"* Adds the shipping agency partner in picking lists.\n"
+"* Adds the carrier partner and carrier address in picking lists.\n"
+"* Adds a field to store the vehicle's plate (or other info) in partner addresses and picking lists.\n"
+"* Allows to check the products as a shipping products. You can store zip, city, state and country information for the from and to destination of the shipping product."
+
+#. module: carrier_picking
+#: help:res.partner.address,plate:0
+msgid "Vehicle's plate"
+msgstr "Vehicle's plate"
+

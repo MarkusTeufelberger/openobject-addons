@@ -8,9 +8,10 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
                 <field name="min_date" position="after">
-                    <newline/>
-                    <field name="address_carrier_id" on_change="change_carrier(address_carrier_id)"/>
-                    <field name="carrier_name" colspan="3"/>
+                    <field name="carrier_name"/>
+                    <field name="address_carrier_id" domain="[('partner_id','=',carrier_id)]" on_change="change_carrier(address_carrier_id)"/>
+                    <field name="carrier_id"/>
+                    <field name="shipping_agency_id"/>
                 </field>
             </field>
         </record>
@@ -21,9 +22,10 @@
             <field name="inherit_id" ref="stock.view_picking_delivery_form"/>
             <field name="arch" type="xml">
                 <field name="origin" position="after">
-                    <newline/>
-                    <field name="address_carrier_id" on_change="change_carrier(address_carrier_id)"/>
-                    <field name="carrier_name" colspan="3"/>
+                    <field name="carrier_name"/>
+                    <field name="address_carrier_id" domain="[('partner_id','=',carrier_id)]" on_change="change_carrier(address_carrier_id)"/>
+                    <field name="carrier_id"/>
+                    <field name="shipping_agency_id"/>
                 </field>
             </field>
         </record>
@@ -32,10 +34,13 @@
             <field name="model">stock.picking</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="stock.view_picking_in_form"/>
+            <field name="priority">10</field>
             <field name="arch" type="xml">
                 <field name="backorder_id" select="2" readonly="1" position="after">
-                    <field name="address_carrier_id" on_change="change_carrier(address_carrier_id)"/>
-                    <field name="carrier_name" colspan="3"/>
+                    <field name="carrier_name"/>
+                    <field name="address_carrier_id" domain="[('partner_id','=',carrier_id)]" on_change="change_carrier(address_carrier_id)"/>
+                    <field name="carrier_id"/>
+                    <field name="shipping_agency_id"/>
                 </field>
             </field>
         </record>
@@ -46,8 +51,10 @@
             <field name="inherit_id" ref="stock.view_picking_out_form"/>
             <field name="arch" type="xml">
                 <field name="origin" position="after">
-                    <field name="address_carrier_id" on_change="change_carrier(address_carrier_id)"/>
-                    <field name="carrier_name" colspan="3"/>
+                    <field name="carrier_name"/>
+                    <field name="address_carrier_id" domain="[('partner_id','=',carrier_id)]" on_change="change_carrier(address_carrier_id)"/>
+                    <field name="carrier_id"/>
+                    <field name="shipping_agency_id"/>
                 </field>
             </field>
         </record>
@@ -60,6 +67,8 @@
             <field name="arch" type="xml">
                 <field name="state" position="after">
                     <field name="carrier_name" select="2"/>
+                    <field name="carrier_id"/>
+                    <field name="shipping_agency_id"/>
                 </field>
             </field>
         </record>
@@ -71,6 +80,8 @@
             <field name="arch" type="xml">
                 <field name="state" position="after">
                     <field name="carrier_name" select="2"/>
+                    <field name="carrier_id"/>
+                    <field name="shipping_agency_id"/>
                 </field>
             </field>
         </record>
@@ -82,6 +93,8 @@
             <field name="arch" type="xml">
                 <field name="state" position="after">
                     <field name="carrier_name" select="2"/>
+                    <field name="carrier_id"/>
+                    <field name="shipping_agency_id"/>
                 </field>
             </field>
         </record>
@@ -93,6 +106,8 @@
             <field name="arch" type="xml">
                 <field name="state" position="after">
                     <field name="carrier_name" select="2"/>
+                    <field name="carrier_id"/>
+                    <field name="shipping_agency_id"/>
                 </field>
             </field>
         </record>

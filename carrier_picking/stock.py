@@ -31,6 +31,8 @@ class stock_picking(osv.osv):
     _columns = {
         'address_carrier_id': fields.many2one('res.partner.address', 'Carrier Address'),
         'carrier_name': fields.char('Carrier Info', size=64, help="Additional carrier information (vehicle's plate, ...)"),
+        'shipping_agency_id': fields.many2one('res.partner', 'Agency', domain=[('shipping_agency','=',True)], select=2),
+        'carrier_id': fields.many2one('res.partner', 'Carrier', domain=[('carrier','=',True)], select=2),
     }
 
     def change_carrier(self, cr, uid, ids, address_carrier_id=False):
@@ -38,7 +40,7 @@ class stock_picking(osv.osv):
         if address_carrier_id:
             address_carrier = self.pool.get('res.partner.address').browse(cr,uid,address_carrier_id)
             #print address_carrier.partner_id.name, address_carrier.name, address_carrier.plate
-            v['carrier_name'] = address_carrier.partner_id.name + " / " + address_carrier.name + (address_carrier.plate and " / " + address_carrier.plate or "")
+            v['carrier_name'] = address_carrier.plate or ""
         return {'value':v}
 
 stock_picking()

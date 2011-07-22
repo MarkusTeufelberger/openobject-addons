@@ -31,6 +31,14 @@ class res_partner_address(osv.osv):
     }
 res_partner_address()
 
+class res_partner(osv.osv):
+    _inherit = 'res.partner'
+    _columns = {
+        'shipping_agency': fields.boolean('Agency', help="This partner is a shipping agency."),
+        'carrier': fields.boolean('Carrier', help="This partner is a carrier."),
+    }
+res_partner()
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -7,8 +7,36 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+            <xpath expr="/form/group/field[@name='customer']" position="replace">
+                <group colspan="2" col="4">
+                    <field name="customer" select="1"/>
+                    <field name="shipping_agency" select="2"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_partner_form_v2">
+        <field name="name">res.partner.form.v2</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/group/field[@name='supplier']" position="replace">
+                <group colspan="2" col="4">
+                    <field name="supplier" select="1"/>
+                    <field name="carrier" select="2"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_partner_form_v3">
+        <field name="name">res.partner.form.v3</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
             <field name="email" select="2" widget="email" position="after">
-                <field name="plate"/>
+                <field name="plate" attrs="{'invisible':[('parent.carrier','=',False)]}"/>
             </field>
         </field>
     </record>
@@ -19,7 +47,7 @@
         <field name="inherit_id" ref="base.view_partner_address_form1"/>
         <field name="arch" type="xml">
             <field name="email" select="2" widget="email" position="after">
-                <field name="plate"/>
+                <field name="plate" attrs="{'invisible':[('parent.carrier','=',False)]}"/>
             </field>
         </field>
     </record>
