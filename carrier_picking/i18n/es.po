@@ -1,20 +1,20 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* carrier_picking
+# 	* carrier_picking
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.0\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-05-08 18:56+0000\n"
-"PO-Revision-Date: 2010-09-22 07:58+0000\n"
-"Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
+"POT-Creation-Date: 2011-07-21 17:36+0000\n"
+"PO-Revision-Date: 2011-07-23 01:03+0000\n"
+"Last-Translator: jmartin (Zikzakmedia) <jmartin@zikzakmedia.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-25 04:51+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-07-23 05:05+0000\n"
+"X-Generator: Launchpad (build 13405)\n"
 
 #. module: carrier_picking
 #: field:res.partner.address,plate:0
@@ -22,33 +22,9 @@ msgid "Plate"
 msgstr "Matrícula"
 
 #. module: carrier_picking
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
-msgstr "¡XML inválido para la definición de la vista!"
-
-#. module: carrier_picking
-#: model:ir.module.module,description:carrier_picking.module_name_translation
-msgid ""
-"Carrier picking module:\n"
-"\n"
-"* Adds contact carrier in picking lists and a field to store additional "
-"information (like vehicle's plate) in partner addresses and picking lists"
-msgstr ""
-"Módulo transportista en los albaranes:\n"
-"\n"
-"* Añade la dirección del transportista en los albaranes y un campo para "
-"almacenar información adicional (por ejemplo la matrícula del vehículo) en "
-"las direcciones de empresa y los albaranes."
-
-#. module: carrier_picking
-#: help:res.partner.address,plate:0
-msgid "Vehicle's plate"
-msgstr "Matrícula del vehículo"
-
-#. module: carrier_picking
-#: model:ir.module.module,shortdesc:carrier_picking.module_name_translation
-msgid "Carrier picking"
-msgstr "Transportista en los albaranes"
+#: field:product.template,from_country_id:0
+msgid "From Country"
+msgstr "De país"
 
 #. module: carrier_picking
 #: field:stock.picking,address_carrier_id:0
@@ -61,6 +37,140 @@ msgid "Carrier Info"
 msgstr "Info. transportista"
 
 #. module: carrier_picking
+#: field:product.template,to_country_id:0
+msgid "To Country"
+msgstr "A país"
+
+#. module: carrier_picking
+#: field:product.template,to_zip:0
+msgid "To Zip"
+msgstr "A código postal"
+
+#. module: carrier_picking
+#: field:res.partner,shipping_agency:0
+#: field:stock.picking,shipping_agency_id:0
+msgid "Agency"
+msgstr "Agencia"
+
+#. module: carrier_picking
+#: field:product.template,from_city:0
+msgid "From City"
+msgstr "De ciudad"
+
+#. module: carrier_picking
+#: field:product.template,from_state_id:0
+msgid "From Fed. State"
+msgstr "De provincia"
+
+#. module: carrier_picking
+#: view:product.product:0
+#: field:product.template,shipping:0
+msgid "Shipping"
+msgstr "Envio"
+
+#. module: carrier_picking
+#: field:product.template,from_zip:0
+msgid "From Zip"
+msgstr "De código postal"
+
+#. module: carrier_picking
+#: field:product.template,to_city:0
+msgid "To City"
+msgstr "A ciudad"
+
+#. module: carrier_picking
+#: model:ir.module.module,shortdesc:carrier_picking.module_meta_information
+msgid "Carrier picking adds carrier contact information"
+msgstr "El albarán del transportista añade su información de contacto"
+
+#. module: carrier_picking
+#: field:product.template,to_state_id:0
+msgid "To Fed. State"
+msgstr "A provincia"
+
+#. module: carrier_picking
+#: field:res.partner,carrier:0
+#: field:stock.picking,carrier_id:0
+msgid "Carrier"
+msgstr "Transportista"
+
+#. module: carrier_picking
+#: help:res.partner,shipping_agency:0
+msgid "This partner is a shipping agency."
+msgstr "Esta empresa es una agencia."
+
+#. module: carrier_picking
+#: help:res.partner,carrier:0
+msgid "This partner is a carrier."
+msgstr "Esta empresa es un transportista."
+
+#. module: carrier_picking
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: carrier_picking
 #: help:stock.picking,carrier_name:0
 msgid "Additional carrier information (vehicle's plate, ...)"
-msgstr "Información adicional transportista (matrícula vehículo, ...)"
+msgstr ""
+"Información adicional del transportista (matrícula del vehículo, ...)"
+
+#. module: carrier_picking
+#: model:ir.module.module,description:carrier_picking.module_meta_information
+msgid ""
+"Carrier picking module:\n"
+"* Allows to check the partners as shipping agencies or carriers.\n"
+"* Adds the shipping agency partner in picking lists.\n"
+"* Adds the carrier partner and carrier address in picking lists.\n"
+"* Adds a field to store the vehicle's plate (or other info) in partner "
+"addresses and picking lists.\n"
+"* Allows to check the products as a shipping products. You can store zip, "
+"city, state and country information for the from and to destination of the "
+"shipping product."
+msgstr ""
+"Módulo para gestionar transportistas en los albaranes:\n"
+"\n"
+"* Permite marcar las empresas como agencias de transporte o transportistas.\n"
+"* Añade la empresa agencia de transporte en los albaranes.\n"
+"* Añade la empresa transportista y la dirección del transportista en los "
+"albaranes.\n"
+"* Añade un campo para almacenar la matrícula del vehículo (o una otra "
+"información) en las direcciones de empresa y los albaranes.\n"
+"* Permite marcar los productos como productos de envío. Puede guardar "
+"información del código postal, ciudad, provincia y país del origen y destino "
+"del producto de envío."
+
+#. module: carrier_picking
+#: help:res.partner.address,plate:0
+msgid "Vehicle's plate"
+msgstr "Matrícula del vehículo"
+
+#~ msgid ""
+#~ "Carrier picking module:\n"
+#~ "\n"
+#~ "* Adds contact carrier in picking lists and a field to store additional "
+#~ "information (like vehicle's plate) in partner addresses and picking lists"
+#~ msgstr ""
+#~ "Módulo transportista en los albaranes:\n"
+#~ "\n"
+#~ "* Añade la dirección del transportista en los albaranes y un campo para "
+#~ "almacenar información adicional (por ejemplo la matrícula del vehículo) en "
+#~ "las direcciones de empresa y los albaranes."
+
+#~ msgid "Carrier picking"
+#~ msgstr "Transportista en los albaranes"
+
+#~ msgid ""
+#~ "Carrier picking module:\n"
+#~ "Adds\n"
+#~ "* Add contact carrier in picking lists,\n"
+#~ "* Add a field to store the vehicle's plate in partner addresses and picking "
+#~ "lists,\n"
+#~ "* Add fields of transport and agencies in the partner information "
+#~ msgstr ""
+#~ "Módulo de albaranes de transportista:\n"
+#~ "\n"
+#~ "* Añade la dirección del transportista a los albaranes,\n"
+#~ "* Añade un campo para almacenar la matrícula del vehículo a las direcciones "
+#~ "de empresa y los albaranes,\n"
+#~ "* Añade los campos transportista y agencia a la información de empresa "
