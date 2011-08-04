@@ -1,26 +1,32 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Camptocamp SA (http://www.camptocamp.com)
-# All Right Reserved
-# Author Nicolas Bessi
-# Contributor Florent Xicluna (Wingo SA)
+# Copyright © 2010-2011 Camptocamp SA (http://www.camptocamp.com)
+# All Rights Reserved
+# Author:       Nicolas Bessi
+# Contributor:  Florent Xicluna
 #
 ##############################################################################
 from datetime import datetime
+import logging
 import time
 import threading
+import traceback
 
 from dateutil.relativedelta import relativedelta
 
 import netsvc
-import tools
 import pooler
 from osv import fields, osv
+try:
+    from tools.safe_eval import safe_eval as eval
+except ImportError:
+    # some old version of OpenERP 5
+    pass
 
-
-def str2tuple(s):
-    return eval('tuple(%s)' % (s or ''))
+# Minimal and maximal delay between "pool Jobs" calls (in seconds)
+MIN_INTERVAL = 60           # 1 minute
+MAX_INTERVAL = 3600 * 24    # 1 day
 
 _intervalTypes = {
     'work_days': lambda interval: relativedelta(days=interval),
@@ -32,172 +38,272 @@ _intervalTypes = {
 }
 
 
+def str2tuple(s):
+    return eval('tuple(%s)' % (s or ''))
+
+
+def exc2str(e):
+    return '%s: %s' % (type(e).__name__, e)
+
+
+class Cron(object):
+    """Singleton that run the cron tasks."""
+    # Inspired from: https://bugs.launchpad.net/openobject-server/+bug/640493
+    __nexttime = {}
+    __cron = None
+
+    @classmethod
+    def set_task(cls, task):
+        """Set the cron task.
+
+        The task is a function with a single argument: the db_name.
+        """
+        cls.__cron = task
+
+    @classmethod
+    def set_interval(cls, db_name, interval):
+        """Set the interval in seconds for this database."""
+        assert cls.__cron is not None, 'No Cron task defined'
+        cls.__nexttime[db_name] = time.time() + interval
+
+    @classmethod
+    def cancel(cls, db_name):
+        """Turn off the cron for this database.
+
+        If None is passed, all crons are disabled.
+        """
+        if db_name is None:
+            cls.__nexttime.clear()
+        else:
+            try:
+                del cls.__nexttime[db_name]
+            except KeyError:
+                pass
+
+    @classmethod
+    def runner(cls):
+        """Main loop intended to be run in a dedicated thread."""
+        while True:
+            for (db_name, timestamp) in cls.__nexttime.items():
+                if timestamp < time.time():
+                    try:
+                        cls.__cron(db_name)
+                    except Exception, e:
+                        # Safeguard to prevent early cron termination
+                        log = logging.getLogger('cron').error
+                        log('Uncaught exception!\n' + exc2str(e))
+            time.sleep(MIN_INTERVAL)
+
+def start_cron():
+    cron_runner = threading.Thread(target=Cron.runner, name='Cron.runner')
+    # the cron runner is a typical daemon thread, that will never quit and
+    # must be terminated when the main process exits - with no consequence
+    # (the processing threads it spawns are not marked daemon)
+    cron_runner.setDaemon(True)     # compatibility Python 2.5
+    cron_runner.start()
+
+start_cron()
+
+
 class c2c_cron_audittrail(osv.osv):
     """c2c Cron Audittrail"""
     _inherit = "ir.cron"
     _columns = {
-            'state': fields.selection([('ok', 'Ok'),
-                                       ('cancel', 'Ko')], 'Status', readonly=True),
-            'action_name': fields.char('Action Name', size=64, readonly=True),
-            'duration': fields.float('Duration', readonly=True, help="Duration of scheduled action in Minutes"),
-            'funct_message': fields.text("Function Message", readonly=True),
+        'state': fields.selection([('ok', 'Ok'),
+                                   ('cancel', 'Ko')], 'Status', readonly=True),
+        'action_name': fields.char('Action name', size=64, readonly=True),
+        'duration': fields.float('Duration', readonly=True,
+                                 help='Duration of scheduled action in minutes'),
+        'funct_message': fields.text('Function message', readonly=True),
     }
 
-    _lock = threading.Lock()
-    RUNNING_CRON = set()
+    # forbid simultaneous calls of the same job
+    _lock = {}
+    _threads = {}
+    _logger = logging.getLogger('cron')
 
-    def synchronized(f, _lock=_lock):
-        """Decorator for thread-safety."""
-        def wrapper(*args, **kwargs):
-            _lock.acquire()
-            try:
-                return f(*args, **kwargs)
-            finally:
-                _lock.release()
-        wrapper.__name__ = f.__name__
-        wrapper.__doc__ = f.__doc__
-        return wrapper
+    # This class inherits three methods from netsvc.Agent, but we use a
+    # different logic here.  Only 'cancel' is really used.
+    # For consistency we overwrite the three methods.
+    setAlarm = quit = NotImplemented
+    cancel = Cron.cancel
+
+    def __init__(self, pool, cr):
+        # Set the cron task
+        Cron.set_task(self._poolJobs)
+        # Cancel the netsvc.Agent, if it is running.  We don't use it.
+        netsvc.Agent.cancel(cr.dbname)
+        # Used to prevent race conditions
+        self._lock[cr.dbname] = threading.Lock()
+        return super(c2c_cron_audittrail, self).__init__(pool, cr)
 
     def _callback(self, db_name, uid, job, nextcall, numbercall, context=None):
         job_repr = "self.pool.get('%(model)s').%(function)s(cr, uid, *%(args)s)" % job
-        self._logger.notifyChannel('timers', netsvc.LOG_INFO,
-                                   'Job call of %s launched' % job_repr)
+        self._logger.debug('Job call of %s launched' % job_repr)
         m = self.pool.get(job['model'])
-        if m and hasattr(m, job['function']):
-            f = getattr(m, job['function'])
-            key = (job['id'], db_name)
-            args = str2tuple(job['args'])
-            sql_params = {'id': job['id'], 'number': numbercall}
-            time_before = datetime.now()
-            try:
-                db, pool = pooler.get_db_and_pool(db_name)
-                cr = db.cursor()
-                function = f(cr, uid, *args)
-                if function is None:
-                    function = "None"
-                sql_params['state'] = 'ok'
-                sql_params['msg'] = function
-            except Exception, e:
-                sql_params['state'] = 'cancel'
-                sql_params['msg'] = e
-                self._logger.notifyChannel('timers', netsvc.LOG_ERROR,
-                                           'Job call of %s failed' % job_repr)
-                self._logger.notifyChannel('timers', netsvc.LOG_ERROR,
-                                           tools.exception_to_unicode(e))
-            finally:
-                time_after = datetime.now()
-                sql_params['duration'] = (time_after - time_before).seconds / 60
-                if numbercall:
-                    # Reschedule the job in the future
-                    while nextcall < datetime.now():
-                        nextcall += _intervalTypes[job['interval_type']](job['interval_number'])
-                    sql_params['next'] = nextcall.strftime('%Y-%m-%d %H:%M:%S')
-                    sql_extra = 'nextcall = %(next)s'
-                    job_status = 'rescheduled'
-                else:
-                    # If numbercall reach 0, deactivate the job
-                    sql_extra = 'active = False'
-                    job_status = 'deactivated'
+        f = getattr(m, job['function'], None)
+        if not callable(f):
+            # Either m is None, f is None or f is not callable
+            self._logger.warn('Cannot call job %s: model or method '
+                              'does not exist.' % job_repr)
+            return
 
-                # Grab the lock before update
-                self._lock.acquire()
-                try:
-                    # we use cursor as parent ir_cron class write function call the netsvc cancel function
-                    # we do not use ORM due to strange behavior when active = False
-                    cr.execute(
-                        "UPDATE ir_cron"
-                        "   SET funct_message = %(msg)s, duration = %(duration)s,"
-                        "       state = %(state)s, numbercall = %(number)s, " +
-                        sql_extra + " WHERE id = %(id)s", sql_params)
+        args = str2tuple(job['args'])
+        sql_params = {
+            'id': job['id'],
+            'number': numbercall,
+            'state': '',
+            'msg': '',
+        }
+        if numbercall:
+            # Reschedule the job in the future
+            sql_params['next'] = nextcall.strftime('%Y-%m-%d %H:%M:%S')
+            sql_extra = 'nextcall = %(next)s'
+        else:
+            # If numbercall reach 0, deactivate the job
+            sql_extra = 'active = False'
 
-                    # To be sure that parallel process will never overlap in one DB
-                    self.RUNNING_CRON.discard(key)
-                finally:
-                    cr.commit()
-                    cr.close()
-                    self._lock.release()
-
-                self._logger.notifyChannel('timers', netsvc.LOG_INFO,
-                                           'Job call of %s finished and job %s.' %
-                                           (job_repr, job_status))
-
-                # check=True: run once, do not schedule multiple "_poolJobs"
-                self._poolJobs(db_name, check=True)
-
-    @synchronized
-    def _clearJobs(self, db_name):
-        """Grab the lock and stop the timers."""
-        # This method is used in "create", "write" and "unlink"
-        # because the inherited methods are not thread-safe.
-        self.cancel(db_name)
-        self.RUNNING_CRON.clear()
-        self._logger.notifyChannel('timers', netsvc.LOG_INFO, 'All jobs cancelled')
-
-    @synchronized
-    def _poolJobs(self, db_name, check=False):
-        """Grab the lock and schedule the jobs."""
+        time_before = time.time()
         try:
             db, pool = pooler.get_db_and_pool(db_name)
-        except Exception:
-            return False
-
-        if not pool._init:
-            jobs_to_schedule = []
             cr = db.cursor()
+            result = f(cr, uid, *args)
+            sql_params['state'] = 'ok'
+            sql_params['msg'] = str(result)
+            self._logger.debug('Job call of %s finished.' % job_repr)
+        except Exception, e:
+            cr.rollback()
+            exc_tb = traceback.format_exc()
+            sql_params['state'] = 'cancel'
+            sql_params['msg'] = exc2str(e)
+            self._logger.error('Job call of %s failed\n%s' %
+                               (job_repr, exc_tb))
+        finally:
+            time_after = time.time()
+            sql_params['duration'] = (time_after - time_before) / 60.
+
+            # We use cursor because parent ir_cron class 'write' method
+            # calls the 'cancel' method.
+            # We do not use ORM due to strange behavior when active = False
             try:
-                cr.execute('SELECT * FROM ir_cron'
-                           ' WHERE numbercall <> 0 AND active'
-                           ' ORDER BY priority')
-                for job in cr.dictfetchall():
-                    numbercall = int(job['numbercall'])
-                    key = (job['id'], db_name)
-                    if numbercall and key not in self.RUNNING_CRON:
-                        nextcall = datetime.strptime(job['nextcall'], '%Y-%m-%d %H:%M:%S')
-                        if nextcall > datetime.now() or job['doall']:
-                            self.RUNNING_CRON.add(key)
-                            jobs_to_schedule.append((job, numbercall, nextcall))
+                cr.execute(
+                    'UPDATE ir_cron'
+                    '   SET funct_message = %(msg)s, duration = %(duration)s,'
+                    '       state = %(state)s, numbercall = %(number)s, ' +
+                    sql_extra + ' WHERE id = %(id)s;', sql_params)
             finally:
+                cr.commit()
                 cr.close()
 
-            # Used to stagger cron jobs
-            at_the_earliest = int(time.time()) + 5
+    def _start_thread(self, db_name, job, nextcall):
+        key = (db_name, job['id'])
+        t = self._threads.get(key)
+        if t and t.isAlive():
+            # Previous job call is still running
+            return t.nextcall
 
-            for job, numbercall, nextcall in jobs_to_schedule:
-                self._logger.notifyChannel('timers', netsvc.LOG_INFO,
-                    'Scheduling job "%(name)s" at %(nextcall)s' % job)
-                next_call = time.mktime(nextcall.timetuple())
-                if next_call < at_the_earliest:
-                    # Jobs are staggered to prevent server overload.
-                    # The delay is 10 seconds between consecutive jobs.
-                    next_call = at_the_earliest
-                    at_the_earliest += 10
-                if numbercall > 0:
-                    numbercall -= 1
-                self.setAlarm(self._callback, next_call, db_name,
-                              db_name, job['user_id'], job, nextcall, numbercall)
+        self._logger.info('Starting thread for job "%(name)s", '
+                          'scheduled at %(nextcall)s' % job)
+
+        # Update the numbercall
+        numbercall = int(job['numbercall'])
+        if numbercall > 0:
+            numbercall -= 1
+
+        # Update the nextcall
+        if numbercall:
+            interval = _intervalTypes[job['interval_type']](job['interval_number'])
+            nextcall += interval
+            if not job['doall']:
+                # Reschedule the job in the future
+                while nextcall < datetime.now():
+                    nextcall += interval
+        else:
+            nextcall = False
+
+        # Prepare and start the thread
+        args = (db_name, job['user_id'], job, nextcall, numbercall)
+        t = threading.Thread(target=self._callback, name=job['name'], args=args)
+        self._threads[key] = t
+        # force non-daemon task threads
+        # (the Cron thread must be daemon, and this property is inherited by default)
+        t.setDaemon(False)  # compatibility Python 2.5
+        # Memorize the nextcall on the thread object itself
+        t.nextcall = nextcall
+        t.start()
+
+        # Return the next call datetime, or False if no more call to schedule
+        return nextcall
+
+    def _poolJobs(self, db_name, check=False):
+        """Start a thread for each job."""
+        # This method can be called both by the "_MainThread"
+        # and the "Cron.runner" thread.
+        # We use a Lock to prevent a race condition.
+        self._lock[db_name].acquire()
+        try:
+            return self.__poolJobs(db_name, check)
+        except Exception, e:
+            self._logger.error(exc2str(e))
+        finally:
+            self._lock[db_name].release()
+
+    def __poolJobs(self, db_name, check=False):
+        try:
+            db, pool = pooler.get_db_and_pool(db_name)
+            cr = db.cursor()
+        except Exception:
+            # database dropped or closed
+            Cron.cancel(db_name)
+            raise
+
+        # Save the dbname for logging
+        ct = threading.currentThread()
+        ct.dbname = db_name
+
+        now = datetime.now()
+        next_calls = set()
+
+        try:
+            # Forget terminated threads
+            for (key, t) in self._threads.items():
+                if t.isAlive():
+                    # Compatibility Python 2.5, Thread.name is the new API.
+                    self._logger.info('Thread for job "%s" is still running' %
+                                      (t.getName(),))
+                else:
+                    del self._threads[key]
+
+            # Poll active cron jobs
+            cr.execute('SELECT * FROM ir_cron'
+                       ' WHERE numbercall <> 0 AND active'
+                       ' ORDER BY priority;')
+            for job in cr.dictfetchall():
+                nextcall = datetime.strptime(job['nextcall'], '%Y-%m-%d %H:%M:%S')
+
+                if not pool._init and nextcall < now:
+                    nextcall = self._start_thread(db_name, job, nextcall)
+
+                if nextcall:
+                    next_calls.add(nextcall)
+        finally:
+            cr.commit()
+            cr.close()
 
         if not check:
-            # we ensure that _poolJobs runs at least every day
-            next_call = int(time.time()) + (3600 * 24)
-            self.setAlarm(self._poolJobs, next_call, db_name, db_name)
+            if next_calls:
+                td = min(next_calls) - now
+                interval = td.seconds + td.days * 24 * 3600
+                # Enforce minimal and maximal boundaries
+                interval = min(max(interval, MIN_INTERVAL), MAX_INTERVAL)
+            else:
+                interval = MAX_INTERVAL
+            Cron.set_interval(db_name, interval)
+            self._logger.info('Next run scheduled in %s seconds' % (interval,))
 
-    def create(self, cr, uid, vals, context=None):
-        res = super(c2c_cron_audittrail, self).create(cr, uid, vals, context=context)
-        self._clearJobs(cr.dbname)
-        self._poolJobs(cr.dbname)
-        return res
-
-    def write(self, cr, user, ids, vals, context=None):
-        res = super(c2c_cron_audittrail, self).write(cr, user, ids, vals, context=context)
-        self._clearJobs(cr.dbname)
-        self._poolJobs(cr.dbname)
-        return res
-
-    def unlink(self, cr, uid, ids, context=None):
-        res = super(c2c_cron_audittrail, self).unlink(cr, uid, ids, context=context)
-        self._clearJobs(cr.dbname)
-        self._poolJobs(cr.dbname)
-        return res
+    def restart(self, db_name):
+        self.cancel(db_name)
+        self._poolJobs(db_name)
 
 c2c_cron_audittrail()
 
