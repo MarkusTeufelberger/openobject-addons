@@ -142,7 +142,7 @@ class c2c_sale_bom_split(osv.osv):
             picking = picking_obj.browse(cr, uid, picking_ids)[0]
             todo_moves = []
             for line in picking.move_lines:
-                
+                proc_id = False
                 bom_ids = bom_obj._bom_find(cr, uid, line.product_id.id, line.product_uom.id, properties=[])
                 if bom_ids:
                     bom = bom_obj.browse(cr, uid, [bom_ids])[0]
@@ -185,6 +185,7 @@ class c2c_sale_bom_split(osv.osv):
 
         
     def sale_bom_explode(self, cr, uid, bom, factor, properties, addthis=False, level=0):
+        mrp_obj = self.pool.get('mrp.bom')
         factor = factor / (bom.product_efficiency or 1.0)
         factor = rounding(factor, bom.product_rounding)
         if factor<bom.product_rounding:
@@ -194,9 +195,10 @@ class c2c_sale_bom_split(osv.osv):
         phantom=False
         normal = False
         if bom.type=='phantom' and not bom.bom_lines:
-            newbom = self.pool.get('mrp.bom')._bom_find(cr, uid, bom.product_id.id, bom.product_uom.id, properties)
+            newbom = mrp_obj._bom_find(cr, uid, bom.product_id.id, bom.product_uom.id, properties)
             if newbom:
-                res = self.sale_bom_explode(cr, uid, self.browse(cr, uid, [newbom])[0], factor*bom.product_qty, properties, addthis=True, level=level+10)
+                res = self.sale_bom_explode(cr, uid, mrp_obj.browse(cr, uid, newbom),
+                                            factor*bom.product_qty, properties, addthis=True, level=level+10)
                 result = result + res[0]
                 result2 = result2 + res[1]
                 phantom=True
