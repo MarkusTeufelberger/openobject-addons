@@ -1,0 +1,444 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* poweremail_filter
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.15\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-04-19 15:20:48+0000\n"
+"PO-Revision-Date: 2011-04-19 15:20:48+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value1_date:0
+msgid "Date1"
+msgstr "Date1"
+
+#. module: poweremail_filter
+#: code:addons/poweremail_filter/poweremail_filter.py:0
+#, python-format
+msgid "Information"
+msgstr "Information"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "self - objects pointer"
+msgstr "self - objects pointer"
+
+#. module: poweremail_filter
+#: view:poweremail.filter.rec_filter_cond:0
+#: field:poweremail.filter.rec_filter_cond,cond_value:0
+msgid "Condition value"
+msgstr "Condition value"
+
+#. module: poweremail_filter
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "The Object name must start with x_ and not contain any special character !"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "cr - database cursor"
+msgstr "cr - database cursor"
+
+#. module: poweremail_filter
+#: model:ir.actions.act_window,name:poweremail_filter.action_poweremail_filter
+msgid "Poweremail Filters"
+msgstr "Poweremail Filters"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,temp_var:0
+msgid "Temp Variable"
+msgstr "Temp Variable"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,field_id:0
+#: selection:poweremail.filter.rec_filter,temp_var:0
+#: selection:poweremail.filter.rec_filter,var:0
+msgid "Field"
+msgstr "Field"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,name:0
+msgid "Filter coditions"
+msgstr "Filter coditions"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,cond_type:0
+msgid "Condition type"
+msgstr "Condition type"
+
+#. module: poweremail_filter
+#: code:addons/poweremail_filter/poweremail_filter.py:0
+#, python-format
+msgid "The following emails are generated for the filtered records:\n%s\nCheck these mails in the Out box."
+msgstr "The following emails are generated for the filtered records:\n%s\nCheck these mails in the Out box."
+
+#. module: poweremail_filter
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Invalid model name in the action definition."
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,field_type:0
+msgid "Ttype"
+msgstr "Ttype"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_type,type:0
+msgid "Type"
+msgstr "Type"
+
+#. module: poweremail_filter
+#: selection:poweremail.filter.rec_filter_cond,value1_date_type:0
+#: selection:poweremail.filter.rec_filter_cond,value1_datetime_type:0
+#: selection:poweremail.filter.rec_filter_cond,value2_date_type:0
+#: selection:poweremail.filter.rec_filter_cond,value2_datetime_type:0
+msgid "Today"
+msgstr "Today"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,sub_object_field_id:0
+msgid "Sub Field"
+msgstr "Sub Field"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value1_char:0
+msgid "Char"
+msgstr "Char"
+
+#. module: poweremail_filter
+#: selection:poweremail.filter.rec_filter,state:0
+msgid "Undefined"
+msgstr "Undefined"
+
+#. module: poweremail_filter
+#: field:poweremail.filter,last_send:0
+#: selection:poweremail.filter.rec_filter_cond,value1_date_type:0
+#: selection:poweremail.filter.rec_filter_cond,value1_datetime_type:0
+#: selection:poweremail.filter.rec_filter_cond,value2_date_type:0
+#: selection:poweremail.filter.rec_filter_cond,value2_datetime_type:0
+msgid "Last Send"
+msgstr "Last Send"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value2_date:0
+msgid "Date2"
+msgstr "Date2"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,subfilters:0
+msgid "SubFilters"
+msgstr "SubFilters"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "Test filters"
+msgstr "Test filters"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value1_int:0
+msgid "Integer1"
+msgstr "Integer1"
+
+#. module: poweremail_filter
+#: field:poweremail.filter,template_id:0
+msgid "Template Poweremail"
+msgstr "Template Poweremail"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "Available global variables:"
+msgstr "Available global variables:"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "uid - current user ID"
+msgstr "uid - current user ID"
+
+#. module: poweremail_filter
+#: help:poweremail.filter,mix_operator:0
+msgid "Operator to mix the records obtained through the filters in the first tab and records calculated by the manual code."
+msgstr "Operator to mix the records obtained through the filters in the first tab and records calculated by the manual code."
+
+#. module: poweremail_filter
+#: model:ir.module.module,shortdesc:poweremail_filter.module_meta_information
+msgid "Poweremail Filter"
+msgstr "Poweremail Filter"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,temp_sub_object:0
+msgid "Temp SubModel"
+msgstr "Temp SubModel"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "Create Cron"
+msgstr "Create Cron"
+
+#. module: poweremail_filter
+#: help:poweremail.filter.rec_filter,sub_object:0
+msgid "When a relation field is used this field will show you the type of field you have selected"
+msgstr "When a relation field is used this field will show you the type of field you have selected"
+
+#. module: poweremail_filter
+#: field:poweremail.filter,mix_operator:0
+msgid "Mix operator"
+msgstr "Mix operator"
+
+#. module: poweremail_filter
+#: field:poweremail.filter,active:0
+msgid "Active"
+msgstr "Active"
+
+#. module: poweremail_filter
+#: model:ir.model,name:poweremail_filter.model_poweremail_filter_calc_filter
+msgid "poweremail.filter.calc_filter"
+msgstr "poweremail.filter.calc_filter"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,condition_id:0
+msgid "Condition"
+msgstr "Condition"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value1_date_type:0
+#: field:poweremail.filter.rec_filter_cond,value1_datetime_type:0
+#: field:poweremail.filter.rec_filter_cond,value2_date_type:0
+#: field:poweremail.filter.rec_filter_cond,value2_datetime_type:0
+msgid "Date Type"
+msgstr "Date Type"
+
+#. module: poweremail_filter
+#: selection:poweremail.filter.rec_filter,temp_var:0
+#: selection:poweremail.filter.rec_filter,var:0
+msgid "Count"
+msgstr "Count"
+
+#. module: poweremail_filter
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "Invalid XML for View Architecture!"
+
+#. module: poweremail_filter
+#: view:poweremail.filter.rec_filter:0
+msgid "Record filter"
+msgstr "Record filter"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "Send emails"
+msgstr "Send emails"
+
+#. module: poweremail_filter
+#: field:poweremail.filter,name:0
+msgid "Name"
+msgstr "Name"
+
+#. module: poweremail_filter
+#: model:ir.model,name:poweremail_filter.model_poweremail_filter_rec_filter_cond
+msgid "poweremail.filter.rec_filter_cond"
+msgstr "poweremail.filter.rec_filter_cond"
+
+#. module: poweremail_filter
+#: help:poweremail.filter,name:0
+msgid "Name of the cron for sending Email."
+msgstr "Name of the cron for sending Email."
+
+#. module: poweremail_filter
+#: field:poweremail.filter,manual:0
+msgid "Manual"
+msgstr "Manual"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value2_int:0
+msgid "Integer2"
+msgstr "Integer2"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,sub_object:0
+msgid "Sub-model"
+msgstr "Sub-model"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,rec_filter_id:0
+msgid "Filter"
+msgstr "Filter"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,var:0
+msgid "Variable"
+msgstr "Variable"
+
+#. module: poweremail_filter
+#: help:poweremail.filter.rec_filter,sub_object_field_id:0
+msgid "When you choose relationship fields this field will specify the sub value you can use."
+msgstr "When you choose relationship fields this field will specify the sub value you can use."
+
+#. module: poweremail_filter
+#: selection:poweremail.filter.rec_filter_cond,value1_date_type:0
+#: selection:poweremail.filter.rec_filter_cond,value1_datetime_type:0
+#: selection:poweremail.filter.rec_filter_cond,value2_date_type:0
+#: selection:poweremail.filter.rec_filter_cond,value2_datetime_type:0
+msgid "Fixed Date"
+msgstr "Fixed Date"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_type,value:0
+msgid "Value"
+msgstr "Value"
+
+#. module: poweremail_filter
+#: model:ir.model,name:poweremail_filter.model_poweremail_filter_rec_type
+msgid "poweremail.filter.rec_type"
+msgstr "poweremail.filter.rec_type"
+
+#. module: poweremail_filter
+#: code:addons/poweremail_filter/poweremail_filter.py:0
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,pwfilter_id:0
+msgid "Poweremail Cron"
+msgstr "Poweremail Cron"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "ids - list for the ID of the filtered records"
+msgstr "ids - list for the ID of the filtered records"
+
+#. module: poweremail_filter
+#: field:poweremail.filter,model_id:0
+msgid "Model"
+msgstr "Model"
+
+#. module: poweremail_filter
+#: code:addons/poweremail_filter/poweremail_filter.py:0
+#, python-format
+msgid "Manual filter error:\n"
+msgstr "Manual filter error:\n"
+
+#. module: poweremail_filter
+#: selection:poweremail.filter,mix_operator:0
+msgid "Or"
+msgstr "Or"
+
+#. module: poweremail_filter
+#: selection:poweremail.filter,mix_operator:0
+msgid "And"
+msgstr "And"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "poweremail.filter"
+msgstr "poweremail.filter"
+
+#. module: poweremail_filter
+#: view:poweremail.filter.rec_filter_cond:0
+msgid "Record filter condition"
+msgstr "Record filter condition"
+
+#. module: poweremail_filter
+#: code:addons/poweremail_filter/poweremail_filter.py:0
+#, python-format
+msgid "The filters have found the following records:\n%s"
+msgstr "The filters have found the following records:\n%s"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,state:0
+#: field:poweremail.filter.rec_filter_cond,state:0
+msgid "State"
+msgstr "State"
+
+#. module: poweremail_filter
+#: field:poweremail.filter,source:0
+msgid "Source"
+msgstr "Source"
+
+#. module: poweremail_filter
+#: selection:poweremail.filter.rec_filter,state:0
+msgid "Defined"
+msgstr "Defined"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,temp_sub_object_field_id:0
+msgid "Temp SubField"
+msgstr "Temp SubField"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value1_datetime:0
+msgid "DateTime1"
+msgstr "DateTime1"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value2_datetime:0
+msgid "DateTime2"
+msgstr "DateTime2"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+#: field:poweremail.filter,ir_cron_id:0
+msgid "Cron"
+msgstr "Cron"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter,temp_field_id:0
+msgid "Temp Field"
+msgstr "Temp Field"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value1_bool:0
+msgid "Boolean"
+msgstr "Boolean"
+
+#. module: poweremail_filter
+#: model:ir.module.module,description:poweremail_filter.module_meta_information
+msgid "Design your filters some model and send automatically emails (sheduler)"
+msgstr "Design your filters some model and send automatically emails (sheduler)"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "Advanced"
+msgstr "Advanced"
+
+#. module: poweremail_filter
+#: model:ir.ui.menu,name:poweremail_filter.menu_poweremail_filter
+#: view:poweremail.filter:0
+#: field:poweremail.filter,rec_filter_ids:0
+#: field:poweremail.filter.rec_filter,filters:0
+msgid "Filters"
+msgstr "Filters"
+
+#. module: poweremail_filter
+#: model:ir.model,name:poweremail_filter.model_poweremail_filter_rec_filter
+msgid "poweremail.filter.rec_filter"
+msgstr "poweremail.filter.rec_filter"
+
+#. module: poweremail_filter
+#: model:ir.model,name:poweremail_filter.model_poweremail_filter
+msgid "Send automaticaly emails with filters"
+msgstr "Send automaticaly emails with filters"
+
+#. module: poweremail_filter
+#: view:poweremail.filter:0
+msgid "Delete Cron"
+msgstr "Delete Cron"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value1_float:0
+msgid "Float1"
+msgstr "Float1"
+
+#. module: poweremail_filter
+#: field:poweremail.filter.rec_filter_cond,value2_float:0
+msgid "Float2"
+msgstr "Float2"
+

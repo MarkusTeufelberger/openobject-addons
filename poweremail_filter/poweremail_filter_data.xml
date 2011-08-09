@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_int_betw" >
+		<field name="type">[integer]</field>
+		<field name="value">between</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_int_nbetw" >
+		<field name="type">[integer]</field>
+		<field name="value">not between</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_int_eq" >
+		<field name="type">[integer]</field>
+		<field name="value">equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_int_nq" >
+		<field name="type">[integer]</field>
+		<field name="value">not equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_int_gt" >
+		<field name="type">[integer]</field>
+		<field name="value">greater than</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_int_ls" >
+		<field name="type">[integer]</field>
+		<field name="value">less than</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_int_gteq" >
+		<field name="type">[integer]</field>
+		<field name="value">greater than or equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_int_lseq" >
+		<field name="type">[integer]</field>
+		<field name="value">less than or equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_ch_eq" >
+		<field name="type">[char]</field>
+		<field name="value">equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_ch_nq" >
+		<field name="type">[char]</field>
+		<field name="value">not equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_ch_like" >
+		<field name="type">[char]</field>
+		<field name="value">like</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_ch_ilike" >
+		<field name="type">[char]</field>
+		<field name="value">ilike</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_select_eq" >
+		<field name="type">[selection]</field>
+		<field name="value">equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_select_nq" >
+		<field name="type">[selection]</field>
+		<field name="value">not equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_many2many_in" >
+		<field name="type">[many2many]</field>
+		<field name="value">in</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_many2many_notin" >
+		<field name="type">[many2many]</field>
+		<field name="value">not in</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_one2many_in" >
+		<field name="type">[one2many]</field>
+		<field name="value">in</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_one2many_notin" >
+		<field name="type">[one2many]</field>
+		<field name="value">not in</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_many2one_in" >
+		<field name="type">[many2one]</field>
+		<field name="value">in</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_many2one_notin" >
+		<field name="type">[many2one]</field>
+		<field name="value">not in</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_float_betw" >
+		<field name="type">[float]</field>
+		<field name="value">between</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_float_nbetw" >
+		<field name="type">[float]</field>
+		<field name="value">not between</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_float_eq" >
+		<field name="type">[float]</field>
+		<field name="value">equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_float_nq" >
+		<field name="type">[float]</field>
+		<field name="value">not equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_float_gt" >
+		<field name="type">[float]</field>
+		<field name="value">greater than</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_float_ls" >
+		<field name="type">[float]</field>
+		<field name="value">less than</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_float_gteq" >
+		<field name="type">[float]</field>
+		<field name="value">greater than or equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_float_lseq" >
+		<field name="type">[float]</field>
+		<field name="value">less than or equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_date_betw" >
+		<field name="type">[date]</field>
+		<field name="value">between</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_date_nbetw" >
+		<field name="type">[date]</field>
+		<field name="value">not between</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_date_eq" >
+		<field name="type">[date]</field>
+		<field name="value">equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_date_nq" >
+		<field name="type">[date]</field>
+		<field name="value">not equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_date_gt" >
+		<field name="type">[date]</field>
+		<field name="value">greater than</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_date_ls" >
+		<field name="type">[date]</field>
+		<field name="value">less than</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_date_gteq" >
+		<field name="type">[date]</field>
+		<field name="value">greater than or equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_date_lseq" >
+		<field name="type">[date]</field>
+		<field name="value">less than or equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_datetime_betw" >
+		<field name="type">[datetime]</field>
+		<field name="value">between</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_datetime_nbetw" >
+		<field name="type">[datetime]</field>
+		<field name="value">not between</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_datetime_eq" >
+		<field name="type">[datetime]</field>
+		<field name="value">equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_datetime_nq" >
+		<field name="type">[datetime]</field>
+		<field name="value">not equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_datetime_gt" >
+		<field name="type">[datetime]</field>
+		<field name="value">greater than</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_datetime_ls" >
+		<field name="type">[datetime]</field>
+		<field name="value">less than</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_datetime_gteq" >
+		<field name="type">[datetime]</field>
+		<field name="value">greater than or equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_datetime_lseq" >
+		<field name="type">[datetime]</field>
+		<field name="value">less than or equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_bl_eq" >
+		<field name="type">[boolean]</field>
+		<field name="value">equal to</field>
+	</record>
+	<record model="poweremail.filter.rec_type" id="poweremail_filter_rec_type_bl_nq" >
+		<field name="type">[boolean]</field>
+		<field name="value">not equal to</field>
+	</record>
+
+</data>
+</openerp>
+

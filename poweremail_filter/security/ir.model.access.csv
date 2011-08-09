@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_poweremail_filter_rec_type","poweremail.filter.rec_type","model_poweremail_filter_rec_type","poweremail.res_groups_pemanager",1,1,1,1
+"access_poweremail_filter","poweremail.filter","model_poweremail_filter","poweremail.res_groups_pemanager",1,1,1,1
+"access_poweremail_filter_rec_filter","poweremail.filter.rec_filter","model_poweremail_filter_rec_filter","poweremail.res_groups_pemanager",1,1,1,1
+"access_poweremail_filter_rec_filter_cond","poweremail.filter.rec_filter_cond","model_poweremail_filter_rec_filter_cond","poweremail.res_groups_pemanager",1,1,1,1

@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+    <!--Poweremail Filter-->
+    <record model="ir.ui.view" id="view_poweremail_filter_form">
+        <field name="name">Poweremail Filter</field>
+        <field name="model">poweremail.filter</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="poweremail.filter">
+                <field name="name" select="1"/>
+                <field name="model_id" invisible="1"/>
+                <field name="active" select="1"/>
+                <field name="template_id" select="1"/>
+                <field name="last_send"/>
+                <notebook colspan="4">
+                    <page string="Filters">
+                        <field colspan="4" name="rec_filter_ids" nolabel="1" />
+                        <button name="test_filters" string="Test filters" type="object"  icon="gtk-execute"/>
+                        <button name="send_emails" string="Send emails" type="object"  icon="gtk-convert" confirm="Are you sure to send the emails for the filtered records? After you check these mails in the Out box."/>
+                    </page>
+				    <page string="Advanced">
+					    <field name="manual" select="2"/>
+					    <field name="mix_operator" attrs="{'readonly': [('manual','=', False)]}"/>
+					    <field name="source" colspan="4" nolabel="1" attrs="{'readonly': [('manual','=', False)],'required': [('manual','=', True)]}"/>
+				        <separator string="Available global variables:" colspan="4"/>
+				        <label string="self - objects pointer" align="0.0" colspan="2"/>
+				        <label string="uid - current user ID" align="0.0" colspan="2"/>
+				        <label string="cr - database cursor" align="0.0" colspan="2"/>
+				        <label string="ids - list for the ID of the filtered records" align="0.0" colspan="2"/>
+				    </page>
+                    <page string="Cron">
+                        <field name="ir_cron_id" select="1"/>
+                        <group colspan="2" col="2">
+                            <button name="create_cron" string="Create Cron" type="object" icon="gtk-execute" attrs="{'invisible':[('ir_cron_id','!=',False)]}" confirm="Are you sure to create the cron?"/>
+                            <button name="delete_cron" string="Delete Cron" type="object"  icon="gtk-cancel" attrs="{'invisible':[('ir_cron_id','=',False)]}" confirm="Are you sure to delete the cron?"/>
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_poweremail_filter_tree">
+        <field name="name">Poweremail Filter</field>
+        <field name="model">poweremail.filter</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="poweremail.filter">
+                <field name="name"/>
+                <field name="template_id"/>
+                <field name="ir_cron_id"/>
+                <field name="active"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_poweremail_filter">
+        <field name="name">Poweremail Filters</field>
+        <field name="res_model">poweremail.filter</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Filters" id="menu_poweremail_filter" action="action_poweremail_filter" parent="poweremail.menu_poweremail_configuration_server"/>
+
+    <!--Poweremail Filter-->
+        <record model="ir.ui.view" id="view_inv_rec_filter_tree">
+            <field name="name">inv.rec_filter.tree</field>
+            <field name="model">poweremail.filter.rec_filter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Record filter">
+                    <field name="filters"/>
+                    <field name='field_id'/>
+                    <field name="sub_object"/>
+                    <field name="sub_object_field_id"/> 
+                    <field name='condition_id'/>
+                    <field name='field_type'/>
+                    <field name='state'/>
+                    <field name='var'/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_inv_rec_filter_form">
+            <field name="name">inv.rec_filter.form</field>
+            <field name="model">poweremail.filter.rec_filter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Record filter">
+                <field name="pwfilter_id" invisible="1"/>
+                <field name="filters" invisible="1"/>
+                <field name="subfilters" invisible="1"/>
+                <field name="field_id" select="1" colspan="4"
+                    on_change="change_field_type(field_id, var,context)"/>
+                <field name="sub_object" readonly="1" colspan="4" />
+                <field name="sub_object_field_id" 
+                    domain="[('model_id','=',sub_object),('ttype','!=','one2many'),('ttype','!=','many2many')]"
+                    colspan="4"
+                    attrs="{'readonly':[('sub_object','=',False)]}"
+                    on_change="change_sub_object_field_id(sub_object,sub_object_field_id,context)" />
+                <field name="field_type" />
+<!--                <field name="var" select="2" on_change="change_var(var)"/>-->
+                <field name="state"/>
+                <separator colspan="4"/>
+                <field name="temp_field_id" invisible="1"/>
+                <field name="temp_var" invisible="1"/>
+                <field name="temp_sub_object" invisible="1"/>
+                <field name="temp_sub_object_field_id" invisible="1"/>
+                <field name="condition_id" select="1" nolabel="1" colspan="4" 
+                    on_change="change_condition(condition_id, field_id, sub_object, sub_object_field_id, var, pwfilter_id)" 
+                    context="{'type':field_type}"/>
+            </form>
+            </field>
+        </record>
+
+        <!-- rec filter cond-->
+        <record model="ir.ui.view" id="view_poweremail_filter_rec_filter_cond_tree">
+            <field name="name">Rec Filter Condition</field>
+            <field name="model">poweremail.filter.rec_filter_cond</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Record filter condition">
+                      <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_poweremail_filter_rec_filter_cond_form">
+            <field name="name">Rec Filter Condition</field>
+            <field name="model">poweremail.filter.rec_filter_cond</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Record filter condition">
+                <field name="rec_filter_id" invisible="1"/>
+                <field name="name" invisible="1"/>
+                <field name="state" invisible="1"/>
+                <group colspan="4" attrs="{'invisible':[('parent.sub_object_field_id','=',True)],'requiered':[('parent.sub_object_field_id','=',True)]}">
+                    <field name="cond_type" select="1" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                </group>
+                <separator string="Condition value" colspan="4"/>
+                <group colspan="4">
+                    <group states="[char],[selection]" colspan="2">
+                        <field name="value1_char" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                    </group>
+                    <group states="[boolean]" colspan="4">
+                        <field name="value1_bool" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                    </group>
+                    <group states="[integer]|1|,[integer]|2|" colspan="2">
+                        <field name="value1_int" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                    </group>
+                    <group states="[integer]|2|" colspan="2">
+                        <field name="value2_int" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                    </group>
+                    <group states="[float]|1|,[float]|2|" colspan="2">
+                        <field name="value1_float" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                    </group>
+                    <group states="[float]|2|" colspan="2">
+                        <field name="value2_float" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                    </group>
+                    <group states="[date]|1|,[date]|2|" colspan="2">
+                        <field name="value1_date_type" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                        <newline/>
+                        <field name="value1_date" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)" attrs="{'required':[('value1_date_type','=','fixed_date')], 'invisible':[('value1_date_type','!=','fixed_date')]}"/>
+                    </group>
+                    <group states="[date]|2|" colspan="2">
+                        <field name="value2_date_type" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                        <newline/>
+                        <field name="value2_date" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)" attrs="{'required':[('value2_date_type','=','fixed_date')], 'invisible':[('value2_date_type','!=','fixed_date')]}"/>
+                    </group>
+                    <group states="[datetime]|1|,[datetime]|2|" colspan="2">
+                        <field name="value1_datetime_type" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                        <newline/>
+                        <field name="value1_datetime" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)" attrs="{'required':[('value1_datetime_type','=','fixed_date')], 'invisible':[('value1_datetime_type','!=','fixed_date')]}"/>
+                    </group>
+                    <group states="[datetime]|2|" colspan="2">
+                        <field name="value2_datetime_type" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                        <newline/>
+                        <field name="value2_datetime" select="2" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)" attrs="{'required':[('value2_datetime_type','=','fixed_date')], 'invisible':[('value2_datetime_type','!=','fixed_date')]}"/>
+                    </group>
+                    <group states="[many2many],[many2one],[one2many]" colspan="2">
+                        <field name="cond_value" select="1" colspan="4" on_change="on_change_state(cond_type, parent.field_type, parent.field_id, parent.sub_object_field_id, value1_char, value1_bool, value1_int, value2_int, value1_float, value2_float, value1_date, value2_date, value1_datetime, value2_datetime, cond_value, value1_date_type, value2_date_type, value1_datetime_type, value2_datetime_type)"/>
+                    </group>
+                </group>
+            </form>
+            </field>
+        </record>
+
+</data>
+</openerp>
