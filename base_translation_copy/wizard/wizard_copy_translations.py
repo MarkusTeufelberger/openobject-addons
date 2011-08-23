@@ -58,9 +58,11 @@ class wizard_copy_translations(osv.osv_memory):
             netsvc.LOG_DEBUG,
             "Copying translations from %s to en_US" % this.lang)
         # Read all the model translations in the new language
-        trans_ids = trans_obj.search(cr, uid,
-            [('type', '=', 'model'),
-             ('lang', '=', this.lang)], context=None)	
+        trans_ids = trans_obj.search(cr, uid, [
+             ('type', '=', 'model'),
+             ('lang', '=', this.lang),
+             ('value', '!=', ''),
+            ], context=None)
         translations = trans_obj.browse(cr, uid, trans_ids, context=None)
         for trans in translations:
             # Get the object and field name
