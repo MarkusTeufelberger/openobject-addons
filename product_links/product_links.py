@@ -24,7 +24,7 @@ from osv import fields, osv
 class product_link(osv.osv):
     """ Product links between products like cross-sell, up-sell, related"""
     _name = 'product.link'
-    _description = __doc__
+    _description = "Product links"
     _rec_name = 'linked_product_id'
 
     def get_link_type_selection(self, cr, uid, context=None):
