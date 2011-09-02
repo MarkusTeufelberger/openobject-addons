@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_copy_translations_view" model="ir.ui.view">
+            <field name="name">Copy model translations to English</field>
+            <field name="model">wizard.translation.copy</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form col="3" string="Copy translations">
+                    <notebook>
+                        <page string="Copy Translations to English">
+                            <group col="2" fill="0" states="choose">
+                                <separator colspan="2" string="Copy translations to English"/>
+                                <field name="lang" width="300"/>
+                                <field invisible="1" name="state"/>
+                            </group>
+                            <group col="1" fill="0" states="done">
+                                <separator string="Copy done."/>
+                            </group>
+                        </page>
+                        <page string="Help">
+                            <label align="0.0" colspan="4" string="This wizard lets you copy all the translations of a language to English."/>
+                            <label align="0.0" colspan="4" string="This is useful because English is the default language for all objects in OpenERP, so when users work in any another language they will have to manage translations to and from the English language."/>
+                            <label align="0.0" colspan="4" string="When they don't, operations such as object copying or renaming will produce unexpected behaviors, because the English names won't be updated."/>
+                            <label align="0.0" colspan="4" string="In such cases, this wizard will let you generate pseudo-English values by copying a language that users actually use."/>
+                        </page>
+                    </notebook>
+
+
+                    <group col="2" colspan="3" fill="0">
+                        <button icon="gtk-cancel" name="act_cancel" special="cancel" states="choose" string="Cancel" type="object"/>
+                        <button icon="gtk-ok" name="act_copy" states="choose" string="Copy translations" type="object"/>
+                        <button icon="gtk-close" name="act_destroy" special="cancel" states="done" string="Close" type="object"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_copy_translation" model="ir.actions.act_window">
+            <field name="name">Copy Translations to English</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.translation.copy</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem action="action_wizard_copy_translation" id="menu_wizard_copy_translations" parent="base.menu_translation"/>
+    </data>
+</openerp>

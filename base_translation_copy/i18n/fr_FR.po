@@ -1,0 +1,145 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* base_translation_copy
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.10\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-09-02 10:06:36+0000\n"
+"PO-Revision-Date: 2011-09-02 10:06:36+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base_translation_copy
+#: model:ir.actions.act_window,name:base_translation_copy.action_wizard_copy_translation
+#: model:ir.module.module,shortdesc:base_translation_copy.module_meta_information
+#: model:ir.ui.menu,name:base_translation_copy.menu_wizard_copy_translations
+#: view:wizard.translation.copy:0
+msgid "Copy Translations to English"
+msgstr "Copier des traductions vers l'anglais"
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "Copy translations to English"
+msgstr "Copier les Traductions vers l'anglais"
+
+#. module: base_translation_copy
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "Invalid XML for View Architecture!"
+
+#. module: base_translation_copy
+#: selection:wizard.translation.copy,state:0
+msgid "done"
+msgstr "done"
+
+#. module: base_translation_copy
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "Le nom de l'objet doit commencer avec x_ et ne pas contenir de charactères spéciaux !"
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "Help"
+msgstr "Aide"
+
+#. module: base_translation_copy
+#: field:wizard.translation.copy,lang:0
+msgid "Language"
+msgstr "Langue"
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "Copy done."
+msgstr "Copie terminée."
+
+#. module: base_translation_copy
+#: field:wizard.translation.copy,state:0
+msgid "unknown"
+msgstr "unknown"
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "This wizard lets you copy all the translations of a language to English."
+msgstr "Cet assistant permet de copier toutes les Traductions d'une langue vers l'anglais."
+
+#. module: base_translation_copy
+#: model:ir.model,name:base_translation_copy.model_wizard_translation_copy
+msgid "wizard.translation.copy"
+msgstr "wizard.translation.copy"
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "This is useful because English is the default language for all objects in OpenERP, so when users work in any another language they will have to manage translations to and from the English language."
+msgstr "Cela s'avère utile car l'anglais est la langue par défaut de tous les objets OpenERP : les utilisateurs qui parlent d'autres langues doivent donc gérer les traductions entre l'anglais et leur langue."
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "When they don't, operations such as object copying or renaming will produce unexpected behaviors, because the English names won't be updated."
+msgstr "Sans cela, les opérations comme la copie d'objet ou le changement de nom produisent des résultats incorrects car les traductions anglaises ne sont pas à jour."
+
+#. module: base_translation_copy
+#: model:ir.module.module,description:base_translation_copy.module_meta_information
+msgid "This module lets you copy all the translations of a language to English.\n"
+"\n"
+"This is useful because English is the default language for all objects in\n"
+"OpenERP, so when users work in any another language they will have to manage\n"
+"translations to and from the English language.\n"
+"When they don't, operations such as object copying or renaming will produce\n"
+"unexpected behaviors because the English names are not updated.\n"
+"To tackle this in an environment where English is not used by the users,\n"
+"this module adds a wizard in Administration > Translations to let you copy\n"
+"all the strings in one language to the English translations."
+msgstr "Ce module permet de copier toutes les traductions d'une langue vers l'anglais.\n"
+"\n"
+"Cela s'avère utile car l'anglais est la langue par défaut de tous les objets\n"
+"OpenERP : les utilisateurs qui parlent d'autres langues doivent donc gérer\n"
+"les traductions entre l'anglais et leur langue.\n"
+"Sans cela, les opérations comme la copie d'objet ou le changement de nom\n"
+"produisent des résultats incorrects car les traductions anglaises ne sont pas\n"
+"à jour.\n"
+"Pour faire face à cela dans un environnement où les utilisateurs n'utilisent\n"
+"pas l'anglais, ce module ajoute un assistant dans \n"
+"Administration > Traductions qui permet de copier toutes les chaînes d'une\n"
+"langue vers les traductions en Anglais."
+
+#. module: base_translation_copy
+#: selection:wizard.translation.copy,state:0
+msgid "choose"
+msgstr "choose"
+
+#. module: base_translation_copy
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Invalid model name in the action definition."
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "In such cases, this wizard will let you generate pseudo-English values by copying a language that users actually use."
+msgstr "Dans de tels cas, ce module permet de générer une pseudo-traduction en anglais en recopiant les traductions de la langue des utilisateurs."
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "Close"
+msgstr "Fermer"
+
+#. module: base_translation_copy
+#: help:wizard.translation.copy,lang:0
+msgid "All the strings in English will be overwritten with the translations from language."
+msgstr "Toutes les chaînes anglaises seront écrasées et remplacées par les Traductions en cette langue."
+
+#. module: base_translation_copy
+#: view:wizard.translation.copy:0
+msgid "Copy translations"
+msgstr "Copier les Traductions"
+
