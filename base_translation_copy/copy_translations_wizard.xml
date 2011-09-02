@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form col="3" string="Copy translations">
                     <notebook>
-                        <page string="Copy translations to English">
+                        <page string="Copy Translations to English">
                             <group col="2" fill="0" states="choose">
                                 <separator colspan="2" string="Copy translations to English"/>
                                 <field name="lang" width="300"/>
@@ -37,7 +37,7 @@
         </record>
 
         <record id="action_wizard_copy_translation" model="ir.actions.act_window">
-            <field name="name">Copy a Translation to English</field>
+            <field name="name">Copy Translations to English</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">wizard.translation.copy</field>
             <field name="view_type">form</field>

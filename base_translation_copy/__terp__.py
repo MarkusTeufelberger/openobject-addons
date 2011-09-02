@@ -19,7 +19,7 @@
 ##############################################################################
 
 {
-    'name' : 'Copy translations from a language to English',
+    'name' : 'Copy Translations to English',
     'version' : '0.1',
     'author' : u'Numérigraphe',
     'category' : 'Custom',

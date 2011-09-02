@@ -55,7 +55,7 @@ class wizard_copy_translations(osv.osv_memory):
         this = self.browse(cr, uid, ids)[0]
         trans_obj = pooler.get_pool(cr.dbname).get('ir.translation')
         logger.notifyChannel("wizard_copy_translations",
-            netsvc.LOG_DEBUG,
+            netsvc.LOG_INFO,
             "Copying translations from %s to en_US" % this.lang)
         # Read all the model translations in the new language
         trans_ids = trans_obj.search(cr, uid, [
@@ -71,6 +71,14 @@ class wizard_copy_translations(osv.osv_memory):
             object = pooler.get_pool(cr.dbname).get(model)
             value = object.read(cr, uid, trans.res_id, fields=[field],
                 context=None)
+            if value and value[field] != trans.src:
+                # Delete bogus translation (a bug in the server somewhere at module initialization can causes some)
+                logger.notifyChannel("wizard_copy_translations",
+                    netsvc.LOG_INFO,
+                    "Translation with id %d has an incorrect source string: "
+                    "deleting it." % trans.id)
+                trans_obj.unlink(cr,uid,trans.id, context=None)
+                continue
             if value and value[field] != trans.value:
                 logger.notifyChannel("wizard_copy_translations",
                     netsvc.LOG_DEBUG,
