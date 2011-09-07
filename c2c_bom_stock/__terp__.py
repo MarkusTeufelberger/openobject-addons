@@ -27,7 +27,7 @@
       "(Reference stock" of "Product" + How much could I produce of That "Product" according to the component's "Reference Stock)"
       "This reference stock can be chosen by company through a selection field and can be one of the available stock quantity computed in the system : Available stock, Virtual stock, immediately_usable stock (from c2c_immediately_usable)".""" 
     ,
-    'author': 'camptocamp',
+    'author': 'Camptocamp',
     'website': 'http://www.camptocamp.com',
     'depends': ['stock', 'c2c_immediately_usable'],
     'init_xml': [],
