@@ -43,7 +43,7 @@ Note : html headers and footers are deactivated for these reports because of an 
 """,
     'version': '1.0',
     'author': 'Camptocamp',
-    'category': 'Accounting',
+    'category': 'Finance',
     'website': 'http://www.camptocamp.com',
 
     'depends': ['account',
@@ -56,8 +56,8 @@ Note : html headers and footers are deactivated for these reports because of an 
 #        'data/financial_webkit_header.xml',
 #        'report/report.xml',
 #        'wizard/wizard.xml',
-#        'wizard/account_report_general_ledger_wizard_view.xml',
-#        'wizard/account_report_partners_ledger_wizard_view.xml'
+        'wizard/account_report_general_ledger_wizard_view.xml',
+        'wizard/account_report_partners_ledger_wizard_view.xml'
     ],
     'active': False,
     'installable': True,
