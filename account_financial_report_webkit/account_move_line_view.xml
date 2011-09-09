@@ -10,13 +10,9 @@
             <!-- modulename.view -->
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <separator string="Narration" colspan="4" position="before">
-                    <separator string="Misc."/>
-                    <newline/>
-                    <group>
-                        <field name="last_rec_date" readonly="1"/>
-                    </group>
-                </separator>
+                <field name="reconcile_partial_id" position="after">
+                    <field name="last_rec_date" readonly="1"/>
+                </field>
             </field>
         </record>
     </data>

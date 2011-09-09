@@ -79,7 +79,7 @@ class AccountMoveLine(osv.osv):
                      method=True,
                      string='Last reconciliation date',
                      store={'account.move.line': (lambda self, cr, uid, ids, c={}: ids, ['date'], 20),
-                            'account.move.reconcile': (_get_move_line_from_line_rec, None ,20)},
+                            'account.move.reconcile': (_get_move_line_from_line_rec, None, 20)},
                      type='date',
                      multi='all',
                      help="the date of the last reconciliation (full or partial) account move line"),

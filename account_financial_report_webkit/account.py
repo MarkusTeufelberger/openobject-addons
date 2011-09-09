@@ -39,7 +39,7 @@ class AccountAccount(osv.osv):
     }
 
     _defaults = {
-        'centralized': False,
+        'centralized': lambda *a: False,
     }
 
 AccountAccount()
