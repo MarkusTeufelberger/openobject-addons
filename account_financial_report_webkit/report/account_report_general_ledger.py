@@ -29,7 +29,6 @@ from itertools import groupby
 from datetime import datetime
 
 from common_report_header_webkit import CommonReportHeaderWebkit
-from webkit_parser_header_fix import HeaderFooterTextWebKitParser
 
 class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
 
@@ -49,7 +48,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             'report_name': _('General Ledger'),
             'display_account': self._get_display_account,
             'display_account_raw': self._get_display_account_raw,
-            'filter': self._get_filter,
+            'filter_form': self._get_filter,
             'target_move': self._get_target_move,
             'initial_balance': self._get_initial_balance,
             'amount_currency': self._get_amount_currency,
@@ -208,7 +207,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         return res
 
 
-HeaderFooterTextWebKitParser('report.account.account_report_general_ledger_webkit',
-                             'account.account',
-                             'addons/account_financial_report_webkit/report/templates/account_report_general_ledger.mako',
-                             parser=GeneralLedgerWebkit)
+report_sxw.report_sxw('report.account.account_report_general_ledger_webkit',
+                      'account.account',
+                      'addons/account_financial_report_webkit/report/templates/account_report_general_ledger.mako',
+                      parser=GeneralLedgerWebkit)

@@ -34,8 +34,20 @@ from osv import osv, fields
 class AccountAccount(osv.osv):
     _inherit = 'account.account'
 
+    def _get_level(self, cr, uid, ids, field_name, arg, context=None):
+        res={}
+        accounts = self.browse(cr, uid, ids, context=context)
+        for account in accounts:
+            level = 0
+            if account.parent_id:
+                obj = self.browse(cr, uid, account.parent_id.id)
+                level = obj.level + 1
+            res[account.id] = level
+        return res
+
     _columns = {
-        'centralized': fields.boolean('Centralized', help="If flagged, no details will be displayed in the General Ledger report (the webkit one only), only centralized amounts per period.")
+        'centralized': fields.boolean('Centralized', help="If flagged, no details will be displayed in the General Ledger report (the webkit one only), only centralized amounts per period."),
+        'level': fields.function(_get_level, string='Level', method=True, store=True, type='integer'),
     }
 
     _defaults = {

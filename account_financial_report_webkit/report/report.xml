@@ -8,13 +8,14 @@
             <field eval="[(6,0,[])]" name="groups_id"/>
             <field eval="0" name="multi"/>
             <field eval="0" name="auto"/>
-            <field eval="1" name="header"/>
+            <field eval="0" name="header"/>
             <field name="model">account.account</field>
             <field name="type">ir.actions.report.xml</field>
             <field name="name">General Ledger Webkit</field>
-            <field name="report_file">account_financial_report_webkit/report/templates/account_report_general_ledger.mako</field>
+            <field name="report_webkit">account_financial_report_webkit/report/templates/account_report_general_ledger.mako</field>
             <field name="webkit_header" ref="financial_landscape_header"/>
-        </record> 
+        </record>
+
         <!-- waiting the fix 
         <report auto="False" 
             id="account_report_partner_ledger_webkit" 
@@ -31,11 +32,11 @@
             <field eval="[(6,0,[])]" name="groups_id"/>
             <field eval="0" name="multi"/>
             <field eval="0" name="auto"/>
-            <field eval="1" name="header"/>
+            <field eval="0" name="header"/>
             <field name="model">account.account</field>
             <field name="type">ir.actions.report.xml</field>
             <field name="name">Partner Ledger Webkit</field>
-            <field name="report_file">account_financial_report_webkit/report/templates/account_report_partners_ledger.mako</field>
+            <field name="report_webkit">account_financial_report_webkit/report/templates/account_report_partners_ledger.mako</field>
             <field name="webkit_header" ref="financial_landscape_header"/>
         </record> 
     </data>

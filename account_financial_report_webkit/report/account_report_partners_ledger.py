@@ -21,14 +21,12 @@ import time
 import pooler
 
 from collections import defaultdict
-from operator import add
 from report import report_sxw
 from osv import osv
 from tools.translate import _
 from datetime import datetime
 
 from common_partners_report_header_webkit import CommonPartnersReportHeaderWebkit
-from webkit_parser_header_fix import HeaderFooterTextWebKitParser
 
 
 class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebkit):
@@ -205,7 +203,7 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
         return res
 
 
-HeaderFooterTextWebKitParser('report.account.account_report_partners_ledger_webkit',
-                             'account.account',
-                             'addons/account_financial_report_webkit/report/templates/account_report_partners_ledger.mako',
-                             parser=PartnersLedgerWebkit)
+report_sxw.report_sxw('report.account.account_report_partners_ledger_webkit',
+                      'account.account',
+                      'addons/account_financial_report_webkit/report/templates/account_report_partners_ledger.mako',
+                      parser=PartnersLedgerWebkit)
