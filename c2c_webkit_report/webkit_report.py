@@ -233,8 +233,11 @@ class WebKitParser(report_sxw):
 
         additional_args = self.parser_instance.localcontext.get('additional_args', False)
         # if a header or footer is defined as text in wkhtmltopdf arguments, we do not create html header/footer
-        text_header = set([arg[0] for arg in additional_args]).intersection(['--header-left', '--header-center', 'header-right'])
-        text_footer = set([arg[0] for arg in additional_args]).intersection(['--footer-left', '--footer-center', 'footer-right'])
+
+        text_header = text_footer = False
+        if isinstance(additional_args, list):
+            text_header = bool(set([arg[0] for arg in additional_args]).intersection(['--header-left', '--header-center', 'header-right']))
+            text_footer = bool(set([arg[0] for arg in additional_args]).intersection(['--footer-left', '--footer-center', 'footer-right']))
         header = False
         footer = False
 
