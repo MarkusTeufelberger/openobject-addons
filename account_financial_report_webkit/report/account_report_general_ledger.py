@@ -29,6 +29,7 @@ from itertools import groupby
 from datetime import datetime
 
 from common_report_header_webkit import CommonReportHeaderWebkit
+from c2c_webkit_report import webkit_report
 
 class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
 
@@ -40,8 +41,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         company = self.pool.get('res.users').browse(self.cr, uid, uid, context=context).company_id
         header_report_name = ' - '.join((_('GENERAL LEDGER'), company.name, company.currency_id.name))
 
-        footer_date_time = self.formatLang(str(datetime.today()), date_time=True)
-
+        footer_date_time = self.formatLang(str(datetime.today())[:19], date_time=True)
         self.localcontext.update({
             'cr': cursor,
             'uid': uid,
@@ -207,7 +207,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         return res
 
 
-report_sxw.report_sxw('report.account.account_report_general_ledger_webkit',
-                      'account.account',
-                      'addons/account_financial_report_webkit/report/templates/account_report_general_ledger.mako',
-                      parser=GeneralLedgerWebkit)
+webkit_report.WebKitParser('report.account.account_report_general_ledger_webkit',
+                           'account.account',
+                           'addons/account_financial_report_webkit/report/templates/account_report_general_ledger.mako',
+                           parser=GeneralLedgerWebkit)
