@@ -59,7 +59,7 @@
                 <div class="act_as_cell">${ exclude_reconcile and _('Yes') or _('No') }</div>
             </div>
         </div>
-    
+
         %for account in objects:
             %if account.ledger_lines or account.init_balance:
                 <%
@@ -68,14 +68,14 @@
                 %>
 
                 <div class="account_title bg" style="width: 1080px; margin-top: 10px;">${account.code} - ${account.name}</div>
-                
+
                 %for partner_name, p_id in account.partners_order:
                 <%
                   cumul_balance = 0.0
                   cumul_balance_curr = 0.0
 
                   part_cumul_balance = 0.0
-                  part_cumul_balance_curr = 0.0 
+                  part_cumul_balance_curr = 0.0
                 %>
                 <div class="act_as_table list_table" style="margin-top: 5px;">
                     <div class="act_as_caption account_title">

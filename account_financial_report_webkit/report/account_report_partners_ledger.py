@@ -27,7 +27,7 @@ from tools.translate import _
 from datetime import datetime
 
 from common_partners_report_header_webkit import CommonPartnersReportHeaderWebkit
-
+from c2c_webkit_report import webkit_report
 
 class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebkit):
 
@@ -39,14 +39,13 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
         company = self.pool.get('res.users').browse(self.cr, uid, uid, context=context).company_id
         header_report_name = ' - '.join((_('PARTNER LEDGER'), company.name, company.currency_id.name))
 
-        footer_date_time = self.formatLang(str(datetime.today()), date_time=True)
-
+        footer_date_time = self.formatLang(str(datetime.today())[:19], date_time=True)
         self.localcontext.update({
             'cr': cursor,
             'uid': uid,
             'report_name':_('Partner Ledger'),
             'display_account_raw': self._get_display_account_raw,
-            'filter': self._get_filter,
+            'filter_form': self._get_filter,
             'target_move': self._get_target_move,
             'initial_balance': self._get_initial_balance,
             'amount_currency': self._get_amount_currency,
@@ -203,7 +202,7 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
         return res
 
 
-report_sxw.report_sxw('report.account.account_report_partners_ledger_webkit',
-                      'account.account',
-                      'addons/account_financial_report_webkit/report/templates/account_report_partners_ledger.mako',
-                      parser=PartnersLedgerWebkit)
+webkit_report.WebKitParser('report.account.account_report_partners_ledger_webkit',
+                           'account.account',
+                           'addons/account_financial_report_webkit/report/templates/account_report_partners_ledger.mako',
+                           parser=PartnersLedgerWebkit)
