@@ -131,6 +131,10 @@ act_as_colgroup {
     word-wrap: break-word;
 }
 
+.nobreak {
+    word-wrap: normal;
+}
+
 .data_table .act_as_row.labels {
     font-weight: bold;
 }
