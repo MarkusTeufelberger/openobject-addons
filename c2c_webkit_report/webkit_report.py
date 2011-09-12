@@ -32,7 +32,7 @@ import os
 import re
 import tempfile
 import time
-import commands
+import subprocess
 
 from mako.template import Template
 
@@ -116,96 +116,79 @@ class WebKitParser(report_sxw):
         out = os.path.join(tmp_dir, out.replace(' ',''))
         files = []
         file_to_del = []
+        if comm_path:
+            command = [comm_path]
+        else:
+            command = ['wkhtmltopdf']
+
+        command.append('--quiet')
+        # default to UTF-8 encoding.  Use <meta charset="latin-1"> to override.
+        command.extend(['--encoding', 'utf-8'])
+        if header :
+            head_file = file( os.path.join(
+                                  tmp_dir,
+                                  str(time.time()) + '.head.html'
+                                 ),
+                                'w'
+                            )
+            head_file.write(header)
+            head_file.close()
+            file_to_del.append(head_file.name)
+            command.extend(['--header-html', head_file.name])
+        if footer :
+            foot_file = file(  os.path.join(
+                                  tmp_dir,
+                                  str(time.time()) + '.foot.html'
+                                 ),
+                                'w'
+                            )
+            foot_file.write(footer)
+            foot_file.close()
+            file_to_del.append(foot_file.name)
+            command.extend(['--footer-html', foot_file.name])
+
+        if webkit_header.margin_top :
+            command.extend(['--margin-top', str(webkit_header.margin_top).replace(',', '.')])
+        if webkit_header.margin_bottom :
+            command.extend(['--margin-bottom', str(webkit_header.margin_bottom).replace(',', '.')])
+        if webkit_header.margin_left :
+            command.extend(['--margin-left', str(webkit_header.margin_left).replace(',', '.')])
+        if webkit_header.margin_right :
+            command.extend(['--margin-right', str(webkit_header.margin_right).replace(',', '.')])
+        if webkit_header.orientation :
+            command.extend(['--orientation', str(webkit_header.orientation).replace(',', '.')])
+        if webkit_header.format :
+            command.extend(['--page-size', str(webkit_header.format).replace(',', '.')])
+
+        if self.parser_instance.localcontext.get('additional_args', False):
+            for arg in self.parser_instance.localcontext['additional_args']:
+                command.extend(arg)
+
+        count = 0
+        for html in html_list :
+            html_file = file(os.path.join(tmp_dir, str(time.time()) + str(count) +'.body.html'), 'w')
+            count += 1
+            html_file.write(html)
+            html_file.close()
+            file_to_del.append(html_file.name)
+            command.append(html_file.name)
+        command.append(out)
+        generate_command = ' '.join(command)
         try:
-            if comm_path:
-                command = [comm_path]
-            else:
-                command = ['wkhtmltopdf']
-
-            command.append('--quiet')
-            # default to UTF-8 encoding.  Use <meta charset="latin-1"> to override.
-            command.append("--encoding 'utf-8'")
-
-            if header :
-                head_file = file( os.path.join(
-                                      tmp_dir,
-                                      str(time.time()) + '.head.html'
-                                     ), 
-                                    'w'
-                                )
-                head_file.write(header)
-                head_file.close()
-                file_to_del.append(head_file.name)
-                command.append("--header-html '%s'"%(head_file.name))
-            if footer :
-                foot_file = file(  os.path.join(
-                                      tmp_dir,
-                                      str(time.time()) + '.foot.html'
-                                     ), 
-                                    'w'
-                                )
-                foot_file.write(footer)
-                foot_file.close()
-                file_to_del.append(foot_file.name)
-                command.append("--footer-html '%s'"%(foot_file.name))
-
-            if webkit_header.margin_top :
-                if webkit_header.margin_top == 0.01:
-                    command.append('--margin-top 0')
-                else :
-                    command.append(('--margin-top %s'%(webkit_header.margin_top)).replace(',', '.'))
-            if webkit_header.margin_bottom :
-                if webkit_header.margin_bottom == 0.01:
-                    command.append('--margin-bottom 0')
-                else :
-                    command.append(('--margin-bottom %s'%(webkit_header.margin_bottom)).replace(',', '.'))
-            if webkit_header.margin_left :
-                if webkit_header.margin_left == 0.01:
-                    command.append('--margin-left 0')
-                else :                
-                    command.append(('--margin-left %s'%(webkit_header.margin_left)).replace(',', '.'))
-            if webkit_header.margin_right :
-                if webkit_header.margin_right == 0.01:
-                    command.append('--margin-right 0')
-                else :
-                    command.append(('--margin-right %s'%(webkit_header.margin_right)).replace(',', '.'))
-            if webkit_header.orientation :
-                command.append("--orientation '%s'"%(webkit_header.orientation))
-            if webkit_header.format :
-                command.append(" --page-size '%s'"%(webkit_header.format))
-            f = 0;
-            for html in html_list :
-                html_file = file(os.path.join(tmp_dir, str(time.time()) + str(f) + '.body.html'), 'w')
-                f += 1
-                html_file.write(html)
-                html_file.close()
-                file_to_del.append(html_file.name)
-                command.append(html_file.name)
-            command.append(out)
-            generate_command = ' '.join(command)
-            try:
-                status = commands.getstatusoutput(generate_command)
-                if status[0] :
-                    print status
-                    raise osv.except_osv(
-                                    _('Webkit raise an error' ), 
-                                    status[1]
-                                )
-            except Exception, exc:
-                try:
-                    for f_to_del in file_to_del :
-                        os.unlink(f_to_del) 
-                except Exception, exc:
-                    pass
-        except Exception, exc:
-            raise exc
-
-        pdf = file(out).read()
-        try:
+            status = subprocess.call(command, stderr=subprocess.PIPE) # ignore stderr
+            if status :
+                raise osv.except_osv(
+                                _('Webkit raise an error' ),
+                                status
+                            )
+        except Exception:
             for f_to_del in file_to_del :
                 os.unlink(f_to_del)
-        except Exception, exc:
-            pass
+
+        pdf = file(out, 'rb').read()
+        for f_to_del in file_to_del :
+            os.unlink(f_to_del)
+
         os.unlink(out)
         return pdf
     # Typo Error Backward compatibility 
@@ -285,7 +268,8 @@ class WebKitParser(report_sxw):
         body_mako_tpl = mako_template(template)
 
         helper = WebKitHelper(cursor, uid, report_xml.id, context)
-
+        self.parser_instance.localcontext.update({'setLang': self.parser_instance.setLang})
+        self.parser_instance.localcontext.update({'formatLang': self.parser_instance.formatLang})
         html = body_mako_tpl.render(
                                     helper=helper, 
                                     css=css,
@@ -294,38 +278,31 @@ class WebKitParser(report_sxw):
                                     )
         head_mako_tpl = mako_template(header)
         head = head_mako_tpl.render(
-                                    company=company, 
-                                    time=time, 
-                                    helper=helper, 
+                                    helper=helper,
                                     css=css,
-                                    formatLang=self.parser_instance.formatLang,
-                                    setLang=self.parser_instance.setLang, 
-                                    _debug=False
+                                    _=self.translate_call,
+                                    _debug=False,
+                                    **self.parser_instance.localcontext
                                 )
         foot = False
         if footer :
             foot_mako_tpl = mako_template(footer)
             foot = foot_mako_tpl.render(
-                                        company=company, 
-                                        time=time, 
-                                        helper=helper, 
-                                        css=css, 
-                                        formatLang=self.parser_instance.formatLang,
-                                        setLang=self.parser_instance.setLang,
+                                        helper=helper,
+                                        css=css,
                                         _=self.translate_call,
+                                        **self.parser_instance.localcontext
                                         )
         if report_xml.webkit_debug :
             deb = head_mako_tpl.render(
-                                        company=company, 
-                                        time=time, 
-                                        helper=helper, 
+                                        helper=helper,
                                         css=css, 
-                                        _debug=html.decode(),
-                                        formatLang=self.parser_instance.formatLang,
-                                        setLang=self.parser_instance.setLang,
+                                        _debug=tools.ustr(html),
                                         _=self.translate_call,
+                                        **self.parser_instance.localcontext
                                         )
             return (deb, 'html')
+        
         bin = self.get_lib(cursor, uid, company.id)
         pdf = self.generate_pdf(bin, report_xml, head, foot, [html])
         return (pdf, 'pdf')
