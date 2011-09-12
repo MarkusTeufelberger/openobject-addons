@@ -57,6 +57,7 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
                 ('--header-font-size', '10'),
                 ('--footer-font-size', '6'),
                 ('--header-left', header_report_name),
+                ('--header-spacing', '2'),
                 ('--footer-left', footer_date_time),
                 ('--footer-right', ' '.join((_('Page'), '[page]', _('of'), '[topage]'))),
                 ('--footer-line',),
@@ -67,7 +68,6 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
         """Populate a ledger_lines attribute on each browse record that will be used
         by mako template"""
         new_ids = data['form']['chart_account_id']
-
         # We memoize ledger lines linked to account. Key is account id
         # values are array of lines
         ledger_lines_memoizer = {}
