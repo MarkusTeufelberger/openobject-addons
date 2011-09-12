@@ -22,6 +22,7 @@ import time
 
 from lxml import etree
 from osv import fields, osv
+from tools.translate import _
 
 
 class AccountReportPartnersLedgerWizard(osv.osv_memory):
