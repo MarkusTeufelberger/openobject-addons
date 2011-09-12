@@ -124,7 +124,7 @@ class WebKitParser(report_sxw):
         command.append('--quiet')
         # default to UTF-8 encoding.  Use <meta charset="latin-1"> to override.
         command.extend(['--encoding', 'utf-8'])
-        if header :
+        if header:
             head_file = file( os.path.join(
                                   tmp_dir,
                                   str(time.time()) + '.head.html'
@@ -135,7 +135,7 @@ class WebKitParser(report_sxw):
             head_file.close()
             file_to_del.append(head_file.name)
             command.extend(['--header-html', head_file.name])
-        if footer :
+        if footer:
             foot_file = file(  os.path.join(
                                   tmp_dir,
                                   str(time.time()) + '.foot.html'
@@ -160,8 +160,9 @@ class WebKitParser(report_sxw):
         if webkit_header.format :
             command.extend(['--page-size', str(webkit_header.format).replace(',', '.')])
 
-        if self.parser_instance.localcontext.get('additional_args', False):
-            for arg in self.parser_instance.localcontext['additional_args']:
+        additional_args = self.parser_instance.localcontext.get('additional_args', False)
+        if additional_args:
+            for arg in additional_args:
                 command.extend(arg)
 
         count = 0
@@ -229,14 +230,25 @@ class WebKitParser(report_sxw):
             template =  report_xml.report_webkit_data
         if not template :
             raise osv.except_osv(_('Report template not found !'), _(''))
-        header = report_xml.webkit_header.html
-        footer = report_xml.webkit_header.footer_html
+
+        additional_args = self.parser_instance.localcontext.get('additional_args', False)
+        # if a header or footer is defined as text in wkhtmltopdf arguments, we do not create html header/footer
+        text_header = set([arg[0] for arg in additional_args]).intersection(['--header-left', '--header-center', 'header-right'])
+        text_footer = set([arg[0] for arg in additional_args]).intersection(['--footer-left', '--footer-center', 'footer-right'])
+        header = False
+        footer = False
+
+        if not text_header:
+            header = report_xml.webkit_header.html
+        if not text_footer:
+            footer = report_xml.webkit_header.footer_html
+
         if not header and report_xml.header:
             raise osv.except_osv(
                 _('No header defined for this report header html is empty !'), 
                 _('look in company settings')
             )
-        if not report_xml.header :
+        if not report_xml.header and not text_header :
             #I know it could be cleaner ...
             header = u"""
 <html>
@@ -276,14 +288,16 @@ class WebKitParser(report_sxw):
                                     _=self.translate_call,
                                     **self.parser_instance.localcontext
                                     )
-        head_mako_tpl = mako_template(header)
-        head = head_mako_tpl.render(
-                                    helper=helper,
-                                    css=css,
-                                    _=self.translate_call,
-                                    _debug=False,
-                                    **self.parser_instance.localcontext
-                                )
+        head = False
+        if header:
+            head_mako_tpl = mako_template(header)
+            head = head_mako_tpl.render(
+                                        helper=helper,
+                                        css=css,
+                                        _=self.translate_call,
+                                        _debug=False,
+                                        **self.parser_instance.localcontext
+                                    )
         foot = False
         if footer :
             foot_mako_tpl = mako_template(footer)
@@ -294,7 +308,7 @@ class WebKitParser(report_sxw):
                                         **self.parser_instance.localcontext
                                         )
         if report_xml.webkit_debug :
-            deb = head_mako_tpl.render(
+            deb = body_mako_tpl.render(
                                         helper=helper,
                                         css=css, 
                                         _debug=tools.ustr(html),
