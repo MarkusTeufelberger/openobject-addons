@@ -105,7 +105,7 @@
                             <div class="act_as_cell amount" style="width: 75px;">${_('Cumul. Bal.')}</div>
                             %if amount_currency(data):
                                 ## curency code
-                                <div class="act_as_cell amount sep_left" style="width: 20px; text-align: center;">${_('Curr.')}</div>
+                                <div class="act_as_cell amount sep_left" style="width: 25px; text-align: center;">${_('Curr.')}</div>
                                 ## currency balance
                                 <div class="act_as_cell amount" style="width: 75px;">${_('Curr. Balance')}</div>
                                 ## currency balance cumulated
