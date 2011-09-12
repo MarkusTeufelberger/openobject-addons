@@ -34,14 +34,21 @@ from osv import osv, fields
 class AccountAccount(osv.osv):
     _inherit = 'account.account'
 
+    def _get_account_level(self, cr, uid, account_id, context=None):
+        level = 0
+        account = self.browse(cr, uid, account_id, context=context)
+        if account.parent_id:
+            parent_level = self._get_account_level(cr, uid, account.parent_id.id, context=context)
+            level += parent_level + 1
+        return level
+
     def _get_level(self, cr, uid, ids, field_name, arg, context=None):
+        #  in version 6.0, the method for level of account.account is simpler, just call browse on
+        #  the parent, but that do not work on version 5 so we call a recursive method and compute the parent each time...
         res={}
         accounts = self.browse(cr, uid, ids, context=context)
         for account in accounts:
-            level = 0
-            if account.parent_id:
-                obj = self.browse(cr, uid, account.parent_id.id)
-                level = obj.level + 1
+            level = self._get_account_level(cr, uid, account.id, context=context)
             res[account.id] = level
         return res
 
