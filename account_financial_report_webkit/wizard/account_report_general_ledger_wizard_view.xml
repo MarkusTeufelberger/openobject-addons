@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="account_report_general_ledger_view_webkit" model="ir.ui.view">
+            <field name="name">General Ledger Webkit</field>
+            <field name="model">account.report.general.ledger.webkit</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Report Options">
+                    <separator string="General Ledger" colspan="4"/>
+                    <label nolabel="1" colspan="4" string="This report allows you to print or generate a pdf of your general ledger with details of all your account journals"/>
+                    <newline/>
+                    <field name="chart_account_id" widget="selection" colspan="4"/>
+                    <field name="fiscalyear_id"/>
+                    <field name="target_move"/>
+                    <notebook tabpos="up" colspan="4">
+                        <page string="Filters">
+                            <field name="filter" on_change="onchange_filter(filter, fiscalyear_id)" colspan="4"/>
+                            <separator string="Dates" colspan="4"/>
+                            <field name="date_from" attrs="{'readonly':[('filter', '!=', 'filter_date')], 'required':[('filter', '=', 'filter_date')]}" colspan="4"/>
+                            <field name="date_to" attrs="{'readonly':[('filter', '!=', 'filter_date')], 'required':[('filter', '=', 'filter_date')]}" colspan="4"/>
+                            <separator string="Periods" colspan="4"/>
+                            <field name="period_from" domain="[('fiscalyear_id', '=', fiscalyear_id)]" attrs="{'readonly':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}" colspan="4"/>
+                            <field name="period_to" domain="[('fiscalyear_id', '=', fiscalyear_id)]" attrs="{'readonly':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}" colspan="4"/>
+                        </page>
+                        <page string="Accounts Filters">
+                            <separator string="Print only" colspan="4"/>
+                            <field name="account_ids" colspan="4" nolabel="1"/>
+                        </page>
+                    </notebook>
+                    <separator string="Options" colspan="4"/>
+                    <field name="amount_currency"/>
+                    <separator colspan="4"/>
+                    <group col="4" colspan="4">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                        <button icon="gtk-print" name="check_report" string="Print" type="object" colspan="2"/>
+                    </group>
+                    <field name="display_account" invisible="True"/>
+                    <field name="initial_balance" invisible="True"/>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_account_general_ledger_menu_webkit" model="ir.actions.act_window">
+            <field name="name">General Ledger Webkit</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.report.general.ledger.webkit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_report_general_ledger_view_webkit"/>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.values" id="action_account_general_ledger_values_webkit">
+            <field name="model_id" ref="account.model_account_account"/>
+            <field name="object" eval="1"/>
+            <field name="name">General Ledger Webkit</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value"
+                eval="'ir.actions.act_window,' +str(ref('action_account_general_ledger_menu_webkit'))"/>
+            <field name="key">action</field>
+            <field name="model">account.account</field>
+        </record>
+
+        <menuitem icon="STOCK_PRINT" name="General Ledger Webkit"
+            parent="account.menu_generic_report" action="action_account_general_ledger_menu_webkit"
+            groups="account.group_account_manager,account.group_account_user" id="menu_general_ledger_webkit"/>
+
+    </data>
+</openerp>
