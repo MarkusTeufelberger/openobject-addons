@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-25 04:50+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-09-15 05:02+0000\n"
+"X-Generator: Launchpad (build 13921)\n"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
@@ -76,7 +76,7 @@ msgstr ""
 #. module: account_asset
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr ""
+msgstr "Nom de modèle invalide pour la définition de l'action."
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -114,7 +114,7 @@ msgstr ""
 #: view:account.asset.property.history:0
 #: model:ir.model,name:account_asset.model_account_asset_property_history
 msgid "Asset history"
-msgstr ""
+msgstr "Historique de l'immobilisation"
 
 #. module: account_asset
 #: wizard_field:account.asset.reval,init,expense_value:0
@@ -145,7 +145,7 @@ msgstr ""
 #: field:account.asset.asset,entry_ids:0
 #: wizard_field:account.asset.compute,asset_compute,move_ids:0
 msgid "Entries"
-msgstr ""
+msgstr "Ecritures"
 
 #. module: account_asset
 #: help:account.asset.initial,init,value:0
@@ -155,7 +155,7 @@ msgstr ""
 #. module: account_asset
 #: wizard_view:account.asset.compute,asset_compute:0
 msgid "Generated entries"
-msgstr ""
+msgstr "Écritures générées"
 
 #. module: account_asset
 #: wizard_view:account.asset.compute,asset_compute:0
@@ -168,7 +168,7 @@ msgstr ""
 #: wizard_button:account.asset.modify,init,asset_modify:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_modify
 msgid "Modify asset"
-msgstr ""
+msgstr "Modifier l'immobilisation"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -229,7 +229,7 @@ msgstr ""
 #: wizard_field:account.asset.modify,init,note:0
 #: view:account.asset.property.history:0
 msgid "Notes"
-msgstr ""
+msgstr "Commentaires"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
@@ -359,7 +359,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.asset,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Partenaire"
 
 #. module: account_asset
 #: help:account.asset.method.defaults,method_progress_factor:0
@@ -551,7 +551,7 @@ msgstr ""
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_compute
 #: model:ir.ui.menu,name:account_asset.menu_wizard_asset_compute
 msgid "Compute assets"
-msgstr ""
+msgstr "Calculer les immobilisations"
 
 #. module: account_asset
 #: help:account.asset.method,method_delay:0
@@ -753,7 +753,7 @@ msgstr ""
 #: field:account.asset.category,name:0
 #: model:ir.model,name:account_asset.model_account_asset_category
 msgid "Asset category"
-msgstr ""
+msgstr "Catégorie d'immobilisation"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -791,13 +791,13 @@ msgstr ""
 #: field:account.asset.category,note:0
 #: field:account.asset.property.history,note:0
 msgid "Note"
-msgstr ""
+msgstr "Remarque"
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
 #: selection:account.asset.property,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Brouilon"
 
 #. module: account_asset
 #: help:account.asset.method,state:0
@@ -825,7 +825,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.property.history,asset_property_id:0
 msgid "Method"
-msgstr ""
+msgstr "Méthode"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -835,7 +835,7 @@ msgstr ""
 #. module: account_asset
 #: selection:account.asset.asset,state:0
 msgid "Normal"
-msgstr ""
+msgstr "Standard"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -855,7 +855,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.asset,localisation:0
 msgid "Localisation"
-msgstr ""
+msgstr "Emplacement"
 
 #. module: account_asset
 #: wizard_field:account.asset.abandon,init,whole_asset:0
@@ -896,7 +896,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.property.history,user_id:0
 msgid "User"
-msgstr ""
+msgstr "Utilisateur"
 
 #. module: account_asset
 #: code:addons/account_asset/wizard/wizard_asset_usage_createlines.py:0
@@ -986,7 +986,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.property,history_ids:0
 msgid "History"
-msgstr ""
+msgstr "Hstorique"
 
 #. module: account_asset
 #: help:account.asset.asset,partner_id:0
@@ -1068,14 +1068,14 @@ msgstr ""
 #: wizard_button:account.asset.compute,init,end:0
 #: wizard_button:account.asset.modify,init,end:0
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #. module: account_asset
 #: selection:account.asset.asset,state:0
 #: wizard_button:account.asset.compute,asset_compute,end:0
 #: selection:account.asset.property,state:0
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #. module: account_asset
 #: wizard_view:account.asset.localisation,init:0
@@ -1086,7 +1086,7 @@ msgstr ""
 #. module: account_asset
 #: selection:account.asset.property,state:0
 msgid "Open"
-msgstr ""
+msgstr "Ouvrir"
 
 #. module: account_asset
 #: field:account.asset.asset,code:0
@@ -1183,7 +1183,7 @@ msgstr ""
 #. module: account_asset
 #: selection:account.asset.property,method:0
 msgid "Progressive"
-msgstr ""
+msgstr "Progressif"
 
 #. module: account_asset
 #: field:account.asset.asset,sequence:0
@@ -1225,7 +1225,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.property,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: account_asset
 #: field:account.asset.category,code:0
@@ -1437,3 +1437,66 @@ msgstr ""
 #: wizard_view:account.asset.reval,init:0
 msgid "Revaluation"
 msgstr ""
+
+#~ msgid "Reason"
+#~ msgstr "Motif"
+
+#~ msgid "Linear"
+#~ msgstr "Linéaire"
+
+#~ msgid "Change duration"
+#~ msgstr "Changer la durée"
+
+#~ msgid "Ending date"
+#~ msgstr "Date de Fin"
+
+#~ msgid "Depreciation entries"
+#~ msgstr "Écritures d'amortissement"
+
+#~ msgid "Depreciation duration"
+#~ msgstr "Durée de l'amortissement"
+
+#~ msgid "Analytic account"
+#~ msgstr "Compte Analytique"
+
+#~ msgid "Other information"
+#~ msgstr "Autre information"
+
+#~ msgid "Depreciation methods"
+#~ msgstr "Méthodes d'amortissement"
+
+#~ msgid "Cumul. value"
+#~ msgstr "Valeur cumulée"
+
+#~ msgid "Confirm asset"
+#~ msgstr "Confirmer l'immobilisation"
+
+#~ msgid "Date created"
+#~ msgstr "Date de création"
+
+#~ msgid "Asset property"
+#~ msgstr "Propriété de l'immobilisation"
+
+#~ msgid "Asset account"
+#~ msgstr "Compte d'immobilisation"
+
+#~ msgid "Depr. method type"
+#~ msgstr "Type de méthode d'immobilisation"
+
+#~ msgid "Progressif factor"
+#~ msgstr "Facteur progressif"
+
+#~ msgid "Net value"
+#~ msgstr "Valeur nette"
+
+#~ msgid "Depreciation account"
+#~ msgstr "Comte d'amortissement"
+
+#~ msgid "Global state"
+#~ msgstr "État global"
+
+#~ msgid "Depreciation"
+#~ msgstr "Amortissement"
+
+#~ msgid "Analytic journal"
+#~ msgstr "Journal analytique"

@@ -9,10 +9,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-25 04:47+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-09-15 05:00+0000\n"
+"X-Generator: Launchpad (build 13921)\n"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,workuse_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_workuse
 msgid "Work Use"
@@ -21,18 +22,17 @@ msgstr "Procedimento de Trabalho"
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelingsoftware_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelingsoftware_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_modelingsoftware_category_main
 msgid "Works by Modeling Software"
 msgstr "Trabalho por Modelagem de Software"
 
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_foundationtype_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_foundationtype_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_foundationtype_category_main
 msgid "Works by Foundation Type"
 msgstr "Trabalho por Tipo de Fundação"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,foundationtype_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_foundationtype
 msgid "Foundation Type"
@@ -59,6 +59,7 @@ msgid "Child Foundation Type"
 msgstr "Tipo de Fundação  Descendente"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,work_builder:0
 msgid "Work builder"
 msgstr "Construtor"
@@ -91,7 +92,6 @@ msgstr "Tipos de Fundações"
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelabstraction_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelabstraction_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_modelabstraction_category_main
 msgid "Works by Model Abstraction"
 msgstr "Trabalho por Modelo de Abstração"
 
@@ -109,10 +109,12 @@ msgstr "Procedimento de Trabalho  de Ascendente"
 #: view:civil_engineering.work:0
 #: field:civil_engineering.work,project_ids:0
 #: field:civil_engineering.work.project,project_id:0
+#: model:ir.model,name:civil_engineering.model_project_project
 msgid "Project"
 msgstr "Projecto"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,plant_engineering:0
 msgid "Plant engineering"
 msgstr "engenharia de instalações"
@@ -133,6 +135,7 @@ msgid "Structure Type Categories"
 msgstr "Estruturas Tipo de Categorias"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,structuretype_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_structuretype
 msgid "Structure Type"
@@ -164,6 +167,7 @@ msgid "work"
 msgstr "trabalho"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,civil_engineer:0
 msgid "Civil engineer"
 msgstr "Engenheiro Cívil"
@@ -185,6 +189,7 @@ msgid "Other consultancies"
 msgstr "Outras consultorias"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,modelabstraction_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelabstraction
 msgid "Structural Model Abstraction"
@@ -227,6 +232,7 @@ msgid ""
 msgstr "O campo activo permite que esconda o Tipo de Fundação sem removê-lo."
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,country_id:0
 msgid "Country"
 msgstr "País"
@@ -252,6 +258,7 @@ msgid "Categories"
 msgstr "Categorias"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,modelingsoftware_id:0
 msgid "Structure Modeling Software"
 msgstr "Estrutura de Modelagem de Software"
@@ -290,6 +297,7 @@ msgid "Civil Engineering Work Project"
 msgstr "Projecto de Trabalho de Engenharia Civil"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,architecture:0
 msgid "Architecture"
 msgstr "Arquitectura"
@@ -326,11 +334,13 @@ msgid "Civil Engineering"
 msgstr "Engenharia Civil"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,constructed_area:0
 msgid "Constructed area"
 msgstr "Área construída"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,work_construction_cost:0
 msgid "Work construction cost"
 msgstr "Trabalho de custos de construção"
@@ -364,6 +374,7 @@ msgid "Structural Model Abstraction Category"
 msgstr "Categoria de Abstração do Modelo Estrutural"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,structural_engineering:0
 msgid "Structural engineering"
 msgstr "Estrutura de Engenharia"
@@ -439,6 +450,7 @@ msgid "General"
 msgstr "Geral"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,work_safety:0
 msgid "Work safety"
 msgstr "Segurança no trabalho"
@@ -513,6 +525,7 @@ msgid "Civil Engineering Area"
 msgstr "Área de Engenharia Civil"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,city:0
 msgid "City"
 msgstr "Cidade"
@@ -535,7 +548,6 @@ msgstr "Projecto de trabalho"
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_structuretype_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_structuretype_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_structuretype_category_main
 msgid "Works by Structure Type"
 msgstr "Trabalho por Tipo de Estrutura"
 
@@ -550,6 +562,7 @@ msgid "Structural Modeling Software"
 msgstr "Modelagem Estrutura de Software"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,workclass_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_workclass
 msgid "Work Class"
@@ -563,7 +576,6 @@ msgstr "Classes de Trabalhos"
 #. module: civil_engineering
 #: view:civil_engineering.work:0
 #: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_configuration_structure
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_structure
 msgid "Structure"
 msgstr "Estrutura"
 
@@ -591,11 +603,11 @@ msgstr "Categorias do Modelo Estrutural da Abstração"
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_workuse_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_workuse_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_workuse_category_main
 msgid "Works by Work Use"
 msgstr "Trabalho por Procedimentos de Trabalho"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,main_city:0
 msgid "Main city"
 msgstr "Cidade Principal"
@@ -615,6 +627,7 @@ msgid "Civil Engineering Work"
 msgstr "Trabalhos de Engenharia Civil"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,work_owner:0
 msgid "Work owner"
 msgstr "Proprietário do trabalho"
@@ -641,6 +654,7 @@ msgid "Sequence"
 msgstr "Sequência"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,geotechnics:0
 msgid "Geotechnics"
 msgstr "Geotecnia"
@@ -658,6 +672,7 @@ msgid "Child Work Class"
 msgstr "Classe Trabalho Descendentes"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,project_manager:0
 msgid "Project manager"
 msgstr "Gestor do Projecto"

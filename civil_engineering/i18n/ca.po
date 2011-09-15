@@ -14,11 +14,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-25 04:47+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-09-15 05:00+0000\n"
+"X-Generator: Launchpad (build 13921)\n"
 "X-Poedit-Language: Catalan\n"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,workuse_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_workuse
 msgid "Work Use"
@@ -27,18 +28,17 @@ msgstr "Ús de l'obra"
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelingsoftware_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelingsoftware_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_modelingsoftware_category_main
 msgid "Works by Modeling Software"
 msgstr "Obres per programari de modelitzat"
 
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_foundationtype_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_foundationtype_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_foundationtype_category_main
 msgid "Works by Foundation Type"
 msgstr "Obres per tipus de cimentació"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,foundationtype_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_foundationtype
 msgid "Foundation Type"
@@ -65,6 +65,7 @@ msgid "Child Foundation Type"
 msgstr "Fill Tipus de cimentació"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,work_builder:0
 msgid "Work builder"
 msgstr "Constructor"
@@ -97,7 +98,6 @@ msgstr "Tipus de cimentació"
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelabstraction_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelabstraction_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_modelabstraction_category_main
 msgid "Works by Model Abstraction"
 msgstr "Obres per abstracció del model"
 
@@ -115,10 +115,12 @@ msgstr "Pare Ús de l'obra"
 #: view:civil_engineering.work:0
 #: field:civil_engineering.work,project_ids:0
 #: field:civil_engineering.work.project,project_id:0
+#: model:ir.model,name:civil_engineering.model_project_project
 msgid "Project"
 msgstr "Projecte"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,plant_engineering:0
 msgid "Plant engineering"
 msgstr "Enginyeria d'instal·lacions"
@@ -139,6 +141,7 @@ msgid "Structure Type Categories"
 msgstr "Categories Tipus d'estructura"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,structuretype_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_structuretype
 msgid "Structure Type"
@@ -170,6 +173,7 @@ msgid "work"
 msgstr "obra"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,civil_engineer:0
 msgid "Civil engineer"
 msgstr "Aparelladors"
@@ -191,6 +195,7 @@ msgid "Other consultancies"
 msgstr "Altres enginyeries"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,modelabstraction_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_modelabstraction
 msgid "Structural Model Abstraction"
@@ -234,6 +239,7 @@ msgstr ""
 "El camp actiu permet ocultar el tipus de cimentació sense eliminar-lo."
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,country_id:0
 msgid "Country"
 msgstr "País"
@@ -259,6 +265,7 @@ msgid "Categories"
 msgstr "Categories"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,modelingsoftware_id:0
 msgid "Structure Modeling Software"
 msgstr "Programari de modelitzat estructural"
@@ -297,6 +304,7 @@ msgid "Civil Engineering Work Project"
 msgstr "Enginyeria civil. Projectes de l'obra"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,architecture:0
 msgid "Architecture"
 msgstr "Arquitectura"
@@ -333,11 +341,13 @@ msgid "Civil Engineering"
 msgstr "Enginyeria civil"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,constructed_area:0
 msgid "Constructed area"
 msgstr "Superfície construïda"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,work_construction_cost:0
 msgid "Work construction cost"
 msgstr "PEM de l'obra"
@@ -371,6 +381,7 @@ msgid "Structural Model Abstraction Category"
 msgstr "Categoria Abstracció del model estructural"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,structural_engineering:0
 msgid "Structural engineering"
 msgstr "Enginyeria d'estructures"
@@ -446,6 +457,7 @@ msgid "General"
 msgstr "General"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,work_safety:0
 msgid "Work safety"
 msgstr "Seguretat i salut"
@@ -519,6 +531,7 @@ msgid "Civil Engineering Area"
 msgstr "Àrea d'enginyeria civil"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,city:0
 msgid "City"
 msgstr "Ciutat"
@@ -541,7 +554,6 @@ msgstr "Projecte d'obra"
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_structuretype_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_structuretype_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_structuretype_category_main
 msgid "Works by Structure Type"
 msgstr "Obres per tipus d'estructura"
 
@@ -556,6 +568,7 @@ msgid "Structural Modeling Software"
 msgstr "Programari de modelitzat estructural"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,workclass_id:0
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_workclass
 msgid "Work Class"
@@ -569,7 +582,6 @@ msgstr "Classes d'encàrrec"
 #. module: civil_engineering
 #: view:civil_engineering.work:0
 #: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_configuration_structure
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_structure
 msgid "Structure"
 msgstr "Estructura"
 
@@ -597,11 +609,11 @@ msgstr "Categories Abstracció del model estructural"
 #. module: civil_engineering
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_workuse_by_category
 #: model:ir.actions.act_window,name:civil_engineering.action_civilengineering_workuse_category
-#: model:ir.ui.menu,name:civil_engineering.menu_civilengineering_workuse_category_main
 msgid "Works by Work Use"
 msgstr "Obres per ús de l'obra"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,main_city:0
 msgid "Main city"
 msgstr "Municipi"
@@ -621,6 +633,7 @@ msgid "Civil Engineering Work"
 msgstr "Obra d'enginyeria civil"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,work_owner:0
 msgid "Work owner"
 msgstr "Promotor"
@@ -646,6 +659,7 @@ msgid "Sequence"
 msgstr "Seqüència"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,geotechnics:0
 msgid "Geotechnics"
 msgstr "Geotècnia"
@@ -663,33 +677,7 @@ msgid "Child Work Class"
 msgstr "Fill Classe d'encàrrec"
 
 #. module: civil_engineering
+#: view:civil_engineering.work:0
 #: field:civil_engineering.work,project_manager:0
 msgid "Project manager"
 msgstr "Project manager"
-
-#~ msgid "Works"
-#~ msgstr "Obres"
-
-#~ msgid "CE Works"
-#~ msgstr "Obres Enginyeria Civil"
-
-#~ msgid "Work Class Project"
-#~ msgstr "Proyecto Clase encargo"
-
-#~ msgid "Structure Type Project"
-#~ msgstr "Proyecto tipo estructura"
-
-#~ msgid "Foundation Type Project"
-#~ msgstr "Proyecto tipo cimentación"
-
-#~ msgid "Civil engineering work"
-#~ msgstr "Obra de ingeniería civil"
-
-#~ msgid "Modeling Software Project"
-#~ msgstr "Proyecto software de modelizado"
-
-#~ msgid "Model Structural Abstraction Project"
-#~ msgstr "Proyecto Abstracción del modelo estructural"
-
-#~ msgid "Building Use Project"
-#~ msgstr "Proyecto Uso del edificio"

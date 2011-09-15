@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-25 04:49+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-09-15 05:01+0000\n"
+"X-Generator: Launchpad (build 13921)\n"
 
 #. module: internetdomain
 #: view:internetdomain.domain:0
@@ -269,46 +269,3 @@ msgstr "Renovaciones"
 #: wizard_field:internetdomain.renewal.make_invoice,init,price:0
 msgid "Price"
 msgstr "Precio"
-
-#~ msgid "Invalid arguments"
-#~ msgstr "Argumentos no válidos"
-
-#~ msgid ""
-#~ "\n"
-#~ "Organize your domains and services\n"
-#~ "Tools -> Domain\n"
-#~ "* Domains\n"
-#~ "* Renewals\n"
-#~ "* Products/Services\n"
-#~ "* Network\n"
-#~ "* Send email expiration domain with Schuddle Action and Power Email\n"
-#~ "* Invoice renewal domain\n"
-#~ "    "
-#~ msgstr ""
-#~ "\n"
-#~ "Organiza sus dominios de internet y servicios:\n"
-#~ "* Dominios\n"
-#~ "* Renovaciones\n"
-#~ "* Productos\n"
-#~ "* Red\n"
-#~ "* Envío de correo mediante Acciones Planificadas y Power Email\n"
-#~ "    "
-
-#~ msgid "Expired"
-#~ msgstr "Vencimiento"
-
-#~ msgid "Send email domain: %s"
-#~ msgstr "Send email domain: %s"
-
-#~ msgid "Created"
-#~ msgstr "Fecha alta"
-
-#~ msgid "Invoices"
-#~ msgstr "Facturas"
-
-#~ msgid ""
-#~ "Not template configurated. Configure your company template or desactive "
-#~ "Scheduled Actions"
-#~ msgstr ""
-#~ "Not template configurated. Configure your company template or desactive "
-#~ "Scheduled Actions"

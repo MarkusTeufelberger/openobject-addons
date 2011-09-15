@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-25 04:52+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-09-15 05:04+0000\n"
+"X-Generator: Launchpad (build 13921)\n"
 "X-Poedit-Language: Spanish\n"
 
 #. module: training_exam
@@ -104,7 +104,7 @@ msgid "Name of questionnaire"
 msgstr "Nombre del cuestionario."
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:124
 #, python-format
 msgid "There is not an available questionnaire for the following course %s"
 msgstr "No existe ningún cuestionario para la asignatura %s"
@@ -192,7 +192,6 @@ msgstr "Posición imagen"
 
 #. module: training_exam
 #: model:ir.model,name:training_exam.model_training_exam_question_wizard
-#: view:training.exam.question.wizard:0
 msgid "Question Wizard"
 msgstr "Asistente preguntas"
 
@@ -234,7 +233,7 @@ msgid "Examen Answer"
 msgstr "Respuesta examen"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:1038
 #, python-format
 msgid "Can you check the product on the course type of the course %s"
 msgstr ""
@@ -293,8 +292,8 @@ msgid "SCORE / 100"
 msgstr "PUNTUACIÓN / 100"
 
 #. module: training_exam
-#: wizard_field:training.exam.question.assign.course,init,course_id:0
 #: field:training.exam.question.wizard,course_id:0
+#: view:training.exam.questionnaire:0
 #: field:training.exam.questionnaire.course,course_id:0
 #: field:training.exam.questionnaire.wizard,course_id:0
 #: field:training.exam.wizard.helper,course_id:0
@@ -307,7 +306,6 @@ msgid "Reset to Draft"
 msgstr "Inicializar a borrador"
 
 #. module: training_exam
-#: view:training.exam.question.wizard:0
 #: view:training.exam.questionnaire.wizard:0
 msgid "_Cancel"
 msgstr "_Cancelar"
@@ -325,7 +323,7 @@ msgid "1.15cm 1.2cm 19.9cm 1.2cm"
 msgstr ""
 
 #. module: training_exam
-#: field:training.participation.line,plain_question_id:0
+#: field:training.participation.line,plain_question:0
 msgid "Solution Plain"
 msgstr "Solución plana"
 
@@ -340,7 +338,7 @@ msgid "Invalid model name in the action definition."
 msgstr "Nombre de modelo no válido en la definición de la acción"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:404
 #, python-format
 msgid "Cannot modify important field of a question which is validated"
 msgstr ""
@@ -374,7 +372,9 @@ msgid "Preview Exam Sheet With Solution"
 msgstr "Previsualizar la hoja de examen con la solución"
 
 #. module: training_exam
+#: view:training.exam.question:0
 #: field:training.exam.question,state:0
+#: view:training.exam.questionnaire:0
 #: field:training.exam.questionnaire,state:0
 msgid "State"
 msgstr "Estado"
@@ -382,21 +382,23 @@ msgstr "Estado"
 #. module: training_exam
 #: view:training.exam.question:0
 #: selection:training.exam.question,state:0
+#: view:training.exam.questionnaire:0
 #: selection:training.exam.questionnaire,state:0
 msgid "Draft"
 msgstr "Borrador"
 
 #. module: training_exam
-#: help:training.participation.line,point_question_id:0
+#: help:training.participation.line,point_question:0
 msgid "Point of question"
 msgstr "Puntos de la pregunta."
 
 #. module: training_exam
+#: view:training.exam.question:0
 #: field:training.exam.question,type:0
 #: field:training.exam.questionnaire,type:0
 #: field:training.exam.questionnaire.question,question_type:0
 #: field:training.exam.questionnaire.wizard,kind:0
-#: field:training.participation.line,type_question_id:0
+#: field:training.participation.line,type_question:0
 msgid "Type"
 msgstr "Tipo"
 
@@ -406,6 +408,8 @@ msgid "Fax:"
 msgstr "Fax:"
 
 #. module: training_exam
+#: model:ir.actions.act_window,name:training_exam.training_participation_line_act
+#: model:ir.model,name:training_exam.model_training_participation
 #: field:training.participation.line,participation_id:0
 msgid "Participation"
 msgstr "Participación"
@@ -453,7 +457,10 @@ msgid "FIRST NAME"
 msgstr "NOMBRE"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:105
+#: code:addons/training_exam/training_exam.py:123
+#: code:addons/training_exam/training_exam.py:941
+#: code:addons/training_exam/training_exam.py:1037
 #, python-format
 msgid "Warning"
 msgstr "Aviso"
@@ -480,7 +487,7 @@ msgid "Configuration"
 msgstr "Configuración"
 
 #. module: training_exam
-#: field:training.participation.line,point_question_id:0
+#: field:training.participation.line,point_question:0
 msgid "Max Point"
 msgstr "Máxima puntuación"
 
@@ -497,7 +504,7 @@ msgid "Objective:"
 msgstr "Objetivo:"
 
 #. module: training_exam
-#: field:training.participation.line,qcm_question_id:0
+#: field:training.participation.line,qcm_question:0
 msgid "Solution QCM"
 msgstr "Solución Opción múltiple"
 
@@ -529,7 +536,6 @@ msgid "Remarks:"
 msgstr "Comentarios:"
 
 #. module: training_exam
-#: wizard_button:training.exam.question.assign.course,init,end:0
 #: view:training.exam.wizard.helper:0
 msgid "Cancel"
 msgstr "Cancelar"
@@ -546,7 +552,7 @@ msgid "Questionnaire Information"
 msgstr "Información del cuestionario"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:1656
 #, python-format
 msgid "The type of the course (%s) of this seance has no product defined"
 msgstr ""
@@ -573,7 +579,7 @@ msgstr "Cuestionario"
 
 #. module: training_exam
 #: help:training.exam.question,type:0
-#: help:training.participation.line,yesno_question_id:0
+#: help:training.participation.line,yesno_question:0
 msgid "Question type"
 msgstr "Tipo pregunta"
 
@@ -600,7 +606,7 @@ msgid "Point"
 msgstr "Puntos"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:1376
 #, python-format
 msgid "Can't find validated questionnaire for course '%s'"
 msgstr "No se encuentra un cuestionario validado para la asignatura '%s'"
@@ -617,12 +623,12 @@ msgid "training.exam.question"
 msgstr "formacion.examen.pregunta"
 
 #. module: training_exam
-#: field:training.participation.line,yesno_question_id:0
+#: field:training.participation.line,yesno_question:0
 msgid "Solution YesNo"
 msgstr "Solución Sí/No"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:170
 #, python-format
 msgid "There is no product with the code equal to R50H !"
 msgstr "¡No existe ningún producto con el código R50H!"
@@ -652,7 +658,7 @@ msgid "Current Questionnaires"
 msgstr "Cuestionarios actuales"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:1367
 #, python-format
 msgid ""
 "Can't assign questionnaire to participation %s because there is not exam "
@@ -692,6 +698,7 @@ msgstr "Imagen a ser mostrada en la próxima pregunta de texto"
 #. module: training_exam
 #: field:training.subscription.line,exam_session_id:0
 #: field:training.subscription.line.second,exam_session_id:0
+#: field:training.subscription.mass.line,exam_session_id:0
 msgid "Exam Session"
 msgstr "Edición examen"
 
@@ -736,7 +743,7 @@ msgid "Note"
 msgstr "Nota"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:942
 #, python-format
 msgid "Can you check the product on the course type of the course ?"
 msgstr ""
@@ -755,7 +762,7 @@ msgstr "CORRECTOR"
 #. module: training_exam
 #: selection:training.exam.question,type:0
 #: selection:training.exam.questionnaire.question,question_type:0
-#: selection:training.participation.line,type_question_id:0
+#: selection:training.participation.line,type_question:0
 msgid "Yes/No"
 msgstr "Sí/No"
 
@@ -781,16 +788,17 @@ msgid "Question Information"
 msgstr "Información pregunta"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:69
+#: code:addons/training_exam/training_exam.py:1085
 #: model:training.course.kind,name:training_exam.course_kind_exam
 #: field:training.course_type,exam_product_id:0
 #: model:training.offer.kind,name:training_exam.offer_kind_exam
 #: field:training.participation,course_questionnaire_id:0
-#: field:training.participation,exam_id:0
 #: view:training.subscription:0
 #: view:training.subscription.line:0
 #: field:training.subscription.line,course_id:0
 #: field:training.subscription.line.second,course_id:0
+#: field:training.subscription.mass.line,course_id:0
 #, python-format
 msgid "Exam"
 msgstr "Examen"
@@ -801,7 +809,7 @@ msgid "Result (%)"
 msgstr "Resultado (%)"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:106
 #, python-format
 msgid "You have selected an exam seance but there is no associated course"
 msgstr ""
@@ -873,6 +881,7 @@ msgstr "Resultado no forzado"
 #. module: training_exam
 #: view:training.exam.question:0
 #: selection:training.exam.question,state:0
+#: view:training.exam.questionnaire:0
 #: selection:training.exam.questionnaire,state:0
 msgid "Deprecated"
 msgstr "Descatalogado"
@@ -907,7 +916,12 @@ msgid "PAPER VERSION"
 msgstr "VERSIÓN PAPEL"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:169
+#: code:addons/training_exam/training_exam.py:404
+#: code:addons/training_exam/training_exam.py:1198
+#: code:addons/training_exam/training_exam.py:1366
+#: code:addons/training_exam/training_exam.py:1375
+#: code:addons/training_exam/training_exam.py:1655
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -923,13 +937,13 @@ msgid "Participant:"
 msgstr "Participante:"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:1199
 #, python-format
 msgid "The following course has not a valid duration '%s' (%d)"
 msgstr "La siguiente asignatura no tiene una duración válida '%s' (%d)"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:1149
 #, python-format
 msgid "Cancellation"
 msgstr "Cancelación"
@@ -974,6 +988,7 @@ msgstr "Nueva pregunta"
 
 #. module: training_exam
 #: selection:training.exam.question,state:0
+#: view:training.exam.questionnaire:0
 #: selection:training.exam.questionnaire,state:0
 msgid "Validated"
 msgstr "Validado"
@@ -1039,7 +1054,7 @@ msgid "Exam Summary"
 msgstr "Resumen del examen"
 
 #. module: training_exam
-#: code:addons/training_exam/training_exam.py:0
+#: code:addons/training_exam/training_exam.py:65
 #, python-format
 msgid "Class %d"
 msgstr "Clase %d"
@@ -1124,14 +1139,14 @@ msgstr "Al menos una pregunta abierta-finalizada"
 #. module: training_exam
 #: selection:training.exam.question,type:0
 #: selection:training.exam.questionnaire.question,question_type:0
-#: selection:training.participation.line,type_question_id:0
+#: selection:training.participation.line,type_question:0
 msgid "QCM"
 msgstr "Opción múltiple"
 
 #. module: training_exam
 #: selection:training.exam.question,type:0
 #: selection:training.exam.questionnaire.question,question_type:0
-#: selection:training.participation.line,type_question_id:0
+#: selection:training.participation.line,type_question:0
 msgid "Plain"
 msgstr "Plano"
 
@@ -1162,6 +1177,7 @@ msgstr "Resultado de examen de participación"
 
 #. module: training_exam
 #: field:training.exam.question,name:0
+#: view:training.exam.questionnaire:0
 #: field:training.exam.questionnaire,name:0
 #: field:training.exam.questionnaire.wizard,name:0
 msgid "Name"
@@ -1212,11 +1228,11 @@ msgstr "Información de la asignatura"
 #: model:ir.ui.menu,name:training_exam.library_exam_mi
 #: view:training.offer:0
 #: field:training.offer,questionnaire_ids:0
+#: field:training.seance.generate.zip.wizard,exams_report:0
 msgid "Exams"
 msgstr "Exámenes"
 
 #. module: training_exam
-#: view:training.exam.question.wizard:0
 #: view:training.exam.questionnaire.wizard:0
 msgid "_Apply"
 msgstr "_Aplicar"
@@ -1308,7 +1324,7 @@ msgstr "Fecha examen:"
 #. module: training_exam
 #: selection:training.exam.question,type:0
 #: selection:training.exam.questionnaire.question,question_type:0
-#: selection:training.participation.line,type_question_id:0
+#: selection:training.participation.line,type_question:0
 msgid "QCU"
 msgstr "Opción única"
 
