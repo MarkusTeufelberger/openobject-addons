@@ -234,9 +234,10 @@ class sale_shop(external_osv.external_osv):
             param = (shop.id,)
 
             if shop.last_update_order_export_date:
-                req += "and sale_order.write_date > %s" 
+                req += "and sale_order.write_date > %s"
                 param = (shop.id, shop.last_update_order_export_date)
 
+            req += ' order by sale_order.write_date asc'
             cr.execute(req, param)
             results = cr.fetchall()
 
@@ -247,8 +248,10 @@ class sale_shop(external_osv.external_osv):
                     order = self.pool.get('sale.order').browse(cr, uid, id, context)            
                     order_ext_id = result[1].split('sale_order/')[1]
                     self.update_shop_orders(cr, uid, order, order_ext_id, context)
+                    write_date = self.pool.get('sale.order').perm_read(cr, uid, [id], context=context)[0]['write_date']
+                    self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_update_order_export_date': write_date})
+                    cr.commit()
                     logger.notifyChannel('ext synchro', netsvc.LOG_INFO, "Successfully updated order with OpenERP id %s and ext id %s in external sale system" % (id, order_ext_id))
-            self.pool.get('sale.shop').write(cr, uid, shop.id, {'last_update_order_export_date': time.strftime('%Y-%m-%d %H:%M:%S')})
         return False
         
     def update_shop_orders(self, cr, uid, order, ext_id, context):
