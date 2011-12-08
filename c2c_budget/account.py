@@ -39,10 +39,10 @@ class account_account(osv.osv):
     _inherit = "account.account"
 
     
-    def get_children_map(self, cr, uid, company_id, context={}, sql_filter=""):
+    def get_children_map(self, cr, uid, company_id, context=None, sql_filter=""):
         """ return a dictionnary mapping the parent relation between 
         accounts and their children """
-
+        if context is None: context = {}
         #build a dictionnary {parent_id -> [children_ids]}
         children_ids =  {}
         
@@ -74,10 +74,10 @@ class account_account(osv.osv):
         return children_ids
     
     
-    def get_children_flat_list(self, cr, uid, ids, company_id, context={}):            
+    def get_children_flat_list(self, cr, uid, ids, company_id, context=None):
         """return a flat list of all accounts'ids above the 
         ones given in the account structure (included the one given in params)"""
-        
+        if context is None: context = {}
         result= [] 
         
         children_map = self.get_children_map(cr, uid, company_id, context)
@@ -101,9 +101,9 @@ class account_account(osv.osv):
         return self.search(cr, uid, [('id', 'in', result)], context=context)
     
     
-    def name_search(self, cr, user, name='', args=None, operator='ilike', context=[], limit=80):    
+    def name_search(self, cr, user, name='', args=None, operator='ilike', context=None, limit=80):
         """raise the limit of the search if there is a limit define in the context"""
-        
+        if context is None: context = {}
         current_limit = limit
         #if context : just in case context is None
         if context and 'limit' in context:
@@ -123,17 +123,17 @@ class account_period(osv.osv):
     
     
     def search(self, cr, user, args, offset=0, limit=None, order=None, \
-        context={}, count=False):
+        context=None, count=False):
         """ special search. If we search a period from the budget version
          form (in the budget lines)  then the choice is reduce 
          to periods that overlap the budget dates"""
-        
+        if context is None: context = {}
         result = [] 
            
-        parent_result = super(account_period, self).search(cr, user, args, offset, limit, order, context, count)    
+        parent_result = super(account_period, self).search(cr, user, args, offset, limit, order, context, count)
 
         #special search limited to a version
-        if 'version_id' in context and context['version_id'] != False:
+        if context.get('version_id'):
             
             #get version's periods
             version_obj = self.pool.get('c2c_budget.version')
@@ -170,4 +170,3 @@ class account_period(osv.osv):
     
     
 account_period()
-    
