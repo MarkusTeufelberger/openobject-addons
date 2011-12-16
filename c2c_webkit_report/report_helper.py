@@ -42,7 +42,7 @@ class WebKitHelper(object):
         self.pool = pooler.get_pool(self.cursor.dbname)
         self.report_id = report_id
 
-    def embed_image(self, extension, img, width=0, height=0) :
+    def embed_image(self, extension, img, width=0, height=0):
         """Transform a DB image into an embedded HTML image."""
         try:
             size = ''
@@ -62,10 +62,10 @@ class WebKitHelper(object):
         header_img_id = header_obj.search(
                                             self.cursor,
                                             self.uid,
-                                            [('name','=',name)]
+                                            [('name', '=', name)]
                                         )
-        if not header_img_id :
-            return u''
+        if not header_img_id:
+            return (u'', u'')
         if isinstance(header_img_id, list):
             header_img_id = header_img_id[0]
 

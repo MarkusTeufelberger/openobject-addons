@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="webkit Headers">
-                    	<field name="lib_path" colspan="4"/>
+                        <field name="lib_path" colspan="4"/>
                         <separator string="Images" />
                         <field name="header_image"  colspan="4" nolabel="1"/>
                         <separator string="Headers" />

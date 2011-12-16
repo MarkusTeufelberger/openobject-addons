@@ -28,8 +28,9 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
+import base64
+import cStringIO
 import os
-import re
 import tempfile
 import time
 import subprocess
@@ -39,8 +40,9 @@ from mako.template import Template
 import pooler
 import netsvc
 import report
-from report.report_sxw import *
+from report.report_sxw import report_rml, report_sxw, rml_parse
 from osv import osv
+import tools
 from tools.config import config
 from tools.translate import _
 
@@ -78,7 +80,7 @@ class WebKitParser(report_sxw):
             path = path['lib_path'].replace(u' ','')
         else :
             raise osv.except_osv(
-                                _('Webkit executable not set in company'+
+                                _('Webkit executable not set in company. '
                                 'Please complete company setting'),
                                 _('Path is none')
                                 )
@@ -87,7 +89,7 @@ class WebKitParser(report_sxw):
                 return path
             else:
                 raise osv.except_osv(
-                                    _('Wrong path set in company'+
+                                    _('Wrong path set in company. '
                                     'Given path is not executable or path is wrong'),
                                     'for path %s'%(path)
                                     )
@@ -98,23 +100,22 @@ class WebKitParser(report_sxw):
                     return path
 
         raise osv.except_osv(
-                            _('Please install wkhtmltopdf 0.9.9'+
-                            '(sudo apt-get install wkhtmltopdf) '+
-                            'or download it from here: '+
-                            'http://code.google.com/p/wkhtmltopdf/downloads/list.'+
-                            ' You can set executable path into the company'),
+                            _('Please install wkhtmltopdf 0.9.9 '
+                            '(sudo apt-get install wkhtmltopdf) '
+                            'or download it from here: '
+                            'http://code.google.com/p/wkhtmltopdf/downloads/list. '
+                            'You can set executable path into the company'),
                             _('The embedded lib are not anymore present for security reasons')
                             )
         return False
 
-    def generate_pdf(self, comm_path, report_xml, header, footer, html_list, webkit_header=False):
+    def generate_pdf(self, comm_path, report_xml, header, footer, html_list, webkit_header=None):
         """Call webkit in order to generate pdf"""
         if not webkit_header:
             webkit_header = report_xml.webkit_header
         tmp_dir = tempfile.gettempdir()
         out = report_xml.name+str(time.time())+'.pdf'
         out = os.path.join(tmp_dir, out.replace(' ',''))
-        files = []
         file_to_del = []
         if comm_path:
             command = [comm_path]
@@ -122,7 +123,7 @@ class WebKitParser(report_sxw):
             command = ['wkhtmltopdf']
 
         command.append('--quiet')
-        # default to UTF-8 encoding.  Use <meta charset="latin-1"> to override.
+        # the Mako template uses UTF-8 encoding.
         command.extend(['--encoding', 'utf-8'])
         if header:
             head_file = file( os.path.join(
@@ -174,7 +175,7 @@ class WebKitParser(report_sxw):
             file_to_del.append(html_file.name)
             command.append(html_file.name)
         command.append(out)
-        generate_command = ' '.join(command)
+        # generate_command = ' '.join(command)
         try:
             status = subprocess.call(command, stderr=subprocess.PIPE) # ignore stderr
             if status :
@@ -236,8 +237,8 @@ class WebKitParser(report_sxw):
 
         text_header = text_footer = False
         if isinstance(additional_args, list):
-            text_header = bool(set([arg[0] for arg in additional_args]).intersection(['--header-left', '--header-center', 'header-right']))
-            text_footer = bool(set([arg[0] for arg in additional_args]).intersection(['--footer-left', '--footer-center', 'footer-right']))
+            text_header = bool(set([arg[0] for arg in additional_args]).intersection(['--header-left', '--header-center', '--header-right']))
+            text_footer = bool(set([arg[0] for arg in additional_args]).intersection(['--footer-left', '--footer-center', '--footer-right']))
         header = False
         footer = False
 
@@ -368,8 +369,8 @@ class WebKitParser(report_sxw):
                         )
                         cursor.commit()
                 except Exception, exp:
-                    import traceback, sys
-                    tb_s = reduce(lambda x, y: x+y, traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
+                    # import traceback, sys
+                    # tb_s = reduce(lambda x, y: x+y, traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
                     logger.notifyChannel(
                                                     'report', 
                                                     netsvc.LOG_ERROR, 

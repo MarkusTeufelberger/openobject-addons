@@ -29,8 +29,9 @@
 #
 ##############################################################################
 
-import netsvc
 from osv import fields, osv
+
+
 class HeaderHTML(osv.osv):
     """HTML Header alos you to define HTML CSS and Page format"""
     
