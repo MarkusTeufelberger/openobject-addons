@@ -92,11 +92,11 @@
                             ## journal
                             <div class="act_as_cell" style="width: 50px;">${_('Journal')}</div>
                             ## partner
-                            <div class="act_as_cell" style="width: 120px;">${_('Partner')}</div>
+                            <div class="act_as_cell" style="width: 90px;">${_('Partner')}</div>
                             ## ref
-                            <div class="act_as_cell" style="width: 110px;">${_('Ref')}</div>
+                            <div class="act_as_cell" style="width: 130px;">${_('Ref')}</div>
                             ## label
-                            <div class="act_as_cell" style="width: 170px;">${_('Label')}</div>
+                            <div class="act_as_cell" style="width: 180px;">${_('Label')}</div>
                             ## reconcile
                             <div class="act_as_cell" style="width: 70px;">${_('Rec.')}</div>
                             ## balance
@@ -174,7 +174,7 @@
                               ## partner
                               <div class="act_as_cell">${line.get('partner_name') or ''}</div>
                               ## ref
-                              <div class="act_as_cell">${line.get('lref') or ''}</div>
+                              <div class="act_as_cell overflow_ellipsis">${line.get('lref') or ''}</div>
                               ## label
                               <div class="act_as_cell">${line.get('lname') or ''}</div>
                               ## reconcile
@@ -208,9 +208,9 @@
                 %endfor
                 <div class="act_as_table list_table" style="margin-top:5px;">
                     <div class="act_as_row labels" style="font-weight: bold;">
-                            <div class="act_as_cell first_column" style="width: 460px;">${account.code} - ${account.name}</div>
+                            <div class="act_as_cell first_column" style="width: 450px;">${account.code} - ${account.name}</div>
                             ## label
-                            <div class="act_as_cell" style="width: 200px;">${_("Cumulated Balance on Account")}</div>
+                            <div class="act_as_cell" style="width: 210px;">${_("Cumulated Balance on Account")}</div>
                             ## reconcile
                             <div class="act_as_cell" style="width: 40px;"></div>
                             ## balance
