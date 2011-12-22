@@ -64,6 +64,7 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
         'target_move': fields.selection([('posted', 'All Posted Entries'),
                                          ('all', 'All Entries'),
                                         ], 'Target Moves', required=True),
+        'centralize': fields.boolean('Activate Centralization', help='Uncheck to display all the details of centralized accounts.'),
     }
 
     def _get_account(self, cr, uid, context=None):
@@ -88,6 +89,7 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
         'filter': lambda *a: 'filter_no',
         'chart_account_id': _get_account,
         'target_move': lambda *a: 'posted',
+        'centralize': lambda *a: True,
     }
 
     def onchange_fiscalyear(self, cursor, uid, ids, fiscalyear=False, context=None):
@@ -175,7 +177,7 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
         data['form'] = self.read(cr, uid, ids, ['date_from',  'date_to',  'fiscalyear_id', 'period_from',
                                                 'period_to',  'filter',  'chart_account_id', 'target_move',
                                                 'initial_balance', 'amount_currency', 'display_account',
-                                                'account_ids'])[0]
+                                                'account_ids', 'centralize'])[0]
         used_context = self._build_contexts(cr, uid, ids, data, context=context)
         data['form']['periods'] = used_context.get('periods', False) and used_context['periods'] or []
         data['form']['used_context'] = used_context
