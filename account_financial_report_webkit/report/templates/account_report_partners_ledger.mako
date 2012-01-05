@@ -84,7 +84,7 @@
                     <div class="act_as_thead">
                         <div class="act_as_row labels">
                             ## date
-                            <div class="act_as_cell first_column" style="width: 50px;">${_('Date')}</div>
+                            <div class="act_as_cell first_column" style="width: 60px;">${_('Date')}</div>
                             ## period
                             <div class="act_as_cell" style="width: 50px;">${_('Period')}</div>
                             ## move
@@ -92,13 +92,15 @@
                             ## journal
                             <div class="act_as_cell" style="width: 50px;">${_('Journal')}</div>
                             ## partner
-                            <div class="act_as_cell" style="width: 90px;">${_('Partner')}</div>
+                            <div class="act_as_cell" style="width: 70px;">${_('Partner')}</div>
                             ## ref
                             <div class="act_as_cell" style="width: 130px;">${_('Ref')}</div>
                             ## label
                             <div class="act_as_cell" style="width: 180px;">${_('Label')}</div>
                             ## reconcile
                             <div class="act_as_cell" style="width: 70px;">${_('Rec.')}</div>
+                            ## maturity
+                            <div class="act_as_cell" style="width: 60px;">${_('Due Date')}</div>
                             ## balance
                             <div class="act_as_cell amount" style="width: 75px;">${_('Balance')}</div>
                             ## balance cumulated
@@ -141,6 +143,8 @@
                               <div class="act_as_cell" >${_('Balance brought forward')}</div>
                               ## reconcile
                               <div class="act_as_cell"></div>
+                              ## maturity date
+                              <div class="act_as_cell"></div>
                               ## balance
                               <div class="act_as_cell amount">${formatLang(part_cumul_balance) | amount }</div>
                               ## balance cumulated
@@ -179,6 +183,8 @@
                               <div class="act_as_cell">${line.get('lname') or ''}</div>
                               ## reconcile
                               <div class="act_as_cell">${line.get('rec_name') or ''}</div>
+                              ## maturity date
+                                <div class="act_as_cell">${formatLang(line.get('date_maturity') or '', date=True)}</div>
                               ## balance
                               <div class="act_as_cell amount">${formatLang(line.get('balance') or 0.0) | amount }</div>
                               ## balance cumulated
@@ -208,11 +214,11 @@
                 %endfor
                 <div class="act_as_table list_table" style="margin-top:5px;">
                     <div class="act_as_row labels" style="font-weight: bold;">
-                            <div class="act_as_cell first_column" style="width: 450px;">${account.code} - ${account.name}</div>
+                            <div class="act_as_cell first_column" style="width: 440px;">${account.code} - ${account.name}</div>
                             ## label
                             <div class="act_as_cell" style="width: 210px;">${_("Cumulated Balance on Account")}</div>
                             ## reconcile
-                            <div class="act_as_cell" style="width: 40px;"></div>
+                            <div class="act_as_cell" style="width: 100px;"></div>
                             ## balance
                             <div class="act_as_cell amount" style="width: 75px;"></div>
                             ## balance cumulated
