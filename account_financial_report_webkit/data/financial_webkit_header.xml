@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <openerp>
-    <data>
+    <data noupdate="1">
         <record id="financial_landscape_header" model="ir.header_webkit">
             <!-- removed header/footer html while using text header and footer -->
             <field name="footer_html"/>
