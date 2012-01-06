@@ -30,6 +30,16 @@ class mrp_procurement(osv.osv):
     
     _inherit="mrp.procurement"
 
+    def _prepare_po_line(self, cr, uid, product, procurement, qty, price, newdate, context=None):
+        return {'name': product.partner_ref,
+                'product_qty': qty,
+                'product_id': procurement.product_id.id,
+                'product_uom': procurement.product_id.uom_po_id.id,
+                'price_unit': price,
+                'date_planned': newdate.strftime('%Y-%m-%d %H:%M:%S'),
+                'move_dest_id': procurement.move_id.id,
+                'notes': product.description_purchase,}
+
     def action_po_assign(self, cr, uid, ids, context=None):
         """Find cheapest supplier"""
         
@@ -46,7 +56,6 @@ class mrp_procurement(osv.osv):
         partner_price_obj = self.pool.get('pricelist.partnerinfo')
         company = user_obj.browse(cr, uid, uid, context).company_id
         for procurement in self.browse(cr, uid, ids):
-            res_id = procurement.move_id.id
             uom_id = procurement.product_id.uom_po_id.id
             qty = prod_uom_obj._compute_qty(cr, uid, procurement.product_uom.id, procurement.product_qty, uom_id)
             # Choose appropiate supplier
@@ -99,17 +108,8 @@ class mrp_procurement(osv.osv):
                 
                 product=prod_obj.browse(cr,uid,procurement.product_id.id,context=context)
     
-                line = {
-                    'name': product.partner_ref,
-                    'product_qty': qty,
-                    'product_id': procurement.product_id.id,
-                    'product_uom': uom_id,
-                    'price_unit': price,
-                    'date_planned': newdate.strftime('%Y-%m-%d %H:%M:%S'),
-                    'move_dest_id': res_id,
-                    'notes':product.description_purchase,
-                }
-    
+                line = self._prepare_po_line(cr, uid, product, procurement, qty, price, newdate, context=context)
+
                 taxes_ids = procurement.product_id.product_tmpl_id.supplier_taxes_id
                 taxes = acc_fiscal_obj.map_tax(cr, uid, partner.property_account_position, taxes_ids)
                 line.update({
