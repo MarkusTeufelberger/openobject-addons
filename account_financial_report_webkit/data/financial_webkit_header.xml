@@ -173,6 +173,13 @@ act_as_colgroup {
     white-space: nowrap;
 }
 
+.open_invoice_previous_line {
+    font-style: italic;
+}
+
+.clearance_line {
+    font-style: italic;
+}
 
 ]]>
             </field>

@@ -38,9 +38,6 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
         return res
 
     _columns = {
-        'initial_balance': fields.boolean("Include initial balances",
-                                          help='It adds initial balance row'),
-
         'amount_currency': fields.boolean("With Currency",
                                           help="It adds the currency column"),
 
@@ -81,7 +78,6 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
     
     _defaults = {
         'amount_currency': lambda *a: False,
-        'initial_balance': lambda *a: True,
         'display_account': lambda *a: 'bal_mix',
         'account_ids': _get_account_ids,
         'fiscalyear_id': _get_fiscalyear,
@@ -92,17 +88,7 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
         'centralize': lambda *a: True,
     }
 
-    def onchange_fiscalyear(self, cursor, uid, ids, fiscalyear=False, context=None):
-        res = {}
-        if not fiscalyear:
-            res['value'] = {'initial_balance': False}
-        return res
-
     def _print_report(self, cursor, uid, ids, data, context=None):
-        context = context or {}
-        # GTK client problem onchange does not consider in save record
-        if not data['form']['fiscalyear_id']:
-            data['form'].update({'initial_balance': False})
         return {'type': 'ir.actions.report.xml',
                 'report_name': 'account.account_report_general_ledger_webkit',
                 'datas': data}
@@ -125,7 +111,13 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
         if filter == 'filter_no':
             res['value'] = {'period_from': False, 'period_to': False, 'date_from': False ,'date_to': False}
         if filter == 'filter_date':
-            res['value'] = {'period_from': False, 'period_to': False, 'date_from': time.strftime('%Y-01-01'), 'date_to': time.strftime('%Y-%m-%d')}
+            if fiscalyear_id:
+                fyear = self.pool.get('account.fiscalyear').browse(cr, uid, fiscalyear_id, context=context)
+                date_from = fyear.date_start
+                date_to = fyear.date_stop > time.strftime('%Y-%m-%d') and time.strftime('%Y-%m-%d') or fyear.date_stop
+            else:
+                date_from, date_to = time.strftime('%Y-01-01'), time.strftime('%Y-%m-%d')
+            res['value'] = {'period_from': False, 'period_to': False, 'date_from': date_from, 'date_to': date_to}
         if filter == 'filter_period' and fiscalyear_id:
             start_period = end_period = False
             cr.execute('''
@@ -133,7 +125,7 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
                                FROM account_period p
                                LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)
                                WHERE f.id = %s
-                               AND p.special = false
+                               AND COALESCE(p.special, FALSE) = FALSE
                                ORDER BY p.date_start ASC
                                LIMIT 1) AS period_start
                 UNION
@@ -142,13 +134,14 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
                                LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)
                                WHERE f.id = %s
                                AND p.date_start < NOW()
-                               AND p.special = false
+                               AND COALESCE(p.special, FALSE) = FALSE
                                ORDER BY p.date_stop DESC
                                LIMIT 1) AS period_stop''', (fiscalyear_id, fiscalyear_id))
             periods =  [i[0] for i in cr.fetchall()]
-            if periods and len(periods) > 1:
-                start_period = periods[0]
-                end_period = periods[1]
+            if periods:
+                start_period = end_period = periods[0]
+                if len(periods) > 1:
+                    end_period = periods[1]
             res['value'] = {'period_from': start_period, 'period_to': end_period, 'date_from': False, 'date_to': False}
         return res
 
@@ -176,7 +169,7 @@ class AccountReportGeneralLedgerWizard(osv.osv_memory):
         data['model'] = context.get('active_model', 'ir.ui.menu')
         data['form'] = self.read(cr, uid, ids, ['date_from',  'date_to',  'fiscalyear_id', 'period_from',
                                                 'period_to',  'filter',  'chart_account_id', 'target_move',
-                                                'initial_balance', 'amount_currency', 'display_account',
+                                                'amount_currency', 'display_account',
                                                 'account_ids', 'centralize'])[0]
         used_context = self._build_contexts(cr, uid, ids, data, context=context)
         data['form']['periods'] = used_context.get('periods', False) and used_context['periods'] or []

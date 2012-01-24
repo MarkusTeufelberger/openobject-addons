@@ -3,7 +3,7 @@
     <data>
 
         <record id="account_report_general_ledger_view_webkit" model="ir.ui.view">
-            <field name="name">General Ledger Webkit</field>
+            <field name="name">General Ledger</field>
             <field name="model">account.report.general.ledger.webkit</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
@@ -21,8 +21,8 @@
                             <field name="date_from" attrs="{'readonly':[('filter', '!=', 'filter_date')], 'required':[('filter', '=', 'filter_date')]}" colspan="4"/>
                             <field name="date_to" attrs="{'readonly':[('filter', '!=', 'filter_date')], 'required':[('filter', '=', 'filter_date')]}" colspan="4"/>
                             <separator string="Periods" colspan="4"/>
-                            <field name="period_from" domain="[('fiscalyear_id', '=', fiscalyear_id)]" attrs="{'readonly':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}" colspan="4"/>
-                            <field name="period_to" domain="[('fiscalyear_id', '=', fiscalyear_id)]" attrs="{'readonly':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}" colspan="4"/>
+                            <field name="period_from" domain="[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]" attrs="{'readonly':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}" colspan="4"/>
+                            <field name="period_to" domain="[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]" attrs="{'readonly':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}" colspan="4"/>
                         </page>
                         <page string="Accounts Filters">
                             <separator string="Print only" colspan="4"/>
@@ -39,13 +39,12 @@
                         <button icon="gtk-print" name="check_report" string="Print" type="object" colspan="2"/>
                     </group>
                     <field name="display_account" invisible="True"/>
-                    <field name="initial_balance" invisible="True"/>
                 </form>
             </field>
         </record>
         
         <record id="action_account_general_ledger_menu_webkit" model="ir.actions.act_window">
-            <field name="name">General Ledger Webkit</field>
+            <field name="name">General Ledger</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.report.general.ledger.webkit</field>
             <field name="view_type">form</field>
@@ -57,17 +56,13 @@
         <record model="ir.values" id="action_account_general_ledger_values_webkit">
             <field name="model_id" ref="account.model_account_account"/>
             <field name="object" eval="1"/>
-            <field name="name">General Ledger Webkit</field>
+            <field name="name">General Ledger</field>
             <field name="key2">client_print_multi</field>
             <field name="value"
                 eval="'ir.actions.act_window,' +str(ref('action_account_general_ledger_menu_webkit'))"/>
             <field name="key">action</field>
             <field name="model">account.account</field>
         </record>
-
-        <menuitem icon="STOCK_PRINT" name="General Ledger (Webkit)"
-            parent="account.menu_generic_report" action="action_account_general_ledger_menu_webkit"
-            groups="account.group_account_manager,account.group_account_user" id="account.menu_general_ledger"/>
 
     </data>
 </openerp>

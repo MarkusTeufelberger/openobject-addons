@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem icon="STOCK_PRINT" name="General Ledger"
+                    parent="account.menu_generic_report" action="action_account_general_ledger_menu_webkit"
+                    groups="account.group_account_manager,account.group_account_user" id="account.menu_general_ledger"/>
+
+        <menuitem icon="STOCK_PRINT" name="Partner Ledger"
+            parent="account.next_id_22" action="action_account_partners_ledger_menu_webkit"
+            groups="account.group_account_manager,account.group_account_user" id="account.menu_third_party_ledger"/>
+
+        <menuitem icon="STOCK_PRINT" name="Open Invoices"
+            parent="account.next_id_22" action="action_account_open_invoices_menu_webkit"
+            groups="account.group_account_manager,account.group_account_user" id="menu_account_open_invoices"/>
+
+    </data>
+</openerp>

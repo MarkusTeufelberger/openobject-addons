@@ -108,41 +108,60 @@ class CommonReportHeaderWebkit(object):
 
     ####################Account and account line filter helper #################
 
-    def sort_accounts_with_structure(self, account_ids, context=None):
+    def sort_accounts_with_structure(self, root_account_ids, account_ids, context=None):
         """Sort accounts by code respecting their structure"""
 
-        def recursive_sort_by_code(level, max_level, accounts, parent_id=False):
+        def recursive_sort_by_code(accounts, parent):
             sorted_accounts = []
-            level_accounts = [account for account
-                              in accounts
-                              if account['level'] == level
-                              and (not parent_id or
-                                   account['parent_id'] and account['parent_id'][0] == parent_id)]
+            # add all accounts with same parent
+            level_accounts = [account for account in accounts
+                              if account['parent_id'] and account['parent_id'][0] == parent['id']]
+            # add consolidation children of parent, as they are logically on the same level
+            if parent.get('child_consol_ids'):
+                level_accounts.extend([account for account in accounts
+                                       if account['id'] in parent['child_consol_ids']])
+            # stop recursion if no children found
             if not level_accounts:
                 return []
 
             level_accounts = sorted(level_accounts, key=lambda a: a['code'])
+
             for level_account in level_accounts:
                 sorted_accounts.append(level_account['id'])
-                if level < max_level:
-                    sorted_accounts.extend(recursive_sort_by_code(level + 1, max_level, accounts, parent_id=level_account['id']))
+                sorted_accounts.extend(recursive_sort_by_code(accounts, parent=level_account))
             return sorted_accounts
 
         if not account_ids:
             return []
-        accounts = self.pool.get('account.account').read(self.cr, self.uid,
+
+        accounts_data = self.pool.get('account.account').read(self.cr, self.uid,
                                                          account_ids,
-                                                         ['id', 'parent_id', 'level', 'code'],
+                                                         ['id', 'parent_id', 'level', 'code', 'child_consol_ids'],
                                                          context=context)
-        levels = [x['level'] for x in accounts]
-        start_level = min(levels)
-        max_level = max(levels)
-        sorted_accounts = recursive_sort_by_code(start_level, max_level, accounts)
+
+        sorted_accounts = []
+
+        root_accounts_data = [account_data for account_data in accounts_data
+                              if account_data['id'] in root_account_ids]
+        for root_account_data in root_accounts_data:
+            sorted_accounts.append(root_account_data['id'])
+            sorted_accounts.extend(recursive_sort_by_code(accounts_data, root_account_data))
+
+        # fallback to unsorted accounts when sort failed
+        # sort fails when the levels are miscalculated by account.account
+        # check lp:783670
+        if len(sorted_accounts) != len(account_ids):
+            sorted_accounts = account_ids
 
         return sorted_accounts
 
-    def get_all_accounts(self, account_ids, filter_view=False, filter_type=None, context=None):
-        """Get all account passed in params with their childrens"""
+    def get_all_accounts(self, account_ids, exclude_type=None, only_type=None, filter_report_type=None, context=None):
+        """Get all account passed in params with their childrens
+
+        @param exclude_type: list of types to exclude (view, receivable, payable, consolidation, other)
+        @param only_type: list of types to filter on (view, receivable, payable, consolidation, other)
+        @param filter_report_type: list of report type to filter on
+        """
         context = context or {}
         accounts = []
         if not isinstance(account_ids, list):
@@ -152,19 +171,27 @@ class CommonReportHeaderWebkit(object):
             accounts.append(account_id)
             accounts += acc_obj._get_children_and_consol(self.cursor, self.uid, [account_id], context=context)
         res_ids = list(set(accounts))
+        res_ids = self.sort_accounts_with_structure(account_ids, res_ids, context=context)
 
-        res_ids = self.sort_accounts_with_structure(res_ids, context=context)
+        if exclude_type or only_type or filter_report_type:
+            sql_filters = {'ids': tuple(res_ids)}
+            sql_select = "SELECT a.id FROM account_account a"
+            sql_join = ""
+            sql_where = "WHERE a.id IN %(ids)s"
+            if exclude_type:
+                sql_where += " AND a.type not in %(exclude_type)s"
+                sql_filters.update({'exclude_type': tuple(exclude_type)})
+            if only_type:
+                sql_where += " AND a.type IN %(only_type)s"
+                sql_filters.update({'only_type': tuple(only_type)})
+            if filter_report_type:
+                sql_join += "INNER JOIN account_account_type t" \
+                            " ON t.id = a.user_type"
+                sql_join += " AND t.report_type IN %(report_type)s"
+                sql_filters.update({'report_type': tuple(filter_report_type)})
 
-        if filter_view or filter_type:
-            format_list = [tuple(res_ids)]
-            sql = "SELECT id FROM account_account WHERE id IN %s "
-            if filter_view:
-                sql += " AND type != 'view'"
-            if filter_type:
-                sql += " AND type in %s"
-                format_list.append(tuple(filter_type))
-
-            self.cursor.execute(sql, tuple(format_list))
+            sql = ' '.join((sql_select, sql_join, sql_where))
+            self.cursor.execute(sql, sql_filters)
             fetch_only_ids = self.cursor.fetchall()
             if not fetch_only_ids:
                 return []
@@ -179,54 +206,56 @@ class CommonReportHeaderWebkit(object):
         """Return the list of all journal that can be use to create opening entries
         We actually filter on this instead of opening period as older version of OpenERP
         did not have this notion"""
-        return self.pool.get('account.period').search(self.cursor,
-                                                       self.uid,
-                                                       [('special', '=', True)])
+        return self.pool.get('account.period').search(self.cursor, self.uid, [('special', '=', True)])
 
+    def exclude_opening_periods(self, period_ids):
+        period_obj = self.pool.get('account.period')
+        return period_obj.search(self.cr, self.uid, [['special', '=', False], ['id', 'in', period_ids]])
 
-    def get_included_opening_period(self, period, check_move = True):
-        """Return the opening included in normal period we use the assemption
+    def get_included_opening_period(self, period):
+        """Return the opening included in normal period we use the assumption
         that there is only one opening period per fiscal year"""
-        mv_line_obj = self.pool.get('account.move.line')
         period_obj =  self.pool.get('account.period')
-        res = period_obj.search(self.cursor,
-                                self.uid,
-                                [('special', '=', True),
-                                 ('date_start', '>=', period.date_start),
-                                 ('date_stop', '<=', period.date_stop)],
-                                limit=1)
-        if check_move and res:
-            validation_res = mv_line_obj.search(self.cursor,
-                                                self.uid,
-                                                [('period_id', '=', res[0])],
-                                                limit=1)
-            if not validation_res:
-                return False
-        return res
+        return period_obj.search(self.cursor, self.uid,
+                                 [('special', '=', True),
+                                  ('date_start', '>=', period.date_start),
+                                  ('date_stop', '<=', period.date_stop)],
+                                  limit=1)
 
-    def _get_period_range_form_periods(self, start_period, stop_period, mode):
-        # TODO test date type
+    def periods_contains_move_lines(self, period_ids):
+        if not period_ids:
+            return False
+        mv_line_obj = self.pool.get('account.move.line')
+        if isinstance(period_ids, (int, long)):
+            period_ids = [period_ids]
+        return mv_line_obj.search(self.cursor, self.uid, [('period_id', 'in', period_ids)], limit=1) and True or False
+
+    def _get_period_range_from_periods(self, start_period, stop_period, mode=None):
+        """
+        Deprecated. We have to use now the build_ctx_periods of period_obj otherwise we'll have
+        inconsistencies, because build_ctx_periods does never filter on the the special
+        """
         period_obj = self.pool.get('account.period')
         search_period = [('date_start', '>=', start_period.date_start),
                          ('date_stop', '<=', stop_period.date_stop)]
-                         
+
         if mode == 'exclude_opening':
             search_period += [('special', '=', False)]
         res = period_obj.search(self.cursor, self.uid, search_period)
         return res
 
-    def _get_period_range_form_start_period(self, start_period, include_opening=False,
+    def _get_period_range_from_start_period(self, start_period, include_opening=False,
                                             fiscalyear=False, stop_at_previous_opening=False):
         """We retrieve all periods before start period"""
         opening_period_id = False
+        past_limit = []
         period_obj = self.pool.get('account.period')
-        fisc_year_obj = self.pool.get('account.fiscalyear')
         mv_line_obj = self.pool.get('account.move.line')
         # We look for previous opening period
         if stop_at_previous_opening:
             opening_search = [('special', '=', True),
                              ('date_stop', '<', start_period.date_start)]
-            if fiscalyear :
+            if fiscalyear:
                 opening_search.append(('fiscalyear_id', '=', fiscalyear.id))
 
             opening_periods = period_obj.search(self.cursor, self.uid, opening_search,
@@ -239,11 +268,10 @@ class CommonReportHeaderWebkit(object):
                 if validation_res:
                     opening_period_id = opening_period
                     break
-        past_limit = []
-        if opening_period_id:
-            #we also look for overlapping periods
-            opening_period_br = period_obj.browse(self.cursor, self.uid, opening_period_id)
-            past_limit = [('date_start', '>=', opening_period_br.date_stop)]
+            if opening_period_id:
+                #we also look for overlapping periods
+                opening_period_br = period_obj.browse(self.cursor, self.uid, opening_period_id)
+                past_limit = [('date_start', '>=', opening_period_br.date_stop)]
 
         periods_search = [('date_stop', '<=', start_period.date_stop)]
         periods_search += past_limit
@@ -261,96 +289,95 @@ class CommonReportHeaderWebkit(object):
             periods.remove(start_period.id)
         return periods
 
-
     def get_first_fiscalyear_period(self, fiscalyear):
         return self._get_st_fiscalyear_period(fiscalyear)
-
 
     def get_last_fiscalyear_period(self, fiscalyear):
         return self._get_st_fiscalyear_period(fiscalyear, order='DESC')
 
-
-    def _get_st_fiscalyear_period(self, fiscalyear, order='ASC'):
+    def _get_st_fiscalyear_period(self, fiscalyear, special=False, order='ASC'):
         period_obj = self.pool.get('account.period')
         p_id = period_obj.search(self.cursor,
                                  self.uid,
-                                 [('special','=', False),
+                                 [('special','=', special),
                                   ('fiscalyear_id', '=', fiscalyear.id)],
                                  limit=1,
                                  order='date_start %s' % (order,))
         if not p_id:
-            raise osv.except_osv(_('No normal period found'),'')
+            raise osv.except_osv(_('No period found'),'')
         return period_obj.browse(self.cursor, self.uid, p_id[0])
 
     ####################Initial Balance helper #################################
 
-    def _compute_init_balance(self, account, period_ids, mode='computed'):
+    def _compute_init_balance(self, account_id=None, period_ids=None, mode='computed', default_values=False):
         if not isinstance(period_ids, list):
             period_ids = [period_ids]
+        res = {}
 
-        try:
-            self.cursor.execute("SELECT sum(debit) AS debit, "
-                                " sum(credit) AS credit, "
-                                " sum(debit)-sum(credit) AS balance,"
-                                " sum(amount_currency) AS curr_balance"
-                                " FROM account_move_line"
-                                " WHERE period_id in %s"
-                                " AND account_id = %s", (tuple(period_ids), account.id))
-            res = self.cursor.dictfetchone()
+        if not default_values:
+            if not account_id or not period_ids:
+                raise Exception('Missing account or period_ids')
+            try:
+                self.cursor.execute("SELECT sum(debit) AS debit, "
+                                    " sum(credit) AS credit, "
+                                    " sum(debit)-sum(credit) AS balance, "
+                                    " sum(amount_currency) AS curr_balance"
+                                    " FROM account_move_line"
+                                    " WHERE period_id in %s"
+                                    " AND account_id = %s", (tuple(period_ids), account_id))
+                res = self.cursor.dictfetchone()
 
-        except Exception, exc:
-            self.cursor.rollback()
-            raise exc
-        return {'debit': res['debit'] or 0.0,
-                'credit': res['credit'] or 0.0,
-                'init_balance': res['balance'] or 0.0,
-                'init_balance_currency': res['curr_balance'] or 0.0,
+            except Exception, exc:
+                self.cursor.rollback()
+                raise
+
+        return {'debit': res.get('debit') or 0.0,
+                'credit': res.get('credit') or 0.0,
+                'init_balance': res.get('balance') or 0.0,
+                'init_balance_currency': res.get('curr_balance') or 0.0,
                 'state': mode}
 
+    def _read_opening_balance(self, account_ids, start_period):
+        """ Read opening balances from the opening balance
+        """
+        opening_period_selected = self.get_included_opening_period(start_period)
+        res = {}
+        for account_id in account_ids:
+            res[account_id] = self._compute_init_balance(account_id, opening_period_selected, mode='read')
+        return res
 
-    def _compute_inital_balances(self, account_ids, start_period, fiscalyear, main_filter):
+    def _compute_initial_balances(self, account_ids, start_period, fiscalyear):
         """We compute initial balance.
         If form is filtered by date all initial balance are equal to 0
         This function will sum pear and apple in currency amount if account as no secondary currency"""
-        opening_periods = self._get_opening_periods()
         # if opening period is included in start period we do not need to compute init balance
         # we just read it from opening entries
-        read_period_id = self.get_included_opening_period(start_period)
         res = {}
-        if main_filter in ('filter_period', 'filter_no'):
+        # PNL and Balance accounts are not computed the same way look for attached doc
+        # We include opening period in pnl account in order to see if opening entries
+        # were created by error on this account
+        pnl_periods_ids = self._get_period_range_from_start_period(start_period, fiscalyear=fiscalyear,
+                                                                   include_opening=True)
+        bs_period_ids = self._get_period_range_from_start_period(start_period, include_opening=True,
+                                                                 stop_at_previous_opening=True)
+        opening_period_selected = self.get_included_opening_period(start_period)
 
-            # PNL and Balance accounts are not computed the same way look for attached doc
-            # We include opening period in pnl account in order to see if opening entries
-            # were created by error on this account
-            pnl_periods_ids = self._get_period_range_form_start_period(start_period, fiscalyear=fiscalyear,
-                                                                       include_opening=True)
-
-            bs_period_ids = self._get_period_range_form_start_period(start_period, include_opening=True,
-                                                                     stop_at_previous_opening=True)
-            nil_res = {'debit': 0.0, 'credit': 0.0, 'init_balance': 0.0, 'init_balance_currency': 0.0, 'state': 'computed'}
-            for acc in self.pool.get('account.account').browse(self.cursor, self.uid, account_ids):
-                if acc.user_type.close_method == 'none':
-                    if pnl_periods_ids:
-                        res[acc.id] = self._compute_init_balance(acc, pnl_periods_ids)
-                    else:
-                        res[acc.id] = nil_res
-                else :
-                    if read_period_id:
-                        res[acc.id] = self._compute_init_balance(acc, read_period_id, mode='read')
-                    elif bs_period_ids:
-                        res[acc.id] = self._compute_init_balance(acc, bs_period_ids)
-                    else:
-                        res[acc.id] = nil_res
-        else:
-            for acc_id in account_ids:
-                res[acc_id] = {'debit': 0.0, 'credit': 0.0, 'init_balance': 0.0, 'init_balance_currency': 0.0, 'state': 'disable'}
+        for acc in self.pool.get('account.account').browse(self.cursor, self.uid, account_ids):
+            res[acc.id] = self._compute_init_balance(default_values=True)
+            if acc.user_type.close_method == 'none':
+                # we compute the initial balance for close_method == none only when we print a GL
+                # during the year, when the opening period is not included in the period selection!
+                if pnl_periods_ids and not opening_period_selected:
+                    res[acc.id] = self._compute_init_balance(acc.id, pnl_periods_ids)
+            else:
+                res[acc.id] = self._compute_init_balance(acc.id, bs_period_ids)
         return res
 
     ####################Account move retrieval helper ##########################
-    def _get_move_ids_from_periods(self, account_id, period_start, period_stop, mode, target_move):
+    def _get_move_ids_from_periods(self, account_id, period_start, period_stop, target_move):
         move_line_obj = self.pool.get('account.move.line')
-        # we filter opening period here
-        periods = self._get_period_range_form_periods(period_start, period_stop, mode)
+        period_obj = self.pool.get('account.period')
+        periods = period_obj.build_ctx_periods(self.cursor, self.uid, period_start.id, period_stop.id)
         if not periods:
             return []
         search = [('period_id', 'in', periods), ('account_id', '=', account_id)]
@@ -358,13 +385,15 @@ class CommonReportHeaderWebkit(object):
             search += [('move_id.state', '=', 'posted')]
         return move_line_obj.search(self.cursor, self.uid, search)
 
-    def _get_move_ids_from_dates(self, account_id, date_start, date_stop, mode, target_move):
+    def _get_move_ids_from_dates(self, account_id, date_start, date_stop, target_move, mode='include_opening'):
         # TODO imporve perfomance by setting opening period as a property
         move_line_obj = self.pool.get('account.move.line')
         search_period = [('date', '>=', date_start), 
                          ('date', '<=', date_stop),
                          ('account_id', '=', account_id)]
-                         
+
+        # actually not used because OpenERP itself always include the opening when we
+        # get the periods from january to december
         if mode == 'exclude_opening':
             opening = self._get_opening_periods()
             if opening:
@@ -372,30 +401,30 @@ class CommonReportHeaderWebkit(object):
 
         if target_move == 'posted':
             search_period += [('move_id.state', '=', 'posted')]
+
         return move_line_obj.search(self.cursor, self.uid, search_period)
 
     def get_move_lines_ids(self, account_id, main_filter, start, stop, target_move, mode='include_opening'):
         """Get account move lines base on form data"""
-        res = {}
         if mode not in ('include_opening', 'exclude_opening'):
             raise osv.except_osv(_('Invalid query mode'), _('Must be in include_opening, exclude_opening'))
 
         if main_filter in ('filter_period', 'filter_no'):
-            return self._get_move_ids_from_periods(account_id, start, stop, mode, target_move)
+            return self._get_move_ids_from_periods(account_id, start, stop, target_move)
             
         elif main_filter == 'filter_date':
-            return self._get_move_ids_from_dates(account_id, start, stop, mode, target_move)
+            return self._get_move_ids_from_dates(account_id, start, stop, target_move)
             
         else:
             raise osv.except_osv(_('No valid filter'), _('Please set a valid time filter'))
 
-    def _get_move_line_datas(self, move_line_ids, order='l.date ASC, per.special DESC, per.date_start ASC, m.name ASC'):
+    def _get_move_line_datas(self, move_line_ids, order='per.special DESC, l.date ASC, per.date_start ASC, m.name ASC'):
         if not move_line_ids:
             return []
         if not isinstance(move_line_ids, list):
             move_line_ids = [move_line_ids]
         monster ="""
-SELECT l.id AS lid,
+SELECT l.id AS id,
             l.date AS ldate,
             j.code AS jcode ,
             l.currency_id,
@@ -436,17 +465,13 @@ FROM account_move_line l
         except Exception, exc:
             self.cursor.rollback()
             raise
-        if res:
-            return res
-        else:
-            return []
+        return res or []
 
     def _get_moves_counterparts(self, move_ids, account_id, limit=3):
         if not move_ids:
             return {}
         if not isinstance(move_ids, list):
             move_ids = [move_ids]
-        to_retunr = {}
         sql = """
 SELECT account_move.id,
        array_to_string(
@@ -466,8 +491,18 @@ WHERE move_id in %s"""
             res= self.cursor.fetchall()
         except Exception, exc:
             self.cursor.rollback()
-            raise exc
-        if res:
-            return dict(res)
+            raise
+        return res and dict(res) or {}
+
+    def is_initial_balance_enabled(self, main_filter):
+        if main_filter not in ('filter_no', 'filter_year', 'filter_period'):
+            return False
+        return True
+
+    def _get_initial_balance_mode(self, start_period):
+        opening_period_selected = self.get_included_opening_period(start_period)
+        opening_move_lines = self.periods_contains_move_lines(opening_period_selected)
+        if opening_move_lines:
+            return 'opening_balance'
         else:
-            return {}
+            return 'initial_balance'
