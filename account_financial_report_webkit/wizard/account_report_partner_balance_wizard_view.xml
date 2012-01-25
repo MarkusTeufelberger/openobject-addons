@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="account_partner_balance_view_webkit" model="ir.ui.view">
+            <field name="name">Partner Balance</field>
+            <field name="model">account.report.partner.balance.webkit</field>
+            <field name="type">form</field>
+            <!--<field name="inherit_id" ref="account.account_common_report_view"/>-->
+            <field name="arch" type="xml">
+                <form string="Report Options">
+                    <separator string="Partner Balance" colspan="4"/>
+                    <label nolabel="1" colspan="4" string="This report is an analysis done by a partner, It is a PDF report containing one line per partner representing the cumulative credit balance"/>
+                    <newline/>
+                    <field name="chart_account_id" widget='selection' colspan="4"/>
+                    <field name="fiscalyear_id" attrs="{'required': [('filter', '=', 'filter_opening')]}"/>
+                    <field name="target_move"/>
+                    <field name="result_selection" colspan="4"/>
+                    <notebook tabpos="up" colspan="4">
+                        <page string="Time Filters">
+                            <field name="filter" on_change="onchange_filter(filter, fiscalyear_id)" colspan="4"/>
+                            <separator string="Dates" colspan="4"/>
+                            <field name="date_from" attrs="{'readonly':[('filter', '!=', 'filter_date')], 'required':[('filter', '=', 'filter_date')]}" colspan="4"/>
+                            <field name="date_to" attrs="{'readonly':[('filter', '!=', 'filter_date')], 'required':[('filter', '=', 'filter_date')]}"  colspan="4"/>
+                            <separator string="Periods"  colspan="4"/>
+                            <field name="period_from"  domain="[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]" attrs="{'readonly':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}" colspan="4"/>
+                            <field name="period_to" domain="[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]" attrs="{'readonly':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}" colspan="4"/>
+                        </page>
+                        <page string="Accounts Filters">
+                            <separator string="Print only" colspan="4"/>
+                            <field name="account_ids" colspan="4" nolabel="1" domain="[('type', 'in', ['receivable', 'payable'])]">
+                                <tree>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                    <field name="company_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Partners Filters">
+                            <separator string="Print only" colspan="4"/>
+                            <field name="partner_ids" colspan="4" nolabel="1"/>
+                        </page>
+                        <page string="placeholder"/>
+                    </notebook>
+                    <separator colspan="4"/>
+                    <group col="4" colspan="4">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                        <button icon="gtk-print" name="check_report" string="Print" type="object" colspan="2" default_focus="1" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_partner_balance_menu_webkit" model="ir.actions.act_window">
+            <field name="name">Partner Balance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.report.partner.balance.webkit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_partner_balance_view_webkit"/>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.values" id="action_account_partner_balance_values_webkit">
+            <field name="model_id" ref="account.model_account_account"/>
+            <field name="object" eval="1"/>
+            <field name="name">Partner Balance</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value"
+                eval="'ir.actions.act_window,' +str(ref('action_account_partner_balance_menu_webkit'))"/>
+            <field name="key">action</field>
+            <field name="model">account.account</field>
+        </record>
+
+    </data>
+</openerp>

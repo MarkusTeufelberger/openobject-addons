@@ -368,9 +368,9 @@ class CommonReportHeaderWebkit(object):
                 # we compute the initial balance for close_method == none only when we print a GL
                 # during the year, when the opening period is not included in the period selection!
                 if pnl_periods_ids and not opening_period_selected:
-                    res[acc.id] = self._compute_init_balance(acc.id, pnl_periods_ids)
+                    res[acc.id] = pnl_periods_ids and self._compute_init_balance(acc.id, pnl_periods_ids) or {}
             else:
-                res[acc.id] = self._compute_init_balance(acc.id, bs_period_ids)
+                res[acc.id] = bs_period_ids and self._compute_init_balance(acc.id, bs_period_ids) or {}
         return res
 
     ####################Account move retrieval helper ##########################

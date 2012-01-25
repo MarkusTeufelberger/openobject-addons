@@ -5,6 +5,10 @@
                     parent="account.menu_generic_report" action="action_account_general_ledger_menu_webkit"
                     groups="account.group_account_manager,account.group_account_user" id="account.menu_general_ledger"/>
 
+        <menuitem icon="STOCK_PRINT" name="Trial Balance"
+            parent="account.menu_generic_report" action="action_account_trial_balance_menu_webkit"
+            groups="account.group_account_manager,account.group_account_user" id="account.menu_account_balance_report"/>
+
         <menuitem icon="STOCK_PRINT" name="Partner Ledger"
             parent="account.next_id_22" action="action_account_partners_ledger_menu_webkit"
             groups="account.group_account_manager,account.group_account_user" id="account.menu_third_party_ledger"/>
@@ -12,6 +16,21 @@
         <menuitem icon="STOCK_PRINT" name="Open Invoices"
             parent="account.next_id_22" action="action_account_open_invoices_menu_webkit"
             groups="account.group_account_manager,account.group_account_user" id="menu_account_open_invoices"/>
+
+        <menuitem icon="STOCK_PRINT" name="Partner Balance"
+            parent="account.next_id_22" action="action_account_partner_balance_menu_webkit"
+            groups="account.group_account_manager,account.group_account_user" id="account.menu_partner_balance"/>
+
+        <record id="list_stored_report" model="ir.actions.act_window">
+            <field name="name">Stored webkit report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ir.attachment</field>
+            <field name="domain">[('res_model','=','account.account')]</field>
+            <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="list_stored_report" id="account_stored_report" parent="account.next_id_22"/>
 
     </data>
 </openerp>

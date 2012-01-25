@@ -27,7 +27,9 @@
 Backported from version 6.0
 This module replace the following standard openerp financial reports :
  - General ledger
+ - Trial Balance (simple or comparative view)
  - Partner ledger
+ - Partner balance
  - Open invoices report
 
 
@@ -93,6 +95,8 @@ Instead, the header and footer are created as text with arguments passed to wkht
         'wizard/wizard.xml',
         'wizard/account_report_general_ledger_wizard_view.xml',
         'wizard/account_report_partners_ledger_wizard_view.xml',
+        'wizard/account_report_trial_balance_wizard_view.xml',
+        'wizard/account_report_partner_balance_wizard_view.xml',
         'wizard/account_report_open_invoices_wizard_view.xml',
         'report_menus.xml',
     ],

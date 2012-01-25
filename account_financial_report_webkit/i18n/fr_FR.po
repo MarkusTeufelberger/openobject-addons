@@ -49,12 +49,12 @@ msgid "Activate Centralization"
 msgstr "Centralisation activée"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:154
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:161
+#: rml:account.account_report_partner_balance_webkit:154
+#: rml:account.account_report_partner_balance_webkit:161
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:120
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:127
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:135
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:142
+#: rml:account.account_report_trial_balance_webkit:135
+#: rml:account.account_report_trial_balance_webkit:142
 msgid "Balance %s"
 msgstr "Solde %s"
 
@@ -64,8 +64,8 @@ msgid "Misc."
 msgstr "Divers"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:92
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:102
+#: rml:account.account_report_partner_balance_webkit:92
+#: rml:account.account_report_trial_balance_webkit:102
 msgid "Periods Filter:"
 msgstr "Filtre par période:"
 
@@ -100,7 +100,7 @@ msgid "This report is an analysis done by a partner, It is a PDF report containi
 msgstr "Ce rapport montre les soldes ouverts par client ou fourniseurs."
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:138
+#: rml:account.account_report_partner_balance_webkit:138
 msgid "Account / Partner Name"
 msgstr "Compte / Partenaire"
 
@@ -132,7 +132,7 @@ msgstr "Comptes clients et fournisseurs"
 
 #. module: account_financial_report_webkit
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:104
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:119
+#: rml:account.account_report_trial_balance_webkit:119
 #: model:ir.model,name:account_financial_report_webkit.model_account_account
 msgid "Account"
 msgstr "Comptes"
@@ -188,7 +188,7 @@ msgid "Trial Balance Report"
 msgstr "Balance des comptes"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:117
+#: rml:account.account_report_trial_balance_webkit:117
 msgid "Code"
 msgstr "Code"
 
@@ -199,7 +199,7 @@ msgid "Partner Ledger Webkit"
 msgstr "Livre des tiers"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:192
+#: rml:account.account_report_partner_balance_webkit:192
 msgid "Unallocated"
 msgstr "Non-alloué"
 
@@ -253,23 +253,23 @@ msgstr "Erreur ! Vous ne pouvez pas créer de comptes récursifs."
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:33
 #: rml:account.account_report_open_invoices_webkit:37
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:46
+#: rml:account.account_report_partner_balance_webkit:46
 #: rml:account.account_report_partners_ledger_webkit:34
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:58
+#: rml:account.account_report_trial_balance_webkit:58
 msgid "Periods Filter"
 msgstr "Filtre par période"
 
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:38
 #: rml:account.account_report_general_ledger_webkit:139
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:52
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:142
+#: rml:account.account_report_partner_balance_webkit:52
+#: rml:account.account_report_partner_balance_webkit:142
 #: rml:account.account_report_partners_ledger_webkit:39
 #: rml:account.account_report_partners_ledger_webkit:153
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:50
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:108
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:63
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:123
+#: rml:account.account_report_trial_balance_webkit:63
+#: rml:account.account_report_trial_balance_webkit:123
 msgid "Initial Balance"
 msgstr "Solde à nouveau"
 
@@ -357,10 +357,10 @@ msgstr "Seuls les comptes selectionnés seront imprimés. Laisser vide pour les 
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:105
 #: rml:account.account_report_open_invoices_webkit:120
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:145
+#: rml:account.account_report_partner_balance_webkit:145
 #: rml:account.account_report_partners_ledger_webkit:114
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:111
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:126
+#: rml:account.account_report_trial_balance_webkit:126
 msgid "Debit"
 msgstr "Débit"
 
@@ -431,8 +431,8 @@ msgid "With balance is not equal to 0"
 msgstr "Compte dont le solde n'est pas 0"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:94
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:104
+#: rml:account.account_report_partner_balance_webkit:94
+#: rml:account.account_report_trial_balance_webkit:104
 msgid "Fiscal Year :"
 msgstr "Excercice comptable :"
 
@@ -455,7 +455,7 @@ msgid "Dates"
 msgstr "Dates"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:136
+#: rml:account.account_report_partner_balance_webkit:136
 msgid "Code / Ref"
 msgstr "Compte / Réf."
 
@@ -479,9 +479,9 @@ msgstr "Common Balance Report"
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:36
 #: rml:account.account_report_open_invoices_webkit:41
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:49
+#: rml:account.account_report_partner_balance_webkit:49
 #: rml:account.account_report_partners_ledger_webkit:37
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:61
+#: rml:account.account_report_trial_balance_webkit:61
 msgid "Accounts Filter"
 msgstr "Filtre par compte"
 
@@ -502,8 +502,8 @@ msgid "Custom Filter"
 msgstr "Filtre personalisé"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:90
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:100
+#: rml:account.account_report_partner_balance_webkit:90
+#: rml:account.account_report_trial_balance_webkit:100
 msgid "Dates Filter:"
 msgstr "Filtre Dates:"
 
@@ -528,9 +528,9 @@ msgstr "Solde Cumul."
 
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:22
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:35
+#: rml:account.account_report_partner_balance_webkit:35
 #: rml:account.account_report_partners_ledger_webkit:23
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:47
+#: rml:account.account_report_trial_balance_webkit:47
 msgid "Computed"
 msgstr "Calculé"
 
@@ -593,9 +593,9 @@ msgstr "Date Début"
 
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:22
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:35
+#: rml:account.account_report_partner_balance_webkit:35
 #: rml:account.account_report_partners_ledger_webkit:23
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:47
+#: rml:account.account_report_trial_balance_webkit:47
 msgid "Opening Entries"
 msgstr "Basé sur l'écriture d'ouverture"
 
@@ -618,25 +618,25 @@ msgstr "Si coché, les mouvements de ce compte seront groupés par période."
 
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:22
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:35
+#: rml:account.account_report_partner_balance_webkit:35
 #: rml:account.account_report_partners_ledger_webkit:23
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:77
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:94
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:47
+#: rml:account.account_report_trial_balance_webkit:47
 msgid "No"
 msgstr "Non"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:97
+#: rml:account.account_report_partner_balance_webkit:97
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:94
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:107
+#: rml:account.account_report_trial_balance_webkit:107
 msgid "Initial Balance:"
 msgstr "Solde à nouveau:"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:163
+#: rml:account.account_report_partner_balance_webkit:163
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:129
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:144
+#: rml:account.account_report_trial_balance_webkit:144
 msgid "Balance C%s"
 msgstr "Solde C%s"
 
@@ -723,10 +723,10 @@ msgstr "When no Fiscal year is selected, you must choose to filter by periods or
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:50
 #: rml:account.account_report_open_invoices_webkit:55
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:64
+#: rml:account.account_report_partner_balance_webkit:64
 #: rml:account.account_report_partners_ledger_webkit:51
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:62
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:75
+#: rml:account.account_report_trial_balance_webkit:75
 msgid "To:"
 msgstr "A:"
 
@@ -754,9 +754,9 @@ msgid "All Posted Entries"
 msgstr "Ecritures validées"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:87
+#: rml:account.account_report_partner_balance_webkit:87
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:84
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:97
+#: rml:account.account_report_trial_balance_webkit:97
 #: code:addons/account_financial_report_webkit/wizard/account_report_balance_common.py:156
 #, python-format
 msgid "Comparison %s"
@@ -768,9 +768,9 @@ msgstr "Comparaison %s"
 #: selection:account.report.partner.balance.webkit,display_account:0
 #: selection:account.report.trial.balance.webkit,display_account:0
 #: rml:account.account_report_general_ledger_webkit:61
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:75
+#: rml:account.account_report_partner_balance_webkit:75
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:73
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:86
+#: rml:account.account_report_trial_balance_webkit:86
 msgid "All"
 msgstr "Tous"
 
@@ -792,10 +792,10 @@ msgstr "Date du léttrage le plus récent (total ou partiel) c'est à dire du de
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:107
 #: rml:account.account_report_open_invoices_webkit:122
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:147
+#: rml:account.account_report_partner_balance_webkit:147
 #: rml:account.account_report_partners_ledger_webkit:116
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:113
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:128
+#: rml:account.account_report_trial_balance_webkit:128
 msgid "Credit"
 msgstr "Crédit"
 
@@ -817,9 +817,9 @@ msgid "Error"
 msgstr "Erreur"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:152
+#: rml:account.account_report_partner_balance_webkit:152
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:118
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:133
+#: rml:account.account_report_trial_balance_webkit:133
 msgid "Balance"
 msgstr "Solde"
 
@@ -829,9 +829,9 @@ msgid "Counter part"
 msgstr "Contrepartie"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:168
+#: rml:account.account_report_partner_balance_webkit:168
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:134
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:149
+#: rml:account.account_report_trial_balance_webkit:149
 msgid "% Difference"
 msgstr "% Différence"
 
@@ -873,9 +873,9 @@ msgstr "Filtre par compte"
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:31
 #: rml:account.account_report_open_invoices_webkit:35
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:44
+#: rml:account.account_report_partner_balance_webkit:44
 #: rml:account.account_report_partners_ledger_webkit:32
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:56
+#: rml:account.account_report_trial_balance_webkit:56
 msgid "Dates Filter"
 msgstr "Filtre par date"
 
@@ -997,17 +997,17 @@ msgstr "PROFIT AND LOSS"
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:27
 #: rml:account.account_report_open_invoices_webkit:31
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:40
+#: rml:account.account_report_partner_balance_webkit:40
 #: rml:account.account_report_partners_ledger_webkit:28
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:39
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:52
+#: rml:account.account_report_trial_balance_webkit:52
 msgid "Chart of Account"
 msgstr "Plan comptable"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:167
+#: rml:account.account_report_partner_balance_webkit:167
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:133
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:148
+#: rml:account.account_report_trial_balance_webkit:148
 msgid "Difference"
 msgstr "Différence"
 
@@ -1020,20 +1020,20 @@ msgstr "Différence"
 #: field:account.report.trial.balance.webkit,target_move:0
 #: rml:account.account_report_general_ledger_webkit:37
 #: rml:account.account_report_open_invoices_webkit:42
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:51
+#: rml:account.account_report_partner_balance_webkit:51
 #: rml:account.account_report_partners_ledger_webkit:38
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:49
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:62
+#: rml:account.account_report_trial_balance_webkit:62
 msgid "Target Moves"
 msgstr "Filtre d'écritures"
 
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:44
 #: rml:account.account_report_open_invoices_webkit:49
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:58
+#: rml:account.account_report_partner_balance_webkit:58
 #: rml:account.account_report_partners_ledger_webkit:45
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:56
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:69
+#: rml:account.account_report_trial_balance_webkit:69
 msgid "From:"
 msgstr "Depuis:"
 
@@ -1067,10 +1067,10 @@ msgstr "Filtre Partenaire"
 #. module: account_financial_report_webkit
 #: rml:account.account_report_general_ledger_webkit:28
 #: rml:account.account_report_open_invoices_webkit:32
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:41
+#: rml:account.account_report_partner_balance_webkit:41
 #: rml:account.account_report_partners_ledger_webkit:29
 #: rml:addons/account_financial_report_webkit/report/templates/account_report_profit_loss.mako:40
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_trial_balance.mako:53
+#: rml:account.account_report_trial_balance_webkit:53
 msgid "Fiscal Year"
 msgstr "Excercice comptable"
 
@@ -1100,7 +1100,7 @@ msgid "Page"
 msgstr "Page"
 
 #. module: account_financial_report_webkit
-#: rml:addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako:50
+#: rml:account.account_report_partner_balance_webkit:50
 msgid "Partners Filter"
 msgstr "Filtre Partenaire"
 
