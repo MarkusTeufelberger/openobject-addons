@@ -4,14 +4,11 @@
 		<record id="ir_actions_act_window_exceptions0" model="ir.actions.act_window">
 			<field eval="[(6,0,[])]" name="groups_id"/>
 			<field name="context">{}</field>
-			<field eval="1" name="auto_search"/>
 			<field name="res_model">sale.exception</field>
 			<field name="view_type">form</field>
-			<field eval="0" name="filter"/>
 			<field name="view_mode">tree,form</field>
 			<field eval="80" name="limit"/>
 			<field name="target">current</field>
-			<field eval="0" name="multi"/>
 			<field name="type">ir.actions.act_window</field>
 			<field name="name">Exceptions</field>
 		</record>
