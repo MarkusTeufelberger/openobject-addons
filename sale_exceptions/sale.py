@@ -19,9 +19,10 @@
 #
 ##############################################################################
 
-
+import netsvc
 from osv import fields, osv
 from tools.translate import _
+
 
 class sale_exception(osv.osv):
     _name = "sale.exception"
@@ -47,22 +48,34 @@ class sale_order(osv.osv):
             exceptions_list.append(except_id)
 
     def test_all_draft_orders(self, cr, uid, context=None):
-        ids = self.search(cr, uid, [('state', '=', 'draft')])
-        for id in ids:
-            try:
-                self.test_exceptions(cr, uid, [id])
-            except Exception:
-                pass
+        ids = self.search(cr, uid, [('state', '=', 'draft')], context=context)
+        self.write_exceptions(cr, uid, ids, context=context)
         return True
 
-    def test_exceptions(self, cr, uid, ids, *args):
+    def button_order_confirm(self, cr, uid, ids, context=None):
+        """
+        Not used here. TODO in version 6, replace the order_confirm button by this method
+        """
+        exceptions = self.write_exceptions(cr, uid, ids, context=context)
+        if exceptions:
+            raise osv.except_osv(_('Order has errors!'),
+                                 "\n".join(ex.name for ex in
+                                           self.pool.get('sale.exception').
+                                           browse(cr, uid, exceptions, context=context)))
+        wf_service = netsvc.LocalService("workflow")
+        wf_service.trg_validate(uid, 'sale.order', ids[0], 'order_confirm', cr)
+        return True
+
+    def write_exceptions(self, cr, uid, ids, *args, **kwargs):
         new_exceptions = []
         for order in self.browse(cr, uid, ids):
-            self.add_custom_order_exception(cr, uid, ids, order, new_exceptions, *args)
-            self.write(cr, uid, [order.id], {'exceptions_ids': [(6, 0, new_exceptions)]})
-            cr.commit()
-        if new_exceptions:
-            raise osv.except_osv(_('Order has errors!'), "\n".join(ex.name for ex in self.pool.get('sale.exception').browse(cr, uid, new_exceptions)))
+            new_exceptions = self.add_custom_order_exception(cr, uid, ids, order, new_exceptions, *args)
+            self.write(cr, uid, [order.id], {'exceptions_ids': [(6, 0, new_exceptions)]}, context=kwargs.get('context'))
+        return new_exceptions
+
+    def test_exceptions(self, cr, uid, ids, *args):
+        if self.write_exceptions(cr, uid, ids, *args):
+            return False
         return True
 
     def add_custom_order_exception(self, cr, uid, ids, order, exceptions, *args):
