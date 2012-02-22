@@ -222,13 +222,19 @@ By amending the clearance date, you will be, for instance, able to answer the qu
         if context is None:
             context = {}
         data = {}
-        data['ids'] = context.get('active_ids', [])
-        data['model'] = context.get('active_model', 'ir.ui.menu')
         data['form'] = self.read(cr, uid, ids, ['date_from',  'date_to',  'fiscalyear_id', 'journal_ids',
                                                 'period_from', 'period_to',  'filter', 'chart_account_id',
                                                 'target_move', 'amount_currency', 'partner_ids',
                                                 'until_date', 'result_selection'])[0]
         used_context = self._build_contexts(cr, uid, ids, data, context=context)
+        data['model'] = 'account.account'
+        if (context.get('active_model') == 'account.account' and
+            context.get('active_ids') and
+            not used_context['chart_account_id']):
+            data['ids'] = [context['active_ids'][0]]  # will attach the report to the first account
+                                                      # avoid to attach the file on each account
+        else:
+            data['ids'] = [used_context['chart_account_id']]
         data['form']['periods'] = used_context.get('periods', False) and used_context['periods'] or []
         data['form']['used_context'] = used_context
         return self._print_report(cr, uid, ids, data, context=context)
