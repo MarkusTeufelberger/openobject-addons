@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-24 05:10+0000\n"
-"X-Generator: Launchpad (build 14012)\n"
+"X-Launchpad-Export-Date: 2012-02-25 05:22+0000\n"
+"X-Generator: Launchpad (build 14860)\n"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_survey_form1
@@ -37,7 +37,7 @@ msgstr "Pitanja Upitnika"
 #. module: survey
 #: view:survey:0
 msgid "Set to draft"
-msgstr "Vrati na Nacrt"
+msgstr "Postavi na nacrt"
 
 #. module: survey
 #: constraint:ir.actions.act_window:0
@@ -47,7 +47,7 @@ msgstr "Nepravilno ime modela u definiciji radnje."
 #. module: survey
 #: field:survey.history,date:0
 msgid "Date started"
-msgstr "Datum započinjanja"
+msgstr "Datum početka"
 
 #. module: survey
 #: field:survey,history:0
@@ -68,7 +68,7 @@ msgstr "Sva Pitanja"
 #. module: survey
 #: field:survey,date_open:0
 msgid "Survey Open Date"
-msgstr "Datum otvaranja Upitnika"
+msgstr "Datum otvaranja upitnika"
 
 #. module: survey
 #: model:ir.model,name:survey.model_survey_name_wiz
@@ -119,7 +119,7 @@ msgstr "Vaše poruke"
 #: view:survey.request:0
 #: selection:survey.request,state:0
 msgid "Cancelled"
-msgstr "Otkazan"
+msgstr "Otkazani"
 
 #. module: survey
 #: field:survey.question,allow_comment:0
@@ -127,48 +127,48 @@ msgid "Allow Comment Field"
 msgstr "Dopustite polje upisa Komentara"
 
 #. module: survey
-#: code:addons/survey/survey.py:375
-#: code:addons/survey/survey.py:387
+#: code:addons/survey/survey.py:370
+#: code:addons/survey/survey.py:382
+#: code:addons/survey/survey.py:396
 #: code:addons/survey/survey.py:401
-#: code:addons/survey/survey.py:406
-#: code:addons/survey/survey.py:416
-#: code:addons/survey/survey.py:422
-#: code:addons/survey/survey.py:428
-#: code:addons/survey/survey.py:434
-#: code:addons/survey/survey.py:438
-#: code:addons/survey/survey.py:444
-#: code:addons/survey/survey.py:448
-#: code:addons/survey/survey.py:458
+#: code:addons/survey/survey.py:411
+#: code:addons/survey/survey.py:417
+#: code:addons/survey/survey.py:423
+#: code:addons/survey/survey.py:429
+#: code:addons/survey/survey.py:433
+#: code:addons/survey/survey.py:439
+#: code:addons/survey/survey.py:443
+#: code:addons/survey/survey.py:453
+#: code:addons/survey/survey.py:457
 #: code:addons/survey/survey.py:462
-#: code:addons/survey/survey.py:467
-#: code:addons/survey/survey.py:473
-#: code:addons/survey/survey.py:475
+#: code:addons/survey/survey.py:468
+#: code:addons/survey/survey.py:470
+#: code:addons/survey/survey.py:472
 #: code:addons/survey/survey.py:477
-#: code:addons/survey/survey.py:482
-#: code:addons/survey/survey.py:484
-#: code:addons/survey/survey.py:642
-#: code:addons/survey/wizard/survey_answer.py:124
-#: code:addons/survey/wizard/survey_answer.py:131
-#: code:addons/survey/wizard/survey_answer.py:700
-#: code:addons/survey/wizard/survey_answer.py:739
-#: code:addons/survey/wizard/survey_answer.py:759
-#: code:addons/survey/wizard/survey_answer.py:788
-#: code:addons/survey/wizard/survey_answer.py:793
-#: code:addons/survey/wizard/survey_answer.py:801
+#: code:addons/survey/survey.py:479
+#: code:addons/survey/survey.py:630
+#: code:addons/survey/wizard/survey_answer.py:119
+#: code:addons/survey/wizard/survey_answer.py:126
+#: code:addons/survey/wizard/survey_answer.py:686
+#: code:addons/survey/wizard/survey_answer.py:725
+#: code:addons/survey/wizard/survey_answer.py:745
+#: code:addons/survey/wizard/survey_answer.py:774
+#: code:addons/survey/wizard/survey_answer.py:779
+#: code:addons/survey/wizard/survey_answer.py:787
+#: code:addons/survey/wizard/survey_answer.py:798
+#: code:addons/survey/wizard/survey_answer.py:807
 #: code:addons/survey/wizard/survey_answer.py:812
-#: code:addons/survey/wizard/survey_answer.py:821
-#: code:addons/survey/wizard/survey_answer.py:826
-#: code:addons/survey/wizard/survey_answer.py:900
-#: code:addons/survey/wizard/survey_answer.py:936
-#: code:addons/survey/wizard/survey_answer.py:954
-#: code:addons/survey/wizard/survey_answer.py:982
-#: code:addons/survey/wizard/survey_answer.py:985
-#: code:addons/survey/wizard/survey_answer.py:988
-#: code:addons/survey/wizard/survey_answer.py:1000
-#: code:addons/survey/wizard/survey_answer.py:1007
-#: code:addons/survey/wizard/survey_answer.py:1010
-#: code:addons/survey/wizard/survey_selection.py:134
-#: code:addons/survey/wizard/survey_selection.py:138
+#: code:addons/survey/wizard/survey_answer.py:886
+#: code:addons/survey/wizard/survey_answer.py:922
+#: code:addons/survey/wizard/survey_answer.py:940
+#: code:addons/survey/wizard/survey_answer.py:968
+#: code:addons/survey/wizard/survey_answer.py:971
+#: code:addons/survey/wizard/survey_answer.py:974
+#: code:addons/survey/wizard/survey_answer.py:986
+#: code:addons/survey/wizard/survey_answer.py:993
+#: code:addons/survey/wizard/survey_answer.py:996
+#: code:addons/survey/wizard/survey_selection.py:80
+#: code:addons/survey/wizard/survey_selection.py:83
 #: code:addons/survey/wizard/survey_send_invitation.py:74
 #, python-format
 msgid "Warning !"
@@ -247,8 +247,10 @@ msgstr "Greška !"
 msgid "Skipped Question"
 msgstr "Preskočeno pitanje"
 
+#. module: survey
+#: view:survey.send.invitation.log:0
 msgid "_Ok"
-msgstr "_Ok"
+msgstr "_U redu"
 
 #. module: survey
 #: selection:survey.response,response_type:0
@@ -293,7 +295,7 @@ msgid "Answered Question"
 msgstr "Odgovoreno pitanje"
 
 #. module: survey
-#: code:addons/survey/wizard/survey_selection.py:134
+#: code:addons/survey/wizard/survey_selection.py:80
 #, python-format
 msgid "You can not give response for this survey more than %s times"
 msgstr "Na ovo pitanje ne možete odgovoriti više od %s puta"
@@ -301,7 +303,7 @@ msgstr "Na ovo pitanje ne možete odgovoriti više od %s puta"
 #. module: survey
 #: selection:survey.response,response_type:0
 msgid "Manually"
-msgstr "Manualno"
+msgstr "Ručno"
 
 msgid "All Surveys"
 msgstr "Svi Upitnici"
@@ -324,7 +326,7 @@ msgstr "Broj stranice"
 #. module: survey
 #: field:survey.send.invitation.log,note:0
 msgid "Log"
-msgstr "Zapis"
+msgstr "Zapisnik"
 
 msgid "All Survey Questions"
 msgstr "Sva pitanja upitnika"
@@ -338,10 +340,9 @@ msgstr "Datum zatvaranja Upitnika"
 #: view:survey.browse.answer:0
 #: view:survey.name.wiz:0
 msgid "Start"
-msgstr "Početak"
+msgstr "Start"
 
 #. module: survey
-#: selection:survey,state:0
 #: selection:survey.request,state:0
 #: selection:survey.response.line,state:0
 msgid "Draft"
@@ -350,7 +351,7 @@ msgstr "Nacrt"
 #. module: survey
 #: selection:survey,state:0
 msgid "Closed"
-msgstr "Zaključen"
+msgstr "Zatvoren"
 
 #. module: survey
 #: view:survey:0
@@ -488,7 +489,7 @@ msgstr "Pažnja!"
 #: field:survey.request,survey_id:0
 #: field:survey.response,survey_id:0
 msgid "Survey"
-msgstr "Upitnik"
+msgstr "Survey"
 
 msgid "Total Completed Survey :-"
 msgstr "Ukupno ispunjeno Upitnika :-"
@@ -504,12 +505,12 @@ msgstr "Povijest"
 #: view:survey.page:0
 #: view:survey.question:0
 msgid "Seq"
-msgstr "Seq"
+msgstr "Red."
 
 #. module: survey
 #: field:survey,tot_comp_survey:0
 msgid "Total Completed Survey"
-msgstr "Ukupno ispunjeno Upitnika"
+msgstr "Ukupno ispunjeno upitnika"
 
 msgid "Response Percentage"
 msgstr "Postotak odziva"
@@ -526,7 +527,7 @@ msgstr "Naziv upitnika :-"
 #: view:survey.request:0
 #: selection:survey.request,state:0
 msgid "Done"
-msgstr "Gotovo"
+msgstr "Izvršeno"
 
 #, python-format
 msgid "'\" + que_rec[0]['question'] + \"' This question requires an answer."
@@ -539,25 +540,24 @@ msgstr "'\" + que_rec[0]['question'] + \"' Ovo pitanje zahtijeva odgovor."
 #: view:survey.print:0
 #: view:survey.print.answer:0
 #: view:survey.print.statistics:0
-#: view:survey.send.invitation:0
 msgid "Cancel"
 msgstr "Odustani"
 
 #. module: survey
 #: view:survey:0
 msgid "Close"
-msgstr "Zaključi"
+msgstr "Zatvori"
 
 #. module: survey
 #: view:survey:0
 #: selection:survey,state:0
 msgid "Open"
-msgstr "Otvori"
+msgstr "Otvoreno"
 
 #. module: survey
 #: field:survey,tot_start_survey:0
 msgid "Total Started Survey"
-msgstr "Ukupno pokrenuto Upitnika"
+msgstr "Ukupno aktivnih upitnika"
 
 #. module: survey
 #: constraint:ir.model:0
@@ -572,7 +572,7 @@ msgstr "Odziv na Upitnik"
 #. module: survey
 #: field:survey.answer,average:0
 msgid "#Avg"
-msgstr "#Avg"
+msgstr "#Pros."
 
 #. module: survey
 #: view:survey:0
@@ -588,7 +588,7 @@ msgstr "Odgovoren"
 #. module: survey
 #: view:survey:0
 msgid "Other"
-msgstr "Drugi"
+msgstr "Ostale"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_view_survey_send_invitation
@@ -605,6 +605,7 @@ msgid "%"
 msgstr "%"
 
 #. module: survey
+#: view:survey:0
 #: field:survey,note:0
 #: field:survey.name.wiz,note:0
 #: view:survey.page:0
@@ -637,7 +638,7 @@ msgstr "Odgovori Upitnika"
 #. module: survey
 #: view:survey.page:0
 msgid "#Questions"
-msgstr "#Questions"
+msgstr "#Pitanja"
 
 msgid "Que:"
 msgstr "Que:"
@@ -647,7 +648,7 @@ msgstr "Que:"
 #: view:survey.question:0
 #: field:survey.response.line,page_id:0
 msgid "Page"
-msgstr "Stranica"
+msgstr "Page"
 
 #. module: survey
 #: view:survey.send.invitation.log:0
@@ -658,23 +659,23 @@ msgstr "Kreirao korisnik"
 #: field:survey.answer,sequence:0
 #: field:survey.question,sequence:0
 msgid "Sequence"
-msgstr "Slijed"
+msgstr "Sekvenca"
 
 #. module: survey
 #: view:survey.send.invitation.log:0
 msgid "Results :"
-msgstr "Rezultati :"
+msgstr "Rezultat :"
 
 #. module: survey
 #: code:addons/survey/wizard/survey_send_invitation.py:74
 #, python-format
 msgid "%sSurvey is not in open state"
-msgstr "%sSurvey is not in open state"
+msgstr "%s Upitnik nije u stanju otvoren"
 
 #. module: survey
 #: view:survey.send.invitation:0
 msgid "Select Partner"
-msgstr "Odaberi Partnera"
+msgstr "Odaberi partnera"
 
 #. module: survey
 #: field:survey.response,date_create:0

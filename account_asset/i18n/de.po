@@ -14,14 +14,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-24 05:11+0000\n"
-"X-Generator: Launchpad (build 14012)\n"
+"X-Launchpad-Export-Date: 2012-02-25 05:24+0000\n"
+"X-Generator: Launchpad (build 14860)\n"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list_normal
 msgid "Open Assets"
-msgstr ""
+msgstr "Anlage (Entwurf)"
 
 #. module: account_asset
 #: help:account.asset.usage.createlines,init,interval:0
@@ -29,15 +29,14 @@ msgid "How many usage entries are you going to make per year?"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,value_residual:0
+#: field:account.asset.asset,value_residual:0
 msgid "Residual Value"
-msgstr ""
+msgstr "Rest Buchwert"
 
 #. module: account_asset
-#: field:account.asset.method,account_expense_id:0
-#: field:account.asset.method.defaults,account_expense_id:0
+#: field:account.asset.category,account_expense_depreciation_id:0
 msgid "Depr. Expense Account"
-msgstr ""
+msgstr "Abschreibung Aufwandskonto"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -61,22 +60,18 @@ msgid "Asset Method Defaults"
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.asset:0
-#: field:account.asset.asset,name:0
-#: field:account.asset.board,asset_id:0
-#: field:account.asset.property,asset_id:0
-#: field:account.invoice.line,asset_id:0
-#: field:account.move.line,asset_id:0
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_form
+#: view:account.asset.asset:0 field:account.asset.asset,name:0
+#: field:account.asset.depreciation.line,asset_id:0
+#: field:account.asset.history,asset_id:0 field:account.move.line,asset_id:0
+#: view:asset.asset.report:0 field:asset.asset.report,asset_id:0
 #: model:ir.model,name:account_asset.model_account_asset_asset
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_form
 msgid "Asset"
-msgstr ""
+msgstr "Anlagegüter"
 
 #. module: account_asset
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr ""
+msgstr "Ungültiger Modellname in der Aktionsdefinition."
 
 #. module: account_asset
 #: view:account.asset.asset:0
@@ -111,10 +106,10 @@ msgid "Analytic Journal"
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.property.history:0
-#: model:ir.model,name:account_asset.model_account_asset_property_history
+#: view:account.asset.history:0
+#: model:ir.model,name:account_asset.model_account_asset_history
 msgid "Asset history"
-msgstr ""
+msgstr "Anlagenhistorie"
 
 #. module: account_asset
 #: wizard_field:account.asset.reval,init,expense_value:0
@@ -134,18 +129,17 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.category:0
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list_normal
 msgid "Asset Categories"
-msgstr ""
+msgstr "Anlagen Kategorien"
 
 #. module: account_asset
-#: view:account.asset.asset:0
-#: field:account.asset.asset,entry_ids:0
-#: wizard_field:account.asset.compute,asset_compute,move_ids:0
+#: field:account.asset.asset,account_move_line_ids:0
+#: field:account.move.line,entry_ids:0
+#: model:ir.actions.act_window,name:account_asset.act_entries_open
 msgid "Entries"
-msgstr ""
+msgstr "Buchungen"
 
 #. module: account_asset
 #: help:account.asset.initial,init,value:0
@@ -155,7 +149,7 @@ msgstr ""
 #. module: account_asset
 #: wizard_view:account.asset.compute,asset_compute:0
 msgid "Generated entries"
-msgstr ""
+msgstr "erzeugte Buchungen"
 
 #. module: account_asset
 #: wizard_view:account.asset.compute,asset_compute:0
@@ -164,11 +158,9 @@ msgid "Asset Computation"
 msgstr ""
 
 #. module: account_asset
-#: wizard_view:account.asset.modify,init:0
-#: wizard_button:account.asset.modify,init,asset_modify:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_modify
 msgid "Modify asset"
-msgstr ""
+msgstr "Verändere Anlagegut"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -191,22 +183,21 @@ msgstr ""
 #. module: account_asset
 #: wizard_button:account.asset.compute,asset_compute,asset_open:0
 msgid "Open entries"
-msgstr ""
+msgstr "offene Buchungen"
 
 #. module: account_asset
-#: view:account.asset.asset:0
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list
-#: model:ir.ui.menu,name:account_asset.menu_finance_Assets
-#: model:ir.ui.menu,name:account_asset.menu_finance_config_Assets
+#: view:account.asset.asset:0 view:asset.asset.report:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_form
+#: model:ir.ui.menu,name:account_asset.menu_finance_assets
+#: model:ir.ui.menu,name:account_asset.menu_finance_config_assets
 msgid "Assets"
-msgstr ""
+msgstr "Anlagegüter"
 
 #. module: account_asset
-#: field:account.asset.method,account_actif_id:0
-#: field:account.asset.method.defaults,account_actif_id:0
+#: field:account.asset.category,account_depreciation_id:0
 msgid "Depreciation Account"
-msgstr ""
+msgstr "kum. Wertberichtigungskonto"
 
 #. module: account_asset
 #: help:account.asset.method.defaults,method_type:0
@@ -217,7 +208,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_draft
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list_draft
 msgid "Draft Assets"
-msgstr ""
+msgstr "Anlagegüter (Entwurf)"
 
 #. module: account_asset
 #: wizard_view:account.asset.usage.createlines,init:0
@@ -225,11 +216,10 @@ msgid "Creation of Usage Lines"
 msgstr ""
 
 #. module: account_asset
-#: wizard_view:account.asset.modify,init:0
-#: wizard_field:account.asset.modify,init,note:0
-#: view:account.asset.property.history:0
+#: view:account.asset.asset:0 view:account.asset.category:0
+#: view:account.asset.history:0 view:asset.modify:0 field:asset.modify,note:0
 msgid "Notes"
-msgstr ""
+msgstr "Bemerkungen"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
@@ -276,7 +266,7 @@ msgstr ""
 #. module: account_asset
 #: view:account.asset.asset:0
 msgid "Other Information"
-msgstr ""
+msgstr "Weitere Informationen"
 
 #. module: account_asset
 #: wizard_button:account.asset.abandon,init,asset_abandon:0
@@ -306,10 +296,12 @@ msgid "Progressive factor"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.history,method_end:0
-#: field:account.asset.method,method_end:0
+#: field:account.asset.asset,method_end:0
+#: selection:account.asset.asset,method_time:0
+#: selection:account.asset.category,method_time:0
+#: selection:account.asset.history,method_time:0
 msgid "Ending Date"
-msgstr ""
+msgstr "Enddatum"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
@@ -358,8 +350,9 @@ msgstr ""
 
 #. module: account_asset
 #: field:account.asset.asset,partner_id:0
+#: field:asset.asset.report,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: account_asset
 #: help:account.asset.method.defaults,method_progress_factor:0
@@ -414,7 +407,7 @@ msgstr ""
 #. module: account_asset
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr ""
+msgstr "Fehlerhafter XML-Code für diese Ansicht!"
 
 #. module: account_asset
 #: wizard_button:account.asset.modify,init,asset_modify:0
@@ -422,10 +415,9 @@ msgid "Modify Method"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,method:0
-#: field:account.asset.method.defaults,method:0
+#: field:account.asset.asset,method:0 field:account.asset.category,method:0
 msgid "Computation Method"
-msgstr ""
+msgstr "Berechnungsmethode"
 
 #. module: account_asset
 #: help:account.asset.method,method_salvage:0
@@ -489,10 +481,9 @@ msgid "Account for asset loss amount."
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,method_salvage:0
-#: wizard_field:account.asset.modify,init,method_salvage:0
+#: field:account.asset.asset,salvage_value:0
 msgid "Salvage Value"
-msgstr ""
+msgstr "Liquidationswert"
 
 #. module: account_asset
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_usage_createlines
@@ -511,9 +502,9 @@ msgid "Suppressed because: "
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.history,invoice_id:0
+#: model:ir.model,name:account_asset.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Rechnung"
 
 #. module: account_asset
 #: help:account.asset.method.usage,usage:0
@@ -545,13 +536,9 @@ msgid "Asset Description"
 msgstr ""
 
 #. module: account_asset
-#: wizard_view:account.asset.compute,asset_compute:0
-#: wizard_view:account.asset.compute,init:0
-#: wizard_button:account.asset.compute,init,asset_compute:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_compute
-#: model:ir.ui.menu,name:account_asset.menu_wizard_asset_compute
 msgid "Compute assets"
-msgstr ""
+msgstr "Berechne Anlagen"
 
 #. module: account_asset
 #: help:account.asset.method,method_delay:0
@@ -608,9 +595,9 @@ msgid "Parent Category"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.property.history,name:0
+#: field:account.asset.history,name:0
 msgid "History name"
-msgstr ""
+msgstr "Verlauf Bezeichnung"
 
 #. module: account_asset
 #: wizard_button:account.asset.reval,init,asset_reval:0
@@ -660,7 +647,7 @@ msgstr ""
 #. module: account_asset
 #: view:account.asset.asset:0
 msgid "Depreciation Board"
-msgstr ""
+msgstr "Abschreibungsspiegel"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.asset_category_action
@@ -748,12 +735,11 @@ msgid "Resuming because: "
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,category_id:0
-#: view:account.asset.category:0
-#: field:account.asset.category,name:0
+#: field:account.asset.asset,category_id:0 view:account.asset.category:0
+#: field:asset.asset.report,asset_category_id:0
 #: model:ir.model,name:account_asset.model_account_asset_category
 msgid "Asset category"
-msgstr ""
+msgstr "Analgenkategorie"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -787,17 +773,16 @@ msgid "Residual"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,note:0
-#: field:account.asset.category,note:0
-#: field:account.asset.property.history,note:0
+#: field:account.asset.asset,note:0 field:account.asset.category,note:0
+#: field:account.asset.history,note:0
 msgid "Note"
-msgstr ""
+msgstr "Notiz"
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0
-#: selection:account.asset.property,state:0
+#: selection:account.asset.asset,state:0 view:asset.asset.report:0
+#: selection:asset.asset.report,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Entwurf"
 
 #. module: account_asset
 #: help:account.asset.method,state:0
@@ -810,10 +795,9 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0
-#: selection:account.asset.method,state:0
+#: view:account.asset.asset:0
 msgid "Closed"
-msgstr ""
+msgstr "Abgeschlossen"
 
 #. module: account_asset
 #: help:account.asset.asset,state:0
@@ -825,7 +809,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.property.history,asset_property_id:0
 msgid "Method"
-msgstr ""
+msgstr "Methode"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -835,7 +819,7 @@ msgstr ""
 #. module: account_asset
 #: selection:account.asset.asset,state:0
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #. module: account_asset
 #: selection:account.asset.history,type:0
@@ -855,7 +839,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.asset,localisation:0
 msgid "Localisation"
-msgstr ""
+msgstr "Lokalisation"
 
 #. module: account_asset
 #: wizard_field:account.asset.abandon,init,whole_asset:0
@@ -878,7 +862,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.asset,active:0
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 #. module: account_asset
 #: field:account.asset.category,child_ids:0
@@ -894,9 +878,9 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.property.history,user_id:0
+#: field:account.asset.history,user_id:0
 msgid "User"
-msgstr ""
+msgstr "Benutzer"
 
 #. module: account_asset
 #: code:addons/account_asset/wizard/wizard_asset_usage_createlines.py:0
@@ -949,10 +933,9 @@ msgid "Summary"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,account_asset_id:0
-#: field:account.asset.method.defaults,account_asset_id:0
+#: field:account.asset.category,account_asset_id:0
 msgid "Asset Account"
-msgstr ""
+msgstr "Anlagen Konto"
 
 #. module: account_asset
 #: wizard_view:account.asset.initial,init:0
@@ -968,10 +951,9 @@ msgid "Sale Residual Account"
 msgstr ""
 
 #. module: account_asset
-#: wizard_view:account.asset.close,init:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_close
 msgid "Close asset"
-msgstr ""
+msgstr "Anlagegut schliessen"
 
 #. module: account_asset
 #: help:account.asset.method,period_id:0
@@ -984,9 +966,9 @@ msgid "Method Modyfying"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.property,history_ids:0
+#: view:account.asset.asset:0 field:account.asset.asset,history_ids:0
 msgid "History"
-msgstr ""
+msgstr "Verlauf"
 
 #. module: account_asset
 #: help:account.asset.asset,partner_id:0
@@ -1016,10 +998,9 @@ msgid "Abandonment"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,period_id:0
-#: wizard_field:account.asset.compute,init,period_id:0
+#: field:asset.depreciation.confirmation.wizard,period_id:0
 msgid "Period"
-msgstr ""
+msgstr "Periode"
 
 #. module: account_asset
 #: help:account.asset.method,account_actif_id:0
@@ -1052,10 +1033,9 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
+#: field:account.invoice.line,asset_category_id:0 view:asset.asset.report:0
 msgid "Asset Category"
-msgstr ""
+msgstr "Anlagenkategorie"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
@@ -1064,18 +1044,14 @@ msgid "Changing of method parameters to:"
 msgstr ""
 
 #. module: account_asset
-#: wizard_button:account.asset.close,init,end:0
-#: wizard_button:account.asset.compute,init,end:0
-#: wizard_button:account.asset.modify,init,end:0
+#: view:asset.depreciation.confirmation.wizard:0 view:asset.modify:0
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0
-#: wizard_button:account.asset.compute,asset_compute,end:0
-#: selection:account.asset.property,state:0
+#: selection:account.asset.asset,state:0 selection:asset.asset.report,state:0
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #. module: account_asset
 #: wizard_view:account.asset.localisation,init:0
@@ -1086,7 +1062,7 @@ msgstr ""
 #. module: account_asset
 #: selection:account.asset.property,state:0
 msgid "Open"
-msgstr ""
+msgstr "Öffnen"
 
 #. module: account_asset
 #: field:account.asset.asset,code:0
@@ -1115,11 +1091,13 @@ msgstr ""
 msgid ""
 "The Object name must start with x_ and not contain any special character !"
 msgstr ""
+"Der Objektname muss mit \"x_\" beginnen und darf keine Sonderzeichen "
+"beinhalten!"
 
 #. module: account_asset
 #: model:ir.module.module,shortdesc:account_asset.module_meta_information
 msgid "Asset management"
-msgstr ""
+msgstr "Anlagenbuchhaltung"
 
 #. module: account_asset
 #: help:account.asset.method.defaults,account_abandon_id:0
@@ -1148,7 +1126,7 @@ msgstr ""
 #. module: account_asset
 #: wizard_view:account.asset.close,init:0
 msgid "General information"
-msgstr ""
+msgstr "Allgemeine Informationen"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -1183,7 +1161,7 @@ msgstr ""
 #. module: account_asset
 #: selection:account.asset.property,method:0
 msgid "Progressive"
-msgstr ""
+msgstr "Progressiv"
 
 #. module: account_asset
 #: field:account.asset.asset,sequence:0
@@ -1198,7 +1176,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.property,name:0
 msgid "Method name"
-msgstr ""
+msgstr "Methodenname"
 
 #. module: account_asset
 #: wizard_field:account.asset.abandon,init,name:0
@@ -1223,9 +1201,9 @@ msgid "You can dalete method only in Draft state !"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.property,journal_id:0
+#: field:account.asset.category,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: account_asset
 #: field:account.asset.category,code:0
@@ -1352,12 +1330,12 @@ msgstr ""
 #. module: account_asset
 #: selection:account.asset.asset,state:0
 msgid "View"
-msgstr ""
+msgstr "Ansicht"
 
 #. module: account_asset
 #: view:account.asset.asset:0
 msgid "General info"
-msgstr ""
+msgstr "Allgemeine Informationen"
 
 #. module: account_asset
 #: model:ir.ui.menu,name:account_asset.menu_finance_periodical_assets
@@ -1385,10 +1363,9 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,date:0
-#: field:account.asset.property.history,date:0
+#: field:account.asset.history,date:0
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #. module: account_asset
 #: field:account.asset.method.defaults,account_impairment_id:0
@@ -1437,3 +1414,153 @@ msgstr ""
 #: wizard_view:account.asset.reval,init:0
 msgid "Revaluation"
 msgstr ""
+
+#~ msgid "Reason"
+#~ msgstr "Begründung"
+
+#~ msgid "Linear"
+#~ msgstr "Linear"
+
+#~ msgid "Change duration"
+#~ msgstr "Verändere Lebensdauer"
+
+#~ msgid "Asset Value"
+#~ msgstr "Anlagenwert"
+
+#~ msgid "Depreciation board"
+#~ msgstr "Abschreibungs-Tableau"
+
+#~ msgid "Ending date"
+#~ msgstr "Ende Datum"
+
+#~ msgid "Change history"
+#~ msgstr "Bearbeitungshistorie"
+
+#~ msgid "Number of interval"
+#~ msgstr "Anzahl der Intervalle"
+
+#~ msgid "Depreciation entries"
+#~ msgstr "Abschreibungsbuchungen"
+
+#~ msgid "Asset properties to modify"
+#~ msgstr "zu verändernde Anlagenmerkmale"
+
+#~ msgid "Methods"
+#~ msgstr "Methoden"
+
+#~ msgid "Period per interval"
+#~ msgstr "Perioden pro Intervall"
+
+#~ msgid "Depreciation duration"
+#~ msgstr "Abschreibungsdauer"
+
+#~ msgid "State"
+#~ msgstr "Status"
+
+#~ msgid "Other information"
+#~ msgstr "Andere Informationen"
+
+#~ msgid "Depreciation methods"
+#~ msgstr "Abschreibungsmethode"
+
+#~ msgid "Cumul. value"
+#~ msgstr "kummulierter Betrag"
+
+#~ msgid "Asset property"
+#~ msgstr "Anlagenmerkmale"
+
+#~ msgid "Gross value"
+#~ msgstr "Anschaffungswert"
+
+#~ msgid "Confirm asset"
+#~ msgstr "Anlagegut bestätigen"
+
+#~ msgid "Assets methods"
+#~ msgstr "Anlagen Methoden"
+
+#~ msgid "Date created"
+#~ msgstr "Erstellungsdatum"
+
+#~ msgid "Ending period"
+#~ msgstr "Periodenende"
+
+#~ msgid "Asset name"
+#~ msgstr "Anlagenname"
+
+#~ msgid "Accounts information"
+#~ msgstr "Konto Information"
+
+#~ msgid "Asset account"
+#~ msgstr "Anlagenkonto"
+
+#~ msgid "Depr. method type"
+#~ msgstr "Abschreibungsmethode"
+
+#~ msgid "Progressif factor"
+#~ msgstr "Progressionsfaktor"
+
+#~ msgid "Net value"
+#~ msgstr "Netto Wert"
+
+#~ msgid "Asset method name"
+#~ msgstr "Anlagenmethoden Bezeichnung"
+
+#~ msgid "Time method"
+#~ msgstr "Zeitmethode"
+
+#~ msgid "Computation method"
+#~ msgstr "Berechnungsmethode"
+
+#~ msgid "Depreciation account"
+#~ msgstr "AfA-Konto"
+
+#~ msgid "Global state"
+#~ msgstr "Globaler Status"
+
+#~ msgid "Asset board"
+#~ msgstr "Anlagenspiegel"
+
+#~ msgid "Delay"
+#~ msgstr "Verzögerung"
+
+#~ msgid "Close method"
+#~ msgstr "Abschlussmethode"
+
+#~ msgid "Depreciation"
+#~ msgstr "Abschreibung"
+
+#~ msgid "Analytic journal"
+#~ msgstr "analytisches Journal"
+
+#~ msgid "Asset Entries"
+#~ msgstr "Anlagen"
+
+#~ msgid "End of asset"
+#~ msgstr "Ende des Anlagegutes"
+
+#~ msgid "Sequence"
+#~ msgstr "Sequenz"
+
+#~ msgid "Asset code"
+#~ msgstr "Kurzbezeichnung"
+
+#~ msgid "Total value"
+#~ msgstr "Gesamt Wert"
+
+#~ msgid "Parent asset"
+#~ msgstr "übergeordnetes Anlagegut"
+
+#~ msgid "Direct"
+#~ msgstr "Direkt"
+
+#~ msgid "Residual value"
+#~ msgstr "Buchwert"
+
+#~ msgid "Indirect"
+#~ msgstr "Indirekt"
+
+#~ msgid "Analytic account"
+#~ msgstr "Analytisches Konto"
+
+#~ msgid "Asset Hierarchy"
+#~ msgstr "Anlangenhierarchie"

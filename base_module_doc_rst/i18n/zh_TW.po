@@ -13,23 +13,23 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-24 05:13+0000\n"
-"X-Generator: Launchpad (build 14012)\n"
+"X-Launchpad-Export-Date: 2012-02-25 05:26+0000\n"
+"X-Generator: Launchpad (build 14860)\n"
 
 #. module: base_module_doc_rst
 #: wizard_view:tech.guide.rst,init:0
 msgid "Technical Guide in rst format"
-msgstr ""
+msgstr "rst 格式技術指南"
 
 #. module: base_module_doc_rst
 #: wizard_field:tech.guide.rst,init,name:0
 msgid "filename"
-msgstr ""
+msgstr "檔案名稱"
 
 #. module: base_module_doc_rst
 #: model:ir.actions.wizard,name:base_module_doc_rst.wiz_tech_guide_rst
 msgid "Create RST Technical Guide"
-msgstr ""
+msgstr "建立 RST 技術指南"
 
 #. module: base_module_doc_rst
 #: wizard_view:tech.guide.rst,init:0
@@ -39,12 +39,12 @@ msgstr ""
 #. module: base_module_doc_rst
 #: wizard_field:tech.guide.rst,init,rst_file:0
 msgid "file"
-msgstr ""
+msgstr "檔案"
 
 #. module: base_module_doc_rst
 #: wizard_button:tech.guide.rst,init,end:0
 msgid "Close"
-msgstr ""
+msgstr "關閉"
 
 #. module: base_module_doc_rst
 #: model:ir.module.module,shortdesc:base_module_doc_rst.module_meta_information
@@ -54,4 +54,4 @@ msgstr ""
 #. module: base_module_doc_rst
 #: wizard_view:tech.guide.rst,init:0
 msgid "Create Technical Guide in rst format"
-msgstr ""
+msgstr "以 rst 格式建立技術指南"

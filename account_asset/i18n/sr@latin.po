@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-11 05:10+0000\n"
-"X-Generator: Launchpad (build 14277)\n"
+"X-Launchpad-Export-Date: 2012-02-25 05:24+0000\n"
+"X-Generator: Launchpad (build 14860)\n"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
@@ -29,13 +29,12 @@ msgid "How many usage entries are you going to make per year?"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,value_residual:0
+#: field:account.asset.asset,value_residual:0
 msgid "Residual Value"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,account_expense_id:0
-#: field:account.asset.method.defaults,account_expense_id:0
+#: field:account.asset.category,account_expense_depreciation_id:0
 msgid "Depr. Expense Account"
 msgstr ""
 
@@ -61,15 +60,11 @@ msgid "Asset Method Defaults"
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.asset:0
-#: field:account.asset.asset,name:0
-#: field:account.asset.board,asset_id:0
-#: field:account.asset.property,asset_id:0
-#: field:account.invoice.line,asset_id:0
-#: field:account.move.line,asset_id:0
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_form
+#: view:account.asset.asset:0 field:account.asset.asset,name:0
+#: field:account.asset.depreciation.line,asset_id:0
+#: field:account.asset.history,asset_id:0 field:account.move.line,asset_id:0
+#: view:asset.asset.report:0 field:asset.asset.report,asset_id:0
 #: model:ir.model,name:account_asset.model_account_asset_asset
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_form
 msgid "Asset"
 msgstr "Sredstvo"
 
@@ -111,8 +106,8 @@ msgid "Analytic Journal"
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.property.history:0
-#: model:ir.model,name:account_asset.model_account_asset_property_history
+#: view:account.asset.history:0
+#: model:ir.model,name:account_asset.model_account_asset_history
 msgid "Asset history"
 msgstr "Istorija sredstava"
 
@@ -134,16 +129,15 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.category:0
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list_normal
 msgid "Asset Categories"
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.asset:0
-#: field:account.asset.asset,entry_ids:0
-#: wizard_field:account.asset.compute,asset_compute,move_ids:0
+#: field:account.asset.asset,account_move_line_ids:0
+#: field:account.move.line,entry_ids:0
+#: model:ir.actions.act_window,name:account_asset.act_entries_open
 msgid "Entries"
 msgstr "Stavke"
 
@@ -164,8 +158,6 @@ msgid "Asset Computation"
 msgstr ""
 
 #. module: account_asset
-#: wizard_view:account.asset.modify,init:0
-#: wizard_button:account.asset.modify,init,asset_modify:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_modify
 msgid "Modify asset"
 msgstr "Izmeni sredstvo"
@@ -194,17 +186,16 @@ msgid "Open entries"
 msgstr "Otvorene stavke"
 
 #. module: account_asset
-#: view:account.asset.asset:0
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list
-#: model:ir.ui.menu,name:account_asset.menu_finance_Assets
-#: model:ir.ui.menu,name:account_asset.menu_finance_config_Assets
+#: view:account.asset.asset:0 view:asset.asset.report:0
+#: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_form
+#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_form
+#: model:ir.ui.menu,name:account_asset.menu_finance_assets
+#: model:ir.ui.menu,name:account_asset.menu_finance_config_assets
 msgid "Assets"
 msgstr "Sredstva"
 
 #. module: account_asset
-#: field:account.asset.method,account_actif_id:0
-#: field:account.asset.method.defaults,account_actif_id:0
+#: field:account.asset.category,account_depreciation_id:0
 msgid "Depreciation Account"
 msgstr ""
 
@@ -225,9 +216,8 @@ msgid "Creation of Usage Lines"
 msgstr ""
 
 #. module: account_asset
-#: wizard_view:account.asset.modify,init:0
-#: wizard_field:account.asset.modify,init,note:0
-#: view:account.asset.property.history:0
+#: view:account.asset.asset:0 view:account.asset.category:0
+#: view:account.asset.history:0 view:asset.modify:0 field:asset.modify,note:0
 msgid "Notes"
 msgstr "Napomene"
 
@@ -306,8 +296,10 @@ msgid "Progressive factor"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.history,method_end:0
-#: field:account.asset.method,method_end:0
+#: field:account.asset.asset,method_end:0
+#: selection:account.asset.asset,method_time:0
+#: selection:account.asset.category,method_time:0
+#: selection:account.asset.history,method_time:0
 msgid "Ending Date"
 msgstr ""
 
@@ -358,6 +350,7 @@ msgstr ""
 
 #. module: account_asset
 #: field:account.asset.asset,partner_id:0
+#: field:asset.asset.report,partner_id:0
 msgid "Partner"
 msgstr "Partner"
 
@@ -422,8 +415,7 @@ msgid "Modify Method"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,method:0
-#: field:account.asset.method.defaults,method:0
+#: field:account.asset.asset,method:0 field:account.asset.category,method:0
 msgid "Computation Method"
 msgstr ""
 
@@ -489,8 +481,7 @@ msgid "Account for asset loss amount."
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,method_salvage:0
-#: wizard_field:account.asset.modify,init,method_salvage:0
+#: field:account.asset.asset,salvage_value:0
 msgid "Salvage Value"
 msgstr ""
 
@@ -511,7 +502,7 @@ msgid "Suppressed because: "
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.history,invoice_id:0
+#: model:ir.model,name:account_asset.model_account_invoice
 msgid "Invoice"
 msgstr ""
 
@@ -545,11 +536,7 @@ msgid "Asset Description"
 msgstr ""
 
 #. module: account_asset
-#: wizard_view:account.asset.compute,asset_compute:0
-#: wizard_view:account.asset.compute,init:0
-#: wizard_button:account.asset.compute,init,asset_compute:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_compute
-#: model:ir.ui.menu,name:account_asset.menu_wizard_asset_compute
 msgid "Compute assets"
 msgstr "Izračunaj sredstva"
 
@@ -608,7 +595,7 @@ msgid "Parent Category"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.property.history,name:0
+#: field:account.asset.history,name:0
 msgid "History name"
 msgstr "Naziv istorijata"
 
@@ -748,9 +735,8 @@ msgid "Resuming because: "
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,category_id:0
-#: view:account.asset.category:0
-#: field:account.asset.category,name:0
+#: field:account.asset.asset,category_id:0 view:account.asset.category:0
+#: field:asset.asset.report,asset_category_id:0
 #: model:ir.model,name:account_asset.model_account_asset_category
 msgid "Asset category"
 msgstr "Kategorija sredstva"
@@ -787,15 +773,14 @@ msgid "Residual"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,note:0
-#: field:account.asset.category,note:0
-#: field:account.asset.property.history,note:0
+#: field:account.asset.asset,note:0 field:account.asset.category,note:0
+#: field:account.asset.history,note:0
 msgid "Note"
 msgstr "Napomena"
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0
-#: selection:account.asset.property,state:0
+#: selection:account.asset.asset,state:0 view:asset.asset.report:0
+#: selection:asset.asset.report,state:0
 msgid "Draft"
 msgstr "Nacrt"
 
@@ -810,8 +795,7 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0
-#: selection:account.asset.method,state:0
+#: view:account.asset.asset:0
 msgid "Closed"
 msgstr ""
 
@@ -894,7 +878,7 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.property.history,user_id:0
+#: field:account.asset.history,user_id:0
 msgid "User"
 msgstr "Korisnik"
 
@@ -955,8 +939,7 @@ msgid "Summary"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,account_asset_id:0
-#: field:account.asset.method.defaults,account_asset_id:0
+#: field:account.asset.category,account_asset_id:0
 msgid "Asset Account"
 msgstr ""
 
@@ -974,7 +957,6 @@ msgid "Sale Residual Account"
 msgstr ""
 
 #. module: account_asset
-#: wizard_view:account.asset.close,init:0
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_close
 msgid "Close asset"
 msgstr "Zatvoreno sredstvo"
@@ -990,7 +972,7 @@ msgid "Method Modyfying"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.property,history_ids:0
+#: view:account.asset.asset:0 field:account.asset.asset,history_ids:0
 msgid "History"
 msgstr "Istorijat"
 
@@ -1022,8 +1004,7 @@ msgid "Abandonment"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,period_id:0
-#: wizard_field:account.asset.compute,init,period_id:0
+#: field:asset.depreciation.confirmation.wizard,period_id:0
 msgid "Period"
 msgstr "Period"
 
@@ -1058,8 +1039,7 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: model:ir.actions.act_window,name:account_asset.action_account_asset_category_form
-#: model:ir.ui.menu,name:account_asset.menu_action_account_asset_category_form
+#: field:account.invoice.line,asset_category_id:0 view:asset.asset.report:0
 msgid "Asset Category"
 msgstr "Kategorija sredstva"
 
@@ -1070,16 +1050,12 @@ msgid "Changing of method parameters to:"
 msgstr ""
 
 #. module: account_asset
-#: wizard_button:account.asset.close,init,end:0
-#: wizard_button:account.asset.compute,init,end:0
-#: wizard_button:account.asset.modify,init,end:0
+#: view:asset.depreciation.confirmation.wizard:0 view:asset.modify:0
 msgid "Cancel"
 msgstr "Otkaži"
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0
-#: wizard_button:account.asset.compute,asset_compute,end:0
-#: selection:account.asset.property,state:0
+#: selection:account.asset.asset,state:0 selection:asset.asset.report,state:0
 msgid "Close"
 msgstr "Zatvori"
 
@@ -1230,7 +1206,7 @@ msgid "You can dalete method only in Draft state !"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.property,journal_id:0
+#: field:account.asset.category,journal_id:0
 msgid "Journal"
 msgstr "Dnevnik"
 
@@ -1392,8 +1368,7 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,date:0
-#: field:account.asset.property.history,date:0
+#: field:account.asset.history,date:0
 msgid "Date"
 msgstr "Datum"
 

@@ -15,18 +15,22 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-24 05:09+0000\n"
-"X-Generator: Launchpad (build 14012)\n"
+"X-Launchpad-Export-Date: 2012-02-25 05:21+0000\n"
+"X-Generator: Launchpad (build 14860)\n"
 
 #. module: nan_partner_risk
-#: wizard_field:open_risk_window,init,draft_invoices_amount:0
+#: code:addons/nan_partner_risk/risk.py:241
+#: field:open.risk.window,draft_invoices_amount:0
 #: field:res.partner,draft_invoices_amount:0
+#, python-format
 msgid "Draft Invoices"
 msgstr "Esborranys de factura"
 
 #. module: nan_partner_risk
-#: wizard_field:open_risk_window,init,total_debt:0
+#: code:addons/nan_partner_risk/risk.py:244
+#: field:open.risk.window,total_debt:0
 #: field:res.partner,total_debt:0
+#, python-format
 msgid "Total Debt"
 msgstr "Deute total"
 
@@ -41,8 +45,9 @@ msgid "Risk Information"
 msgstr "Informació del risc"
 
 #. module: nan_partner_risk
-#: wizard_field:open_risk_window,init,pending_amount:0
+#: code:addons/nan_partner_risk/risk.py:240
 #: field:res.partner,pending_amount:0
+#, python-format
 msgid "Unexpired Pending Payments"
 msgstr "Efectes pendents no vençuts"
 
@@ -63,8 +68,10 @@ msgid "Partner Risk Analysis"
 msgstr "Anàlisi del risc d'empreses"
 
 #. module: nan_partner_risk
-#: wizard_field:open_risk_window,init,total_risk_percent:0
+#: code:addons/nan_partner_risk/risk.py:246
+#: field:open.risk.window,total_risk_percent:0
 #: field:res.partner,total_risk_percent:0
+#, python-format
 msgid "Credit Usage (%)"
 msgstr "Ús del crèdit (%)"
 
@@ -74,13 +81,15 @@ msgid "Confirm Order"
 msgstr "Confirma la comanda"
 
 #. module: nan_partner_risk
-#: wizard_field:open_risk_window,init,available_risk:0
+#: code:addons/nan_partner_risk/risk.py:245
+#: field:open.risk.window,available_risk:0
 #: field:res.partner,available_risk:0
+#, python-format
 msgid "Available Credit"
 msgstr "Crèdit disponible"
 
 #. module: nan_partner_risk
-#: code:addons/nan_partner_risk/risk.py:0
+#: code:addons/nan_partner_risk/risk.py:66
 #, python-format
 msgid ""
 "Warning: Credit Limit Exceeded.\n"
@@ -110,37 +119,42 @@ msgid "Invoiced Amount"
 msgstr "Import facturat"
 
 #. module: nan_partner_risk
-#: wizard_field:open_risk_window,init,unpayed_amount:0
+#: code:addons/nan_partner_risk/risk.py:239
+#: field:open.risk.window,unpayed_amount:0
 #: field:res.partner,unpayed_amount:0
+#, python-format
 msgid "Expired Unpaid Payments"
 msgstr "Efectes impagats"
 
 #. module: nan_partner_risk
-#: wizard_field:open_risk_window,init,circulating_amount:0
+#: code:addons/nan_partner_risk/risk.py:242
+#: field:open.risk.window,circulating_amount:0
 #: field:res.partner,circulating_amount:0
+#, python-format
 msgid "Payments Sent to Bank"
 msgstr "Efectes en circulació"
 
 #. module: nan_partner_risk
-#: code:addons/nan_partner_risk/risk.py:0
+#: code:addons/nan_partner_risk/risk.py:65
 #, python-format
 msgid "Credit Limit Exceeded"
 msgstr "S'ha excedit el crèdit concedit"
 
 #. module: nan_partner_risk
-#: model:ir.actions.act_window,name:nan_partner_risk.action_order_wait_risk
-#: model:ir.ui.menu,name:nan_partner_risk.menu_action_order_wait_risk
+#: view:sale.order:0
 msgid "Waiting Risk Approval"
 msgstr "Esperant l'aprovació del risc"
 
 #. module: nan_partner_risk
-#: wizard_field:open_risk_window,init,credit_limit:0
+#: field:open.risk.window,credit_limit:0
 msgid "Credit Limit"
 msgstr "Crèdit concedit"
 
 #. module: nan_partner_risk
-#: wizard_field:open_risk_window,init,pending_orders_amount:0
+#: code:addons/nan_partner_risk/risk.py:243
+#: field:open.risk.window,pending_orders_amount:0
 #: field:res.partner,pending_orders_amount:0
+#, python-format
 msgid "Uninvoiced Orders"
 msgstr "Comandes pendents de facturar"
 

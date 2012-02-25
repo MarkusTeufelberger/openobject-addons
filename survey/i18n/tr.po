@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-01-26 05:34+0000\n"
-"X-Generator: Launchpad (build 14719)\n"
+"X-Launchpad-Export-Date: 2012-02-25 05:22+0000\n"
+"X-Generator: Launchpad (build 14860)\n"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_survey_form1
@@ -127,48 +127,48 @@ msgid "Allow Comment Field"
 msgstr ""
 
 #. module: survey
-#: code:addons/survey/survey.py:371
-#: code:addons/survey/survey.py:383
-#: code:addons/survey/survey.py:397
-#: code:addons/survey/survey.py:402
-#: code:addons/survey/survey.py:412
-#: code:addons/survey/survey.py:418
-#: code:addons/survey/survey.py:424
-#: code:addons/survey/survey.py:430
-#: code:addons/survey/survey.py:434
-#: code:addons/survey/survey.py:440
-#: code:addons/survey/survey.py:444
-#: code:addons/survey/survey.py:454
-#: code:addons/survey/survey.py:458
-#: code:addons/survey/survey.py:463
-#: code:addons/survey/survey.py:469
-#: code:addons/survey/survey.py:471
-#: code:addons/survey/survey.py:473
-#: code:addons/survey/survey.py:478
-#: code:addons/survey/survey.py:480
-#: code:addons/survey/survey.py:643
-#: code:addons/survey/wizard/survey_answer.py:118
-#: code:addons/survey/wizard/survey_answer.py:125
-#: code:addons/survey/wizard/survey_answer.py:668
-#: code:addons/survey/wizard/survey_answer.py:707
-#: code:addons/survey/wizard/survey_answer.py:727
-#: code:addons/survey/wizard/survey_answer.py:756
-#: code:addons/survey/wizard/survey_answer.py:761
-#: code:addons/survey/wizard/survey_answer.py:769
-#: code:addons/survey/wizard/survey_answer.py:780
-#: code:addons/survey/wizard/survey_answer.py:789
-#: code:addons/survey/wizard/survey_answer.py:794
-#: code:addons/survey/wizard/survey_answer.py:868
-#: code:addons/survey/wizard/survey_answer.py:904
+#: code:addons/survey/survey.py:370
+#: code:addons/survey/survey.py:382
+#: code:addons/survey/survey.py:396
+#: code:addons/survey/survey.py:401
+#: code:addons/survey/survey.py:411
+#: code:addons/survey/survey.py:417
+#: code:addons/survey/survey.py:423
+#: code:addons/survey/survey.py:429
+#: code:addons/survey/survey.py:433
+#: code:addons/survey/survey.py:439
+#: code:addons/survey/survey.py:443
+#: code:addons/survey/survey.py:453
+#: code:addons/survey/survey.py:457
+#: code:addons/survey/survey.py:462
+#: code:addons/survey/survey.py:468
+#: code:addons/survey/survey.py:470
+#: code:addons/survey/survey.py:472
+#: code:addons/survey/survey.py:477
+#: code:addons/survey/survey.py:479
+#: code:addons/survey/survey.py:630
+#: code:addons/survey/wizard/survey_answer.py:119
+#: code:addons/survey/wizard/survey_answer.py:126
+#: code:addons/survey/wizard/survey_answer.py:686
+#: code:addons/survey/wizard/survey_answer.py:725
+#: code:addons/survey/wizard/survey_answer.py:745
+#: code:addons/survey/wizard/survey_answer.py:774
+#: code:addons/survey/wizard/survey_answer.py:779
+#: code:addons/survey/wizard/survey_answer.py:787
+#: code:addons/survey/wizard/survey_answer.py:798
+#: code:addons/survey/wizard/survey_answer.py:807
+#: code:addons/survey/wizard/survey_answer.py:812
+#: code:addons/survey/wizard/survey_answer.py:886
 #: code:addons/survey/wizard/survey_answer.py:922
-#: code:addons/survey/wizard/survey_answer.py:950
-#: code:addons/survey/wizard/survey_answer.py:953
-#: code:addons/survey/wizard/survey_answer.py:956
+#: code:addons/survey/wizard/survey_answer.py:940
 #: code:addons/survey/wizard/survey_answer.py:968
-#: code:addons/survey/wizard/survey_answer.py:975
-#: code:addons/survey/wizard/survey_answer.py:978
-#: code:addons/survey/wizard/survey_selection.py:66
-#: code:addons/survey/wizard/survey_selection.py:69
+#: code:addons/survey/wizard/survey_answer.py:971
+#: code:addons/survey/wizard/survey_answer.py:974
+#: code:addons/survey/wizard/survey_answer.py:986
+#: code:addons/survey/wizard/survey_answer.py:993
+#: code:addons/survey/wizard/survey_answer.py:996
+#: code:addons/survey/wizard/survey_selection.py:80
+#: code:addons/survey/wizard/survey_selection.py:83
 #: code:addons/survey/wizard/survey_send_invitation.py:74
 #, python-format
 msgid "Warning !"
@@ -295,7 +295,7 @@ msgid "Answered Question"
 msgstr ""
 
 #. module: survey
-#: code:addons/survey/wizard/survey_selection.py:66
+#: code:addons/survey/wizard/survey_selection.py:80
 #, python-format
 msgid "You can not give response for this survey more than %s times"
 msgstr ""
