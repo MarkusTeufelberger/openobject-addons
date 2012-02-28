@@ -20,7 +20,7 @@
 {
     "name" : "Unique serial number management",
     "version" : "1.0.0",
-    "author" : "Raphaël Valyi, NaN",
+    "author" : "Raphaël Valyi, NaN·tic",
     "website" : "http://www.akretion.com",
     "depends" : ['mrp'],
     "category" : "Generic Modules/Inventory Control",

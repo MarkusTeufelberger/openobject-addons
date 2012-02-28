@@ -35,7 +35,7 @@
         'sale',
         'stock',
     ],
-    "author" : "NaN",
+    "author" : NaN·tic,
     "description": """\
 This module adds new fields in sale orders and invoice lines to store untaxed and tax amounts as created by an external application or online shop. This avoids rounding differences between both applications.
 

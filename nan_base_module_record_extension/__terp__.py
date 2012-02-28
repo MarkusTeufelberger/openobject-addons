@@ -32,7 +32,7 @@
 {
     "name" : "NaN Backup Permissions",
     "version" : "1.0",
-    "author" : "NaN Projectes de Programari Lliure S.L.",
+    "author" : "NaN·tic",
     "category" : "Custom Modules",
     "website": "http://www.NaN-tic.com",
     "description": """This module makes it easy to backup and restore user and group model and menu access settings.""",

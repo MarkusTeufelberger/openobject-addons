@@ -1,8 +1,10 @@
 {
 	"name" : "Production Split",
 	"version" : "0.1",
-	"description" : """This module adds a new wizard that allows splitting a production order into two.""",
-	"author" : "NaN for Trod y Avia, S.L.",
+	"description" : """This module adds a new wizard that allows splitting a production order into two.
+    
+Developed for Trod y Avia, S.L.""",
+	"author" : "NaN·tic",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 
 		'mrp',

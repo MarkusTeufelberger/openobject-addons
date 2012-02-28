@@ -24,7 +24,7 @@
     'version': '0.1',
     'category': 'Generic Modules/Others',
     'description': """""",
-    'author': 'NaN',
+    'author': 'NaN·tic',
     'website': 'http://www.NaN-tic.com',
     'depends': ['base'],
     'init_xml': [],

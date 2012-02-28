@@ -1,8 +1,10 @@
 {
 	"name" : "Production Merge",
 	"version" : "0.1",
-	"description" : """This module adds a new wizard that allows merging two or more production orders.""",
-	"author" : "NaN for Trod y Avia, S.L.",
+	"description" : """This module adds a new wizard that allows merging two or more production orders.
+    
+Developed for Trod y Avia, S.L.""",
+	"author" : "NaN·tic",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 
 		'mrp',

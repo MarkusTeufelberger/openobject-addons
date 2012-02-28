@@ -30,11 +30,13 @@
 {
     'name': 'Production Lot Quality Control',
     'version': '0.1',
-    'author': 'NaN for Trod y Avia, S.L.',
+    'author': 'NaN·tic',
     'category': 'Generic Modules/Others',
     'description': """\
 This module adds two quality controls to production lots on arrival and after production. The idea is that the first
 test will be 'Generic' and check for things like correct packaging. The second will be specific to the product in question.
+
+Developed for Trod y Avia, S.L.
 """,
     'depends': [
         'stock',

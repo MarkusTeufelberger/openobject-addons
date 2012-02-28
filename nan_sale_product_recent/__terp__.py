@@ -29,8 +29,10 @@
 {
 	"name" : "Sale Recent Product",
 	"version" : "0.1",
-	"description" : """This module adds a new field in sale order lines to allow choosing only the products the partner has ordered sometime in the past. This is useful for companies in which partners tend to ask always the same products but don't know the code or remember the exact model.""",
-	"author" : "NaN for Trod y Avia, S.L.",
+	"description" : """This module adds a new field in sale order lines to allow choosing only the products the partner has ordered sometime in the past. This is useful for companies in which partners tend to ask always the same products but don't know the code or remember the exact model.
+    
+Developed for Trod y Avia, S.L.""",
+	"author" : "NaN·tic",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 'sale' ], 
 	"category" : "Custom Modules",

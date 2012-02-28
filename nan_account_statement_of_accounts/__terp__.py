@@ -30,7 +30,7 @@
 {
     "name" : "Statment of Accounts",
     "version" : "1.0",
-    "author" : "NaN",
+    "author" : NaN·tic,
     "category" : "Accounting",
     "website": "http://www.nan-tic.com",
     "description": """\

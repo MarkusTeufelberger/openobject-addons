@@ -29,8 +29,10 @@
 {
 	"name" : "Purchase Recent Product",
 	"version" : "0.1",
-	"description" : """This module adds a new field in purchase order lines to allow choosing only the products we have ordered to that partner sometime in the past.""",
-	"author" : "NaN for Trod y Avia, S.L.",
+	"description" : """This module adds a new field in purchase order lines to allow choosing only the products we have ordered to that partner sometime in the past.
+    
+Developed for Trod y Avia, S.L.""",
+	"author" : "NaN·tic",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 'purchase' ], 
 	"category" : "Custom Modules",

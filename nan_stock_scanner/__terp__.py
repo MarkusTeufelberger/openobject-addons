@@ -31,8 +31,10 @@
 {
 	"name" : "Stock Barcode Scanner",
 	"version" : "0.1",
-	"description" : """This module allows the usage of a barcode scanner to process incoming products.""",
-	"author" : "NaN for Trod y Avia, S.L.",
+	"description" : """This module allows the usage of a barcode scanner to process incoming products.
+    
+Developed for Trod y Avia, S.L.""",
+	"author" : "NaN·tic",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 
 		'stock',

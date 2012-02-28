@@ -37,7 +37,7 @@
     "description" : """ Generate defined files on file format module when picking has done.
                         Defined two delivery carriers used on Spain. SEUR and TIPSA
                     """,
-    "author" : "NaN Porjectes de Programari Lliure, S.L.",
+    "author" : "NaN·tic",
     "website" : "http://www.NaN-tic.com",
     "depends" : [ 'delivery', 'nan_file_format' ], 
     "category" : "Custom Modules",

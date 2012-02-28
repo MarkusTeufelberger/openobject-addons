@@ -23,8 +23,10 @@
     'name': 'Purchase Order Line',
     'version': '1.0',
     'category': 'Generic Modules/Sales & Purchases',
-    'description': """Adds partner and allows searching directly in purchase order lines.""",
-    'author': 'NaN for Trod y Avia, S.L.',
+    'description': """Adds partner and allows searching directly in purchase order lines.
+    
+Developed for Trod y Avia, S.L.""",
+    'author': 'NaN·tic',
     'website': 'http://www.NaN-tic.com',
     'depends': ['purchase_manual'],
     'init_xml': [],
