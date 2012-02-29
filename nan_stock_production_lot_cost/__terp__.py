@@ -1,3 +1,4 @@
+# encoding: utf-8
 {
 	"name" : "Production Lot Cost",
 	"version" : "0.1",

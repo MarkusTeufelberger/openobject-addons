@@ -30,7 +30,7 @@
 {
     "name" : "NaN Account Extension",
     "version" : "1.0",
-    "author" : NaN·tic,
+    "author" : "NaN·tic",
     "category" : "Accounting",
     "website": "http://www.nan-tic.com",
     "description": """\

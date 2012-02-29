@@ -1,8 +1,9 @@
+# encoding: utf-8
 {
 	"name" : "Stock Delivery Packages",
 	"version" : "0.1",
 	"description" : """This module adds a new field to outgoing pickings to store the number of packges to be delivered.""",
-	"author" : NaN·tic,
+	"author" : "NaN·tic",
 	"website" : "http://www.NaN-tic.com",
 	"depends" : [ 
 		'delivery',

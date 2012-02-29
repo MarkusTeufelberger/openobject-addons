@@ -1,3 +1,4 @@
+# encoding: utf-8
 {
 	"name" : "Product Supplier Info Extended",
 	"version" : "0.1",

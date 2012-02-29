@@ -1,3 +1,4 @@
+# encoding: utf-8
 {
 	"name" : "Procurement Cheapest Supplier",
 	"version" : "0.1",

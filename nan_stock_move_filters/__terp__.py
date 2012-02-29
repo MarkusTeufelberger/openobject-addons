@@ -1,3 +1,4 @@
+# encoding: utf-8
 {
 	"name" : "Stock Move Filters",
 	"version" : "0.1",

@@ -1,3 +1,4 @@
+# encoding: utf-8
 ##############################################################################
 #
 # Copyright (c) 2010 NaN Projectes de Programari Lliure, S.L. All Rights Reserved.
