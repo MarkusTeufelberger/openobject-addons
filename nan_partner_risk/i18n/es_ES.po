@@ -9,9 +9,8 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.5-bzr\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2011-01-16 20:25:52+0000\n"
-"PO-Revision-Date: 2010-07-24 04:47+0000\n"
-"Last-Translator: Jordi Esteve (www.zikzakmedia.com) <jesteve@zikzakmedia."
-"com>\n"
+"PO-Revision-Date: 2012-03-06 16:27+0100\n"
+"Last-Translator: Jordi Esteve (Zikzakmedia) <jesteve@zikzakmedia.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +23,7 @@ msgstr ""
 #: wizard_field:open_risk_window,init,draft_invoices_amount:0
 #: field:res.partner,draft_invoices_amount:0
 msgid "Draft Invoices"
-msgstr "Borradores de factura"
+msgstr "Facturas en borrador"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,total_debt:0
@@ -87,13 +86,11 @@ msgstr "Crédito disponible"
 msgid ""
 "Warning: Credit Limit Exceeded.\n"
 "\n"
-"This partner has a credit limit of %(limit).2f and already has a debt of "
-"%(debt).2f."
+"This partner has a credit limit of %(limit).2f and already has a debt of %(debt).2f."
 msgstr ""
 "Advertencia: Se ha excedido el crédito concedido.\n"
 "\n"
-"Esta empresa tiene un crédito concedido máximo de %(limit).2f y ya tiene una "
-"deuda de %(debt).2f."
+"Esta empresa tiene un crédito concedido máximo de %(limit).2f y ya tiene una deuda de %(debt).2f."
 
 #. module: nan_partner_risk
 #: view:sale.order:0
@@ -103,10 +100,11 @@ msgstr "Cancelar el pedido"
 #. module: nan_partner_risk
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr "XML Invalido para la arquitectura de vista"
+msgstr "¡XML inválido para la arquitectura de vista!"
 
 #. module: nan_partner_risk
-#: field:sale.order,amount_invoiced:0 field:sale.order.line,amount_invoiced:0
+#: field:sale.order,amount_invoiced:0
+#: field:sale.order.line,amount_invoiced:0
 msgid "Invoiced Amount"
 msgstr "Importe facturado"
 
@@ -114,7 +112,7 @@ msgstr "Importe facturado"
 #: wizard_field:open_risk_window,init,unpayed_amount:0
 #: field:res.partner,unpayed_amount:0
 msgid "Expired Unpaid Payments"
-msgstr "Efectos impagados"
+msgstr "Efectos impagados vencidos"
 
 #. module: nan_partner_risk
 #: wizard_field:open_risk_window,init,circulating_amount:0
@@ -148,23 +146,18 @@ msgstr "Albaranes pendientes de facturar"
 #. module: nan_partner_risk
 #: model:ir.module.module,description:nan_partner_risk.module_meta_information
 msgid ""
-"This module adds a new button in the partner form to analyze current state "
-"of a partner risk.\n"
-"It reports current information regarding amount of debt in invoices, orders, "
-"etc.\n"
+"This module adds a new button in the partner form to analyze current state of a partner risk.\n"
+"It reports current information regarding amount of debt in invoices, orders, etc.\n"
 "\n"
-"It also modifies the workflow of sale orders by adding a new step when "
-"partner's risk is exceeded."
+"It also modifies the workflow of sale orders by adding a new step when partner's risk is exceeded."
 msgstr ""
-"Este módulo añade un nuevo botón en el formulario de empresas para analizar "
-"el estado actual del riesgo de una empresa.\n"
-"Muestra información actual referente a la dedua en facturas, albaranes, "
-"etc.\n"
+"Este módulo añade un nuevo botón en el formulario de empresas para analizar el estado actual del riesgo de una empresa.\n"
+"Muestra información actual referente a la deuda en facturas, albaranes, etc.\n"
 "\n"
-"También modifica el flujo de trabajo de los pedidos de venta añadiendo un "
-"nuevo paso cuando se excede el crédito concedido de la empresa."
+"También modifica el flujo de trabajo de los pedidos de venta añadiendo un nuevo paso cuando se excede el crédito concedido de la empresa."
 
 #. module: nan_partner_risk
 #: wizard_button:open_risk_window,init,end:0
 msgid "Close"
 msgstr "Cerrar"
+
