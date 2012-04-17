@@ -75,13 +75,15 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
         ctx = context.copy()
         ctx.update({'state': target_move,
                     'all_fiscalyear': True})
-
+        # Add fiscalyear in context
+        if fiscalyear:
+            ctx.update({'fiscalyear': fiscalyear.id})
         if use_period_ids:
             ctx.update({'periods': period_ids,})
         elif main_filter == 'filter_date':
             ctx.update({'date_from': start,
                         'date_to': stop})
-
+        
         accounts = account_obj.read(self.cursor, self.uid, account_ids, ['type','code','name','debit','credit', 'balance', 'parent_id','level','child_id'], ctx)
 
         accounts_by_id = {}
