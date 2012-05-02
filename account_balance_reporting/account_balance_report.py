@@ -521,7 +521,10 @@ class account_balance_report_line(osv.osv):
                         ], context=context)
 
                 if len(account_ids) > 0:
-                    res += acc_facade.browse(cr, uid, account_ids, context)[0].balance * sign
+                    if ((mode == 'debit' and balance > 0.0) or 
+                            (mode == 'credit' and balance < 0.0) or
+                            (mode == 'balance')):
+                        res += acc_facade.browse(cr, uid, account_ids, context)[0].balance * sign
                 else:
                     netsvc.Logger().notifyChannel('account_balance_report', netsvc.LOG_WARNING, "Account with code '%s' not found!" % account_code)
 
