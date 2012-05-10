@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-07 05:34+0000\n"
-"X-Generator: Launchpad (build 14907)\n"
+"X-Launchpad-Export-Date: 2012-05-10 05:29+0000\n"
+"X-Generator: Launchpad (build 15213)\n"
 
 #. module: product_expiry
 #: field:stock.production.lot,alert_date:0
@@ -26,7 +26,7 @@ msgstr ""
 #: model:product.uom,name:product_expiry.product_uom_ltr
 #: model:product.uom.categ,name:product_expiry.product_uom_categ_vol
 msgid "LTR"
-msgstr ""
+msgstr "LTR"
 
 #. module: product_expiry
 #: view:product.product:0
@@ -47,7 +47,7 @@ msgstr "Leite de vaca"
 #. module: product_expiry
 #: model:ir.module.module,shortdesc:product_expiry.module_meta_information
 msgid "Products date of expiry"
-msgstr "Data de validade dos produtos"
+msgstr "Data de validade dos artigos"
 
 #. module: product_expiry
 #: field:product.product,alert_time:0
