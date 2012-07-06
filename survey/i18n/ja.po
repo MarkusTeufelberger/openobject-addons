@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-07-05 04:56+0000\n"
-"X-Generator: Launchpad (build 15544)\n"
+"X-Launchpad-Export-Date: 2012-07-06 05:06+0000\n"
+"X-Generator: Launchpad (build 15558)\n"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_survey_form1
@@ -68,7 +68,7 @@ msgstr ""
 #. module: survey
 #: field:survey,date_open:0
 msgid "Survey Open Date"
-msgstr ""
+msgstr "調査開設日"
 
 #. module: survey
 #: model:ir.model,name:survey.model_survey_name_wiz
@@ -209,7 +209,7 @@ msgstr ""
 #. module: survey
 #: field:survey.name.wiz,transfer:0
 msgid "Page Transfer"
-msgstr ""
+msgstr "ページ転送"
 
 #. module: survey
 #: field:survey.answer,question_id:0
@@ -250,7 +250,7 @@ msgstr ""
 #. module: survey
 #: view:survey.send.invitation.log:0
 msgid "_Ok"
-msgstr ""
+msgstr "OK"
 
 #. module: survey
 #: selection:survey.response,response_type:0
@@ -286,7 +286,7 @@ msgstr ""
 #: field:survey.response.answer,comment_field:0
 #: view:survey.response.line:0
 msgid "Comment"
-msgstr ""
+msgstr "コメント"
 
 msgid "Modify Date"
 msgstr ""
@@ -298,12 +298,12 @@ msgstr ""
 #: code:addons/survey/wizard/survey_selection.py:80
 #, python-format
 msgid "You can not give response for this survey more than %s times"
-msgstr ""
+msgstr "この調査には %s 回を超えての応答はできません。"
 
 #. module: survey
 #: selection:survey.response,response_type:0
 msgid "Manually"
-msgstr ""
+msgstr "手動"
 
 msgid "All Surveys"
 msgstr ""
@@ -311,22 +311,22 @@ msgstr ""
 #. module: survey
 #: field:survey,users:0
 msgid "Users"
-msgstr ""
+msgstr "ユーザ"
 
 #. module: survey
 #: view:survey.send.invitation:0
 msgid "Message"
-msgstr ""
+msgstr "メッセージ"
 
 #. module: survey
 #: field:survey.name.wiz,page_no:0
 msgid "Page Number"
-msgstr ""
+msgstr "ページ番号"
 
 #. module: survey
 #: field:survey.send.invitation.log,note:0
 msgid "Log"
-msgstr ""
+msgstr "ログ"
 
 msgid "All Survey Questions"
 msgstr ""
@@ -334,24 +334,24 @@ msgstr ""
 #. module: survey
 #: field:survey,date_close:0
 msgid "Survey Close Date"
-msgstr ""
+msgstr "調査閉鎖日"
 
 #. module: survey
 #: view:survey.browse.answer:0
 #: view:survey.name.wiz:0
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #. module: survey
 #: selection:survey.request,state:0
 #: selection:survey.response.line,state:0
 msgid "Draft"
-msgstr ""
+msgstr "ドラフト"
 
 #. module: survey
 #: selection:survey,state:0
 msgid "Closed"
-msgstr ""
+msgstr "閉鎖"
 
 #. module: survey
 #: view:survey:0
@@ -373,7 +373,7 @@ msgstr ""
 #: field:survey.send.invitation,partner_ids:0
 #: field:survey.tbl.column.heading,response_table_id:0
 msgid "Answer"
-msgstr ""
+msgstr "回答"
 
 msgid "All Survey Pages"
 msgstr ""
@@ -381,14 +381,14 @@ msgstr ""
 #. module: survey
 #: field:survey.name.wiz,store_ans:0
 msgid "Store Answer"
-msgstr ""
+msgstr "回答の保存"
 
 #. module: survey
 #: field:survey,state:0
 #: field:survey.response,state:0
 #: field:survey.response.line,state:0
 msgid "Status"
-msgstr ""
+msgstr "状態"
 
 #. module: survey
 #: model:ir.module.module,shortdesc:survey.module_meta_information
@@ -412,14 +412,14 @@ msgstr ""
 #: view:survey:0
 #: view:survey.name.wiz:0
 msgid "Survey Details"
-msgstr ""
+msgstr "調査の詳細"
 
 #. module: survey
 #: view:survey:0
 #: view:survey.page:0
 #: view:survey.question:0
 msgid "Required Answer"
-msgstr ""
+msgstr "必要回答数"
 
 #. module: survey
 #: field:survey.history,user_id:0
@@ -427,12 +427,12 @@ msgstr ""
 #: field:survey.request,user_id:0
 #: field:survey.response,user_id:0
 msgid "User"
-msgstr ""
+msgstr "ユーザ"
 
 #. module: survey
 #: field:res.users,survey_id:0
 msgid "Groups"
-msgstr ""
+msgstr "グループ"
 
 msgid "Response"
 msgstr ""
@@ -446,7 +446,7 @@ msgstr ""
 #. module: survey
 #: selection:survey.response.line,state:0
 msgid "Skiped"
-msgstr ""
+msgstr "スキップ済"
 
 #. module: survey
 #: model:ir.model,name:survey.model_survey_answer
@@ -456,7 +456,7 @@ msgstr ""
 #: view:survey.response.answer:0
 #: view:survey.response.line:0
 msgid "Survey Answer"
-msgstr ""
+msgstr "調査の回答"
 
 #, python-format
 msgid "Attention!"
@@ -481,7 +481,7 @@ msgstr ""
 #: field:survey.request,survey_id:0
 #: field:survey.response,survey_id:0
 msgid "Survey"
-msgstr ""
+msgstr "調査"
 
 msgid "Total Completed Survey :-"
 msgstr ""
@@ -489,7 +489,7 @@ msgstr ""
 #. module: survey
 #: view:survey:0
 msgid "History"
-msgstr ""
+msgstr "履歴"
 
 #. module: survey
 #: view:survey:0
@@ -497,7 +497,7 @@ msgstr ""
 #: view:survey.page:0
 #: view:survey.question:0
 msgid "Seq"
-msgstr ""
+msgstr "順序"
 
 #. module: survey
 #: field:survey,tot_comp_survey:0
@@ -519,7 +519,7 @@ msgstr ""
 #: view:survey.request:0
 #: selection:survey.request,state:0
 msgid "Done"
-msgstr ""
+msgstr "完了"
 
 #, python-format
 msgid "'\" + que_rec[0]['question'] + \"' This question requires an answer."
@@ -533,23 +533,23 @@ msgstr ""
 #: view:survey.print.answer:0
 #: view:survey.print.statistics:0
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #. module: survey
 #: view:survey:0
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 #. module: survey
 #: view:survey:0
 #: selection:survey,state:0
 msgid "Open"
-msgstr ""
+msgstr "開く"
 
 #. module: survey
 #: field:survey,tot_start_survey:0
 msgid "Total Started Survey"
-msgstr ""
+msgstr "開始した調査合計"
 
 #. module: survey
 #: constraint:ir.model:0
@@ -563,7 +563,7 @@ msgstr ""
 #. module: survey
 #: field:survey.answer,average:0
 msgid "#Avg"
-msgstr ""
+msgstr "平均数"
 
 #. module: survey
 #: view:survey:0
@@ -574,23 +574,23 @@ msgstr "担当"
 #. module: survey
 #: selection:survey.response.line,state:0
 msgid "Answered"
-msgstr ""
+msgstr "回答済"
 
 #. module: survey
 #: view:survey:0
 msgid "Other"
-msgstr ""
+msgstr "その他"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_view_survey_send_invitation
 #: view:survey.send.invitation:0
 msgid "Send Invitation"
-msgstr ""
+msgstr "招待の送信"
 
 #. module: survey
 #: field:survey,title:0
 msgid "Survey Title"
-msgstr ""
+msgstr "調査タイトル"
 
 msgid "%"
 msgstr ""
@@ -603,12 +603,12 @@ msgstr ""
 #: field:survey.page,note:0
 #: view:survey.response.line:0
 msgid "Description"
-msgstr ""
+msgstr "詳細"
 
 #. module: survey
 #: view:survey.name.wiz:0
 msgid "Select Survey"
-msgstr ""
+msgstr "調査の選択"
 
 msgid "New Survey Page"
 msgstr ""
@@ -618,18 +618,18 @@ msgstr ""
 #: view:survey.page:0
 #: field:survey.question,page_id:0
 msgid "Survey Page"
-msgstr ""
+msgstr "調査ページ"
 
 #. module: survey
 #: model:ir.actions.report.xml,name:survey.survey_browse_response
 #: field:survey.browse.answer,response_id:0
 msgid "Survey Answers"
-msgstr ""
+msgstr "調査の回答"
 
 #. module: survey
 #: view:survey.page:0
 msgid "#Questions"
-msgstr ""
+msgstr "質問数"
 
 msgid "Que:"
 msgstr ""
@@ -639,18 +639,18 @@ msgstr ""
 #: view:survey.question:0
 #: field:survey.response.line,page_id:0
 msgid "Page"
-msgstr ""
+msgstr "ページ"
 
 #. module: survey
 #: view:survey.send.invitation.log:0
 msgid "User creation"
-msgstr ""
+msgstr "ユーザの作成"
 
 #. module: survey
 #: field:survey.answer,sequence:0
 #: field:survey.question,sequence:0
 msgid "Sequence"
-msgstr ""
+msgstr "順序"
 
 #. module: survey
 #: view:survey.send.invitation.log:0
@@ -661,7 +661,7 @@ msgstr "結果："
 #: code:addons/survey/wizard/survey_send_invitation.py:74
 #, python-format
 msgid "%sSurvey is not in open state"
-msgstr ""
+msgstr "%s 調査は開いた状態ではありません。"
 
 #. module: survey
 #: view:survey.send.invitation:0
@@ -672,7 +672,7 @@ msgstr "パートナの選択"
 #: field:survey.response,date_create:0
 #: field:survey.response.line,date_create:0
 msgid "Create Date"
-msgstr ""
+msgstr "作成日"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_survey_page_form
@@ -680,7 +680,7 @@ msgstr ""
 #: model:ir.ui.menu,name:survey.menu_survey_page_form1
 #: view:survey.page:0
 msgid "Survey Pages"
-msgstr ""
+msgstr "調査ページ"
 
 msgid "Response Count"
 msgstr ""
@@ -688,4 +688,4 @@ msgstr ""
 #. module: survey
 #: field:survey.name.wiz,page:0
 msgid "Page Position"
-msgstr ""
+msgstr "ページ位置"
