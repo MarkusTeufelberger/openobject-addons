@@ -110,9 +110,15 @@
 
             comparisons = current_account.comparisons
 
-            all_comparison_lines = [comp['partners_amounts'][partner_id[1]] for partner_id in partners_order for comp in comparisons]
-            if not current_account.balance and not any([line.get('balance') for line in all_comparison_lines]):
-                continue
+            # in single mode, we have to display all the partners
+            # even if their balance is 0.0 because the initial balance,
+            # debit and credit should match with the previous year closings
+
+            # in multiple columns mode, we do not want to print rows with a zero balance
+            if comparison_mode in ('single', 'multiple'):
+                all_comparison_lines = [comp['partners_amounts'][partner_id[1]] for partner_id in partners_order for comp in comparisons]
+                if not any([line.get('balance') for line in all_comparison_lines]):
+                    continue
 
             current_partner_amounts = current_account.partners_amounts
 
@@ -178,9 +184,15 @@
                         <%
                         partner = current_partner_amounts.get(partner_id, {})
 
-                        all_comparison_lines = [comp['partners_amounts'][partner_id] for comp in comparisons if comp['partners_amounts'].get(partner_id)]
-                        if not partner.get('balance') and not any([line.get('balance') for line in all_comparison_lines]):
-                            continue
+                        # in single mode, we have to display all the partners
+                        # even if their balance is 0.0 because the initial balance,
+                        # debit and credit should match with the previous year closings
+
+                        # in multiple columns mode, we do not want to print rows with a zero balance
+                        if comparison_mode in ('single', 'multiple'):
+                            all_comparison_lines = [comp['partners_amounts'][partner_id] for comp in comparisons if comp['partners_amounts'].get(partner_id)]
+                            if not any([line.get('balance') for line in all_comparison_lines]):
+                                continue
 
                         total_initial_balance += partner.get('init_balance', 0.0)
                         total_debit += partner.get('debit', 0.0)
