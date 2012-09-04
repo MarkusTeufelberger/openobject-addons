@@ -62,3 +62,13 @@ class AccountAccount(osv.osv):
     }
 
 AccountAccount()
+
+
+class account_period(osv.osv):
+    _inherit = 'account.period'
+
+    _columns = {
+        'first_special_period': fields.boolean('First Special Period'),
+    }
+
+account_period()

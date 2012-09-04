@@ -168,7 +168,11 @@ class CommonPartnersReportHeaderWebkit(CommonReportHeaderWebkit):
         # take ALL previous periods
         period_ids = force_period_ids \
                      if force_period_ids \
-                     else self._get_period_range_from_start_period(start_period, fiscalyear=False, include_opening=False)
+                     else self._get_period_range_from_start_period(
+                             start_period,
+                             fiscalyear=False,
+                             include_opening=False,
+                             include_first_special_period=True)
 
         if not period_ids:
             period_ids = [-1]
@@ -200,9 +204,13 @@ class CommonPartnersReportHeaderWebkit(CommonReportHeaderWebkit):
         This function will sum pear and apple in currency amount if account as no secondary currency"""
         if isinstance(account_ids, (int, long)):
             account_ids = [account_ids]
-        move_line_ids = self._partners_initial_balance_line_ids(account_ids, start_period, partner_filter,
-                                                                exclude_reconcile=exclude_reconcile,
-                                                                force_period_ids=force_period_ids)
+        move_line_ids = self._partners_initial_balance_line_ids(
+                account_ids,
+                start_period,
+                partner_filter,
+                exclude_reconcile=exclude_reconcile,
+                force_period_ids=force_period_ids)
+
         if not move_line_ids:
             move_line_ids = [{'id': -1}]
         sql = ("SELECT ml.account_id, ml.partner_id,"

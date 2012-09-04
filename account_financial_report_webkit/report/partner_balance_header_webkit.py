@@ -82,7 +82,11 @@ class CommonPartnerBalanceReportHeaderWebkit(CommonBalanceReportHeaderWebkit, Co
             opening_period_selected = self.get_included_opening_period(start_period)
             res = self._compute_partners_initial_balances(account_ids, start_period, partner_filter_ids, force_period_ids=opening_period_selected, exclude_reconcile=exclude_reconcile)
         elif initial_balance_mode == 'initial_balance':
-            res = self._compute_partners_initial_balances(account_ids, start_period, partner_filter_ids, exclude_reconcile=exclude_reconcile)
+            res = self._compute_partners_initial_balances(
+                    account_ids,
+                    start_period,
+                    partner_filter_ids,
+                    exclude_reconcile=exclude_reconcile)
         else:
             res = {}
         return res

@@ -245,8 +245,14 @@ class CommonReportHeaderWebkit(object):
         return res
 
     def _get_period_range_from_start_period(self, start_period, include_opening=False,
-                                            fiscalyear=False, stop_at_previous_opening=False):
-        """We retrieve all periods before start period"""
+                                            fiscalyear=False,
+                                            stop_at_previous_opening=False,
+                                            include_first_special_period=False):
+        """We retrieve all periods before start period
+
+        :param boolean include_initial_period: if flagged, it will include the
+            first special period being the first period of the accounting
+        """
         opening_period_id = False
         past_limit = []
         period_obj = self.pool.get('account.period')
@@ -254,7 +260,7 @@ class CommonReportHeaderWebkit(object):
         # We look for previous opening period
         if stop_at_previous_opening:
             opening_search = [('special', '=', True),
-                             ('date_stop', '<', start_period.date_start)]
+                              ('date_stop', '<', start_period.date_start)]
             if fiscalyear:
                 opening_search.append(('fiscalyear_id', '=', fiscalyear.id))
 
@@ -277,6 +283,8 @@ class CommonReportHeaderWebkit(object):
         periods_search += past_limit
 
         if not include_opening:
+            if include_first_special_period:
+                periods_search += ['|', ('first_special_period', '=', True)]
             periods_search += [('special', '=', False)]
 
         if fiscalyear :
