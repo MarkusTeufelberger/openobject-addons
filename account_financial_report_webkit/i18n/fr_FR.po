@@ -273,6 +273,13 @@ msgstr "Filtre par période"
 msgid "Initial Balance"
 msgstr "Solde à nouveau"
 
+
+#. module: account_financial_report_webkit
+#: rml:account.account_report_general_ledger_webkit:38
+#: rml:account.account_report_general_ledger_webkit:139
+msgid "Account"
+msgstr "Compte"
+
 #. module: account_financial_report_webkit
 #: field:account.common.balance.report,period_to:0
 #: field:account.report.general.ledger.webkit,period_to:0
