@@ -180,6 +180,7 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
                                                              start,
                                                              stop,
                                                              target_move,
+                                                             opening_mode='exclude_opening',
                                                              exclude_reconcile=False,
                                                              partner_filter=partner_filter)
             if not move_line_ids:
