@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-05-10 05:29+0000\n"
-"X-Generator: Launchpad (build 15213)\n"
+"X-Launchpad-Export-Date: 2012-09-08 05:02+0000\n"
+"X-Generator: Launchpad (build 15914)\n"
 
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_survey_form1
@@ -32,7 +32,7 @@ msgstr ""
 #. module: survey
 #: model:ir.actions.act_window,name:survey.action_survey_question_form
 msgid "Survey Questions"
-msgstr ""
+msgstr "Enkätfrågor"
 
 #. module: survey
 #: view:survey:0
@@ -47,7 +47,7 @@ msgstr ""
 #. module: survey
 #: field:survey.history,date:0
 msgid "Date started"
-msgstr ""
+msgstr "Startdatum"
 
 #. module: survey
 #: field:survey,history:0
@@ -85,7 +85,7 @@ msgstr ""
 #: view:survey.page:0
 #: view:survey.question:0
 msgid "Survey Question"
-msgstr ""
+msgstr "Enkätfråga"
 
 msgid "Set to one if  you require only one response per user"
 msgstr ""
@@ -98,13 +98,13 @@ msgstr "Sidrubrik"
 #. module: survey
 #: model:ir.model,name:survey.model_survey_history
 msgid "Survey History"
-msgstr ""
+msgstr "Enkäthistorik"
 
 #. module: survey
 #: field:survey.response.answer,comment:0
 #: field:survey.response.line,comment:0
 msgid "Notes"
-msgstr ""
+msgstr "Anteckningar"
 
 msgid "Total Response"
 msgstr ""
@@ -119,7 +119,7 @@ msgstr "Dina meddelanden"
 #: view:survey.request:0
 #: selection:survey.request,state:0
 msgid "Cancelled"
-msgstr ""
+msgstr "Avbruten"
 
 #. module: survey
 #: field:survey.question,allow_comment:0
@@ -172,13 +172,13 @@ msgstr ""
 #: code:addons/survey/wizard/survey_send_invitation.py:74
 #, python-format
 msgid "Warning !"
-msgstr ""
+msgstr "Varning !"
 
 #. module: survey
 #: view:survey.send.invitation:0
 #: field:survey.send.invitation,send_mail_existing:0
 msgid "Send reminder for existing user"
-msgstr ""
+msgstr "Skicka påminnelse till befintliga användare"
 
 msgid "New Survey Question"
 msgstr ""
@@ -193,7 +193,7 @@ msgstr ""
 #: field:survey.send.invitation,mail_subject:0
 #: field:survey.send.invitation,mail_subject_existing:0
 msgid "Subject"
-msgstr ""
+msgstr "Ämne"
 
 msgid "Maximum Response Limit"
 msgstr ""
@@ -201,7 +201,7 @@ msgstr ""
 #. module: survey
 #: field:survey.send.invitation,mail_from:0
 msgid "From"
-msgstr ""
+msgstr "Från"
 
 msgid "Response Type"
 msgstr ""
@@ -218,7 +218,7 @@ msgstr ""
 #: field:survey.question.column.heading,question_id:0
 #: field:survey.response.line,question_id:0
 msgid "Question"
-msgstr ""
+msgstr "Fråga"
 
 #. module: survey
 #: view:survey.send.invitation:0
@@ -510,7 +510,7 @@ msgstr ""
 #. module: survey
 #: field:survey.question.wiz,name:0
 msgid "Number"
-msgstr ""
+msgstr "Nummer"
 
 msgid "Survey Title :-"
 msgstr ""
@@ -569,7 +569,7 @@ msgstr ""
 #: view:survey:0
 #: field:survey,responsible_id:0
 msgid "Responsible"
-msgstr ""
+msgstr "Ansvarig"
 
 #. module: survey
 #: selection:survey.response.line,state:0
