@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-09-08 05:03+0000\n"
-"X-Generator: Launchpad (build 15914)\n"
+"X-Launchpad-Export-Date: 2012-11-27 05:41+0000\n"
+"X-Generator: Launchpad (build 16309)\n"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
@@ -62,10 +62,12 @@ msgid "Asset Method Defaults"
 msgstr "Valores por defecto método de activo"
 
 #. module: account_asset
-#: view:account.asset.asset:0 field:account.asset.asset,name:0
+#: view:account.asset.asset:0
 #: field:account.asset.depreciation.line,asset_id:0
-#: field:account.asset.history,asset_id:0 field:account.move.line,asset_id:0
-#: view:asset.asset.report:0 field:asset.asset.report,asset_id:0
+#: field:account.asset.history,asset_id:0
+#: field:account.move.line,asset_id:0
+#: view:asset.asset.report:0
+#: field:asset.asset.report,asset_id:0
 #: model:ir.model,name:account_asset.model_account_asset_asset
 msgid "Asset"
 msgstr "Activo"
@@ -142,6 +144,7 @@ msgid "Asset Categories"
 msgstr "Categorías de activo"
 
 #. module: account_asset
+#: view:account.asset.asset:0
 #: field:account.asset.asset,account_move_line_ids:0
 #: field:account.move.line,entry_ids:0
 #: model:ir.actions.act_window,name:account_asset.act_entries_open
@@ -196,7 +199,8 @@ msgid "Open entries"
 msgstr "Abrir asientos"
 
 #. module: account_asset
-#: view:account.asset.asset:0 view:asset.asset.report:0
+#: view:account.asset.asset:0
+#: view:asset.asset.report:0
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_form
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_form
 #: model:ir.ui.menu,name:account_asset.menu_finance_assets
@@ -227,8 +231,11 @@ msgid "Creation of Usage Lines"
 msgstr "Creación de líneas de uso."
 
 #. module: account_asset
-#: view:account.asset.asset:0 view:account.asset.category:0
-#: view:account.asset.history:0 view:asset.modify:0 field:asset.modify,note:0
+#: view:account.asset.asset:0
+#: view:account.asset.category:0
+#: view:account.asset.history:0
+#: view:asset.modify:0
+#: field:asset.modify,note:0
 msgid "Notes"
 msgstr "Notas"
 
@@ -440,7 +447,8 @@ msgid "Modify Method"
 msgstr "Modificar método"
 
 #. module: account_asset
-#: field:account.asset.asset,method:0 field:account.asset.category,method:0
+#: field:account.asset.asset,method:0
+#: field:account.asset.category,method:0
 msgid "Computation Method"
 msgstr "Método de cálculo"
 
@@ -636,7 +644,7 @@ msgstr "Categoría padre"
 #. module: account_asset
 #: field:account.asset.history,name:0
 msgid "History name"
-msgstr "Nombre histórico"
+msgstr "Nombre del histórico"
 
 #. module: account_asset
 #: wizard_button:account.asset.reval,init,asset_reval:0
@@ -789,7 +797,7 @@ msgid "Resuming because: "
 msgstr "Reactivación por: "
 
 #. module: account_asset
-#: field:account.asset.asset,category_id:0 view:account.asset.category:0
+#: view:account.asset.category:0
 #: field:asset.asset.report,asset_category_id:0
 #: model:ir.model,name:account_asset.model_account_asset_category
 msgid "Asset category"
@@ -831,13 +839,15 @@ msgid "Residual"
 msgstr "Valor residual"
 
 #. module: account_asset
-#: field:account.asset.asset,note:0 field:account.asset.category,note:0
+#: field:account.asset.asset,note:0
+#: field:account.asset.category,note:0
 #: field:account.asset.history,note:0
 msgid "Note"
 msgstr "Nota"
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0 view:asset.asset.report:0
+#: selection:account.asset.asset,state:0
+#: view:asset.asset.report:0
 #: selection:asset.asset.report,state:0
 msgid "Draft"
 msgstr "Borrador"
@@ -958,7 +968,6 @@ msgid "year %s !"
 msgstr "año %s !"
 
 #. module: account_asset
-#: view:account.asset.asset:0
 #: view:account.asset.history:0
 msgid "Asset History"
 msgstr "Histórico del activo"
@@ -1044,7 +1053,8 @@ msgid "Method Modyfying"
 msgstr "Modificación del método"
 
 #. module: account_asset
-#: view:account.asset.asset:0 field:account.asset.asset,history_ids:0
+#: view:account.asset.asset:0
+#: field:account.asset.asset,history_ids:0
 msgid "History"
 msgstr "Historia"
 
@@ -1119,7 +1129,10 @@ msgstr ""
 "después."
 
 #. module: account_asset
-#: field:account.invoice.line,asset_category_id:0 view:asset.asset.report:0
+#: field:account.asset.asset,category_id:0
+#: view:account.asset.category:0
+#: field:account.invoice.line,asset_category_id:0
+#: view:asset.asset.report:0
 msgid "Asset Category"
 msgstr "Categoría de activo"
 
@@ -1130,12 +1143,14 @@ msgid "Changing of method parameters to:"
 msgstr "Cambiando los parámetros del método a:"
 
 #. module: account_asset
-#: view:asset.depreciation.confirmation.wizard:0 view:asset.modify:0
+#: view:asset.depreciation.confirmation.wizard:0
+#: view:asset.modify:0
 msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0 selection:asset.asset.report,state:0
+#: selection:account.asset.asset,state:0
+#: selection:asset.asset.report,state:0
 msgid "Close"
 msgstr "Cerrar"
 
@@ -1359,7 +1374,7 @@ msgid "Total Change"
 msgstr "Total cambio"
 
 #. module: account_asset
-#: field:account.asset.method,value_total:0
+#: field:account.asset.asset,purchase_value:0
 msgid "Gross Value"
 msgstr "Valor bruto"
 

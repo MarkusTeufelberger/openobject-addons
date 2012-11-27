@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-09-08 05:03+0000\n"
-"X-Generator: Launchpad (build 15914)\n"
+"X-Launchpad-Export-Date: 2012-11-27 05:41+0000\n"
+"X-Generator: Launchpad (build 16309)\n"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
@@ -31,12 +31,12 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.asset,value_residual:0
 msgid "Residual Value"
-msgstr ""
+msgstr "Остаточная стоимость"
 
 #. module: account_asset
 #: field:account.asset.category,account_expense_depreciation_id:0
 msgid "Depr. Expense Account"
-msgstr ""
+msgstr "Счет амортизационных отчислений"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -60,10 +60,12 @@ msgid "Asset Method Defaults"
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.asset:0 field:account.asset.asset,name:0
+#: view:account.asset.asset:0
 #: field:account.asset.depreciation.line,asset_id:0
-#: field:account.asset.history,asset_id:0 field:account.move.line,asset_id:0
-#: view:asset.asset.report:0 field:asset.asset.report,asset_id:0
+#: field:account.asset.history,asset_id:0
+#: field:account.move.line,asset_id:0
+#: view:asset.asset.report:0
+#: field:asset.asset.report,asset_id:0
 #: model:ir.model,name:account_asset.model_account_asset_asset
 msgid "Asset"
 msgstr "Основное средство"
@@ -132,9 +134,10 @@ msgstr ""
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_list_normal
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_list_normal
 msgid "Asset Categories"
-msgstr ""
+msgstr "Категории активов"
 
 #. module: account_asset
+#: view:account.asset.asset:0
 #: field:account.asset.asset,account_move_line_ids:0
 #: field:account.move.line,entry_ids:0
 #: model:ir.actions.act_window,name:account_asset.act_entries_open
@@ -186,7 +189,8 @@ msgid "Open entries"
 msgstr "Открытые записи"
 
 #. module: account_asset
-#: view:account.asset.asset:0 view:asset.asset.report:0
+#: view:account.asset.asset:0
+#: view:asset.asset.report:0
 #: model:ir.actions.act_window,name:account_asset.action_account_asset_asset_form
 #: model:ir.ui.menu,name:account_asset.menu_action_account_asset_asset_form
 #: model:ir.ui.menu,name:account_asset.menu_finance_assets
@@ -197,7 +201,7 @@ msgstr "Основные средства"
 #. module: account_asset
 #: field:account.asset.category,account_depreciation_id:0
 msgid "Depreciation Account"
-msgstr ""
+msgstr "Счет амортизации"
 
 #. module: account_asset
 #: help:account.asset.method.defaults,method_type:0
@@ -216,8 +220,11 @@ msgid "Creation of Usage Lines"
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.asset:0 view:account.asset.category:0
-#: view:account.asset.history:0 view:asset.modify:0 field:asset.modify,note:0
+#: view:account.asset.asset:0
+#: view:account.asset.category:0
+#: view:account.asset.history:0
+#: view:asset.modify:0
+#: field:asset.modify,note:0
 msgid "Notes"
 msgstr "Примечания"
 
@@ -266,7 +273,7 @@ msgstr ""
 #. module: account_asset
 #: view:account.asset.asset:0
 msgid "Other Information"
-msgstr ""
+msgstr "Прочая информация"
 
 #. module: account_asset
 #: wizard_button:account.asset.abandon,init,asset_abandon:0
@@ -301,7 +308,7 @@ msgstr ""
 #: selection:account.asset.category,method_time:0
 #: selection:account.asset.history,method_time:0
 msgid "Ending Date"
-msgstr ""
+msgstr "Дата окончания"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
@@ -415,9 +422,10 @@ msgid "Modify Method"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,method:0 field:account.asset.category,method:0
+#: field:account.asset.asset,method:0
+#: field:account.asset.category,method:0
 msgid "Computation Method"
-msgstr ""
+msgstr "Метод вычисления"
 
 #. module: account_asset
 #: help:account.asset.method,method_salvage:0
@@ -483,7 +491,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.asset,salvage_value:0
 msgid "Salvage Value"
-msgstr ""
+msgstr "Ликвидационная стоимость"
 
 #. module: account_asset
 #: model:ir.actions.wizard,name:account_asset.wizard_asset_usage_createlines
@@ -504,7 +512,7 @@ msgstr ""
 #. module: account_asset
 #: model:ir.model,name:account_asset.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Счет"
 
 #. module: account_asset
 #: help:account.asset.method.usage,usage:0
@@ -647,7 +655,7 @@ msgstr ""
 #. module: account_asset
 #: view:account.asset.asset:0
 msgid "Depreciation Board"
-msgstr ""
+msgstr "Панель амортизации"
 
 #. module: account_asset
 #: model:ir.actions.act_window,name:account_asset.asset_category_action
@@ -735,11 +743,11 @@ msgid "Resuming because: "
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,category_id:0 view:account.asset.category:0
+#: view:account.asset.category:0
 #: field:asset.asset.report,asset_category_id:0
 #: model:ir.model,name:account_asset.model_account_asset_category
 msgid "Asset category"
-msgstr ""
+msgstr "Категория актива"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset_invoice.py:0
@@ -773,13 +781,15 @@ msgid "Residual"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.asset,note:0 field:account.asset.category,note:0
+#: field:account.asset.asset,note:0
+#: field:account.asset.category,note:0
 #: field:account.asset.history,note:0
 msgid "Note"
 msgstr "Примечание"
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0 view:asset.asset.report:0
+#: selection:account.asset.asset,state:0
+#: view:asset.asset.report:0
 #: selection:asset.asset.report,state:0
 msgid "Draft"
 msgstr "Черновик"
@@ -797,7 +807,7 @@ msgstr ""
 #. module: account_asset
 #: view:account.asset.asset:0
 msgid "Closed"
-msgstr ""
+msgstr "Закрыто"
 
 #. module: account_asset
 #: help:account.asset.asset,state:0
@@ -889,7 +899,6 @@ msgid "year %s !"
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.asset:0
 #: view:account.asset.history:0
 msgid "Asset History"
 msgstr ""
@@ -935,7 +944,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.category,account_asset_id:0
 msgid "Asset Account"
-msgstr ""
+msgstr "Счет активов"
 
 #. module: account_asset
 #: wizard_view:account.asset.initial,init:0
@@ -966,7 +975,8 @@ msgid "Method Modyfying"
 msgstr ""
 
 #. module: account_asset
-#: view:account.asset.asset:0 field:account.asset.asset,history_ids:0
+#: view:account.asset.asset:0
+#: field:account.asset.asset,history_ids:0
 msgid "History"
 msgstr "История"
 
@@ -1000,7 +1010,7 @@ msgstr ""
 #. module: account_asset
 #: field:asset.depreciation.confirmation.wizard,period_id:0
 msgid "Period"
-msgstr ""
+msgstr "Период"
 
 #. module: account_asset
 #: help:account.asset.method,account_actif_id:0
@@ -1033,9 +1043,12 @@ msgid ""
 msgstr ""
 
 #. module: account_asset
-#: field:account.invoice.line,asset_category_id:0 view:asset.asset.report:0
+#: field:account.asset.asset,category_id:0
+#: view:account.asset.category:0
+#: field:account.invoice.line,asset_category_id:0
+#: view:asset.asset.report:0
 msgid "Asset Category"
-msgstr ""
+msgstr "Категория актива"
 
 #. module: account_asset
 #: code:addons/account_asset/account_asset.py:0
@@ -1044,14 +1057,16 @@ msgid "Changing of method parameters to:"
 msgstr ""
 
 #. module: account_asset
-#: view:asset.depreciation.confirmation.wizard:0 view:asset.modify:0
+#: view:asset.depreciation.confirmation.wizard:0
+#: view:asset.modify:0
 msgid "Cancel"
-msgstr ""
+msgstr "Отменена"
 
 #. module: account_asset
-#: selection:account.asset.asset,state:0 selection:asset.asset.report,state:0
+#: selection:account.asset.asset,state:0
+#: selection:asset.asset.report,state:0
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #. module: account_asset
 #: wizard_view:account.asset.localisation,init:0
@@ -1201,7 +1216,7 @@ msgstr ""
 #. module: account_asset
 #: field:account.asset.category,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Журнал"
 
 #. module: account_asset
 #: field:account.asset.category,code:0
@@ -1258,7 +1273,7 @@ msgid "Total Change"
 msgstr ""
 
 #. module: account_asset
-#: field:account.asset.method,value_total:0
+#: field:account.asset.asset,purchase_value:0
 msgid "Gross Value"
 msgstr ""
 
@@ -1511,3 +1526,6 @@ msgstr ""
 
 #~ msgid "Computation method"
 #~ msgstr "Способ расчета"
+
+#~ msgid "Asset Hierarchy"
+#~ msgstr "Структура активов"
