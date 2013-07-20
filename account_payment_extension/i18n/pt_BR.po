@@ -7,15 +7,14 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 6.1beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-17 20:52+0000\n"
-"PO-Revision-Date: 2012-01-25 17:18+0000\n"
-"Last-Translator: Renato Lima - http://www.akretion.com "
-"<renatonlima@gmail.com>\n"
+"PO-Revision-Date: 2013-07-19 16:22+0000\n"
+"Last-Translator: Claudio de Araujo Santos <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-27 05:50+0000\n"
-"X-Generator: Launchpad (build 16681)\n"
+"X-Launchpad-Export-Date: 2013-07-20 05:49+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 
 #. module: account_payment_extension
 #: selection:payment.order,type:0
@@ -48,7 +47,7 @@ msgstr ""
 #. module: account_payment_extension
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr ""
+msgstr "Nome do modelo inválido na definição da ação."
 
 #. module: account_payment_extension
 #: help:payment.type,code:0
@@ -81,7 +80,7 @@ msgstr "Receber"
 #. module: account_payment_extension
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr ""
+msgstr "Inválido XML para Ver Arquitetura!"
 
 #. module: account_payment_extension
 #: field:payment.mode,require_bank_account:0
@@ -106,7 +105,7 @@ msgstr "Linha de Pagamento"
 #. module: account_payment_extension
 #: constraint:ir.ui.menu:0
 msgid "Error ! You can not create recursive Menu."
-msgstr ""
+msgstr "Erro! Você não pode criar menus recursiva."
 
 #. module: account_payment_extension
 #: model:ir.model,name:account_payment_extension.model_payment_mode
@@ -203,6 +202,7 @@ msgstr "Tipo de Pagamento Cliente"
 #: help:populate_payment_ext,init,amount:0
 msgid "Next step will automatically select payments up to this amount."
 msgstr ""
+"O próximo passo vai selecionar automaticamente os pagamentos até esse valor."
 
 #. module: account_payment_extension
 #: wizard_field:populate_payment_ext,search,entries:0
@@ -345,7 +345,7 @@ msgstr "Tipo de Pagamento Cliente"
 #: model:ir.actions.act_window,name:account_payment_extension.action_pay_payment_order_tree
 #: model:ir.ui.menu,name:account_payment_extension.menu_action_pay_payment_order_form
 msgid "Pay. payment order"
-msgstr ""
+msgstr "Pagar. ordem de pagamento"
 
 #. module: account_payment_extension
 #: model:ir.actions.act_window,name:account_payment_extension.action_invoice_payments
@@ -402,6 +402,8 @@ msgstr "Tipo de Pagamento para o fornecedor"
 msgid ""
 "The Object name must start with x_ and not contain any special character !"
 msgstr ""
+"O nome do objeto deve iniciar com x_ e não conter qualquer caractere "
+"especial!"
 
 #. module: account_payment_extension
 #: model:ir.model,name:account_payment_extension.model_account_move_line
@@ -423,7 +425,7 @@ msgstr "Documento Fiscal"
 #. module: account_payment_extension
 #: view:account.move.line:0
 msgid "Narration"
-msgstr ""
+msgstr "Narração"
 
 #. module: account_payment_extension
 #: model:ir.model,name:account_payment_extension.model_res_partner
@@ -443,7 +445,7 @@ msgstr "Pesquisar Linhas de Pagamento"
 #. module: account_payment_extension
 #: sql_constraint:ir.model.fields:0
 msgid "Size of the field can never be less than 1 !"
-msgstr ""
+msgstr "Tamanho do campo nunca pode ser inferior a 1!"
 
 #. module: account_payment_extension
 #: help:payment.order,create_account_moves:0
@@ -489,6 +491,39 @@ msgid ""
 "invoices.\n"
 "Based on previous work of Pablo Rocandio & Zikzakmedia (version for 4.2).\n"
 msgstr ""
+". Extensão pagamento de conta \n"
+"Este módulo estende o módulo account_payment com uma série de "
+"características:\n"
+"\n"
+"    * Extensão de tipos de pagamento: O tipo de pagamento tem um nome "
+"traduzido e note que pode ser mostrado nas facturas.\n"
+"    * Dois tipos de pagamento padrão para parceiros (clientes e "
+"fornecedores).\n"
+"    * Seleção automática do tipo de pagamento de faturas. Agora, uma fatura "
+"pode ter um prazo de pagamento (30 dias, 30/60 dias, ...) e um tipo de "
+"pagamento (dinheiro, transferência bancária, ...).\n"
+"    * Um campo de verificação padrão em contas bancárias parceiras. As "
+"contas bancárias padrão parceiros são selecionados em faturas e pagamentos.\n"
+"    * Novo menu / árvore / forms ver pagamentos a receber e pagamentos para "
+"pagar.\n"
+"    * Os pagamentos mostrar campos editáveis ​​de árvores: data de "
+"vencimento, conta bancária e um campo de verificação (por exemplo, para "
+"escrever, se verifique um banco em suporte de papel foi recebida).\n"
+"    * Dois tipos de ordens de pagamento: ordens de pagamento de faturas a "
+"pagar (fornecedores) e ordens de pagamento a receber (a partir de faturas do "
+"cliente). Assim, podemos fazer ordens de pagamento para receber os "
+"pagamentos de nossas faturas de clientes. Cada tipo de ordem de pagamento, "
+"tem a sua própria sequência.\n"
+"    * As ordens de pagamento permitem que valores de pagamento negativos. "
+"Assim, podemos ter as ordens de pagamento para pagar facturas de "
+"fornecedores (dinheiro) e faturas de fornecedores de reembolso (retornar ou "
+"receber dinheiro). Ou para as facturas de clientes (receber o dinheiro) e "
+"faturas de clientes de reembolso (retornar ou pagar dinheiro).\n"
+"    * As ordens de pagamento: facturas selecionados são filtrados por tipo "
+"de pagamento, o segundo a comunicação de mensagens pode ser definido ao "
+"mesmo tempo por várias faturas. \n"
+"Baseado no trabalho anterior de Pablo Rocandio & Zikzakmedia (versão para "
+"4.2).\n"
 
 #. module: account_payment_extension
 #: wizard_field:populate_payment_ext,init,show_refunds:0
