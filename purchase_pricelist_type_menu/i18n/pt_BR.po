@@ -1,0 +1,47 @@
+# Brazilian Portuguese translation for openobject-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-02-24 05:28+0000\n"
+"PO-Revision-Date: 2013-07-20 12:58+0000\n"
+"Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-22 05:44+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
+
+#. module: purchase_pricelist_type_menu
+#: model:ir.module.module,description:purchase_pricelist_type_menu.module_meta_information
+msgid ""
+"\n"
+"        This module adds a menu for product pricelists types in purchases "
+"configuration menu\n"
+"     "
+msgstr ""
+"\n"
+"        Este módulo adiciona um menu de listas de preços de produtos tipos "
+"de menu de configuração compras\n"
+"     "
+
+#. module: purchase_pricelist_type_menu
+#: model:ir.actions.act_window,name:purchase_pricelist_type_menu.product_pricelist_type_action_new
+#: model:ir.ui.menu,name:purchase_pricelist_type_menu.menu_product_pricelist_type_action_purchase
+msgid "Pricelists Types"
+msgstr "Tipos de preçários"
+
+#. module: purchase_pricelist_type_menu
+#: model:ir.module.module,shortdesc:purchase_pricelist_type_menu.module_meta_information
+msgid "Purchase pricelist type menu"
+msgstr "Compra de menu Tipo de lista de preços"
+
+#. module: purchase_pricelist_type_menu
+#: view:product.pricelist.type:0
+msgid "Pricelist Type"
+msgstr "Tipo de Lista de Preços"

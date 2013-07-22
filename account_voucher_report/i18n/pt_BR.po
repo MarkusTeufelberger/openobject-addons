@@ -1,0 +1,175 @@
+# Brazilian Portuguese translation for openobject-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-11-24 13:35+0000\n"
+"PO-Revision-Date: 2013-07-20 09:49+0000\n"
+"Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-22 05:43+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
+
+#. module: account_voucher_report
+#: model:ir.module.module,description:account_voucher_report.module_meta_information
+msgid ""
+"\n"
+"    India Accounting module includes all the basic requirenment of \n"
+"    Basic Accounting, like\n"
+"    * Bank Payment, Receipt\n"
+"    * Cash Payent, Receipt\n"
+"    "
+msgstr ""
+"\n"
+"    Índia módulo de contabilidade inclui toda a base de requirenment \n"
+"    Contabilidade Básica, como\n"
+"    * Banco de Pagamento, Recebimento\n"
+"    * Dinheiro Payent, Recibo\n"
+"    "
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "On Account of :"
+msgstr "Por conta:"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Journal Voucher"
+msgstr "Diário de Vouchers"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Ref. :"
+msgstr "Ref. :"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Particulars"
+msgstr "Características"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "State :"
+msgstr "Estado :"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Debit"
+msgstr "Débito"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "PRO-FORMA"
+msgstr "Pro-forma"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Contra Voucher"
+msgstr "Contra Vale"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Cash Payment Voucher"
+msgstr "Caixa comprovante de Pagamento"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Authorised Signatory"
+msgstr "Signatário Autorizado"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "-"
+msgstr "-"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Journal Purchase Voucher"
+msgstr "Diário de Compra Vale"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid ":"
+msgstr ":"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Posted"
+msgstr "Postado"
+
+#. module: account_voucher_report
+#: model:ir.module.module,shortdesc:account_voucher_report.module_meta_information
+msgid "Accounting Voucher Reports"
+msgstr "Relatórios Comprovante de Contabilidade"
+
+#. module: account_voucher_report
+#: model:ir.actions.report.xml,name:account_voucher_report.report_account_voucher_new
+msgid "Voucher Report (Cr/Dr)"
+msgstr "Relatório Vouchers (Cr / Dr)"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Dated :"
+msgstr "Data:"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Credit"
+msgstr "Crédito"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Through :"
+msgstr "Por meio de:"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Receiver's Signature"
+msgstr "Assinatura do Recebedor"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "No."
+msgstr "Não."
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Amount (in words) :"
+msgstr "Montante (em Palavras):"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Cash Receipt Voucher"
+msgstr "Caixa de Recebimento Vale"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Canceled"
+msgstr "Cancelado"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Bank Payment Voucher"
+msgstr "Banco comprovante de Pagamento"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Journal Sale Voucher"
+msgstr "Diário de Comprovantes de Vendas"
+
+#. module: account_voucher_report
+#: rml:account.move.voucher:0
+msgid "Bank Receipt Voucher"
+msgstr "Recibo Vale"
