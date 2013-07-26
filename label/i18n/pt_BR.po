@@ -1,0 +1,435 @@
+# Brazilian Portuguese translation for openobject-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2008-12-15 17:51+0000\n"
+"PO-Revision-Date: 2013-07-25 10:28+0000\n"
+"Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-26 05:19+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
+
+#. module: label
+#: field:label.wizard,printer_right:0
+msgid "Right"
+msgstr "Direito"
+
+#. module: label
+#: constraint:ir.model:0
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
+msgstr ""
+"O nome do objeto precisa iniciar com x_ e não conter nenhum caracter "
+"especial!"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Helvetica-Bold"
+msgstr "Helvetica-Bold (negrito)"
+
+#. module: label
+#: view:label.wizard:0
+msgid "Label Char Font"
+msgstr "Etiqueta Font Char"
+
+#. module: label
+#: field:label.wizard,printer_bottom:0
+msgid "Bottom"
+msgstr "Fundo"
+
+#. module: label
+#: wizard_view:res.partner.address.label,notify_bottom:0
+#: wizard_view:res.partner.address.label,notify_right:0
+#: wizard_view:res.partner.address.label,notify_top:0
+#: wizard_view:res.partner.address.label,notify_left:0
+msgid "Notification"
+msgstr "Notificação"
+
+#. module: label
+#: field:label.wizard,printer_top:0
+msgid "Top"
+msgstr "Topo"
+
+#. module: label
+#: field:label.wizard,first_row:0
+msgid "First Row"
+msgstr "Primeira linha"
+
+#. module: label
+#: field:label.wizard,font_type:0
+msgid "Font Type"
+msgstr "Type Font"
+
+#. module: label
+#: field:report.label,cols:0
+msgid "Number of Columns"
+msgstr "Numéro de Colunas"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Helvetica"
+msgstr "Helvetica"
+
+#. module: label
+#: help:report.label,landscape:0
+msgid "No check -> Portrait. Check -> Landscape"
+msgstr "No check -> Portrait. Check -> Landscape"
+
+#. module: label
+#: field:report.pagesize,width:0
+msgid "Width"
+msgstr "Largura"
+
+#. module: label
+#: model:ir.model,name:label.model_report_pagesize
+msgid "report.pagesize"
+msgstr "report.pagesize"
+
+#. module: label
+#: field:report.label,pagesize_id:0
+msgid "Page Size"
+msgstr "Tamanho da página"
+
+#. module: label
+#: wizard_button:res.partner.address.label,init,check:0
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: label
+#: field:report.label,label_width:0
+msgid "Label Width"
+msgstr "Largura da Etiqueta"
+
+#. module: label
+#: help:report.label,height_incr:0
+msgid ""
+"Height between start positions of 2 labels. Numeric value ended with the "
+"unit (cm or in). For example 29.7cm or 11in"
+msgstr ""
+"Altura entre as posições de início de dois rótulos. Valor numérico terminou "
+"com a unidade (cm ou in). Por exemplo 29,7 centímetros ou 11in"
+
+#. module: label
+#: field:report.label,name:0
+#: field:report.label.manufacturer,name:0
+#: field:report.pagesize,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: label
+#: field:report.label,description:0
+msgid "Description"
+msgstr "Descrição"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Courier"
+msgstr "Courier"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Courier-BoldOblique"
+msgstr "Courier-BoldOblique (negrito)"
+
+#. module: label
+#: field:report.label,margin_top:0
+msgid "Top Margin"
+msgstr "Margem Superior"
+
+#. module: label
+#: field:report.label,rows:0
+msgid "Number of Rows"
+msgstr "Número de linhas"
+
+#. module: label
+#: constraint:report.label:0
+msgid "Error! Some sizes do not have the unit (cm or in) at the end."
+msgstr "Erro! Alguns tamanhos não têm a unidade (cm ou cm) no final."
+
+#. module: label
+#: help:report.pagesize,height:0
+msgid ""
+"Numeric height of the page ended with the unit (cm or in). For example, A4 "
+"is 29.7cm and letter is 11in"
+msgstr ""
+"Altura numérico da página terminou com a unidade (cm ou in). Por exemplo, é "
+"29,7 centímetros A4 e letra é 11in"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Helvetica-BoldOblique"
+msgstr "Helvetica-BoldOblique"
+
+#. module: label
+#: wizard_view:res.partner.address.label,init:0
+msgid "Label Report Options"
+msgstr "Rótulo Opções de relatório"
+
+#. module: label
+#: help:report.label,label_height:0
+#: help:report.label,label_width:0
+#: help:report.label,margin_left:0
+#: help:report.label,margin_top:0
+msgid ""
+"Numeric value ended with the unit (cm or in). For example 29.7cm or 11in"
+msgstr ""
+"Valor numérico terminou com a unidade (cm ou in). Por exemplo 29,7 "
+"centímetros ou 11in"
+
+#. module: label
+#: help:report.pagesize,width:0
+msgid ""
+"Numeric width of the page ended with the unit (cm or in). For example, A4 is "
+"21cm and letter is 8.5in"
+msgstr ""
+"Largura numérica da página terminou com a unidade (cm ou in). Por exemplo, o "
+"A4 é 21 centímetros e letra é 8.5in"
+
+#. module: label
+#: selection:label.wizard,state:0
+msgid ""
+"Printer bottom margin bigger than (bottom label margin + label height). Try "
+"again."
+msgstr ""
+"Margem inferior Printer maior do que (margem rótulo inferior + altura do "
+"rótulo). Tente novamente."
+
+#. module: label
+#: selection:label.wizard,font_size:0
+msgid "7"
+msgstr "7"
+
+#. module: label
+#: selection:label.wizard,font_size:0
+msgid "6"
+msgstr "6"
+
+#. module: label
+#: selection:label.wizard,font_size:0
+msgid "9"
+msgstr "9"
+
+#. module: label
+#: selection:label.wizard,font_size:0
+msgid "8"
+msgstr "8"
+
+#. module: label
+#: selection:label.wizard,state:0
+msgid ""
+"Printer left margin bigger than (left label margin + label width). Try again."
+msgstr ""
+"Printer margem esquerda maior que (margem esquerda etiqueta + largura da "
+"etiqueta). Tente novamente."
+
+#. module: label
+#: field:report.label,manufacturer_id:0
+msgid "Manufacturer"
+msgstr "Fabricante"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Courier-Oblique"
+msgstr "Courier-Oblique"
+
+#. module: label
+#: model:ir.model,name:label.model_report_label
+msgid "report.label"
+msgstr "report.label"
+
+#. module: label
+#: wizard_button:res.partner.address.label,notify_bottom,end:0
+#: wizard_button:res.partner.address.label,notify_right,end:0
+#: wizard_button:res.partner.address.label,notify_top,end:0
+#: wizard_button:res.partner.address.label,notify_left,end:0
+msgid "Ok"
+msgstr "Ok"
+
+#. module: label
+#: field:report.label,height_incr:0
+msgid "Height Increment"
+msgstr "Incremento em altura"
+
+#. module: label
+#: model:ir.actions.act_window,name:label.action_report_pagesize_form
+#: model:ir.ui.menu,name:label.menu_report_pagesize_form
+#: view:report.pagesize:0
+msgid "Page Sizes"
+msgstr "Tamanhos de página"
+
+#. module: label
+#: field:report.label,label_height:0
+msgid "Label Height"
+msgstr "Rótulo Altura"
+
+#. module: label
+#: model:ir.actions.act_window,name:label.action_report_label_manufacturer_form
+#: model:ir.ui.menu,name:label.menu_report_label_manufacturer_form
+msgid "Label Manufacturers"
+msgstr "Os fabricantes de etiquetas"
+
+#. module: label
+#: field:report.label,margin_left:0
+msgid "Left Margin"
+msgstr "Margem esquerda"
+
+#. module: label
+#: field:label.wizard,font_size:0
+msgid "Font Size"
+msgstr "Tamanho da Fonte"
+
+#. module: label
+#: selection:label.wizard,state:0
+msgid ""
+"Printer right margin bigger than (right label margin + label width). Try "
+"again."
+msgstr ""
+"Margem direita Printer maior do que (margem direita da etiqueta + largura da "
+"etiqueta). Tente novamente."
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Times-Italic"
+msgstr "Times-Italic (itálico)"
+
+#. module: label
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "Invalido XML para Arquitetura da View"
+
+#. module: label
+#: help:report.label,width_incr:0
+msgid ""
+"Width between start positions of 2 labels. Numeric value ended with the unit "
+"(cm or in). For example 29.7cm or 11in"
+msgstr ""
+"Largura entre as posições iniciais dos dois rótulos. Valor numérico terminou "
+"com a unidade (cm ou in). Por exemplo 29,7 centímetros ou 11in"
+
+#. module: label
+#: view:label.wizard:0
+msgid "First Label"
+msgstr "Primeiro rótulo"
+
+#. module: label
+#: field:label.wizard,printer_left:0
+msgid "Left"
+msgstr "Esquerda"
+
+#. module: label
+#: selection:label.wizard,font_size:0
+msgid "11"
+msgstr "11"
+
+#. module: label
+#: selection:label.wizard,font_size:0
+msgid "10"
+msgstr "10"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Times-BoldItalic"
+msgstr "Times-BoldItalic (negrito itálico)"
+
+#. module: label
+#: selection:label.wizard,font_size:0
+msgid "12"
+msgstr "12"
+
+#. module: label
+#: field:label.wizard,first_col:0
+msgid "First Column"
+msgstr "Primeira coluna"
+
+#. module: label
+#: selection:label.wizard,font_size:0
+msgid "14"
+msgstr "14"
+
+#. module: label
+#: view:label.wizard:0
+msgid "Printer Margins"
+msgstr "Margens da impressora"
+
+#. module: label
+#: model:ir.actions.act_window,name:label.action_report_label_form
+#: model:ir.ui.menu,name:label.menu_report_label_form
+#: view:report.label:0
+msgid "Label Formats"
+msgstr "Formatos de etiqueta"
+
+#. module: label
+#: model:ir.ui.menu,name:label.label_reports_menu
+msgid "Labels"
+msgstr "Etiquetas"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Times-Bold"
+msgstr "Times-Negrito"
+
+#. module: label
+#: constraint:report.pagesize:0
+msgid "Error! The page sizes do not have the unit (cm or in) at the end."
+msgstr "Erro! Os tamanhos de página não tem a unidade (cm, ou no) no final."
+
+#. module: label
+#: field:report.pagesize,height:0
+msgid "Height"
+msgstr "Altura"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Courier-Bold"
+msgstr "Courier-Bold"
+
+#. module: label
+#: field:report.label,width_incr:0
+msgid "Width Increment"
+msgstr "Incremento de Largura"
+
+#. module: label
+#: model:ir.model,name:label.model_report_label_manufacturer
+msgid "report.label.manufacturer"
+msgstr "report.label.manufacturer"
+
+#. module: label
+#: wizard_button:res.partner.address.label,init,end:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Times-Roman"
+msgstr "Times-Roman"
+
+#. module: label
+#: selection:label.wizard,font_type:0
+msgid "Helvetica-Oblique"
+msgstr "Helvetica-Oblique"
+
+#. module: label
+#: selection:label.wizard,state:0
+msgid ""
+"Printer top margin bigger than (top label margin + label height). Try again."
+msgstr ""
+"Printer margem superior maior do que (top margem rótulo + altura rótulo). "
+"Tente novamente."
+
+#. module: label
+#: field:report.label,landscape:0
+msgid "Landscape"
+msgstr "Paisagem"
+
+#. module: label
+#: field:label.wizard,label_format:0
+msgid "Label Format"
+msgstr "Formato da Etiqueta"

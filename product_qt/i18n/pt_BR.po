@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-addons\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-11-25 13:32+0000\n"
-"PO-Revision-Date: 2013-07-20 23:04+0000\n"
+"PO-Revision-Date: 2013-07-25 11:05+0000\n"
 "Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-07-22 05:43+0000\n"
-"X-Generator: Launchpad (build 16696)\n"
+"X-Launchpad-Export-Date: 2013-07-26 05:19+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
 
 #. module: product_qt
 #: help:quality.test.config,min_limit:0
@@ -91,27 +91,27 @@ msgstr "Nome do modelo inválida na definição da ação."
 #. module: product_qt
 #: selection:testing.result,type:0
 msgid "Finish Goods Testing"
-msgstr ""
+msgstr "Concluir Teste Bens"
 
 #. module: product_qt
 #: field:quality.test.config,test_id:0
 msgid "Test Result"
-msgstr ""
+msgstr "Resultado faça Teste"
 
 #. module: product_qt
 #: field:product.product,production_test:0
 msgid "During Production testing"
-msgstr ""
+msgstr "Durante OS testículos de Produção"
 
 #. module: product_qt
 #: field:quality.test.config,uom:0
 msgid "UOM"
-msgstr ""
+msgstr "UOM"
 
 #. module: product_qt
 #: field:quality.test.config,state:0
 msgid "Status"
-msgstr ""
+msgstr "Situação"
 
 #. module: product_qt
 #: field:quality.test.config,product_idf:0
@@ -119,130 +119,130 @@ msgstr ""
 #: field:quality.test.config,product_idr:0
 #: field:testing.result,product:0
 msgid "Product"
-msgstr ""
+msgstr "Produto"
 
 #. module: product_qt
 #: field:quality.test,description:0
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #. module: product_qt
 #: field:mrp.production.workcenter.line,qlty_test_reject:0
 #: selection:quality.test.config,state:0
 #: field:stock.move,qlty_test_reject:0
 msgid "Rejected"
-msgstr ""
+msgstr "Rejeitado"
 
 #. module: product_qt
 #: model:ir.model,name:product_qt.model_quality_test_config
 msgid "quality test configuration"
-msgstr ""
+msgstr "configuração de teste de qualidade"
 
 #. module: product_qt
 #: field:quality.test,name:0
 #: field:quality.test.config,name:0
 msgid "Test Case"
-msgstr ""
+msgstr "Caso de Teste"
 
 #. module: product_qt
 #: field:quality.test.config,max_limit:0
 msgid "Max Limit"
-msgstr ""
+msgstr "Limite de Max"
 
 #. module: product_qt
 #: field:mrp.production.workcenter.line,qlty_test_accept:0
 #: selection:quality.test.config,state:0
 #: field:stock.move,qlty_test_accept:0
 msgid "Accepted"
-msgstr ""
+msgstr "Aceito"
 
 #. module: product_qt
 #: selection:testing.result,type:0
 msgid "During Production Testing"
-msgstr ""
+msgstr "Durante os testes de produção"
 
 #. module: product_qt
 #: field:testing.result,type:0
 msgid "Testing Type"
-msgstr ""
+msgstr "Tipo Testing"
 
 #. module: product_qt
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr ""
+msgstr "Invalido XML para Arquitetura da View"
 
 #. module: product_qt
 #: view:product.product:0
 msgid "QC Config"
-msgstr ""
+msgstr "Configuração QC"
 
 #. module: product_qt
 #: field:quality.test.config,min_limit:0
 msgid "Min Limit"
-msgstr ""
+msgstr "Limite Min"
 
 #. module: product_qt
 #: help:product.product,production_test:0
 msgid "Quality Testing configuration during production."
-msgstr ""
+msgstr "Configuração de testes de qualidade durante a produção."
 
 #. module: product_qt
 #: field:product.product,finished_test:0
 msgid "Finished Goods testing"
-msgstr ""
+msgstr "Testes de produtos acabados"
 
 #. module: product_qt
 #: field:product.product,raw_m_test:0
 msgid "Raw material testing"
-msgstr ""
+msgstr "Testes de matérias-primas"
 
 #. module: product_qt
 #: model:ir.model,name:product_qt.model_quality_test
 msgid "quality testings"
-msgstr ""
+msgstr "testes de Qualidade"
 
 #. module: product_qt
 #: model:ir.model,name:product_qt.model_testing_result
 msgid "testing.result"
-msgstr ""
+msgstr "testing.result"
 
 #. module: product_qt
 #: field:testing.result,tester:0
 msgid "Tested By"
-msgstr ""
+msgstr "Testado POR"
 
 #. module: product_qt
 #: field:testing.result,test_case:0
 msgid "Cases"
-msgstr ""
+msgstr "Casos"
 
 #. module: product_qt
 #: model:ir.module.module,shortdesc:product_qt.module_meta_information
 msgid "Products & Pricelists"
-msgstr ""
+msgstr "Produtos e Lista de Preços"
 
 #. module: product_qt
 #: wizard_button:qty_test,init,ok:0
 #: wizard_button:qty_test_finish,init,ok:0
 #: wizard_button:qty_test_prod,init,ok:0
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #. module: product_qt
 #: view:quality.test.config:0
 msgid "QT Configuration"
-msgstr ""
+msgstr "QT configuracao"
 
 #. module: product_qt
 #: help:quality.test.config,max_limit:0
 msgid "Maximum Limit of measure"
-msgstr ""
+msgstr "Limite Máximo de Medida"
 
 #. module: product_qt
 #: view:stock.move:0
 #: view:stock.picking:0
 msgid "Move State"
-msgstr ""
+msgstr "Estado do movimento"
 
 #. module: product_qt
 #: model:ir.actions.wizard,name:product_qt.qty_test_finish_id
@@ -253,11 +253,11 @@ msgstr ""
 #: view:stock.move:0
 #: view:stock.picking:0
 msgid "Quality Testing"
-msgstr ""
+msgstr "Teste de Qualidade"
 
 #. module: product_qt
 #: wizard_button:qty_test,init,end:0
 #: wizard_button:qty_test_finish,init,end:0
 #: wizard_button:qty_test_prod,init,end:0
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-addons\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-02-01 12:11+0000\n"
-"PO-Revision-Date: 2013-07-21 12:32+0000\n"
+"PO-Revision-Date: 2013-07-25 11:13+0000\n"
 "Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-07-22 05:44+0000\n"
-"X-Generator: Launchpad (build 16696)\n"
+"X-Launchpad-Export-Date: 2013-07-26 05:19+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
 
 #. module: network_extension
 #: model:ir.actions.act_window,name:network_extension.action_network_encrypt_password
@@ -78,54 +78,56 @@ msgstr "Nota"
 #. module: network_extension
 #: selection:network.protocol,protocol:0
 msgid "Other"
-msgstr ""
+msgstr "Outro"
 
 #. module: network_extension
 #: selection:network.protocol,protocol:0
 msgid "TCP"
-msgstr ""
+msgstr "TCP"
 
 #. module: network_extension
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr ""
+msgstr "Nome de modelo inválido na definição da ação"
 
 #. module: network_extension
 #: field:network.material,mac_addr:0
 msgid "MAC addresss"
-msgstr ""
+msgstr "MAC addresss"
 
 #. module: network_extension
 #: constraint:ir.model:0
 msgid ""
 "The Object name must start with x_ and not contain any special character !"
 msgstr ""
+"O nome do objeto precisa iniciar com x_ e não conter nenhum caracter "
+"especial!"
 
 #. module: network_extension
 #: field:network.protocol,port:0
 #: field:network.service,port:0
 msgid "Port"
-msgstr ""
+msgstr "Porto"
 
 #. module: network_extension
 #: model:network.protocol,description:network_extension.network_protocol_http0
 msgid "World Wide Web HTTP"
-msgstr ""
+msgstr "World Wide Web HTTP"
 
 #. module: network_extension
 #: field:network.service,public_port:0
 msgid "Public port"
-msgstr ""
+msgstr "Porto público"
 
 #. module: network_extension
 #: field:network.network,public_domain:0
 msgid "Public domain"
-msgstr ""
+msgstr "Domínio público"
 
 #. module: network_extension
 #: field:network.protocol,description:0
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #. module: network_extension
 #: model:ir.actions.act_window,name:network_extension.action_network_service
@@ -133,7 +135,7 @@ msgstr ""
 #: view:network.software:0
 #: field:network.software,service_ids:0
 msgid "Service"
-msgstr ""
+msgstr "Serviço"
 
 #. module: network_extension
 #: model:ir.model,name:network_extension.model_network_material
@@ -141,69 +143,69 @@ msgstr ""
 #: field:network.service,material:0
 #: field:network.software.logpass,material:0
 msgid "Material"
-msgstr ""
+msgstr "Material"
 
 #. module: network_extension
 #: help:network.network,dns:0
 msgid "List of DNS servers, separated by commas"
-msgstr ""
+msgstr "Lista de servidores DNS, separados por vírgulas"
 
 #. module: network_extension
 #: model:network.protocol,description:network_extension.network_protocol_xmlrpc0
 msgid "Open ERP XML-RPC"
-msgstr ""
+msgstr "Abrir ERP XML-RPC"
 
 #. module: network_extension
 #: model:network.protocol,description:network_extension.network_protocol_imap0
 msgid "Internet Message Access Protocol"
-msgstr ""
+msgstr "Internet Message Access Protocol"
 
 #. module: network_extension
 #: field:network.service,path:0
 msgid "Path"
-msgstr ""
+msgstr "Caminho"
 
 #. module: network_extension
 #: model:network.protocol,description:network_extension.network_protocol_smtp0
 msgid "Simple Mail Transfer"
-msgstr ""
+msgstr "Simple Mail Transfer"
 
 #. module: network_extension
 #: model:ir.actions.act_window,name:network_extension.act_partner_2_softwares
 msgid "Softwares"
-msgstr ""
+msgstr "Softwares"
 
 #. module: network_extension
 #: selection:network.protocol,protocol:0
 msgid "Both"
-msgstr ""
+msgstr "Ambos"
 
 #. module: network_extension
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr ""
+msgstr "Invalido XML para Arquitetura da View"
 
 #. module: network_extension
 #: field:network.protocol,name:0
 #: field:network.service,name:0
 #: field:network.software.logpass,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: network_extension
 #: model:network.protocol,description:network_extension.network_protocol_ssh0
 msgid "The Secure Shell (SSH)"
-msgstr ""
+msgstr "O Secure Shell (SSH)"
 
 #. module: network_extension
 #: model:network.protocol,description:network_extension.network_protocol_netrpc0
 msgid "Open ERP NET-RPC"
-msgstr ""
+msgstr "Abrir ERP NET-RPC"
 
 #. module: network_extension
 #: model:ir.module.module,shortdesc:network_extension.module_meta_information
 msgid "Network Management Extension"
-msgstr ""
+msgstr "Extensão de Gerenciamento de Rede"
 
 #. module: network_extension
 #: model:ir.actions.act_window,name:network_extension.action_network_software
@@ -211,47 +213,47 @@ msgstr ""
 #: model:ir.ui.menu,name:network_extension.menu_action_software_tree
 #: field:network.service,software_id:0
 msgid "Software"
-msgstr ""
+msgstr "Software"
 
 #. module: network_extension
 #: model:ir.actions.act_window,name:network_extension.act_partner_2_materials
 msgid "Materials"
-msgstr ""
+msgstr "Materiais"
 
 #. module: network_extension
 #: field:network.network,dns:0
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #. module: network_extension
 #: model:network.protocol,description:network_extension.network_protocol_https0
 msgid "http protocol over TLS/SSL"
-msgstr ""
+msgstr "protocolo HTTP sobre TLS / SSL"
 
 #. module: network_extension
 #: model:ir.model,name:network_extension.model_network_service
 msgid "Service Network"
-msgstr ""
+msgstr "Rede de Atendimento"
 
 #. module: network_extension
 #: field:network.service,private_url:0
 msgid "Private URL"
-msgstr ""
+msgstr "URL privada"
 
 #. module: network_extension
 #: model:network.protocol,description:network_extension.network_protocol_ftp0
 msgid "File Transfer [Control]"
-msgstr ""
+msgstr "File Transfer [Control]"
 
 #. module: network_extension
 #: selection:network.protocol,protocol:0
 msgid "UDP"
-msgstr ""
+msgstr "UDP"
 
 #. module: network_extension
 #: field:network.network,public_ip_address:0
 msgid "Public IP address"
-msgstr ""
+msgstr "Endereço IP público"
 
 #. module: network_extension
 #: model:ir.actions.act_window,name:network_extension.action_network_protocol
@@ -262,30 +264,30 @@ msgstr ""
 #: view:network.service:0
 #: field:network.service,protocol_id:0
 msgid "Protocol"
-msgstr ""
+msgstr "Protocolo"
 
 #. module: network_extension
 #: model:ir.actions.act_window,name:network_extension.action_network_logpass
 #: view:network.software:0
 msgid "Login/Password"
-msgstr ""
+msgstr "Login / senha"
 
 #. module: network_extension
 #: model:ir.ui.menu,name:network_extension.menu_action_encrypt_password_tree
 #: field:network.encrypt.password,name:0
 msgid "Encrypt/Decrypt password"
-msgstr ""
+msgstr "Criptografar / descriptografar senha"
 
 #. module: network_extension
 #: field:network.software.logpass,encrypted:0
 msgid "Encrypted"
-msgstr ""
+msgstr "Criptografado"
 
 #. module: network_extension
 #: view:network.software:0
 #: view:network.software.logpass:0
 msgid "Decrypt"
-msgstr ""
+msgstr "Descriptografar"
 
 #. module: network_extension
 #: model:ir.module.module,description:network_extension.module_meta_information
@@ -301,29 +303,38 @@ msgid ""
 "\n"
 "System dependency: package python-crypto required."
 msgstr ""
+"\n"
+"Organize o seu software e configurações.\n"
+"    - Informações adicionais de rede: IP, domínio, DNS, gateway\n"
+"    - Protocolos\n"
+"    - Serviços\n"
+"    - Portas\n"
+"    - URLs Público e privado\n"
+"    - Senha de criptografia \n"
+"dependência do sistema: pacote python-crypto necessário."
 
 #. module: network_extension
 #: model:ir.actions.act_window,name:network_extension.act_partner_2_networks
 msgid "Networks"
-msgstr ""
+msgstr "Networks"
 
 #. module: network_extension
 #: model:ir.ui.menu,name:network_extension.menu_action_logpass_tree
 msgid "Logins/Passwords"
-msgstr ""
+msgstr "Logins / senhas"
 
 #. module: network_extension
 #: model:ir.ui.menu,name:network_extension.menu_action_service_tree
 msgid "Services"
-msgstr ""
+msgstr "Serviços"
 
 #. module: network_extension
 #: field:network.material,partner_id:0
 #: field:network.software,partner_id:0
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: network_extension
 #: field:network.network,gateway:0
 msgid "Gateway"
-msgstr ""
+msgstr "Gateway"
