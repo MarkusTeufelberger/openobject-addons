@@ -1,0 +1,174 @@
+# Brazilian Portuguese translation for openobject-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openobject-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-01-16 20:25+0000\n"
+"PO-Revision-Date: 2013-07-29 08:01+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-30 04:43+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:241
+#: field:open.risk.window,draft_invoices_amount:0
+#: field:res.partner,draft_invoices_amount:0
+#, python-format
+msgid "Draft Invoices"
+msgstr "Rascunho de faturas"
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:244
+#: field:open.risk.window,total_debt:0
+#: field:res.partner,total_debt:0
+#, python-format
+msgid "Total Debt"
+msgstr "Dívida Total"
+
+#. module: nan_partner_risk
+#: view:sale.order:0
+msgid "Approve Order"
+msgstr "Aprovar Ordem"
+
+#. module: nan_partner_risk
+#: wizard_view:open_risk_window,init:0
+msgid "Risk Information"
+msgstr ""
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:240
+#: field:res.partner,pending_amount:0
+#, python-format
+msgid "Unexpired Pending Payments"
+msgstr "Não Expirados pagamentos pendentes"
+
+#. module: nan_partner_risk
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr ""
+
+#. module: nan_partner_risk
+#: model:ir.actions.wizard,name:nan_partner_risk.open_risk_wizard
+#: view:res.partner:0
+msgid "View Risk Information"
+msgstr "Ver sobre o risco"
+
+#. module: nan_partner_risk
+#: model:ir.module.module,shortdesc:nan_partner_risk.module_meta_information
+msgid "Partner Risk Analysis"
+msgstr ""
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:246
+#: field:open.risk.window,total_risk_percent:0
+#: field:res.partner,total_risk_percent:0
+#, python-format
+msgid "Credit Usage (%)"
+msgstr "Uso de Crédito (%)"
+
+#. module: nan_partner_risk
+#: view:sale.order:0
+msgid "Confirm Order"
+msgstr "Confirmar Pedido"
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:245
+#: field:open.risk.window,available_risk:0
+#: field:res.partner,available_risk:0
+#, python-format
+msgid "Available Credit"
+msgstr "Crédito disponível"
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:66
+#, python-format
+msgid ""
+"Warning: Credit Limit Exceeded.\n"
+"\n"
+"This partner has a credit limit of %(limit).2f and already has a debt of "
+"%(debt).2f."
+msgstr ""
+"Atenção: limite de crédito excedido. \n"
+"Este parceiro tem um limite de crédito de %(limit).2f e já tem uma dívida de "
+"%(debt).2f."
+
+#. module: nan_partner_risk
+#: view:sale.order:0
+msgid "Cancel Order"
+msgstr "Cancelar Ordem"
+
+#. module: nan_partner_risk
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr ""
+
+#. module: nan_partner_risk
+#: field:sale.order,amount_invoiced:0
+#: field:sale.order.line,amount_invoiced:0
+msgid "Invoiced Amount"
+msgstr "Valor Faturado"
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:239
+#: field:open.risk.window,unpayed_amount:0
+#: field:res.partner,unpayed_amount:0
+#, python-format
+msgid "Expired Unpaid Payments"
+msgstr "Pagamentos vencidos não pagos"
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:242
+#: field:open.risk.window,circulating_amount:0
+#: field:res.partner,circulating_amount:0
+#, python-format
+msgid "Payments Sent to Bank"
+msgstr "Pagamentos enviados ao Banco"
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:65
+#, python-format
+msgid "Credit Limit Exceeded"
+msgstr "Limite de Crédito Excedido"
+
+#. module: nan_partner_risk
+#: view:sale.order:0
+msgid "Waiting Risk Approval"
+msgstr "Aguardando Aprovação de Risco"
+
+#. module: nan_partner_risk
+#: field:open.risk.window,credit_limit:0
+msgid "Credit Limit"
+msgstr "Limite de Crédito"
+
+#. module: nan_partner_risk
+#: code:addons/nan_partner_risk/risk.py:243
+#: field:open.risk.window,pending_orders_amount:0
+#: field:res.partner,pending_orders_amount:0
+#, python-format
+msgid "Uninvoiced Orders"
+msgstr "Ordens não faturados"
+
+#. module: nan_partner_risk
+#: model:ir.module.module,description:nan_partner_risk.module_meta_information
+msgid ""
+"This module adds a new button in the partner form to analyze current state "
+"of a partner risk.\n"
+"It reports current information regarding amount of debt in invoices, orders, "
+"etc.\n"
+"\n"
+"It also modifies the workflow of sale orders by adding a new step when "
+"partner's risk is exceeded."
+msgstr ""
+
+#. module: nan_partner_risk
+#: wizard_button:open_risk_window,init,end:0
+msgid "Close"
+msgstr ""
