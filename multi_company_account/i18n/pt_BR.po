@@ -7,19 +7,19 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.1\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2009-08-07 13:39+0000\n"
-"PO-Revision-Date: 2010-01-26 11:30+0000\n"
-"Last-Translator: Pieter J. Kersten (EduSense BV) <Unknown>\n"
+"PO-Revision-Date: 2013-07-29 08:18+0000\n"
+"Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-27 05:49+0000\n"
-"X-Generator: Launchpad (build 16681)\n"
+"X-Launchpad-Export-Date: 2013-07-30 04:43+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
 
 #. module: multi_company_account
 #: model:ir.module.module,description:multi_company_account.module_meta_information
 msgid "Module to handle multi company accounting."
-msgstr ""
+msgstr "Módulo parágrafo LIDAR COM Contabilidade múltiplas Empresa."
 
 #. module: multi_company_account
 #: constraint:ir.ui.view:0
@@ -37,7 +37,7 @@ msgstr ""
 #. module: multi_company_account
 #: model:ir.actions.todo,note:multi_company_account.config_wizard_company_header_footer_setup_form
 msgid "Define Company Header/Footer Detail"
-msgstr ""
+msgstr "Definir Cabeçalho / rodapé Detalhe da Empresa"
 
 #. module: multi_company_account
 #: field:account.analytic.journal,company_id:0
@@ -48,50 +48,50 @@ msgstr ""
 #: field:account.period,company_id:0
 #: view:wizard.company.header.footer.setup:0
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: multi_company_account
 #: field:wizard.company.header.footer.setup,company_id:0
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: multi_company_account
 #: model:ir.module.module,shortdesc:multi_company_account.module_meta_information
 msgid "Multi company for accounting module"
-msgstr ""
+msgstr "Empresa multi par o Módulo de Contabilidade"
 
 #. module: multi_company_account
 #: model:ir.model,name:multi_company_account.model_wizard_company_header_footer_setup
 msgid "wizard.company.header.footer.setup"
-msgstr ""
+msgstr "wizard.company.header.footer.setup"
 
 #. module: multi_company_account
 #: model:ir.actions.act_window,name:multi_company_account.action_wizard_company_header_footer_setup_form
 #: view:wizard.company.header.footer.setup:0
 msgid "Company Header Footer Detail"
-msgstr ""
+msgstr "Cabeçalho Detalhe da Empresa Rodapé"
 
 #. module: multi_company_account
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr ""
+msgstr "Nome de modelo inválido na definição da ação"
 
 #. module: multi_company_account
 #: field:wizard.company.header.footer.setup,rml_header2:0
 msgid "RML Internal Header"
-msgstr ""
+msgstr "Cabeçalho RML interno"
 
 #. module: multi_company_account
 #: field:wizard.company.header.footer.setup,rml_header:0
 msgid "RML Header"
-msgstr ""
+msgstr "Cabeçalho RML"
 
 #. module: multi_company_account
 #: view:wizard.company.header.footer.setup:0
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 #. module: multi_company_account
 #: view:wizard.company.header.footer.setup:0
 msgid "Header/Footer"
-msgstr ""
+msgstr "Cabeçalho/Rodapé"
