@@ -1,1 +1,0 @@
-import candidate_summary
